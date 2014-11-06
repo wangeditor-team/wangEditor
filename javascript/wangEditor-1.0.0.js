@@ -5,6 +5,13 @@
     王福朋
 */
 (function (window, undefined) {
+
+    //检查jQuery
+    if (!window.jQuery) {
+        throw new Error('wangEditor: 找不到window.jQuery，请检查是否引用了jQuery！')
+        return;
+    }
+
     var
         pluginName = 'wangEditor',
         version = 'v1.0.0',
@@ -103,17 +110,20 @@
 
                     //验证
                     if (!title || typeof title !== 'string') {
-                        throw new Error('btnTemp：必须传入title参数，而且title必须是字符串类型！');
+                        throw new Error('wangEditor_btnTemp：必须传入title参数，而且title必须是字符串类型！');
+                        return;
                     }
                     if ((!iconClass || typeof iconClass !== 'string') && !btnContent) {
-                        throw new Error('btnTemp：必须传入iconClass参数，而且iconClass必须是字符串类型！');
+                        throw new Error('wangEditor_btnTemp：必须传入iconClass参数，而且iconClass必须是字符串类型！');
+                        return;
                     }
                     isDropdown = !!isDropdown;
                     if (isDropdown) {
                         btnClass = 'btn dropdown-toggle';
                     }
                     if (modalTarget && typeof modalTarget !== 'string') {
-                        throw new Error('btnTemp：传入的modalTarget参数必须是字符串类型！');
+                        throw new Error('wangEditor_btnTemp：传入的modalTarget参数必须是字符串类型！');
+                        return;
                     }
 
                     // <button>
@@ -153,7 +163,8 @@
 
                     //验证
                     if (!content || typeof content !== 'string') {
-                        throw new Error('dropdownMenuTemp：content参数不能为空，且必须为字符串类型！');
+                        throw new Error('wangEditor_dropdownMenuTemp：content参数不能为空，且必须为字符串类型！');
+                        return;
                     }
 
                     var temp = '';
@@ -249,10 +260,12 @@
                 modalTemp = function (id, title, bodyContents, footerContents) {
                     //验证
                     if (!id || typeof id !== 'string') {
-                        throw new Error('modalTemp: id参数不能为空，且必须为字符串类型');
+                        throw new Error('wangEditor_modalTemp: id参数不能为空，且必须为字符串类型');
+                        return;
                     }
                     if (!title || typeof title !== 'string') {
-                        throw new Error('modalTemp: title参数不能为空，且必须为字符串类型');
+                        throw new Error('wangEditor_modalTemp: title参数不能为空，且必须为字符串类型');
+                        return;
                     }
 
                     var i,
