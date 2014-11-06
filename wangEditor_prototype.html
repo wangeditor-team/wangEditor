@@ -1,0 +1,501 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>wang editor</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Font-Awesome-3.2.1/css/font-awesome.min.css" rel="stylesheet" />
+    <style type="text/css">
+
+        body {
+            padding:30px 0px 30px 0px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div id="divMenuContent">
+
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown"  title="字体">
+                        <i class=" icon-font"></i> <!--字体-->
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="dropdownMenuFontFamily" class="dropdown-menu">
+                        <li class="nav-header">字体：</li>
+                        <li><a href="#" style="font-family:宋体">宋体</a></li>
+                        <li><a href="#" style="font-family:黑体">黑体</a></li>
+                        <li><a href="#" style="font-family:楷体">楷体</a></li>
+                        <li><a href="#" style="font-family:隶书">隶书</a></li>
+                        <li><a href="#" style="font-family:幼圆">幼圆</a></li>
+                        <li><a href="#" style="font-family:微软雅黑">微软雅黑</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown"  title="字号">
+                        <i class=" icon-text-height"></i> <!--字号，随之设置何时的行高距-->
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="dropdownMenuFontSize" class="dropdown-menu">
+                        <li class="nav-header">字号：</li>
+                        <li><a href="#" fontSize="1" style="font-size:10px;">10px</a></li>
+                        <li><a href="#" fontSize="2" style="font-size:13px;">13px</a></li>
+                        <li><a href="#" fontSize="3" style="font-size:16px;">16px</a></li>
+                        <li><a href="#" fontSize="4" style="font-size:19px;">19px</a></li>
+                        <li><a href="#" fontSize="5" style="font-size:22px;">22px</a></li>
+                        <li><a href="#" fontSize="6" style="font-size:25px;">25px</a></li>
+                        <li><a href="#" fontSize="7" style="font-size:28px;">28px</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button id="btnMenuBold" class="btn" title="加粗"><i class="icon-bold"></i></button>
+                    <button id="btnMenuItalic" class="btn" title="斜体"><i class="icon-italic"></i></button>
+                    <button id="btnMenuUnderline" class="btn" title="下划线"><i class="icon-underline"></i></button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown"  title="前景色">
+                        <b style="color:red;">A</b>
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="dropdownMenuColor" class="dropdown-menu">
+                        <li class="nav-header">前景色：</li>
+                        <li><a href="#" style="color:red;">红色</a></li>
+                        <li><a href="#" style="color:blue;">蓝色</a></li>
+                        <li><a href="#" style="color:green;">绿色</a></li>
+                        <li><a href="#" style="color:yellow;">黄色</a></li>
+                        <li><a href="#" style="color:black;">黑色</a></li>
+                        <li><a href="#" style="color:gray;">灰色</a></li>
+                        <li><a href="#" style="color:silver;">银色</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown"  title="背景色">
+                        <b style="background-color:blue;color:white;">&nbsp;A&nbsp;</b>
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="dropdownMenuBgColor" class="dropdown-menu">
+                        <li class="nav-header">背景色：</li>
+                        <li><a href="#" style="background-color:red; color:white;">红色</a></li>
+                        <li><a href="#" style="background-color:blue; color:white;">蓝色</a></li>
+                        <li><a href="#" style="background-color:green; color:white;">绿色</a></li>
+                        <li><a href="#" style="background-color:yellow; color:white;">黄色</a></li>
+                        <li><a href="#" style="background-color:black; color:white;">黑色</a></li>
+                        <li><a href="#" style="background-color:gray; color:white;">灰色</a></li>
+                        <li><a href="#" style="background-color:silver; color:white;">银色</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button id="btnMenuUnorderedList" class="btn" title="无序列表"><i class="icon-list-ul"></i></button>
+                    <button id="btnMenuOrderedList" class="btn" title="有序列表"><i class="icon-list-ol"></i></button>
+                </div>
+                <div class="btn-group">
+                    <button id="btnMenuAlignLeft" class="btn" title="左对齐"><i class="icon-align-left"></i></button>
+                    <button id="btnMenuAlignCenter" class="btn" title="居中"><i class="icon-align-center"></i></button>
+                    <button id="btnMenuAlignRight" class="btn" title="右对齐"><i class="icon-align-right"></i></button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn"  title="链接" data-backdrop="false"  data-toggle="modal" data-target="#divLinkModal">
+                        <i class="icon-link"></i>
+                    </button>
+                    <button id="btnMenuRemoveLink" class="btn" title="删除链接"><i class="icon-remove"></i></button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn" title="插入图片" data-backdrop="false"  data-toggle="modal" data-target="#divImgModal">
+                        <i class="icon-picture"></i>
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn" title="插入代码" data-backdrop="false"  data-toggle="modal" data-target="#divCodeModal">
+                        <i class="icon-edit"></i> <!--代码-->
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button id="btnMenuUndo" class="btn" title="撤销"><i class=" icon-undo"></i></button>
+                    <button id="btnMenuRedo" class="btn" title="恢复"><i class=" icon-repeat"></i></button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn" title="关于" data-backdrop="false"  data-toggle="modal" data-target="#divInfoModal">
+                        <i class="icon-info-sign"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 插入链接 modal -->
+            <div id="divLinkModal" class="modal hide fade">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4>设置链接</h4>
+                </div>
+                <div class="modal-body">
+                    <p>链接地址：</p>
+                    <input id="txtLinkUrl" type="text" placeholder="http(s)://" class="input-block-level"/>
+                    <p>链接目标：</p>
+                    <select id="sltLinkTarget">
+                        <option>_blank</option>
+                        <option>_self</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <a id="btnLinkSave" href="#" class="btn btn-primary">插入链接</a>
+                </div>
+            </div>
+            <!-- 插入图片 modal -->
+            <div id="divImgModal" class="modal hide fade">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4>插入图片</h4>
+                </div>
+                <div class="modal-body">
+                    <p>输入图片URL地址：</p>
+                    <input id="txtImgUrl" type="text" placeholder="http(s)://" class="input-block-level"/>
+                </div>
+                <div class="modal-footer">
+                    <a id="btnImgSave" href="#" class="btn btn-primary">插入</a>
+                </div>
+            </div>
+            <!-- 插入代码 modal -->
+            <div id="divCodeModal" class="modal hide fade">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4>插入代码</h4>
+                </div>
+                <div class="modal-body">
+                    选择语言：
+                    <select id="sltCodeLang">
+                        <option>java</option>
+                        <option>C#</option>
+                        <option>javascript</option>
+                        <option>html</option>
+                    </select>
+                    <textarea id="txtCodeContent" style="width:95%" rows="10"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <a id="btnCodeSave" href="#" class="btn btn-primary">插入</a>
+                </div>
+            </div>
+            <!-- 关于 modal -->
+            <div id="divInfoModal" class="modal hide fade">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4>关于</h4>
+                </div>
+                <div class="modal-body">
+                    <p><b>wangEditor</b></p>
+                    <p>当前版本：v1.0.0</p>
+                    <p>更新日期：2014/11/5</p>
+                    <p>联系我们：wangfupeng1988#163.com（#换成@）</p>
+                </div>
+            </div>
+
+        </div>
+        <div style="width: 100%; height: 300px; border: 1px solid #cccccc;">
+            <iframe id="ifr1" src="wangEditor_prototype_iframe.html" frameborder="0" width="100%" height="100%"></iframe>
+        </div>
+    </div>
+
+    <!-- ******************************* script ********************************* -->
+    <script src="javascript/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            var ifr = document.getElementById('ifr1'),
+               ifrWin = ifr.contentWindow,
+               ifrDoc = ifrWin.document,
+               $ifrDoc = $(ifrDoc),
+               $ifrWin = $(ifrWin),
+
+               currentSelectionData;
+
+            //设置可编辑状态
+            ifrDoc.designMode = 'on';
+
+
+            //检测选中的文字的样式===================================================
+            function ifrListener(e) {
+                var eType = e.type,
+                    kCode = e.keyCode,
+                    keyForMoveCursor = false,
+                    kCodes = [33, 34, 35, 36, 37, 38, 39, 40];
+
+                keyForMoveCursor = (eType === 'keyup') && (kCodes.indexOf(kCode) !== -1);
+                if (eType === 'click' || keyForMoveCursor) {
+
+                    //是否加粗
+                    if (ifrDoc.queryCommandState('bold')) {
+                        $menuBold.addClass('btn-primary');
+                    } else {
+                        $menuBold.removeClass('btn-primary');
+                    }
+                    //是否斜体
+                    if (ifrDoc.queryCommandState('italic')) {
+                        $menuItalic.addClass('btn-primary');
+                    } else {
+                        $menuItalic.removeClass('btn-primary');
+                    }
+                    //是否下划线
+                    if (ifrDoc.queryCommandState('underline')) {
+                        $menuUnderline.addClass('btn-primary');
+                    } else {
+                        $menuUnderline.removeClass('btn-primary');
+                    }
+                    //是否左对齐
+                    if (ifrDoc.queryCommandState('JustifyLeft')) {
+                        $menuAlignLeft.addClass('btn-primary');
+                    } else {
+                        $menuAlignLeft.removeClass('btn-primary');
+                    }
+                    //是否居中
+                    if (ifrDoc.queryCommandState('JustifyCenter')) {
+                        $menuAlignCenter.addClass('btn-primary');
+                    } else {
+                        $menuAlignCenter.removeClass('btn-primary');
+                    }
+                    //是否右对齐
+                    if (ifrDoc.queryCommandState('JustifyRight')) {
+                        $menuAlignRight.addClass('btn-primary');
+                    } else {
+                        $menuAlignRight.removeClass('btn-primary');
+                    }
+
+                    //记录当前的选择内容
+                    currentSelectionData = ifrDoc.getSelection().getRangeAt(0);
+                }
+            }
+            $ifrDoc.click(ifrListener);
+            $ifrDoc.keyup(ifrListener);
+
+
+            //富文本操作====================================================================
+            var $menuBold = $('#btnMenuBold'),
+                $menuItalic = $('#btnMenuItalic'),
+                $menuUnderline = $('#btnMenuUnderline'),
+
+                $menuColors = $('#dropdownMenuColor a'),
+                $menuBgColors = $('#dropdownMenuBgColor a'),
+                $menuFontFamilys = $('#dropdownMenuFontFamily a'),
+                $menuFontSizes = $('#dropdownMenuFontSize a'),
+
+                $linkModal = $('#divLinkModal'),
+                $btnLinkSave = $('#btnLinkSave'),
+                $txtLinkUrl = $('#txtLinkUrl'),
+                $sltLinkTarget = $('#sltLinkTarget'),
+                $menuRemoveLink = $('#btnMenuRemoveLink'),
+
+                $btnImgSave = $('#btnImgSave'),
+                $txtImgUrl = $('#txtImgUrl'),
+                $imgModal = $('#divImgModal'),
+
+                $menuAlignLeft = $('#btnMenuAlignLeft'),
+                $menuAlignCenter = $('#btnMenuAlignCenter'),
+                $menuAlignRight = $('#btnMenuAlignRight'),
+
+                $menuUnorderedList = $('#btnMenuUnorderedList'),
+                $menuOrderedList = $('#btnMenuOrderedList'),
+
+                $menuUndo = $('#btnMenuUndo'),
+                $menuRedo = $('#btnMenuRedo'),
+
+                $btnCodeSave = $('#btnCodeSave'),
+                $codeLang = $('#sltCodeLang'),
+                $codeContent = $('#txtCodeContent'),
+                $codeModal = $('#divCodeModal');
+
+
+            //加粗
+            $menuBold.click(function () {
+                ifrDoc.execCommand('bold');
+                
+                if (ifrDoc.queryCommandState('bold')) {
+                    $menuBold.addClass('btn-primary');
+                } else {
+                    $menuBold.removeClass('btn-primary');
+                }
+            });
+            //斜体
+            $menuItalic.click(function () {
+                ifrDoc.execCommand('italic');
+
+                if (ifrDoc.queryCommandState('italic')) {
+                    $menuItalic.addClass('btn-primary');
+                } else {
+                    $menuItalic.removeClass('btn-primary');
+                }
+            });
+            //下划线
+            $menuUnderline.click(function (e) {
+                ifrDoc.execCommand('Underline');
+
+                if (ifrDoc.queryCommandState('Underline')) {
+                    $menuUnderline.addClass('btn-primary');
+                } else {
+                    $menuUnderline.removeClass('btn-primary');
+                }
+            });
+            //前景色
+            $menuColors.each(function () {
+                var menuColor = $(this),
+                    value = this.style.color;  //menuColor.css('color');
+                menuColor.click(function (e) {
+                    ifrDoc.execCommand('ForeColor', false, value);
+                    e.preventDefault();
+                });
+            });
+            //背景色
+            $menuBgColors.each(function () {
+                var menuBgColor = $(this),
+                    value = this.style.backgroundColor; //menuBgColor.css('background-color');
+                menuBgColor.click(function (e) {
+                    ifrDoc.execCommand('backColor', false, value);
+                    e.preventDefault();
+                });
+            });
+            //字体
+            $menuFontFamilys.each(function () {
+                var menuFamily = $(this),
+                    value = menuFamily.css('font-family');
+                menuFamily.click(function (e) {
+                    ifrDoc.execCommand('FontName', false, value);
+                    e.preventDefault();
+                });
+            });
+            //字号
+            $menuFontSizes.each(function () {
+                var menuFontSize = $(this),
+                    value = menuFontSize.attr('fontSize');
+                menuFontSize.click(function (e) {
+                    ifrDoc.execCommand('FontSize', false, value);
+                    e.preventDefault();
+                });
+            });
+            //插入链接
+            $btnLinkSave.click(function (e) {
+
+                var selection = ifrDoc.getSelection(),
+                    url = $txtLinkUrl.val(),
+                    target = $sltLinkTarget.val();
+
+                //恢复当前的选择内容（for IE,Opera）
+                if (!selection || selection.anchorOffset === 0) {
+                    selection.removeAllRanges();
+                    selection.addRange(currentSelectionData);
+                }
+
+                ifrDoc.execCommand('createLink', false, url);
+                e.preventDefault();
+                $linkModal.modal('hide');
+            });
+            //清除链接
+            $menuRemoveLink.click(function (e) {
+                ifrDoc.execCommand('unlink');
+            });
+            //插入图片
+            $btnImgSave.click(function (e) {
+                var selection = ifrDoc.getSelection(),
+                    url = $txtImgUrl.val();
+
+                //恢复当前的选择内容（for IE,Opera）
+                if (selection) {
+                    selection.removeAllRanges();
+                    selection.addRange(currentSelectionData);
+                }
+
+                ifrDoc.execCommand('insertImage', false, url)
+                e.preventDefault();
+                $imgModal.modal('hide');
+            });
+            //左对齐
+            $menuAlignLeft.click(function (e) {
+                ifrDoc.execCommand('JustifyLeft');
+
+                if (ifrDoc.queryCommandState('JustifyLeft')) {
+                    $menuAlignLeft.addClass('btn-primary');
+                } else {
+                    $menuAlignLeft.removeClass('btn-primary');
+                }
+            });
+            //居中
+            $menuAlignCenter.click(function (e) {
+                ifrDoc.execCommand('JustifyCenter');
+
+                if (ifrDoc.queryCommandState('JustifyCenter')) {
+                    $menuAlignCenter.addClass('btn-primary');
+                } else {
+                    $menuAlignCenter.removeClass('btn-primary');
+                }
+            });
+            //右对齐
+            $menuAlignRight.click(function (e) {
+                ifrDoc.execCommand('JustifyRight');
+
+                if (ifrDoc.queryCommandState('JustifyRight')) {
+                    $menuAlignRight.addClass('btn-primary');
+                } else {
+                    $menuAlignRight.removeClass('btn-primary');
+                }
+            });
+            //列表
+            $menuUnorderedList.click(function (e) {
+                ifrDoc.execCommand('InsertUnorderedList');
+            });
+            $menuOrderedList.click(function (e) {
+                ifrDoc.execCommand('InsertOrderedList');
+            });
+            //插入代码
+            $btnCodeSave.click(function (e) {
+                var lang = $codeLang.val(),
+                    code = $codeContent.val(),
+                    keywords;
+
+                //javascript
+                if (lang === 'javascript') {
+                    keywords = 'break case catch continue ' +
+                        'default delete do else false  ' +
+                        'for function if in instanceof ' +
+                        'new null return super switch ' +
+                        'this throw true try typeof var while with'
+                    ;
+                }
+
+                // ??????????????????????????//
+
+                e.preventDefault();
+                $codeModal.modal('hide');
+            });
+            //撤销
+            $menuUndo.click(function (e) {
+                ifrDoc.execCommand('Undo');
+            });
+            //恢复
+            $menuRedo.click(function (e) {
+                ifrDoc.execCommand('Redo');
+            });
+
+
+            //菜单的tooltip提示====================================================================
+            $('#divMenuContent button').tooltip();
+
+            $ifrWin.blur(function () {
+                //console.log('blur');
+            });
+            $ifrWin.focus(function () {
+                //console.log('focus');
+            });
+
+        });
+
+        //在window.onload再验证 ifrDoc.designMode 是否为 'on'; （chrome有时候需要这一步验证）
+        window.onload = function () {
+            var ifr = document.getElementById('ifr1'),
+                ifrDoc = ifr.contentWindow.document;
+            if (ifrDoc.designMode.toLowerCase() === 'off') {
+                ifrDoc.designMode = 'on';
+            }
+        };
+
+    </script>
+</body>
+</html>
