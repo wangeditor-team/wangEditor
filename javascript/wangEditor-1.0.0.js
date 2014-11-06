@@ -12,11 +12,46 @@
         return;
     }
 
+    //IE8及以下浏览器的处理
+    if (navigator.appName === 'Microsoft Internet Explorer' && (/MSIE\s*(?=5.0|6.0|7.0|8.0)/i).test(navigator.appVersion)) {
+
+        jQuery.fn.extend({
+            wangEditor: function (options) {
+                var
+                    height = options.frameHeight || '300px',
+                    initWords = options.initWords || '请输入...',
+                    $txt = $('<textarea style="width:100%; height:' + height + '">' + initWords + '</textarea>'),
+                    $lowBrowserInfo = $('<p style="color:#666666;background-color:#f1f1f1;">（抱歉，暂不支持IE8及以下浏览器，现在只能输入纯文本...）</p>'),
+                    $target = (options.codeTargetId && typeof options.codeTargetId === 'string') ? $('#' + options.codeTargetId) : false,
+                    saveTxt = function () {
+                        if ($target[0].nodeName.toLowerCase() === 'input') {
+                            $target.val($txt.text());
+                        } else {
+                            $target.text($txt.text());
+                        }
+                    };
+
+                //保存内容
+                if ($target) {
+                    $txt.click(saveTxt);
+                    $txt.keyup(saveTxt);
+                }
+
+                //插入txt和说明
+                this.append($lowBrowserInfo).append($txt);
+            }
+        });
+        //该情况下就此结束，不再进行
+        return;
+    }
+
+    //IE9+继续往下执行
     var
         pluginName = 'wangEditor',
         version = 'v1.0.0',
         updateTime = '2014/11/06',
         email = 'wangfupeng1988#163.com',
+        githubUrl = 'https://github.com/wangfupeng1988/wangEditor/',
 
         i, item,
 
@@ -85,7 +120,7 @@
     jQuery.fn.extend({
         wangEditor: function (options) {
 
-            //options: { codeTargetId:'txt1', frameHeight:'300px', initWords:'请输入文字...' }
+            //options: { codeTargetId:'txt1', frameHeight:'300px', initWords:'请输入文字...', showInfo:true/false }
 
             var
                 //menu container
@@ -345,7 +380,9 @@
             //撤销、恢复
             $menuToolbar.append($btnGroup_undo);
             //关于
-            $menuToolbar.append($btnGroup_info);
+            if (options.showInfo) {
+                $menuToolbar.append($btnGroup_info);
+            }
 
             //插入 menu toolbar
             $menuContainer.append($menuToolbar);
@@ -377,13 +414,13 @@
 
             //关于 modal
             var $infoModalBody_info = $(
-                    '<p><b>' + pluginName + '</b></p>' +
                     '<p>当前版本：' + version + '</p>' +
                     '<p>更新日期：' + updateTime + '</p>' +
-                    '<p>联系我们：' + email + '（#换成@）</p>'
+                    '<p>联系我们：' + email + '（#换成@）</p>'+
+                    '<p>获取代码：<a href="' + githubUrl + '" target="_blank">' + githubUrl + '</a></p>'
                 ),
                 infoModalBodyContents = [$infoModalBody_info];
-            $infoModal = modalTemp(infoModalId, '关于', infoModalBodyContents);
+            $infoModal = modalTemp(infoModalId, pluginName, infoModalBodyContents);
 
             //插入 menu modal
             $menuModal.append($linkModal).append($imgModal).append($infoModal);
@@ -412,12 +449,12 @@
                                 );
             iframeDocument.close();
             iframeDocument.designMode = 'on';
-            window.onload = function () {
+            $(window).load(function () {
                 //在window.onload再验证 ifrDoc.designMode 是否为 'on'; （chrome有时候需要这一步验证）
                 if (iframeDocument.designMode.toLowerCase() === 'off') {
                     iframeDocument.designMode = 'on';
                 }
-            };
+            });
 
             //获取iframe中的代码，保存到options.codeTargetId中
             function saveIframeCode() {
@@ -493,7 +530,17 @@
                 } else {
                     $menuAlignRight.removeClass('btn-primary');
                 }
-
+                //是否是列表
+                if (iframeDocument.queryCommandState('InsertOrderedList')) {
+                    $menuOrderedList.addClass('btn-primary');
+                } else {
+                    $menuOrderedList.removeClass('btn-primary');
+                }
+                if (iframeDocument.queryCommandState('InsertUnorderedList')) {
+                    $menuUnorderedList.addClass('btn-primary');
+                } else {
+                    $menuUnorderedList.removeClass('btn-primary');
+                }
                 //记录当前的选择内容
                 currentSelectionData = iframeDocument.getSelection().getRangeAt(0);
             }

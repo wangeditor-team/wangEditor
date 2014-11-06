@@ -13,3 +13,6 @@ options:
 
 04.
 检查 window.jQuery
+
+05.
+针对 IE8 及以下浏览器就行处理，显示一个简单的textarea，并说明浏览器版本过低
