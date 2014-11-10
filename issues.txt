@@ -19,3 +19,6 @@ options:
 
 06.
 link _blank
+
+07.
+navigator.appName  navigator.appVersion 加上 window，以减少跨作用域

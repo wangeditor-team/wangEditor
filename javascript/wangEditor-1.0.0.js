@@ -4,13 +4,11 @@
     2014/11/06
     王福朋
 */
-(function (window, undefined) {
-
-    //检查jQuery
-    if (!window.jQuery) {
-        throw new Error('wangEditor: 找不到window.jQuery，请检查是否引用了jQuery！')
-        return;
-    }
+//检查jQuery
+if (!window.jQuery) {
+    throw new Error('wangEditor: 找不到window.jQuery，请检查是否引用了jQuery！')
+}
+(function ($, window, undefined) {
 
     //IE8及以下浏览器的处理
     if (navigator.appName === 'Microsoft Internet Explorer' && (/MSIE\s*(?=5.0|6.0|7.0|8.0)/i).test(navigator.appVersion)) {
@@ -25,9 +23,9 @@
                     $target = (options.codeTargetId && typeof options.codeTargetId === 'string') ? $('#' + options.codeTargetId) : false,
                     saveTxt = function () {
                         if ($target[0].nodeName.toLowerCase() === 'input') {
-                            $target.val($txt.text());
+                            $target.val('<p>' + $txt.text() + '</p>');
                         } else {
-                            $target.text($txt.text());
+                            $target.text('<p>' + $txt.text() + '</p>');
                         }
                     };
 
@@ -704,4 +702,4 @@
         }
     });
 
-})(window);
+})(window.jQuery, window);
