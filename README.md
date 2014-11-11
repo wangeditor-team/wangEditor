@@ -42,3 +42,8 @@ wangEditor——基于bootstrap的富文本编辑器。
 由于bootstrap已经不支持IE8及以下版本浏览器。因此，对于IE8及以下版本浏览器，wangEditor会自动识别，并屏蔽掉富文本编辑功能，只保留简单的编辑框功能。<br/>
 编辑器内容的源代码也会自动保存到textarea中，可直接用javascript获取，通过ajax保存。如下图：<br/>
 ![](http://images.cnitblog.com/blog/138012/201411/102058247884176.png)
+
+4. 交流
+===
+欢迎加入wangEditor的QQ群交流讨论：164999061<br/>
+想要一起合作开发的朋友，可以直接联系本群群主——就是我，哈哈！
