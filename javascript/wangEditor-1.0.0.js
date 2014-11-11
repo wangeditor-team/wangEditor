@@ -56,63 +56,140 @@ if (!window.jQuery) {
         //id前缀，避免和其他
         idPrefix = 'wangeditor_' + Math.random().toString().replace('.', '') + '_',
 
-        //字体配置
-        fontFamilyOptionsStr = '',
-        fontFamilyOptions = ['宋体', '黑体', '楷体', '隶书', '幼圆', '微软雅黑', 'Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'],
+        ////字体配置
+        //fontFamilyOptionsStr = '',
+        //fontFamilyOptions = ['宋体', '黑体', '楷体', '隶书', '幼圆', '微软雅黑', 'Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'],
 
-        //颜色配置
-        colorOptionsStr = '',
-        bgColorOptionsStr = '',
-        colorOptions = {
-            red: '红色',
-            blue: '蓝色',
-            green: '绿色',
-            yellow: '黄色',
-            black: '黑色',
-            gray: '灰色',
-            silver: '银色'
+        ////颜色配置
+        //colorOptionsStr = '',
+        //bgColorOptionsStr = '',
+        //colorOptions = {
+        //    red: '红色',
+        //    blue: '蓝色',
+        //    green: '绿色',
+        //    yellow: '黄色',
+        //    black: '黑色',
+        //    gray: '灰色',
+        //    silver: '银色'
+        //},
+        ////字号配置
+        //fontsizeOptionsStr = '',
+        //fontsizeOptions = {
+        //    1: '10px',
+        //    2: '13px',
+        //    3: '16px',
+        //    4: '19px',
+        //    5: '22px',
+        //    6: '25px',
+        //    7: '28px'
+        //},
+        ////循环中将要用到的变量
+        //valueForLoop,
+
+
+        /*——————————————————————linkFly重构代码——————————————————————*/
+        toolTemplent = [
+            '<li><a href="javascript:;" fontSize="${0}" style="font-size:${1}">${1}</a></li>',//fontSize
+            '<li><a href="javascript:;" style="color:${0};">${1}</a></li>',//backgroundColor
+            '<li><a href="javascript:;" style="font-family:${0}">${0}</a></li>'//fontFamily
+        ],
+        format = function (str, object) {
+            /// <summary>
+            ///     1: format(str,object) - 格式化一组字符串，参阅C# string.format()
+            ///     &#10;    1.1 - format(str,object) - 通过对象格式化
+            ///     &#10;    1.2 - format(str,Array) - 通过数组格式化
+            /// </summary>
+            /// <param name="str" type="String">
+            ///     格式化模板(字符串模板)
+            /// </param>
+            /// <param name="object" type="Object">
+            ///     Object:使用对象的key格式化字符串，模板中使用${name}占位：${data},${value}
+            ///     Array:使用数组格式化，模板中使用${Index}占位：${0},${1}
+            /// </param>
+            /// <returns type="String" />
+            var array = Array.prototype.slice.call(arguments, 1);
+            //可以被\符转义
+            return str.replace(/\\?\${([^{}]+)\}/gm, function (match, key) {
+                //匹配转义符"\"
+                if (match.charAt(0) == '\\')
+                    return match.slice(1);
+                var index = Number(key);
+                if (index >= 0)
+                    return array[index];
+                return object[key] !== undefined ? object[key] : match;
+            });
         },
-        //字号配置
-        fontsizeOptionsStr = '',
-        fontsizeOptions = {
-            1: '10px',
-            2: '13px',
-            3: '16px',
-            4: '19px',
-            5: '22px',
-            6: '25px',
-            7: '28px'
-        },
+        toolData =
+        //尚有简化空间
+        [
+            ['fontFmalily',
+                ['宋体', '黑体', '楷体', '隶书', '幼圆', '微软雅黑', 'Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'],
+                function (i, value) {
+                    return format(toolTemplent[2], value);
+                }
+            ],
+            ['color', {
+                red: '红色',
+                blue: '蓝色',
+                green: '绿色',
+                yellow: '黄色',
+                black: '黑色',
+                gray: '灰色',
+                silver: '银色'
+            }, function (key, value) {
+                return format(toolTemplent[1], key, value);
+            }
+            ],
+            ['fontSize', ['10px', '13px', '16px', '19px', '22px', '25px', '28px'], function (key, value) {
+                return format(toolTemplent[0], key, value);
+            }]
+        ];
+    var HTMLtemplent = {}, tempStr = [], curr;
+    //批量生成
+    $.each(toolData, function (i, item) {
+        curr = toolData[i];
+        $.each(curr[1], function (name, value) {
+            tempStr.push(curr[2](name, value));
+        });
+        HTMLtemplent[curr[0]] = tempStr.join('');
+        tempStr.splice(0, tempStr.length);
+        curr = null;
+    });
+    //为了兼容过去的代码，赋值到这些变量中
+    var fontFamilyOptionsStr = HTMLtemplent.fontFmalily,
+        colorOptionsStr = HTMLtemplent.color,
+        //可以优化
+        bgColorOptionsStr = HTMLtemplent.color.replace(/color/g, 'background-color'),
+        fontsizeOptionsStr = HTMLtemplent.fontSize;
 
-        //循环中将要用到的变量
-        valueForLoop;
+    /*——————————————————————linkFly重构代码——————————————————————*/
 
-    //生成字号 html li
-    for (item in fontsizeOptions) {
-        if (Object.prototype.hasOwnProperty.call(fontsizeOptions, item)) {
-            valueForLoop = fontsizeOptions[item];
-            fontsizeOptionsStr += '<li><a href="#" fontSize="' + item + '" style="font-size:' + valueForLoop + ';">' + valueForLoop + '</a></li>';
-        }
-    }
-    //生成前景色 html li
-    for (item in colorOptions) {
-        if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
-            valueForLoop = colorOptions[item];
-            colorOptionsStr += '<li><a href="#" style="color:' + item + ';">' + valueForLoop + '</a></li>';
-        }
-    }
-    //生成背景色 html li
-    for (item in colorOptions) {
-        if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
-            valueForLoop = colorOptions[item];
-            bgColorOptionsStr += '<li><a href="#" style="background-color:' + item + '; color:white;">' + valueForLoop + '</a></li>';
-        }
-    }
-    //生成字体 html li
-    for (i = 0; i < fontFamilyOptions.length; i++) {
-        valueForLoop = fontFamilyOptions[i];
-        fontFamilyOptionsStr += '<li><a href="#" style="font-family:' + valueForLoop + '">' + valueForLoop + '</a></li>';
-    }
+    ////生成字号 html li
+    //for (item in fontsizeOptions) {
+    //    if (Object.prototype.hasOwnProperty.call(fontsizeOptions, item)) {
+    //        valueForLoop = fontsizeOptions[item];
+    //        fontsizeOptionsStr += '<li><a href="#" fontSize="' + item + '" style="font-size:' + valueForLoop + ';">' + valueForLoop + '</a></li>';
+    //    }
+    //}
+    ////生成前景色 html li
+    //for (item in colorOptions) {
+    //    if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
+    //        valueForLoop = colorOptions[item];
+    //        colorOptionsStr += '<li><a href="#" style="color:' + item + ';">' + valueForLoop + '</a></li>';
+    //    }
+    //}
+    ////生成背景色 html li
+    //for (item in colorOptions) {
+    //    if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
+    //        valueForLoop = colorOptions[item];
+    //        bgColorOptionsStr += '<li><a href="#" style="background-color:' + item + '; color:white;">' + valueForLoop + '</a></li>';
+    //    }
+    //}
+    ////生成字体 html li
+    //for (i = 0; i < fontFamilyOptions.length; i++) {
+    //    valueForLoop = fontFamilyOptions[i];
+    //    fontFamilyOptionsStr += '<li><a href="#" style="font-family:' + valueForLoop + '">' + valueForLoop + '</a></li>';
+    //}
 
     //制作jquery插件
     jQuery.fn.extend({
@@ -414,7 +491,7 @@ if (!window.jQuery) {
             var $infoModalBody_info = $(
                     '<p>当前版本：' + version + '</p>' +
                     '<p>更新日期：' + updateTime + '</p>' +
-                    '<p>联系我们：' + email + '（#换成@）</p>'+
+                    '<p>联系我们：' + email + '（#换成@）</p>' +
                     '<p>获取代码：<a href="' + githubUrl + '" target="_blank">' + githubUrl + '</a></p>'
                 ),
                 infoModalBodyContents = [$infoModalBody_info];
@@ -562,7 +639,6 @@ if (!window.jQuery) {
             //斜线
             $menuItalic.click(function () {
                 iframeDocument.execCommand('italic');
-
                 if (iframeDocument.queryCommandState('italic')) {
                     $menuItalic.addClass('btn-primary');
                 } else {
