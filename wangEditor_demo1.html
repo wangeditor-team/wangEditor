@@ -34,8 +34,9 @@
             $('#divEditor').wangEditor({
                 codeTargetId: 'txtCode',              //将源码存储到txtCode
                 frameHeight: '200px',                 //默认值为“300px”
-                initWords: '欢迎使用！请输入文字...',  //默认值为“请输入...”
-                showInfo: true                        //是否显示“关于”菜单，默认显示
+
+                //要显示在编辑器中的html源码（用于编辑）
+                initStr: '<p>欢迎使用<b>&lt;wangEditor&gt;</b>！请输入文字...</p>'   
             });
         });
 

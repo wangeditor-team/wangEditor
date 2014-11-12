@@ -20,11 +20,11 @@ options:
 --06.
 navigator.appName  navigator.appVersion 加上 window，以减少跨作用域
 
-07.
-link _blank
+--07.
+如何将已有的代码，配置到wangEditor上
 
 08.
-如何将已有的代码，配置到wangEditor上
+link _blank
 
 09.
 加入table

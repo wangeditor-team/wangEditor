@@ -1,7 +1,7 @@
 ﻿/*
     wangEditor
     v1.0.0
-    2014/11/06
+    2014/11/12
     王福朋
 */
 //检查jQuery
@@ -10,26 +10,55 @@ if (!window.jQuery) {
 }
 (function ($, window, undefined) {
 
+    //默认配置
+    var defaultOptions = {
+        codeTargetId: false,
+        frameHeight: '300px',
+        initStr: '欢迎使用<b>wangEitor</b>，请输入...'
+    };
+
     //IE8及以下浏览器的处理
     if (navigator.appName === 'Microsoft Internet Explorer' && (/MSIE\s*(?=5.0|6.0|7.0|8.0)/i).test(navigator.appVersion)) {
-
         jQuery.fn.extend({
+            /* options.codeTargetId: 存储源码的textarea或input的ID
+             * options.frameHeight: 高度
+             * options.initStr: 初始化用的字符串
+             */
             wangEditor: function (options) {
-                var
-                    height = options.frameHeight || '300px',
-                    initWords = options.initWords || '请输入...',
-                    $txt = $('<textarea style="width:100%; height:' + height + '">' + initWords + '</textarea>'),
-                    $lowBrowserInfo = $('<p style="color:#666666;background-color:#f1f1f1;">（抱歉，暂不支持IE8及以下浏览器，现在只能输入纯文本...）</p>'),
+                //用options覆盖defaultOptions
+                var options = $.extend(defaultOptions, options),
+                    initStr = options.initStr,
+                    height = options.frameHeight,
                     $target = (options.codeTargetId && typeof options.codeTargetId === 'string') ? $('#' + options.codeTargetId) : false,
+                    $txt = $('<textarea style="width:100%; height:' + height + '"></textarea>'),
+                    $lowBrowserInfo = $('<p style="color:#666666;background-color:#f1f1f1;"></p>'),
+
+                    rhtmlCode = /(<.*?>)|(&.*?;)/gm,
+                    alertInfo = '抱歉，IE8及以下浏览器只能输入纯文本...',
                     saveTxt = function () {
+                        var txt = $txt.text();
+                        txt = txt.replace('&', '&amp;')
+                                 .replace('<', '&lt;')
+                                 .replace('>', '&gt;')
+                                 .replace('\n', '<br />')
+                                 .replace(/\s{1}/gm, '&nbsp;');
+
                         if ($target[0].nodeName.toLowerCase() === 'input') {
-                            $target.val('<p>' + $txt.text() + '</p>');
+                            $target.val('<p>' + txt + '</p>');
                         } else {
-                            $target.text('<p>' + $txt.text() + '</p>');
+                            $target.text('<p>' + txt + '</p>');
                         }
                     };
 
-                //保存内容
+                if (rhtmlCode.test(initStr)) {
+                    // 包含 <> html标签，要删掉<>标签
+                    initStr = initStr.replace(rhtmlCode, '');
+                    alertInfo = '抱歉，在IE8及以下浏览器中编辑<b style="color:red;">可能会丢失样式、链接或图片，请慎重保存！</b>';
+                }
+                $txt.text(initStr);
+                $lowBrowserInfo.html(alertInfo);
+
+                //随时保存内容
                 if ($target) {
                     $txt.click(saveTxt);
                     $txt.keyup(saveTxt);
@@ -43,26 +72,28 @@ if (!window.jQuery) {
         return;
     }
 
-    //IE9+继续往下执行
-    var
-        pluginName = 'wangEditor',
-        version = 'v1.0.0',
-        updateTime = '2014/11/06',
-        email = 'wangfupeng1988#163.com',
-        githubUrl = 'https://github.com/wangfupeng1988/wangEditor/',
+    //IE9+继续往下执行：
+    var i,
 
-        i, item,
-
-        //id前缀，避免和其他
+        //id前缀，避免和其他id冲突
         idPrefix = 'wangeditor_' + Math.random().toString().replace('.', '') + '_',
 
         //字体配置
-        fontFamilyOptionsStr = '',
+        fontFamilyOptionLiTemp = '<li><a href="#" style="font-family:${0}">${1}</a></li>',
         fontFamilyOptions = ['宋体', '黑体', '楷体', '隶书', '幼圆', '微软雅黑', 'Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'],
+        fontFamilyOptionsStr = (function () {
+            var str = '',
+                i,
+                value;
+            for (i = 0; i < fontFamilyOptions.length; i++) {
+                value = fontFamilyOptions[i];
+                str += fontFamilyOptionLiTemp.replace('${0}', value)
+                                             .replace('${1}', value);
+            }
+            return str;
+        })(),
 
         //颜色配置
-        colorOptionsStr = '',
-        bgColorOptionsStr = '',
         colorOptions = {
             red: '红色',
             blue: '蓝色',
@@ -72,8 +103,36 @@ if (!window.jQuery) {
             gray: '灰色',
             silver: '银色'
         },
+        colorOptionLiTemp = '<li><a href="#" style="color:${0};">${1}</a></li>',
+        colorOptionsStr = (function () {
+            var str = '',
+                item,
+                value;
+            for (item in colorOptions) {
+                if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
+                    value = colorOptions[item];
+                    str += colorOptionLiTemp.replace('${0}', item)
+                                            .replace('${1}', value);
+                }
+            }
+            return str;
+        })(),
+        bgColorOptionLiTemp = '<li><a href="#" style="background-color:${0}; color:white;">${1}</a></li>',
+        bgColorOptionsStr = (function () {
+            var str = '',
+                item,
+                value;
+            for (item in colorOptions) {
+                if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
+                    value = colorOptions[item];
+                    str += bgColorOptionLiTemp.replace('${0}', item)
+                                              .replace('${1}', value);
+                }
+            }
+            return str;
+        })(),
+
         //字号配置
-        fontsizeOptionsStr = '',
         fontsizeOptions = {
             1: '10px',
             2: '13px',
@@ -83,42 +142,32 @@ if (!window.jQuery) {
             6: '25px',
             7: '28px'
         },
-
-        //循环中将要用到的变量
-        valueForLoop;
-
-    //生成字号 html li
-    for (item in fontsizeOptions) {
-        if (Object.prototype.hasOwnProperty.call(fontsizeOptions, item)) {
-            valueForLoop = fontsizeOptions[item];
-            fontsizeOptionsStr += '<li><a href="#" fontSize="' + item + '" style="font-size:' + valueForLoop + ';">' + valueForLoop + '</a></li>';
-        }
-    }
-    //生成前景色 html li
-    for (item in colorOptions) {
-        if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
-            valueForLoop = colorOptions[item];
-            colorOptionsStr += '<li><a href="#" style="color:' + item + ';">' + valueForLoop + '</a></li>';
-        }
-    }
-    //生成背景色 html li
-    for (item in colorOptions) {
-        if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
-            valueForLoop = colorOptions[item];
-            bgColorOptionsStr += '<li><a href="#" style="background-color:' + item + '; color:white;">' + valueForLoop + '</a></li>';
-        }
-    }
-    //生成字体 html li
-    for (i = 0; i < fontFamilyOptions.length; i++) {
-        valueForLoop = fontFamilyOptions[i];
-        fontFamilyOptionsStr += '<li><a href="#" style="font-family:' + valueForLoop + '">' + valueForLoop + '</a></li>';
-    }
+        fontsizeOptionLiTemp = '<li><a href="#" fontSize="${0}" style="font-size:${1};">${2}</a></li>',
+        fontsizeOptionsStr = (function () {
+            var str = '',
+                item,
+                value;
+            for (item in fontsizeOptions) {
+                if (Object.prototype.hasOwnProperty.call(fontsizeOptions, item)) {
+                    value = fontsizeOptions[item];
+                    str += fontsizeOptionLiTemp.replace('${0}', item)
+                                                              .replace('${1}', value)
+                                                              .replace('${2}', value);
+                }
+            }
+            return str;
+        })();
 
     //制作jquery插件
     jQuery.fn.extend({
-        wangEditor: function (options) {
 
-            //options: { codeTargetId:'txt1', frameHeight:'300px', initWords:'请输入文字...', showInfo:true/false }
+        /* options.codeTargetId: 存储源码的textarea或input的ID
+         * options.frameHeight: 高度
+         * options.initStr: 初始化用的字符串
+         */
+        wangEditor: function (options) {
+            //用options覆盖defaultOptions
+            var options = $.extend(defaultOptions, options);
 
             var
                 //menu container
@@ -274,12 +323,6 @@ if (!window.jQuery) {
                 $menuUndo = $(btnTemp('撤销', 'icon-undo')),
                 $menuRedo = $(btnTemp('恢复', 'icon-repeat')),
                 _nodata = $btnGroup_undo.append($menuUndo).append($menuRedo),
-
-                //关于
-                $btnGroup_info = $btnGroup.clone(),
-                infoModalId = idPrefix + 'infoModal',
-                $menuInfo = $(btnTemp('关于', 'icon-info-sign', false, '#' + infoModalId)),
-                _nodata = $btnGroup_info.append($menuInfo),
                 //menu toolbar===================================================end
 
                 //menu modal===================================================start
@@ -334,15 +377,13 @@ if (!window.jQuery) {
                 $linkModal,
                 //插入图片 modal
                 $imgModal,
-                //关于 modal
-                $infoModal,
                 //menu modal===================================================end
 
                 //iframe container==========================================start
-                iframeHeight = options.frameHeight || '300px',
+                iframeHeight = options.frameHeight,
                 $iframeContainer = $('<div style="width: 100%; height: ' + iframeHeight + '; border: 1px solid #cccccc;"></div>'),
                 $iframe = $('<iframe frameborder="0" width="100%" height="100%"></iframe>'),
-                initWords = options.initWords || '请输入...',
+                initStr = options.initStr,
                 _nodata = $iframeContainer.append($iframe),
 
                 iframeWindow,
@@ -357,36 +398,21 @@ if (!window.jQuery) {
 
 
             //插入 menu toolbar（注意，各组的顺序可调整）：==============start
-            //字体
-            $menuToolbar.append($btnGroup_fontfamily);
-            //字号
-            $menuToolbar.append($btnGroup_fontsize);
-            //粗体、斜体、下划线
-            $menuToolbar.append($btnGroup_bold);
-            //前景色
-            $menuToolbar.append($btnGroup_fontColor);
-            //背景色
-            $menuToolbar.append($btnGroup_bgColor);
-            //列表
-            $menuToolbar.append($btnGroup_list);
-            //对齐
-            $menuToolbar.append($btnGroup_align);
-            //链接
-            $menuToolbar.append($btnGroup_link);
-            //图片
-            $menuToolbar.append($btnGroup_img);
-            //撤销、恢复
-            $menuToolbar.append($btnGroup_undo);
-            //关于
-            if (options.showInfo) {
-                $menuToolbar.append($btnGroup_info);
-            }
+            
+            $menuToolbar.append($btnGroup_fontfamily)  //字体
+                        .append($btnGroup_fontsize) //字号
+                        .append($btnGroup_bold) //粗体、斜体、下划线
+                        .append($btnGroup_fontColor) //前景色
+                        .append($btnGroup_bgColor) //背景色
+                        .append($btnGroup_list) //列表
+                        .append($btnGroup_align) //对齐
+                        .append($btnGroup_link) //链接
+                        .append($btnGroup_img) //图片
+                        .append($btnGroup_undo); //撤销、恢复
 
-            //插入 menu toolbar
-            $menuContainer.append($menuToolbar);
-
-            //menu tooltip 效果
-            $menuContainer.find('button').tooltip();
+            
+            $menuContainer.append($menuToolbar) //插入 menu toolbar
+                          .find('button').tooltip(); //menu tooltip 效果
             //插入 ======================================================end
 
             //插入menu modal ==================================start
@@ -410,18 +436,8 @@ if (!window.jQuery) {
                 imgModalFooterContents = [$imgModalFooter_save];
             $imgModal = modalTemp(imgModalId, '插入图片', imgModalBodyContents, imgModalFooterContents);
 
-            //关于 modal
-            var $infoModalBody_info = $(
-                    '<p>当前版本：' + version + '</p>' +
-                    '<p>更新日期：' + updateTime + '</p>' +
-                    '<p>联系我们：' + email + '（#换成@）</p>'+
-                    '<p>获取代码：<a href="' + githubUrl + '" target="_blank">' + githubUrl + '</a></p>'
-                ),
-                infoModalBodyContents = [$infoModalBody_info];
-            $infoModal = modalTemp(infoModalId, pluginName, infoModalBodyContents);
-
             //插入 menu modal
-            $menuModal.append($linkModal).append($imgModal).append($infoModal);
+            $menuModal.append($linkModal).append($imgModal);
             $menuContainer.append($menuModal);
             //插入menu modal ==================================end
 
@@ -442,7 +458,7 @@ if (!window.jQuery) {
                                     '<!DOCTYPE html>' +
                                     '<html xmlns="http://www.w3.org/1999/xhtml">' +
                                     '<head><title></title></head>' +
-                                    '<body><p>' + initWords + '</p></body>' +
+                                    '<body>' + initStr + '</body>' +
                                     '</html>'
                                 );
             iframeDocument.close();
@@ -694,7 +710,7 @@ if (!window.jQuery) {
             $menuRedo.click(function () {
                 iframeDocument.execCommand('Redo');
             });
-            //及时记录code变化
+            //点击任何按钮，都及时记录code变化
             $menuContainer.click(function () {
                 saveIframeCode();
             });
