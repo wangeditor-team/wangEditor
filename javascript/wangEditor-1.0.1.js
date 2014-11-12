@@ -251,7 +251,6 @@ if (!window.jQuery) {
                         content += '<span class="caret"></span>';
                     }
                     temp = temp.replace('$content$', content);
-                    console.log(temp);
                     return temp;
                 },
 
@@ -331,6 +330,12 @@ if (!window.jQuery) {
                 $menuImg = $(btnTemp('插入图片', 'icon-picture', false, '#' + imgModalId)),
                 _nodata = $btnGroup_img.append($menuImg),
 
+                //代码
+                $btnGroup_code = $btnGroup.clone(),
+                codeModalId = idPrefix + 'codeModal',
+                $menuCode = $(btnTemp('插入代码', 'icon-edit', false, '#' + codeModalId)),
+                _nodata = $btnGroup_code.append($menuCode),
+
                 //撤销、恢复
                 $btnGroup_undo = $btnGroup.clone(),
                 $menuUndo = $(btnTemp('撤销', 'icon-undo', false, false, false, 'Undo')),
@@ -347,6 +352,7 @@ if (!window.jQuery) {
                                       .append($btnGroup_align) //对齐
                                       .append($btnGroup_link) //链接
                                       .append($btnGroup_img) //图片
+                                      .append($btnGroup_code) //代码
                                       .append($btnGroup_undo), //撤销、恢复
                 _nodata = $menuContainer.append($menuToolbar) //插入 menu toolbar
                                         .find('button').tooltip(), //menu tooltip 效果
@@ -413,11 +419,22 @@ if (!window.jQuery) {
 
                 $imgModalFooter_save = $('<a href="#" class="btn btn-primary">插入</a>'),
                 imgModalFooterContents = [$imgModalFooter_save],
+
                 $imgModal = modalTemp(imgModalId, '插入图片', imgModalBodyContents, imgModalFooterContents),
 
-                //插入modal
+                //插入代码 modal
+                $codeModalBody_text = $('<textarea rows="10" cols="50" style="width:95%"></textarea>'),
+                codeModalBodyContents = [$codeModalBody_text],
+
+                $codeModalFooter_save = $('<a href="#" class="btn btn-primary">插入</a>'),
+                $codeModalFooterContents = [$codeModalFooter_save],
+
+                $codeModal = modalTemp(codeModalId, '插入代码', codeModalBodyContents, $codeModalFooterContents),
+
+                //插入所有modal
                 _nodata = $menuModal.append($linkModal)
-                                    .append($imgModal),
+                                    .append($imgModal)
+                                    .append($codeModal),
                 _nodata = $menuContainer.append($menuModal),
                 //menu modal===================================================end
 
@@ -637,7 +654,7 @@ if (!window.jQuery) {
                     target = $linkModalBody_sltTarget.val();
 
                 //恢复当前的选择内容（for IE,Opera）
-                if (!selection || selection.anchorOffset === 0) {
+                if (selection && currentSelectionData) {
                     selection.removeAllRanges();
                     selection.addRange(currentSelectionData);
                 }
@@ -652,14 +669,84 @@ if (!window.jQuery) {
                     url = $imgModalBody_txtUrl.val();
 
                 //恢复当前的选择内容（for IE,Opera）
-                if (selection) {
+                if (selection && currentSelectionData) {
                     selection.removeAllRanges();
                     selection.addRange(currentSelectionData);
                 }
 
-                execCommand('insertImage', false, url)
+                execCommand('insertImage', false, url);
                 e.preventDefault();
                 $imgModal.modal('hide');
+            });
+            //插入代码
+            $codeModalFooter_save.click(function (e) {
+                var selection = iframeDocument.getSelection(),
+                    $elem,
+                    code = $codeModalBody_text.val(),
+
+                    fontSize = '14px',
+                    lineHeight = '20px',
+                    fontFamily = 'Consolas,Courier New,微软雅黑,宋体',
+
+                    tableTemp = '<table border="0" cellpadding="0" cellspacing="0" width="100%"> ${0} </table>',
+                    table = '',
+                    tbody = '',
+                    trOddTemp = '<tr valign="top" style="background-color:#f1f1f1;"> ${0} </tr>', //奇数
+                    trEvenTemp = '<tr valign="top"> ${0} </tr>', //偶数
+                    tdNumTemp = '<td style="line-height:${0}; font-size:${1};font-family:${2}; text-align:right; border-right:3px solid #6dea8e; padding-right:5px; color:#999999; width:40px;"> ${3} </td>',
+                    tdNumTemp = tdNumTemp.replace('${0}', lineHeight)
+                                         .replace('${1}', fontSize)
+                                         .replace('${2}', fontFamily),
+                    tdCodeTemp = '<td style="line-height:${0}; font-size:${1};font-family:${2}; padding-left:10px; text-align:left;">${3}</td>',
+                    tdCodeTemp = tdCodeTemp.replace('${0}', lineHeight)
+                                           .replace('${1}', fontSize)
+                                           .replace('${2}', fontFamily),
+                    tdNum = '',
+                    tdCode = '',
+
+                    i,
+                    lineArray,
+                    itemForLoop;
+
+                //转义特殊字符
+                code = code.replace(/&/gm, '&amp;')
+                           .replace(/</gm, '&lt;')
+                           .replace(/>/gm, '&gt;')
+                           .replace(/\n/gm, '<br/>')
+                           .replace(/\s{1}/gm, '&nbsp;');
+
+                //按行分数组
+                lineArray = code.split('<br/>');
+                for (i = 0; i < lineArray.length; i++) {
+                    itemForLoop = lineArray[i];
+                    tdCode = tdNum = '';
+
+                    tdNum = tdNumTemp.replace('${3}', (i + 1));
+                    tdCode = tdCodeTemp.replace('${3}', itemForLoop);
+
+                    if (i % 2 === 0) {
+                        tbody += trOddTemp.replace('${0}', tdNum + tdCode);
+                    } else {
+                        tbody += trEvenTemp.replace('${0}', tdNum + tdCode);
+                    }
+                }
+                table = tableTemp.replace('${0}', tbody);
+
+                //恢复当前的选择内容（for IE,Opera）
+                if (selection && currentSelectionData) {
+                    selection.removeAllRanges();
+                    selection.addRange(currentSelectionData);
+
+                    $elem = $(selection.focusNode.parentNode);
+                    //插入代码
+                    if ($elem.next().length === 0) {
+                        table += '<p><br/><br/></p>';
+                    }
+                    $elem.after($(table));
+                }
+
+                e.preventDefault();
+                $codeModal.modal('hide');
             });
             //每个菜单按钮点击时，都随时记录源码
             $menuContainer.click(function () {
