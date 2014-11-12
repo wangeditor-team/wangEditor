@@ -1,7 +1,7 @@
 wangEditor——基于bootstrap的富文本编辑器。
 引用bootstrap和jquery后，你可以用一句代码制作一个富文本编辑器。
 压缩后的wangEditor.min.js只有12KB！<br/>
-![](http://images.cnitblog.com/blog/138012/201411/102040590381726.png)  
+![](http://images.cnitblog.com/blog/138012/201411/121541234601981.png)  
 
 1. 引用bootstrap和jQuery
 ===
@@ -21,21 +21,22 @@ wangEditor——基于bootstrap的富文本编辑器。
 <div id="divEditor"></div>
 <textarea id="txtCode" rows="5" cols="50" style="width:100%"></textarea>
 
-<script src="javascript/wangEditor-1.0.0.min.js" type="text/javascript"></script>
+<script src="javascript/wangEditor-1.0.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
   $(function () {
     $('#divEditor').wangEditor({
       codeTargetId: 'txtCode',              //将源码存储到txtCode
       frameHeight: '200px',                 //默认值为“300px”
-      initWords: '欢迎使用！请输入文字...',  //默认值为“请输入...”
-      showInfo: true                        //是否显示“关于”菜单，默认显示
+      
+      //要显示在编辑器中的html源码（用于编辑）
+      initStr: '<p>欢迎使用<b>&lt;wangEditor&gt;</b>！请输入文字...</p>'  
     });
   });
 </script>
 ```
 如以上代码：在html中加入一个div，一个textarea；引用wangEditor.min.js；然后执行一步绑定，即可使用wangEditor富文本编辑器！<br/>
 编辑器内容的源代码会自动保存到textarea中，可直接用javascript获取，通过ajax保存。如下图：<br/>
-![](http://images.cnitblog.com/blog/138012/201411/102051188813494.png)
+![](http://images.cnitblog.com/blog/138012/201411/121541483504785.png)
 
 3. 对于低版本浏览器
 ===
