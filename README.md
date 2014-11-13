@@ -36,9 +36,14 @@ wangEditor——基于bootstrap的富文本编辑器。
 ```
 如以上代码：在html中加入一个div，一个textarea；引用wangEditor.min.js；然后执行一步绑定，即可使用wangEditor富文本编辑器！<br/>
 编辑器内容的源代码会自动保存到textarea中，可直接用javascript获取，通过ajax保存。如下图：<br/>
-![](http://images.cnitblog.com/blog/138012/201411/121541483504785.png)
+![](http://images.cnitblog.com/blog/138012/201411/131356076006270.png)
 
-3. 对于低版本浏览器
+3. 【插入代码】
+===
+wangEditor1.0.1版本已经支持插入代码功能（暂时还没有代码高亮，正在开发中...），效果如下图：
+![](http://images.cnitblog.com/blog/138012/201411/131358415062756.png)
+
+4. 对于低版本浏览器
 ===
 由于bootstrap已经不支持IE8及以下版本浏览器。因此，对于IE8及以下版本浏览器，wangEditor会自动识别，并屏蔽掉富文本编辑功能，只保留简单的编辑框功能。<br/>
 编辑器内容的源代码也会自动保存到textarea中，可直接用javascript获取，通过ajax保存。如下图：<br/>
