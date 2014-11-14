@@ -217,15 +217,16 @@ if (!window.jQuery) {
                     if (btnSingleCommandName) {
                         strCheck(btnSingleCommandName);
                     }
-                    //是否是下拉按钮
-                    if (isDropdown) {
-                        btnClass = 'btn dropdown-toggle';
-                    }
-
+                    
                     var temp = '<button type="button" title="$title$" class="$class$" $data-Prop$>$content$</button>', //模板
                         dataProp = '',
                         content = '',
                         btnClass = 'btn';
+
+                    //是否是下拉按钮
+                    if (isDropdown) {
+                        btnClass = 'btn dropdown-toggle';
+                    }
                     //title class
                     temp = temp.replace('$title$', title)
                                .replace('$class$', btnClass);
@@ -254,9 +255,10 @@ if (!window.jQuery) {
                     return temp;
                 },
 
-                //模板方法：生成dropdown menu ul
-                // headerText: 标题
-                // content: 菜单内容
+                /*模板方法：生成dropdown menu ul
+                * headerText: 标题
+                * content: 菜单内容
+                */
                 dropdownMenuTemp = function (headerText, content) {
                     //验证
                     strCheck(content);
@@ -355,17 +357,18 @@ if (!window.jQuery) {
                                       .append($btnGroup_code) //代码
                                       .append($btnGroup_undo), //撤销、恢复
                 _nodata = $menuContainer.append($menuToolbar) //插入 menu toolbar
-                                        .find('button').tooltip(), //menu tooltip 效果
+                                        .find('button').tooltip({ container: 'body' }), //menu tooltip 效果
                 //menu toolbar===================================================end
 
                 //menu modal===================================================start
                 $menuModal = $('<div></div>'),
 
-                //模板方法：生成modal层
-                // id: id
-                // title: 标题，字符串
-                // bodyContents: 要加入body中的内容，数组
-                // footerContents: 底部内容，数组
+                /*模板方法：生成modal层
+                * id: id
+                * title: 标题，字符串
+                * bodyContents: 要加入body中的内容，数组
+                * footerContents: 底部内容，数组
+                */
                 modalTemp = function (id, title, bodyContents, footerContents) {
                     //验证
                     strCheck(id);
@@ -403,9 +406,10 @@ if (!window.jQuery) {
                 //插入链接 modal
                 $linkModalBody_desc = $('<p>链接地址：</p>'),
                 $linkModalBody_txtUrl = $('<input type="text" placeholder="http(s)://" class="input-block-level"/>'),
-                $linkModalBody_target = $('<p>链接目标：</p>'),
-                $linkModalBody_sltTarget = $('<select><option>_blank</option><option>_self</option></select>'),
-                linkModalBodyContents = [$linkModalBody_desc, $linkModalBody_txtUrl, $linkModalBody_target, $linkModalBody_sltTarget],
+                linkModalBodyContents = [$linkModalBody_desc, $linkModalBody_txtUrl],
+                //$linkModalBody_target = $('<p>链接目标：</p>'),
+                //$linkModalBody_sltTarget = $('<select><option>_blank</option><option>_self</option></select>'),
+                //linkModalBodyContents = [$linkModalBody_desc, $linkModalBody_txtUrl, $linkModalBody_target, $linkModalBody_sltTarget],
 
                 $linkModalFooter_save = $('<a href="#" class="btn btn-primary">插入链接</a>'),
                 linkModalFooterContents = [$linkModalFooter_save],
@@ -459,7 +463,6 @@ if (!window.jQuery) {
             this.append($menuContainer);
             //插入 $iframeContainer
             this.append($iframeContainer);
-
 
             //配置 iframe ==================================start
             iframeWindow = $iframe[0].contentWindow;
@@ -688,19 +691,16 @@ if (!window.jQuery) {
                     lineHeight = '20px',
                     fontFamily = 'Consolas,Courier New,微软雅黑,宋体',
 
-                    tableTemp = '<table border="0" cellpadding="0" cellspacing="0" width="100%"> ${0} </table>',
+                    tableTemp = '<table style="line-height:${0}; font-size:${1};font-family:${2};" border="0" cellpadding="0" cellspacing="0" width="100%"> ${3} </table>',
+                    tableTemp = tableTemp.replace('${0}', lineHeight)
+                                         .replace('${1}', fontSize)
+                                         .replace('${2}', fontFamily),
                     table = '',
                     tbody = '',
                     trOddTemp = '<tr valign="top" style="background-color:#f1f1f1;"> ${0} </tr>', //奇数
                     trEvenTemp = '<tr valign="top"> ${0} </tr>', //偶数
-                    tdNumTemp = '<td style="line-height:${0}; font-size:${1};font-family:${2}; text-align:right; border-right:3px solid #6dea8e; padding-right:5px; color:#999999; width:40px;"> ${3} </td>',
-                    tdNumTemp = tdNumTemp.replace('${0}', lineHeight)
-                                         .replace('${1}', fontSize)
-                                         .replace('${2}', fontFamily),
-                    tdCodeTemp = '<td style="line-height:${0}; font-size:${1};font-family:${2}; padding-left:10px; text-align:left;">${3}</td>',
-                    tdCodeTemp = tdCodeTemp.replace('${0}', lineHeight)
-                                           .replace('${1}', fontSize)
-                                           .replace('${2}', fontFamily),
+                    tdNumTemp = '<td style="text-align:right; border-right:3px solid #6dea8e; padding-right:5px; color:#999999; width:40px;"> ${0} </td>',
+                    tdCodeTemp = '<td style="padding-left:10px; text-align:left;">${0}</td>',
                     tdNum = '',
                     tdCode = '',
 
@@ -721,8 +721,8 @@ if (!window.jQuery) {
                     itemForLoop = lineArray[i];
                     tdCode = tdNum = '';
 
-                    tdNum = tdNumTemp.replace('${3}', (i + 1));
-                    tdCode = tdCodeTemp.replace('${3}', itemForLoop);
+                    tdNum = tdNumTemp.replace('${0}', (i + 1));
+                    tdCode = tdCodeTemp.replace('${0}', itemForLoop);
 
                     if (i % 2 === 0) {
                         tbody += trOddTemp.replace('${0}', tdNum + tdCode);
@@ -730,7 +730,7 @@ if (!window.jQuery) {
                         tbody += trEvenTemp.replace('${0}', tdNum + tdCode);
                     }
                 }
-                table = tableTemp.replace('${0}', tbody);
+                table = tableTemp.replace('${3}', tbody);
 
                 //恢复当前的选择内容（for IE,Opera）
                 if (selection && currentSelectionData) {

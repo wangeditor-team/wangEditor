@@ -23,14 +23,14 @@ navigator.appName  navigator.appVersion 加上 window，以减少跨作用域
 --07.
 如何将已有的代码，配置到wangEditor上
 
-08.
-link _blank
-
-09.
-加入table
-
-10.
+--08.
 “字体”按钮右侧不显示圆角了
 
-11.
+09.
+link _blank
+
+10.
+加入table
+
+12.
 代码高亮（td样式用继承，不要每个td都设置）
