@@ -1,7 +1,7 @@
 ﻿/*
     wangEditor
-    v1.0.1
-    2014/11/12
+    v1.0.2
+    2014/11/19
     王福朋
 */
 //检查jQuery
@@ -202,7 +202,7 @@ if (!window.jQuery) {
                 * modalTarget: 弹出层的id
                 * btnContent: 自定义button内部的内容，取代 <i icon>
                 * btnSingleCommandName: 单参数execCommand操作，如'bold'、'underline'等
-                */ 
+                */
                 btnTemp = function (title, iconClass, isDropdown, modalTarget, btnContent, btnSingleCommandName) {
                     //验证：
                     strCheck(title);
@@ -217,7 +217,7 @@ if (!window.jQuery) {
                     if (btnSingleCommandName) {
                         strCheck(btnSingleCommandName);
                     }
-                    
+
                     var temp = '<button type="button" title="$title$" class="$class$" $data-Prop$>$content$</button>', //模板
                         dataProp = '',
                         content = '',
@@ -427,8 +427,17 @@ if (!window.jQuery) {
                 $imgModal = modalTemp(imgModalId, '插入图片', imgModalBodyContents, imgModalFooterContents),
 
                 //插入代码 modal
+                $codeModalBody_content = $('<div></div>'),
+                $codeModalBody_langLabel = $('<span>语言：</span>'),
+                $codeModalBody_langSlt = $('<select class="input-medium"></select>'),
+                $codeModalBody_themeLabel = $('<span>&nbsp;&nbsp;主题：</span>'),
+                $codeModalBody_themeSlt = $('<select class="input-medium"></select>'),
+                _nodata = $codeModalBody_content.append($codeModalBody_langLabel)
+                                                .append($codeModalBody_langSlt)
+                                                .append($codeModalBody_themeLabel)
+                                                .append($codeModalBody_themeSlt),
                 $codeModalBody_text = $('<textarea rows="10" cols="50" style="width:95%"></textarea>'),
-                codeModalBodyContents = [$codeModalBody_text],
+                codeModalBodyContents = [$codeModalBody_content, $codeModalBody_text],
 
                 $codeModalFooter_save = $('<a href="#" class="btn btn-primary">插入</a>'),
                 $codeModalFooterContents = [$codeModalFooter_save],
@@ -458,6 +467,32 @@ if (!window.jQuery) {
 
                 currentSelectionData; //记录当前选择的内容，有时需要恢复
                 //iframe container==========================================end
+
+            //插入代码modal：绑定语言和主题下拉框
+            if (window.wangHighLighter) {
+                (function () {
+                    var langArray = window.wangHighLighter.getLangArray(),
+                        langLength = langArray.length,
+                        langOptionsCode = '',
+                        themeArray = window.wangHighLighter.getThemeArray(),
+                        themeLength = themeArray.length,
+                        themeOptionsCode = '',
+                        i,
+                        item;
+
+                    for (i = 0; i < langLength; i++) {
+                        item = langArray[i];
+                        langOptionsCode += '<option value="' + item + '">' + item + '</option>';
+                    }
+                    $codeModalBody_langSlt.append($(langOptionsCode));
+
+                    for (i = 0; i < themeLength; i++) {
+                        item = themeArray[i];
+                        themeOptionsCode += '<option value="' + item + '">' + item + '</option>';
+                    }
+                    $codeModalBody_themeSlt.append($(themeOptionsCode));
+                })();
+            }
 
             //插入 $menuContainer
             this.append($menuContainer);
@@ -685,53 +720,16 @@ if (!window.jQuery) {
             $codeModalFooter_save.click(function (e) {
                 var selection = iframeDocument.getSelection(),
                     $elem,
-                    code = $codeModalBody_text.val(),
-
-                    fontSize = '14px',
-                    lineHeight = '20px',
-                    fontFamily = 'Consolas,Courier New,微软雅黑,宋体',
-
-                    tableTemp = '<table style="line-height:${0}; font-size:${1};font-family:${2};" border="0" cellpadding="0" cellspacing="0" width="100%"> ${3} </table>',
-                    tableTemp = tableTemp.replace('${0}', lineHeight)
-                                         .replace('${1}', fontSize)
-                                         .replace('${2}', fontFamily),
-                    table = '',
-                    tbody = '',
-                    trOddTemp = '<tr valign="top" style="background-color:#f1f1f1;"> ${0} </tr>', //奇数
-                    trEvenTemp = '<tr valign="top"> ${0} </tr>', //偶数
-                    tdNumTemp = '<td style="text-align:right; border-right:3px solid #6dea8e; padding-right:5px; color:#999999; width:40px;"> ${0} </td>',
-                    tdCodeTemp = '<td style="padding-left:10px; text-align:left;">${0}</td>',
-                    tdNum = '',
-                    tdCode = '',
-
-                    i,
-                    lineArray,
-                    itemForLoop;
-
-                //转义特殊字符
-                code = code.replace(/&/gm, '&amp;')
-                           .replace(/</gm, '&lt;')
-                           .replace(/>/gm, '&gt;')
-                           .replace(/\n/gm, '<br/>')
-                           .replace(/\s{1}/gm, '&nbsp;');
-
-                //按行分数组
-                lineArray = code.split('<br/>');
-                for (i = 0; i < lineArray.length; i++) {
-                    itemForLoop = lineArray[i];
-                    tdCode = tdNum = '';
-
-                    tdNum = tdNumTemp.replace('${0}', (i + 1));
-                    tdCode = tdCodeTemp.replace('${0}', itemForLoop);
-
-                    if (i % 2 === 0) {
-                        tbody += trOddTemp.replace('${0}', tdNum + tdCode);
-                    } else {
-                        tbody += trEvenTemp.replace('${0}', tdNum + tdCode);
-                    }
+                    lang = $codeModalBody_langSlt.val(),
+                    theme = $codeModalBody_themeSlt.val(),
+                    code = $codeModalBody_text.val();
+                $codeModalBody_text.val('');  //及时清空
+                
+                if (!window.wangHighLighter) {
+                    throw new Error('未引用wangHighLighter.js，无法格式化代码...');
+                    return;
                 }
-                table = tableTemp.replace('${3}', tbody);
-
+                code = window.wangHighLighter.highLight(lang, theme, code);
                 //恢复当前的选择内容（for IE,Opera）
                 if (selection && currentSelectionData) {
                     selection.removeAllRanges();
@@ -740,11 +738,10 @@ if (!window.jQuery) {
                     $elem = $(selection.focusNode.parentNode);
                     //插入代码
                     if ($elem.next().length === 0) {
-                        table += '<p><br/><br/></p>';
+                        code += '<p><br/><br/></p>';
                     }
-                    $elem.after($(table));
+                    $elem.after($(code));
                 }
-
                 e.preventDefault();
                 $codeModal.modal('hide');
             });
