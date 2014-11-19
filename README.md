@@ -21,7 +21,7 @@ wangEditor——基于bootstrap的富文本编辑器。
 <div id="divEditor"></div>
 <textarea id="txtCode" rows="5" cols="50" style="width:100%"></textarea>
 
-<script src="javascript/wangEditor-1.0.1.min.js" type="text/javascript"></script>
+<script src="javascript/wangEditor-1.0.2.min.js" type="text/javascript"></script>
 <script type="text/javascript">
   $(function () {
     $('#divEditor').wangEditor({
@@ -40,8 +40,15 @@ wangEditor——基于bootstrap的富文本编辑器。
 
 3. 【插入代码】
 ===
-wangEditor1.0.1版本已经支持插入代码功能（暂时还没有代码高亮，正在开发中...），效果如下图：
-![](http://images.cnitblog.com/blog/138012/201411/131358415062756.png)
+从wangEditor1.0.2版本开始，应用wangHighLighter.js实现代码高亮功能。wangHighLighter.js是一个单独的代码高亮插件，具体应用可参见[https://github.com/wangfupeng1988/wangHighLighter](https://github.com/wangfupeng1988/wangHighLighter)
+<br>
+因此，需要在页面中引用wangHighLighter.js：
+```html
+<script src="js/wangHighLighter-1.0.0-min.js" type="text/javascript"></script>
+```
+只需要这一步，wangEditor就可以拥有炫酷的代码高亮功能：
+![](http://images.cnitblog.com/blog/138012/201411/192103320781243.png)
+wangHighLighter.js支持20多种常用语言和7个常用主题风格。
 
 4. 对于低版本浏览器
 ===
