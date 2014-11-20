@@ -1,12 +1,14 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>wang editor demo 1</title>
+    <title>demo</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
     <link href="Font-Awesome-3.2.1/css/font-awesome.min.css" rel="stylesheet" />
     <style type="text/css">
-
+        body {
+            padding-top:30px;
+        }
     </style>
 </head>
 <body>
@@ -23,14 +25,12 @@
     <script src="javascript/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <script src="javascript/wangHighLighter-1.0.0-min.js" type="text/javascript"></script> <!--代码高亮插件-->
+    <script src="javascript/wangHighLighter-1.0.0-min.js" type="text/javascript"></script> <!--代码高亮插件 wangHighLighter.js-->
 
     <!--<script src="javascript/wangEditor-1.0.2.js" type="text/javascript"></script>-->
     <script src="javascript/wangEditor-1.0.2.min.js" type="text/javascript"></script>
     <script type="text/javascript">
-        //test
         $(function () {
-
             $('#divEditor').wangEditor({
                 codeTargetId: 'txtCode',              //将源码存储到txtCode
                 frameHeight: '300px',                 //默认值为“300px”
@@ -39,7 +39,6 @@
                 initStr: '<p>欢迎使用<b>&lt;wangEditor&gt;</b>！请输入文字...</p>'   
             });
         });
-
     </script>
 </body>
 </html>
