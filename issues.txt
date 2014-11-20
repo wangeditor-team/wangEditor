@@ -26,8 +26,14 @@ navigator.appName  navigator.appVersion 加上 window，以减少跨作用域
 --08.
 “字体”按钮右侧不显示圆角了
 
-09.
-link _blank
+--09.
+加入table
 
 10.
-加入table
+IE无法删除插入的table
+
+11.
+link _blank
+
+12.
+初始化或者某个操作完毕后，光标自动对焦
