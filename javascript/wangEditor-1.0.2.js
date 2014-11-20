@@ -1,14 +1,14 @@
 ﻿/*
-    wangEditor
-    v1.0.2
-    2014/11/19
-    王福朋
+*   wangEditor
+*   v1.0.2
+*   2014/11/19
+*   王福朋
 */
-//检查jQuery
-if (!window.jQuery) {
-    throw new Error('wangEditor: 找不到window.jQuery，请检查是否引用了jQuery！')
-}
-(function ($, window, undefined) {
+(function (window, $, undefined) {
+    //检查jQuery
+    if (!$) {
+        throw new Error('wangEditor: 找不到window.jQuery（即参数 $），请检查是否引用了jQuery！')
+    }
 
     //默认配置
     var defaultOptions = {
@@ -18,16 +18,16 @@ if (!window.jQuery) {
     };
 
     //IE8及以下浏览器的处理
-    if (navigator.appName === 'Microsoft Internet Explorer' && (/MSIE\s*(?=5.0|6.0|7.0|8.0)/i).test(navigator.appVersion)) {
-        jQuery.fn.extend({
+    if (window.navigator.appName === 'Microsoft Internet Explorer' && (/MSIE\s*(?=5.0|6.0|7.0|8.0)/i).test(window.navigator.appVersion)) {
+        $.fn.extend({
             /* options.codeTargetId: 存储源码的textarea或input的ID
              * options.frameHeight: 高度
              * options.initStr: 初始化用的字符串
              */
             wangEditor: function (options) {
                 //用options覆盖defaultOptions
-                var options = $.extend(defaultOptions, options),
-                    initStr = options.initStr,
+                options = $.extend(defaultOptions, options)
+                var initStr = options.initStr,
                     height = options.frameHeight,
                     $target = (options.codeTargetId && typeof options.codeTargetId === 'string') ? $('#' + options.codeTargetId) : false,
                     $txt = $('<textarea style="width:100%; height:' + height + '"></textarea>'),
@@ -74,7 +74,6 @@ if (!window.jQuery) {
 
     //IE9+继续往下执行：
     var i,
-
         //id前缀，避免和其他id冲突
         idPrefix = 'wangeditor_' + Math.random().toString().replace('.', '') + '_',
 
@@ -138,7 +137,7 @@ if (!window.jQuery) {
                     }
                     return str;
                 })();
-            return str
+            return str;
         })(),
         //字号配置
         fontsizeOptionsLiStr = (function () {
@@ -170,7 +169,7 @@ if (!window.jQuery) {
         })();
 
     //制作jquery插件
-    jQuery.fn.extend({
+    $.fn.extend({
 
         /* options.codeTargetId: 存储源码的textarea或input的ID
          * options.frameHeight: 高度
@@ -178,7 +177,7 @@ if (!window.jQuery) {
          */
         wangEditor: function (options) {
             //用options覆盖defaultOptions
-            var options = $.extend(defaultOptions, options);
+            options = $.extend(defaultOptions, options);
 
             var
                 //检查字符串
@@ -240,7 +239,7 @@ if (!window.jQuery) {
                     if (btnSingleCommandName) {
                         dataProp += ' singleCommandName="' + btnSingleCommandName + '" ';
                     }
-                    temp = temp.replace('$data-Prop$', dataProp)
+                    temp = temp.replace('$data-Prop$', dataProp);
 
                     //content
                     if (btnContent) {
@@ -738,7 +737,7 @@ if (!window.jQuery) {
                     $elem = $(selection.focusNode.parentNode);
                     //插入代码
                     if ($elem.next().length === 0) {
-                        code += '<p><br/><br/></p>';
+                        code += '<p>&nbsp;</p>';
                     }
                     $elem.after($(code));
                 }
@@ -753,4 +752,4 @@ if (!window.jQuery) {
         }
     });
 
-})(window.jQuery, window);
+})(window, window.jQuery);
