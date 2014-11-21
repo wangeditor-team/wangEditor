@@ -98,13 +98,21 @@
             })(),
             //颜色配置
             colorOptions = {
-                red: '红色',
-                blue: '蓝色',
-                green: '绿色',
-                yellow: '黄色',
-                black: '黑色',
-                gray: '灰色',
-                silver: '银色'
+                '#880000': '暗红色',
+                '#800080': '紫色',
+                '#ff0000': '红色',
+                '#ff00ff': '鲜粉色',
+                '#000080': '深蓝色',
+                '#0000ff': '蓝色',
+                '#00ffff': '湖蓝色',
+                '#008080':'蓝绿色',
+                '#008000':'绿色',
+                '#808000':'橄榄色',
+                '#00ff00':'浅绿色',
+                '#ffcc00':'橙黄色',
+                '#808080':'灰色',
+                '#c0c0c0':'银色',
+                '#000000':'黑色'
             },
             colorOptionsLiStr = (function () {
                 var temp = '<li><a href="#" style="color:${0};">${1}</a></li>',
@@ -124,7 +132,7 @@
                 return str;
             })(),
             bgColorOptionsLiStr = (function () {
-                var temp = '<li><a href="#" style="background-color:${0}; color:white;">${1}</a></li>',
+                var temp = '<li><a href="#"><span style="background-color:${0};">&nbsp;&nbsp;&nbsp;</span> ${1}</a></li>',
                     str = (function () {
                         var str = '',
                             item,
@@ -340,7 +348,7 @@
                 //代码
                 $btnGroup_code = $btnGroup.clone(),
                 codeModalId = idPrefix + 'codeModal',
-                $menuCode = $(btnTemp('插入代码', 'icon-edit', false, '#' + codeModalId)),
+                $menuCode = $(btnTemp('插入代码', undefined, false, '#' + codeModalId, '<i class="icon-angle-left"></i>/<i class="icon-angle-right"></i>')),
                 _nodata = $btnGroup_code.append($menuCode),
 
                 //撤销、恢复
@@ -689,7 +697,7 @@
             //背景色
             $dropdownMenuBgColor.find('a').each(function () {
                 var menuBgColor = $(this),
-                    value = this.style.backgroundColor;
+                    value = menuBgColor.children().first()[0].style.backgroundColor;
                 menuBgColor.click(function (e) {
                     execCommand('backColor', false, value);
                     e.preventDefault();
@@ -746,7 +754,7 @@
                     table = '',
                     tableTemp = '<table border="0" cellpadding="0" cellspacing="0" style="${style}" > ${content} </table>',
                     tBody = '',
-                    firstTrTemp = '<tr style="font-weight:bold;">${content}</tr>',
+                    firstTrTemp = '<tr style="font-weight:bold;background-color:#f1f1f1;">${content}</tr>',
                     trTemp = '<tr>${content}</tr>',
                     tr = '',
                     tdTemp = '<td style="width:100px; ${style}">&nbsp;</td>',
@@ -774,7 +782,12 @@
                     selection.removeAllRanges();
                     selection.addRange(currentSelectionData);
 
-                    $elem = $(selection.focusNode.parentNode);
+                    //定位在哪个elem后面插入table
+                    if (selection.focusNode.nodeType === 3) {
+                        $elem = $(selection.focusNode.parentNode);
+                    } else {
+                        $elem = $(selection.focusNode);
+                    }
                     //插入代码
                     if ($elem.next().length === 0) {
                         table += '<p>&nbsp;</p>';
@@ -819,7 +832,12 @@
                     selection.removeAllRanges();
                     selection.addRange(currentSelectionData);
 
-                    $elem = $(selection.focusNode.parentNode);
+                    //定位在哪个elem后面插入code表格
+                    if (selection.focusNode.nodeType === 3) {
+                        $elem = $(selection.focusNode.parentNode);
+                    } else {
+                        $elem = $(selection.focusNode);
+                    }
                     //插入代码
                     if ($elem.next().length === 0) {
                         code += '<p>&nbsp;</p>';
