@@ -84,15 +84,16 @@
                     options = ['宋体', '黑体', '楷体', '隶书', '幼圆', '微软雅黑', 'Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'],
                     length = options.length,
                     str = (function () {
-                        var str = '',
+                        var arr = [],
                             i,
                             value;
                         for (i = 0; i < length; i++) {
                             value = options[i];
-                            str += temp.replace('${0}', value)
-                                       .replace('${1}', value);
+                            arr.push(temp.replace('${0}', value)
+                                         .replace('${1}', value)
+                                );
                         }
-                        return str;
+                        return arr.join('');
                     })();
                 return str;
             })(),
@@ -117,34 +118,36 @@
             colorOptionsLiStr = (function () {
                 var temp = '<li><a href="#" style="color:${0};">${1}</a></li>',
                     str = (function () {
-                        var str = '',
+                        var arr = [],
                             item,
                             value;
                         for (item in colorOptions) {
                             if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
                                 value = colorOptions[item];
-                                str += temp.replace('${0}', item)
-                                           .replace('${1}', value);
+                                arr.push(temp.replace('${0}', item)
+                                             .replace('${1}', value)
+                                    );
                             }
                         }
-                        return str;
+                        return arr.join('');
                     })();
                 return str;
             })(),
             bgColorOptionsLiStr = (function () {
                 var temp = '<li><a href="#"><span style="background-color:${0};">&nbsp;&nbsp;&nbsp;</span> ${1}</a></li>',
                     str = (function () {
-                        var str = '',
+                        var arr = [],
                             item,
                             value;
                         for (item in colorOptions) {
                             if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
                                 value = colorOptions[item];
-                                str += temp.replace('${0}', item)
-                                                          .replace('${1}', value);
+                                arr.push(temp.replace('${0}', item)
+                                             .replace('${1}', value)
+                                    );
                             }
                         }
-                        return str;
+                        return arr.join('');
                     })();
                 return str;
             })(),
@@ -161,18 +164,19 @@
                 },
                     temp = '<li><a href="#" fontSize="${0}" style="font-size:${1};">${2}</a></li>',
                     str = (function () {
-                        var str = '',
+                        var arr = [],
                             item,
                             value;
                         for (item in fontsizeOptions) {
                             if (Object.prototype.hasOwnProperty.call(fontsizeOptions, item)) {
                                 value = fontsizeOptions[item];
-                                str += temp.replace('${0}', item)
-                                                                          .replace('${1}', value)
-                                                                          .replace('${2}', value);
+                                arr.push(temp.replace('${0}', item)
+                                             .replace('${1}', value)
+                                             .replace('${2}', value)
+                                    );
                             }
                         }
-                        return str;
+                        return arr.join('');
                     })();
                 return str;
             })();
@@ -348,7 +352,7 @@
                 //代码
                 $btnGroup_code = $btnGroup.clone(),
                 codeModalId = idPrefix + 'codeModal',
-                $menuCode = $(btnTemp('插入代码', undefined, false, '#' + codeModalId, '<i class="icon-angle-left"></i>/<i class="icon-angle-right"></i>')),
+                $menuCode = $(btnTemp('插入代码', undefined, false, '#' + codeModalId, '<i class="icon-angle-left"></i>%<i class="icon-angle-right"></i>')),
                 _nodata = $btnGroup_code.append($menuCode),
 
                 //撤销、恢复
@@ -509,24 +513,24 @@
                 (function () {
                     var langArray = window.wangHighLighter.getLangArray(),
                         langLength = langArray.length,
-                        langOptionsCode = '',
+                        langOptionsArray = [],
                         themeArray = window.wangHighLighter.getThemeArray(),
                         themeLength = themeArray.length,
-                        themeOptionsCode = '',
+                        themeOptionsArray = [],
                         i,
                         item;
 
                     for (i = 0; i < langLength; i++) {
                         item = langArray[i];
-                        langOptionsCode += '<option value="' + item + '">' + item + '</option>';
+                        langOptionsArray.push('<option value="' + item + '">' + item + '</option>');
                     }
-                    $codeModalBody_langSlt.append($(langOptionsCode));
+                    $codeModalBody_langSlt.append($(langOptionsArray.join('')));
 
                     for (i = 0; i < themeLength; i++) {
                         item = themeArray[i];
-                        themeOptionsCode += '<option value="' + item + '">' + item + '</option>';
+                        themeOptionsArray.push('<option value="' + item + '">' + item + '</option>');
                     }
-                    $codeModalBody_themeSlt.append($(themeOptionsCode));
+                    $codeModalBody_themeSlt.append($(themeOptionsArray.join('')));
                 })();
             }
 
@@ -753,10 +757,10 @@
                     //表格模板
                     table = '',
                     tableTemp = '<table border="0" cellpadding="0" cellspacing="0" style="${style}" > ${content} </table>',
-                    tBody = '',
+                    trArray = [],
                     firstTrTemp = '<tr style="font-weight:bold;background-color:#f1f1f1;">${content}</tr>',
                     trTemp = '<tr>${content}</tr>',
-                    tr = '',
+                    tdArray = [],
                     tdTemp = '<td style="width:100px; ${style}">&nbsp;</td>',
                     borderStyle = '1px solid #cccccc';
                 //完善模板
@@ -765,17 +769,17 @@
 
                 //生成table代码
                 for (i = 0; i < rowNum; i++) {
-                    tr = '';
+                    tdArray = [];
                     for (j = 0; j < colNum; j++) {
-                        tr += tdTemp;
+                        tdArray.push(tdTemp);
                     }
                     if (i === 0 && firstRowBold) {
-                        tBody += firstTrTemp.replace('${content}', tr);
+                        trArray.push(firstTrTemp.replace('${content}', tdArray.join('')));
                     } else {
-                        tBody += trTemp.replace('${content}', tr);
+                        trArray.push(trTemp.replace('${content}', tdArray.join('')));
                     }
                 }
-                table = tableTemp.replace('${content}', tBody);
+                table = tableTemp.replace('${content}', trArray.join(''));
 
                 //恢复当前的选择内容（for IE,Opera）
                 if (selection && currentSelectionData) {
