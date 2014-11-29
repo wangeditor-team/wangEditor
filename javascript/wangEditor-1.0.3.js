@@ -1,7 +1,7 @@
 ﻿/*
 *   wangEditor
-*   v1.0.2
-*   2014/11/19
+*   v1.0.3
+*   2014/11/29
 *   王福朋
 */
 (function (window, $, undefined) {
@@ -11,12 +11,13 @@
     }
     var
         //核心函数
-        coreFn, 
+        coreFn,
 
         //默认配置
         defaultOptions = {
             codeTargetId: false,
             frameHeight: '300px',
+            smallBtn: false,
             initStr: '欢迎使用<b>wangEitor</b>，请输入...'
         };
 
@@ -25,6 +26,7 @@
         /* 核心函数，将通过 extend 函数添加到 $.fn 中
         * options.codeTargetId: 存储源码的textarea或input的ID
         * options.frameHeight: 高度
+        * options.smallBtn: true/false 菜单按钮是否变小
         * options.initStr: 初始化用的字符串
         */
         coreFn = function (options) {
@@ -84,15 +86,12 @@
                     options = ['宋体', '黑体', '楷体', '隶书', '幼圆', '微软雅黑', 'Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'],
                     length = options.length,
                     str = (function () {
-                        var arr = [],
-                            i,
-                            value;
-                        for (i = 0; i < length; i++) {
-                            value = options[i];
+                        var arr = [];
+                        $.each(options, function (key, value) {
                             arr.push(temp.replace('${0}', value)
                                          .replace('${1}', value)
                                 );
-                        }
+                        });
                         return arr.join('');
                     })();
                 return str;
@@ -118,17 +117,12 @@
             colorOptionsLiStr = (function () {
                 var temp = '<li><a href="#" style="color:${0};">${1}</a></li>',
                     str = (function () {
-                        var arr = [],
-                            item,
-                            value;
-                        for (item in colorOptions) {
-                            if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
-                                value = colorOptions[item];
-                                arr.push(temp.replace('${0}', item)
-                                             .replace('${1}', value)
+                        var arr = [];
+                        $.each(colorOptions, function (key, value) {
+                            arr.push(temp.replace('${0}', key)
+                                         .replace('${1}', value)
                                     );
-                            }
-                        }
+                        });
                         return arr.join('');
                     })();
                 return str;
@@ -136,17 +130,12 @@
             bgColorOptionsLiStr = (function () {
                 var temp = '<li><a href="#"><span style="background-color:${0};">&nbsp;&nbsp;&nbsp;</span> ${1}</a></li>',
                     str = (function () {
-                        var arr = [],
-                            item,
-                            value;
-                        for (item in colorOptions) {
-                            if (Object.prototype.hasOwnProperty.call(colorOptions, item)) {
-                                value = colorOptions[item];
-                                arr.push(temp.replace('${0}', item)
-                                             .replace('${1}', value)
+                        var arr = [];
+                        $.each(colorOptions, function (key, value) {
+                            arr.push(temp.replace('${0}', key)
+                                         .replace('${1}', value)
                                     );
-                            }
-                        }
+                        });
                         return arr.join('');
                     })();
                 return str;
@@ -164,18 +153,13 @@
                 },
                     temp = '<li><a href="#" fontSize="${0}" style="font-size:${1};">${2}</a></li>',
                     str = (function () {
-                        var arr = [],
-                            item,
-                            value;
-                        for (item in fontsizeOptions) {
-                            if (Object.prototype.hasOwnProperty.call(fontsizeOptions, item)) {
-                                value = fontsizeOptions[item];
-                                arr.push(temp.replace('${0}', item)
-                                             .replace('${1}', value)
-                                             .replace('${2}', value)
+                        var arr = [];
+                        $.each(fontsizeOptions, function (key, value) {
+                            arr.push(temp.replace('${0}', key)
+                                         .replace('${1}', value)
+                                         .replace('${2}', value)
                                     );
-                            }
-                        }
+                        });
                         return arr.join('');
                     })();
                 return str;
@@ -185,6 +169,7 @@
         /* 核心函数，将通过 extend 函数添加到 $.fn 中
         * options.codeTargetId: 存储源码的textarea或input的ID
         * options.frameHeight: 高度
+        * options.smallBtn: true/false 菜单按钮是否变小
         * options.initStr: 初始化用的字符串
         */
         coreFn = function (options) {
@@ -200,7 +185,7 @@
                 },
 
                 //menu container
-                $menuContainer = $('<div></div>'),
+                $menuContainer = $('<div style="background-color:#f1f1f1;"></div>'),
 
                 //menu toolbar===================================================start
                 //btn-group （用于clone）
@@ -232,15 +217,15 @@
                     var temp = '<button type="button" title="$title$" class="$class$" $data-Prop$>$content$</button>', //模板
                         dataProp = '',
                         content = '',
-                        btnClass = 'btn';
+                        btnClass = 'btn btn-default';
 
                     //是否是下拉按钮
                     if (isDropdown) {
-                        btnClass = 'btn dropdown-toggle';
+                        btnClass += ' dropdown-toggle';
                     }
-                    //title class
-                    temp = temp.replace('$title$', title)
-                               .replace('$class$', btnClass);
+                    if (options.smallBtn) {
+                        btnClass += ' btn-sm';
+                    }
                     // data-Prop
                     if (isDropdown) {
                         dataProp += ' data-toggle="dropdown" ';
@@ -251,7 +236,9 @@
                     if (btnSingleCommandName) {
                         dataProp += ' singleCommandName="' + btnSingleCommandName + '" ';
                     }
-                    temp = temp.replace('$data-Prop$', dataProp);
+                    temp = temp.replace('$data-Prop$', dataProp)
+                               .replace('$title$', title)
+                               .replace('$class$', btnClass);
 
                     //content
                     if (btnContent) {
@@ -279,7 +266,7 @@
 
                     var temp = '<ul class="dropdown-menu">${0} ${1}</ul>';
                     if (headerText) {
-                        temp = temp.replace('${0}', '<li class="nav-header">' + headerText + '</li>');
+                        temp = temp.replace('${0}', '<li class="dropdown-header">' + headerText + '</li>');
                     }
                     temp = temp.replace('${1}', content);
 
@@ -288,20 +275,20 @@
 
                 //粗体、斜体、下划线
                 $btnGroup_bold = $btnGroup.clone(),
-                $menuBold = $(btnTemp('加粗', 'icon-bold', false, false, false, 'bold')),
-                $menuItalic = $(btnTemp('斜体', 'icon-italic', false, false, false, 'italic')),
-                $menuUnderline = $(btnTemp('下划线', 'icon-underline', false, false, false, 'underline')),
+                $menuBold = $(btnTemp('加粗', 'fa fa-bold', false, false, false, 'bold')),
+                $menuItalic = $(btnTemp('斜体', 'fa fa-italic', false, false, false, 'italic')),
+                $menuUnderline = $(btnTemp('下划线', 'fa fa-underline', false, false, false, 'underline')),
                 _nodata = $btnGroup_bold.append($menuBold).append($menuItalic).append($menuUnderline),
 
                 //字号
                 $btnGroup_fontsize = $btnGroup.clone(),
-                $menuFontsize = $(btnTemp('字号', 'icon-text-height', true)),
+                $menuFontsize = $(btnTemp('字号', 'fa fa-text-height', true)),
                 $dropdownMenuFontsize = $(dropdownMenuTemp('字号：', fontsizeOptionsLiStr)),
                 _nodata = $btnGroup_fontsize.append($menuFontsize).append($dropdownMenuFontsize),
 
                 //字体
                 $btnGroup_fontfamily = $btnGroup.clone(),
-                $menuFontFamily = $(btnTemp('字体', 'icon-font', true)),
+                $menuFontFamily = $(btnTemp('字体', 'fa fa-font', true)),
                 $dropdownMenuFontFamily = $(dropdownMenuTemp('字体：', fontFamilyOptionsLiStr)),
                 _nodata = $btnGroup_fontfamily.append($menuFontFamily).append($dropdownMenuFontFamily),
 
@@ -319,49 +306,49 @@
 
                 //列表
                 $btnGroup_list = $btnGroup.clone(),
-                $menuOrderedList = $(btnTemp('有序列表', 'icon-list-ol', false, false, false, 'InsertOrderedList')),
-                $menuUnorderedList = $(btnTemp('无序列表', 'icon-list-ul', false, false, false, 'InsertUnorderedList')),
+                $menuOrderedList = $(btnTemp('有序列表', 'fa fa-list-ol', false, false, false, 'InsertOrderedList')),
+                $menuUnorderedList = $(btnTemp('无序列表', 'fa fa-list-ul', false, false, false, 'InsertUnorderedList')),
                 _nodata = $btnGroup_list.append($menuUnorderedList).append($menuOrderedList),
 
                 //对齐
                 $btnGroup_align = $btnGroup.clone(),
-                $menuAlignLeft = $(btnTemp('左对齐', 'icon-align-left', false, false, false, 'JustifyLeft')),
-                $menuAlignCenter = $(btnTemp('居中', 'icon-align-center', false, false, false, 'JustifyCenter')),
-                $menuAlignRight = $(btnTemp('右对齐', 'icon-align-right', false, false, false, 'JustifyRight')),
+                $menuAlignLeft = $(btnTemp('左对齐', 'fa fa-align-left', false, false, false, 'JustifyLeft')),
+                $menuAlignCenter = $(btnTemp('居中', 'fa fa-align-center', false, false, false, 'JustifyCenter')),
+                $menuAlignRight = $(btnTemp('右对齐', 'fa fa-align-right', false, false, false, 'JustifyRight')),
                 _nodata = $btnGroup_align.append($menuAlignLeft).append($menuAlignCenter).append($menuAlignRight),
 
                 //链接
                 $btnGroup_link = $btnGroup.clone(),
                 linkModalId = idPrefix + 'LinkModal',
-                $menuLink = $(btnTemp('插入链接', 'icon-link', false, '#' + linkModalId)),
-                $menuRemoveLink = $(btnTemp('删除链接', 'icon-remove', false, false, false, 'unlink')),
+                $menuLink = $(btnTemp('插入链接', 'fa fa-link', false, '#' + linkModalId)),
+                $menuRemoveLink = $(btnTemp('删除链接', 'fa fa-unlink', false, false, false, 'unlink')),
                 _nodata = $btnGroup_link.append($menuLink).append($menuRemoveLink),
 
                 //表格
                 $btnGroup_table = $btnGroup.clone(),
                 tableModalId = idPrefix + 'TableModal',
-                $menuTable = $(btnTemp('插入表格', 'icon-table', false, '#' + tableModalId)),
+                $menuTable = $(btnTemp('插入表格', 'fa fa-table', false, '#' + tableModalId)),
                 _nodata = $btnGroup_table.append($menuTable),
 
                 //图片
                 $btnGroup_img = $btnGroup.clone(),
                 imgModalId = idPrefix + 'imgModal',
-                $menuImg = $(btnTemp('插入图片', 'icon-picture', false, '#' + imgModalId)),
+                $menuImg = $(btnTemp('插入图片', 'fa fa-image', false, '#' + imgModalId)),
                 _nodata = $btnGroup_img.append($menuImg),
 
                 //代码
                 $btnGroup_code = $btnGroup.clone(),
                 codeModalId = idPrefix + 'codeModal',
-                $menuCode = $(btnTemp('插入代码', undefined, false, '#' + codeModalId, '<i class="icon-angle-left"></i>%<i class="icon-angle-right"></i>')),
+                $menuCode = $(btnTemp('插入代码', undefined, false, '#' + codeModalId, '<i class="fa fa-angle-left"></i>%<i class="fa fa-angle-right"></i>')),
                 _nodata = $btnGroup_code.append($menuCode),
 
                 //撤销、恢复
                 $btnGroup_undo = $btnGroup.clone(),
-                $menuUndo = $(btnTemp('撤销', 'icon-undo', false, false, false, 'Undo')),
-                $menuRedo = $(btnTemp('恢复', 'icon-repeat', false, false, false, 'Redo')),
+                $menuUndo = $(btnTemp('撤销', 'fa fa-undo', false, false, false, 'Undo')),
+                $menuRedo = $(btnTemp('恢复', 'fa fa-repeat', false, false, false, 'Redo')),
                 _nodata = $btnGroup_undo.append($menuUndo).append($menuRedo),
 
-                $menuToolbar = $('<div class="btn-toolbar"></div>'),
+                $menuToolbar = $('<div class="btn-toolbar" style="padding:5px;margin-top:0px;margin-bottom:0px;"></div>'),
                 _nodata = $menuToolbar.append($btnGroup_fontfamily)  //字体
                                       .append($btnGroup_fontsize) //字号
                                       .append($btnGroup_bold) //粗体、斜体、下划线
@@ -375,7 +362,7 @@
                                       .append($btnGroup_code) //代码
                                       .append($btnGroup_undo), //撤销、恢复
                 _nodata = $menuContainer.append($menuToolbar) //插入 menu toolbar
-                                        .find('button').tooltip({ container: 'body' }), //menu tooltip 效果
+                                        .find('button[title]').tooltip({ container: 'body' }), //menu tooltip 效果
                 //menu toolbar===================================================end
 
                 //menu modal===================================================start
@@ -392,8 +379,11 @@
                     strCheck(id);
                     strCheck(title);
 
-                    var i,
-                        modal = $('<div id="' + id + '" class="modal hide fade">'),
+                    var modal = $('<div id="' + id + '" class="modal fade" role="dialog">'),
+                        modalDialog = $('<div class="modal-dialog">'),
+                        _nodata = modal.append(modalDialog),
+                        modalContent = $('<div class="modal-content">'),
+                        _nodata = modalDialog.append(modalContent),
                         modalTitle = $(
                                         '<div class="modal-header">' +
                                         '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
@@ -403,27 +393,26 @@
                         modalBody = $('<div class="modal-body">'),
                         modalFooter = $('<div class="modal-footer">');
 
-                    modal.append(modalTitle);  //插入title
+                    modalContent.append(modalTitle);  //插入title
 
                     if (bodyContents && typeof bodyContents.length === 'number' && bodyContents.length > 0) {
-                        for (i = 0; i < bodyContents.length; i++) {
-                            modalBody.append(bodyContents[i]);
-                        }
-                        modal.append(modalBody); //插入body
+                        $.each(bodyContents, function (key, value) {
+                            modalBody.append(value);
+                        });
+                        modalContent.append(modalBody); //插入body
                     }
                     if (footerContents && typeof footerContents.length === 'number' && footerContents.length > 0) {
-                        for (i = 0; i < footerContents.length; i++) {
-                            modalFooter.append(footerContents[i]);
-                        }
-                        modal.append(modalFooter); //插入footer
+                        $.each(footerContents, function (key, value) {
+                            modalFooter.append(value);
+                        });
+                        modalContent.append(modalFooter); //插入footer
                     }
-
                     return modal;
                 },
 
                 //插入链接 modal
                 $linkModalBody_desc = $('<p>链接地址：</p>'),
-                $linkModalBody_txtUrl = $('<input type="text" placeholder="http(s)://" class="input-block-level"/>'),
+                $linkModalBody_txtUrl = $('<input type="text" placeholder="http(s)://" class="form-control"/>'),
                 linkModalBodyContents = [$linkModalBody_desc, $linkModalBody_txtUrl],
                 //$linkModalBody_target = $('<p>链接目标：</p>'),
                 //$linkModalBody_sltTarget = $('<select><option>_blank</option><option>_self</option></select>'),
@@ -457,7 +446,7 @@
 
                 //插入图片 modal
                 $imgModalBody_desc = $('<p>输入图片URL地址：</p>'),
-                $imgModalBody_txtUrl = $('<input type="text" placeholder="http(s)://" class="input-block-level"/>'),
+                $imgModalBody_txtUrl = $('<input type="text" placeholder="http(s)://" class="form-control"/>'),
                 imgModalBodyContents = [$imgModalBody_desc, $imgModalBody_txtUrl],
 
                 $imgModalFooter_save = $('<a href="#" class="btn btn-primary">插入</a>'),
@@ -475,7 +464,7 @@
                                                 .append($codeModalBody_langSlt)
                                                 .append($codeModalBody_themeLabel)
                                                 .append($codeModalBody_themeSlt),
-                $codeModalBody_text = $('<textarea rows="10" cols="50" style="width:95%"></textarea>'),
+                $codeModalBody_text = $('<textarea rows="10" class="form-control"></textarea>'),
                 codeModalBodyContents = [$codeModalBody_content, $codeModalBody_text],
 
                 $codeModalFooter_save = $('<a href="#" class="btn btn-primary">插入</a>'),
@@ -493,7 +482,7 @@
 
                 //iframe container==========================================start
                 iframeHeight = options.frameHeight,
-                $iframeContainer = $('<div style="width: 100%; height: ' + iframeHeight + '; border: 1px solid #cccccc;"></div>'),
+                $iframeContainer = $('<div style="width: 100%; height: ' + iframeHeight + ';"></div>'),
                 $iframe = $('<iframe frameborder="0" width="100%" height="100%"></iframe>'),
                 initStr = options.initStr,
                 _nodata = $iframeContainer.append($iframe),
@@ -512,28 +501,22 @@
             if (window.wangHighLighter) {
                 (function () {
                     var langArray = window.wangHighLighter.getLangArray(),
-                        langLength = langArray.length,
                         langOptionsArray = [],
                         themeArray = window.wangHighLighter.getThemeArray(),
-                        themeLength = themeArray.length,
-                        themeOptionsArray = [],
-                        i,
-                        item;
-
-                    for (i = 0; i < langLength; i++) {
-                        item = langArray[i];
-                        langOptionsArray.push('<option value="' + item + '">' + item + '</option>');
-                    }
+                        themeOptionsArray = [];
+                    $.each(langArray, function (key, value) {
+                        langOptionsArray.push('<option value="' + value + '">' + value + '</option>');
+                    });
                     $codeModalBody_langSlt.append($(langOptionsArray.join('')));
 
-                    for (i = 0; i < themeLength; i++) {
-                        item = themeArray[i];
-                        themeOptionsArray.push('<option value="' + item + '">' + item + '</option>');
-                    }
+                    $.each(themeArray, function (key, value) {
+                        themeOptionsArray.push('<option value="' + value + '">' + value + '</option>');
+                    });
                     $codeModalBody_themeSlt.append($(themeOptionsArray.join('')));
                 })();
             }
 
+            this.css({ border: '1px solid #cccccc' });
             //插入 $menuContainer
             this.append($menuContainer);
             //插入 $iframeContainer
@@ -651,6 +634,14 @@
                         $menuUnorderedList.removeClass('btn-primary');
                     }
                 }
+
+                //隐藏下拉框
+                $menuToolbar.find('.dropdown-menu').each(function () {
+                    var menu = $(this);
+                    if (menu.css('display') !== 'none') {
+                        menu.prev().dropdown('toggle');
+                    }
+                });
             }
             //监听函数
             function iframeListener(e) {
@@ -664,10 +655,8 @@
                     //只监听鼠标点击和[33, 34, 35, 36, 37, 38, 39, 40]这几个键，其他的不监听
                     return;
                 }
-
                 //更新菜单按钮的样式
                 updateMenuStyle();
-
                 //记录当前的选择内容
                 currentSelectionData = iframeDocument.getSelection().getRangeAt(0);
             }
@@ -728,8 +717,8 @@
             //插入链接
             $linkModalFooter_save.click(function (e) {
                 var selection = iframeDocument.getSelection(),
-                    url = $linkModalBody_txtUrl.val(),
-                    target = $linkModalBody_sltTarget.val();
+                    url = $linkModalBody_txtUrl.val();
+                    //target = $linkModalBody_sltTarget.val();
 
                 //恢复当前的选择内容（for IE,Opera）
                 if (selection && currentSelectionData) {

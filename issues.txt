@@ -4,3 +4,9 @@ IE无法删除插入的table
 link _blank
 
 初始化或者某个操作完毕后，光标自动对焦
+
+插入表格、代码快之后，无法用撤销操作
+
+插入视频
+
+functoin updateMenuStyle() 冗余代码太多，考虑进行封装

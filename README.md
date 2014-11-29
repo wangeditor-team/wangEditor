@@ -1,17 +1,17 @@
 wangEditor——基于bootstrap的富文本编辑器。
 引用bootstrap和jquery后，你可以用一句代码制作一个富文本编辑器。
-压缩后的wangEditor.min.js只有12KB！<br/>
-![](http://images.cnitblog.com/blog/138012/201411/121541234601981.png)  
+而且wangEditor可以插入代码、并高亮显示代码，这可是其他富文本编辑器没有的！<br/>
+![](http://images.cnitblog.com/blog/138012/201411/291354308872593.png)  
 
 1. 引用bootstrap和jQuery
 ===
 使用wangEditor首先需要在您的页面中引用`bootstrap`（以及`Font-Awesome`图标库）和`jQuery`，如果您的系统中没有以上库，可以直接在上面下载。
 ```html
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<link href="Font-Awesome-3.2.1/css/font-awesome.min.css" rel="stylesheet" />
+<link href="bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="fontawesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <script src="javascript/jquery-1.10.2.min.js" type="text/javascript"></script>
-<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="bootstrap-3.3.0/js/bootstrap.min.js" type="text/javascript"></script>
 ```
 
 2. 使用wangEditor
@@ -19,24 +19,25 @@ wangEditor——基于bootstrap的富文本编辑器。
 引用了`bootstrap`（以及`Font-Awesome`图标库）和`jQuery`之后，就可以使用wangEditor了。<br/>
 ```html
 <div id="divEditor"></div>
-<textarea id="txtCode" rows="5" cols="50" style="width:100%"></textarea>
+<textarea id="txtCode" rows="5" class="form-control"></textarea>
 
-<script src="javascript/wangEditor-1.0.2.min.js" type="text/javascript"></script>
+<script src="javascript/wangEditor-1.0.3.min.js" type="text/javascript"></script>
 <script type="text/javascript">
   $(function () {
     $('#divEditor').wangEditor({
-      codeTargetId: 'txtCode',              //将源码存储到txtCode
-      frameHeight: '200px',                 //默认值为“300px”
-      
-      //要显示在编辑器中的html源码（用于编辑）
-      initStr: '<p>欢迎使用<b>&lt;wangEditor&gt;</b>！请输入文字...</p>'  
+      $('#divEditor').wangEditor({
+            codeTargetId: 'txtCode',              //将源码存储到txtCode
+            frameHeight: '300px',                 //默认值为“300px”
+            smallBtn: true,                       //默认为false
+            initStr: '<p>欢迎使用<b>&lt;wangEditor&gt;</b>！请输入文字...</p>'    //要显示在编辑器中的html源码（用于编辑）
+       });
     });
   });
 </script>
 ```
 如以上代码：在html中加入一个div，一个textarea；引用wangEditor.min.js；然后执行一步绑定，即可使用wangEditor富文本编辑器！<br/>
 编辑器内容的源代码会自动保存到textarea中，可直接用javascript获取，通过ajax保存。如下图：<br/>
-![](http://images.cnitblog.com/blog/138012/201411/131356076006270.png)
+![](http://images.cnitblog.com/blog/138012/201411/291400162772608.png)
 
 3. 【插入代码】
 ===
@@ -47,8 +48,8 @@ wangEditor——基于bootstrap的富文本编辑器。
 <script src="js/wangHighLighter-1.0.0-min.js" type="text/javascript"></script>
 ```
 只需要这一步，wangEditor就可以拥有炫酷的代码高亮功能：
-![](http://images.cnitblog.com/blog/138012/201411/192103320781243.png)
-wangHighLighter.js支持20多种常用语言和7个常用主题风格。
+![](http://images.cnitblog.com/blog/138012/201411/291402452319968.png)
+wangHighLighter.js支持20多种常用语言和9个常用主题风格。
 
 4. 对于低版本浏览器
 ===

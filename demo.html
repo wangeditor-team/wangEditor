@@ -2,35 +2,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>demo</title>
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
-    <link href="Font-Awesome-3.2.1/css/font-awesome.min.css" rel="stylesheet" />
-    <style type="text/css">
-        body {
-            padding-top:30px;
-        }
-    </style>
+    <link href="bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="fontawesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
+        <h3>wangEditor demo</h3>
         <div id="divEditor"></div>
         <hr />
-        <textarea id="txtCode" rows="5" cols="50" style="width:100%;"></textarea>
+        <textarea id="txtCode" rows="5" class="form-control"></textarea>
     </div>
 
     <script src="javascript/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="bootstrap-3.3.0/js/bootstrap.min.js" type="text/javascript"></script>
 
     <script src="javascript/wangHighLighter-1.0.0-min.js" type="text/javascript"></script> <!--代码高亮插件 wangHighLighter.js-->
 
-    <!--<script src="javascript/wangEditor-1.0.2.js" type="text/javascript"></script>-->
-    <script src="javascript/wangEditor-1.0.2.min.js" type="text/javascript"></script>
+    <!--<script src="javascript/wangEditor-1.0.3.js" type="text/javascript"></script>-->
+    <script src="javascript/wangEditor-1.0.3.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
             $('#divEditor').wangEditor({
                 codeTargetId: 'txtCode',              //将源码存储到txtCode
                 frameHeight: '300px',                 //默认值为“300px”
-
+                smallBtn: true,                       //默认为false
                 //要显示在编辑器中的html源码（用于编辑）
                 initStr: '<p>欢迎使用<b>&lt;wangEditor&gt;</b>！请输入文字...</p>'   
             });
