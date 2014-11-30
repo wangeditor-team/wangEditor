@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>demo</title>
+    <title>wangEditor demo</title>
     <link href="bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet" />
     <link href="fontawesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
 </head>
@@ -24,10 +24,9 @@
         $(function () {
             $('#divEditor').wangEditor({
                 codeTargetId: 'txtCode',              //将源码存储到txtCode
-                frameHeight: '300px',                 //默认值为“300px”
+                frameHeight: '200px',                 //默认值为“300px”
                 smallBtn: true,                       //默认为false
-                //要显示在编辑器中的html源码（用于编辑）
-                initStr: '<p>欢迎使用<b>&lt;wangEditor&gt;</b>！请输入文字...</p>'   
+                initStr: '<p>欢迎使用<b>&lt;wangEditor&gt;</b>！请输入文字...</p>'    //要显示在编辑器中的html源码（用于编辑）
             });
         });
     </script>

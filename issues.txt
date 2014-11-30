@@ -9,4 +9,4 @@ link _blank
 
 插入视频
 
-functoin updateMenuStyle() 冗余代码太多，考虑进行封装
+深入理解《高程》中关于selection 和 range 的知识

@@ -7,7 +7,7 @@
 (function (window, $, undefined) {
     //检查jQuery
     if (!$) {
-        throw new Error('wangEditor: 找不到window.jQuery（即参数 $），请检查是否引用了jQuery！')
+        throw new Error('wangEditor: 找不到window.jQuery（即参数 $），请检查是否引用了jQuery！');
     }
     var
         //核心函数
@@ -31,7 +31,7 @@
         */
         coreFn = function (options) {
             //用options覆盖defaultOptions
-            options = $.extend(defaultOptions, options)
+            options = $.extend(defaultOptions, options);
             var initStr = options.initStr,
                 height = options.frameHeight,
                 $target = (options.codeTargetId && typeof options.codeTargetId === 'string') ? $('#' + options.codeTargetId) : false,
@@ -71,20 +71,16 @@
 
             //插入txt和说明
             this.append($lowBrowserInfo).append($txt);
-        }
-    }
-    else {
+        };
+    } else {
         //IE9+继续往下执行：
-        var i,
-            //id前缀，避免和其他id冲突
-            idPrefix = 'wangeditor_' + Math.random().toString().replace('.', '') + '_',
+        var idPrefix = 'wangeditor_' + Math.random().toString().replace('.', '') + '_',
 
             //-----------------------字体、字号、颜色配置---------------------start
             //字体配置
             fontFamilyOptionsLiStr = (function () {
                 var temp = '<li><a href="#" style="font-family:${0}">${1}</a></li>',
                     options = ['宋体', '黑体', '楷体', '隶书', '幼圆', '微软雅黑', 'Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'],
-                    length = options.length,
                     str = (function () {
                         var arr = [];
                         $.each(options, function (key, value) {
@@ -105,14 +101,14 @@
                 '#000080': '深蓝色',
                 '#0000ff': '蓝色',
                 '#00ffff': '湖蓝色',
-                '#008080':'蓝绿色',
-                '#008000':'绿色',
-                '#808000':'橄榄色',
-                '#00ff00':'浅绿色',
-                '#ffcc00':'橙黄色',
-                '#808080':'灰色',
-                '#c0c0c0':'银色',
-                '#000000':'黑色'
+                '#008080': '蓝绿色',
+                '#008000': '绿色',
+                '#808000': '橄榄色',
+                '#00ff00': '浅绿色',
+                '#ffcc00': '橙黄色',
+                '#808080': '灰色',
+                '#c0c0c0': '银色',
+                '#000000': '黑色'
             },
             colorOptionsLiStr = (function () {
                 var temp = '<li><a href="#" style="color:${0};">${1}</a></li>',
@@ -493,6 +489,7 @@
                 $iframeDocument,
                 $codeTarget = (options.codeTargetId && typeof options.codeTargetId === 'string') ? $('#' + options.codeTargetId) : false,  //代码存储的目标（通过 $(options.codeTargetId) 获取）
                 execCommand,
+                insertData,
 
                 currentSelectionData; //记录当前选择的内容，有时需要恢复
             //iframe container==========================================end
@@ -547,6 +544,13 @@
             });
             execCommand = function (command, b, value) {
                 iframeDocument.execCommand(command, b, value);
+                updateMenuStyle(command);
+                saveIframeCode();
+            };
+            insertData = function ($currentElem, $insertElem) {
+                $currentElem.after($insertElem);
+                updateMenuStyle();
+                saveIframeCode();
             };
 
             //获取iframe中的代码，保存到options.codeTargetId中
@@ -562,79 +566,29 @@
 
             //失去焦点时，及时记录文字内容
             $iframeWindow.blur(saveIframeCode);
+            //获取焦点时，保存选中内容
+            $iframeWindow.focus(saveSelection);
             //配置 iframe ==================================end
 
 
-            //监听选中文字的样式=============================start
+            //操作准备工作=============================start
             //根据鼠标焦点，动态设置菜单按钮的样式
             function updateMenuStyle(command) {
                 if (typeof command === 'string') {
                     command = command.toLowerCase();
                 }
-                //是否加粗
-                if (command === 'bold' || command === undefined) {
-                    if (iframeDocument.queryCommandState('bold')) {
-                        $menuBold.addClass('btn-primary');
-                    } else {
-                        $menuBold.removeClass('btn-primary');
+                //针对 button[singleCommandName] 单参数操作的菜单
+                $menuToolbar.find('button[singleCommandName]').each(function () {
+                    var $this = $(this),
+                        thisCommand = $this.attr('singleCommandName');
+                    if (command === thisCommand || command === undefined) {
+                        if (iframeDocument.queryCommandState(thisCommand)) {
+                            $this.addClass('btn-primary');
+                        } else {
+                            $this.removeClass('btn-primary');
+                        }
                     }
-                }
-                //是否斜体
-                if (command === 'italic' || command === undefined) {
-                    if (iframeDocument.queryCommandState('italic')) {
-                        $menuItalic.addClass('btn-primary');
-                    } else {
-                        $menuItalic.removeClass('btn-primary');
-                    }
-                }
-                //是否下划线
-                if (command === 'underline' || command === undefined) {
-                    if (iframeDocument.queryCommandState('underline')) {
-                        $menuUnderline.addClass('btn-primary');
-                    } else {
-                        $menuUnderline.removeClass('btn-primary');
-                    }
-                }
-                //是否左对齐
-                if (command === 'JustifyLeft' || command === undefined) {
-                    if (iframeDocument.queryCommandState('JustifyLeft')) {
-                        $menuAlignLeft.addClass('btn-primary');
-                    } else {
-                        $menuAlignLeft.removeClass('btn-primary');
-                    }
-                }
-                //是否居中
-                if (command === 'JustifyCenter' || command === undefined) {
-                    if (iframeDocument.queryCommandState('JustifyCenter')) {
-                        $menuAlignCenter.addClass('btn-primary');
-                    } else {
-                        $menuAlignCenter.removeClass('btn-primary');
-                    }
-                }
-                //是否右对齐
-                if (command === 'JustifyRight' || command === undefined) {
-                    if (iframeDocument.queryCommandState('JustifyRight')) {
-                        $menuAlignRight.addClass('btn-primary');
-                    } else {
-                        $menuAlignRight.removeClass('btn-primary');
-                    }
-                }
-                //是否是列表
-                if (command === 'InsertOrderedList' || command === undefined) {
-                    if (iframeDocument.queryCommandState('InsertOrderedList')) {
-                        $menuOrderedList.addClass('btn-primary');
-                    } else {
-                        $menuOrderedList.removeClass('btn-primary');
-                    }
-                }
-                if (command === 'InsertUnorderedList' || command === undefined) {
-                    if (iframeDocument.queryCommandState('InsertUnorderedList')) {
-                        $menuUnorderedList.addClass('btn-primary');
-                    } else {
-                        $menuUnorderedList.removeClass('btn-primary');
-                    }
-                }
-
+                });
                 //隐藏下拉框
                 $menuToolbar.find('.dropdown-menu').each(function () {
                     var menu = $(this);
@@ -643,38 +597,75 @@
                     }
                 });
             }
-            //监听函数
-            function iframeListener(e) {
+            //获取选中的元素
+            function getSelectedElem() {
+                restoreSelection();
+                var selection = iframeDocument.getSelection();
+                return selection.focusNode;
+            }
+            //获取当前选中的范围
+            function getCurrentRange() {
+                var selection = iframeWindow.getSelection();
+                if (selection.getRangeAt && selection.rangeCount) {
+                    return selection.getRangeAt(0);
+                }
+            }
+            //保存当前选中的范围
+            function saveSelection() {
+                currentSelectionData = getCurrentRange();
+            }
+            //恢复选中内容
+            function restoreSelection() {
+                var selection = iframeWindow.getSelection();
+                if (currentSelectionData) {
+                    try {
+                        selection.removeAllRanges();
+                    } catch (ex) {
+                        var textRange = iframeDocument.body.createTextRange();
+                        textRange.select();
+                        iframeDocument.selection.empty();
+                    }
+                    selection.addRange(currentSelectionData);
+                }
+            }
+            //查找可插入table的元素（父元素是body的元素）
+            function getElemForInsertTable(elem) {
+                if (elem.parentNode.nodeName.toLowerCase() === 'body') {
+                    return $(elem);
+                } else if (elem.nodeName.toLowerCase() === 'body') {
+                    return $(elem).children().last();
+                } else {
+                    return getElemForInsertTable(elem.parentNode);
+                }
+            }
+            //操作准备工作=============================end
+
+
+            //菜单操作 =========================================start
+            //鼠标、键盘
+            $iframeDocument.on('click keyup', function (e) {
                 var eType = e.type,
                     kCode = e.keyCode,
                     keyForMoveCursor = false,
-                    kCodes = [33, 34, 35, 36, 37, 38, 39, 40];
+                    kCodes = [33, 34, 35, 36, 37, 38, 39, 40, 8, 46];
 
                 keyForMoveCursor = (eType === 'keyup') && (kCodes.indexOf(kCode) !== -1);
                 if (eType !== 'click' && !keyForMoveCursor) {
-                    //只监听鼠标点击和[33, 34, 35, 36, 37, 38, 39, 40]这几个键，其他的不监听
+                    //只监听鼠标点击和[33, 34, 35, 36, 37, 38, 39, 40, 8, 46]这几个键，其他的不监听
                     return;
                 }
                 //更新菜单按钮的样式
                 updateMenuStyle();
-                //记录当前的选择内容
-                currentSelectionData = iframeDocument.getSelection().getRangeAt(0);
-            }
-            //添加监听事件
-            $iframeDocument.click(iframeListener);
-            $iframeDocument.keyup(iframeListener);
-            //监听选中文字的样式=============================end
-
-
-            //菜单操作 =========================================start
+                //保存当前选中的范围
+                saveSelection();
+            });
             //单参数的execCommand操作
-            $menuToolbar.find('button').each(function () {
+            $menuToolbar.find('button[singleCommandName]').each(function () {
                 var $this = $(this),
                     command = $this.attr('singleCommandName');
                 if (command) {
                     $this.click(function () {
                         execCommand(command);
-                        updateMenuStyle(command);
                     });
                 }
             });
@@ -716,15 +707,11 @@
             });
             //插入链接
             $linkModalFooter_save.click(function (e) {
-                var selection = iframeDocument.getSelection(),
-                    url = $linkModalBody_txtUrl.val();
+                var url = $linkModalBody_txtUrl.val();
                     //target = $linkModalBody_sltTarget.val();
 
-                //恢复当前的选择内容（for IE,Opera）
-                if (selection && currentSelectionData) {
-                    selection.removeAllRanges();
-                    selection.addRange(currentSelectionData);
-                }
+                //恢复选中内容
+                restoreSelection();
 
                 execCommand('createLink', false, url);
                 e.preventDefault();
@@ -732,8 +719,7 @@
             });
             //插入表格
             $tableModalFooter_save.click(function (e) {
-                var selection = iframeDocument.getSelection(),
-                    $elem,
+                var $elem,
 
                     //获取基本配置
                     rowNum = $tableModalBody_rowNum.val(),
@@ -770,37 +756,24 @@
                 }
                 table = tableTemp.replace('${content}', trArray.join(''));
 
-                //恢复当前的选择内容（for IE,Opera）
-                if (selection && currentSelectionData) {
-                    selection.removeAllRanges();
-                    selection.addRange(currentSelectionData);
-
-                    //定位在哪个elem后面插入table
-                    if (selection.focusNode.nodeType === 3) {
-                        $elem = $(selection.focusNode.parentNode);
-                    } else {
-                        $elem = $(selection.focusNode);
-                    }
+                $elem = getSelectedElem();
+                if ($elem) {
+                    $elem = getElemForInsertTable($elem);
                     //插入代码
                     if ($elem.next().length === 0) {
                         table += '<p>&nbsp;</p>';
                     }
-                    $elem.after($(table));
+                    insertData($elem, $(table));
                 }
-
                 e.preventDefault();
                 $tableModal.modal('hide');
             });
             //插入图片
             $imgModalFooter_save.click(function (e) {
-                var selection = iframeDocument.getSelection(),
-                    url = $imgModalBody_txtUrl.val();
+                var url = $imgModalBody_txtUrl.val();
 
-                //恢复当前的选择内容（for IE,Opera）
-                if (selection && currentSelectionData) {
-                    selection.removeAllRanges();
-                    selection.addRange(currentSelectionData);
-                }
+                //恢复当前的选择内容
+                restoreSelection();
 
                 execCommand('insertImage', false, url);
                 e.preventDefault();
@@ -808,8 +781,7 @@
             });
             //插入代码
             $codeModalFooter_save.click(function (e) {
-                var selection = iframeDocument.getSelection(),
-                    $elem,
+                var $elem,
                     lang = $codeModalBody_langSlt.val(),
                     theme = $codeModalBody_themeSlt.val(),
                     code = $codeModalBody_text.val();
@@ -819,30 +791,19 @@
                     throw new Error('未引用wangHighLighter.js，无法格式化代码...');
                     return;
                 }
-                code = window.wangHighLighter.highLight(lang, theme, code);
-                //恢复当前的选择内容（for IE,Opera）
-                if (selection && currentSelectionData) {
-                    selection.removeAllRanges();
-                    selection.addRange(currentSelectionData);
+                code = window.wangHighLighter.highLight(lang, theme, code);  //代码格式化、高亮处理
 
-                    //定位在哪个elem后面插入code表格
-                    if (selection.focusNode.nodeType === 3) {
-                        $elem = $(selection.focusNode.parentNode);
-                    } else {
-                        $elem = $(selection.focusNode);
-                    }
+                $elem = getSelectedElem();
+                if ($elem) {
+                    $elem = getElemForInsertTable($elem);
                     //插入代码
                     if ($elem.next().length === 0) {
                         code += '<p>&nbsp;</p>';
                     }
-                    $elem.after($(code));
+                    insertData($elem, $(code));
                 }
                 e.preventDefault();
                 $codeModal.modal('hide');
-            });
-            //每个菜单按钮点击时，都随时记录源码
-            $menuContainer.click(function () {
-                saveIframeCode();
             });
             //菜单操作 =========================================end
         }
