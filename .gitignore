@@ -1,4 +1,11 @@
-test.html
+
+issues.txt
+
+test1.html
+test2.html
+test3.html
+test4.html
+
 
 # Windows image file caches
 Thumbs.db
@@ -28,7 +35,8 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*

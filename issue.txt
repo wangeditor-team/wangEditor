@@ -1,0 +1,21 @@
+﻿
+IE6、7撤销有问题
+IE6、7插入图片有问题
+
+处理那些硬编码的数字，例如 height = height - $btnContainer.height() - $statusDiv.height() - 11;
+
+
+IE无法删除table
+
+link _blank
+
+插入视频
+
+h1-h6 标题
+
+插入表格、代码块之后，无法用撤销操作
+
+全屏
+
+（完整版、mini版、移动版）
+（自动定期保存）

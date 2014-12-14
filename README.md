@@ -1,61 +1,61 @@
-wangEditor——基于bootstrap的富文本编辑器。
-引用bootstrap和jquery后，你可以用一句代码制作一个富文本编辑器。
-而且wangEditor可以插入代码、并高亮显示代码，这可是其他富文本编辑器没有的！<br/>
-![](http://images.cnitblog.com/blog/138012/201411/291354308872593.png)  
+<b>wangEditor——最轻量化web富文本框！9kb_javascript + 2kb_css</b><br/>
+1.1.0版本是经过作者一次彻底的重构的升版，本次重构放弃了bootstrap，同时兼容IE6-IE8，继续使用font-awesome作为字体库。<br />
+另外，本次重构是的wangEditor更具有扩展性，使用者可以通过传入自己的配置，来增加wangEditor的功能。<br/>
+最后，应用变得更加简单，一句代码搞定！
+![](http://images.cnitblog.com/blog/138012/201412/142206280875973.png)  
 
-1. 引用bootstrap和jQuery
+1. 引用font-awesome和jQuery
 ===
-使用wangEditor首先需要在您的页面中引用`bootstrap`（以及`Font-Awesome`图标库）和`jQuery`，如果您的系统中没有以上库，可以直接在上面下载。
+（初次听说font-awesome的同志们请参见[《请用fontAwesome代替网页icon小图标》](http://www.cnblogs.com/wangfupeng1988/p/4129500.html)）<br />
+使用wangEditor首先需要在您的页面中引用`Font-Awesome`图标库和`jQuery`，
+如果您的系统中没有以上库，可以直接在上面下载。
 ```html
-<link href="bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet" />
-<link href="fontawesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+<!--引入 fontawesom-4.2.0-->
+<link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome.min.css">
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome-ie7.min.css">
+<![endif]-->
 
-<script src="javascript/jquery-1.10.2.min.js" type="text/javascript"></script>
-<script src="bootstrap-3.3.0/js/bootstrap.min.js" type="text/javascript"></script>
+<!--引用jquery-->
+<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
 ```
 
 2. 使用wangEditor
 ===
-引用了`bootstrap`（以及`Font-Awesome`图标库）和`jQuery`之后，就可以使用wangEditor了。<br/>
+应用wangEditor非常简单，直接看代码即可。<br/>
 ```html
-<div id="divEditor"></div>
-<textarea id="txtCode" rows="5" class="form-control"></textarea>
+<!--引入wangEditor.css-->
+<link rel="stylesheet" type="text/css" href="css/wangEditor-1.1.0-min.css">
 
-<script src="javascript/wangEditor-1.0.3.min.js" type="text/javascript"></script>
+<!--定义一个div，作为容器-->
+<!--其中，div的高度即容器的高度，div其中的内容即富文本框默认显示的内容，o(∩_∩)o -->
+<div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
+    <p>请输入内容...</p>
+</div>
+
+<!--引入 wangEditor.min.js-->
+<script type="text/javascript" src='js/wangEditor-1.1.0-min.js'></script>
 <script type="text/javascript">
   $(function () {
-    $('#divEditor').wangEditor({
-      $('#divEditor').wangEditor({
-            codeTargetId: 'txtCode',              //将源码存储到txtCode
-            frameHeight: '300px',                 //默认值为“300px”
-            smallBtn: true,                       //默认为false
-            initStr: '<p>欢迎使用<b>&lt;wangEditor&gt;</b>！请输入文字...</p>'    //要显示在编辑器中的html源码（用于编辑）
-       });
-    });
+    //一键设置，返回一个jquery对象
+    var $editor = $('#txtDiv').wangEditor();
+
+    //其实，返回的 $editor 就是一个jquery对象，例如：
+    //var html = $editor.html();  //获取富文本框的html内容
+    //var text = $editor.text();  //获取富文本框的text内容
+    //$editor.height(400);  //设置富文本框的高度
+    //自由发挥吧。。。 
   });
 </script>
 ```
-如以上代码：在html中加入一个div，一个textarea；引用wangEditor.min.js；然后执行一步绑定，即可使用wangEditor富文本编辑器！<br/>
-编辑器内容的源代码会自动保存到textarea中，可直接用javascript获取，通过ajax保存。如下图：<br/>
-![](http://images.cnitblog.com/blog/138012/201411/291400162772608.png)
 
 3. 【插入代码】
 ===
-从wangEditor1.0.2版本开始，应用wangHighLighter.js实现代码高亮功能。wangHighLighter.js是一个单独的代码高亮插件，具体应用可参见[https://github.com/wangfupeng1988/wangHighLighter](https://github.com/wangfupeng1988/wangHighLighter)
-<br>
-因此，需要在页面中引用wangHighLighter.js：
-```html
-<script src="js/wangHighLighter-1.0.0-min.js" type="text/javascript"></script>
-```
-只需要这一步，wangEditor就可以拥有炫酷的代码高亮功能：
-![](http://images.cnitblog.com/blog/138012/201411/291402452319968.png)
-wangHighLighter.js支持20多种常用语言和9个常用主题风格。
+关于如何用 [wangHighLighter.js](https://github.com/wangfupeng1988/wangHighLighter) 来实现代码高亮，作者将在今日发布并更新。暂时不要着急先！
 
-4. 对于低版本浏览器
+4. 自定义扩展
 ===
-由于bootstrap已经不支持IE8及以下版本浏览器。因此，对于IE8及以下版本浏览器，wangEditor会自动识别，并屏蔽掉富文本编辑功能，只保留简单的编辑框功能。<br/>
-编辑器内容的源代码也会自动保存到textarea中，可直接用javascript获取，通过ajax保存。如下图：<br/>
-![](http://images.cnitblog.com/blog/138012/201411/102058247884176.png)
+1.1.0版本的重构，作者考虑到了如何让使用者自己扩展wangEditor功能。作者将会尽快通过两个非常使用的功能来讲解如何扩展：第一，插入代码；第二，上传图片！敬请期待吧！
 
 4. 交流
 ===

@@ -1,0 +1,151 @@
+.wangEditor div[contenteditable=true]:focus { 
+    outline: none; 
+}
+.wangEditor .clear-both{
+    clear: both;
+}
+
+.wangEditor .btn-container{
+    padding:5px 3px 0px 3px;
+}
+.wangEditor .btn-container .line{
+    border-top:1px solid #cccccc; 
+    margin:5px 5px 0px 5px;
+}
+.wangEditor .btn-container .split{
+    width: 0px;
+    height: 20px;
+    border-left: 1px solid #cccccc;
+    float: left;;
+    margin: 0px 5px 0px 5px;
+}
+.wangEditor .btn-container .btn {
+    font-size: 14px;
+    display: block;
+    width:20px;
+    padding: 2px;
+    margin-left: 2px;
+    text-align: center;
+    float: left;
+    text-decoration: none;
+    cursor:pointer;
+}
+.wangEditor .btn-container .btn:hover{
+    background-color: #f1f1f1;
+    -moz-border-radius: 3px;   
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+.wangEditor .btn-container .btn-default{
+    color: #505050;
+}
+.wangEditor .btn-container .btn-selected{
+    background-color:#aec5e6;
+    -moz-border-radius: 3px;   
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+.wangEditor .btn-container .btn-drop{
+    width: 26px;
+}
+
+.wangEditor .drop-menu{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid #cccccc;
+    width: 100px;
+    background-color: #ffffff;
+    position: absolute;
+    display: none;
+}
+.wangEditor .drop-menu li{
+    margin: 0px;
+    padding: 0px;
+}
+.wangEditor .drop-menu li a{
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: #333333;
+    padding: 3px 3px 3px 3px;
+}
+.wangEditor .drop-menu li a:hover{
+    background-color: #d5e1f2;
+}
+
+.wangEditor .toolTip{
+    position: absolute;
+    display: none;
+}
+.wangEditor .toolTip .content{
+    text-align: center;
+    background-color: #505050;
+    color: #fff;
+    font-size: 13px;
+    padding: 5px;
+    -moz-border-radius: 3px;   
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+.wangEditor .toolTip .footer{
+    margin-top: -7px;
+    text-align: center;
+    color: #505050;
+}
+
+.wangEditor .mask{
+    position: absolute;
+    top: 0px;
+    left:0px;
+    display: none;
+    background-color:#cccccc;
+    filter:alpha(opacity=50);  /* 透明度50% */
+    -moz-opacity:0.5; 
+    opacity:0.5;
+}
+.wangEditor .modal{
+    border:5px solid #cccccc;
+    background-color: #ffffff;
+    padding: 5px 10px 10px 10px;
+    position: absolute;
+    display: none;
+    width: 600px;
+}
+.wangEditor .modal-big{
+    width: 800px;
+}
+.wangEditor .modal-small{
+    width: 400px;
+}
+.wangEditor .modal-mini{
+    width: 200px;
+}
+.wangEditor .modal .header .close{
+    display:block;
+    width: 16px;
+    float: right;
+    color: #333333;
+    text-decoration: none;
+    cursor: pointer;
+} 
+.wangEditor .modal .header .line{
+    border-top:1px solid #cccccc; 
+    margin:5px 0px 5px 0px;
+}
+
+.wangEditor .textarea{
+    margin:0px 8px 0px 8px; 
+    overflow-y: scroll;
+}
+.wangEditor .textarea p{
+    margin: 10px 0px 10px 0px;
+}
+
+.wangEditor .status{
+    background-color: #f1f1f1;
+    padding: 3px 5px 3px 5px;
+    font-size: 13px;
+    color:#505050;
+    display: none;
+}

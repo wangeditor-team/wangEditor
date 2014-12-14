@@ -1,32 +1,68 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>wangEditor demo</title>
-    <link href="bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="fontawesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+    <title>wangEditor DEMO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!--引入 fontawesom-4.2.0-->
+    <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome.min.css">
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome-ie7.min.css">
+    <![endif]-->
+
+    <!--引入wangEditor.css-->
+    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.1.0-min.css">
+
+    <style type="text/css">
+        body{
+            padding: 0px 10px 0px 10px;
+            color:#333333;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h3>wangEditor demo</h3>
-        <div id="divEditor"></div>
-        <hr />
-        <textarea id="txtCode" rows="5" class="form-control"></textarea>
+
+    <h1>wangEditor demo</h1>
+
+    <div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
+        <p>请输入内容...</p>
     </div>
 
-    <script src="javascript/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <script src="bootstrap-3.3.0/js/bootstrap.min.js" type="text/javascript"></script>
+    <div style='margin-top:10px;'>
+        <button id='btnHtml'>查看html</button>
+        <button id='btnText'>查看text</button>
+        <button id='btnHide'>隐藏</button>
+        <textarea id='textarea' style='width:100%; height:100px; margin-top:10px;'></textarea>
+    </div>
 
-    <script src="javascript/wangHighLighter-1.0.0-min.js" type="text/javascript"></script> <!--代码高亮插件 wangHighLighter.js-->
+    <!--引入 jquery.js-->
+    <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
 
-    <!--<script src="javascript/wangEditor-1.0.3.js" type="text/javascript"></script>-->
-    <script src="javascript/wangEditor-1.0.3.min.js" type="text/javascript"></script>
+    <!--引入 wangEditor.js-->
+    <script type="text/javascript" src='js/wangEditor-1.1.0-min.js'></script>
     <script type="text/javascript">
-        $(function () {
-            $('#divEditor').wangEditor({
-                codeTargetId: 'txtCode',              //将源码存储到txtCode
-                frameHeight: '200px',                 //默认值为“300px”
-                smallBtn: true,                       //默认为false
-                initStr: '<p>欢迎使用<b>&lt;wangEditor&gt;</b>！请输入文字...</p>'    //要显示在编辑器中的html源码（用于编辑）
+        $(function(){
+            $('#spanTime').text((new Date()).toString());
+
+            //一键设置，返回一个jquery对象
+            var $editor = $('#txtDiv').wangEditor();
+
+            //显示 html / text
+            var $textarea = $('#textarea'),
+                $btnHtml = $('#btnHtml'),
+                $btnText = $('#btnText'),
+                $btnHide = $('#btnHide');
+            $textarea.hide();
+            $btnHtml.click(function(){
+                $textarea.show();
+                $textarea.val( $editor.html() );
+            });
+            $btnText.click(function(){
+                $textarea.show();
+                $textarea.val( $editor.text() );
+            });
+            $btnHide.click(function(){
+                $textarea.hide();
             });
         });
     </script>
