@@ -1,4 +1,4 @@
-<b>wangEditor——最轻量化web富文本框！9kb_javascript + 2kb_css</b><br/>
+<b>wangEditor——最轻量化web富文本框！</b>（9kb_javascript + 2kb_css）<br/>
 1.1.0版本是经过作者一次彻底的重构的升版，本次重构放弃了bootstrap，同时兼容IE6-IE8，继续使用font-awesome作为字体库。<br />
 另外，本次重构是的wangEditor更具有扩展性，使用者可以通过传入自己的配置，来增加wangEditor的功能。<br/>
 最后，应用变得更加简单，一句代码搞定！
@@ -37,10 +37,10 @@
 <script type="text/javascript" src='js/wangEditor-1.1.0-min.js'></script>
 <script type="text/javascript">
   $(function () {
-    //一键设置，返回一个jquery对象
+    //一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
     var $editor = $('#txtDiv').wangEditor();
 
-    //其实，返回的 $editor 就是一个jquery对象，例如：
+    //其实，返回的 $editor 就是一个jquery对象，你可以这样用：
     //var html = $editor.html();  //获取富文本框的html内容
     //var text = $editor.text();  //获取富文本框的text内容
     //$editor.height(400);  //设置富文本框的高度
@@ -55,7 +55,7 @@
 
 4. 自定义扩展
 ===
-1.1.0版本的重构，作者考虑到了如何让使用者自己扩展wangEditor功能。作者将会尽快通过两个非常使用的功能来讲解如何扩展：第一，插入代码；第二，上传图片！敬请期待吧！
+1.1.0版本的重构，作者考虑到了如何让使用者自定义扩展wangEditor功能。作者将会尽快通过两个非常使用的功能来讲解如何扩展：第一，插入代码；第二，上传图片！敬请期待吧！
 
 4. 交流
 ===
