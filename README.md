@@ -2,7 +2,7 @@
 1.1.0版本是经过作者一次彻底的重构的升版，本次重构放弃了bootstrap，同时兼容IE6-IE8，继续使用font-awesome作为字体库。<br />
 另外，本次重构是的wangEditor更具有扩展性，使用者可以通过传入自己的配置，来增加wangEditor的功能。<br/>
 最后，应用变得更加简单，一句代码搞定！
-![](http://images.cnitblog.com/blog/138012/201412/142206280875973.png)  
+![](http://images.cnitblog.com/blog/138012/201412/142232053847159.png)  
 
 1. 引用font-awesome和jQuery
 ===
