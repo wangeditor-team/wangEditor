@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>wangEditor DEMO</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8">
 
     <!--引入 fontawesom-4.2.0-->
     <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome.min.css">
@@ -45,6 +45,7 @@
             $('#spanTime').text((new Date()).toString());
 
             //一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
+            //其实返回的 $editor 就是一个jquery对象，可以进行任何jquery的操作，例如 $editor.html() ， $editor.text()
             var $editor = $('#txtDiv').wangEditor();
 
             //显示 html / text

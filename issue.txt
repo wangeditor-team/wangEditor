@@ -1,10 +1,10 @@
 ﻿
-IE6、7撤销有问题
-IE6、7插入图片有问题
+IE6、7插入图片有问题，能插入，但是报错误
+IE6、7、8中，每个元素都加入了一个id，怀疑跟 $txt.attr('id', getUniqeId()); 有关
 
 处理那些硬编码的数字，例如 height = height - $btnContainer.height() - $statusDiv.height() - 11;
 
-
+自定义的command无法撤销
 IE无法删除table
 
 link _blank
@@ -13,9 +13,14 @@ link _blank
 
 h1-h6 标题
 
-插入表格、代码块之后，无法用撤销操作
-
 全屏
+
+modal 应该能自定义大小
+
+注意检查插入链接、插入图片、插入表格等的callback是否有效？？
+
+考虑如何让用户自定义按钮的顺序？？？
+
 
 （完整版、mini版、移动版）
 （自动定期保存）

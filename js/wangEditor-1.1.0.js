@@ -1,3 +1,8 @@
+/*
+* wangEditor 1.1.0 
+* 王福朋
+* 2014-12-14
+*/
 (function (window, undefined) {
 	//验证jQuery
     if (!window.jQuery) {
@@ -6,60 +11,66 @@
     var document = window.document,
 		$ = window.jQuery,
 		supportRange = typeof document.createRange === 'function',
-	    defaultHeight = 100,
 	    menus,  //存储菜单配置
-		currentRange,      //记录当前选中范围
+		currentRange, parentElem,   //记录当前选中范围，及公共父元素
+
         $txt = $('<div contenteditable="true" class="textarea" ></div>'),  //编辑区
         $btnContainer = $('<div class="btn-container"></div>'), //菜单容器
         $maskDiv = $('<div class="mask"></div>'),  //遮罩层
         $modalContainer = $('<div></div>'),  //modal容器
         $allMenusWithCommandName,
 
-        commandHooks, 
+        commandHooks, //自定义命令
+        commandRecords = [], //命令记录
+        commandRecordCursor = 0, //命令记录中的当前游标位置
+        comandRecordMaxLength = 20, //最大长度
+
         idPrefix = 'wangeditor_' + Math.random().toString().replace('.', '') + '_',
         id = 1,
 
-        //基本配置
-        basicConfig = {
-            fontFamilyOptions: ['宋体', '黑体', '楷体', '隶书', '幼圆', '微软雅黑', 'Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'],
-            colorOptions: {
-                '#880000': '暗红色',
-                '#800080': '紫色',
-                '#ff0000': '红色',
-                '#ff00ff': '鲜粉色',
-                '#000080': '深蓝色',
-                '#0000ff': '蓝色',
-                '#00ffff': '湖蓝色',
-                '#008080': '蓝绿色',
-                '#008000': '绿色',
-                '#808000': '橄榄色',
-                '#00ff00': '浅绿色',
-                '#ffcc00': '橙黄色',
-                '#808080': '灰色',
-                '#c0c0c0': '银色',
-                '#000000': '黑色'
-            },
-            fontsizeOptions: {
-                1: '10px',
-                2: '13px',
-                3: '16px',
-                4: '19px',
-                5: '22px',
-                6: '25px',
-                7: '28px'
-            }
-        };
+        basicConfig;  //基本配置（字体、颜色、字号）
 
     //获取唯一ID
     function getUniqeId () {
         return idPrefix + '_' + (id++);
     }
 
-	//selection range 相关事件
+    //--------------------基本配置--------------------
+    basicConfig = {
+        fontFamilyOptions: ['宋体', '黑体', '楷体', '隶书', '幼圆', '微软雅黑', 'Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'],
+        colorOptions: {
+            '#880000': '暗红色',
+            '#800080': '紫色',
+            '#ff0000': '红色',
+            '#ff00ff': '鲜粉色',
+            '#000080': '深蓝色',
+            '#0000ff': '蓝色',
+            '#00ffff': '湖蓝色',
+            '#008080': '蓝绿色',
+            '#008000': '绿色',
+            '#808000': '橄榄色',
+            '#00ff00': '浅绿色',
+            '#ffcc00': '橙黄色',
+            '#808080': '灰色',
+            '#c0c0c0': '银色',
+            '#000000': '黑色'
+        },
+        fontsizeOptions: {
+            1: '10px',
+            2: '13px',
+            3: '16px',
+            4: '19px',
+            5: '22px',
+            6: '25px',
+            7: '28px'
+        }
+    };
+
+	//--------------------selection range 相关事件--------------------
     function getCurrentRange() {
         var selection,
             range,
-            parentElem,
+            _parentElem,
             txt = $txt[0];
         //获取选中区域
         if(supportRange){
@@ -67,15 +78,16 @@
             selection = document.getSelection();
             if (selection.getRangeAt && selection.rangeCount) {
                 range = document.getSelection().getRangeAt(0);
-                parentElem = range.commonAncestorContainer;
+                _parentElem = range.commonAncestorContainer;
             }
         }else{
             //IE8-
             range = document.selection.createRange();
-            parentElem = range.parentElement();
+            _parentElem = range.parentElement();
         }
         //确定选中区域在$txt之内
-        if( parentElem && (parentElem.id = txt.id || $.contains(txt, parentElem)) ){
+        if( _parentElem && (_parentElem.id = txt.id || $.contains(txt, _parentElem)) ){
+            parentElem = _parentElem;
             return range;
         }
     }
@@ -106,6 +118,42 @@
         }
     }
 
+    //--------------------命令相关事件--------------------
+    //记录新执行的命令
+    function addCommandRecord(){
+        var length = commandRecords.length,
+            txt = $txt.html();
+        if(length > 0){
+            if(txt === commandRecords[length - 1]){
+                return;  //当前文字和记录中最后一次文字一样，则不再记录
+            }
+        }
+        //记录txt
+        commandRecords.push(txt);
+
+        if(length >= comandRecordMaxLength){
+            commandRecords.shift();
+        }
+
+        //记录游标
+        length = commandRecords.length;
+        commandRecordCursor = length - 1;
+    }
+    //撤销
+    function undo(){
+        if(commandRecordCursor > 0){
+            commandRecordCursor = commandRecordCursor - 1;
+            $txt.html( commandRecords[commandRecordCursor] );
+        }
+    }
+    //重做
+    function redo(){
+        var length = commandRecords.length;
+        if(commandRecordCursor < length - 1){
+            commandRecordCursor = commandRecordCursor + 1;
+            $txt.html( commandRecords[commandRecordCursor] );
+        }
+    }
     //获取可以插入表格的元素，用于 commandHooks['insertHTML']
     function getElemForInsertTable($elem){
         if ($elem.parent().is('div[contenteditable="true"]')) {
@@ -122,16 +170,10 @@
     }
     //命令 hook
     commandHooks = {
+        //插入html，for IE
         'insertHTML': function(commandName, commandValue){
-            var parentElem,
-                $elem;
-            if(currentRange){
-                if(supportRange){
-                    parentElem = currentRange.commonAncestorContainer;
-                }else{
-                    parentElem = currentRange.parentElement();
-                }
-            }else{
+            var $elem;
+            if(!currentRange){
                 return;
             }
             $elem = getElemForInsertTable($(parentElem));
@@ -139,6 +181,79 @@
                 commandValue += '<p>&nbsp;</p>';
             }
             $elem.after($(commandValue));
+        },
+        //自定义插入链接，包含title，target
+        'customCreateLink': function(commandName, commandValue){
+            var url = commandValue['url'],
+                title = commandValue['title'],
+                isBlank = commandValue['isBlank'],
+                $parentElem,
+                id = getUniqeId(),
+                oldLinks,
+                newLinks;
+
+            //获取父节点（必须是element，不能是textNode）
+            while(parentElem.nodeType !== 1){
+                parentElem = parentElem.parentNode;
+            }
+            $parentElem = $(parentElem);
+
+            //对当前的 a 先进行标记
+            oldLinks = $parentElem.find('a');
+            if(oldLinks.length > 0){
+                oldLinks.attr(id, '1');
+            }
+
+            //执行
+            document.execCommand("createLink", false, url);
+
+            //获取新产生的 a （即没有标记）
+            newLinks= $parentElem.find('a').not('[' + id + ']');
+            newLinks.attr('title', title);
+            newLinks.attr('target', '_blank');
+
+            //去掉上文对a的标记
+            if(oldLinks.length > 0){
+                oldLinks.removeAttr(id);
+            }
+        },
+        //自定义插入image，包含title，alt
+        'customeInsertImage': function(commandName, commandValue){
+            var url = commandValue['url'],
+                title = commandValue['title'],
+                $parentElem,
+                id = getUniqeId(),
+                oldImgs,
+                newImgs;
+
+            //获取父节点（必须是element，不能是textNode）
+            while(parentElem.nodeType !== 1){
+                parentElem = parentElem.parentNode;
+            }
+            $parentElem = $(parentElem);
+
+            //对当前的 img 先进行标记
+            oldImgs = $parentElem.find('img');
+            if(oldImgs.length > 0){
+                oldImgs.attr(id, '1');
+            }
+
+            //执行
+            document.execCommand("insertImage", false, url);
+
+            //获取新产生的 a （即没有标记）
+            newImgs= $parentElem.find('img').not('[' + id + ']');
+            newImgs.attr('title', title);
+            newImgs.attr('alt', title);
+
+            //去掉上文对a的标记
+            if(oldImgs.length > 0){
+                oldImgs.removeAttr(id);
+            }
+        },
+        //删除 $table
+        'delete$table': function(commandName, commandValue){
+            commandValue.remove();  //即：$table.remove();
         }
     };
     //检验 command Enable
@@ -153,14 +268,15 @@
     }
     //执行命令
     function commonCommand (e, commandName, commandValue, callback) {
-        var commandHook;
-
-        //恢复选中区
-        restoreSelection();
         if(!currentRange){
             e.preventDefault();
             return;
         }
+
+        var commandHook;
+
+        //恢复选中区
+        restoreSelection();
 
         //执行
         if(commandEnabled(commandName) === true){
@@ -184,9 +300,13 @@
         $modalContainer.find('.modal').hide();
         $maskDiv.hide();
 
+        //记录，以便撤销
+        addCommandRecord();
+
         e.preventDefault();
     }
 
+    //--------------------菜单配置--------------------
     //更新菜单样式
     function updateMenuStyle() {
         if(!$allMenusWithCommandName){
@@ -318,6 +438,12 @@
                 return $ul; 
             })()
         },
+        {
+            'title': '清除格式',
+            'type': 'btn',
+            'txt':'fa fa-eraser',
+            'command': 'RemoveFormat ' 
+        },
         'split',
         {
             'title': '无序列表',
@@ -357,23 +483,36 @@
     		'txt': 'fa fa-link',
     		'modal': (function () {
                 var urlTxtId = getUniqeId(),
+                    titleTxtId = getUniqeId(),
+                    blankCheckId = getUniqeId(),
                     btnId = getUniqeId();
                     $modal = $(
                         '<div>' +
-                        '   <input id="' + urlTxtId + '" type="text" style="width:300px;"/>' + 
-                        '   <button id="' + btnId + '" type="button">插入链接</button>' + 
+                        '   链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br />' +
+                        '   标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br />' + 
+                        '   新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"><br />' +
+                        '   <button id="' + btnId + '" type="button" class="btn">插入链接</button>' + 
                         '</div>'
                     ),
                     callback = function(){
-                        $modal.find('#' + urlTxtId).val('');
+                        $modal.find('input').val('');
                     };
                 $modal.find('#' + btnId).click(function(e){
-                    var url = $.trim($modal.find('#' + urlTxtId).val());
+                    var url = $.trim($modal.find('#' + urlTxtId).val()),
+                        title = $.trim($modal.find('#' + titleTxtId).val()),
+                        isBlank = $modal.find('#' + blankCheckId).is(':checked');
                     if(!url){
-                        url = document.getElementById(urlTxtId).value;  //for IE6
+                        //for IE6
+                        url = $.trim(document.getElementById(urlTxtId).value);  
+                        title = $.trim(document.getElementById(titleTxtId).value);
                     }
+
                     if(url !== ''){
-                        commonCommand(e, 'createLink', url, callback);
+                        if(title === '' && !isBlank){
+                            commonCommand(e, 'createLink', url, callback);
+                        }else{
+                            commonCommand(e, 'customCreateLink', {'url':url, 'title':title, 'isBlank':isBlank}, callback);
+                        }
                     }
                 });
 
@@ -388,6 +527,12 @@
         },
         'split',
         {
+            'title': '插入横线',
+            'type': 'btn',
+            'txt':'fa fa-minus',
+            'command': 'InsertHorizontalRule ' 
+        },
+        {
             'title': '插入表格',
             'type': 'modal',
             'txt': 'fa fa-table',
@@ -400,8 +545,9 @@
                         '<div>' + 
                         '   行数：<input id="' + rowNumTxtId + '" type="text" style="width:30px;"/>' + 
                         '   列数：<input id="' + colNumTxtId + '" type="text"  style="width:30px;"/>' +
-                        '   显示标题行：<input id="' + titleCheckId + '" type="checkbox">' + 
-                        '   <button id="' + btnId + '">插入表格</button>',
+                        '   显示标题行：<input id="' + titleCheckId + '" type="checkbox" checked="checked">' + 
+                        '   &nbsp;&nbsp;&nbsp;&nbsp;' +
+                        '   <button id="' + btnId + '" class="btn">插入表格</button>',
                         '</div>'
                     ),
                     callback = function(){
@@ -449,28 +595,37 @@
             })()
         },
         {
-            'title': '插入图片',
+            'title': '网络图片',
             'type': 'modal',
             'txt': 'fa fa-image',
             'modal': (function () {
                 var urlTxtId = getUniqeId(),
+                    titleTxtId = getUniqeId(),
                     btnId = getUniqeId();
                     $modal = $(
                         '<div>' +
-                        '   <input id="' + urlTxtId + '" type="text" style="width:300px;"/>' + 
-                        '   <button id="' + btnId + '" type="button">插入图片</button>' + 
+                        '   网址：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br/>' +
+                        '   标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br/>' +
+                        '   <button id="' + btnId + '" type="button" class="btn">插入图片</button>' + 
                         '</div>'
                     ),
                     callback = function(){
-                        $modal.find('#' + urlTxtId).val('');
+                        $modal.find('input').val('');
                     };
                 $modal.find('#' + btnId).click(function(e){
-                    var url = $.trim($modal.find('#' + urlTxtId).val());
+                    var url = $.trim($modal.find('#' + urlTxtId).val()),
+                        title = $.trim($modal.find('#' + titleTxtId).val());
                     if(!url){
-                        url = document.getElementById(urlTxtId).value;
+                        //for IE6
+                        url = $.trim(document.getElementById(urlTxtId).value); 
+                        title = $.trim(document.getElementById(title).value); 
                     }
                     if(url !== ''){
-                        commonCommand(e, 'insertImage', url, callback);
+                        if(title === ''){
+                            commonCommand(e, 'insertImage', url, callback);
+                        }else{
+                            commonCommand(e, 'customeInsertImage', {'url':url, 'title':title}, callback);
+                        }
                     }
                 });
 
@@ -483,7 +638,7 @@
             'type': 'btn',
             'txt': 'fa fa-undo',
             'command': function(e){
-                document.execCommand("undo");
+                undo();
                 e.preventDefault();
             },
             'callback': function(){
@@ -495,28 +650,28 @@
             'type': 'btn',
             'txt': 'fa fa-repeat',
             'command': function(e){
-                document.execCommand("redo");
+                redo();
                 e.preventDefault();
             }
         }
     ];
 
-    /*绑定jquery插件
-	* customMenus: 自定义菜单
-    */
+    //--------------------生成插件--------------------
     $.fn.wangEditor = function(customMenus){
-    	var height = this.height(),
+    	var txtHeight = this.height(),
     		initContent = this.html(),
             $dropMenuContainer = $('<div></div>'),
             $toolTipContainer = $('<div></div>'),
-            $window = $(window);
+            $window = $(window),
+            $tableDeleteBtn = $('<a href="#" class="tableDeleteBtn"><i class="fa fa-close"></i></a>'),  //删除table,img的按钮
+            tableDeleteBtnDisabled;  //当前是否显示
 
-    	//加入自定义菜单
+    	//------------------加入自定义菜单------------------
         if(customMenus){
             menus = $.extend(menus, customMenus);
         }
 
-    	//渲染菜单（包括下拉菜单和弹出框）
+    	//------------------渲染菜单（包括下拉菜单和弹出框）------------------
         function createMenuElem(menu){
             if(menu.toString() === 'split'){
                 //分割符
@@ -618,11 +773,12 @@
                     var windowWidth = $window.width(),
                         windowHeight = $window.height(),
                         modalWidth = $modal.width(),
-                        modalHeight = $modal.height();
+                        btnContainerTop = $btnContainer.offset().top,
+                        btnContainerHeight = $btnContainer.height();
                     $maskDiv.width(windowWidth);
                     $maskDiv.height(windowHeight);
                     $modal.css({
-                        'top': '100px',
+                        'top': (btnContainerTop + btnContainerHeight) + 'px',
                         'left': (windowWidth - modalWidth)/2 + 'px'
                     });
 
@@ -687,7 +843,7 @@
         $btnContainer.append($('<div class="clear-both"></div>'))
                       .append($('<div class="line"></div>'));
 
-    	//$txt光标发生变化时，保存selection，更新menu style
+    	//------------------$txt监听------------------
         $txt.on('focus click keyup', function(e){
             var keyForMoveCursor = false,
                 kCodes = ' 33, 34, 35, 36, 37, 38, 39, 40, 8, 46 ';
@@ -698,10 +854,55 @@
             saveSelection();
             updateMenuStyle();
         });
+        $txt.on('focus blur', function(){
+            //focus blu 时记录，以便撤销
+            addCommandRecord();
+        });
 
-    	//插入 $menu 和 $txt  （$txt已经在开头定义）
+        //------------------显示删除table,img的按钮------------------
+        tableDeleteBtnDisabled = false;
+        function hideTableDeleteBtn(){
+            if(tableDeleteBtnDisabled){
+                $tableDeleteBtn.hide();
+                tableDeleteBtnDisabled = false;
+            }
+        }
+        $txt.on('click', 'table,img', function(){
+            var $table = $(this),
+                txtTop = $txt.offset().top,
+                tableTop = $table.offset().top,
+                tableLeft = $table.offset().left,
+                btnWidth = $tableDeleteBtn.width(),
+                btnHeight = $tableDeleteBtn.height();
+            if(tableTop <= txtTop){
+                return;
+            }
+            $tableDeleteBtn.css({
+                'top': (tableTop - btnHeight/2) + 'px',
+                'left': (tableLeft - btnWidth/2) + 'px'
+            });
+            $tableDeleteBtn.show();
+            tableDeleteBtnDisabled = true;
+
+            //滚动时隐藏
+            $txt.off('scroll');
+            $txt.on('scroll', hideTableDeleteBtn);
+
+            //点击btn，删除
+            $tableDeleteBtn.off();
+            $tableDeleteBtn.click(function(e){
+                //统一用commonCommand删除，方便撤销
+                commonCommand(e, 'delete$table', $table, hideTableDeleteBtn);  
+            });
+        });
+        $txt.on('keyup blur', function(){
+            setTimeout(hideTableDeleteBtn, 100); //预留0.1毫秒，等待 $tableDeleteBtn.click 执行
+        });
+
+    	//------------------插入 $btnContainer ， $txt 等 ------------------
         this.attr('class', 'wangEditor');
     	this.html('')
+            .append($tableDeleteBtn)
             .append($toolTipContainer)
             .append($maskDiv)
             .append($dropMenuContainer)
@@ -709,11 +910,15 @@
     		.append($btnContainer)
     		.append($txt);
     	$txt.html(initContent);
-    	height = height - $btnContainer.height() - 11;
-    	height = height >= 50 ? height : defaultHeight;
-    	$txt.height(height);
+    	txtHeight = txtHeight - $btnContainer.height() - 10;
+    	txtHeight = txtHeight >= 50 ? txtHeight : 100;
+    	$txt.height(txtHeight);
+        $txt.attr('id', getUniqeId());  //指定一个id
 
+        //初始化时记录，以便撤销
+        addCommandRecord();
+
+        //------------------最后返回 $txt------------------
     	return $txt;
     };
-
 })(window);
