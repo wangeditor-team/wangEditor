@@ -1,22 +1,26 @@
-﻿
+﻿撤销快捷键（各个命令的快捷键）
+IE6中测试，撤销不顺畅，有时候点击两次才有效
+
+全屏（初始化div宽度）
+
 IE6、7插入图片有问题，能插入，但是报错误
-IE6、7、8中，每个元素都加入了一个id，怀疑跟 $txt.attr('id', getUniqeId()); 有关
 
-处理那些硬编码的数字，例如 height = height - $btnContainer.height() - $statusDiv.height() - 11;
+indent（基本命令）
 
-撤销时，也要撤销selection range
+插入视频 （弹出框方式）
 
-插入视频
+h1-h6 标题 （下拉框方式）
 
-h1-h6 标题
+插入代码（弹出框方式）
 
-全屏
-
-modal 应该能自定义大小
-
-注意检查插入链接、插入图片、插入表格等的callback是否有效？？
+上传图片（弹出框方式）
 
 颜色块
 
+撤销时，也要撤销selection range
+
+插入链接 的callback不执行
+
+处理那些硬编码的数字，例如 height = height - $btnContainer.height() - $statusDiv.height() - 11;
+
 （完整版、mini版、移动版）
-（自动定期保存）

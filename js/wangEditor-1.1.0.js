@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.1.0 
 * 王福朋
-* 2014-12-14
+* 2014-12-22
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -35,7 +35,11 @@
 
     //获取唯一ID
     function getUniqeId () {
-        return idPrefix + '_' + (id++);
+        return idPrefix + (id++);
+    }
+    if(!window.wangEditor_getUniqeId){
+        //暴露给全局使用
+        window.wangEditor_getUniqeId = getUniqeId;
     }
 
     //--------------------基本配置--------------------
@@ -87,7 +91,7 @@
             'title': '字体',
             'type': 'dropMenu',
             'txt': 'fa fa-font',
-            'command': 'fontName ',
+            'command': 'fontName ', 
             'dropMenu': (function(){
                 var arr = [],
                     //注意，此处commandValue必填项，否则程序不会跟踪
@@ -230,7 +234,7 @@
         },
         'createLink': {
             'title': '插入链接',
-            'type': 'modal',
+            'type': 'modal-small',
             'txt': 'fa fa-link',
             'modal': (function () {
                 var urlTxtId = getUniqeId(),
@@ -241,7 +245,7 @@
                         '<div>' +
                         '   链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br />' +
                         '   标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br />' + 
-                        '   新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"><br />' +
+                        '   新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/><br />' +
                         '   <button id="' + btnId + '" type="button" class="btn">插入链接</button>' + 
                         '</div>'
                     ),
@@ -284,7 +288,7 @@
         },
         'insertTable': {
             'title': '插入表格',
-            'type': 'modal',
+            'type': 'modal-small',
             'txt': 'fa fa-table',
             'modal': (function(){
                 var rowNumTxtId = getUniqeId(),
@@ -295,7 +299,7 @@
                         '<div>' + 
                         '   行数：<input id="' + rowNumTxtId + '" type="text" style="width:30px;"/>' + 
                         '   列数：<input id="' + colNumTxtId + '" type="text"  style="width:30px;"/>' +
-                        '   显示标题行：<input id="' + titleCheckId + '" type="checkbox" checked="checked">' + 
+                        '   显示标题行：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/>' + 
                         '   &nbsp;&nbsp;&nbsp;&nbsp;' +
                         '   <button id="' + btnId + '" class="btn">插入表格</button>',
                         '</div>'
@@ -313,16 +317,12 @@
                         i, j,
                         //表格模板
                         table = '',
-                        tableTemp = '<table border="0" cellpadding="0" cellspacing="0" style="${style}" > ${content} </table>',
+                        tableTemp = '<table border="1" bordercolor="#cccccc" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" > ${content} </table>',
                         trArray = [],
                         firstTrTemp = '<tr style="font-weight:bold;background-color:#f1f1f1;">${content}</tr>',
                         trTemp = '<tr>${content}</tr>',
                         tdArray = [],
-                        tdTemp = '<td style="width:100px; ${style}">&nbsp;</td>',
-                        borderStyle = '1px solid #cccccc';
-                    //完善模板
-                    tableTemp = tableTemp.replace('${style}', 'border-left:' + borderStyle + ';border-top:' + borderStyle + ';');
-                    tdTemp = tdTemp.replace('${style}', 'border-bottom:' + borderStyle + ';border-right:' + borderStyle + ';');
+                        tdTemp = '<td style="width:100px;">&nbsp;</td>';
                     
                     //生成table代码
                     for (i = 0; i < rowNum; i++) {
@@ -346,7 +346,7 @@
         },
         'webImage': {
             'title': '网络图片',
-            'type': 'modal',
+            'type': 'modal-small',
             'txt': 'fa fa-image',
             'modal': (function () {
                 var urlTxtId = getUniqeId(),
@@ -389,10 +389,7 @@
             'command': function(e){
                 undo();
                 e.preventDefault();
-            },
-            'callback': function(){
-                //alert('撤销操作');
-        }
+            }
         },
         'redo': {
             'title': '重复',
@@ -443,7 +440,7 @@
             _parentElem = range.parentElement();
         }
         //确定选中区域在$txt之内
-        if( _parentElem && (_parentElem.id = txt.id || $.contains(txt, _parentElem)) ){
+        if( _parentElem && $.contains(txt, _parentElem) ){
             parentElem = _parentElem;
             return range;
         }
@@ -609,7 +606,7 @@
             }
         },
         //删除 $table
-        'delete$table': function(commandName, commandValue){
+        'delete$elem': function(commandName, commandValue){
             commandValue.remove();  //即：$table.remove();
         }
     };
@@ -662,9 +659,14 @@
 
         e.preventDefault();
     }
+    if(!window.wangeditor_commonCommand){
+        //暴露给全局使用
+        window.wangeditor_commonCommand = commonCommand;
+    }
 
     //--------------------生成插件--------------------
     if(!Array.prototype.indexOf){
+        //IE低版本不支持 arr.indexOf
         Array.prototype.indexOf = function(elem){
             var i = 0,
                 length = this.length;
@@ -712,6 +714,12 @@
 
     	//------------------加入自定义菜单------------------
         if(customMenus){
+            //将customMenus中的menuId加入到defaultMenuConfig
+            $.each(customMenus, function(key){
+                defaultMenuConfig.push(key);
+            });
+
+            //传入的将customeMenus合并到menus
             menus = $.extend(menus, customMenus);
         }
 
@@ -845,6 +853,7 @@
                     });
                     $dropMenu.show();
                     e.preventDefault();
+                    this.focus();  //for 360急速浏览器
                 }).blur(function(e){
                     setTimeout(hideDropMenu, 100);  //先执行完，再隐藏
                 });
@@ -857,9 +866,12 @@
                 });
             }
             //弹出框
-            else if(type === 'modal'){
+            else if(type.indexOf('modal') === 0){
                 //渲染modal
-                $modal.attr('class', 'modal modal-small');
+                if(type === 'modal'){
+                    type = ''; //type可能为 'modal', 'modal-big', 'modal-small', 'modal-mini'
+                }
+                $modal.attr('class', 'modal '+ type);  
                 $modal.prepend($(
                     '<div class="header">' + 
                         '<a href="#" class="close"><i class="fa fa-close"></i></a>' + 
@@ -957,18 +969,29 @@
                       .append($('<div class="line"></div>'));
 
     	//------------------$txt监听------------------
-        $txt.on('focus click keyup', function(e){
+        function txtListener(){
+            saveSelection();
+            updateMenuStyle();
+        }
+        $txt.on('mousedown', function(){
+            $txt.on('mouseleave', function(){
+                $txt.off('mouseleave');
+                setTimeout(txtListener, 100);  //缓0.1s，否则鼠标移动太快的话，选不全
+            });
+        }).on('focus click keyup', function(e){
             var keyForMoveCursor = false,
                 kCodes = ' 33, 34, 35, 36, 37, 38, 39, 40, 8, 46 ';
             keyForMoveCursor = ( e.type === 'click' || e.type === 'focus' || (e.type === 'keyup' && kCodes.indexOf(e.keyCode) !== -1) );
             if (!keyForMoveCursor) {
                 return;  //只监听click,focus和[33, 34, 35, 36, 37, 38, 39, 40, 8, 46]这几个键，其他的不监听
             }
-            saveSelection();
-            updateMenuStyle();
-        });
-        $txt.on('focus blur', function(){
-            //focus blu 时记录，以便撤销
+            txtListener();
+
+            if(e.type === 'click'){
+                $txt.off('mouseleave');
+            }
+        }).on('focus blur', function(){
+            //focus blur 时记录，以便撤销
             addCommandRecord();
         });
 
@@ -981,10 +1004,10 @@
             }
         }
         $txt.on('click', 'table,img', function(){
-            var $table = $(this),
+            var $elem = $(this),
                 txtTop = $txt.offset().top,
-                tableTop = $table.offset().top,
-                tableLeft = $table.offset().left,
+                tableTop = $elem.offset().top,
+                tableLeft = $elem.offset().left,
                 btnWidth = $tableDeleteBtn.width(),
                 btnHeight = $tableDeleteBtn.height();
             if(tableTop <= txtTop){
@@ -1005,7 +1028,7 @@
             $tableDeleteBtn.off();
             $tableDeleteBtn.click(function(e){
                 //统一用commonCommand删除，方便撤销
-                commonCommand(e, 'delete$table', $table, hideTableDeleteBtn);  
+                commonCommand(e, 'delete$elem', $elem, hideTableDeleteBtn);  
             });
         });
         $txt.on('keyup blur', function(){
@@ -1026,9 +1049,8 @@
     	txtHeight = txtHeight - $btnContainer.height() - 10;
     	txtHeight = txtHeight >= 50 ? txtHeight : 100;
     	$txt.height(txtHeight);
-        $txt.attr('id', getUniqeId());  //指定一个id
 
-        //初始化时记录，以便撤销
+        //------------------初始化时记录，以便撤销------------------
         addCommandRecord();
 
         //------------------最后返回 $txt------------------
