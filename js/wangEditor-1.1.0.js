@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.1.0 
 * 王福朋
-* 2014-12-22
+* 2014-12-23
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -25,7 +25,7 @@
 
         commandHooks, //自定义命令
         commandRecords = [], //命令记录
-        commandRecordCursor = 0, //命令记录中的当前游标位置
+        commandRecordCursor = -1, //命令记录中的当前游标位置
         comandRecordMaxLength = 20, //最大长度
 
         idPrefix = 'wangeditor_' + Math.random().toString().replace('.', '') + '_',
@@ -134,6 +134,7 @@
         'bold': {
             'title': '加粗',
             'type': 'btn',
+            'hotKey': 'ctrl + b',
             'txt':'fa fa-bold',
             'command': 'bold',
             'callback': function(){
@@ -143,12 +144,14 @@
         'underline': {
             'title': '下划线',
             'type': 'btn',
+            'hotKey': 'ctrl + u',
             'txt':'fa fa-underline',
             'command': 'underline '
         },
         'italic': {
             'title': '斜体',
             'type': 'btn',
+            'hotKey': 'ctrl + i',
             'txt':'fa fa-italic',
             'command': 'italic '
         },
@@ -234,7 +237,7 @@
         },
         'createLink': {
             'title': '插入链接',
-            'type': 'modal-small',
+            'type': 'modal-small',   //可以使用 'modal-big'/'modal'/'modal-small'/'modal-mini'
             'txt': 'fa fa-link',
             'modal': (function () {
                 var urlTxtId = getUniqeId(),
@@ -385,6 +388,7 @@
         'undo': {
             'title': '撤销',
             'type': 'btn',
+            'hotKey': 'ctrl+z',  //例如'ctrl+z'/'ctrl,shift+z'/'ctrl,shift,alt+z'/'ctrl,shift,alt,meta+z'，支持这四种情况。只有type==='btn'的情况下，才可以使用快捷键
             'txt': 'fa fa-undo',
             'command': function(e){
                 undo();
@@ -440,7 +444,7 @@
             _parentElem = range.parentElement();
         }
         //确定选中区域在$txt之内
-        if( _parentElem && $.contains(txt, _parentElem) ){
+        if( _parentElem && ($.contains(txt, _parentElem) || txt === _parentElem) ){
             parentElem = _parentElem;
             return range;
         }
@@ -473,13 +477,20 @@
     }
 
     //--------------------命令相关事件--------------------
+    //初始化
+    function _initCommandRecord(){
+        var txt = $txt.html();
+        commandRecords = [];
+        commandRecords.push(txt);
+        commandRecordCursor = 0;
+    }
     //记录新执行的命令
     function addCommandRecord(){
         var length = commandRecords.length,
             txt = $txt.html();
         if(length > 0){
-            if(txt === commandRecords[length - 1]){
-                return;  //当前文字和记录中最后一次文字一样，则不再记录
+            if(txt === commandRecords[commandRecordCursor]){
+                return;  //当前文字和记录中游标位置的文字一样，则不再记录
             }
         }
         //记录txt
@@ -671,7 +682,7 @@
             var i = 0,
                 length = this.length;
             for(; i<length; i++){
-                if(arr[i] === elem){
+                if(this[i] === elem){
                     return i;
                 }
             }
@@ -790,6 +801,9 @@
                 txtArr,
                 title = menu.title,
                 command = menu.command,  //函数或者字符串
+                hotKey = menu.hotKey, //快捷键
+                fnKeys = [],
+                keyCode,
                 $dropMenu = menu.dropMenu,
                 $modal = menu.modal,
                 callback = menu.callback,
@@ -829,6 +843,40 @@
                 if(typeof command === 'function'){
                     $btn.click(function(e){
                         command(e);  //如果command是函数，则直接执行command
+                    });
+                }
+                if(hotKey){
+                    //快捷键
+                    hotKey = hotKey.toLowerCase();
+                    keyCode = $.trim( hotKey.split('+')[1] );
+                    fnKeys = hotKey.split('+')[0].split(',');
+                    $.each(fnKeys, function(key, value){
+                        fnKeys[key] = $.trim(value);
+                    });
+                    function isFnKeys(e){
+                        //判断功能键
+                        if(fnKeys.indexOf('ctrl') !== -1 && !e.ctrlKey){
+                            return false;
+                        }
+                        if(fnKeys.indexOf('shift') !== -1 && !e.shiftKey){
+                            return false;
+                        }
+                        if(fnKeys.indexOf('alt') !== -1 && !e.altKey){
+                            return false;
+                        }
+                        if(fnKeys.indexOf('meta') !== -1 && !e.metaKey){
+                            return false;
+                        }
+                        return true
+                    }
+                    $txt.on('keydown', function(e){
+                        if(isFnKeys(e) === false){
+                            return;
+                        }
+                        if( String.fromCharCode(e.keyCode).toLowerCase() === keyCode ){
+                            e.preventDefault();
+                            $btn.click();  //通过模拟按钮点击的方式触发
+                        }
                     });
                 }
             }
@@ -908,6 +956,9 @@
             //添加tooltips效果
             if(title){
                 $btn.attr('title', '');
+                if(hotKey){
+                    title = title + '('  + hotKey + ')';  //加入快捷键提示
+                }
 
                 var btnTop,
                     btnLeft,
@@ -1051,7 +1102,7 @@
     	$txt.height(txtHeight);
 
         //------------------初始化时记录，以便撤销------------------
-        addCommandRecord();
+        _initCommandRecord();
 
         //------------------最后返回 $txt------------------
     	return $txt;
