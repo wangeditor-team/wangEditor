@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>wangEditor demo_indent</title>
+	<style type="text/css">
+        body{
+            padding: 30px 10px 10px 10px;
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome.min.css">
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome-ie7.min.css">
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.1.0-min.css">
+</head>
+<body>
+	<div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
+        <p>欢迎使用<b>wangEditor</b>，请输入内容...</p>
+    </div>
+
+    <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src='js/wangEditor-1.1.0-min.js'></script>
+    <script type="text/javascript">
+    	$(function(){
+    		//定义缩进的菜单配置
+    		var indentMenus = {
+    			'indent': {
+    			    'title': '增加缩进',                // 标题
+    			    'type': 'btn', 						// 类型
+    			    'hotKey': 'ctrl,shift + i',         // 快捷键
+    			    'txt':'fa fa-indent',               // fontAwesome样式
+    			    'command': 'indent',                // document.execCommand中要执行的命令名称
+    			    'callback': function(){             // 自定义的callback函数
+    			        //alert('自定义callback函数');
+    			    }
+    			},
+    			'outdent': {
+    			    'title': '减少缩进',                // 标题
+    			    'type': 'btn',                      // 类型
+    			    'txt':'fa fa-outdent',              // fontAwesome样式
+    			    'command': 'outdent',               // document.execCommand中要执行的命令名称
+    			    'callback': function(){				// 自定义的callback函数
+    			        //alert('自定义callback函数');
+    			    }
+    			}
+    		};
+    		//一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
+    		var $editor = $('#txtDiv').wangEditor({
+    			'customMenus': indentMenus
+    		});
+    	});
+    </script>
+</body>
+</html>

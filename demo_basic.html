@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="UTF-8">
-	<title>wangEditor demo</title>
+	<title>wangEditor demo_basic</title>
 	<style type="text/css">
         body{
-            padding: 0px 10px 0px 10px;
+            padding: 30px 10px 10px 10px;
         }
     </style>
 
@@ -26,7 +26,21 @@
 	<script type="text/javascript">
 		$(function(){
 			//一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
-			var $editor = $('#txtDiv').wangEditor();
+			var $editor = $('#txtDiv').wangEditor({
+				hideMenuConfig: ['fontFamily', 'fontSize', '|']
+			});
+
+			// //获取富文本框的html
+			// var html = $editor.html();
+
+			// //获取富文本框的txt
+			// var txt = $editor.text();
+
+			// //设置富文本框的高度
+			// $editor.height(500);
+
+			// //修改富文本框中的内容
+			// $editor.html('<p>修改后的内容。。。</p>');
 		});
 	</script>
 </body>

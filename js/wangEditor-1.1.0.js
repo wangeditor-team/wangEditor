@@ -859,20 +859,16 @@
                         fnKeys[key] = $.trim(value);
                     });
                     function isFnKeys(e){
-                        //判断功能键
-                        if(fnKeys.indexOf('ctrl') !== -1 && !e.ctrlKey){
-                            return false;
-                        }
-                        if(fnKeys.indexOf('shift') !== -1 && !e.shiftKey){
-                            return false;
-                        }
-                        if(fnKeys.indexOf('alt') !== -1 && !e.altKey){
-                            return false;
-                        }
-                        if(fnKeys.indexOf('meta') !== -1 && !e.metaKey){
-                            return false;
-                        }
-                        return true
+                        //判断功能键，暂时支持 ['ctrl', 'shift', 'alt', 'meta']
+                        var flag = true;
+                        $.each(['ctrl', 'shift', 'alt', 'meta'], function(key, value){
+                            if(fnKeys.indexOf(value) !== -1 && !e[value + 'Key']){
+                                flag = false;
+                            }else if(fnKeys.indexOf(value) === -1 && e[value + 'Key']){
+                                flag = false;
+                            }
+                        });
+                        return flag
                     }
                     $txt.on('keydown', function(e){
                         if(isFnKeys(e) === false){
