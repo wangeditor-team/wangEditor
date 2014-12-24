@@ -1,7 +1,7 @@
 /*
-* wangEditor 1.1.0 
+* wangEditor 1.1.0
 * 王福朋
-* 2014-12-23
+* 2014-12-24
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -17,7 +17,7 @@
 	    menus,  //存储菜单配置
         defaultMenuConfig, //默认的菜单显示配置
 		
-        $txt = $('<div contenteditable="true" class="textarea" ></div>'),  //编辑区
+        $txt = $('<div class="textarea" ></div>'),  //编辑区
         $btnContainer = $('<div class="btn-container"></div>'), //菜单容器
         $maskDiv = $('<div class="mask"></div>'),  //遮罩层
         $modalContainer = $('<div></div>'),  //modal容器
@@ -652,6 +652,9 @@
                 commandHook(commandName, commandValue);
             }
         }
+
+        //重新保存，否则chrome，360，safari，opera中会清空currentRange
+        saveSelection();
         
         //执行回调函数
         if(callback){
@@ -662,8 +665,10 @@
         updateMenuStyle();
 
         //关闭modal
-        $modalContainer.find('.modal').hide();
-        $maskDiv.hide();
+        $modalContainer.find('.modal:visible').hide();
+        if($maskDiv.is(':visible')){
+            $maskDiv.hide();
+        }
 
         //记录，以便撤销
         addCommandRecord();
@@ -1029,12 +1034,12 @@
                 $txt.off('mouseleave');
                 setTimeout(txtListener, 100);  //缓0.1s，否则鼠标移动太快的话，选不全
             });
-        }).on('focus click keyup', function(e){
+        }).on('click keyup', function(e){
             var keyForMoveCursor = false,
-                kCodes = ' 33, 34, 35, 36, 37, 38, 39, 40, 8, 46 ';
-            keyForMoveCursor = ( e.type === 'click' || e.type === 'focus' || (e.type === 'keyup' && kCodes.indexOf(e.keyCode) !== -1) );
+                kCodes = [33, 34, 35, 36, 37, 38, 39, 40, 13, 8, 46, 9];
+            keyForMoveCursor = ( e.type === 'click' || (e.type === 'keyup' && (kCodes.indexOf(e.keyCode) !== -1) || e.ctrlKey || e.shiftKey) );
             if (!keyForMoveCursor) {
-                return;  //只监听click,focus和[33, 34, 35, 36, 37, 38, 39, 40, 8, 46]这几个键，其他的不监听
+                return;  //只监听click, 和 kCodes 中的这几个键，其他的不监听
             }
             txtListener();
 
@@ -1105,6 +1110,6 @@
         _initCommandRecord();
 
         //------------------最后返回 $txt------------------
-    	return $txt;
+    	return $txt.attr('contenteditable', true);
     };
 })(window);
