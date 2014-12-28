@@ -682,13 +682,23 @@
 
     //--------------------生成插件--------------------
     if(!Array.prototype.indexOf){
-        //IE低版本不支持 arr.indexOf
+        //IE低版本不支持 arr.indexOf 
         Array.prototype.indexOf = function(elem){
             var i = 0,
                 length = this.length;
             for(; i<length; i++){
                 if(this[i] === elem){
                     return i;
+                }
+            }
+            return -1;
+        }
+        //IE低版本不支持 arr.lastIndexOf
+        Array.prototype.lastIndexOf = function(elem){
+            var length = this.length;
+            for(length = length - 1; length >= 0; length--){
+                if(this[length] === elem){
+                    return length;
                 }
             }
             return -1;
@@ -757,6 +767,19 @@
                         if(typeof value === 'string'){
                             value = [value];
                         }
+                        //将默认追加的customMenuId，从menuConfig中删除
+                        $.each(value, function(key, value){
+                            value = $.trim(value);
+                            if(value === '|'){
+                                return;
+                            }
+
+                            var index = menuConfig.lastIndexOf(value);
+                            if(index !== -1){
+                                menuConfig[index] = null;
+                            }
+                        });
+
                         value.unshift(0);
                         value.unshift(index);
                         Array.prototype.splice.apply(menuConfig, value);
@@ -773,6 +796,20 @@
                     if(typeof value === 'string'){
                         value = [value];
                     }
+
+                    //将默认追加的customMenuId，从menuConfig中删除
+                    $.each(value, function(key, value){
+                        value = $.trim(value);
+                        if(value === '|'){
+                            return;
+                        }
+
+                        var index = menuConfig.lastIndexOf($.trim(value));
+                        if(index !== -1){
+                            menuConfig[index] = null;
+                        }
+                    });
+
                     if(index + 1 === menuConfig.length){
                         Array.prototype.push.apply(menuConfig, value);
                     }else{
