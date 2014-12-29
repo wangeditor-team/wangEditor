@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html  xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>wangEditor demo_head</title>
+	<style type="text/css">
+        body{
+            padding: 30px 10px 10px 10px;
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome.min.css">
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome-ie7.min.css">
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.1.0-min.css">
+</head>
+<body>
+	<div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
+        <p>欢迎使用<b>wangEditor</b>，请输入内容...</p>
+    </div>
+
+    <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src='js/wangEditor-1.1.0-min.js'></script>
+    <script type="text/javascript">
+    	$(function(){
+    		//菜单配置
+    		var customMenus = {
+    			'head': {
+    			    'title': '设置标题',                // 标题
+    			    'type': 'dropMenu', 				// 类型 btn / dropMenu / modal
+    			    // dropMenu 类型不支持快捷键
+    			    'txt':'fa fa-flag-o',               // fontAwesome样式
+    			    'command': 'formatBlock ',          // document.execCommand中要执行的命令名称
+    			    'dropMenu': (function(){            // dropMenu类型的菜单，要有一个'dropMenu'方法，返回下拉菜单dom节点
+    			    	var html = 	'<ul>' + 
+    			    				'	<li><a href="#" commandValue="<h1>"><h1>标题1</h1></a></li>' + 
+    			    				'	<li><a href="#" commandValue="<h2>"><h2>标题2</h2></a></li>' + 
+    			    				'	<li><a href="#" commandValue="<h3>"><h3>标题3</h3></a></li>' + 
+    			    				'	<li><a href="#" commandValue="<h4>"><h4>标题4</h4></a></li>' + 
+    			    				'	<li><a href="#" commandValue="<p>">正文</a></li>' + 
+    			    				'</ul>';
+    			    	return $(html);
+    			    })(),
+    			    'callback': function(){             // 自定义的callback函数
+    			        //alert('自定义callback函数');
+    			    }
+    			}
+    		};
+    		
+    		//一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
+    		var $editor = $('#txtDiv').wangEditor({
+    			'customMenus': customMenus,
+    			'insertBefore': {
+    				'foreColor': 'head'
+    			}
+    		});
+    	});
+    </script>
+</body>
+</html>
