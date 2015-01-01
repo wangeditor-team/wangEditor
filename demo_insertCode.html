@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>wangEditor demo_insertCode</title>
+
+	<!--引入 fontawesom-4.2.0-->
+	<link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome.min.css">
+	<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome-ie7.min.css">
+	<![endif]-->
+
+	<!--引入wangEditor.css-->
+	<link rel="stylesheet" type="text/css" href="css/wangEditor-1.1.0-min.css">
+
+	<style type="text/css">
+	    body{
+	        padding: 30px 10px 0px 10px;
+	    }
+	</style>
+</head>
+<body>
+	
+	<div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
+	    <p>欢迎使用<b>wangEditor</b>，请输入内容...</p>
+	</div>
+
+	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src='js/wangEditor-1.1.0-min.js'></script>
+	<script type="text/javascript" src='js/wangHighLighter-1.0.0-min.js'></script>
+	<script type="text/javascript">
+		$(function(){
+			//要先引入 wangHighLighter-min.js,下载地址：https://github.com/wangfupeng1988/wangHighLighter
+
+			var customMenus = {
+				'insertCode':{
+					'title': '插入代码',
+					'type': 'modal', // 'modal-big' / 'modal' / 'modal-small' / 'modal-mini'
+					// type === modal 时，没有 'command' 和 'hotkey'
+					'txt': 'fa fa-code',
+					'modal': (function(){
+						var langId = wangEditor_getUniqeId(), //wangEditor_getUniqeId() 是wangEditor提供的方法，可以获取一个唯一的id
+							themeId = wangEditor_getUniqeId(),
+							codeId = wangEditor_getUniqeId(),
+							btnId = wangEditor_getUniqeId(),
+
+							//定义modal
+							$modal = $(
+								'<div>' +
+								'	语言：<select id="' + langId + '"></select> &nbsp;&nbsp;' +
+								'	主题：<select id="' + themeId + '"></select>' +
+								'	<textarea id="' + codeId + '" style="width:100%; height:150px;"></textarea>' + 
+								'	<button id="' + btnId + '">插入</button>' +
+								'</div>'
+							),
+
+							//定义callback
+							callback = function(){
+                        		$modal.find('textarea').val('');
+                    		};
+
+                    	//因为下文要对语言、主题的下拉框进行绑定，所以要先将 $modal 附加到页面上，否则无法获取select节点。
+                    	$('body').append($modal);
+                    		
+                    	var	$langSlt = $('#' + langId),  //获取各个dom
+                    		$themeSlt = $('#' + themeId),
+                    		$codeTxt = $('#' + codeId),
+                    		$btn = $('#' + btnId),
+
+                    		//获取语言、主题的数组
+                    		langArray = wangHighLighter.getLangArray(),
+                    		themeArray = wangHighLighter.getThemeArray();
+
+                    	//绑定语言
+                    	$.each(langArray, function(key, value){
+                			$langSlt.append($('<option>' + value + '</option>'));
+            			});
+                    	//绑定主题
+                    	$.each(themeArray, function(key, value){
+                			$themeSlt.append($('<option>' + value + '</option>'));
+            			});
+
+            			//版定“插入”按钮点击事件
+            			$btn.click(function(e){
+            				var lang = $langSlt.val(),
+            					theme = $themeSlt.val(),
+            					code = $codeTxt.val(),
+            					result;
+            				//高亮代码
+            				result = wangHighLighter.highLight(lang, theme, code);
+            				//插入代码
+            				wangeditor_commonCommand(e, 'insertHTML', result, callback);  
+            				//（wangeditor_commonCommand(e, commandName, commandValue, callback)是wangEditor提供的命令）
+            			});
+
+            			//返回 $modal
+                    	return $modal;
+					})()
+				}
+			};
+
+			//一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
+			var $editor = $('#txtDiv').wangEditor({
+				'customMenus': customMenus,
+				'after': {
+					'webImage': 'insertCode'
+				}
+			});
+		});
+	</script>
+</body>
+</html>

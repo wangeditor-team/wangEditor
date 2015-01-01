@@ -634,7 +634,9 @@
     //执行命令
     function commonCommand (e, commandName, commandValue, callback) {
         if(!currentRange){
-            e.preventDefault();
+            if(e){
+                e.preventDefault();
+            }
             return;
         }
 
@@ -673,7 +675,9 @@
         //记录，以便撤销
         addCommandRecord();
 
-        e.preventDefault();
+        if(e){
+            e.preventDefault();
+        }
     }
     if(!window.wangeditor_commonCommand){
         //暴露给全局使用
@@ -1143,6 +1147,6 @@
         _initCommandRecord();
 
         //------------------最后返回 $txt------------------
-    	return $txt.attr('contenteditable', true);
+    	return $txt.attr('contenteditable', true).focus();
     };
 })(window);

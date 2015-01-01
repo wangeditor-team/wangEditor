@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor demo upload</title>
+    <style type="text/css">
+        body{
+            padding: 20px 10px 0px 10px;
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome.min.css">
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome-ie7.min.css">
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.1.0-min.css">
+    <link href="uploadify/uploadify.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
+        <p>欢迎使用<b>wangEditor</b>，请输入内容...</p>
+    </div>
+
+    <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="uploadify/jquery.uploadify.min.js"></script>
+    <script type="text/javascript" src='js/wangEditor-1.1.0-min.js'></script>
+    <script type="text/javascript">
+        $(function () {
+            var customMenus = {
+                'uploadImg': {
+                    'title': '上传图片',
+                    'type': 'modal-small',
+                    'txt': 'fa fa-file-image-o',
+                    'modal': (function () {
+                        var fileId = wangEditor_getUniqeId(),
+                            $modal = $(
+                                '<div>' +
+                                '   <input type="file" id="' + fileId + '"/>' +
+                                '</div>'
+                            );
+
+                        //下文要通过jquery获取 input-file 元素，因此这里必须先渲染到dom树中，否则获取不了 input-file
+                        $('body').append($modal);
+
+                        //配置 uploadify
+                        $('#' + fileId).uploadify({
+                            height: 30,
+                            width: 120,
+                            swf: 'uploadify/uploadify.swf',
+                            uploader: 'data.ashx',
+                            buttonText: '选择图片',
+                            multi: false,
+                            fileTypeExts: '*.jpg; *.jpeg; *.gif; *.png',
+                            onUploadSuccess: function (file, data, response) {
+                                //wangeditor_commonCommand(e, commandName, commandValue, callback);
+                                wangeditor_commonCommand(null, 'insertImage', data);
+                                $('.uploadify-queue').hide();  //强制让进度条消失
+                            }
+                        });
+
+                        return $modal;
+                    })()
+                }
+            };
+
+            //一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
+            var $editor = $('#txtDiv').wangEditor({
+                'customMenus': customMenus,
+                'after': {
+                    'webImage': 'uploadImg'
+                }
+            });
+        });
+    </script>
+</body>
+</html>
