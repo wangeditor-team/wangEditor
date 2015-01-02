@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.1.0
 * 王福朋
-* 2015-01-01
+* 2015-01-02
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -266,6 +266,11 @@
                     }
 
                     if(url !== ''){
+                        //xss过滤
+                        if(xssFilter(url) === false){
+                            alert('您的输入内容有不安全字符，请重新输入！')
+                            return;
+                        }
                         if(title === '' && !isBlank){
                             commonCommand(e, 'createLink', url, callback);
                         }else{
@@ -374,6 +379,11 @@
                         title = $.trim(document.getElementById(title).value); 
                     }
                     if(url !== ''){
+                        //xss过滤
+                        if(xssFilter(url) === false){
+                            alert('您的输入内容有不安全字符，请重新输入！')
+                            return;
+                        }
                         if(title === ''){
                             commonCommand(e, 'insertImage', url, callback);
                         }else{
@@ -532,6 +542,14 @@
         } else {
             return getElemForInsertTable($elem.parent());
         }
+    }
+    //xss过滤
+    function xssFilter(url){
+        url = $.trim(url.toLowerCase());
+        if(url.indexOf('javascript:') === 0){
+            return false;
+        }
+        return true;
     }
     //命令 hook
     commandHooks = {
@@ -1141,7 +1159,7 @@
     		.append($btnContainer)
     		.append($txt);
     	$txt.html(initContent);
-    	txtHeight = txtHeight - $btnContainer.height() - 10;
+    	txtHeight = txtHeight - $btnContainer.height() - 12;
     	txtHeight = txtHeight >= 50 ? txtHeight : 100;
     	$txt.height(txtHeight);
 
