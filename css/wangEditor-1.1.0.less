@@ -1,0 +1,262 @@
+/*
+* wangEditor 1.1.0 less
+* 王福朋
+* 2015-01-02
+*/
+
+.wangEditor{
+
+	//-----------------------------------通用设置-----------------------------------
+	@selected-color:#aec5e6;
+	@default-black-color:#505050;
+	@default-white-color:#fff;
+
+	//通用字体样式
+	.common-font-style(@fz:14px, @lh:23px, @ta: center){
+		font-size: @fz;
+		line-height: @lh;
+		text-align: @ta;
+	}
+
+	//圆角边框
+	.border-radius(@radius: 3px){
+		-moz-border-radius: @radius;   
+	    -webkit-border-radius: @radius;
+	    border-radius: @radius;
+	}
+
+	//透明度
+	.filter(@opacity: 50){
+		filter:alpha(opacity=@opacity);  
+	    -moz-opacity:@opacity/100; 
+	    opacity:@opacity/100;
+	}
+
+	//-----------------------------------元素样式-----------------------------------
+	//清除编辑器 focus 时的边框
+	div[contenteditable=true]{
+		&:focus{
+			outline: none; 
+		}
+	}
+
+	//菜单栏
+	.btn-container{
+		padding:5px 3px 0px 3px;
+
+		//菜单按钮
+		.btn{
+			.common-font-style();
+		    display: block;
+		    width:20px;
+		    padding: 2px;
+		    margin-left: 2px;
+		    float: left;
+		    text-decoration: none;
+		    cursor:pointer;
+
+		    &:hover{
+		    	background-color: #f1f1f1;
+		    	.border-radius();
+		    }
+		}
+		//默认按钮样式
+		.btn-default{
+			color: @default-black-color;
+		}
+		//被选中的按钮样式
+		.btn-selected{
+			background-color:@selected-color;
+			.border-radius();
+		}
+		//下拉小按钮（用于下拉框类型的按钮）
+		.btn-drop{
+			width: 26px;
+		}
+
+		//菜单之间的分割线
+		.split{
+			width: 0px;
+		    height: 20px;
+		    border-left: 1px solid #cccccc;
+		    float: left;;
+		    margin: 0px 5px 0px 5px;
+		}
+
+		//菜单栏最下方的横线
+		.line{
+			border-top:1px solid #cccccc; 
+    		margin:5px 5px 0px 5px;
+		}
+	}
+
+	//下拉菜单
+	.drop-menu-style{
+		list-style: none;
+	    margin: 0px;
+	    padding: 0px;
+	    border: 1px solid #cccccc;
+	    width: 100px;
+	    background-color: @default-white-color;
+	    position: absolute;
+
+	    li{
+	    	margin: 0px;
+    		padding: 0px;
+	    }
+	}
+	.drop-menu{
+		.drop-menu-style !important;  //防止页面其他样式修改ul-li
+
+		a{
+			.common-font-style();
+			text-align: left;
+			display: block;
+		    text-decoration: none;
+		    color: @default-black-color;
+		    padding: 3px 3px 3px 3px;
+
+		    &:hover{
+		    	background-color: @selected-color;
+		    }
+		}
+	}
+
+	//鼠标放置在按钮上的 tooltip 效果
+	.toolTip{
+		position: absolute;
+    	display: none;
+
+    	.content{
+    		.common-font-style(13px, 13px);
+		    background-color: @default-black-color;
+		    color: @default-white-color;
+		    padding: 5px;
+		    .border-radius();
+    	}
+
+    	.footer{
+    		margin-top: -7px;
+		    text-align: center;
+		    color: @default-black-color;
+    	}
+	}
+
+	//弹出框的遮罩层
+	.mask{
+		position: absolute;
+	    top: 0px;
+	    left:0px;
+	    display: none;
+	    background-color:#f1f1f1;
+	    .filter();  //设置透明度，默认50%
+	}
+
+	//弹出框
+	.modal{
+		width: 600px;
+
+		.common-font-style();
+		text-align: left;
+		border:3px solid #cccccc;
+	    background-color: @default-white-color;
+	    padding: 10px 15px 15px 15px;
+	    position: absolute;
+	    display: none;
+	    .border-radius(5px);
+
+	    //弹出框标题
+	    .header {
+	    	text-align: left;
+
+	    	//关闭按钮
+	    	.close{
+	    		display:block;
+			    text-align: center;
+			    width: 16px;
+			    float: right;
+			    color: @default-black-color;
+			    text-decoration: none;
+			    cursor: pointer;
+			    .border-radius();
+
+			    &:hover{
+			    	background-color: @selected-color;
+			    }
+	    	}
+
+	    	//分隔横线
+	    	.line{
+	    		border-top:1px solid #cccccc; 
+    			margin:5px 0px 5px 0px;
+	    	}
+	    }
+
+	    //modal中的btn
+	    .btn{
+	    	color: @default-black-color;
+		    background-color: #f1f1f1;
+		    border: 1px solid #cccccc;
+		    padding: 4px 12px 4px 12px;
+		    cursor: pointer;
+		    font-size: 14px;
+		    line-height: 1.4;
+		    margin-top: 5px;
+		    .border-radius(4px);
+
+		    &:hover{
+		    	background-color: #cccccc;
+		    }
+	    }
+
+	    //modal中的txt
+	    input[type=text]{
+	    	border:1px solid #999999;
+	    	padding: 2px 5px;
+	    	.border-radius();
+	    }
+	}
+	.modal-big{
+		width: 800px;
+	}
+	.modal-small{
+		width: 400px;
+	}
+	.modal-mini{
+		width: 200px;
+	}
+
+	//富文本编辑区
+	.textarea{
+		margin:0px 8px 0px 8px; 
+    	overflow-y: scroll;
+
+    	p{
+    		margin: 10px 0px 10px 0px;
+    	}
+	}
+
+	//表格、图片左上角的删除按钮
+	.tableDeleteBtn{
+		display:block;
+	    text-align: center;
+	    padding: 0px 3px 0px 3px;
+	    color: #fff;
+	    background-color: @default-black-color;
+	    text-decoration: none;
+	    cursor: pointer;
+	    position: absolute;
+	    display: none;
+	    .border-radius(5px);
+
+	    &:hover{
+	    	color:@default-black-color;
+	    	background-color: @selected-color;
+	    }
+	}
+
+	//清除浮动
+	.clear-both{
+		clear: both;
+	}
+}

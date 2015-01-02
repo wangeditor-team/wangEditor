@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.1.0
 * 王福朋
-* 2014-12-24
+* 2015-01-01
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -954,6 +954,8 @@
                         value = $this.attr('commandValue');
                     commonCommand(e, command, value);
                 });
+
+                $dropMenu.hide();
             }
             //弹出框
             else if(type.indexOf('modal') === 0){
