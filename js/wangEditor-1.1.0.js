@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.1.0
 * 王福朋
-* 2015-01-02
+* 2015-01-04
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -17,9 +17,9 @@
 	    menus,  //存储菜单配置
         defaultMenuConfig, //默认的菜单显示配置
 		
-        $txt = $('<div class="textarea" ></div>'),  //编辑区
-        $btnContainer = $('<div class="btn-container"></div>'), //菜单容器
-        $maskDiv = $('<div class="mask"></div>'),  //遮罩层
+        $txt = $('<div class="wangEditor-textarea" ></div>'),  //编辑区
+        $btnContainer = $('<div class="wangEditor-btn-container"></div>'), //菜单容器
+        $maskDiv = $('<div class="wangEditor-mask"></div>'),  //遮罩层
         $modalContainer = $('<div></div>'),  //modal容器
         $allMenusWithCommandName,
 
@@ -249,7 +249,7 @@
                         '   链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br />' +
                         '   标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br />' + 
                         '   新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/><br />' +
-                        '   <button id="' + btnId + '" type="button" class="btn">插入链接</button>' + 
+                        '   <button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入链接</button>' + 
                         '</div>'
                     ),
                     callback = function(){
@@ -309,7 +309,7 @@
                         '   列数：<input id="' + colNumTxtId + '" type="text"  style="width:30px;"/>' +
                         '   显示标题行：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/>' + 
                         '   &nbsp;&nbsp;&nbsp;&nbsp;' +
-                        '   <button id="' + btnId + '" class="btn">插入表格</button>',
+                        '   <button id="' + btnId + '" class="wangEditor-modal-btn">插入表格</button>',
                         '</div>'
                     ),
                     callback = function(){
@@ -364,7 +364,7 @@
                         '<div>' +
                         '   网址：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br/>' +
                         '   标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br/>' +
-                        '   <button id="' + btnId + '" type="button" class="btn">插入图片</button>' + 
+                        '   <button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入图片</button>' + 
                         '</div>'
                     ),
                     callback = function(){
@@ -427,9 +427,9 @@
                 return;  //ff中，如果是刚刷新的页面，无选中文本的情况下，执行这两个的 queryCommandState 报 bug
             }
             if(document.queryCommandState(commandName)){
-                $btn.addClass('btn-selected');
+                $btn.addClass('wangEditor-btn-container-btn-selected');
             }else{
-                $btn.removeClass('btn-selected');
+                $btn.removeClass('wangEditor-btn-container-btn-selected');
             }
         });
     }
@@ -685,7 +685,7 @@
         updateMenuStyle();
 
         //关闭modal
-        $modalContainer.find('.modal:visible').hide();
+        $modalContainer.find('.wangEditor-modal:visible').hide();
         if($maskDiv.is(':visible')){
             $maskDiv.hide();
         }
@@ -750,14 +750,14 @@
             insertBefore = options.insertBefore, 
             after = options.after,
             hideMenuConfig = options.hideMenuConfig,
-            menuConfig, 
+            menuConfig,
 
             txtHeight = this.height(),
     		initContent = this.html(),
             $dropMenuContainer = $('<div></div>'),
             $toolTipContainer = $('<div></div>'),
             $window = $(window),
-            $tableDeleteBtn = $('<a href="#" class="tableDeleteBtn"><i class="fa fa-close"></i></a>'),  //删除table,img的按钮
+            $tableDeleteBtn = $('<a href="#" class="wangEditor-tableDeleteBtn"><i class="fa fa-close"></i></a>'),  //删除table,img的按钮
             tableDeleteBtnDisabled;  //当前是否显示
 
     	//------------------加入自定义菜单------------------
@@ -858,7 +858,7 @@
         function createMenuElem(menu){
             if(menu.toString() === '|'){
                 //分割符
-                return $('<div class="split"></div>');
+                return $('<div class="wangEditor-btn-container-split"></div>');
             }
             var type = menu.type,
                 txt = menu.txt,
@@ -871,7 +871,7 @@
                 $dropMenu = menu.dropMenu,
                 $modal = menu.modal,
                 callback = menu.callback,
-                $btn = $('<a class="btn btn-default" href="#"></a>');  //一定要有 herf='#'，否则无法监听blur事件
+                $btn = $('<a class="wangEditor-btn-container-btn wangEditor-btn-container-btn-default" href="#"></a>');  //一定要有 herf='#'，否则无法监听blur事件
             if(typeof command === 'string'){
                 command = $.trim(command);
             }
@@ -942,11 +942,11 @@
             }
             //下拉菜单
             else if(type === 'dropMenu'){
-                $btn.addClass('btn-drop');
+                $btn.addClass('wangEditor-btn-container-btn-drop');
                 $btn.append($('<i class="fa fa-angle-down"></i>'));
 
                 //渲染下拉菜单
-                $dropMenu.attr('class', 'drop-menu');
+                $dropMenu.attr('class', 'wangEditor-drop-menu');
                 $dropMenuContainer.append($dropMenu);
                 function hideDropMenu(){
                     $dropMenu.hide();
@@ -981,13 +981,13 @@
                 if(type === 'modal'){
                     type = ''; //type可能为 'modal', 'modal-big', 'modal-small', 'modal-mini'
                 }
-                $modal.attr('class', 'modal '+ type);  
+                $modal.attr('class', 'wangEditor-modal wangEditor-'+ type);  
                 $modal.prepend($(
-                    '<div class="header">' + 
-                        '<a href="#" class="close"><i class="fa fa-close"></i></a>' + 
+                    '<div class="wangEditor-modal-header">' + 
+                        '<a href="#" commandName="close" class="wangEditor-modal-header-close"><i class="fa fa-close"></i></a>' + 
                         '<b>' + title + '</b>' + 
-                        '<div class="clear-both"></div>' + 
-                        '<div class="line"></div>' + 
+                        '<div class="wangEditor-clear-both"></div>' + 
+                        '<div class="wangEditor-modal-header-line"></div>' + 
                     '</div>'
                 ));
                 $modalContainer.append($modal);
@@ -1008,7 +1008,7 @@
                     $modal.show();
                     e.preventDefault();
                 });
-                $modal.find('.close').click(function(e){
+                $modal.find('[commandName=close]').click(function(e){
                     $maskDiv.hide();
                     $modal.hide();
                     e.preventDefault();
@@ -1025,9 +1025,9 @@
                 var btnTop,
                     btnLeft,
                     btnWidth,
-                    $toolTip = $('<div class="toolTip"></div>'),
-                    $toolTipContent = $('<div class="content">' + title + '</div>'),
-                    $toolTipFooter = $('<div class="footer"><i class="fa fa-caret-down"></i></div>'),
+                    $toolTip = $('<div class="wangEditor-toolTip"></div>'),
+                    $toolTipContent = $('<div class="wangEditor-toolTip-content">' + title + '</div>'),
+                    $toolTipFooter = $('<div class="wangEditor-toolTip-footer"><i class="fa fa-caret-down"></i></div>'),
                     toolTipHeight,
                     toolTipWidth,
                     toolTipTop,
@@ -1078,8 +1078,8 @@
                 $btnContainer.append($btn);
             }
         });
-        $btnContainer.append($('<div class="clear-both"></div>'))
-                      .append($('<div class="line"></div>'));
+        $btnContainer.append($('<div class="wangEditor-clear-both"></div>'))
+                      .append($('<div class="wangEditor-btn-container-line"></div>'));
 
     	//------------------$txt监听------------------
         function txtListener(){
