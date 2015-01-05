@@ -46,14 +46,13 @@
 
 		//菜单按钮
 		&-btn{
-			.common-font-style();
 		    display: block;
-		    width:20px;
-		    padding: 2px;
-		    margin-left: 2px;
+		    padding: 2px 3px;
+		    margin-left: 4px;
 		    float: left;
 		    text-decoration: none;
 		    cursor:pointer;
+		    .common-font-style();
 
 		    &:hover{
 		    	background-color: #f1f1f1;
@@ -73,10 +72,6 @@
 		&-btn-selected{
 			background-color:@selected-color;
 			.border-radius();
-		}
-		//下拉小按钮（用于下拉框类型的按钮）
-		&-btn-drop{
-			width: 28px;
 		}
 
 		//菜单之间的分割线
@@ -235,7 +230,7 @@
 	&-textarea{
 		margin:0px 8px 0px 8px; 
     	overflow-y: scroll;
-
+    	/*overflow: hidden;*/
     	p{
     		margin: 10px 0px 10px 0px;
     	}

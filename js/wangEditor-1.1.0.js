@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.1.0
 * 王福朋
-* 2015-01-04
+* 2015-01-05
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -942,7 +942,6 @@
             }
             //下拉菜单
             else if(type === 'dropMenu'){
-                $btn.addClass('wangEditor-btn-container-btn-drop');
                 $btn.append($('<i class="fa fa-angle-down"></i>'));
 
                 //渲染下拉菜单
@@ -1082,13 +1081,21 @@
                       .append($('<div class="wangEditor-btn-container-line"></div>'));
 
     	//------------------$txt监听------------------
-        function txtListener(){
+        function txtListener(e){
             saveSelection();
             updateMenuStyle();
+
+            if(e && e.type === 'focus'){
+                //focus只能执行一次监听——页面一加载时$txt被强制执行focus()，而剩下的监听都会由click和keyup代替
+                $txt.off('focus', txtListener);
+            }
         }
-        $txt.on('mousedown', function(){
+        $txt.on('focus', txtListener)
+        .on('mousedown', function(){
+            //当鼠标按下时，可能会拖拽选择，这就有可能拖拽到$txt外面再松开，需要监控
             $txt.on('mouseleave', function(){
-                $txt.off('mouseleave');
+                //鼠标拖拽到外面再松开的
+                $txt.off('mouseleave'); 
                 setTimeout(txtListener, 100);  //缓0.1s，否则鼠标移动太快的话，选不全
             });
         }).on('click keyup', function(e){
@@ -1101,6 +1108,7 @@
             txtListener();
 
             if(e.type === 'click'){
+                //鼠标未被按住拖拽到外面再松开，而是在$txt里面就松开了
                 $txt.off('mouseleave');
             }
         }).on('focus blur', function(){
@@ -1167,6 +1175,8 @@
         _initCommandRecord();
 
         //------------------最后返回 $txt------------------
-    	return $txt.attr('contenteditable', true).focus();
+        $txt.attr('contenteditable', true)
+        //$txt.focus();
+    	return $txt;
     };
 })(window);
