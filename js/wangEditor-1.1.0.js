@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.1.0
 * 王福朋
-* 2015-01-05
+* 2015-01-06
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -951,8 +951,8 @@
                     $dropMenu.hide();
                 }
                 $btn.click(function(e){
-                    var btnTop = $btn.offset().top,
-                        btnLeft = $btn.offset().left,
+                    var btnTop = $btn.position().top,
+                        btnLeft = $btn.position().left,
                         btnHeight = $btn.height();
                     $dropMenu.css({
                         'top': (btnTop + btnHeight + 5) + 'px',
@@ -994,7 +994,7 @@
                     var windowWidth = $window.width(),
                         windowHeight = $window.height(),
                         modalWidth = $modal.width(),
-                        btnContainerTop = $btnContainer.offset().top,
+                        btnContainerTop = $btnContainer.position().top,
                         btnContainerHeight = $btnContainer.height();
                     $maskDiv.width(windowWidth);
                     $maskDiv.height(windowHeight);
@@ -1040,8 +1040,8 @@
                     $toolTip.show();
                 }
                 $btn.mouseenter(function(){
-                    btnTop = $btn.offset().top;
-                    btnLeft = $btn.offset().left;
+                    btnTop = $btn.position().top;
+                    btnLeft = $btn.position().left;
                     btnWidth = $btn.width();
                     toolTipHeight = $toolTip.height();
                     toolTipWidth = $toolTip.width();
@@ -1126,9 +1126,9 @@
         }
         $txt.on('click', 'table,img', function(){
             var $elem = $(this),
-                txtTop = $txt.offset().top,
-                tableTop = $elem.offset().top,
-                tableLeft = $elem.offset().left,
+                txtTop = $txt.position().top,
+                tableTop = $elem.position().top,
+                tableLeft = $elem.position().left,
                 btnWidth = $tableDeleteBtn.width(),
                 btnHeight = $tableDeleteBtn.height();
             if(tableTop <= txtTop){
