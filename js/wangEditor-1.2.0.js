@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.2.0
 * 王福朋
-* 2015-01-18
+* 2015-02-02
 */
 (function (window, undefined) {
 	//验证jQuery

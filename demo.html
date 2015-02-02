@@ -25,7 +25,8 @@
 
     <h1>wangEditor demo</h1>
 
-    <div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
+    <!-- 注意，下一行 id='wangEditorTxt' 是必须的！ -->
+    <div id='wangEditorTxt' style='border:1px solid #cccccc; height:240px;'>
         <p>欢迎使用<b>wangEditor</b>，请输入内容...</p>
     </div>
 
@@ -48,10 +49,10 @@
     <script type="text/javascript" src='js/wangEditor-1.2.0.js'></script>
     <script type="text/javascript">
         $(function(){
-
+            
             //一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
             //其实返回的 $editor 就是一个jquery对象，可以进行任何jquery的操作，例如 $editor.html() ， $editor.text()
-            var $editor = $('#txtDiv').wangEditor(
+            var $editor = $('#wangEditorTxt').wangEditor(
                 // wangEditor可传入的配置项如下：
                 // {
                 //     'uploadifyConfig':{

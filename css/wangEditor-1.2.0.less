@@ -1,10 +1,10 @@
 /*
 * wangEditor 1.2.0 less
 * 王福朋
-* 2015-01-18
+* 2015-02-02
 */
 
-.wangEditor{
+#wangEditorTxt{
 	position: relative;
 
 	//-----------------------------------通用设置-----------------------------------
@@ -49,7 +49,7 @@
 	}
 
 	//菜单栏
-	&-btn-container{
+	& .wangEditor-btn-container{
 		text-align: left;
 		padding:5px 3px 0px 3px;
 
@@ -111,7 +111,7 @@
 	    position: absolute;
 	    margin-top: 23px;
 	}
-	&-drop-menu{
+	& .wangEditor-drop-menu{
 		.drop-menu-style !important;  //防止页面其他样式修改ul-li
 
 		a{
@@ -129,7 +129,7 @@
 	}
 
 	//鼠标放置在按钮上的 tooltip 效果
-	&-toolTip{
+	& .wangEditor-toolTip{
 		position: absolute;
 		margin-top: -28px;
     	display: none;
@@ -152,7 +152,7 @@
 	}
 
 	//弹出框的遮罩层
-	&-mask{
+	& .wangEditor-mask{
 		position: fixed;
 	    top: 0;
 	    bottom: 0;
@@ -164,7 +164,7 @@
 	}
 
 	//弹出框
-	&-modal{
+	& .wangEditor-modal{
 		width: 600px;
 
 		.common-font-style();
@@ -228,18 +228,18 @@
 	    	.border-radius();
 	    }
 	}
-	&-modal-big{
+	& .wangEditor-modal-big{
 		width: 800px;
 	}
-	&-modal-small{
+	& .wangEditor-modal-small{
 		width: 400px;
 	}
-	&-modal-mini{
+	& .wangEditor-modal-mini{
 		width: 200px;
 	}
 
 	//富文本编辑区
-	&-textarea{
+	& .wangEditor-textarea{
 		margin:0px 8px 0px 8px; 
     	overflow-y: hidden;
     	/*overflow: hidden;*/
@@ -249,7 +249,7 @@
 	}
 
 	//表格、图片左上角的删除按钮
-	&-tableDeleteBtn{
+	& .wangEditor-tableDeleteBtn{
 		display:block;
 	    text-align: center;
 	    padding: 0px 3px 0px 3px;

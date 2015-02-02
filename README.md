@@ -2,7 +2,7 @@
 ===
 <b>wangEditor——最轻量级web富文本编辑器，配置方便，使用简单</b>。支持所有PC浏览器（包括IE6）。
 demo演示地址：[《wangEditor——轻量级web富文本框》](http://www.cnblogs.com/wangfupeng1988/p/4198428.html#demo)
-![](http://images.cnitblog.com/blog/138012/201501/021623557162956.png)
+![](http://images.cnitblog.com/blog/138012/201502/022125432037564.png)
 
 2. 如何使用？
 ===
@@ -25,9 +25,10 @@ wangEditor中的那些漂亮的按钮小图标，不是作者画的，而是引�
 ```
 
 <b>2.3 生成富文本框</b><br/>
-首先，要在html中建一个`div`。
+首先，要在html中建一个`div`。注意，这个`div`必须设置`id='wangEditorTxt'`。
 ```html
-<div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
+<!-- 注意，下一行 id='wangEditorTxt' 是必须的！ -->
+<div id='wangEditorTxt' style='border:1px solid #cccccc; height:240px;'>
     <p>欢迎使用<b>wangEditor</b>，请输入内容...</p>
 </div>
 ```
@@ -36,7 +37,7 @@ wangEditor中的那些漂亮的按钮小图标，不是作者画的，而是引�
 <script type="text/javascript">
     $(function(){
     	//其实返回的 $editor 就是一个jquery对象，可以进行任何jquery的操作，例如 $editor.html() ， $editor.text()
-    	var $editor = $('#txtDiv').wangEditor();
+    	var $editor = $('#wangEditorTxt').wangEditor();
     });
 </script>
 ```
@@ -45,7 +46,7 @@ wangEditor中的那些漂亮的按钮小图标，不是作者画的，而是引�
 ===
 wangEditor支持两种方式的自定义菜单————自定义隐藏某些菜单，强制自定义要显示的菜单。注意，<b>后者会覆盖掉前者</b>！
 ```javascript
-var $editor = $('#txtDiv').wangEditor({
+var $editor = $('#wangEditorTxt').wangEditor({
 	//配置要隐藏的菜单（数组）
     'hideMenuConfig': ['insertHr', 'uploadImg'],
 
@@ -90,7 +91,7 @@ wangHighLighter.js现在地址：[https://github.com/wangfupeng1988/wangHighLigh
 <br/>
 引入`uploadify`之后，需要配置`uploadify`，在wangEditor()方法中配置即可。
 ```javascript
-var $editor = $('#txtDiv').wangEditor({
+var $editor = $('#wangEditorTxt').wangEditor({
 	'uploadifyConfig':{
 		height: 30,
 		width: 120,
