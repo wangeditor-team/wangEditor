@@ -1,12 +1,20 @@
 /*
-* wangEditor 1.1.0 less
+* wangEditor 1.2.0 less
 * 王福朋
-* 2015-01-04
+* 2015-01-18
 */
 
 .wangEditor{
+	position: relative;
 
 	//-----------------------------------通用设置-----------------------------------
+
+	* {
+		margin: 0px;
+		padding: 0px;
+		box-sizing: border-box;
+	}
+
 	@selected-color:#aec5e6;
 	@default-black-color:#505050;
 	@default-white-color:#fff;
@@ -42,14 +50,16 @@
 
 	//菜单栏
 	&-btn-container{
+		text-align: left;
 		padding:5px 3px 0px 3px;
 
 		//菜单按钮
 		&-btn{
-		    display: block;
-		    padding: 2px 3px;
+		    display: inline-block;
+		    *display:inline; 
+		    *zoom:1;
+		    padding: 3px 3px;
 		    margin-left: 4px;
-		    float: left;
 		    text-decoration: none;
 		    cursor:pointer;
 		    .common-font-style();
@@ -76,34 +86,30 @@
 
 		//菜单之间的分割线
 		&-split{
-			width: 0px;
+			display: inline-block;
+		    *display:inline; 
+		    *zoom:1;			
+		    width: 0px;
 		    height: 20px;
 		    border-left: 1px solid #cccccc;
-		    float: left;;
 		    margin: 0px 5px 0px 5px;
 		}
 
 		//菜单栏最下方的横线
 		&-line{
+			height: 0px;
 			border-top:1px solid #cccccc; 
     		margin:5px 5px 0px 5px;
 		}
 	}
 
 	//下拉菜单
-	.drop-menu-style{
-		list-style: none;
-	    margin: 0px;
-	    padding: 0px;
+	.drop-menu-style{  /*通用配置*/
+		list-style-type: none;
 	    border: 1px solid #cccccc;
-	    width: 100px;
 	    background-color: @default-white-color;
 	    position: absolute;
-
-	    li{
-	    	margin: 0px;
-    		padding: 0px;
-	    }
+	    margin-top: 23px;
 	}
 	&-drop-menu{
 		.drop-menu-style !important;  //防止页面其他样式修改ul-li
@@ -114,7 +120,7 @@
 			display: block;
 		    text-decoration: none;
 		    color: @default-black-color;
-		    padding: 3px 3px 3px 3px;
+		    padding: 3px 10px;
 
 		    &:hover{
 		    	background-color: @selected-color;
@@ -125,6 +131,7 @@
 	//鼠标放置在按钮上的 tooltip 效果
 	&-toolTip{
 		position: absolute;
+		margin-top: -28px;
     	display: none;
 
     	&-content{
@@ -134,19 +141,23 @@
 		    padding: 5px;
 		    .border-radius();
     	}
-
-    	&-footer{
-    		margin-top: -7px;
-		    text-align: center;
-		    color: @default-black-color;
+    	&-content::after{  /*div下方的三角*/
+    		content:"";
+    		border:5px solid;
+    		border-color: @default-black-color transparent transparent transparent;
+    		position: absolute;
+    		right: 40%;
+    		top: 100%;
     	}
 	}
 
 	//弹出框的遮罩层
 	&-mask{
 		position: fixed;
-	    top: 0px;
-	    left:0px;
+	    top: 0;
+	    bottom: 0;
+	    left:0;
+	    right: 0;
 	    display: none;
 	    background-color:#f1f1f1;
 	    .filter();  //设置透明度，默认50%
@@ -162,6 +173,7 @@
 	    background-color: @default-white-color;
 	    padding: 10px 15px 15px 15px;
 	    position: absolute;
+	    margin-top: 30px;
 	    display: none;
 	    .border-radius(5px);
 
@@ -173,8 +185,8 @@
 	    	&-close{
 	    		display:block;
 			    text-align: center;
-			    width: 16px;
 			    float: right;
+			    padding: 0px 3px;
 			    color: @default-black-color;
 			    text-decoration: none;
 			    cursor: pointer;
@@ -209,7 +221,7 @@
 		    }
 	    }
 
-	    //modal中的txt
+	    //modal中的input-txt
 	    input[type=text]{
 	    	border:1px solid #999999;
 	    	padding: 2px 5px;
@@ -229,7 +241,7 @@
 	//富文本编辑区
 	&-textarea{
 		margin:0px 8px 0px 8px; 
-    	overflow-y: scroll;
+    	overflow-y: hidden;
     	/*overflow: hidden;*/
     	p{
     		margin: 10px 0px 10px 0px;
@@ -253,10 +265,5 @@
 	    	color:@default-black-color;
 	    	background-color: @selected-color;
 	    }
-	}
-
-	//清除浮动
-	&-clear-both{
-		clear: both;
 	}
 }

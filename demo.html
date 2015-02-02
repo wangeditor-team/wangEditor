@@ -11,12 +11,13 @@
     <![endif]-->
 
     <!--引入wangEditor.css-->
-    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.1.0-min.css">
+    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.2.0.css">
+
+    <link href="uploadify/uploadify.css" rel="stylesheet" >
 
     <style type="text/css">
         body{
             padding: 0px 10px 0px 10px;
-
         }
     </style>
 </head>
@@ -39,14 +40,45 @@
     <!--引入 jquery.js-->
     <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 
+    <script type="text/javascript" src='js/wangHighLighter-1.0.0-min.js'></script>
+
+    <script src="uploadify/jquery.uploadify.min.js"></script>
+
     <!--引入 wangEditor.js-->
-    <script type="text/javascript" src='js/wangEditor-1.1.0-min.js'></script>
+    <script type="text/javascript" src='js/wangEditor-1.2.0.js'></script>
     <script type="text/javascript">
         $(function(){
 
             //一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
             //其实返回的 $editor 就是一个jquery对象，可以进行任何jquery的操作，例如 $editor.html() ， $editor.text()
-            var $editor = $('#txtDiv').wangEditor();
+            var $editor = $('#txtDiv').wangEditor(
+                // wangEditor可传入的配置项如下：
+                // {
+                //     'uploadifyConfig':{
+                //         //自定义的uploadify配置项
+                //     },
+
+                //     //配置要隐藏的菜单（数组）
+                //     'hideMenuConfig': ['insertHr', 'uploadImg'],
+
+                //     //自定义菜单配置（数组）（会覆盖掉'hideMenuConfig'的配置）
+                //     'menuConfig': ['bold', 'italic', '|', 'foreColor', 'backgroundColor']
+
+                //     // 系统默认的菜单项配置如下：
+                //     // [
+                //     //     'fontFamily', 'fontSize', '|', 
+                //     //     'bold', 'underline', 'italic', '|', 
+                //     //     'setHead', 'foreColor', 'backgroundColor', 'removeFormat', '|', 
+                //     //     'indent', 'outdent', '|',
+                //     //     'unOrderedList', 'orderedList', '|', 
+                //     //     'justifyLeft', 'justifyCenter', 'justifyRight', '|', 
+                //     //     'createLink', 'unLink', '|', 
+                //     //     'insertHr', 'insertTable',  'insertCode', '|', 
+                //     //     'webImage', 'uploadImg', '|',
+                //     //     'undo', 'redo'
+                //     // ];
+                // }
+            );
 
             //显示 html / text
             var $textarea = $('#textarea'),

@@ -1,7 +1,7 @@
 /*
-* wangEditor 1.1.0
+* wangEditor 1.2.0
 * 王福朋
-* 2015-01-06
+* 2015-01-18
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -36,10 +36,6 @@
     //获取唯一ID
     function getUniqeId () {
         return idPrefix + (id++);
-    }
-    if(!window.wangEditor_getUniqeId){
-        //暴露给全局使用
-        window.wangEditor_getUniqeId = getUniqeId;
     }
 
     //--------------------基本配置--------------------
@@ -78,21 +74,42 @@
     defaultMenuConfig = [
                             'fontFamily', 'fontSize', '|', 
                             'bold', 'underline', 'italic', '|', 
-                            'foreColor', 'backgroundColor', 'removeFormat', '|', 
+                            'setHead', 'foreColor', 'backgroundColor', 'removeFormat', '|', 
+                            'indent', 'outdent', '|',
                             'unOrderedList', 'orderedList', '|', 
                             'justifyLeft', 'justifyCenter', 'justifyRight', '|', 
                             'createLink', 'unLink', '|', 
-                            'insertHr', 'insertTable', 'webImage', '|', 
+                            'insertHr', 'insertTable',  'insertCode', '|', 
+                            'webImage', 'uploadImg', '|',
                             'undo', 'redo'
                         ];
     //菜单配置集
+    /*
+        menus = {
+            'menuId-1': {
+                'title': （字符串，必须）标题,
+                'type':（字符串，必须）类型，可以是 btn / dropMenu / modal(其中包含modal-big/modal/modal-small/modal-mini),
+                'txt': （字符串，必须）fontAwesome字体样式，例如 'fa fa-head',
+                'hotKey':（字符串，可选）快捷键，如'ctrl + b', 'ctrl,shift + i', 'alt,meta + y'等，支持 ctrl, shift, alt, meta 四个功能键（只有type===btn才有效）,
+                'command':（字符串/函数，可选）document.execCommand的命令名，如'fontName'；也可以是自定义的命令函数，如“撤销”按钮（type===modal时，command无效）,
+                'dropMenu': （$ul，可选）type===dropMenu时，要返回一个$ul，作为下拉菜单,
+                'modal':（$div，可选）type===modal是，要返回一个$div，作为弹出框,
+                'callback':（函数，可选）回调函数,
+                'dependence': （任何对象，可选）依赖对象，在加载菜单时，会判断该对象是否是null/undefined，如果是，就不显示,
+                'dependenceAlert': （字符串，可选）依赖对象找不到时候的提示
+            },
+            'modaId-2':{
+                ……
+            }
+        }
+    */
     menus = {
         'fontFamily': {
             'title': '字体',
             'type': 'dropMenu',
             'txt': 'fa fa-font',
             'command': 'fontName ', 
-            'dropMenu': (function(){
+            'dropMenu': function(){
                 var arr = [],
                     //注意，此处commandValue必填项，否则程序不会跟踪
                     temp = '<li><a href="#" commandValue="${value}" style="font-family:${family};">${txt}</a></li>',
@@ -107,14 +124,14 @@
                 });
                 $ul = $('<ul>' + arr.join('') + '</ul>');
                 return $ul; 
-            })()
+            }
         },
         'fontSize': {
             'title': '字号',
             'type': 'dropMenu',
             'txt': 'fa fa-text-height',
             'command': 'fontSize',
-            'dropMenu': (function () {
+            'dropMenu': function () {
                 var arr = [],
                     //注意，此处commandValue必填项，否则程序不会跟踪
                     temp = '<li><a href="#" commandValue="${value}" style="font-size:${fontsize};">${txt}</a></li>',
@@ -129,7 +146,7 @@
                 });
                 $ul = $('<ul>' + arr.join('') + '</ul>');
                 return $ul; 
-            })()
+            }
         },
         'bold': {
             'title': '加粗',
@@ -155,12 +172,28 @@
             'txt':'fa fa-italic',
             'command': 'italic '
         },
+        'setHead': {
+            'title': '设置标题',
+            'type': 'dropMenu', 
+            'txt':'fa fa-header',
+            'command': 'formatBlock ',
+            'dropMenu': function(){ 
+                var html =  '<ul>' + 
+                            '   <li><a href="#" commandValue="<h1>"><h1>标题1</h1></a></li>' + 
+                            '   <li><a href="#" commandValue="<h2>"><h2>标题2</h2></a></li>' + 
+                            '   <li><a href="#" commandValue="<h3>"><h3>标题3</h3></a></li>' + 
+                            '   <li><a href="#" commandValue="<h4>"><h4>标题4</h4></a></li>' + 
+                            '   <li><a href="#" commandValue="<p>">正文</a></li>' + 
+                            '</ul>';
+                return $(html);
+            }
+        },
         'foreColor': {
             'title': '前景色',
             'type': 'dropMenu',
             'txt': 'fa fa-pencil|color:#4a7db1',
             'command': 'foreColor ',
-            'dropMenu': (function(){
+            'dropMenu': function(){
                 var arr = [],
                     //注意，此处commandValue必填项，否则程序不会跟踪
                     temp = '<li><a href="#" commandValue="${value}" style="color:${color};">${txt}</a></li>',
@@ -175,14 +208,14 @@
                 });
                 $ul = $('<ul>' + arr.join('') + '</ul>');
                 return $ul; 
-            })()
+            }
         },
         'backgroundColor': {
             'title': '背景色',
             'type': 'dropMenu',
             'txt': 'fa fa-paint-brush|color:Red',
             'command': 'backColor ',
-            'dropMenu': (function(){
+            'dropMenu': function(){
                 var arr = [],
                     //注意，此处commandValue必填项，否则程序不会跟踪
                     temp = '<li><a href="#" commandValue="${value}" style="background-color:${color};color:#ffffff;">${txt}</a></li>',
@@ -197,13 +230,26 @@
                 });
                 $ul = $('<ul>' + arr.join('') + '</ul>');
                 return $ul; 
-            })()
+            }
         },
         'removeFormat': {
             'title': '清除格式',
             'type': 'btn',
             'txt':'fa fa-eraser',
             'command': 'RemoveFormat ' 
+        },
+        'indent': {
+            'title': '增加缩进',
+            'type': 'btn',
+            'hotKey': 'ctrl,shift + i',
+            'txt':'fa fa-indent',
+            'command': 'indent'
+        },
+        'outdent': {
+            'title': '减少缩进',
+            'type': 'btn',
+            'txt':'fa fa-outdent',
+            'command': 'outdent'
         },
         'unOrderedList': {
             'title': '无序列表',
@@ -239,7 +285,7 @@
             'title': '插入链接',
             'type': 'modal-small',   //可以使用 'modal-big'/'modal'/'modal-small'/'modal-mini'
             'txt': 'fa fa-link',
-            'modal': (function () {
+            'modal': function () {
                 var urlTxtId = getUniqeId(),
                     titleTxtId = getUniqeId(),
                     blankCheckId = getUniqeId(),
@@ -280,7 +326,7 @@
                 });
 
                 return $modal;
-            })()
+            }
         },
         'unLink': {
             'title': '取消链接',
@@ -298,7 +344,7 @@
             'title': '插入表格',
             'type': 'modal-small',
             'txt': 'fa fa-table',
-            'modal': (function(){
+            'modal': function(){
                 var rowNumTxtId = getUniqeId(),
                     colNumTxtId = getUniqeId(),
                     titleCheckId = getUniqeId(),
@@ -350,13 +396,13 @@
                     commonCommand(e, 'insertHTML', table, callback);
                 });
                 return $modal;
-            })()
+            }
         },
         'webImage': {
             'title': '网络图片',
             'type': 'modal-small',
             'txt': 'fa fa-image',
-            'modal': (function () {
+            'modal': function () {
                 var urlTxtId = getUniqeId(),
                     titleTxtId = getUniqeId(),
                     btnId = getUniqeId();
@@ -393,7 +439,134 @@
                 });
 
                 return $modal;
-            })()
+            }
+        },
+        'uploadImg': {
+            'title': '上传图片',
+            'type': 'modal-small',
+            'txt': 'fa fa-file-image-o',
+            'dependence': $.prototype.uploadify,
+            'dependenceAlert': '上传图片依赖于 jQuery.uploadify 插件，请检查是否引用！',
+            'modal': function (options) { 
+                // 在执行 $div.wangEditor(options) 时，传入的 options 参数中可能会有 options.uploadifyConfig
+                // options.uploadifyConfig 即是用户自定义的uploadify的配置
+                // 系统将 options.uploadifyConfig 中的配置覆盖到默认的 uploadify 的配置中（其中，onUploadSuccess函数配置有调整，详见代码）
+
+                var fileId = getUniqeId(),
+                    $modal = $(
+                        '<div>' +
+                        '   <input type="file" id="' + fileId + '"/>' +
+                        '</div>'
+                    ),
+
+                    //默认配置
+                    InsertImangeCommand = function (file, data, response) {
+                        commonCommand(null, 'insertImage', data);
+                        $('.uploadify-queue').hide(); //强制uploadify控件隐藏队列
+                    },
+                    uploadifyDefaultConfig = {
+                        height: 30,
+                        width: 120,
+                        swf: 'uploadify/uploadify.swf',
+                        uploader: 'data.ashx',
+                        buttonText: '选择图片',
+                        multi: false,
+                        onUploadSuccess: InsertImangeCommand  //默认将onUploadSuccess定义为插入图片
+                    },
+                    optionsConfig;
+
+                //下文要通过jquery获取 input-file 元素，因此这里必须先渲染到dom树中，否则获取不了 input-file
+                $('body').append($modal);
+
+                //配置 uploadify
+                if(options.uploadifyConfig){
+                    optionsConfig = options.uploadifyConfig;
+
+                    //将传入的配置覆盖到默认的配置中
+                    $.extend(uploadifyDefaultConfig, optionsConfig);
+
+                    if(optionsConfig.onUploadSuccess){
+                        //如果传入的配置中有 onUploadSuccess 函数
+                        //要先执行插入图片操作，再执行自定义的函数
+                        uploadifyDefaultConfig.onUploadSuccess = function(file, data, response){
+                            InsertImangeCommand(file, data, response);
+                            optionsConfig.onUploadSuccess(file, data, response);
+                        }
+                    }
+                }
+                //图片格式
+                uploadifyDefaultConfig.fileTypeExts = '*.jpg; *.jpeg; *.gif; *.png';
+
+                //传入配置
+                $('#' + fileId).uploadify(uploadifyDefaultConfig);
+
+                return $modal;
+            }
+        },
+        'insertCode':{
+            'title': '插入代码',
+            'type': 'modal',
+            'txt': 'fa fa-code',
+            'dependence': window.wangHighLighter, //依赖于 window.wangHighLighter
+            'dependenceAlert': '插入代码功能依赖于 wangHighLighter.js 插件，请检查是否引用！',
+            'modal': function(){
+                var langId = getUniqeId(), 
+                    themeId = getUniqeId(),
+                    codeId = getUniqeId(),
+                    btnId = getUniqeId(),
+                    wangHighLighter = window.wangHighLighter,
+
+                    //定义modal
+                    $modal = $(
+                        '<div>' +
+                        '   语言：<select id="' + langId + '"></select> &nbsp;&nbsp;' +
+                        '   主题：<select id="' + themeId + '"></select>' +
+                        '   <textarea id="' + codeId + '" style="width:100%; height:150px;"></textarea>' + 
+                        '   <button id="' + btnId + '">插入</button>' +
+                        '</div>'
+                    ),
+
+                    //定义callback
+                    callback = function(){
+                        $modal.find('textarea').val('');
+                    };
+
+                //因为下文要对语言、主题的下拉框进行绑定，所以要先将 $modal 附加到页面上，否则无法获取select节点。
+                $('body').append($modal);
+                    
+                var $langSlt = $('#' + langId),  //获取各个dom
+                    $themeSlt = $('#' + themeId),
+                    $codeTxt = $('#' + codeId),
+                    $btn = $('#' + btnId),
+
+                    //获取语言、主题的数组
+                    langArray = wangHighLighter.getLangArray(),
+                    themeArray = wangHighLighter.getThemeArray();
+
+                //绑定语言
+                $.each(langArray, function(key, value){
+                    $langSlt.append($('<option>' + value + '</option>'));
+                });
+                //绑定主题
+                $.each(themeArray, function(key, value){
+                    $themeSlt.append($('<option>' + value + '</option>'));
+                });
+
+                //版定“插入”按钮点击事件
+                $btn.click(function(e){
+                    var lang = $langSlt.val(),
+                        theme = $themeSlt.val(),
+                        code = $codeTxt.val(),
+                        result;
+                    //高亮代码
+                    result = wangHighLighter.highLight(lang, theme, code);
+                    //插入代码
+                    commonCommand(e, 'insertHTML', result, callback);
+                });
+
+                //返回 $modal
+                return $modal;
+            }
         },
         'undo': {
             'title': '撤销',
@@ -697,10 +870,6 @@
             e.preventDefault();
         }
     }
-    if(!window.wangeditor_commonCommand){
-        //暴露给全局使用
-        window.wangeditor_commonCommand = commonCommand;
-    }
 
     //--------------------生成插件--------------------
     if(!Array.prototype.indexOf){
@@ -729,121 +898,34 @@
     $.fn.wangEditor = function(options){
         /*
         * options: {
-        *   customMenus: {       //自定义添加的菜单
-        *       'menuId1': {...},
-        *       'menuId2': {...}
-        *   },
-        *   insertBefore: {     //在某个菜单前面插入一个菜单
-        *       'currentMenuId1': 'insertMenuId1' / ['...','...','...'] ,
-        *       'currentMenuId2': 'insertMenuId2 / ['...','...','...']'
-        *   },
-        *   after: {   //在某个菜单后面追加一个菜单
-        *       'currentMenuId1': 'afterMenuId1' / ['...','...','...'],
-        *       'currentMenuId2': 'afterMenuId2' / ['...','...','...']
+        *   uploadifyConfig:{
+        *       uploadify控件的配置……
         *   },
         *   hideMenuConfig: [...],  //配置要隐藏的菜单
-        *   menuConfig: [...]   //配置要显示的菜单（menuConfig会覆盖掉 insertBefore 和 hideMenuConfig）
+        *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
         * }
         */
     	var options = options || {},
-            customMenus = options.customMenus, //自定义添加的菜单
-            insertBefore = options.insertBefore, 
-            after = options.after,
             hideMenuConfig = options.hideMenuConfig,
             menuConfig,
 
             txtHeight = this.height(),
     		initContent = this.html(),
-            $dropMenuContainer = $('<div></div>'),
-            $toolTipContainer = $('<div></div>'),
             $window = $(window),
+            $body = $('body'),
             $tableDeleteBtn = $('<a href="#" class="wangEditor-tableDeleteBtn"><i class="fa fa-close"></i></a>'),  //删除table,img的按钮
             tableDeleteBtnDisabled;  //当前是否显示
 
-    	//------------------加入自定义菜单------------------
-        if(customMenus){
-            //将customMenus中的menuId加入到defaultMenuConfig
-            $.each(customMenus, function(key){
-                defaultMenuConfig.push(key);
-            });
-
-            //传入的将customeMenus合并到menus
-            menus = $.extend(menus, customMenus);
-        }
-
         //------------------配置要显示的菜单------------------
         if(options.menuConfig){
-            //如果传入了 menuConfig 则以menuConfig为主，忽略掉 insertBefore，after 和 hideMenuConfig
+            //如果传入了 menuConfig 则以menuConfig为主，忽略掉hideMenuConfig
             menuConfig = options.menuConfig; 
         }else{
-            //如果未传入 menuConfig ，则默认为defaultMenuConfig，考虑 insertBefore，after 和 hideMenuConfig
+            //如果未传入 menuConfig ，则默认为defaultMenuConfig，考虑hideMenuConfig
             menuConfig = defaultMenuConfig;
 
-            if(insertBefore){
-                //前面插入
-                $.each(insertBefore, function(key, value){
-                    // key: 现有的menuId
-                    // value: 要插入的menuId 或数组
-                    var index = menuConfig.indexOf($.trim(key));
-                    if(index !== -1){
-                        if(typeof value === 'string'){
-                            value = [value];
-                        }
-                        //将默认追加的customMenuId，从menuConfig中删除
-                        $.each(value, function(key, value){
-                            value = $.trim(value);
-                            if(value === '|'){
-                                return;
-                            }
-
-                            var index = menuConfig.lastIndexOf(value);
-                            if(index !== -1){
-                                menuConfig[index] = null;
-                            }
-                        });
-
-                        value.unshift(0);
-                        value.unshift(index);
-                        Array.prototype.splice.apply(menuConfig, value);
-                    }
-                });
-            }
-
-            if(after){
-                //后面追加
-                $.each(after, function(key, value){
-                    // key: 现有的menuId，
-                    // value: 要插入的menuId 或数组
-                    var index = menuConfig.indexOf($.trim(key));
-                    if(typeof value === 'string'){
-                        value = [value];
-                    }
-
-                    //将默认追加的customMenuId，从menuConfig中删除
-                    $.each(value, function(key, value){
-                        value = $.trim(value);
-                        if(value === '|'){
-                            return;
-                        }
-
-                        var index = menuConfig.lastIndexOf($.trim(value));
-                        if(index !== -1){
-                            menuConfig[index] = null;
-                        }
-                    });
-
-                    if(index + 1 === menuConfig.length){
-                        Array.prototype.push.apply(menuConfig, value);
-                    }else{
-                        value.unshift(0);
-                        value.unshift(index + 1);
-                        Array.prototype.splice.apply(menuConfig, value);
-                    }
-                });
-            }
-
             if(hideMenuConfig){
-                //隐藏
+                //配置隐藏的菜单
                 $.each(hideMenuConfig, function(){
                     var elem = $.trim(this),
                         index = menuConfig.indexOf(elem);
@@ -860,18 +942,39 @@
                 //分割符
                 return $('<div class="wangEditor-btn-container-split"></div>');
             }
+
+            var title = menu.title,
+                dependence = menu.dependence,
+                dependenceAlert = menu.dependenceAlert,
+                dependenceAlertInfo;
+
+            //判断是否需要依赖
+            if( ('dependence' in menu) && dependence == null ){
+                // menu中有'dependence'这一项，但是其值是null/undefined
+                // 说明依赖不存在
+                dependenceAlertInfo = 'wangEditor提示：【' + title + '】菜单需要的依赖不存在，将不现实菜单！';
+                if(dependenceAlert){
+                    dependenceAlertInfo += '\n（' + dependenceAlert + '）';
+                }
+ 
+                //提示，返回
+                alert(dependenceAlertInfo);
+                return;
+            }
+
             var type = menu.type,
                 txt = menu.txt,
                 txtArr,
-                title = menu.title,
                 command = menu.command,  //函数或者字符串
                 hotKey = menu.hotKey, //快捷键
                 fnKeys = [],
                 keyCode,
-                $dropMenu = menu.dropMenu,
-                $modal = menu.modal,
+                $dropMenu = menu.dropMenu && menu.dropMenu(),
+                $modal = menu.modal && menu.modal(options),  //有些modal需要options，例如“上传图片”
                 callback = menu.callback,
-                $btn = $('<a class="wangEditor-btn-container-btn wangEditor-btn-container-btn-default" href="#"></a>');  //一定要有 herf='#'，否则无法监听blur事件
+                $btn = $('<a class="wangEditor-btn-container-btn wangEditor-btn-container-btn-default" href="#"></a>'),  //一定要有 herf='#'，否则无法监听blur事件
+                resultArray = [$btn];
+            
             if(typeof command === 'string'){
                 command = $.trim(command);
             }
@@ -946,19 +1049,13 @@
 
                 //渲染下拉菜单
                 $dropMenu.attr('class', 'wangEditor-drop-menu');
-                $dropMenuContainer.append($dropMenu);
+                resultArray.unshift($dropMenu);
+
                 function hideDropMenu(){
                     $dropMenu.hide();
                 }
                 $btn.click(function(e){
-                    var btnTop = $btn.position().top,
-                        btnLeft = $btn.position().left,
-                        btnHeight = $btn.height();
-                    $dropMenu.css({
-                        'top': (btnTop + btnHeight + 5) + 'px',
-                        'left': btnLeft + 'px'
-                    });
-                    $dropMenu.show();
+                    $dropMenu.css('display', 'inline-block');
                     e.preventDefault();
                     this.focus();  //for 360急速浏览器
                 }).blur(function(e){
@@ -985,23 +1082,13 @@
                     '<div class="wangEditor-modal-header">' + 
                         '<a href="#" commandName="close" class="wangEditor-modal-header-close"><i class="fa fa-close"></i></a>' + 
                         '<b>' + title + '</b>' + 
-                        '<div class="wangEditor-clear-both"></div>' + 
                         '<div class="wangEditor-modal-header-line"></div>' + 
                     '</div>'
                 ));
                 $modalContainer.append($modal);
                 $btn.click(function(e){
-                    var windowWidth = $window.width(),
-                        windowHeight = $window.height(),
-                        modalWidth = $modal.width(),
-                        btnContainerTop = $btnContainer.position().top,
-                        btnContainerHeight = $btnContainer.height();
-                    $maskDiv.width(windowWidth);
-                    $maskDiv.height(windowHeight);
-                    $modal.css({
-                        'top': (btnContainerTop + btnContainerHeight) + 'px',
-                        'left': (windowWidth - modalWidth)/2 + 'px'
-                    });
+                    //计算margin-left;
+                    $modal.css('margin-left', ($window.outerWidth()/2 - $modal.outerWidth()/2));
 
                     $maskDiv.show();
                     $modal.show();
@@ -1021,36 +1108,27 @@
                     title = title + '('  + hotKey + ')';  //加入快捷键提示
                 }
 
-                var btnTop,
-                    btnLeft,
-                    btnWidth,
-                    $toolTip = $('<div class="wangEditor-toolTip"></div>'),
+                var $toolTip = $('<div class="wangEditor-toolTip"></div>'),
                     $toolTipContent = $('<div class="wangEditor-toolTip-content">' + title + '</div>'),
-                    $toolTipFooter = $('<div class="wangEditor-toolTip-footer"><i class="fa fa-caret-down"></i></div>'),
-                    toolTipHeight,
-                    toolTipWidth,
-                    toolTipTop,
-                    toolTipLeft,
-                    timer;
-                $toolTip.append($toolTipContent)
-                        .append($toolTipFooter);
-                $toolTipContainer.append($toolTip);
+                    timer,
+                    margin_left;
+
+                $toolTip.append($toolTipContent);
+                resultArray.unshift($toolTip);
 
                 function showToolTip(){
-                    $toolTip.show();
+                    $toolTip.css('display', 'inline-block');
                 }
                 $btn.mouseenter(function(){
-                    btnTop = $btn.position().top;
-                    btnLeft = $btn.position().left;
-                    btnWidth = $btn.width();
-                    toolTipHeight = $toolTip.height();
-                    toolTipWidth = $toolTip.width();
-                    toolTipTop = btnTop - toolTipHeight + 5;
-                    toolTipLeft = btnLeft - (toolTipWidth-btnWidth)/2 + 3;
-                    $toolTip.css({
-                        'top': toolTipTop + 'px',
-                        'left': toolTipLeft + 'px'
-                    });
+                    //计算$tooltip的margin-left，只计算一次
+                    if(!margin_left){
+                        margin_left = $toolTip.css('margin-left');
+                    }
+                    if(margin_left === '0px'){
+                        margin_left = ( 0 - ($toolTip.outerWidth()/2 - $btn.outerWidth()/2) ) + 'px';
+                        $toolTip.css('margin-left', margin_left);
+                    }
+
                     timer = setTimeout(showToolTip, 200);  //0.2s之后才显示tooltip，防止鼠标快速经过时会闪烁
                 }).mouseleave(function(){
                     clearTimeout(timer);
@@ -1058,7 +1136,7 @@
                 });
             }
 
-            return $btn;
+            return resultArray;  //返回数组，默认只有[$btn]
         }
         $.each(menuConfig, function(){
             if(this == null){
@@ -1073,12 +1151,13 @@
                 menu = menus[title];
             }
             if(menu){
-                $btn = createMenuElem(menu);
-                $btnContainer.append($btn);
+                btns = createMenuElem(menu);  //返回一个数组，将其中的元素依次插入 $btnContainer
+                $.each(btns, function(key, value){
+                    $btnContainer.append(value);
+                });
             }
         });
-        $btnContainer.append($('<div class="wangEditor-clear-both"></div>'))
-                      .append($('<div class="wangEditor-btn-container-line"></div>'));
+        $btnContainer.append($('<div class="wangEditor-btn-container-line"></div>'));
 
     	//------------------$txt监听------------------
         function txtListener(e){
@@ -1160,9 +1239,7 @@
         this.attr('class', 'wangEditor');
     	this.html('')
             .append($tableDeleteBtn)
-            .append($toolTipContainer)
             .append($maskDiv)
-            .append($dropMenuContainer)
             .append($modalContainer)
     		.append($btnContainer)
     		.append($txt);
@@ -1177,6 +1254,14 @@
         //------------------最后返回 $txt------------------
         $txt.attr('contenteditable', true)
         //$txt.focus();
+
+        //处理 overflow-y 样式
+        $txt.focus(function(){
+            $txt.css('overflow-y', 'scroll');
+        }).blur(function(){
+            $txt.css('overflow-y', 'hidden');
+        });
+
     	return $txt;
     };
 })(window);
