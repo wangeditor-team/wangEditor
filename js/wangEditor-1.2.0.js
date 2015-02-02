@@ -899,7 +899,7 @@
         /*
         * options: {
         *   uploadifyConfig:{
-        *       uploadify控件的配置……
+        *       //uploadify控件的配置……
         *   },
         *   hideMenuConfig: [...],  //配置要隐藏的菜单
         *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
@@ -952,13 +952,15 @@
             if( ('dependence' in menu) && dependence == null ){
                 // menu中有'dependence'这一项，但是其值是null/undefined
                 // 说明依赖不存在
-                dependenceAlertInfo = 'wangEditor提示：【' + title + '】菜单需要的依赖不存在，将不现实菜单！';
+                dependenceAlertInfo = 'wangEditor提示：【' + title + '】菜单需要的依赖不存在，将不显示菜单！';
                 if(dependenceAlert){
                     dependenceAlertInfo += '\n（' + dependenceAlert + '）';
                 }
  
                 //提示，返回
-                alert(dependenceAlertInfo);
+                if(console && console.log){
+                    console.log(dependenceAlertInfo);
+                }
                 return;
             }
 
@@ -1152,9 +1154,11 @@
             }
             if(menu){
                 btns = createMenuElem(menu);  //返回一个数组，将其中的元素依次插入 $btnContainer
-                $.each(btns, function(key, value){
-                    $btnContainer.append(value);
-                });
+                if(btns){
+                    $.each(btns, function(key, value){
+                        $btnContainer.append(value);
+                    });
+                }
             }
         });
         $btnContainer.append($('<div class="wangEditor-btn-container-line"></div>'));
