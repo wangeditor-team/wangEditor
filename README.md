@@ -15,6 +15,9 @@ wangEditor中的那些漂亮的按钮小图标，不是作者画的，而是引�
 <![endif]-->
 
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+
+<!-- 最后，为了安全起见，强烈建议大家引用 xss.js 。对于 xss.js 下文会有介绍-->
+<script type="text/javascript" src="js/xss.js"></script>
 ```
 
 <b>2.2 引用wangEditor.js和wangEditor.css</b><br/>
@@ -109,7 +112,7 @@ xss是现在网络攻击的常用手段，尤其对于富文本框来说，过�
 <b>因此，强烈建议大家引用`xss.js`，wangEditor已经做好集成工作，只需要页面引用即可。</b> <br />
 下载地址：[https://raw.github.com/leizongmin/js-xss/master/dist/xss.js](https://raw.github.com/leizongmin/js-xss/master/dist/xss.js)
 ```html
-<script src="js/xss.js"></script>
+<script type="text/javascript" src="js/xss.js"></script>
 ```
 
 7. 交流
