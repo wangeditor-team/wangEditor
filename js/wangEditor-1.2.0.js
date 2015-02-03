@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.2.0
 * 王福朋
-* 2015-02-02
+* 2015-02-03
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -313,7 +313,7 @@
 
                     if(url !== ''){
                         //xss过滤
-                        if(xssFilter(url) === false){
+                        if(filterXSSForUrl(url) === false){
                             alert('您的输入内容有不安全字符，请重新输入！')
                             return;
                         }
@@ -426,7 +426,7 @@
                     }
                     if(url !== ''){
                         //xss过滤
-                        if(xssFilter(url) === false){
+                        if(filterXSSForUrl(url) === false){
                             alert('您的输入内容有不安全字符，请重新输入！')
                             return;
                         }
@@ -717,12 +717,18 @@
         }
     }
     //xss过滤
-    function xssFilter(url){
-        url = $.trim(url.toLowerCase());
-        if(url.indexOf('javascript:') === 0){
-            return false;
+    if(window.filterXSS && typeof window.filterXSS === 'function'){
+        //如果用户引用了xss.js，xss.js提供filterXSS方法，则不再定义。（推荐用户使用xss.js）
+    }else{
+        //如果没有，则自己定义一个简单的filterXSS方法
+        function filterXSS(txt){
+            return txt;
         }
-        return true;
+    }
+    //专门针对url的xss验证
+    function filterXSSForUrl(url){
+        var s = '<a href="' + url + '"></a>';
+        return filterXSS(s) === s;
     }
     //命令 hook
     commandHooks = {

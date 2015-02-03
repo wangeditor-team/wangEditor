@@ -103,7 +103,16 @@ var $editor = $('#wangEditorTxt').wangEditor({
 });
 ```
 
-6. 交流
+6. 如何过滤XSS？
+===
+xss是现在网络攻击的常用手段，尤其对于富文本框来说，过滤xss是非常重要的一份工作。术业有专攻，wangEditor不是过滤xss的专家，但是可以借助专家的力量。<br />
+<b>因此，强烈建议大家引用`xss.js`，wangEditor已经做好集成工作，只需要页面引用即可。</b> <br />
+下载地址：[https://raw.github.com/leizongmin/js-xss/master/dist/xss.js](https://raw.github.com/leizongmin/js-xss/master/dist/xss.js)
+```html
+<script src="js/xss.js"></script>
+```
+
+7. 交流
 ===
 交流QQ群：<b>164999061</b> <br />
 二次开发联系：<b>wangfupeng1988#163.com（#->@）</b>
