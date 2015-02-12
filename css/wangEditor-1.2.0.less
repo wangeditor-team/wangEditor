@@ -6,12 +6,12 @@
 
 #wangEditorTxt{
 	position: relative;
+	.border-radius();
 
 	//-----------------------------------通用设置-----------------------------------
 
 	* {
-		margin: 0px;
-		padding: 0px;
+		margin: 0;
 		box-sizing: border-box;
 	}
 
@@ -20,7 +20,7 @@
 	@default-white-color:#fff;
 
 	//通用字体样式
-	.common-font-style(@fz:14px, @lh:23px, @ta: center){
+	.common-font-style(@fz:0.9em, @lh:1.4, @ta: center){
 		font-size: @fz;
 		line-height: @lh;
 		text-align: @ta;
@@ -99,7 +99,7 @@
 		&-line{
 			height: 0px;
 			border-top:1px solid #cccccc; 
-    		margin:5px 5px 0px 5px;
+    		margin:3px 5px 0px 5px;
 		}
 	}
 
@@ -110,6 +110,8 @@
 	    background-color: @default-white-color;
 	    position: absolute;
 	    margin-top: 23px;
+	    padding-left:0px;
+	    -webkit-padding-start: 0px;
 	}
 	& .wangEditor-drop-menu{
 		.drop-menu-style !important;  //防止页面其他样式修改ul-li
@@ -135,7 +137,7 @@
     	display: none;
 
     	&-content{
-    		.common-font-style(13px, 13px);
+    		.common-font-style(0.8em, 1);
 		    background-color: @default-black-color;
 		    color: @default-white-color;
 		    padding: 5px;
@@ -244,7 +246,7 @@
     	overflow-y: hidden;
     	/*overflow: hidden;*/
     	p{
-    		margin: 10px 0px 10px 0px;
+    		margin: 0.7em 0;
     	}
 	}
 

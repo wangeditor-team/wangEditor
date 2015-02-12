@@ -5,10 +5,12 @@
 */
 #wangEditorTxt {
   position: relative;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
 }
 #wangEditorTxt * {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
   box-sizing: border-box;
 }
 #wangEditorTxt div[contenteditable=true]:focus {
@@ -26,8 +28,8 @@
   margin-left: 4px;
   text-decoration: none;
   cursor: pointer;
-  font-size: 14px;
-  line-height: 23px;
+  font-size: 0.9em;
+  line-height: 1.4;
   text-align: center;
 }
 #wangEditorTxt .wangEditor-btn-container-btn:hover {
@@ -61,7 +63,7 @@
 #wangEditorTxt .wangEditor-btn-container-line {
   height: 0px;
   border-top: 1px solid #cccccc;
-  margin: 5px 5px 0px 5px;
+  margin: 3px 5px 0px 5px;
 }
 #wangEditorTxt .drop-menu-style {
   /*通用配置*/
@@ -70,6 +72,8 @@
   background-color: #ffffff;
   position: absolute;
   margin-top: 23px;
+  padding-left: 0px;
+  -webkit-padding-start: 0px;
 }
 #wangEditorTxt .wangEditor-drop-menu {
   /*通用配置*/
@@ -78,10 +82,12 @@
   background-color: #ffffff !important;
   position: absolute !important;
   margin-top: 23px !important;
+  padding-left: 0px !important;
+  -webkit-padding-start: 0px !important;
 }
 #wangEditorTxt .wangEditor-drop-menu a {
-  font-size: 14px;
-  line-height: 23px;
+  font-size: 0.9em;
+  line-height: 1.4;
   text-align: center;
   text-align: left;
   display: block;
@@ -98,8 +104,8 @@
   display: none;
 }
 #wangEditorTxt .wangEditor-toolTip-content {
-  font-size: 13px;
-  line-height: 13px;
+  font-size: 0.8em;
+  line-height: 1;
   text-align: center;
   background-color: #505050;
   color: #ffffff;
@@ -131,8 +137,8 @@
 }
 #wangEditorTxt .wangEditor-modal {
   width: 600px;
-  font-size: 14px;
-  line-height: 23px;
+  font-size: 0.9em;
+  line-height: 1.4;
   text-align: center;
   text-align: left;
   border: 3px solid #cccccc;
@@ -205,7 +211,7 @@
   /*overflow: hidden;*/
 }
 #wangEditorTxt .wangEditor-textarea p {
-  margin: 10px 0px 10px 0px;
+  margin: 0.7em 0;
 }
 #wangEditorTxt .wangEditor-tableDeleteBtn {
   display: block;

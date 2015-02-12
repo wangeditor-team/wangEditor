@@ -191,7 +191,7 @@
         'foreColor': {
             'title': '前景色',
             'type': 'dropMenu',
-            'txt': 'fa fa-pencil|color:#4a7db1',
+            'txt': 'fa fa-pencil',   //如果要颜色： 'txt': 'fa fa-pencil|color:#4a7db1'
             'command': 'foreColor ',
             'dropMenu': function(){
                 var arr = [],
@@ -213,7 +213,7 @@
         'backgroundColor': {
             'title': '背景色',
             'type': 'dropMenu',
-            'txt': 'fa fa-paint-brush|color:Red',
+            'txt': 'fa fa-paint-brush',   //如果要颜色： 'txt': 'fa fa-paint-brush|color:Red'
             'command': 'backColor ',
             'dropMenu': function(){
                 var arr = [],
@@ -908,7 +908,7 @@
         *       //uploadify控件的配置……
         *   },
         *   hideMenuConfig: [...],  //配置要隐藏的菜单
-        *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
+        *   menuConfig: [...]   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
         * }
         */
     	var options = options || {},
@@ -964,7 +964,7 @@
                 }
  
                 //提示，返回
-                if(console && console.log){
+                if(window.console && typeof console.log === 'function'){
                     console.log(dependenceAlertInfo);
                 }
                 return;
