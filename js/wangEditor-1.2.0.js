@@ -915,7 +915,8 @@
             hideMenuConfig = options.hideMenuConfig,
             menuConfig,
 
-            txtHeight = this.height(),
+            containerHeight = this.height(),
+            txtHeight,
     		initContent = this.html(),
             $window = $(window),
             $body = $('body'),
@@ -1254,9 +1255,15 @@
     		.append($btnContainer)
     		.append($txt);
     	$txt.html(initContent);
-    	txtHeight = txtHeight - $btnContainer.height() - 12;
-    	txtHeight = txtHeight >= 50 ? txtHeight : 100;
-    	$txt.height(txtHeight);
+    	set$txtHeight();  //计算 $txt 高度，下文定义
+
+        //------------------------ 浏览器resize时，重新计算text域的高度 ---------------------------
+        function set$txtHeight(){
+            txtHeight = containerHeight - $btnContainer.height() - 12;
+            txtHeight = txtHeight >= 50 ? txtHeight : 100;
+            $txt.height(txtHeight);
+        }
+        $window.resize(set$txtHeight);  //window resize时，要重新计算 $txt 高度
 
         //------------------初始化时记录，以便撤销------------------
         _initCommandRecord();
