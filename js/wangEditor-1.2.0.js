@@ -31,7 +31,18 @@
         idPrefix = 'wangeditor_' + Math.random().toString().replace('.', '') + '_',
         id = 1,
 
-        basicConfig;  //基本配置（字体、颜色、字号）
+        basicConfig,  //基本配置（字体、颜色、字号）
+
+        //console.log 或 alert 提示信息公用方法
+        isSupporConsoleLog = window.console && typeof window.console.log === 'function',
+        logOrAlert = function(info, isAlert){
+            /* isAlert: true/false/undefined 当浏览器不支持console.log时，是否alert信息 */
+            if(isSupporConsoleLog){
+                console.log(info);
+            }else if(isAlert){
+                alert(info);
+            }
+        }
 
     //获取唯一ID
     function getUniqeId () {
@@ -91,7 +102,7 @@
                 'type':（字符串，必须）类型，可以是 btn / dropMenu / modal(其中包含modal-big/modal/modal-small/modal-mini),
                 'txt': （字符串，必须）fontAwesome字体样式，例如 'fa fa-head',
                 'hotKey':（字符串，可选）快捷键，如'ctrl + b', 'ctrl,shift + i', 'alt,meta + y'等，支持 ctrl, shift, alt, meta 四个功能键（只有type===btn才有效）,
-                'command':（字符串/函数，可选）document.execCommand的命令名，如'fontName'；也可以是自定义的命令函数，如“撤销”按钮（type===modal时，command无效）,
+                'command':（字符串）document.execCommand的命令名，如'fontName'；也可以是自定义的命令名，如“撤销”、“插入表格”按钮（type===modal时，command无效）,
                 'dropMenu': （$ul，可选）type===dropMenu时，要返回一个$ul，作为下拉菜单,
                 'modal':（$div，可选）type===modal是，要返回一个$div，作为弹出框,
                 'callback':（函数，可选）回调函数,
@@ -573,19 +584,13 @@
             'type': 'btn',
             'hotKey': 'ctrl+z',  //例如'ctrl+z'/'ctrl,shift+z'/'ctrl,shift,alt+z'/'ctrl,shift,alt,meta+z'，支持这四种情况。只有type==='btn'的情况下，才可以使用快捷键
             'txt': 'fa fa-undo',
-            'command': function(e){
-                undo();
-                e.preventDefault();
-            }
+            'command': 'commonUndo'
         },
         'redo': {
             'title': '重复',
             'type': 'btn',
             'txt': 'fa fa-repeat',
-            'command': function(e){
-                redo();
-                e.preventDefault();
-            }
+            'command': 'commonRedo'
         }
     };
     //更新菜单样式
@@ -599,7 +604,7 @@
             if(commandName === 'insertunorderedlist' || commandName === 'insertorderedlist'){
                 return;  //ff中，如果是刚刷新的页面，无选中文本的情况下，执行这两个的 queryCommandState 报 bug
             }
-            if(document.queryCommandState(commandName)){
+            if(commandEnabled(commandName) && document.queryCommandState(commandName)){
                 $btn.addClass('wangEditor-btn-container-btn-selected');
             }else{
                 $btn.removeClass('wangEditor-btn-container-btn-selected');
@@ -724,6 +729,7 @@
         function filterXSS(txt){
             return txt;
         }
+        logOrAlert('推荐您引用xss.js，详情参见github上的说明：https://github.com/wangfupeng1988/wangEditor，它将帮助您过滤一些xss攻击', false);
     }
     //专门针对url的xss验证
     function filterXSSForUrl(url){
@@ -816,7 +822,9 @@
         //删除 $table
         'delete$elem': function(commandName, commandValue){
             commandValue.remove();  //即：$table.remove();
-        }
+        },
+        'commonUndo': undo,
+        'commonRedo': redo
     };
     //检验 command Enable
     function commandEnabled(commandName){
@@ -849,6 +857,8 @@
             commandHook = commandHooks[commandName];
             if(commandHook){
                 commandHook(commandName, commandValue);
+            }else{
+                logOrAlert('不支持“' + commandName + '”命令，请检查', true);
             }
         }
 
@@ -866,7 +876,7 @@
         //关闭modal
         $modalContainer.find('.wangEditor-modal:visible').hide();
         if($maskDiv.is(':visible')){
-            $maskDiv.hide();
+            $maskDiv.hide();  //关闭遮罩层
         }
 
         //记录，以便撤销
@@ -965,9 +975,7 @@
                 }
  
                 //提示，返回
-                if(window.console && typeof console.log === 'function'){
-                    console.log(dependenceAlertInfo);
-                }
+                logOrAlert(dependenceAlertInfo, false);
                 return;
             }
 
