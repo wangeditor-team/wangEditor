@@ -1,15 +1,24 @@
 /*
 * wangEditor 1.2.0
 * 王福朋
-* 2015-02-03
+* 2015-02-16
 */
 (function (window, undefined) {
 	//验证jQuery
+    var $;
     if (!window.jQuery) {
+        logOrAlert('请确定是否引用了jquery.js？', true);
         return;
+    }else{
+        $ = window.jQuery;
+        if(!($().jquery)){
+            logOrAlert('javascript中，“var $ = window.jQuery”取出的不是jQuery，请修正！', true);
+            return;
+        }
     }
+
+
     var document = window.document,
-		$ = window.jQuery,
 
 		supportRange = typeof document.createRange === 'function',
         currentRange, parentElem,   //记录当前选中范围，及公共父元素
@@ -22,6 +31,8 @@
         $maskDiv = $('<div class="wangEditor-mask"></div>'),  //遮罩层
         $modalContainer = $('<div></div>'),  //modal容器
         $allMenusWithCommandName,
+        $valueElem,  //要自动保存html代码的input/extarea元素id
+        changeFn,   //将保存传入的change事件
 
         commandHooks, //自定义命令
         commandRecords = [], //命令记录
@@ -33,16 +44,20 @@
 
         basicConfig,  //基本配置（字体、颜色、字号）
 
-        //console.log 或 alert 提示信息公用方法
-        isSupporConsoleLog = window.console && typeof window.console.log === 'function',
-        logOrAlert = function(info, isAlert){
-            /* isAlert: true/false/undefined 当浏览器不支持console.log时，是否alert信息 */
-            if(isSupporConsoleLog){
-                console.log(info);
-            }else if(isAlert){
-                alert(info);
-            }
+        //判断浏览器是否支持console.log
+        isSupporConsoleLog = window.console && typeof window.console.log === 'function';
+
+    //--------------------公共方法--------------------
+
+    //console.log 或 alert 提示信息公用方法
+    function logOrAlert(info, isAlert){
+        /* isAlert: true/false/undefined 当浏览器不支持console.log时，是否alert信息 */
+        if(isSupporConsoleLog){
+            console.log(info);
+        }else if(isAlert){
+            alert(info);
         }
+    }
 
     //获取唯一ID
     function getUniqeId () {
@@ -386,14 +401,20 @@
                         trArray = [],
                         firstTrTemp = '<tr style="font-weight:bold;background-color:#f1f1f1;">${content}</tr>',
                         trTemp = '<tr>${content}</tr>',
-                        tdArray = [],
-                        tdTemp = '<td style="width:100px;">&nbsp;</td>';
+                        tdArray,
+                        tdTemp_FirstRow = '<td style="width:100px;">&nbsp;</td>'
+                        tdTemp = '<td>&nbsp;</td>';
                     
-                    //生成table代码
                     for (i = 0; i < rowNum; i++) {
+                        //遍历每一行
                         tdArray = [];
                         for (j = 0; j < colNum; j++) {
-                            tdArray.push(tdTemp);
+                            //遍历本行的每一列
+                            if(i === 0){
+                                tdArray.push(tdTemp_FirstRow);  //第一行的td带宽度样式
+                            }else{
+                                tdArray.push(tdTemp);  //第二行往后的td不带宽度样式（没必要）
+                            }
                         }
                         if (i === 0 && firstRowBold) {
                             trArray.push(firstTrTemp.replace('${content}', tdArray.join('')));
@@ -401,6 +422,7 @@
                             trArray.push(trTemp.replace('${content}', tdArray.join('')));
                         }
                     }
+                    //生成table代码
                     table = tableTemp.replace('${content}', trArray.join(''));
 
                     //执行插入
@@ -664,6 +686,19 @@
         }
     }
 
+    //-----------------及时变化的监控----------------
+    function changeListener(){
+        var html = $txt.html();
+        if($valueElem){
+            //更新到 $valueElem
+            $valueElem.val(html);
+        }
+        if(changeFn){
+            //执行change函数
+            changeFn(html);
+        }
+    }
+
     //--------------------命令相关事件--------------------
     //初始化
     function _initCommandRecord(){
@@ -885,6 +920,9 @@
         if(e){
             e.preventDefault();
         }
+
+        //变化监控
+        changeListener();
     }
 
     //--------------------生成插件--------------------
@@ -918,7 +956,9 @@
         *       //uploadify控件的配置……
         *   },
         *   hideMenuConfig: [...],  //配置要隐藏的菜单
-        *   menuConfig: [...]   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
+        *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
+        *   valueElemId: '',  //配置要自动保存html代码的元素id，元素必须为input，即能设置value值
+        *   change: function(){...}  //配置change事件，
         * }
         */
     	var options = options || {},
@@ -931,7 +971,22 @@
             $window = $(window),
             $body = $('body'),
             $tableDeleteBtn = $('<a href="#" class="wangEditor-tableDeleteBtn"><i class="fa fa-close"></i></a>'),  //删除table,img的按钮
-            tableDeleteBtnDisabled;  //当前是否显示
+            tableDeleteBtnDisabled;  //当前是否显示（删除table,img的按钮）
+        
+        //----------获取自动保存html代码的input/textarea元素（或者null）--------------
+        if(options.change && typeof options.change === 'function'){
+            //将传入的options.change事件复制给一个全局变量
+            changeFn = options.change;
+        }
+        if(options.valueElemId){
+            //获取自动保存html代码的input/textarea元素
+            $valueElem = $('#' + options.valueElemId);
+
+            if($valueElem[0].nodeName !== 'INPUT' && $valueElem[0].nodeName !== 'TEXTAREA'){
+                //如果元素不是input/textarea类型，则将 $valueElem 赋值为null
+                $valueElem = null;
+            }
+        }
 
         //------------------配置要显示的菜单------------------
         if(options.menuConfig){
@@ -1180,8 +1235,8 @@
 
     	//------------------$txt监听------------------
         function txtListener(e){
-            saveSelection();
-            updateMenuStyle();
+            saveSelection();   //保存选中范围
+            updateMenuStyle();  //更新菜单样式
 
             if(e && e.type === 'focus'){
                 //focus只能执行一次监听——页面一加载时$txt被强制执行focus()，而剩下的监听都会由click和keyup代替
@@ -1285,6 +1340,9 @@
             $txt.css('overflow-y', 'scroll');
         }).blur(function(){
             $txt.css('overflow-y', 'hidden');
+
+            //变化监控
+            changeListener();
         });
 
     	return $txt;

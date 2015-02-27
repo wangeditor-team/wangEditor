@@ -29,6 +29,7 @@
     <div id='wangEditorTxt' style='border:1px solid #cccccc; height:240px;'>
         <p>欢迎使用<b>wangEditor</b>，请输入内容...</p>
     </div>
+    <textarea id='txtHtmlValue' style='display:none;'></textarea>
 
     <div style='margin-top:10px;'>
         <button id='btnHtml'>查看html</button>
@@ -51,37 +52,46 @@
     <script type="text/javascript" src='js/wangEditor-1.2.0.js'></script>
     <script type="text/javascript">
         $(function(){
-            
             //一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
             //其实返回的 $editor 就是一个jquery对象，可以进行任何jquery的操作，例如 $editor.html() ， $editor.text()
-            var $editor = $('#wangEditorTxt').wangEditor(
-                // wangEditor可传入的配置项如下：
-                // {
-                //     'uploadifyConfig':{
-                //         //自定义的uploadify配置项
-                //     },
+            var $editor = $('#wangEditorTxt').wangEditor({
+                    //wangEditor可选配置项如下：
 
-                //     //配置要隐藏的菜单（数组）
-                //     'hideMenuConfig': ['insertHr', 'uploadImg'],
+                    //可选配置1：要隐藏的菜单（数组）
+                    //'hideMenuConfig': ['insertHr', 'uploadImg'],
 
-                //     //自定义菜单配置（数组）（会覆盖掉'hideMenuConfig'的配置）
-                //     'menuConfig': ['bold', 'italic', '|', 'foreColor', 'backgroundColor']
+                    //可选配置2：自定义菜单配置（数组）（会覆盖掉'hideMenuConfig'的配置）
+                    //'menuConfig': ['bold', 'italic', '|', 'foreColor', 'backgroundColor'],
 
-                //     // 系统默认的菜单项配置如下：
-                //     // [
-                //     //     'fontFamily', 'fontSize', '|', 
-                //     //     'bold', 'underline', 'italic', '|', 
-                //     //     'setHead', 'foreColor', 'backgroundColor', 'removeFormat', '|', 
-                //     //     'indent', 'outdent', '|',
-                //     //     'unOrderedList', 'orderedList', '|', 
-                //     //     'justifyLeft', 'justifyCenter', 'justifyRight', '|', 
-                //     //     'createLink', 'unLink', '|', 
-                //     //     'insertHr', 'insertTable',  'insertCode', '|', 
-                //     //     'webImage', 'uploadImg', '|',
-                //     //     'undo', 'redo'
-                //     // ];
-                // }
-            );
+                        // 备注提示：系统默认的菜单项配置如下：
+                        // [
+                        //     'fontFamily', 'fontSize', '|', 
+                        //     'bold', 'underline', 'italic', '|', 
+                        //     'setHead', 'foreColor', 'backgroundColor', 'removeFormat', '|', 
+                        //     'indent', 'outdent', '|',
+                        //     'unOrderedList', 'orderedList', '|', 
+                        //     'justifyLeft', 'justifyCenter', 'justifyRight', '|', 
+                        //     'createLink', 'unLink', '|', 
+                        //     'insertHr', 'insertTable',  'insertCode', '|', 
+                        //     'webImage', 'uploadImg', '|',
+                        //     'undo', 'redo'
+                        // ];
+
+                    //可选配置3：uploadify配置项
+                    'uploadifyConfig':{
+                        //自定义的uploadify配置项
+                        //……
+                    },
+
+                    //可选配置4：配置要自动保存html代码的input/textarea元素id
+                    'valueElemId': 'txtHtmlValue',
+
+                    //可选配置5：change事件
+                    'change': function(htmlValue){
+                        // htmlValue参数将接收change后的html值
+                    }
+            });
+			
 
             //显示 html / text
             var $textarea = $('#textarea'),
