@@ -57,17 +57,16 @@ var $editor = $('#wangEditorTxt').wangEditor({
 wangEditor默认情况下将显示所有的菜单，菜单id如下：
 ```javascript
 [
-	'fontFamily', 'fontSize', '|', 
-	'bold', 'underline', 'italic', '|', 
-	'setHead', 'foreColor', 'backgroundColor', 'removeFormat', '|', 
-	'indent', 'outdent', '|',
-	'unOrderedList', 'orderedList', '|', 
-	'justifyLeft', 'justifyCenter', 'justifyRight', '|', 
-	'createLink', 'unLink', '|', 
-	'insertHr', 'insertTable',  'insertCode', '|', 
-	'webImage', '|',
-	'undo', 'redo'
-]
+    'fontFamily', 'fontSize', '|', 
+    'bold', 'underline', 'italic', '|', 
+    'setHead', 'foreColor', 'backgroundColor', 'removeFormat', '|', 
+    'indent', 'outdent', '|',
+    'unOrderedList', 'orderedList', '|', 
+    'justifyLeft', 'justifyCenter', 'justifyRight', '|', 
+    'createLink', 'unLink', '|', 
+    'insertHr', 'insertTable',  'insertCode', 'webImage', '|',
+    'undo', 'redo'
+];
 ```
 其中，`insertCode`(插入代码)默认不会显示出来，它需要其他的支持，下文有介绍。
 

@@ -105,8 +105,7 @@
                             'unOrderedList', 'orderedList', '|', 
                             'justifyLeft', 'justifyCenter', 'justifyRight', '|', 
                             'createLink', 'unLink', '|', 
-                            'insertHr', 'insertTable',  'insertCode', '|', 
-                            'webImage', 'uploadImg', '|',
+                            'insertHr', 'insertTable',  'insertCode', 'webImage', '|',
                             'undo', 'redo'
                         ];
     //菜单配置集
