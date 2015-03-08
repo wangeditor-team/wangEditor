@@ -1,33 +1,30 @@
+0. 本次更新说明
+===
+更新时间为：2015-03-08，更新版本为1.2版。本次更新的主要内容：<br/>
+第一，摆脱了对fontAwesome字体库的依赖，作者自己封装了的字体库，直接集成在wangEditor中，不用再引用fontAwesome。<br/>
+第二，不再使用uploadify作为图片上传的工具（会导致新版chrome崩溃），后续版本作者将自己开发拖拽上传图片的功能，敬请期待。
+
+
 1. 介绍
 ===
-<b>wangEditor——最轻量级web富文本编辑器，配置方便，使用简单</b>。支持所有PC浏览器（包括IE6）。
+<b>wangEditor——最轻量级web富文本编辑器，配置方便，使用简单</b>。支持IE7+浏览器（IE6优化正在调整中……）。
 demo演示地址：[《wangEditor——轻量级web富文本框》](http://www.cnblogs.com/wangfupeng1988/p/4198428.html#demo)
 ![](http://images.cnitblog.com/blog/138012/201502/022125432037564.png)
 
 2. 如何使用？
 ===
-<b>2.1 引用fontAwesome和jQuery</b><br/>
-wangEditor中的那些漂亮的按钮小图标，不是作者画的，而是引用了当前web上最流行的icon字体库`fontAwesome`。此时也一并引用`jQuery`。
-```html
-<link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome.min.css">
-<!--[if IE]>
-<link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome-ie7.min.css">
-<![endif]-->
 
-<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-
-<!-- 最后，为了安全起见，强烈建议大家引用 xss.js 。对于 xss.js 下文会有介绍-->
-<script type="text/javascript" src="js/xss.js"></script>
-```
-
-<b>2.2 引用wangEditor.js和wangEditor.css</b><br/>
+<b>2.1 引用wangEditor.js和wangEditor.css</b><br/>
 使用wangEditor当然要引用它的js和css文件。
 ```html
-<link rel="stylesheet" type="text/css" href="css/wangEditor-1.2.0.css">
-<script type="text/javascript" src='js/wangEditor-1.2.0.js'></script>
+<link rel="stylesheet" type="text/css" href="css/wangEditor-1.2.css">
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="css/wangEditorFont-ie7-1.2.css">
+<![endif]-->
+<script type="text/javascript" src='js/wangEditor-1.2.js'></script>
 ```
 
-<b>2.3 生成富文本框</b><br/>
+<b>2.2 生成富文本框</b><br/>
 首先，要在html中建一个`div`。注意，这个`div`必须设置`id='wangEditorTxt'`。
 ```html
 <!-- 注意，下一行 id='wangEditorTxt' 是必须的！ -->
@@ -51,7 +48,7 @@ wangEditor支持两种方式的自定义菜单————自定义隐藏某些�
 ```javascript
 var $editor = $('#wangEditorTxt').wangEditor({
 	//配置要隐藏的菜单（数组）
-    'hideMenuConfig': ['insertHr', 'uploadImg'],
+    'hideMenuConfig': ['insertHr', 'insertTable'],
 
     //自定义菜单配置（数组）（会覆盖掉'hideMenuConfig'的配置）
     'menuConfig': ['bold', 'italic', '|', 'foreColor', 'backgroundColor']
@@ -68,11 +65,11 @@ wangEditor默认情况下将显示所有的菜单，菜单id如下：
 	'justifyLeft', 'justifyCenter', 'justifyRight', '|', 
 	'createLink', 'unLink', '|', 
 	'insertHr', 'insertTable',  'insertCode', '|', 
-	'webImage', 'uploadImg', '|',
+	'webImage', '|',
 	'undo', 'redo'
 ]
 ```
-其中，`insertCode`(插入代码)和`uploadImg`(上传图片)默认不会显示出来，这两个菜单需要其他的支持，下文有介绍。
+其中，`insertCode`(插入代码)默认不会显示出来，它需要其他的支持，下文有介绍。
 
 4. 配置“插入代码”功能
 ===
@@ -83,30 +80,7 @@ wangEditor默认情况下将显示所有的菜单，菜单id如下：
 wangHighLighter.js现在地址：[https://github.com/wangfupeng1988/wangHighLighter](https://github.com/wangfupeng1988/wangHighLighter)<br/>
 注意，一定要在使用`wangEditor`之前引入，否则无效！
 
-5. 配置“上传图片”功能
-===
-上传图片`uploadImg`按钮默认不会显示出来，因为缺少上传图片的插件支持。wangEditor中上传图片的功能是通过集成uploadify.js实现的。因此，必须要在页面中引用`uploadify`的js和css，并且配置`uploadify`的参数，即可让该菜单显示。
-```html
-<link href="uploadify/uploadify.css" rel="stylesheet" >
-<script src="uploadify/jquery.uploadify.min.js"></script>
-```
-注意，必须在使用`wangEditor`之前引入，否则无效！
-<br/>
-引入`uploadify`之后，需要配置`uploadify`，在wangEditor()方法中配置即可。
-```javascript
-var $editor = $('#wangEditorTxt').wangEditor({
-	'uploadifyConfig':{
-		height: 30,
-		width: 120,
-		swf: 'uploadify/uploadify.swf',
-		uploader: 'data.ashx',
-		buttonText: '选择图片'
-    	//其他自定义的uploadify配置项……
-    },
-});
-```
-
-6. 如何过滤XSS？
+5. 如何过滤XSS？
 ===
 xss是现在网络攻击的常用手段，尤其对于富文本框来说，过滤xss是非常重要的一份工作。术业有专攻，wangEditor不是过滤xss的专家，但是可以借助专家的力量。<br />
 <b>因此，强烈建议大家引用`xss.js`，wangEditor已经做好集成工作，只需要页面引用即可。</b> <br />
@@ -115,7 +89,7 @@ xss是现在网络攻击的常用手段，尤其对于富文本框来说，过�
 <script type="text/javascript" src="js/xss.js"></script>
 ```
 
-7. 交流
+6. 交流
 ===
 交流QQ群：<b>164999061</b> <br />
 二次开发联系：<b>wangfupeng1988#163.com（#->@）</b>

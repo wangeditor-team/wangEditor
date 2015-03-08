@@ -1,8 +1,64 @@
 /*
-* wangEditor 1.2.0 less
+* wangEditor 1.2 less
 * 王福朋
-* 2015-02-02
+* 2015-03-08
 */
+
+//----------------------------------begin 字体设置--------------------------------------------
+
+@font-face {
+  font-family: 'wangeditorfont';
+  src: url('font/wangeditorfont.eot?96552340');
+  src: url('font/wangeditorfont.eot?96552340#iefix') format('embedded-opentype'),
+       url('font/wangeditorfont.woff?96552340') format('woff'),
+       url('font/wangeditorfont.ttf?96552340') format('truetype'),
+       url('font/wangeditorfont.svg?96552340#wangeditorfont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+ 
+[class^="icon-wangEditor-"]:before, [class*=" icon-wangEditor-"]:before {
+  font-family: "wangeditorfont";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  font-variant: normal;
+  text-transform: none;
+}
+ 
+.icon-wangEditor-link:before { content: '\e800'; }
+.icon-wangEditor-unlink:before { content: '\e801'; }
+.icon-wangEditor-code:before { content: '\e802'; }
+.icon-wangEditor-angle-down:before { content: '\e805'; }
+.icon-wangEditor-font:before { content: '\e806'; }
+.icon-wangEditor-bold:before { content: '\e807'; }
+.icon-wangEditor-italic:before { content: '\e808'; }
+.icon-wangEditor-header:before { content: '\e809'; } 
+.icon-wangEditor-align-left:before { content: '\e80a'; }
+.icon-wangEditor-align-center:before { content: '\e80b'; }
+.icon-wangEditor-align-right:before { content: '\e80c'; }
+.icon-wangEditor-list-bullet:before { content: '\e80d'; }
+.icon-wangEditor-indent-left:before { content: '\e80e'; }
+.icon-wangEditor-indent-right:before { content: '\e80f'; }
+.icon-wangEditor-list-numbered:before { content: '\e810'; }
+.icon-wangEditor-underline:before { content: '\e811'; }
+.icon-wangEditor-table:before { content: '\e812'; }
+.icon-wangEditor-eraser:before { content: '\e813'; }
+.icon-wangEditor-text-height:before { content: '\e814'; }
+.icon-wangEditor-brush:before { content: '\e815'; }
+.icon-wangEditor-pencil:before { content: '\e816'; }
+.icon-wangEditor-minus:before { content: '\e817'; }
+.icon-wangEditor-picture:before { content: '\e818'; }
+.icon-wangEditor-file-image:before { content: '\e819'; }
+.icon-wangEditor-cw:before { content: '\e81a'; }
+.icon-wangEditor-ccw:before { content: '\e81b'; }
+.icon-wangEditor-cancel:before { content: '\e803'; }
+
+//--------------------------------------end 字体设置------------------------------------------
+
 
 #wangEditorTxt{
 	position: relative;
@@ -89,10 +145,10 @@
 			display: inline-block;
 		    *display:inline; 
 		    *zoom:1;			
-		    width: 0px;
-		    height: 20px;
+		    width: 0;
+		    height: 1em;
 		    border-left: 1px solid #cccccc;
-		    margin: 0px 5px 0px 5px;
+		    margin: 0 0 0.3em 0.3em;
 		}
 
 		//菜单栏最下方的横线

@@ -4,24 +4,14 @@
     <meta charset="UTF-8">
     <title>wangEditor demo</title>
 
-    <!--引入 fontawesom-4.2.0-->
-    <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome.min.css">
+    <!--引入wangEditor.css-->
+    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.2.css">
     <!--[if IE]>
-    <link rel="stylesheet" type="text/css" href="fontawesome-4.2.0/css/font-awesome-ie7.min.css">
+    <link rel="stylesheet" type="text/css" href="css/wangEditorFont-ie7-1.2.css">
     <![endif]-->
 
-    <!--引入wangEditor.css-->
-    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.2.0.css">
-
-    <link href="uploadify/uploadify.css" rel="stylesheet" >
-
-    <style type="text/css">
-        body{
-            padding: 0px 10px 0px 10px;
-        }
-    </style>
 </head>
-<body>
+<body style='padding: 0px 10px 0px 10px;'>
 
     <h1>wangEditor demo</h1>
 
@@ -39,17 +29,17 @@
     </div>
     
 
-    <!--引入 jquery.js-->
+
+    
+    <!--引入 jquery.js（必需）-->
     <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-    <!-- 引入 xss.js -->
+    <!-- 引入 xss.js（可选，增强网页安全性） -->
     <script type="text/javascript" src='js/xss.js'></script>
-    <!--引入 wangHighLighter.js -->
+    <!--引入 wangHighLighter.js（可选，仅为了支持【插入代码】按钮，不需要的可不引入） -->
     <script type="text/javascript" src='js/wangHighLighter-1.0.0-min.js'></script>
-    <!--引入 uploadify.js -->
-    <!--<script src="uploadify/jquery.uploadify.min.js"></script> -->
 
     <!--引入 wangEditor.js-->
-    <script type="text/javascript" src='js/wangEditor-1.2.0.js'></script>
+    <script type="text/javascript" src='js/wangEditor-1.2.js'></script>
     <script type="text/javascript">
         $(function(){
             //一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
@@ -76,12 +66,6 @@
                         //     'webImage', 'uploadImg', '|',
                         //     'undo', 'redo'
                         // ];
-
-                    //可选配置3：uploadify配置项
-                    'uploadifyConfig':{
-                        //自定义的uploadify配置项
-                        //……
-                    },
 
                     //可选配置4：配置要自动保存html代码的input/textarea元素id
                     'valueElemId': 'txtHtmlValue',

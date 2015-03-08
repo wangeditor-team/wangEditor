@@ -1,7 +1,7 @@
 /*
-* wangEditor 1.2.0
+* wangEditor 1.2
 * 王福朋
-* 2015-02-16
+* 2015-03-08
 */
 (function (window, undefined) {
 	//验证jQuery
@@ -133,7 +133,7 @@
         'fontFamily': {
             'title': '字体',
             'type': 'dropMenu',
-            'txt': 'fa fa-font',
+            'txt': 'icon-wangEditor-font',
             'command': 'fontName ', 
             'dropMenu': function(){
                 var arr = [],
@@ -155,7 +155,7 @@
         'fontSize': {
             'title': '字号',
             'type': 'dropMenu',
-            'txt': 'fa fa-text-height',
+            'txt': 'icon-wangEditor-text-height',
             'command': 'fontSize',
             'dropMenu': function () {
                 var arr = [],
@@ -178,7 +178,7 @@
             'title': '加粗',
             'type': 'btn',
             'hotKey': 'ctrl + b',
-            'txt':'fa fa-bold',
+            'txt':'icon-wangEditor-bold',
             'command': 'bold',
             'callback': function(){
                 //alert('自定义callback函数');
@@ -188,20 +188,20 @@
             'title': '下划线',
             'type': 'btn',
             'hotKey': 'ctrl + u',
-            'txt':'fa fa-underline',
+            'txt':'icon-wangEditor-underline',
             'command': 'underline '
         },
         'italic': {
             'title': '斜体',
             'type': 'btn',
             'hotKey': 'ctrl + i',
-            'txt':'fa fa-italic',
+            'txt':'icon-wangEditor-italic',
             'command': 'italic '
         },
         'setHead': {
             'title': '设置标题',
             'type': 'dropMenu', 
-            'txt':'fa fa-header',
+            'txt':'icon-wangEditor-header',
             'command': 'formatBlock ',
             'dropMenu': function(){ 
                 var html =  '<ul>' + 
@@ -217,7 +217,7 @@
         'foreColor': {
             'title': '前景色',
             'type': 'dropMenu',
-            'txt': 'fa fa-pencil',   //如果要颜色： 'txt': 'fa fa-pencil|color:#4a7db1'
+            'txt': 'icon-wangEditor-pencil',   //如果要颜色： 'txt': 'fa fa-pencil|color:#4a7db1'
             'command': 'foreColor ',
             'dropMenu': function(){
                 var arr = [],
@@ -239,7 +239,7 @@
         'backgroundColor': {
             'title': '背景色',
             'type': 'dropMenu',
-            'txt': 'fa fa-paint-brush',   //如果要颜色： 'txt': 'fa fa-paint-brush|color:Red'
+            'txt': 'icon-wangEditor-brush',   //如果要颜色： 'txt': 'fa fa-paint-brush|color:Red'
             'command': 'backColor ',
             'dropMenu': function(){
                 var arr = [],
@@ -261,56 +261,56 @@
         'removeFormat': {
             'title': '清除格式',
             'type': 'btn',
-            'txt':'fa fa-eraser',
+            'txt':'icon-wangEditor-eraser',
             'command': 'RemoveFormat ' 
         },
         'indent': {
             'title': '增加缩进',
             'type': 'btn',
             'hotKey': 'ctrl,shift + i',
-            'txt':'fa fa-indent',
+            'txt':'icon-wangEditor-indent-right',
             'command': 'indent'
         },
         'outdent': {
             'title': '减少缩进',
             'type': 'btn',
-            'txt':'fa fa-outdent',
+            'txt':'icon-wangEditor-indent-left',
             'command': 'outdent'
         },
         'unOrderedList': {
             'title': '无序列表',
             'type': 'btn',
-            'txt':'fa fa-list-ul',
+            'txt':'icon-wangEditor-list-bullet',
             'command': 'InsertUnorderedList '
         },
         'orderedList': {
             'title': '有序列表',
             'type': 'btn',
-            'txt':'fa fa-list-ol',
+            'txt':'icon-wangEditor-list-numbered',
             'command': 'InsertOrderedList '
         },
         'justifyLeft': {
             'title': '左对齐',
             'type': 'btn',
-            'txt':'fa fa-align-left',
+            'txt':'icon-wangEditor-align-left',
             'command': 'JustifyLeft '   
         },
         'justifyCenter': {
             'title': '居中',
             'type': 'btn',
-            'txt':'fa fa-align-center',
+            'txt':'icon-wangEditor-align-center',
             'command': 'JustifyCenter'  
         },
         'justifyRight': {
             'title': '右对齐',
             'type': 'btn',
-            'txt':'fa fa-align-right',
+            'txt':'icon-wangEditor-align-right',
             'command': 'JustifyRight ' 
         },
         'createLink': {
             'title': '插入链接',
             'type': 'modal-small',   //可以使用 'modal-big'/'modal'/'modal-small'/'modal-mini'
-            'txt': 'fa fa-link',
+            'txt': 'icon-wangEditor-link',
             'modal': function () {
                 var urlTxtId = getUniqeId(),
                     titleTxtId = getUniqeId(),
@@ -357,19 +357,19 @@
         'unLink': {
             'title': '取消链接',
             'type': 'btn',
-            'txt':'fa fa-unlink',
+            'txt':'icon-wangEditor-unlink',
             'command': 'unLink ' 
         },
         'insertHr': {
             'title': '插入横线',
             'type': 'btn',
-            'txt':'fa fa-minus',
-            'command': 'InsertHorizontalRule ' 
+            'txt':'icon-wangEditor-minus',
+            'command': 'InsertHorizontalRule' 
         },
         'insertTable': {
             'title': '插入表格',
             'type': 'modal-small',
-            'txt': 'fa fa-table',
+            'txt': 'icon-wangEditor-table',
             'modal': function(){
                 var rowNumTxtId = getUniqeId(),
                     colNumTxtId = getUniqeId(),
@@ -434,7 +434,7 @@
         'webImage': {
             'title': '网络图片',
             'type': 'modal-small',
-            'txt': 'fa fa-image',
+            'txt': 'icon-wangEditor-picture',
             'modal': function () {
                 var urlTxtId = getUniqeId(),
                     titleTxtId = getUniqeId(),
@@ -474,72 +474,10 @@
                 return $modal;
             }
         },
-        'uploadImg': {
-            'title': '上传图片',
-            'type': 'modal-small',
-            'txt': 'fa fa-file-image-o',
-            'dependence': $.prototype.uploadify,
-            'dependenceAlert': '上传图片依赖于 jQuery.uploadify 插件，请检查是否引用！',
-            'modal': function (options) { 
-                // 在执行 $div.wangEditor(options) 时，传入的 options 参数中可能会有 options.uploadifyConfig
-                // options.uploadifyConfig 即是用户自定义的uploadify的配置
-                // 系统将 options.uploadifyConfig 中的配置覆盖到默认的 uploadify 的配置中（其中，onUploadSuccess函数配置有调整，详见代码）
-
-                var fileId = getUniqeId(),
-                    $modal = $(
-                        '<div>' +
-                        '   <input type="file" id="' + fileId + '"/>' +
-                        '</div>'
-                    ),
-
-                    //默认配置
-                    InsertImangeCommand = function (file, data, response) {
-                        commonCommand(null, 'insertImage', data);
-                        $('.uploadify-queue').hide(); //强制uploadify控件隐藏队列
-                    },
-                    uploadifyDefaultConfig = {
-                        height: 30,
-                        width: 120,
-                        swf: 'uploadify/uploadify.swf',
-                        uploader: 'data.ashx',
-                        buttonText: '选择图片',
-                        multi: false,
-                        onUploadSuccess: InsertImangeCommand  //默认将onUploadSuccess定义为插入图片
-                    },
-                    optionsConfig;
-
-                //下文要通过jquery获取 input-file 元素，因此这里必须先渲染到dom树中，否则获取不了 input-file
-                $('body').append($modal);
-
-                //配置 uploadify
-                if(options.uploadifyConfig){
-                    optionsConfig = options.uploadifyConfig;
-
-                    //将传入的配置覆盖到默认的配置中
-                    $.extend(uploadifyDefaultConfig, optionsConfig);
-
-                    if(optionsConfig.onUploadSuccess){
-                        //如果传入的配置中有 onUploadSuccess 函数
-                        //要先执行插入图片操作，再执行自定义的函数
-                        uploadifyDefaultConfig.onUploadSuccess = function(file, data, response){
-                            InsertImangeCommand(file, data, response);
-                            optionsConfig.onUploadSuccess(file, data, response);
-                        }
-                    }
-                }
-                //图片格式
-                uploadifyDefaultConfig.fileTypeExts = '*.jpg; *.jpeg; *.gif; *.png';
-
-                //传入配置
-                $('#' + fileId).uploadify(uploadifyDefaultConfig);
-
-                return $modal;
-            }
-        },
         'insertCode':{
             'title': '插入代码',
             'type': 'modal',
-            'txt': 'fa fa-code',
+            'txt': 'icon-wangEditor-code',
             'dependence': window.wangHighLighter, //依赖于 window.wangHighLighter
             'dependenceAlert': '插入代码功能依赖于 wangHighLighter.js 插件，请检查是否引用！',
             'modal': function(){
@@ -605,13 +543,13 @@
             'title': '撤销',
             'type': 'btn',
             'hotKey': 'ctrl+z',  //例如'ctrl+z'/'ctrl,shift+z'/'ctrl,shift,alt+z'/'ctrl,shift,alt,meta+z'，支持这四种情况。只有type==='btn'的情况下，才可以使用快捷键
-            'txt': 'fa fa-undo',
+            'txt': 'icon-wangEditor-ccw',
             'command': 'commonUndo'
         },
         'redo': {
             'title': '重复',
             'type': 'btn',
-            'txt': 'fa fa-repeat',
+            'txt': 'icon-wangEditor-cw',
             'command': 'commonRedo'
         }
     };
@@ -760,7 +698,7 @@
     if(window.filterXSS && typeof window.filterXSS === 'function'){
         //如果用户引用了xss.js，xss.js提供filterXSS方法，则不再定义。（推荐用户使用xss.js）
     }else{
-        //如果没有，则自己定义一个简单的filterXSS方法
+        //如果没有，则自己定义一个简单的filterXSS方法（内部创建，否则可能欺骗其他js插件）
         function filterXSS(txt){
             return txt;
         }
@@ -952,9 +890,6 @@
     $.fn.wangEditor = function(options){
         /*
         * options: {
-        *   uploadifyConfig:{
-        *       //uploadify控件的配置……
-        *   },
         *   hideMenuConfig: [...],  //配置要隐藏的菜单
         *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
         *   valueElemId: '',  //配置要自动保存html代码的元素id，元素必须为input，即能设置value值
@@ -970,7 +905,7 @@
     		initContent = this.html(),
             $window = $(window),
             $body = $('body'),
-            $tableDeleteBtn = $('<a href="#" class="wangEditor-tableDeleteBtn"><i class="fa fa-close"></i></a>'),  //删除table,img的按钮
+            $tableDeleteBtn = $('<a href="#" class="wangEditor-tableDeleteBtn"><i class="icon-wangEditor-cancel"></i></a>'),  //删除table,img的按钮
             tableDeleteBtnDisabled;  //当前是否显示（删除table,img的按钮）
         
         //----------获取自动保存html代码的input/textarea元素（或者null）--------------
@@ -1042,7 +977,7 @@
                 fnKeys = [],
                 keyCode,
                 $dropMenu = menu.dropMenu && menu.dropMenu(),
-                $modal = menu.modal && menu.modal(options),  //有些modal需要options，例如“上传图片”
+                $modal = menu.modal && menu.modal(),
                 callback = menu.callback,
                 $btn = $('<a class="wangEditor-btn-container-btn wangEditor-btn-container-btn-default" href="#"></a>'),  //一定要有 herf='#'，否则无法监听blur事件
                 resultArray = [$btn];
@@ -1117,7 +1052,7 @@
             }
             //下拉菜单
             else if(type === 'dropMenu'){
-                $btn.append($('<i class="fa fa-angle-down"></i>'));
+                $btn.append($('<i class="icon-wangEditor-angle-down"></i>'));
 
                 //渲染下拉菜单
                 $dropMenu.attr('class', 'wangEditor-drop-menu');
@@ -1152,7 +1087,7 @@
                 $modal.attr('class', 'wangEditor-modal wangEditor-'+ type);  
                 $modal.prepend($(
                     '<div class="wangEditor-modal-header">' + 
-                        '<a href="#" commandName="close" class="wangEditor-modal-header-close"><i class="fa fa-close"></i></a>' + 
+                        '<a href="#" commandName="close" class="wangEditor-modal-header-close"><i class="icon-wangEditor-cancel"></i></a>' + 
                         '<b>' + title + '</b>' + 
                         '<div class="wangEditor-modal-header-line"></div>' + 
                     '</div>'
