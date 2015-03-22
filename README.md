@@ -1,8 +1,8 @@
 0. 本次更新说明
 ===
-更新时间为：2015-03-20，更新版本为1.3版。本次更新的主要内容：<br/>
+更新时间为：2015-03-22，更新版本为1.3版。本次更新的主要内容：<br/>
 第一，对代码做了一次彻底的重构，更加面向对象的编程；<br>
-第二，重构UI界面，增加易用性；
+第二，重构UI界面，增加易用性；<br>
 第三，增加插入简洁代码的功能；
 
 1. 介绍
@@ -24,12 +24,12 @@ $(function(){
 * <code>demo-initContent.html</code> （配置初始化时要显示的内容）
 * <code>demo-hideMenuConfig.html</code> （配置要隐藏的菜单按钮）
 * <code>demo-menuConfig.html</code> （配置要显示的菜单按钮，其他的隐藏）
-* <code>demo-change.html</code> （配置change事件）
+* <code>demo-onchange.html</code> （配置change事件）
 
 3. 自定义主题颜色
 ===
 wangEditor默认的主题为灰色，你也可以自己定义自己喜欢的颜色。<br>
-找到<code>css/wangEditor-1.3.less</code>文件，搜到<code>begin：颜色配置</code>关键字，然后你就可以找到wangEditor的所有颜色配置。在这里自由发挥的修改吧！
+找到<code>css/wangEditor-1.3.less</code>文件，搜索<code>“begin：颜色配置”</code>关键字，然后你就可以找到wangEditor的所有颜色配置。在这里自由发挥的修改吧！
 ```less
 //-----------------------------------begin：颜色配置-----------------------------------
 

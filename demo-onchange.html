@@ -34,8 +34,8 @@
 		<p>在demo-basic.html应用的基础上，可通过传入'change'，来配置当富文本内容发生变化时，触发的change事件。</p>
 <pre>
 $('#textarea1').wangEditor({
-	change: function(html){
-		alert('change事件触发，最新的html为：\n' + html);
+	'onchange': function(html){
+		alert('onchange事件触发，最新的html为：\n' + html);
 	}
 });
 </pre>
@@ -46,8 +46,8 @@ $('#textarea1').wangEditor({
 	<script type="text/javascript">
 		$(function(){
 			$('#textarea1').wangEditor({
-				change: function(html){
-					alert('change事件触发，最新的html为：\n' + html);
+				'onchange': function(html){
+					alert('onchange事件触发，最新的html为：\n' + html);
 				}
 			});
 		});
