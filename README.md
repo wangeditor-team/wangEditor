@@ -29,8 +29,27 @@ $(function(){
 3. 自定义主题颜色
 ===
 wangEditor默认的主题为灰色，你也可以自己定义自己喜欢的颜色。<br>
-找到<code>css/wangEditor-1.3.less</code>文件，搜到<code>begin：颜色配置</code>关键字，然后你就可以找到wangEditor的所有颜色配置。在这里自由发挥的修改吧！<br>
-不要忘记，最后要把<code>less</code>编译成<code>css</code>。
+找到<code>css/wangEditor-1.3.less</code>文件，搜到<code>begin：颜色配置</code>关键字，然后你就可以找到wangEditor的所有颜色配置。在这里自由发挥的修改吧！
+```less
+//-----------------------------------begin：颜色配置-----------------------------------
+
+//开发者可自定义以下颜色。通过定义颜色，可实现不同的主题风格。
+
+@editor-container-border-color:#ccc;        //整个编辑器外边框的颜色
+
+@fore-color:#505050;                        //默认字体颜色、按钮颜色
+@reverse-color:#fff;                        //反转后的字体颜色、按钮颜色（如按钮tooltip中的字体颜色）
+@selected-bg-color:#aec5e6;                 //按钮选中时的背景色
+
+@btn-container-bg-color:#f3f3f3;            //菜单按钮容器的背景色
+@btn-container-border-color:#d2d4d1;        //菜单按钮容器的边框颜色
+
+@txt-container-bg-color:#dfdfdf;            //编辑框容器的背景色
+@txt-border-color:#a8aaa7;                  //编辑框边框颜色
+@txt-bg-color:#fff;                         //编辑框背景色
+//-----------------------------------end:颜色配置-----------------------------------
+```
+**最后不要忘记，最后要把<code>less</code>编译成<code>css</code>**。
 
 4. 交流
 ===
