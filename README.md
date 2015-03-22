@@ -12,7 +12,7 @@
 
 2. 如何使用？
 ===
-引用wangEditor.css、jquery.js和wangEditor.js之后，一行代码即可把textarea变为富文本框，简单应用。
+引用wangEditor.css、jquery.js和wangEditor.js之后，一行代码即可把textarea变为富文本框，简单易用。
 ```javascript
 $(function(){
     $('#textarea1').wangEditor();
@@ -24,12 +24,13 @@ $(function(){
 * <code>demo-initContent.html</code> （配置初始化时要显示的内容）
 * <code>demo-hideMenuConfig.html</code> （配置要隐藏的菜单按钮）
 * <code>demo-menuConfig.html</code> （配置要显示的菜单按钮，其他的隐藏）
-* <code>demo-onchange.html</code> （配置change事件）
+* <code>demo-onchange.html</code> （配置onchange事件）
 
 3. 自定义主题颜色
 ===
-wangEditor默认的主题为灰色，你也可以自己定义自己喜欢的颜色。<br>
-找到<code>css/wangEditor-1.3.less</code>文件，搜索<code>“begin：颜色配置”</code>关键字，然后你就可以找到wangEditor的所有颜色配置。在这里自由发挥的修改吧！
+wangEditor默认的主题颜色为深灰色，你也可以自定义符合网站主题风格的颜色。<br>
+找到<code>css/wangEditor-1.3.less</code>文件，搜索<code>“begin：颜色配置”</code>关键字，然后你就可以找到wangEditor的所有颜色配置。在这里自由发挥的修改吧！<br>
+**最后不要忘记，最后要把<code>less</code>编译成<code>css</code>**。
 ```less
 //-----------------------------------begin：颜色配置-----------------------------------
 
@@ -49,7 +50,6 @@ wangEditor默认的主题为灰色，你也可以自己定义自己喜欢的颜�
 @txt-bg-color:#fff;                         //编辑框背景色
 //-----------------------------------end:颜色配置-----------------------------------
 ```
-**最后不要忘记，最后要把<code>less</code>编译成<code>css</code>**。
 
 4. 交流
 ===
