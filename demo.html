@@ -1,100 +1,29 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>wangEditor demo</title>
+	<meta charset="UTF-8">
+	<title>wangEditor demo</title>
 
-    <!--引入wangEditor.css-->
-    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.2.css">
+	<!--引入wangEditor.css-->
+    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.css">
     <!--[if IE]>
-    <link rel="stylesheet" type="text/css" href="css/wangEditorFont-ie7-1.2.css">
+    <link rel="stylesheet" type="text/css" href="css/wangEditorFont-ie7-1.3.css">
     <![endif]-->
-
 </head>
-<body style='padding: 0px 10px 0px 10px;'>
+<body style='padding: 0px 30px'>
 
-    <h1>wangEditor demo</h1>
+	<!--textarea将生成一个富文本编辑器-->
+	<h1>wangEditor demo</h1>
+	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
+	
+	<p><a href='demo-basic.html' target='_blank'>如何配置wangEditor？</a></p>
 
-    <!-- 注意，下一行 id='wangEditorTxt' 是必须的！ -->
-    <div id='wangEditorTxt' style='border:1px solid #cccccc; height:240px;'>
-        <p>欢迎使用<b>wangEditor</b>，请输入内容...</p>
-    </div>
-    <textarea id='txtHtmlValue' style='display:none;'></textarea>
-
-    <div style='margin-top:10px;'>
-        <button id='btnHtml'>查看html</button>
-        <button id='btnText'>查看text</button>
-        <button id='btnHide'>隐藏</button>
-        <textarea id='textarea' style='width:100%; height:100px; margin-top:10px;'></textarea>
-    </div>
-    
-
-
-    
-    <!--引入 jquery.js（必需）-->
-    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-    <!-- 引入 xss.js（可选，增强网页安全性） -->
-    <script type="text/javascript" src='js/xss.js'></script>
-    <!--引入 wangHighLighter.js（可选，仅为了支持【插入代码】按钮，不需要的可不引入） -->
-    <script type="text/javascript" src='js/wangHighLighter-1.0.0-min.js'></script>
-
-    <!--引入 wangEditor.js-->
-    <script type="text/javascript" src='js/wangEditor-1.2.js'></script>
-    <script type="text/javascript">
-        $(function(){
-            //一句话，即可把一个div 变为一个富文本框！o(∩_∩)o 
-            //其实返回的 $editor 就是一个jquery对象，可以进行任何jquery的操作，例如 $editor.html() ， $editor.text()
-            var $editor = $('#wangEditorTxt').wangEditor({
-                    //wangEditor可选配置项如下：
-
-                    //可选配置1：要隐藏的菜单（数组）
-                    //'hideMenuConfig': ['insertHr', 'uploadImg'],
-
-                    //可选配置2：自定义菜单配置（数组）（会覆盖掉'hideMenuConfig'的配置）
-                    //'menuConfig': ['bold', 'italic', '|', 'foreColor', 'backgroundColor'],
-
-                        // 备注提示：系统默认的菜单项配置如下：
-                        // [
-                        //     'fontFamily', 'fontSize', '|', 
-                        //     'bold', 'underline', 'italic', '|', 
-                        //     'setHead', 'foreColor', 'backgroundColor', 'removeFormat', '|', 
-                        //     'indent', 'outdent', '|',
-                        //     'unOrderedList', 'orderedList', '|', 
-                        //     'justifyLeft', 'justifyCenter', 'justifyRight', '|', 
-                        //     'createLink', 'unLink', '|', 
-                        //     'insertHr', 'insertTable',  'insertCode', '|', 
-                        //     'webImage', 'uploadImg', '|',
-                        //     'undo', 'redo'
-                        // ];
-
-                    //可选配置4：配置要自动保存html代码的input/textarea元素id
-                    'valueElemId': 'txtHtmlValue',
-
-                    //可选配置5：change事件
-                    'change': function(htmlValue){
-                        // htmlValue参数将接收change后的html值
-                    }
-            });
-			
-
-            //显示 html / text
-            var $textarea = $('#textarea'),
-                $btnHtml = $('#btnHtml'),
-                $btnText = $('#btnText'),
-                $btnHide = $('#btnHide');
-            $textarea.hide();
-            $btnHtml.click(function(){
-                $textarea.show();
-                $textarea.val( $editor.html() );
-            });
-            $btnText.click(function(){
-                $textarea.show();
-                $textarea.val( $editor.text() );
-            });
-            $btnHide.click(function(){
-                $textarea.hide();
-            });
-        });
-    </script>
+	<script type="text/javascript" src='js/jquery-1.10.2.min.js'></script>
+	<script type="text/javascript" src='js/wangEditor-1.3.js'></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#textarea1').wangEditor();
+		});
+	</script>
 </body>
 </html>

@@ -1,12 +1,12 @@
 /*
-* wangEditor 1.2 less
+* wangEditor 1.3 less
 * 王福朋
-* 2015-03-08
+* 2015-03-20
 */
 @font-face {
   font-family: 'wangeditorfont';
-  src: url('font/wangeditorfont.eot?96552340');
-  src: url('font/wangeditorfont.eot?96552340#iefix') format('embedded-opentype'), url('font/wangeditorfont.woff?96552340') format('woff'), url('font/wangeditorfont.ttf?96552340') format('truetype'), url('font/wangeditorfont.svg?96552340#wangeditorfont') format('svg');
+  src: url('font/wangeditorfont.eot?76044696');
+  src: url('font/wangeditorfont.eot?76044696#iefix') format('embedded-opentype'), url('font/wangeditorfont.woff?76044696') format('woff'), url('font/wangeditorfont.ttf?76044696') format('truetype'), url('font/wangeditorfont.svg?76044696#wangeditorfont') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -102,69 +102,69 @@
 .icon-wangEditor-cancel:before {
   content: '\e803';
 }
-#wangEditorTxt {
-  position: relative;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+.icon-wangEditor-terminal:before {
+  content: '\e804';
 }
-#wangEditorTxt * {
+/* '' */
+.wangEditor-container {
+  position: relative;
+  border: 1px solid #cccccc;
+}
+.wangEditor-container * {
   margin: 0;
   box-sizing: border-box;
 }
-#wangEditorTxt div[contenteditable=true]:focus {
+.wangEditor-container div[contenteditable=true]:focus {
   outline: none;
 }
-#wangEditorTxt .wangEditor-btn-container {
+.wangEditor-container .wangEditor-btn-container {
   text-align: left;
-  padding: 5px 3px 0px 3px;
+  padding: 5px 3px 2px 3px;
+  border-bottom: 1px solid #d2d4d1;
+  background-color: #f3f3f3;
 }
-#wangEditorTxt .wangEditor-btn-container-btn {
+.wangEditor-container .wangEditor-btn-container-btn {
   display: inline-block;
   *display: inline;
   *zoom: 1;
   padding: 3px 3px;
-  margin-left: 4px;
+  margin-left: 0.5em;
   text-decoration: none;
   cursor: pointer;
   font-size: 0.9em;
   line-height: 1.4;
   text-align: center;
 }
-#wangEditorTxt .wangEditor-btn-container-btn:hover {
+.wangEditor-container .wangEditor-btn-container-btn:hover {
   background-color: #f1f1f1;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-#wangEditorTxt .wangEditor-btn-container-btn i {
+.wangEditor-container .wangEditor-btn-container-btn i {
   display: block;
   float: left;
+  font-size: 1em;
 }
-#wangEditorTxt .wangEditor-btn-container-btn-default {
+.wangEditor-container .wangEditor-btn-container-btn-default {
   color: #505050;
 }
-#wangEditorTxt .wangEditor-btn-container-btn-selected {
+.wangEditor-container .wangEditor-btn-container-btn-selected {
   background-color: #aec5e6;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-#wangEditorTxt .wangEditor-btn-container-split {
+.wangEditor-container .wangEditor-btn-container-split {
   display: inline-block;
   *display: inline;
   *zoom: 1;
   width: 0;
   height: 1em;
-  border-left: 1px solid #cccccc;
-  margin: 0 0 0.3em 0.3em;
+  border-left: 1px solid #d2d4d1;
+  margin: 0 0 0.4em 0.5em;
 }
-#wangEditorTxt .wangEditor-btn-container-line {
-  height: 0px;
-  border-top: 1px solid #cccccc;
-  margin: 3px 5px 0px 5px;
-}
-#wangEditorTxt .drop-menu-style {
+.wangEditor-container .drop-menu-style {
   /*通用配置*/
   list-style-type: none;
   border: 1px solid #cccccc;
@@ -173,8 +173,9 @@
   margin-top: 23px;
   padding-left: 0px;
   -webkit-padding-start: 0px;
+  z-index: 100;
 }
-#wangEditorTxt .wangEditor-drop-menu {
+.wangEditor-container .wangEditor-drop-menu {
   /*通用配置*/
   list-style-type: none !important;
   border: 1px solid #cccccc !important;
@@ -183,8 +184,9 @@
   margin-top: 23px !important;
   padding-left: 0px !important;
   -webkit-padding-start: 0px !important;
+  z-index: 100 !important;
 }
-#wangEditorTxt .wangEditor-drop-menu a {
+.wangEditor-container .wangEditor-drop-menu a {
   font-size: 0.9em;
   line-height: 1.4;
   text-align: center;
@@ -194,15 +196,15 @@
   color: #505050;
   padding: 3px 10px;
 }
-#wangEditorTxt .wangEditor-drop-menu a:hover {
+.wangEditor-container .wangEditor-drop-menu a:hover {
   background-color: #aec5e6;
 }
-#wangEditorTxt .wangEditor-toolTip {
+.wangEditor-container .wangEditor-toolTip {
   position: absolute;
   margin-top: -28px;
   display: none;
 }
-#wangEditorTxt .wangEditor-toolTip-content {
+.wangEditor-container .wangEditor-toolTip-content {
   font-size: 0.8em;
   line-height: 1;
   text-align: center;
@@ -213,7 +215,7 @@
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-#wangEditorTxt .wangEditor-toolTip-content::after {
+.wangEditor-container .wangEditor-toolTip-content::after {
   /*div下方的三角*/
   content: "";
   border: 5px solid;
@@ -222,19 +224,8 @@
   right: 40%;
   top: 100%;
 }
-#wangEditorTxt .wangEditor-mask {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: none;
-  background-color: #f1f1f1;
-  filter: alpha(opacity=50);
-  -moz-opacity: 0.5;
-  opacity: 0.5;
-}
-#wangEditorTxt .wangEditor-modal {
+.wangEditor-container .wangEditor-modal {
+  z-index: 100;
   width: 600px;
   font-size: 0.9em;
   line-height: 1.4;
@@ -249,11 +240,12 @@
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
+  color: #505050;
 }
-#wangEditorTxt .wangEditor-modal-header {
+.wangEditor-container .wangEditor-modal-header {
   text-align: left;
 }
-#wangEditorTxt .wangEditor-modal-header-close {
+.wangEditor-container .wangEditor-modal-header-close {
   display: block;
   text-align: center;
   float: right;
@@ -265,14 +257,14 @@
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-#wangEditorTxt .wangEditor-modal-header-close:hover {
+.wangEditor-container .wangEditor-modal-header-close:hover {
   background-color: #aec5e6;
 }
-#wangEditorTxt .wangEditor-modal-header-line {
+.wangEditor-container .wangEditor-modal-header-line {
   border-top: 1px solid #cccccc;
   margin: 5px 0px 5px 0px;
 }
-#wangEditorTxt .wangEditor-modal-btn {
+.wangEditor-container .wangEditor-modal-btn {
   color: #505050;
   background-color: #f1f1f1;
   border: 1px solid #cccccc;
@@ -285,34 +277,39 @@
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-#wangEditorTxt .wangEditor-modal-btn:hover {
+.wangEditor-container .wangEditor-modal-btn:hover {
   background-color: #cccccc;
 }
-#wangEditorTxt .wangEditor-modal input[type=text] {
+.wangEditor-container .wangEditor-modal input[type=text] {
   border: 1px solid #999999;
   padding: 2px 5px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-#wangEditorTxt .wangEditor-modal-big {
+.wangEditor-container .wangEditor-modal-big {
   width: 800px;
 }
-#wangEditorTxt .wangEditor-modal-small {
+.wangEditor-container .wangEditor-modal-small {
   width: 400px;
 }
-#wangEditorTxt .wangEditor-modal-mini {
+.wangEditor-container .wangEditor-modal-mini {
   width: 200px;
 }
-#wangEditorTxt .wangEditor-textarea {
-  margin: 0px 8px 0px 8px;
-  overflow-y: hidden;
-  /*overflow: hidden;*/
+.wangEditor-container .wangEditor-textarea-container {
+  overflow-y: scroll;
+  background-color: #dfdfdf;
 }
-#wangEditorTxt .wangEditor-textarea p {
+.wangEditor-container .wangEditor-textarea {
+  background-color: #ffffff;
+  margin: 20px 40px;
+  padding: 10px 20px;
+  border: 1px solid #a8aaa7;
+}
+.wangEditor-container .wangEditor-textarea p {
   margin: 0.7em 0;
 }
-#wangEditorTxt .wangEditor-tableDeleteBtn {
+.wangEditor-container .wangEditor-tableDeleteBtn {
   display: block;
   text-align: center;
   padding: 0px 3px 0px 3px;
@@ -326,7 +323,32 @@
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
-#wangEditorTxt .wangEditor-tableDeleteBtn:hover {
+.wangEditor-container .wangEditor-tableDeleteBtn:hover {
   color: #505050;
   background-color: #aec5e6;
+}
+.wangEditor-container .wangEditor-code {
+  border: 1px solid #ccc;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  padding: 10px;
+  margin: 5px 0px;
+  line-height: 1.4;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 0.8em;
+}
+.wangEditor-mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  background-color: #f1f1f1;
+  filter: alpha(opacity=50);
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  z-index: 50;
 }

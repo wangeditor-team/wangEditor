@@ -1,18 +1,18 @@
 /*
-* wangEditor 1.2 less
+* wangEditor 1.3 less
 * 王福朋
-* 2015-03-08
+* 2015-03-20
 */
 
 //----------------------------------begin 字体设置--------------------------------------------
 
 @font-face {
   font-family: 'wangeditorfont';
-  src: url('font/wangeditorfont.eot?96552340');
-  src: url('font/wangeditorfont.eot?96552340#iefix') format('embedded-opentype'),
-       url('font/wangeditorfont.woff?96552340') format('woff'),
-       url('font/wangeditorfont.ttf?96552340') format('truetype'),
-       url('font/wangeditorfont.svg?96552340#wangeditorfont') format('svg');
+  src: url('font/wangeditorfont.eot?76044696');
+  src: url('font/wangeditorfont.eot?76044696#iefix') format('embedded-opentype'),
+       url('font/wangeditorfont.woff?76044696') format('woff'),
+       url('font/wangeditorfont.ttf?76044696') format('truetype'),
+       url('font/wangeditorfont.svg?76044696#wangeditorfont') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -56,24 +56,41 @@
 .icon-wangEditor-cw:before { content: '\e81a'; }
 .icon-wangEditor-ccw:before { content: '\e81b'; }
 .icon-wangEditor-cancel:before { content: '\e803'; }
+.icon-wangEditor-terminal:before { content: '\e804'; } /* '' */
 
 //--------------------------------------end 字体设置------------------------------------------
 
 
-#wangEditorTxt{
+.wangEditor-container {
+	//-----------------------------------begin：颜色配置-----------------------------------
+
+	//开发者可自定义以下颜色。通过定义颜色，可实现不同的主题风格。
+
+	@editor-container-border-color:#ccc; 		//整个编辑器外边框的颜色
+
+	@fore-color:#505050;  						//默认字体颜色、按钮颜色
+	@reverse-color:#fff;  						//反转后的字体颜色、按钮颜色（如按钮tooltip中的字体颜色）
+	@selected-bg-color:#aec5e6; 				//按钮选中时的背景色
+
+	@btn-container-bg-color:#f3f3f3; 			//菜单按钮容器的背景色
+	@btn-container-border-color:#d2d4d1;  		//菜单按钮容器的边框颜色
+
+	@txt-container-bg-color:#dfdfdf; 			//编辑框容器的背景色
+	@txt-border-color:#a8aaa7;  				//编辑框边框颜色
+	@txt-bg-color:#fff; 						//编辑框背景色
+	//-----------------------------------end:颜色配置-----------------------------------
+
+
+	//.wangEditor-container的样式
 	position: relative;
-	.border-radius();
+	border: 1px solid @editor-container-border-color;
+
 
 	//-----------------------------------通用设置-----------------------------------
-
 	* {
 		margin: 0;
 		box-sizing: border-box;
 	}
-
-	@selected-color:#aec5e6;
-	@default-black-color:#505050;
-	@default-white-color:#fff;
 
 	//通用字体样式
 	.common-font-style(@fz:0.9em, @lh:1.4, @ta: center){
@@ -107,7 +124,9 @@
 	//菜单栏
 	& .wangEditor-btn-container{
 		text-align: left;
-		padding:5px 3px 0px 3px;
+		padding:5px 3px 2px 3px;
+		border-bottom: 1px solid @btn-container-border-color;
+		background-color: @btn-container-bg-color;
 
 		//菜单按钮
 		&-btn{
@@ -115,7 +134,7 @@
 		    *display:inline; 
 		    *zoom:1;
 		    padding: 3px 3px;
-		    margin-left: 4px;
+		    margin-left: 0.5em;
 		    text-decoration: none;
 		    cursor:pointer;
 		    .common-font-style();
@@ -128,15 +147,16 @@
 		    i{
 		    	display: block;
 		    	float: left;
+		    	font-size: 1em;
 		    }
 		}
 		//默认按钮样式
 		&-btn-default{
-			color: @default-black-color;
+			color: @fore-color;
 		}
 		//被选中的按钮样式
 		&-btn-selected{
-			background-color:@selected-color;
+			background-color:@selected-bg-color;
 			.border-radius();
 		}
 
@@ -147,15 +167,8 @@
 		    *zoom:1;			
 		    width: 0;
 		    height: 1em;
-		    border-left: 1px solid #cccccc;
-		    margin: 0 0 0.3em 0.3em;
-		}
-
-		//菜单栏最下方的横线
-		&-line{
-			height: 0px;
-			border-top:1px solid #cccccc; 
-    		margin:3px 5px 0px 5px;
+		    border-left: 1px solid @btn-container-border-color;
+		    margin: 0 0 0.4em 0.5em;
 		}
 	}
 
@@ -163,11 +176,12 @@
 	.drop-menu-style{  /*通用配置*/
 		list-style-type: none;
 	    border: 1px solid #cccccc;
-	    background-color: @default-white-color;
+	    background-color: @reverse-color;
 	    position: absolute;
 	    margin-top: 23px;
 	    padding-left:0px;
 	    -webkit-padding-start: 0px;
+	    z-index:100;
 	}
 	& .wangEditor-drop-menu{
 		.drop-menu-style !important;  //防止页面其他样式修改ul-li
@@ -177,11 +191,11 @@
 			text-align: left;
 			display: block;
 		    text-decoration: none;
-		    color: @default-black-color;
+		    color: @fore-color;
 		    padding: 3px 10px;
 
 		    &:hover{
-		    	background-color: @selected-color;
+		    	background-color: @selected-bg-color;
 		    }
 		}
 	}
@@ -194,46 +208,36 @@
 
     	&-content{
     		.common-font-style(0.8em, 1);
-		    background-color: @default-black-color;
-		    color: @default-white-color;
+		    background-color: @fore-color;
+		    color: @reverse-color;
 		    padding: 5px;
 		    .border-radius();
     	}
     	&-content::after{  /*div下方的三角*/
     		content:"";
     		border:5px solid;
-    		border-color: @default-black-color transparent transparent transparent;
+    		border-color: @fore-color transparent transparent transparent;
     		position: absolute;
     		right: 40%;
     		top: 100%;
     	}
 	}
 
-	//弹出框的遮罩层
-	& .wangEditor-mask{
-		position: fixed;
-	    top: 0;
-	    bottom: 0;
-	    left:0;
-	    right: 0;
-	    display: none;
-	    background-color:#f1f1f1;
-	    .filter();  //设置透明度，默认50%
-	}
-
 	//弹出框
 	& .wangEditor-modal{
+		z-index: 100;
 		width: 600px;
 
 		.common-font-style();
 		text-align: left;
 		border:3px solid #cccccc;
-	    background-color: @default-white-color;
+	    background-color: @reverse-color;
 	    padding: 10px 15px 15px 15px;
 	    position: absolute;
 	    margin-top: 30px;
 	    display: none;
 	    .border-radius(5px);
+	    color:@fore-color;
 
 	    //弹出框标题
 	    &-header {
@@ -245,13 +249,13 @@
 			    text-align: center;
 			    float: right;
 			    padding: 0px 3px;
-			    color: @default-black-color;
+			    color: @fore-color;
 			    text-decoration: none;
 			    cursor: pointer;
 			    .border-radius();
 
 			    &:hover{
-			    	background-color: @selected-color;
+			    	background-color: @selected-bg-color;
 			    }
 	    	}
 
@@ -264,7 +268,7 @@
 
 	    //modal中的btn
 	    &-btn{
-	    	color: @default-black-color;
+	    	color: @fore-color;
 		    background-color: #f1f1f1;
 		    border: 1px solid #cccccc;
 		    padding: 4px 12px 4px 12px;
@@ -297,10 +301,15 @@
 	}
 
 	//富文本编辑区
+	& .wangEditor-textarea-container{
+		overflow-y: scroll;
+		background-color:@txt-container-bg-color;
+	}
 	& .wangEditor-textarea{
-		margin:0px 8px 0px 8px; 
-    	overflow-y: hidden;
-    	/*overflow: hidden;*/
+		background-color: @txt-bg-color;
+		margin:20px 40px; 
+		padding: 10px 20px;
+		border:1px solid @txt-border-color;
     	p{
     		margin: 0.7em 0;
     	}
@@ -312,7 +321,7 @@
 	    text-align: center;
 	    padding: 0px 3px 0px 3px;
 	    color: #fff;
-	    background-color: @default-black-color;
+	    background-color: @fore-color;
 	    text-decoration: none;
 	    cursor: pointer;
 	    position: absolute;
@@ -320,8 +329,35 @@
 	    .border-radius(5px);
 
 	    &:hover{
-	    	color:@default-black-color;
-	    	background-color: @selected-color;
+	    	color:@fore-color;
+	    	background-color: @selected-bg-color;
 	    }
 	}
+
+	//代码区域（简单代码，非高亮）
+	& .wangEditor-code{
+		border:1px solid #ccc;
+		.border-radius(4px);
+		background-color: #f5f5f5;
+		padding: 10px;
+		margin: 5px 0px;
+		line-height: 1.4;
+		font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+		font-size: 0.8em;
+	}
+}
+
+
+.wangEditor-mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  background-color: #f1f1f1;
+  filter: alpha(opacity=50);
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+  z-index: 50;
 }

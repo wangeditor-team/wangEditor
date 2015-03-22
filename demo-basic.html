@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>wangEditor demo basic</title>
+	<style type="text/css">
+		pre{
+			border: 1px solid #ccc;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			border-radius: 4px;
+			background-color: #f5f5f5;
+			padding: 10px;
+			margin: 5px 0px;
+			line-height: 1.4;
+			font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+			font-size: 0.8em;
+		}
+	</style>
+
+	<!--引入wangEditor.css-->
+    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.css">
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="css/wangEditorFont-ie7-1.3.css">
+    <![endif]-->
+</head>
+<body style='padding: 0px 30px; '>
+	
+	<h1>wangEditor demo basic</h1>
+
+	<!--textarea将被配置成富文本框-->
+	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
+
+	<!--说明-->
+	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px;'>
+		<p>以上demo是<b>wangEditor</b>的最基本应用。引用css和js文件，为textarea执行一个wangEditor()方法，即可生成富文本框。</p>
+		<hr>
+		<p>第一步，引用wangEditor的css文件，css文件最好在&lt;head&gt;中引用</p>
+<pre>
+&lt;link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.css"&gt;
+&lt;!--[if IE]&gt;
+&lt;link rel="stylesheet" type="text/css" href="css/wangEditorFont-ie7-1.3.css"&gt; &lt;--兼容IE7--&gt;
+&lt;![endif]--&gt;
+</pre>
+		<p>第二步，引用jquery和wangEditor.js，js文件最好在&lt;body&gt;最下方引用</p>
+<pre>
+&lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src='js/wangEditor-1.3.js'&gt;&lt;/script&gt;
+</pre>
+		<p>第三步，配置富文本框。想要获取富文本框的html代码，<b>直接获取textarea的值即可</b>。</p>
+<pre>
+&lt;script type="text/javascript"&gt;
+    $(function(){
+        $('#textarea1').wangEditor();
+    });
+&lt;/script&gt;
+</pre>
+		<p>最后，除了以上基本应用之外，<b>wangEditor还支持多种配置</b>，具体的参见相应的demo页面说明。</p>
+<pre style='background-color:#f1f1f1;font-family: Menlo, Monaco, Consolas;'>
+$('#textarea1').wangEditor({
+	'$initContent': ...    //配置要初始化的内容
+	'hideMenuConfig': ...  //配置要隐藏的菜单
+	'menuConfig': ...      //配置要显示的菜单（其他的隐藏）
+	'change': ...          //配置change事件
+});
+</pre>
+		<a href="demo-initContent.html" target='_blank'>demo-initContent.html</a><br>
+		<a href="demo-hideMenuConfig.html" target='_blank'>demo-hideMenuConfig.html</a><br>
+		<a href="demo-menuConfig.html" target='_blank'>demo-menuConfig.html</a><br>
+		<a href="demo-change.html" target='_blank'>demo-change.html</a>
+	</div>
+	<p><br></p>
+
+	<script type="text/javascript" src='js/jquery-1.10.2.min.js'></script>
+	<script type="text/javascript" src='js/wangEditor-1.3.js'></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#textarea1').wangEditor();
+		});
+
+	</script>
+</body>
+</html>

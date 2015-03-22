@@ -31,3 +31,4 @@
 .icon-wangEditor-cw { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe81a;'); }
 .icon-wangEditor-ccw { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe81b;'); }
 .icon-wangEditor-cancel { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe803;'); }
+.icon-wangEditor-terminal { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe804;&nbsp;'); }
