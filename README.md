@@ -40,7 +40,7 @@ $('#textarea1').wangEditor({
 ===
 wangEditor默认的主题颜色为深灰色，你也可以自定义符合网站主题风格的颜色。<br>
 找到<code>css/wangEditor-1.3.less</code>文件，搜索<code>“begin：颜色配置”</code>关键字，然后你就可以找到wangEditor的所有颜色配置。在这里自由发挥的修改吧！<br>
-**最后不要忘记，最后要把<code>less</code>编译成<code>css</code>**。
+**最后不要忘记，把<code>less</code>编译成<code>css</code>**。
 ```less
 //-----------------------------------begin：颜色配置-----------------------------------
 
@@ -61,7 +61,19 @@ wangEditor默认的主题颜色为深灰色，你也可以自定义符合网站�
 //-----------------------------------end:颜色配置-----------------------------------
 ```
 
-4. 交流
+4. 不喜欢word风格？
+===
+wangEditor默认的编辑风格类似于 office word 的样子。如果不喜欢，只需要注释掉一下<code>less</code>中的两个两个样式即可。<br>
+找到<code>css/wangEditor-1.3.less</code>文件，搜索<code>“begin: word样式”</code>关键字，然后将其中的内容注释掉即可。<br>
+**最后不要忘记，把<code>less</code>编译成<code>css</code>**。
+```less
+//---------begin: word样式-----------
+margin:20px 40px; 
+border:1px solid @txt-border-color;
+//---------end: word样式-----------
+```
+
+5. 交流
 ===
 交流QQ群：<b>164999061</b> <br />
 二次开发联系：<b>wangfupeng1988#163.com（#->@）</b>

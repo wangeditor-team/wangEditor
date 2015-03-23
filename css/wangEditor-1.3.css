@@ -301,10 +301,10 @@
   background-color: #dfdfdf;
 }
 .wangEditor-container .wangEditor-textarea {
-  background-color: #ffffff;
   margin: 20px 40px;
-  padding: 10px 20px;
   border: 1px solid #a8aaa7;
+  background-color: #ffffff;
+  padding: 10px 20px;
 }
 .wangEditor-container .wangEditor-textarea p {
   margin: 0.7em 0;
