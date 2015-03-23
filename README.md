@@ -19,7 +19,16 @@ $(function(){
     $('#textarea1').wangEditor();
 });
 ```
-具体的应用，可下载源码，源码中相应的demo页面有详细使用说明。
+在基本应用的基础上，wangEditor还支持自定义配置：
+```javascript
+$('#textarea1').wangEditor({
+	'$initContent': ...    //配置要初始化的内容
+	'hideMenuConfig': ...  //配置要隐藏的菜单
+	'menuConfig': ...      //配置要显示的菜单（其他的隐藏）
+	'onchange': ...        //配置onchange事件
+});
+```
+具体的配置说明，可下载源码，源码中相应的demo页面有详细使用说明。
 * <code>demo.html</code> （demo演示）
 * <code>demo-basic.html</code> （基本配置说明）
 * <code>demo-initContent.html</code> （配置初始化时要显示的内容）
