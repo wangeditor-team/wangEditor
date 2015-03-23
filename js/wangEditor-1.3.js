@@ -865,7 +865,7 @@
         //初始化函数
         'init': function(menuConfig, $textarea, $initContent, onchange){
             var editor = this,
-                height = $textarea.outerHeight(),
+                height = $textarea.height(),
 
                 $tableDeleteBtn = $('<a href="#" class="wangEditor-tableDeleteBtn"><i class="icon-wangEditor-cancel"></i></a>'),  //删除table,img的按钮
                 tableDeleteBtnDisabled;  //当前是否显示（删除table,img的按钮）
@@ -877,21 +877,28 @@
             }
             editor.id = id;
 
-            //设置最小值
-            if(height <= 50){
-                height = 50;
-            }
-
             //创建基础DOM实体对象，并组合
             editor.$editorContainer = $('<div class="wangEditor-container"></div>');
             editor.$btnContainer = $('<div class="wangEditor-btn-container"></div>');
             editor.$modalContainer = $('<div></div>');
             editor.$txtContainer = $('<div class="wangEditor-textarea-container"></div>');
-            editor.$txtContainer.height(height);
             editor.$txt = $('<div class="wangEditor-textarea" contenteditable="true"></div>');
             editor.$txt.append($initContent);
-            editor.$txt.css('min-height', height + 'px');
             editor.$textarea = $textarea;
+
+            //设置最小值
+            if(height <= 80){
+                height = 80;
+            }
+            //设置高度
+            $(function(){
+                //计算txtContainer的高度，必须等待页面加载完成才能计算，否则dom没有被渲染，无法计算高度
+                var txtContainerHeight = height - editor.$btnContainer.outerHeight(); 
+                txtContainerHeight = txtContainerHeight - 2;  //减去$editorContainer的上下两个边框宽度
+
+                editor.$txtContainer.height( txtContainerHeight );
+                editor.$txt.css('min-height', height + 'px');
+            });
 
             editor.$txtContainer.append(editor.$txt);
             editor.$editorContainer
