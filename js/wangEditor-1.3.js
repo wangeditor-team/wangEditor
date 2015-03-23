@@ -886,7 +886,14 @@
             editor.$txt.append($initContent);
             editor.$textarea = $textarea;
 
-            //设置最小值
+            editor.$txtContainer.append(editor.$txt);
+            editor.$editorContainer
+                .append(editor.$btnContainer)
+                .append(editor.$modalContainer)
+                .append(editor.$txtContainer)
+                .append($tableDeleteBtn);
+
+            //设置高度的最小值（再小了，文本框就显示不出来了）
             if(height <= 80){
                 height = 80;
             }
@@ -898,14 +905,25 @@
 
                 editor.$txtContainer.height( txtContainerHeight );
                 editor.$txt.css('min-height', height + 'px');
-            });
 
-            editor.$txtContainer.append(editor.$txt);
-            editor.$editorContainer
-                .append(editor.$btnContainer)
-                .append(editor.$modalContainer)
-                .append(editor.$txtContainer)
-                .append($tableDeleteBtn);
+                if(editor.$txt.outerHeight() !== height){
+                    //IE6不支持'min-height'，就用空行模拟效果
+                    editor.$txt.html(
+                        '<p><br></p>' +
+                        '<p><br></p>' +
+                        '<p><br></p>' +
+                        '<p><br></p>' +
+                        '<p><br></p>' +
+                        '<p><br></p>' +
+                        '<p><br></p>' +
+                        '<p><br></p>' +
+                        '<p><br></p>' +
+                        '<p><br></p>' +
+                        '<p><br></p>' +
+                        '<p><br></p>' 
+                    );
+                }
+            });
 
             //绑定onchange函数
             if(onchange && typeof onchange === 'function'){
