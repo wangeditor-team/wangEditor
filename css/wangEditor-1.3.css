@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.3 less
 * 王福朋
-* 2015-03-20
+* 2015-03-24
 */
 @font-face {
   font-family: 'wangeditorfont';
@@ -114,14 +114,27 @@
   margin: 0;
   box-sizing: border-box;
 }
+.wangEditor-container .clearfix:after {
+  content: ' ';
+  display: table;
+  clear: both;
+}
+.wangEditor-container .clearfix {
+  *zoom: 1;
+  /*兼容IE低版本*/
+}
 .wangEditor-container div[contenteditable=true]:focus {
   outline: none;
 }
 .wangEditor-container .wangEditor-btn-container {
   text-align: left;
-  padding: 5px 3px 2px 3px;
   border-bottom: 1px solid #d2d4d1;
   background-color: #f3f3f3;
+}
+.wangEditor-container .wangEditor-btn-container-group {
+  float: left;
+  padding: 5px 5px 2px 0px;
+  border-right: 1px solid #d2d4d1;
 }
 .wangEditor-container .wangEditor-btn-container-btn {
   display: inline-block;
@@ -154,15 +167,6 @@
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-}
-.wangEditor-container .wangEditor-btn-container-split {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-  width: 0;
-  height: 1em;
-  border-left: 1px solid #d2d4d1;
-  margin: 0 0 0.4em 0.5em;
 }
 .wangEditor-container .drop-menu-style {
   /*通用配置*/
@@ -304,7 +308,7 @@
   margin: 20px 40px;
   border: 1px solid #a8aaa7;
   background-color: #ffffff;
-  padding: 10px 20px;
+  padding: 15px 20px;
 }
 .wangEditor-container .wangEditor-textarea p {
   margin: 0.7em 0;

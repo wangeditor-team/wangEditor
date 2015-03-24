@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>wangEditor demo initContent</title>
+	<title>wangEditor demo multi-text</title>
 	<style type="text/css">
 		pre{
 			border: 1px solid #ccc;
@@ -25,30 +25,32 @@
     <![endif]-->
 </head>
 <body style='padding: 0px 30px'>
-	<!--textarea将生成一个富文本编辑器-->
-	<h1>wangEditor demo</h1>
-	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
 
+	<!--textarea将生成一个富文本编辑器-->
+	<h1>wangEditor demo 1</h1>
+	<textarea id='textarea1' style='height:200px; width:100%;'></textarea>
+	<h1>wangEditor demo 2</h1>
+	<textarea id='textarea2' style='height:200px; width:100%;'></textarea>
 	<!--说明-->
 	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
-		<p>在demo-basic.html应用的基础上，可通过传入'$initContent'，来配置在初始化时要显示的内容。</p>
-<pre>
-var $initContent = $('&lt;p&gt;欢迎使用&lt;b&gt;wangEditor&lt;/b&gt;富文本编辑器！&lt;/p&gt;');
-$('#textarea1').wangEditor({
-	'$initContent': $initContent
-});
+		<p>在html中定义两个textarea，然后分别执行wangEditor()方法即可。</p>
+<pre style='background-color:#f1f1f1;font-family: Menlo, Monaco, Consolas;'>
+&lt;!--先在html中定义两个textarea，然后：--&gt;
+&lt;script type="text/javascript"&gt;
+    $(function(){
+        $('#textarea1').wangEditor();
+        $('#textarea2').wangEditor();
+    });
+&lt;/script&gt;
 </pre>
 	</div>
-
+	
 	<script type="text/javascript" src='js/jquery-1.10.2.min.js'></script>
 	<script type="text/javascript" src='js/wangEditor-1.3.js'></script>
 	<script type="text/javascript">
 		$(function(){
-			var $initContent = $('<p>欢迎使用<b>wangEditor</b>富文本编辑器！</p>');
-
-			$('#textarea1').wangEditor({
-				'$initContent': $initContent
-			});
+			$('#textarea1').wangEditor();
+			$('#textarea2').wangEditor();
 		});
 	</script>
 </body>

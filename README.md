@@ -9,7 +9,7 @@
 1. 介绍
 ===
 <b>wangEditor——轻量级web富文本编辑器，配置方便，使用简单</b>。支持IE7+浏览器。
-![](http://images.cnitblog.com/blog2015/138012/201503/222048140317441.png)
+![](http://images.cnitblog.com/blog2015/138012/201503/242157460995330.png)
 
 2. 如何使用？
 ===
@@ -19,11 +19,18 @@ $(function(){
     $('#textarea1').wangEditor();
 });
 ```
+如果想要在一个页面创建多个富文本编辑器，也很简单（源码中<code>demo-multi-text.html</code>页面有演示）。
+```javascript
+//先在html中定义两个textarea，然后：
+$(function(){
+    $('#textarea1').wangEditor();
+    $('#textarea2').wangEditor();
+});
+```
 在基本应用的基础上，wangEditor还支持自定义配置：
 ```javascript
 $('#textarea1').wangEditor({
 	'$initContent': ...    //配置要初始化的内容
-	'hideMenuConfig': ...  //配置要隐藏的菜单
 	'menuConfig': ...      //配置要显示的菜单（其他的隐藏）
 	'onchange': ...        //配置onchange事件
 });
@@ -32,7 +39,6 @@ $('#textarea1').wangEditor({
 * <code>demo.html</code> （demo演示）
 * <code>demo-basic.html</code> （基本配置说明）
 * <code>demo-initContent.html</code> （配置初始化时要显示的内容）
-* <code>demo-hideMenuConfig.html</code> （配置要隐藏的菜单按钮）
 * <code>demo-menuConfig.html</code> （配置要显示的菜单按钮，其他的隐藏）
 * <code>demo-onchange.html</code> （配置onchange事件）
 

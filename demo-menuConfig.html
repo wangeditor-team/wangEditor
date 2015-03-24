@@ -24,32 +24,37 @@
     <link rel="stylesheet" type="text/css" href="css/wangEditorFont-ie7-1.3.css">
     <![endif]-->
 </head>
-<body  style='padding: 0px 30px;'>
+<body style='padding: 0px 30px;'>
 	<!--textarea将生成一个富文本编辑器-->
 	<h1>wangEditor demo</h1>
 	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
 
 	<!--说明-->
-	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px;'>
+	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
 		<p>在demo-basic.html应用的基础上，可通过传入'menuConfig'，来配置你想显示的菜单按钮。不在配置中的按钮，将会隐藏。</p>
 <pre>
 $('#textarea1').wangEditor({
-	'menuConfig': ['fontFamily','bold','setHead','indent','unOrderedList','justifyLeft', '|', 'createLink','insertHr','undo']
+	//注意，menuConfig必须是一个二维数组
+	'menuConfig': [
+		['fontFamily','bold','setHead'],
+		['indent','unOrderedList','justifyLeft'],
+		['createLink','insertHr','undo']
+	]
 });
 </pre>
 		<p>wangEditor自带的菜单配置如下，可以从其中酌情筛选你想要显示的。</p>
 <pre>
 //默认的菜单显示配置
 [
-    'fontFamily', 'fontSize', '|', 
-    'bold', 'underline', 'italic', '|', 
-    'setHead', 'foreColor', 'backgroundColor', 'removeFormat', '|', 
-    'indent', 'outdent', '|',
-    'unOrderedList', 'orderedList', '|', 
-    'justifyLeft', 'justifyCenter', 'justifyRight', '|', 
-    'createLink', 'unLink', '|', 
-    'insertHr', 'insertTable', 'webImage', 'insertSimpleCode', 'insertHighLighterCode', '|',
-    'undo', 'redo'
+    ['fontFamily', 'fontSize'], 
+    ['bold', 'underline', 'italic'], 
+    ['setHead', 'foreColor', 'backgroundColor', 'removeFormat'], 
+    ['indent', 'outdent'],
+    ['unOrderedList', 'orderedList'], 
+    ['justifyLeft', 'justifyCenter', 'justifyRight'], 
+    ['createLink', 'unLink'], 
+    ['insertHr', 'insertTable', 'webImage', 'insertSimpleCode', 'insertHighLighterCode'],
+    ['undo', 'redo']
 ]
 </pre>
 	</div>
@@ -59,7 +64,12 @@ $('#textarea1').wangEditor({
 	<script type="text/javascript">
 		$(function(){
 			$('#textarea1').wangEditor({
-				'menuConfig': ['fontFamily','bold','setHead','indent','unOrderedList','justifyLeft','|','createLink','insertHr','undo']
+				//注意，menuConfig必须是一个二维数组
+				'menuConfig': [
+					['fontFamily','bold','setHead'],
+					['indent','unOrderedList','justifyLeft'],
+					['createLink','insertHr','undo']
+				]
 			});
 		});
 	</script>
