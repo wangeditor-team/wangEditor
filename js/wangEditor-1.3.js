@@ -38,7 +38,7 @@
     //prototype简写为fn
     $E.fn = $E.prototype;
 
-    //遮罩层
+    //添加遮罩层
     $body.prepend($maskDiv);
 
     //------------------------------------公用方法------------------------------------
@@ -100,6 +100,44 @@
                 6: '25px',
                 7: '28px'
             }
+        },
+        //html模板
+        'htmlTemplates': {
+            //删除table,img的按钮
+            'tableDeleteBtn': '<a href="#" class="wangEditor-tableDeleteBtn"><i class="icon-wangEditor-cancel"></i></a>',
+            //整个编辑器的容器
+            'editorContainer': '<div class="wangEditor-container"></div>',
+            //菜单容器（加上clearfix）
+            'btnContainer': '<div class="wangEditor-btn-container clearfix"></div>',
+            //菜单组
+            'btnContainerGroup': '<div class="wangEditor-btn-container-group"></div>',
+            //单个菜单按钮（一定要有 herf='#'，否则无法监听blur事件）
+            'btn': '<a class="wangEditor-btn-container-btn wangEditor-btn-container-btn-default" href="#"></a>', 
+            //下拉按钮右侧的小三角
+            'btnAngleDown': '<i class="icon-wangEditor-angle-down"></i>',
+            //btn tooltip
+            'tooltip': '<div class="wangEditor-toolTip"></div>',
+            //btn tooltipContent
+            'tooltipContent': '<div class="wangEditor-toolTip-content">{title}</div>',
+            //所有弹出框modal的容器
+            'modalContainer': '<div></div>',
+            //modal header
+            'modalHeader': '<div class="wangEditor-modal-header">' + 
+                                '<a href="#" commandName="close" class="wangEditor-modal-header-close"><i class="icon-wangEditor-cancel"></i></a>' + 
+                                '<b>{title}</b>' + 
+                                '<div class="wangEditor-modal-header-line"></div>' + 
+                            '</div>',
+            //modal（按大小分为4种）
+            'modal': '<div class="wangEditor-modal">{content}</div>',
+            'modalBig': '<div class="wangEditor-modal wangEditor-modal-big">{content}</div>',
+            'modalSmall': '<div class="wangEditor-modal wangEditor-modal-small">{content}</div>',
+            'modalMini': '<div class="wangEditor-modal wangEditor-modal-mini">{content}</div>',
+            //编辑框的容器
+            'txtContainer': '<div class="wangEditor-textarea-container"></div>',
+            //编辑框
+            'txt': '<div class="wangEditor-textarea" contenteditable="true"></div>',
+            //dropmenu
+            'dropMenu': '<ul class="wangEditor-drop-menu">{content}<ul>'
         }
     });
 
@@ -138,7 +176,7 @@
             if(menuGroup instanceof Array === false){
                 return;
             }
-            var $group = $('<div class="wangEditor-btn-container-group"></div>');
+            var $group = $( $E.htmlTemplates.btnContainerGroup );
             $.each(menuGroup, function(key, menuId){
                 //遍历这个菜单组，创建每一个菜单
                 var btn = $E.createMenu(menuId, editor);
@@ -185,7 +223,7 @@
                 $dropMenu = menu.dropMenu && menu.dropMenu(),
                 $modal = menu.modal && menu.modal(editor),
                 callback = menu.callback,
-                $btn = $('<a class="wangEditor-btn-container-btn wangEditor-btn-container-btn-default" href="#"></a>'),  //一定要有 herf='#'，否则无法监听blur事件
+                $btn = $( $E.htmlTemplates.btn ),  
                 resultArray = [$btn];
 
             if(typeof command === 'string'){
@@ -258,10 +296,9 @@
             }
             //下拉菜单
             else if(type === 'dropMenu'){
-                $btn.append($('<i class="icon-wangEditor-angle-down"></i>'));
+                $btn.append($( $E.htmlTemplates.btnAngleDown ));
 
                 //渲染下拉菜单
-                $dropMenu.attr('class', 'wangEditor-drop-menu');
                 resultArray.unshift($dropMenu);
 
                 function hideDropMenu(){
@@ -279,27 +316,16 @@
                 $dropMenu.on('click', 'a[commandValue]', function(e){
                     var $this = $(this),
                         value = $this.attr('commandValue');
-                    editor.command(e, command, value);
+                    editor.command(e, command, value, callback);
                 });
 
                 hideDropMenu();  //先隐藏起来
             }
             //弹出框
-            else if(type.indexOf('modal') === 0){
-                //渲染modal
-                if(type === 'modal'){  //type可能为 'modal', 'modal-big', 'modal-small', 'modal-mini'
-                    $modal.attr('class', 'wangEditor-modal');  
-                }else{
-                    $modal.attr('class', 'wangEditor-modal wangEditor-'+ type); 
-                }
-                
+            else if(type === 'modal'){
                 //$modal 头部信息
                 $modal.prepend($(
-                    '<div class="wangEditor-modal-header">' + 
-                        '<a href="#" commandName="close" class="wangEditor-modal-header-close"><i class="icon-wangEditor-cancel"></i></a>' + 
-                        '<b>' + title + '</b>' + 
-                        '<div class="wangEditor-modal-header-line"></div>' + 
-                    '</div>'
+                    $E.htmlTemplates.modalHeader.replace('{title}', title)
                 ));
 
                 //插入编辑器
@@ -327,8 +353,8 @@
                     title = title + '('  + hotKey + ')';  //加入快捷键提示
                 }
 
-                var $toolTip = $('<div class="wangEditor-toolTip"></div>'),
-                    $toolTipContent = $('<div class="wangEditor-toolTip-content">' + title + '</div>'),
+                var $toolTip = $( $E.htmlTemplates.tooltip ),
+                    $toolTipContent = $( $E.htmlTemplates.tooltipContent.replace('{title}', title) ),
                     timer,
                     margin_left;
 
@@ -373,7 +399,7 @@
             var editor = this,
                 height = $textarea.height(),
 
-                $tableDeleteBtn = $('<a href="#" class="wangEditor-tableDeleteBtn"><i class="icon-wangEditor-cancel"></i></a>'),  //删除table,img的按钮
+                $tableDeleteBtn = $( $E.htmlTemplates.tableDeleteBtn ),  //删除table,img的按钮
                 tableDeleteBtnDisabled;  //当前是否显示（删除table,img的按钮）
 
             //设置id
@@ -384,11 +410,11 @@
             editor.id = id;
 
             //创建基础DOM实体对象，并组合
-            editor.$editorContainer = $('<div class="wangEditor-container"></div>');
-            editor.$btnContainer = $('<div class="wangEditor-btn-container clearfix"></div>');
-            editor.$modalContainer = $('<div></div>');
-            editor.$txtContainer = $('<div class="wangEditor-textarea-container"></div>');
-            editor.$txt = $('<div class="wangEditor-textarea" contenteditable="true"></div>');
+            editor.$editorContainer = $( $E.htmlTemplates.editorContainer );
+            editor.$btnContainer = $( $E.htmlTemplates.btnContainer );
+            editor.$modalContainer = $( $E.htmlTemplates.modalContainer );
+            editor.$txtContainer = $( $E.htmlTemplates.txtContainer );
+            editor.$txt = $( $E.htmlTemplates.txt );
             editor.$txt.append($initContent);
             editor.$textarea = $textarea;
 
@@ -415,6 +441,7 @@
                 if(editor.$txt.outerHeight() !== height){
                     //IE6不支持'min-height'，就用空行模拟效果
                     editor.$txt.html(
+                        editor.$txt.html() +
                         '<p><br></p>' +
                         '<p><br></p>' +
                         '<p><br></p>' +
@@ -590,7 +617,7 @@
                 menus = {
                     'menuId-1': {
                         'title': （字符串，必须）标题,
-                        'type':（字符串，必须）类型，可以是 btn / dropMenu / modal(其中包含modal-big/modal/modal-small/modal-mini),
+                        'type':（字符串，必须）类型，可以是 btn / dropMenu / modal,
                         'txt': （字符串，必须）fontAwesome字体样式，例如 'fa fa-head',
                         'hotKey':（字符串，可选）快捷键，如'ctrl + b', 'ctrl,shift + i', 'alt,meta + y'等，支持 ctrl, shift, alt, meta 四个功能键（只有type===btn才有效）,
                         'command':（字符串）document.execCommand的命令名，如'fontName'；也可以是自定义的命令名，如“撤销”、“插入表格”按钮（type===modal时，command无效）,
@@ -625,7 +652,7 @@
                                     .replace('${txt}', value)
                             );
                         });
-                        $ul = $('<ul>' + arr.join('') + '</ul>');
+                        $ul = $( $E.htmlTemplates.dropMenu.replace('{content}', arr.join('')) );
                         return $ul; 
                     },
                     'callback': function(editor){
@@ -650,7 +677,7 @@
                                     .replace('${txt}', value)
                             );
                         });
-                        $ul = $('<ul>' + arr.join('') + '</ul>');
+                        $ul = $( $E.htmlTemplates.dropMenu.replace('{content}', arr.join('')) );
                         return $ul; 
                     }
                 },
@@ -684,14 +711,12 @@
                     'txt':'icon-wangEditor-header',
                     'command': 'formatBlock ',
                     'dropMenu': function(){ 
-                        var html =  '<ul>' + 
-                                    '   <li><a href="#" commandValue="<h1>"><h1>标题1</h1></a></li>' + 
-                                    '   <li><a href="#" commandValue="<h2>"><h2>标题2</h2></a></li>' + 
-                                    '   <li><a href="#" commandValue="<h3>"><h3>标题3</h3></a></li>' + 
-                                    '   <li><a href="#" commandValue="<h4>"><h4>标题4</h4></a></li>' + 
-                                    '   <li><a href="#" commandValue="<p>">正文</a></li>' + 
-                                    '</ul>';
-                        return $(html);
+                        var liListStr =  '<li><a href="#" commandValue="<h1>"><h1>标题1</h1></a></li>' + 
+                                    '<li><a href="#" commandValue="<h2>"><h2>标题2</h2></a></li>' + 
+                                    '<li><a href="#" commandValue="<h3>"><h3>标题3</h3></a></li>' + 
+                                    '<li><a href="#" commandValue="<h4>"><h4>标题4</h4></a></li>' + 
+                                    '<li><a href="#" commandValue="<p>">正文</a></li>';
+                        return $( $E.htmlTemplates.dropMenu.replace('{content}', liListStr) );
                     }
                 },
                 'foreColor': {
@@ -712,7 +737,7 @@
                                     .replace('${txt}', value)
                             );
                         });
-                        $ul = $('<ul>' + arr.join('') + '</ul>');
+                        $ul = $( $E.htmlTemplates.dropMenu.replace('{content}', arr.join('')) );
                         return $ul; 
                     }
                 },
@@ -734,7 +759,7 @@
                                     .replace('${txt}', value)
                             );
                         });
-                        $ul = $('<ul>' + arr.join('') + '</ul>');
+                        $ul = $( $E.htmlTemplates.dropMenu.replace('{content}', arr.join('')) );
                         return $ul; 
                     }
                 },
@@ -789,20 +814,19 @@
                 },
                 'createLink': {
                     'title': '插入链接',
-                    'type': 'modal-small',   //可以使用 'modal-big'/'modal'/'modal-small'/'modal-mini'
+                    'type': 'modal', 
                     'txt': 'icon-wangEditor-link',
                     'modal': function (editor) {
                         var urlTxtId = $E.getUniqeId(),
                             titleTxtId = $E.getUniqeId(),
                             blankCheckId = $E.getUniqeId(),
                             btnId = $E.getUniqeId();
+                            content = '链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br />' +
+                                        '标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br />' + 
+                                        '新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/><br />' +
+                                        '<button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入链接</button>',
                             $link_modal = $(
-                                '<div>' +
-                                '   链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br />' +
-                                '   标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br />' + 
-                                '   新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/><br />' +
-                                '   <button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入链接</button>' + 
-                                '</div>'
+                                $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
                         $link_modal.find('#' + btnId).click(function(e){
                             //注意，该方法中的 $link_modal 不要跟其他modal中的变量名重复！！否则程序会混淆
@@ -848,21 +872,20 @@
                 },
                 'insertTable': {
                     'title': '插入表格',
-                    'type': 'modal-small',
+                    'type': 'modal',
                     'txt': 'icon-wangEditor-table',
                     'modal': function(editor){
                         var rowNumTxtId = $E.getUniqeId(),
                             colNumTxtId = $E.getUniqeId(),
                             titleCheckId = $E.getUniqeId(),
                             btnId = $E.getUniqeId(),
+                            content = '行数：<input id="' + rowNumTxtId + '" type="text" style="width:30px;"/>' + 
+                                        '列数：<input id="' + colNumTxtId + '" type="text"  style="width:30px;"/>' +
+                                        '显示标题行：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/>' + 
+                                        '&nbsp;&nbsp;&nbsp;&nbsp;' +
+                                        '<button id="' + btnId + '" class="wangEditor-modal-btn">插入表格</button>',
                             $table_modal = $(
-                                '<div>' + 
-                                '   行数：<input id="' + rowNumTxtId + '" type="text" style="width:30px;"/>' + 
-                                '   列数：<input id="' + colNumTxtId + '" type="text"  style="width:30px;"/>' +
-                                '   显示标题行：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/>' + 
-                                '   &nbsp;&nbsp;&nbsp;&nbsp;' +
-                                '   <button id="' + btnId + '" class="wangEditor-modal-btn">插入表格</button>',
-                                '</div>'
+                                $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
                         $table_modal.find('#' + btnId).click(function(e){
                             //注意，该方法中的 $table_modal 不要跟其他modal中的变量名重复！！否则程序会混淆
@@ -919,18 +942,17 @@
                 },
                 'webImage': {
                     'title': '网络图片',
-                    'type': 'modal-small',
+                    'type': 'modal',
                     'txt': 'icon-wangEditor-picture',
                     'modal': function (editor) {
                         var urlTxtId = $E.getUniqeId(),
                             titleTxtId = $E.getUniqeId(),
-                            btnId = $E.getUniqeId();
+                            btnId = $E.getUniqeId(),
+                            content = '网址：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br/>' +
+                                        '标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br/>' +
+                                        '<button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入图片</button>',
                             $webimg_modal = $(
-                                '<div>' +
-                                '   网址：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br/>' +
-                                '   标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br/>' +
-                                '   <button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入图片</button>' + 
-                                '</div>'
+                                $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
 
                         $webimg_modal.find('#' + btnId).click(function(e){
@@ -973,12 +995,11 @@
                     'modal': function(editor){
                         var txtId = $E.getUniqeId(),
                             btnId = $E.getUniqeId(),
+                            content = '<p>请输入代码：</p>' +
+                                        '<textarea id="' + txtId + '" style="width:100%; height:100px;"></textarea>' + 
+                                        '<button id="' + btnId + '" class="wangEditor-modal-btn">插入</button>',
                             $simpleCode_modal = $(
-                                '<div>' +
-                                '   <p>请输入代码：</p>' +
-                                '   <textarea id="' + txtId + '" style="width:100%; height:100px;"></textarea>' + 
-                                '   <button id="' + btnId + '" class="wangEditor-modal-btn">插入</button>' +
-                                '</div>'
+                                $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
 
                         $simpleCode_modal.find('#' + btnId).click(function(e){
