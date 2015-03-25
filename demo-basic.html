@@ -47,12 +47,15 @@
 &lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src='js/wangEditor-1.3.js'&gt;&lt;/script&gt;
 </pre>
-		<p>第三步，配置富文本框。想要获取富文本框的html代码，<b>直接获取textarea的值即可</b>。</p>
+		<p>第三步，配置富文本框。想要获取富文本框的html代码，直接获取textarea的值即可。</p>
 <pre>
 &lt;script type="text/javascript"&gt;
-    $(function(){
-        $('#textarea1').wangEditor();
-    });
+	$(function(){
+		$('#textarea1').wangEditor();
+
+		//想要获取编辑框的内容，只需要取得textarea的内容即可
+		var html = $('#textarea1').val();
+	});
 &lt;/script&gt;
 </pre>
 		<p>如果想要在一个页面创建多个富文本编辑器，也很简单。可参见 <a href="demo-multi-text.html" target='_blank'>demo-multi-text.html</a></p>

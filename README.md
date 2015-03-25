@@ -16,7 +16,10 @@
 引用wangEditor.css、jquery.js和wangEditor.js之后，一行代码即可把textarea变为富文本框，简单易用。
 ```javascript
 $(function(){
-    $('#textarea1').wangEditor();
+	$('#textarea1').wangEditor();
+
+	//想要获取编辑框的内容，只需要取得textarea的内容即可
+	var html = $('#textarea1').val();
 });
 ```
 如果想要在一个页面创建多个富文本编辑器，也很简单（源码中<code>demo-multi-text.html</code>页面有演示）。
