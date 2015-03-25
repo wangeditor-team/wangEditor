@@ -627,6 +627,9 @@
                         });
                         $ul = $('<ul>' + arr.join('') + '</ul>');
                         return $ul; 
+                    },
+                    'callback': function(editor){
+                        //console.log(editor);
                     }
                 },
                 'fontSize': {
@@ -658,8 +661,7 @@
                     'txt':'icon-wangEditor-bold',
                     'command': 'bold',
                     'callback': function(editor){
-                        //console.log('bold', '自定义callback函数');
-                        console.log(editor);
+                        //console.log(editor);
                     }
                 },
                 'underline': {
