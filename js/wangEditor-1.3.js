@@ -1048,7 +1048,7 @@
                 ['unOrderedList', 'orderedList'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight'] ,
                 ['createLink', 'unLink'],
-                ['insertHr', 'insertTable', 'webImage', 'insertSimpleCode', 'insertHighLighterCode'],
+                ['insertHr', 'insertTable', 'webImage', 'insertSimpleCode'],
                 ['undo', 'redo']
             ];
         }
