@@ -120,18 +120,18 @@
             //btn tooltipContent
             'tooltipContent': '<div class="wangEditor-toolTip-content">{title}</div>',
             //所有弹出框modal的容器
-            'modalContainer': '<div></div>',
+            'modalContainer': '<div class="wangEditor-modal-container"></div>',
+            //modal（按大小分为4种）
+            'modal': '<div class="wangEditor-modal">{content}</div>',
+            'modalBig': '<div class="wangEditor-modal wangEditor-modal-big">{content}</div>',
+            'modalSmall': '<div class="wangEditor-modal wangEditor-modal-small">{content}</div>',
+            'modalMini': '<div class="wangEditor-modal wangEditor-modal-mini">{content}</div>',
             //modal header
             'modalHeader': '<div class="wangEditor-modal-header">' + 
                                 '<a href="#" commandName="close" class="wangEditor-modal-header-close"><i class="icon-wangEditor-cancel"></i></a>' + 
                                 '<b>{title}</b>' + 
                                 '<div class="wangEditor-modal-header-line"></div>' + 
                             '</div>',
-            //modal（按大小分为4种）
-            'modal': '<div class="wangEditor-modal">{content}</div>',
-            'modalBig': '<div class="wangEditor-modal wangEditor-modal-big">{content}</div>',
-            'modalSmall': '<div class="wangEditor-modal wangEditor-modal-small">{content}</div>',
-            'modalMini': '<div class="wangEditor-modal wangEditor-modal-mini">{content}</div>',
             //编辑框的容器
             'txtContainer': '<div class="wangEditor-textarea-container"></div>',
             //编辑框
@@ -309,13 +309,14 @@
                     e.preventDefault();
                     this.focus();  //for 360急速浏览器
                 }).blur(function(e){
-                    setTimeout(hideDropMenu, 100);  //先执行完，再隐藏
+                    setTimeout(hideDropMenu, 200);  //先执行完，再隐藏
                 });
 
                 //命令（使用事件代理）
                 $dropMenu.on('click', 'a[commandValue]', function(e){
                     var $this = $(this),
                         value = $this.attr('commandValue');
+                    
                     editor.command(e, command, value, callback);
                 });
 
@@ -429,7 +430,7 @@
             if(height <= 80){
                 height = 80;
             }
-            //设置高度
+            //设置高度（必须在dom渲染完之后才行）
             $(function(){
                 //计算txtContainer的高度，必须等待页面加载完成才能计算，否则dom没有被渲染，无法计算高度
                 var txtContainerHeight = height - editor.$btnContainer.outerHeight(); 
@@ -497,8 +498,9 @@
                 });
             }).on('click keyup', function(e){
                 var keyForMoveCursor = false,
-                    kCodes = [33, 34, 35, 36, 37, 38, 39, 40, 13, 8, 46, 9];
-                keyForMoveCursor = ( e.type === 'click' || (e.type === 'keyup' && (kCodes.indexOf(e.keyCode) !== -1) || e.ctrlKey || e.shiftKey) );
+                    //上、下、左、右、home、end、pageup、pagedown、ctrl + a
+                    kCodes = [33, 34, 35, 36, 37, 38, 39, 40, 13, 8, 46, 9, 65]; 
+                keyForMoveCursor = ( e.type === 'click' || (e.type === 'keyup' && (kCodes.indexOf(e.keyCode) !== -1) || e.ctrlKey || e.shiftKey || e.metaKey) );
                 if (!keyForMoveCursor) {
                     return;  //只监听click, 和 kCodes 中的这几个键，其他的不监听
                 }

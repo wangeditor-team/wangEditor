@@ -228,6 +228,9 @@
   right: 40%;
   top: 100%;
 }
+.wangEditor-container .wangEditor-modal-container {
+  z-index: 150;
+}
 .wangEditor-container .wangEditor-modal {
   z-index: 100;
   width: 600px;
