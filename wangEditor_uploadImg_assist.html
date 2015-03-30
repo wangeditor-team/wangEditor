@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	
+	<!-- 跨域上传文件时，服务端要返回一个<iframe>，这个<iframe>将引用此页面
+	文件服务器和上传客户端可能不是一个域，无法相互访问js方法
+	而此页面和客户端是一个域，可以通过 window.parent.parent.fn 访问客户端js方法 -->
+
+	<script type="text/javascript">
+
+		if(window.parent && window.parent.parent && window.parent.parent.wangEditor_uoploadImgCallback){
+			//回调 parent.parent 的回调函数
+			//wangEditor_uoploadImgCallback 是上传页面定义的一个全局函数
+			window.parent.parent.wangEditor_uoploadImgCallback( window.location.hash.slice(1) );	
+		}
+
+	</script>
+</body>
+</html>

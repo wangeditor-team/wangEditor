@@ -36,6 +36,7 @@ $('#textarea1').wangEditor({
 	'$initContent': ...    //配置要初始化的内容
 	'menuConfig': ...      //配置要显示的菜单（其他的隐藏）
 	'onchange': ...        //配置onchange事件
+	'uploadUrl': ...       //配置上传图片的Url
 });
 ```
 具体的配置说明，可下载源码，源码中相应的demo页面有详细使用说明。
@@ -44,6 +45,7 @@ $('#textarea1').wangEditor({
 * <code>demo-initContent.html</code> （配置初始化时要显示的内容）
 * <code>demo-menuConfig.html</code> （配置要显示的菜单按钮，其他的隐藏）
 * <code>demo-onchange.html</code> （配置onchange事件）
+* <code>demo-uploadImg.html</code> （配置图片上传）
 
 3. 自定义主题颜色
 ===

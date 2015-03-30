@@ -32,8 +32,8 @@
         urlUnsafeKeywords = ['javascript:', '<', '>', '(', ')'],
 
         //全局的构造函数
-		$E = function($textarea, $initContent, menuConfig, onchange){
-            return new $E.fn.init($textarea, $initContent, menuConfig, onchange);
+		$E = function($textarea, $initContent, menuConfig, onchange, uploadUrl){
+            return new $E.fn.init($textarea, $initContent, menuConfig, onchange, uploadUrl);
         };
     //prototype简写为fn
     $E.fn = $E.prototype;
@@ -396,7 +396,7 @@
     //------------------------------------init初始化------------------------------------
     $.extend($E.fn, {
         //初始化函数
-        'init': function($textarea, $initContent, menuConfig, onchange){
+        'init': function($textarea, $initContent, menuConfig, onchange, uploadUrl){
             var editor = this,
                 height = $textarea.height(),
 
@@ -462,6 +462,11 @@
             //绑定onchange函数
             if(onchange && typeof onchange === 'function'){
                 editor.onchange = onchange;
+            }
+
+            //绑定上传图片的url
+            if(uploadUrl && typeof uploadUrl === 'string'){
+                editor.uploadUrl = uploadUrl;
             }
 
             //初始化menus
@@ -990,6 +995,104 @@
                         return $webimg_modal;
                     }
                 },
+                'uoploadImg':{
+                    'title': '上传图片',
+                    'type': 'modal',
+                    'txt': 'icon-wangEditor-file-image',
+                    'modal': function(editor){
+                        var uploadUrl = editor.uploadUrl,
+                            fileInputName = 'wangEditor_uploadImg',  //服务器端根据这个name获取file
+                            imgExts = '|.bmp|.jpg|.jpeg|.png|.gif|',  //图片文件的后缀名（注意：前后都要加“|”）
+
+                            formId = $E.getUniqeId(),
+                            fileId = $E.getUniqeId(),
+                            titleTxtId = $E.getUniqeId(),
+                            btnId = $E.getUniqeId(),
+                            infoId = $E.getUniqeId(),
+                            iframeId = $E.getUniqeId(),
+                            content =   '<form id="' + formId + '" method="post" enctype="multipart/form-data" target="' + iframeId + '">'+
+                                        '   选择文件：<input type="file" name="' + fileInputName + '" id="' + fileId + '"/><br/>' +
+                                        '   图片标题：<input type="text" id="' + titleTxtId + '" style="width:250px;"/><br/>' +
+                                        '   <button id="' + btnId + '" class="wangEditor-modal-btn">上传</button>' +
+                                        '   <span stype="color:red;" id="' + infoId + '"></span>' +
+                                        '</form>' +
+                                        '<iframe id="' + iframeId + '" name="' + iframeId + '" style="display:none;"></iframe>',
+                            $uploadImg_modal = $(
+                                $E.htmlTemplates.modalSmall.replace('{content}', content)
+                            );
+
+                        $uploadImg_modal.find('#' + btnId).click(function(e){
+                            //禁用按钮
+                            var $btn = $(this),
+                                $info = $('#' + infoId);
+                            $btn.hide();
+                            $info.html('上传中...');
+
+                            //检验是否传入uploadUrl配置
+                            if(uploadUrl == null || typeof uploadUrl !== 'string'){
+                                alert('未配置URL地址，不能上传图片');
+                                return;
+                            }
+
+                            //检验是否选择文件
+                            var fileVal = $('#' + fileId).val();
+                            if(fileVal === ''){
+                                alert('请选择图片文件');
+                                return;
+                            }
+
+                            //检验后缀名是否是图片
+                            var ext = fileVal.slice( fileVal.lastIndexOf('.') - fileVal.length );
+                            ext = '|' + ext.toLowerCase() + '|'
+                            if(imgExts.indexOf(ext) === -1){
+                                alert('选择的文件不是图片格式');
+                                return;
+                            }
+                            
+                            //检验通过，开始提交...
+
+                            var $form = $('#' + formId),
+                                title = $('#' + titleTxtId).val(),
+                                iframe = document.getElementById(iframeId),
+                                uploadImg_callback = function(){
+                                    //uploadImg callback
+                                    $('#' + fileId).val('');
+                                    $('#' + titleTxtId).val('');
+                                };
+
+                            //设置uploadUrl，提交form
+                            $form.attr('action', uploadUrl);
+                            $form.submit();
+
+                            //定义callback事件
+                            window.wangEditor_uoploadImgCallback = function(result){
+                                var url;
+                                if(result.indexOf('ok') === 0){
+                                    //成功
+                                    url = result.split('|')[1];
+
+                                    if(title === ''){
+                                        editor.command(e, 'insertImage', url, uploadImg_callback);
+                                    }else{
+                                        editor.command(e, 'customeInsertImage', {'url':url, 'title':title}, uploadImg_callback);
+                                    }
+                                    
+                                }else{
+                                    //失败
+                                    alert(result);
+                                }
+
+                                //恢复按钮状态
+                                $btn.show();
+                                $info.html('');
+                            };
+
+                            e.preventDefault();
+                        });
+
+                        return $uploadImg_modal;
+                    }
+                },
                 'insertSimpleCode':{
                     'title': '插入代码',
                     'type': 'modal',
@@ -1050,7 +1153,7 @@
                 ['unOrderedList', 'orderedList'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight'] ,
                 ['createLink', 'unLink'],
-                ['insertHr', 'insertTable', 'webImage', 'insertSimpleCode'],
+                ['insertHr', 'insertTable', 'webImage', 'uoploadImg', 'insertSimpleCode'],
                 ['undo', 'redo']
             ];
         }
@@ -1422,7 +1525,8 @@
         * options: {
         *   $initContent: $elem, //配置要初始化内容
         *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
-        *   onchange: function(){...}  //配置onchange事件，
+        *   onchange: function(){...},  //配置onchange事件，
+        *   uploadUrl: string  //图片上传的地址
         * }
         */
         'wangEditor': function(options){
@@ -1435,10 +1539,11 @@
             var options = options || {},
                 menuConfig = options.menuConfig,
                 $initContent = options.$initContent || $(),
-                onchange = options.onchange;
+                onchange = options.onchange,
+                uploadUrl = options.uploadUrl;
 
             //获取editor对象
-            var editor = $E(this, $initContent, menuConfig, onchange);
+            var editor = $E(this, $initContent, menuConfig, onchange, uploadUrl);
             this.before(editor.$editorContainer);
             this.hide();
         }

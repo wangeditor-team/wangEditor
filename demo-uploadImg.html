@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>wangEditor demo uploadImg</title>
+	<style type="text/css">
+		pre{
+			border: 1px solid #ccc;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			border-radius: 4px;
+			background-color: #f5f5f5;
+			padding: 10px;
+			margin: 5px 0px;
+			line-height: 1.4;
+			font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+			font-size: 0.8em;
+		}
+		ul li{
+			font-size: 0.8em;
+			line-height: 1.4;
+			background-color: #f1f1f1;
+			margin-right: 25px;
+		}
+	</style>
+
+	<!--引入wangEditor.css-->
+    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.css">
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="css/wangEditorFont-ie7-1.3.css">
+    <![endif]-->
+</head>
+<body  style='padding: 0px 30px'>
+	<!--textarea将生成一个富文本编辑器-->
+	<h1>wangEditor demo uploadImg</h1>
+	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
+	
+	<!--说明-->
+	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
+		<p>在demo-basic.html应用的基础上，可通过传入'uploadUrl'，来配置上传图片功能，<b>支持跨域上传。</b></p>
+<pre>
+$('#textarea1').wangEditor({
+	'uploadUrl': 'http://localhost:4780/wangEditor_uploadify_test/data.ashx'
+});
+</pre>
+		<h2>文件服务器的代码配置如下：（以asp.net为例）：</h2>
+		<p>第一，设置类型和编码</p>
+<pre>
+context.Response.ContentType = "text/html";
+context.Response.Charset = "utf-8";
+</pre>
+		<p>第二，定义一个&lt;iframe&gt;模板（注意以下几个内容），并定义一个result变量</p>
+		<ul>
+			<li>其中的 <b>wangEditor_uploadImg_assist.html</b> 是 wangEditor 提供的一个页面，该页面要放在富文本编辑页面的同一个目录下；（即，<b>保证wangEditor_uploadImg_assist.html和客户端同域</b>）</li>
+			<li>其中的“{0}”将会被下文的代码替换掉；</li>
+			<li>注意<b>不要忽略了中间的“#”</b>（url中hash的标志）；</li>
+			<li>这样“复杂”的设置是为了应对<b>跨域文件上传</b>；</li>
+		</ul>
+<pre>
+string iframeTemplate = "&lt;iframe src=\"http://localhost:8080/wangEditor_uploadImg_assist.html#{0}\"&gt;&lt;/iframe&gt;";  //其中，“{0}”将被下文的代码替换掉
+string result;  //将会存储返回结果
+</pre>
+		<p>第三，获取文件对象。注意，<b>必须通过“wangEditor_uploadImg”获取file</b>，这是wangEditor的规定。</p>
+<pre>
+HttpPostedFile file = context.Request.Files["wangEditor_uploadImg"];
+</pre>
+		<p>第四，如果文件获取失败</p>
+<pre>
+if (file == null)
+{
+    result = string.Format(iframeTemplate, "上传失败，未获取到文件");
+    // iframeTemplate 中的“{0}”被替换为“上传失败，未获取到文件”，
+    // result 被赋值为：<i>&lt;iframe src="http://localhost:8080/wangEditor_uploadImg_assist.html#上传失败，未获取到文件"&gt;&lt;/iframe&gt;</i>
+}
+</pre>
+		<p>第五，文件获取成功，验证文件大小、类型、安全性、是否重复...</p>
+<pre>
+else
+{
+    //自行验证文件大小、类型、安全性、是否重复...
+    //...
+    //...
+</pre>
+		<p>第六，保存图片，保存到一个特定的文件夹</p>
+<pre>
+    string path = context.Server.MapPath("~/uploadedFiles/"); //网站中有一个 uploadedFiles 文件夹，存储上传来的图片
+    string imageUrl = path + Path.GetFileName(file.FileName);
+    file.SaveAs(imageUrl);
+</pre>
+		<p>第七，获取保存后图片的url，并拼接返回结果。注意，<b>结果格式必须是：“ok|url地址”</b></p>
+<pre>
+    //获取img的url地址
+    string url = context.Request.Url.GetLeftPart(UriPartial.Authority) + "/wangEditor_uploadify_test/uploadedFiles/" + file.FileName;
+    //拼接返回结果，结果的格式必须是 “ok|图片url地址” ！！！
+    result = string.Format(iframeTemplate, "ok|" + url);
+
+    // iframeTemplate 中的“{0}”被替换为“ok|图片的url地址”
+    // result 被赋值为：&lt;iframe src="http://localhost:8080/wangEditor_uploadImg_assist.html#ok|图片的url地址"&gt;&lt;/iframe&gt;
+
+} //else结束
+</pre>
+		<p>第八，返回result</p>
+<pre>
+context.Response.Write(result);
+context.Response.End();
+</pre>
+
+	</div>
+	
+	<script type="text/javascript" src='js/jquery-1.10.2.min.js'></script>
+	<script type="text/javascript" src='js/wangEditor-1.3.js'></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#textarea1').wangEditor({
+				'uploadUrl': 'http://localhost:4780/wangEditor_uploadify_test/data.ashx'
+			});
+
+			//想要获取编辑框的内容，只需要取得textarea的内容即可
+			var html = $('#textarea1').val();
+
+		});
+	</script>
+</body>
+</html>
