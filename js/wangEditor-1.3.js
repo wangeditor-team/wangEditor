@@ -995,7 +995,7 @@
                         return $webimg_modal;
                     }
                 },
-                'uoploadImg':{
+                'uploadImg':{
                     'title': '上传图片',
                     'type': 'modal',
                     'txt': 'icon-wangEditor-file-image',
@@ -1020,14 +1020,8 @@
                             $uploadImg_modal = $(
                                 $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
-
+                        
                         $uploadImg_modal.find('#' + btnId).click(function(e){
-                            //禁用按钮
-                            var $btn = $(this),
-                                $info = $('#' + infoId);
-                            $btn.hide();
-                            $info.html('上传中...');
-
                             //检验是否传入uploadUrl配置
                             if(uploadUrl == null || typeof uploadUrl !== 'string'){
                                 alert('未配置URL地址，不能上传图片');
@@ -1051,7 +1045,9 @@
                             
                             //检验通过，开始提交...
 
-                            var $form = $('#' + formId),
+                            var $btn = $(this),
+                                $info = $('#' + infoId),
+                                $form = $('#' + formId),
                                 title = $('#' + titleTxtId).val(),
                                 iframe = document.getElementById(iframeId),
                                 uploadImg_callback = function(){
@@ -1060,34 +1056,41 @@
                                     $('#' + titleTxtId).val('');
                                 };
 
-                            //设置uploadUrl，提交form
-                            $form.attr('action', uploadUrl);
-                            $form.submit();
+                            //先暂时禁用按钮
+                            $btn.hide();
+                            $info.html('上传中...');
 
-                            //定义callback事件
-                            window.wangEditor_uoploadImgCallback = function(result){
-                                var url;
-                                if(result.indexOf('ok') === 0){
-                                    //成功
-                                    url = result.split('|')[1];
+                            try{
+                                //设置uploadUrl，提交form
+                                $form.attr('action', uploadUrl);
+                                $form.submit();
 
-                                    if(title === ''){
-                                        editor.command(e, 'insertImage', url, uploadImg_callback);
+                                //定义callback事件
+                                window.wangEditor_uploadImgCallback = function(result){
+                                    var url;
+                                    if(result.indexOf('ok') === 0){
+                                        //成功
+                                        url = result.split('|')[1];
+
+                                        if(title === ''){
+                                            editor.command(e, 'insertImage', url, uploadImg_callback);
+                                        }else{
+                                            editor.command(e, 'customeInsertImage', {'url':url, 'title':title}, uploadImg_callback);
+                                        }
+                                        
                                     }else{
-                                        editor.command(e, 'customeInsertImage', {'url':url, 'title':title}, uploadImg_callback);
+                                        //失败
+                                        alert(result);
                                     }
-                                    
-                                }else{
-                                    //失败
-                                    alert(result);
-                                }
-
+                                };
+                            }catch(ex){
+                                alert(ex.name + ':' + ex.message);
+                            }finally{
                                 //恢复按钮状态
                                 $btn.show();
                                 $info.html('');
-                            };
-
-                            e.preventDefault();
+                                e.preventDefault();
+                            }
                         });
 
                         return $uploadImg_modal;
@@ -1153,7 +1156,7 @@
                 ['unOrderedList', 'orderedList'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight'] ,
                 ['createLink', 'unLink'],
-                ['insertHr', 'insertTable', 'webImage', 'uoploadImg', 'insertSimpleCode'],
+                ['insertHr', 'insertTable', 'webImage', 'uploadImg', 'insertSimpleCode'],
                 ['undo', 'redo']
             ];
         }
