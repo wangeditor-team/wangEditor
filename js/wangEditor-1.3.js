@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.3 js
 * 王福朋
-* 2015-03-30
+* 2015-04-04
 */
 (function(window, $, undefined){
 
@@ -14,6 +14,7 @@
 
 	//------------------------------------定义全局变量------------------------------------
 	var document = window.document,
+        $document = $(document),
         $window = $(window),
         $body = $('body'),
 		supportRange = typeof document.createRange === 'function',
@@ -104,7 +105,9 @@
         //html模板
         'htmlTemplates': {
             //删除table,img的按钮
-            'tableDeleteBtn': '<a href="#" class="wangEditor-tableDeleteBtn"><i class="icon-wangEditor-cancel"></i></a>',
+            'elemDeleteBtn': '<a href="#" class="wangEditor-elemDeleteBtn"><i class="icon-wangEditor-cancel"></i></a>',
+            'imgResizeBtn': '<div class="wangEditor-imgResize"></div>',
+
             //整个编辑器的容器
             'editorContainer': '<div class="wangEditor-container"></div>',
             //菜单容器（加上clearfix）
@@ -162,6 +165,9 @@
                 return $elem;
             }
             if ($elem.is('div[contenteditable="true"]')) {
+                if($elem.children().length === 0){
+                    $elem.append( $('<p></p>') );
+                }
                 return $elem.children().last();
             } else {
                 return this.getElemForInsertTable($elem.parent());
@@ -398,10 +404,7 @@
         //初始化函数
         'init': function($textarea, $initContent, menuConfig, onchange, uploadUrl){
             var editor = this,
-                height = $textarea.height(),
-
-                $tableDeleteBtn = $( $E.htmlTemplates.tableDeleteBtn ),  //删除table,img的按钮
-                tableDeleteBtnDisabled;  //当前是否显示（删除table,img的按钮）
+                height = $textarea.height();
 
             //设置id
             var id = $textarea.attr('id');
@@ -418,13 +421,16 @@
             editor.$txt = $( $E.htmlTemplates.txt );
             editor.$txt.append($initContent);
             editor.$textarea = $textarea;
+            editor.$elemDeleteBtn = $( $E.htmlTemplates.elemDeleteBtn );  //元素左上角的删除按钮
+            editor.$imgResizeBtn = $( $E.htmlTemplates.imgResizeBtn );  //img右下角的resize按钮
 
             editor.$txtContainer.append(editor.$txt);
             editor.$editorContainer
                 .append(editor.$btnContainer)
                 .append(editor.$modalContainer)
                 .append(editor.$txtContainer)
-                .append($tableDeleteBtn);
+                .append(editor.$elemDeleteBtn)
+                .append(editor.$imgResizeBtn);
 
             //设置高度的最小值（再小了，文本框就显示不出来了）
             if(height <= 80){
@@ -520,45 +526,11 @@
                 editor.addCommandRecord();
             });
 
+            //初始化特定元素左上角的删除按钮------------------
+            editor.initDeleteBtn('img,table');
 
-            //显示删除table,img的按钮-----------------
-            tableDeleteBtnDisabled = false;
-            function hideTableDeleteBtn(){
-                if(tableDeleteBtnDisabled){
-                    $tableDeleteBtn.hide();
-                    tableDeleteBtnDisabled = false;
-                }
-            }
-            editor.$txt.on('click', 'table,img', function(){
-                var $elem = $(this),
-                    txtTop = editor.$txt.position().top,
-                    tableTop = $elem.position().top,
-                    tableLeft = $elem.position().left,
-                    btnWidth = $tableDeleteBtn.width(),
-                    btnHeight = $tableDeleteBtn.height();
-                if(tableTop <= txtTop){
-                    return;
-                }
-                $tableDeleteBtn.css({
-                    'top': (tableTop - btnHeight/2) + 'px',
-                    'left': (tableLeft - btnWidth/2) + 'px'
-                });
-                $tableDeleteBtn.show();
-                tableDeleteBtnDisabled = true;
-
-                //滚动时隐藏
-                editor.$txtContainer.off('scroll');
-                editor.$txtContainer.on('scroll', hideTableDeleteBtn);
-
-                //点击btn，删除
-                $tableDeleteBtn.off();
-                $tableDeleteBtn.click(function(e){
-                    //统一用editor.command删除，方便撤销
-                    editor.command(e, 'delete$elem', $elem, hideTableDeleteBtn);  
-                });
-            }).on('keyup blur', function(){
-                setTimeout(hideTableDeleteBtn, 100); //预留0.1毫秒，等待 $tableDeleteBtn.click 执行
-            });
+            //初始化img右下角的resize按钮------------------
+            editor.initImgResizeBtn();
 
             //初始化时记录，以便撤销------------------
             editor._initCommandRecord();
@@ -571,6 +543,8 @@
                 //blur时监控变化
                 editor.change();
             });
+
+            editor.$txt.focus();
 
             //返回------------------
             return editor;
@@ -591,6 +565,221 @@
             this.$txt.on(type, fn);
         },
 
+        //初始化指定元素左上角的删除按钮
+        'initDeleteBtn': function(selectExpression){
+            var editor = this,
+                $deleteBtn = editor.$elemDeleteBtn,
+                focusIdNow;  //当前focus元素的id——$elem.data('deleteBtnId')
+
+            //隐藏删除按钮
+            function hideElemDeleteBtn(){
+                //隐藏按钮
+                var deleteBtnDisplay = $deleteBtn.css('display');
+                if( deleteBtnDisplay !== '' && deleteBtnDisplay !== 'none' ){
+                    $deleteBtn.hide();
+                }
+                //清空 focusIdNow
+                focusIdNow = '';
+            }
+
+            //为目标元素（如img、table）绑定click事件
+            editor.$txt.on('click', selectExpression, function(e){
+                var $elem = $(this),
+                    elemDeleteBtnId = $elem.data('deleteBtnId'),
+                    uniqueId = $E.getUniqeId();
+
+                if(elemDeleteBtnId && focusIdNow === elemDeleteBtnId){
+                    e.stopPropagation(); //阻止冒泡，不能让 editor.$txt 监控到click事件
+                    return; //如果当前元素已经被focus，删除按钮此时已经显示了，则无需再重新显示删除按钮
+                }else{
+                    //如果当前元素没有被focus，则把focusIdNow赋值成该元素的Id
+                    if(!elemDeleteBtnId){
+                        $elem.data('deleteBtnId', uniqueId);
+                        elemDeleteBtnId = uniqueId;
+                    }
+                    focusIdNow = elemDeleteBtnId;
+                }
+
+                var btnContainerTop = editor.$btnContainer.position().top,
+                    btnContainerHeight = editor.$btnContainer.outerHeight(),
+                    elemPostion = $elem.position(),
+                    elemTop = elemPostion.top,
+                    elemLeft = elemPostion.left,
+                    btnWidth = $deleteBtn.width(),
+                    btnHeight = $deleteBtn.height();
+                if(elemTop <= btnContainerTop + btnContainerHeight){
+                    //说明此时$elem的上不，已经被$btnContainer覆盖了
+                    return;
+                }
+                $deleteBtn.css({
+                    'top': (elemTop - btnHeight/2) + 'px',
+                    'left': (elemLeft - btnWidth/2) + 'px'
+                });
+                $deleteBtn.show();
+
+                //滚动时隐藏
+                editor.$txtContainer.off('scroll.deleteBtn');
+                editor.$txtContainer.on('scroll.deleteBtn', hideElemDeleteBtn);
+
+                //点击btn，删除
+                $deleteBtn.off();
+                $deleteBtn.click(function(e){
+                    //统一用editor.command删除，方便撤销
+                    editor.command(e, 'delete$elem', $elem, hideElemDeleteBtn);  
+                });
+
+                //阻止冒泡，不能让 editor.$txt 监控到click事件
+                e.stopPropagation();  
+            });
+            //隐藏删除按钮
+            editor.$txt.on('click keyup blur', function(e){
+                if(e.type === 'blur'){
+                    setTimeout(hideElemDeleteBtn, 100); //预留0.1毫秒，等待 $deleteBtn.click 执行
+                }else{
+                    hideElemDeleteBtn();
+                }
+            });
+        },
+
+        //初始化img右下角的resize按钮
+        'initImgResizeBtn': function(){
+            var editor = this,
+                $resizeBtn = editor.$imgResizeBtn,
+                focusIdNow,  //当前focus元素的id——$elem.data('imgResizeId')
+                isResizeBtnMoving = false;  //是否正在移动？
+
+            //隐藏rezie按钮
+            function hideResizeBtn(){
+                if(isResizeBtnMoving){
+                    return;
+                }
+
+                //隐藏按钮
+                var resizeBtnDisplay = $resizeBtn.css('display');
+                if( resizeBtnDisplay !== '' && resizeBtnDisplay !== 'none' ){
+                    $resizeBtn.hide();
+                }
+                //清空 focusIdNow
+                focusIdNow = '';
+            }
+
+            //绑定img的click事件（显示resize按钮）
+            editor.$txt.on('click', 'img', function(e){
+                var $elem = $(this),
+                    elemId = $elem.data('imgResizeId'),
+                    uniqueId = $E.getUniqeId();
+
+                if(elemId && focusIdNow === elemId){
+                    e.stopPropagation(); //阻止冒泡，不能让 editor.$txt 监控到click事件
+                    return; //如果当前元素已经被focus，resize按钮此时已经显示了，则无需再重新显示resize按钮
+                }else{
+                    //如果当前元素没有被focus，则把focusIdNow赋值成该元素的Id
+                    if(!elemId){
+                        $elem.data('imgResizeId', uniqueId);
+                        elemId = uniqueId;
+                    }
+                    focusIdNow = elemId;
+                }
+
+                var elemPosition = $elem.position(),
+                    elemTop = elemPosition.top,
+                    elemLeft = elemPosition.left,
+                    elemWidth = $elem.outerWidth(),
+                    elemHeight = $elem.outerHeight(),
+
+                    txtContainerPosition = editor.$txtContainer.position(),
+                    txtContainerTop = txtContainerPosition.top,
+                    txtContainerLeft = txtContainerPosition.left,
+                    txtContainerWidth = editor.$txtContainer.outerWidth(),
+                    txtContainerHeight = editor.$txtContainer.outerHeight(),
+
+                    btnWidth = $resizeBtn.outerWidth(),
+                    btnHeight = $resizeBtn.outerHeight(),
+
+                    //$resizebtn 拖拽相关的变量
+                    editorContainerPostion = editor.$editorContainer.position(),
+                    editorContainerLeft = editorContainerPostion.left,
+                    editorContainerTop = editorContainerPostion.top,
+                    resizeBtnWidth,
+                    resizeBtnHeight,
+                    _x,
+                    _y;
+
+                if(elemTop + elemHeight > txtContainerTop + txtContainerHeight){
+                    //元素底部已经被txtContainer覆盖
+                    return;
+                }
+                if(elemLeft + elemWidth > txtContainerLeft + txtContainerWidth){
+                    //元素右边已经被txtContainer覆盖
+                    return;
+                }
+
+                //定位resizeBtn，并显示出来
+                $resizeBtn.css({
+                    'top': (elemTop + elemHeight - btnHeight) + 'px',
+                    'left': (elemLeft + elemWidth - btnWidth) + 'px'
+                });
+                $resizeBtn.show();
+
+                //滚动时隐藏
+                editor.$txtContainer.off('scroll.resizebtn');
+                editor.$txtContainer.on('scroll.resizebtn', hideResizeBtn);
+
+                //设置resizebtn事件
+                $resizeBtn.off();
+                $resizeBtn.on('mousedown', function(e){
+                    //开始移动的标记
+                    isResizeBtnMoving = true;
+
+                    //计算鼠标离 resizeBtn 左上角的相对位置 
+                    var resizeBtnPostion = $resizeBtn.position();
+                    _x = e.pageX - editorContainerLeft - resizeBtnPostion.left;
+                    _y = e.pageY - editorContainerTop - resizeBtnPostion.top;
+
+                    //记录 $resizeBtn 的长度宽度
+                    resizeBtnWidth = $resizeBtn.outerWidth();
+                    resizeBtnHeight = $resizeBtn.outerHeight();
+                });
+                $document.off('mousemove.resizeBtn mouseup.resizeBtn');
+                $document.on('mousemove.resizeBtn', function(e){
+                    if(isResizeBtnMoving){
+                        //计算，鼠标离 editorContainer 左上角的相对位置
+                        var x = e.pageX - editorContainerLeft - _x,
+                            y = e.pageY - editorContainerTop - _y;
+                        $resizeBtn.css({
+                            'top': y,
+                            'left': x
+                        });
+
+                        //获取 $resizeBtn 最新的位置
+                        var resizeBtnPostion = $resizeBtn.position(),
+                            resizeBtnLeft = resizeBtnPostion.left,
+                            resizeBtnTop = resizeBtnPostion.top;
+                        $elem.css({
+                            'width': resizeBtnLeft + resizeBtnWidth - elemLeft,
+                            'height': resizeBtnTop + resizeBtnHeight - elemTop
+                        });
+
+                        e.preventDefault();
+                    }
+                }).on('mouseup.resizeBtn', function(e){
+                    //移动结束的标记
+                    isResizeBtnMoving = false;
+                });
+
+                //阻止冒泡，不能让 editor.$txt 监控到click事件
+                e.stopPropagation();  
+            });
+            //隐藏resizeBtn按钮
+            editor.$txt.on('click keyup blur', function(e){
+                if(e.type === 'blur'){
+                    setTimeout(hideResizeBtn, 100); //预留0.1毫秒，等待 $resizeBtn.mousedown 执行
+                }else{
+                    hideResizeBtn();
+                }
+            });
+        },
+
         //读取或设置html
         'html': function(html){
             if(html){
@@ -601,14 +790,13 @@
         },
 
         //设置textarea的值
-        'textareaVal':function(val){
+        'textareaVal': function(val){
             if(val){
                 this.$textarea.val(val);
             }else{
                 return this.$textarea.val();
             }
         }
-
     });
 
     //重点！！！
@@ -631,9 +819,6 @@
                         'dropMenu': （$ul，可选）type===dropMenu时，要返回一个$ul，作为下拉菜单,
                         'modal':（$div，可选）type===modal是，要返回一个$div，作为弹出框,
                         'callback':（函数，可选）回调函数,
-
-                        'dependence': （任何对象，可选）依赖对象，在加载菜单时，会判断该对象是否是null/undefined，如果是，就不显示,
-                        'dependenceAlert': （字符串，可选）依赖对象找不到时候的提示
                     },
                     'modaId-2':{
                         ……
@@ -1125,7 +1310,7 @@
                                            .replace(/\s{1}/gm, '&nbsp;');
                                 code = '<pre class="wangEditor-code">' + code + '</pre><p><br></p>';
 
-                                editor.command(e, 'insertHtml', code, simpleCode_callback);
+                                editor.command(e, 'insertHTML', code, simpleCode_callback);
                             }
                         });
 
@@ -1212,19 +1397,25 @@
             }
         },
         //获取并保存选择区域
-        'saveSelection': function(){
+        'saveSelection': function(range){
+            //'initSelection'方法会传range参数过来
+            //页面加载时，初始化selection
+
             var editor = this,
                 selection,
-                range,
                 _parentElem,
                 txt = editor.$txt[0];
             //获取选中区域
             if(supportRange){
                 //w3c
-                selection = document.getSelection();
-                if (selection.getRangeAt && selection.rangeCount) {
-                    range = document.getSelection().getRangeAt(0);
+                if(range){
                     _parentElem = range.commonAncestorContainer;
+                }else{
+                    selection = document.getSelection();
+                    if (selection.getRangeAt && selection.rangeCount) {
+                        range = document.getSelection().getRangeAt(0);
+                        _parentElem = range.commonAncestorContainer;
+                    }
                 }
             }else{
                 //IE8-
@@ -1265,6 +1456,29 @@
                     range.setEndPoint('StartToStart', currentRange);
                 }
                 range.select();
+            }
+        },
+        //currentRange为空时，初始化为$txt的最后一个子元素
+        'initSelection': function(){
+            var editor = this,
+                range,
+                txt = editor.$txt.get(0);
+
+            if( editor.currentRange() ){
+                //如果currentRange有值，则不用再初始化
+                return;
+            }
+
+            if(supportRange){ 
+                //W3C方式
+                range = document.createRange();
+                range.setStart(txt, 0);
+                range.setEnd(txt, 0);
+            }
+
+            //将range保存
+            if(range){
+                editor.saveSelection(range);
             }
         }
     });
@@ -1435,9 +1649,11 @@
                 commandValue.remove();  //例如：$table.remove();
             },
             'commonUndo': function(commandName, commandValue){
+                //this是editor对象
                 this.undo(commandName, commandValue);
             },
             'commonRedo': function(commandName, commandValue){
+                //this是editor对象
                 this.redo(commandName, commandValue);
             }
         },
@@ -1460,7 +1676,7 @@
                     if(commandHook){
                         commandHook.call(this, commandName, commandValue);
                     }else{
-                        $E.consoleLog('不支持“' + commandName + '”命令，请检查');
+                        $E.consoleLog('不支持“' + commandName + '”命令，请检查。');
                     }
                 }
 
@@ -1544,8 +1760,13 @@
 
             //获取editor对象
             var editor = $E(this, $initContent, menuConfig, onchange, uploadUrl);
+
+            //渲染editor，并隐藏textarea
             this.before(editor.$editorContainer);
             this.hide();
+
+            //页面刚加载时，初始化selection
+            editor.initSelection();
         }
     });
 

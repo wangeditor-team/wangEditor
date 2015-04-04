@@ -1,7 +1,7 @@
 /*
-* wangEditor 1.3 less
+* wangEditor 1.3 less-css
 * 王福朋
-* 2015-03-24
+* 2015-04-04
 */
 @font-face {
   font-family: 'wangeditorfont';
@@ -316,23 +316,33 @@
 .wangEditor-container .wangEditor-textarea p {
   margin: 0.7em 0;
 }
-.wangEditor-container .wangEditor-tableDeleteBtn {
+.wangEditor-container .wangEditor-elemDeleteBtn {
   display: block;
   text-align: center;
-  padding: 0px 3px 0px 3px;
+  padding: 1px 5px 2px 5px;
   color: #fff;
   background-color: #505050;
   text-decoration: none;
   cursor: pointer;
   position: absolute;
   display: none;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
 }
-.wangEditor-container .wangEditor-tableDeleteBtn:hover {
+.wangEditor-container .wangEditor-elemDeleteBtn:hover {
   color: #505050;
   background-color: #aec5e6;
+}
+.wangEditor-container .wangEditor-imgResize {
+  display: block;
+  position: absolute;
+  display: none;
+  cursor: se-resize;
+  width: 0;
+  height: 0;
+  border-bottom: 20px solid #505050;
+  border-left: 20px solid transparent;
 }
 .wangEditor-container .wangEditor-code {
   border: 1px solid #ccc;

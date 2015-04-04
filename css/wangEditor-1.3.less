@@ -1,7 +1,7 @@
 /*
-* wangEditor 1.3 less
+* wangEditor 1.3 less-css
 * 王福朋
-* 2015-03-24
+* 2015-04-04
 */
 
 //----------------------------------begin 字体设置--------------------------------------------
@@ -329,22 +329,36 @@
 	}
 
 	//表格、图片左上角的删除按钮
-	& .wangEditor-tableDeleteBtn{
+	& .wangEditor-elemDeleteBtn{
 		display:block;
 	    text-align: center;
-	    padding: 0px 3px 0px 3px;
+	    padding: 1px 5px 2px 5px;
 	    color: #fff;
 	    background-color: @fore-color;
 	    text-decoration: none;
 	    cursor: pointer;
 	    position: absolute;
 	    display: none;
-	    .border-radius(5px);
+	    .border-radius(3px);
 
 	    &:hover{
 	    	color:@fore-color;
 	    	background-color: @selected-bg-color;
 	    }
+	}
+
+	//resize图片的div
+	& .wangEditor-imgResize{
+		display: block;
+		position: absolute;
+		display: none;
+		cursor: se-resize;
+
+		//画一个三角
+		width: 0;
+	    height: 0;
+	    border-bottom: 20px solid @fore-color;
+	    border-left: 20px solid transparent;
 	}
 
 	//代码区域（简单代码，非高亮）
