@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.3 js
 * 王福朋
-* 2015-04-04
+* 2015-04-08
 */
 (function(window, $, undefined){
 
@@ -12,12 +12,79 @@
 		alert('检测到 window.jQuery 已被修改，wangEditor无法使用。');
 	}
 
+    //判断IE6、7、8
+    var isIE6 = false, 
+        isIE7 = false, 
+        isIE8 = false,
+        appVersion;
+    if(navigator.appName === "Microsoft Internet Explorer"){
+        appVersion = navigator.appVersion.split(";")[1].replace(/[ ]/g,"");
+        isIE6 = appVersion === 'MSIE6.0';
+        isIE7 = appVersion === 'MSIE7.0';
+        isIE8 = appVersion === 'MSIE8.0';
+    }
+    //------------------------------------配置IE6、7、8的font-Icon------------------------------------
+    if(isIE6 || isIE7 || isIE8){
+        //只针对IE6、7、8
+        window.onload = function() {
+            function addIcon(elem, entity) {
+                elem.className = '';
+                elem.innerHTML = '<span style="font-family: \'icomoon\'">' + entity + '</span>';
+            }
+            var icons = {
+                'icon-wangEditor-link' : '&#xe800;',
+                'icon-wangEditor-unlink' : '&#xe801;',
+                'icon-wangEditor-code' : '&#xe802;',
+                'icon-wangEditor-cancel': '&#xe803;',
+                'icon-wangEditor-terminal':'&#xe804;',
+                'icon-wangEditor-angle-down':'&#xe805;',
+                'icon-wangEditor-font':'&#xe806;',
+                'icon-wangEditor-bold':'&#xe807;',
+                'icon-wangEditor-italic':'&#xe808;',
+                'icon-wangEditor-header':'&#xe809;',
+                'icon-wangEditor-align-left':'&#xe80a;',
+                'icon-wangEditor-align-center':'&#xe80b;',
+                'icon-wangEditor-align-right':'&#xe80c;',
+                'icon-wangEditor-list-bullet':'&#xe80d;',
+                'icon-wangEditor-indent-left':'&#xe80e;',
+                'icon-wangEditor-indent-right':'&#xe80f;',
+                'icon-wangEditor-list-numbered':'&#xe810;',
+                'icon-wangEditor-underline':'&#xe811;',
+                'icon-wangEditor-table':'&#xe812;',
+                'icon-wangEditor-eraser':'&#xe813;',
+                'icon-wangEditor-text-height':'&#xe814;',
+                'icon-wangEditor-brush':'&#xe815;',
+                'icon-wangEditor-pencil':'&#xe816;',
+                'icon-wangEditor-minus':'&#xe817;',
+                'icon-wangEditor-picture':'&#xe818;',
+                'icon-wangEditor-file-image':'&#xe819;',
+                'icon-wangEditor-cw':'&#xe81a;',
+                'icon-wangEditor-ccw':'&#xe81b;'
+            };
+
+            //遍历菜单按钮，替换fontIcon
+            $('.wangEditor-container i').each(function(){
+                var elem = this,
+                    className = this.className,
+                    matchs = className.match(/icon-wangEditor-[^\s'"]+/);
+                if (matchs) {
+                    addIcon(elem, icons[matchs[0]]);
+                }
+            });
+        };
+    }
+
 	//------------------------------------定义全局变量------------------------------------
 	var document = window.document,
         $document = $(document),
         $window = $(window),
         $body = $('body'),
+
+        //是否支持W3C的selection操作？
 		supportRange = typeof document.createRange === 'function',
+        //浏览器类型
+        isIE = !!window.ActiveXObject || "ActiveXObject" in window,  //包括IE11
+        isFireFox = navigator.userAgent.indexOf("Firefox") > 0,
 
         //id前缀
         idPrefix = 'wangeditor_' + Math.random().toString().replace('.', '') + '_',
@@ -39,8 +106,10 @@
     //prototype简写为fn
     $E.fn = $E.prototype;
 
-    //添加遮罩层
-    $body.prepend($maskDiv);
+    if( !isIE6 && !isIE7 ){
+        //添加遮罩层（IE6、7下不用遮罩层，各种兼容性问题！）
+        $body.prepend($maskDiv);
+    }
 
     //------------------------------------公用方法------------------------------------
     $.extend($E, {
@@ -260,13 +329,21 @@
                 //基本命令（command是字符串）
                 if(typeof command === 'string'){
                     $btn.click(function(e){
+                        editor.hideModal();   //先视图隐藏目前显示的modal
+                        //执行操作
                         editor.command(e, command, undefined, callback);
+
+                        e.stopPropagation();  //最后阻止冒泡
                     });
                 }
                 //自定义命令（command是函数）
                 if(typeof command === 'function'){
                     $btn.click(function(e){
+                        editor.hideModal();   //先视图隐藏目前显示的modal
+                        
                         command(e);  //如果command是函数，则直接执行command
+                        
+                        e.stopPropagation();  //最后阻止冒泡
                     });
                 }
                 if(hotKey){
@@ -311,9 +388,13 @@
                     $dropMenu.hide();
                 }
                 $btn.click(function(e){
+                    editor.hideModal();   //先视图隐藏目前显示的modal
+
                     $dropMenu.css('display', 'inline-block');
                     e.preventDefault();
                     this.focus();  //for 360急速浏览器
+                    
+                    e.stopPropagation();  //最后阻止冒泡
                 }).blur(function(e){
                     setTimeout(hideDropMenu, 200);  //先执行完，再隐藏
                 });
@@ -339,12 +420,16 @@
                 editor.insertModal($modal);
 
                 $btn.click(function(e){
+                    editor.hideModal();   //先视图隐藏目前显示的modal
+
                     //计算margin-left;
                     $modal.css('margin-left', ($window.outerWidth()/2 - $modal.outerWidth()/2));
 
                     $maskDiv.show();
                     $modal.show();
                     e.preventDefault();
+
+                    e.stopPropagation();  //最后阻止冒泡
                 });
                 $modal.find('[commandName=close]').click(function(e){
                     $maskDiv.hide();
@@ -444,25 +529,6 @@
 
                 editor.$txtContainer.height( txtContainerHeight );
                 editor.$txt.css('min-height', height + 'px');
-
-                if(editor.$txt.outerHeight() !== height){
-                    //IE6不支持'min-height'，就用空行模拟效果
-                    editor.$txt.html(
-                        editor.$txt.html() +
-                        '<p><br></p>' +
-                        '<p><br></p>' +
-                        '<p><br></p>' +
-                        '<p><br></p>' +
-                        '<p><br></p>' +
-                        '<p><br></p>' +
-                        '<p><br></p>' +
-                        '<p><br></p>' +
-                        '<p><br></p>' +
-                        '<p><br></p>' +
-                        '<p><br></p>' +
-                        '<p><br></p>' 
-                    );
-                }
             });
 
             //绑定onchange函数
@@ -530,7 +596,18 @@
             editor.initDeleteBtn('img,table');
 
             //初始化img右下角的resize按钮------------------
-            editor.initImgResizeBtn();
+            if(!isIE && !isFireFox){
+                editor.initImgResizeBtn();
+            }
+
+            //txtContainer和btnContainer被点击时，要隐藏modal
+            //（因为IE6、7下没有遮罩层）
+            editor.$txtContainer.click(function(){
+                editor.hideModal();
+            });
+            editor.$btnContainer.click(function(){
+                editor.hideModal();
+            });
 
             //初始化时记录，以便撤销------------------
             editor._initCommandRecord();
@@ -629,7 +706,8 @@
                 });
 
                 //阻止冒泡，不能让 editor.$txt 监控到click事件
-                e.stopPropagation();  
+                e.stopPropagation(); 
+                e.preventDefault();
             });
             //隐藏删除按钮
             editor.$txt.on('click keyup blur', function(e){
@@ -769,6 +847,7 @@
 
                 //阻止冒泡，不能让 editor.$txt 监控到click事件
                 e.stopPropagation();  
+                e.preventDefault();
             });
             //隐藏resizeBtn按钮
             editor.$txt.on('click keyup blur', function(e){
@@ -795,6 +874,14 @@
                 this.$textarea.val(val);
             }else{
                 return this.$textarea.val();
+            }
+        },
+
+        //隐藏modal和遮罩层
+        'hideModal': function(){
+            this.$modalContainer.find('.wangEditor-modal:visible').hide();
+            if($maskDiv.is(':visible')){
+                $maskDiv.hide();  //关闭遮罩层
             }
         }
     });
@@ -1289,7 +1376,7 @@
                         var txtId = $E.getUniqeId(),
                             btnId = $E.getUniqeId(),
                             content = '<p>请输入代码：</p>' +
-                                        '<textarea id="' + txtId + '" style="width:100%; height:100px;"></textarea>' + 
+                                        '<div><textarea id="' + txtId + '" style="width:100%; height:100px;"></textarea></div>' + 
                                         '<button id="' + btnId + '" class="wangEditor-modal-btn">插入</button>',
                             $simpleCode_modal = $(
                                 $E.htmlTemplates.modalSmall.replace('{content}', content)
@@ -1699,10 +1786,7 @@
             }
 
             //关闭modal
-            this.$modalContainer.find('.wangEditor-modal:visible').hide();
-            if($maskDiv.is(':visible')){
-                $maskDiv.hide();  //关闭遮罩层
-            }
+            this.hideModal();
 
             if(e){
                 e.preventDefault();
@@ -1754,7 +1838,7 @@
 
             var options = options || {},
                 menuConfig = options.menuConfig,
-                $initContent = options.$initContent || $(),
+                $initContent = options.$initContent || $('<p><br/></p>'),
                 onchange = options.onchange,
                 uploadUrl = options.uploadUrl;
 

@@ -1,16 +1,17 @@
 0. 本次更新说明
 ===
-更新时间为：2015-04-04，更新版本为1.3版。本次更新的主要内容：<br/>
-* 拖拽修改图片大小；
+更新时间为：2015-04-09，更新版本为1.3版。本次更新的主要内容：<br/>
+* 优化IE6、7兼容性的处理；
+* 不再使用word风格；
 
 1. 介绍
 ===
-<b>wangEditor——轻量级web富文本编辑器，配置方便，使用简单</b>。支持IE7+浏览器。<br/>
+<b>wangEditor——轻量级web富文本编辑器，配置方便，使用简单</b>。支持IE6+浏览器。<br/>
 
 * 软件官网：[www.wangEditor.com](http://www.wangEditor.com)
 * demo演示：[www.wangeditor.com/wangEditor/demo.html](http://www.wangeditor.com/wangEditor/demo.html)
 
-![](http://images.cnitblog.com/blog2015/138012/201503/242157460995330.png)
+![](http://images.cnitblog.com/blog2015/138012/201504/092122513835286.png)
 
 2. 如何使用？
 ===
@@ -73,19 +74,7 @@ wangEditor默认的主题颜色为深灰色，你也可以自定义符合网站�
 //-----------------------------------end:颜色配置-----------------------------------
 ```
 
-4. 不喜欢word风格？
-===
-wangEditor默认的编辑风格类似于 office word 的样子。如果不喜欢，只需要注释掉一下<code>less</code>中的两个两个样式即可。<br>
-找到<code>css/wangEditor-1.3.less</code>文件，搜索<code>“begin: word样式”</code>关键字，然后将其中的内容注释掉即可。<br>
-**最后不要忘记，把<code>less</code>编译成<code>css</code>**。
-```less
-//---------begin: word样式-----------
-margin:20px 40px; 
-border:1px solid @txt-border-color;
-//---------end: word样式-----------
-```
-
-5. 交流
+4. 交流
 ===
 交流QQ群：<b>164999061</b> <br />
 二次开发联系：<b>wangfupeng1988#163.com（#->@）</b>

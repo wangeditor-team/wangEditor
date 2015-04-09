@@ -14,12 +14,21 @@
 	-->
 
 	<script type="text/javascript">
+		window.onload = function(){
+			if(window.parent && window.parent.parent && window.parent.parent.wangEditor_uploadImgCallback){
+				//调用 window.parent.parent 的回调函数
+				//wangEditor_uploadImgCallback 是上传页面定义的一个全局函数
 
-		if(window.parent && window.parent.parent && window.parent.parent.wangEditor_uploadImgCallback){
-			//回调 parent.parent 的回调函数
-			//wangEditor_uploadImgCallback 是上传页面定义的一个全局函数
-			window.parent.parent.wangEditor_uploadImgCallback( window.location.hash.slice(1) );	
-		}
+				if(window.location.hash){
+					var hash = window.location.hash.slice(1);
+					window.parent.parent.wangEditor_uploadImgCallback( hash );	
+				}else{
+					alert('没有通过hash找到图片url网址！');
+				}
+			}else{
+				alert('未找到 window.parent.parent.wangEditor_uploadImgCallback 方法！');
+			}
+		};
 
 	</script>
 </body>
