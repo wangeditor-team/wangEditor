@@ -295,7 +295,7 @@
             var title = menu.title,
                 type = menu.type,
                 txt = menu.txt,
-                txtArr,
+                style = menu.style,
                 command = menu.command,  //函数或者字符串
                 hotKey = menu.hotKey, //快捷键
                 fnKeys = [],
@@ -312,9 +312,8 @@
             }
 
             //btn txt
-            if(txt.indexOf('|') !== -1){
-                txtArr = txt.split('|');
-                txt = '<i class="' + txtArr[0] + '" style="' + txtArr[1] + '"></i>';
+            if(style){
+                txt = '<i class="' + txt + '" style="' + style + '"></i>';
             }else{
                 txt = '<i class="' + txt + '"></i>';
             }
@@ -946,6 +945,7 @@
                         'title': （字符串，必须）标题,
                         'type':（字符串，必须）类型，可以是 btn / dropMenu / dropPanel / modal,
                         'txt': （字符串，必须）fontAwesome字体样式，例如 'fa fa-head',
+                        'style': （字符串，可选）设置btn的样式
                         'hotKey':（字符串，可选）快捷键，如'ctrl + b', 'ctrl,shift + i', 'alt,meta + y'等，支持 ctrl, shift, alt, meta 四个功能键（只有type===btn才有效）,
                         'command':（字符串）document.execCommand的命令名，如'fontName'；也可以是自定义的命令名，如“撤销”、“插入表格”按钮（type===modal时，command无效）,
                         'dropMenu': （$ul，可选）type===dropMenu时，要返回一个$ul，作为下拉菜单,
@@ -1047,7 +1047,8 @@
                     'title': '前景色',
                     'type': 'dropPanel',
                     'txt': 'icon-wangEditor-pencil',   //如果要颜色： 'txt': 'fa fa-pencil|color:#4a7db1'
-                    'command': 'foreColor ',
+                    'style': 'color:blue;',
+                    'command': 'foreColor',
                     'dropPanel': function(){
                         var arr = [],
                             //注意，此处commandValue必填项，否则程序不会跟踪
@@ -1072,6 +1073,7 @@
                     'title': '背景色',
                     'type': 'dropPanel',
                     'txt': 'icon-wangEditor-brush',   //如果要颜色： 'txt': 'fa fa-paint-brush|color:Red'
+                    'style':'color:red;',
                     'command': 'backColor ',
                     'dropPanel': function(){
                         var arr = [],
