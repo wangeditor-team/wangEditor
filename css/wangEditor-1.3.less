@@ -133,7 +133,7 @@
 	}
 
 	//菜单栏
-	& .wangEditor-btn-container{
+	.wangEditor-btn-container{
 		text-align: left;
 		border-bottom: 1px solid @btn-container-border-color;
 		background-color: @btn-container-bg-color;
@@ -157,7 +157,7 @@
 		    .common-font-style();
 
 		    &:hover{
-		    	background-color: #f1f1f1;
+		    	background-color: @selected-bg-color;
 		    	.border-radius();
 		    }
 
@@ -182,7 +182,7 @@
 	//下拉菜单
 	.drop-menu-style{  /*通用配置*/
 		list-style-type: none;
-	    border: 1px solid #cccccc;
+	    border: 1px solid @editor-container-border-color;
 	    background-color: @reverse-color;
 	    position: absolute;
 	    margin-top: 23px;
@@ -190,7 +190,7 @@
 	    -webkit-padding-start: 0px;
 	    z-index:100;
 	}
-	& .wangEditor-drop-menu{
+	.wangEditor-drop-menu{
 		.drop-menu-style !important;  //防止页面其他样式修改ul-li
 
 		a{
@@ -207,8 +207,37 @@
 		}
 	}
 
+	//下拉面板
+	.wangEditor-drop-panel{
+		width: 200px;
+		border: 1px solid @editor-container-border-color;
+	    background-color: @reverse-color;
+	    position: absolute;
+	    margin-top: 23px;
+	    padding:5px 5px 0px 0px;
+	    z-index:100;
+
+	    //float item
+	    .wangEditor-drop-panel-floatItem{
+	    	float: left;
+	    	margin-left: 5px;
+	    	margin-bottom: 5px;
+	    	font-size:0.9em;
+	    	a{
+			    text-decoration: none;
+	    	}
+
+	    	//针对颜色块（前景色、背景色）
+	    	.forColorItem{
+	    		display: block;
+	    		width: 18px;
+	    		border: 1px solid @editor-container-border-color;
+	    	}
+	    }
+	}
+
 	//鼠标放置在按钮上的 tooltip 效果
-	& .wangEditor-toolTip{
+	.wangEditor-toolTip{
 		position: absolute;
 		margin-top: -28px;
     	display: none;
@@ -231,12 +260,12 @@
 	}
 
 	//弹出框容器
-	& .wangEditor-modal-container{
+	.wangEditor-modal-container{
 		z-index: 150;
 	}
 
 	//弹出框
-	& .wangEditor-modal{
+	.wangEditor-modal{
 		z-index: 100;
 		width: 600px;
 
@@ -306,21 +335,21 @@
 	    	.border-radius();
 	    }
 	}
-	& .wangEditor-modal-big{
+	.wangEditor-modal-big{
 		width: 800px;
 	}
-	& .wangEditor-modal-small{
+	.wangEditor-modal-small{
 		width: 400px;
 	}
-	& .wangEditor-modal-mini{
+	.wangEditor-modal-mini{
 		width: 200px;
 	}
 
 	//富文本编辑区
-	& .wangEditor-textarea-container{
+	.wangEditor-textarea-container{
 		overflow-y: scroll;
 	}
-	& .wangEditor-textarea{
+	.wangEditor-textarea{
 		background-color: @txt-bg-color;
 		padding: 0px 15px 10px 15px;
     	p{
@@ -335,7 +364,7 @@
 	}
 
 	//表格、图片左上角的删除按钮
-	& .wangEditor-elemDeleteBtn{
+	.wangEditor-elemDeleteBtn{
 		display:block;
 	    text-align: center;
 	    padding: 1px 5px 2px 5px;
@@ -354,7 +383,7 @@
 	}
 
 	//resize图片的div
-	& .wangEditor-imgResize{
+	.wangEditor-imgResize{
 		display: block;
 		position: absolute;
 		display: none;
@@ -368,7 +397,7 @@
 	}
 
 	//代码区域（简单代码，非高亮）
-	& .wangEditor-code{
+	.wangEditor-code{
 		border:1px solid #ccc;
 		.border-radius(4px);
 		background-color: #f5f5f5;

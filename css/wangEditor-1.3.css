@@ -150,7 +150,7 @@
   text-align: center;
 }
 .wangEditor-container .wangEditor-btn-container-btn:hover {
-  background-color: #f1f1f1;
+  background-color: #aec5e6;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -204,6 +204,29 @@
 }
 .wangEditor-container .wangEditor-drop-menu a:hover {
   background-color: #aec5e6;
+}
+.wangEditor-container .wangEditor-drop-panel {
+  width: 200px;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+  position: absolute;
+  margin-top: 23px;
+  padding: 5px 5px 0px 0px;
+  z-index: 100;
+}
+.wangEditor-container .wangEditor-drop-panel .wangEditor-drop-panel-floatItem {
+  float: left;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  font-size: 0.9em;
+}
+.wangEditor-container .wangEditor-drop-panel .wangEditor-drop-panel-floatItem a {
+  text-decoration: none;
+}
+.wangEditor-container .wangEditor-drop-panel .wangEditor-drop-panel-floatItem .forColorItem {
+  display: block;
+  width: 18px;
+  border: 1px solid #cccccc;
 }
 .wangEditor-container .wangEditor-toolTip {
   position: absolute;

@@ -159,7 +159,8 @@
                 '#ffcc00': '橙黄色',
                 '#808080': '灰色',
                 '#c0c0c0': '银色',
-                '#000000': '黑色'
+                '#000000': '黑色',
+                '#ffffff': '白色'
             },
             'fontsizeOptions': {
                 1: '10px',
@@ -209,7 +210,11 @@
             //编辑框
             'txt': '<div class="wangEditor-textarea" contenteditable="true"></div>',
             //dropmenu
-            'dropMenu': '<ul class="wangEditor-drop-menu">{content}<ul>'
+            'dropMenu': '<ul class="wangEditor-drop-menu">{content}</ul>',
+            //dropPanel
+            'dropPanel': '<ul class="wangEditor-drop-panel">{content}</ul>',
+            //dropPanel-floatItem
+            'dropPanel_floatItem': '<div class="wangEditor-drop-panel-floatItem">{content}</div>'
         }
     });
 
@@ -296,6 +301,7 @@
                 fnKeys = [],
                 keyCode,
                 $dropMenu = menu.dropMenu && menu.dropMenu(),
+                $dropPanel = menu.dropPanel && menu.dropPanel(),
                 $modal = menu.modal && menu.modal(editor),
                 callback = menu.callback,
                 $btn = $( $E.htmlTemplates.btn ),  
@@ -379,7 +385,7 @@
             }
             //下拉菜单
             else if(type === 'dropMenu'){
-                $btn.append($( $E.htmlTemplates.btnAngleDown ));
+                $btn.append($( $E.htmlTemplates.btnAngleDown ));  //btn后面的下拉箭头
 
                 //渲染下拉菜单
                 resultArray.unshift($dropMenu);
@@ -396,7 +402,7 @@
                     
                     e.stopPropagation();  //最后阻止冒泡
                 }).blur(function(e){
-                    setTimeout(hideDropMenu, 200);  //先执行完，再隐藏
+                    setTimeout(hideDropMenu, 200);  //待执行完命令，再隐藏
                 });
 
                 //命令（使用事件代理）
@@ -407,7 +413,39 @@
                     editor.command(e, command, value, callback);
                 });
 
-                hideDropMenu();  //先隐藏起来
+                hideDropMenu();  //刚加载时先隐藏起来
+            }
+            //下拉面板
+            else if(type === 'dropPanel'){
+                $btn.append($( $E.htmlTemplates.btnAngleDown ));  //btn后面的下拉箭头
+
+                //渲染下拉面板
+                resultArray.unshift($dropPanel);
+
+                function hideDropPanel(){
+                    $dropPanel.hide();
+                }
+                $btn.click(function(e){
+                    editor.hideModal();   //先视图隐藏目前显示的modal
+
+                    $dropPanel.css('display', 'inline-block');
+                    e.preventDefault();
+                    this.focus();  //for 360急速浏览器
+                    
+                    e.stopPropagation();  //最后阻止冒泡
+                }).blur(function(e){
+                    setTimeout(hideDropPanel, 200);  //待执行完命令，再隐藏
+                });
+
+                //命令（使用事件代理）
+                $dropPanel.on('click', 'a[commandValue]', function(e){
+                    var $this = $(this),
+                        value = $this.attr('commandValue');
+                    
+                    editor.command(e, command, value, callback);
+                });
+
+                hideDropPanel();  //刚加载时先隐藏起来
             }
             //弹出框
             else if(type === 'modal'){
@@ -906,7 +944,7 @@
                 menus = {
                     'menuId-1': {
                         'title': （字符串，必须）标题,
-                        'type':（字符串，必须）类型，可以是 btn / dropMenu / modal,
+                        'type':（字符串，必须）类型，可以是 btn / dropMenu / dropPanel / modal,
                         'txt': （字符串，必须）fontAwesome字体样式，例如 'fa fa-head',
                         'hotKey':（字符串，可选）快捷键，如'ctrl + b', 'ctrl,shift + i', 'alt,meta + y'等，支持 ctrl, shift, alt, meta 四个功能键（只有type===btn才有效）,
                         'command':（字符串）document.execCommand的命令名，如'fontName'；也可以是自定义的命令名，如“撤销”、“插入表格”按钮（type===modal时，command无效）,
@@ -1007,46 +1045,52 @@
                 },
                 'foreColor': {
                     'title': '前景色',
-                    'type': 'dropMenu',
+                    'type': 'dropPanel',
                     'txt': 'icon-wangEditor-pencil',   //如果要颜色： 'txt': 'fa fa-pencil|color:#4a7db1'
                     'command': 'foreColor ',
-                    'dropMenu': function(){
+                    'dropPanel': function(){
                         var arr = [],
                             //注意，此处commandValue必填项，否则程序不会跟踪
-                            temp = '<li><a href="#" commandValue="${value}" style="color:${color};">${txt}</a></li>',
-                            $ul;
+                            temp = '<a href="#" commandValue="${value}" style="background-color:${color};" title="${txt}" class="forColorItem">&nbsp;</a>',
+                            $panel;
 
                         $.each($E.styleConfig.colorOptions, function(key, value){
+                            var floatItem = temp.replace('${value}', key)
+                                                .replace('${color}', key)
+                                                .replace('${txt}', value);
                             arr.push(
-                                temp.replace('${value}', key)
-                                    .replace('${color}', key)
-                                    .replace('${txt}', value)
+                                $E.htmlTemplates.dropPanel_floatItem.replace('{content}', floatItem)
                             );
                         });
-                        $ul = $( $E.htmlTemplates.dropMenu.replace('{content}', arr.join('')) );
-                        return $ul; 
+                        $panel = $( 
+                            $E.htmlTemplates.dropPanel.replace('{content}', arr.join('')) 
+                        );
+                        return $panel; 
                     }
                 },
                 'backgroundColor': {
                     'title': '背景色',
-                    'type': 'dropMenu',
+                    'type': 'dropPanel',
                     'txt': 'icon-wangEditor-brush',   //如果要颜色： 'txt': 'fa fa-paint-brush|color:Red'
                     'command': 'backColor ',
-                    'dropMenu': function(){
+                    'dropPanel': function(){
                         var arr = [],
                             //注意，此处commandValue必填项，否则程序不会跟踪
-                            temp = '<li><a href="#" commandValue="${value}" style="background-color:${color};color:#ffffff;">${txt}</a></li>',
-                            $ul;
+                            temp = '<a href="#" commandValue="${value}" style="background-color:${color};" title="${txt}" class="forColorItem">&nbsp;</a>',
+                            $panel;
 
                         $.each($E.styleConfig.colorOptions, function(key, value){
+                            var floatItem =  temp.replace('${value}', key)
+                                                .replace('${color}', key)
+                                                .replace('${txt}', value);
                             arr.push(
-                                temp.replace('${value}', key)
-                                    .replace('${color}', key)
-                                    .replace('${txt}', value)
+                               $E.htmlTemplates.dropPanel_floatItem.replace('{content}', floatItem)
                             );
                         });
-                        $ul = $( $E.htmlTemplates.dropMenu.replace('{content}', arr.join('')) );
-                        return $ul; 
+                        $panel = $( 
+                            $E.htmlTemplates.dropPanel.replace('{content}', arr.join('')) 
+                        );
+                        return $panel; 
                     }
                 },
                 'removeFormat': {
