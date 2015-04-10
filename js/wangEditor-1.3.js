@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.3 js
 * 王福朋
-* 2015-04-08
+* 2015-04-10
 */
 (function(window, $, undefined){
 
@@ -115,7 +115,7 @@
     $.extend($E, {
         //console.log提示
         'consoleLog': function(info){
-            if(window.console && window.console.log){
+            if(window.console && window.console.log && typeof window.console.log === 'function'){
                 window.console.log('wangEditor提示：', info);
             }
         },
@@ -593,10 +593,17 @@
             });
 
             //初始化特定元素左上角的删除按钮------------------
-            editor.initDeleteBtn('img,table');
+            if(isIE || isFireFox){
+                //IE和firefox不用为img增加删除按钮
+                editor.initDeleteBtn('table');
+            }else{
+                editor.initDeleteBtn('img,table');
+            }
+            
 
             //初始化img右下角的resize按钮------------------
             if(!isIE && !isFireFox){
+                //IE和firefox自带resize功能
                 editor.initImgResizeBtn();
             }
 
@@ -1328,6 +1335,37 @@
                                     $('#' + titleTxtId).val('');
                                 };
 
+                            //定义callback事件
+                            window.wangEditor_uploadImgCallback = function(result){
+                                //提示已经开始调用
+                                $E.consoleLog('父页面的wangEditor_uploadImgCallback方法已经开始被调用！');
+
+                                var url;
+                                if(result.indexOf('ok|') === 0){
+                                    //成功
+                                    url = result.split('|')[1];
+
+                                    //提示成功获取到图片url
+                                    $E.consoleLog('wangEditor_uploadImgCallback方法成功获取到图片url：' + url);
+
+                                    if(title === ''){
+                                        editor.command(e, 'insertImage', url, uploadImg_callback);
+                                    }else{
+                                        editor.command(e, 'customeInsertImage', {'url':url, 'title':title}, uploadImg_callback);
+                                    }
+
+                                    //提示成功插入图片
+                                    $E.consoleLog('wangEditor_uploadImgCallback方法已经成功插入图片，弹出框也被关闭！');
+                                    
+                                }else{
+                                    //失败
+                                    alert(result);
+                                }
+
+                                //用完立刻清除，防止影响其他editor
+                                window.wangEditor_uploadImgCallback = undefined;
+                            };
+
                             //先暂时禁用按钮
                             $btn.hide();
                             $info.html('上传中...');
@@ -1336,25 +1374,6 @@
                                 //设置uploadUrl，提交form
                                 $form.attr('action', uploadUrl);
                                 $form.submit();
-
-                                //定义callback事件
-                                window.wangEditor_uploadImgCallback = function(result){
-                                    var url;
-                                    if(result.indexOf('ok') === 0){
-                                        //成功
-                                        url = result.split('|')[1];
-
-                                        if(title === ''){
-                                            editor.command(e, 'insertImage', url, uploadImg_callback);
-                                        }else{
-                                            editor.command(e, 'customeInsertImage', {'url':url, 'title':title}, uploadImg_callback);
-                                        }
-                                        
-                                    }else{
-                                        //失败
-                                        alert(result);
-                                    }
-                                };
                             }catch(ex){
                                 alert(ex.name + ':' + ex.message);
                             }finally{
@@ -1507,7 +1526,13 @@
             }else{
                 //IE8-
                 range = document.selection.createRange();
-                _parentElem = range.parentElement();
+                if(typeof range.parentElement === 'undefined'){
+                    //IE6、7中，insertImage后会执行此处
+                    //由于找不到range.parentElement，所以干脆将_parentElem赋值为null
+                    _parentElem = null;
+                }else{
+                    _parentElem = range.parentElement();
+                }
             }
             //确定选中区域在$txt之内
             if( _parentElem && ($.contains(txt, _parentElem) || txt === _parentElem) ){

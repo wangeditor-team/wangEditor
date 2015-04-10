@@ -99,6 +99,17 @@ else
 context.Response.Write(result);
 context.Response.End();
 </pre>
+		<h3>日志记录：</h3>
+		<p>每上传一次图片，wangEditor都会向浏览器console.log一段日志记录（IE低版本不支持console.log，就不会输出了）。如果上传图片遇到什么问题，可以查看输出的日志记录是否正常。对比您获取的日志记录，和下面的日志记录，您就能找出上传失败的原因。</p>
+<pre>
+wangEditor/wangEditor_uploadImg_assist.html提示： wangEditor_uploadImg_assist.html加载完成！
+wangEditor/wangEditor_uploadImg_assist.html提示： 获取的hash为 “ok|http://localhost:4780/wangEditor_uploadify_test/uploadedFiles/1088589134.jpg”！
+wangEditor/wangEditor_uploadImg_assist.html提示： wangEditor_uploadImg_assist.html页面准备开始调用父页面的wangEditor_uploadImgCallback方法！
+wangEditor提示： 父页面的wangEditor_uploadImgCallback方法已经开始被调用！
+wangEditor提示： wangEditor_uploadImgCallback方法成功获取到图片url：http://localhost:4780/wangEditor_uploadify_test/uploadedFiles/1088589134.jpg
+wangEditor提示： wangEditor_uploadImgCallback方法已经成功插入图片，弹出框也被关闭！
+wangEditor/wangEditor_uploadImg_assist.html提示： wangEditor_uploadImg_assist.html页面已经调用完了父页面的wangEditor_uploadImgCallback方法！
+</pre>
 
 	</div>
 	
