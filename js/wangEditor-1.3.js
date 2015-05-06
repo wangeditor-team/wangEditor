@@ -905,10 +905,17 @@
 
         //读取或设置html
         'html': function(html){
-            if(html){
+            if(html && typeof html === 'string'){
                 this.$txt.html(html);
             }else{
                 return this.$txt.html();
+            }
+        },
+
+        //追加内容
+        'append': function($elem){
+            if($elem && $elem instanceof $){
+                this.$txt.append($elem);
             }
         },
 
@@ -1922,6 +1929,8 @@
 
             //页面刚加载时，初始化selection
             editor.initSelection();
+
+            return editor;
         }
     });
 

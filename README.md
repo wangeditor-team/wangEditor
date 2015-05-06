@@ -49,6 +49,8 @@ $('#textarea1').wangEditor({
 * <code>demo-menuConfig.html</code> （配置要显示的菜单按钮，其他的隐藏）
 * <code>demo-onchange.html</code> （配置onchange事件）
 * <code>demo-uploadImg.html</code> （配置图片上传）
+* <code>demo-append.html</code>（手动追加内容）
+* <code>demo-html.html</code>（手动修改html内容）
 
 3. 自定义主题颜色
 ===
