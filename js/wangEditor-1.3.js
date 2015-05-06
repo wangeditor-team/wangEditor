@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.3 js
 * 王福朋
-* 2015-04-10
+* 2015-05－06
 */
 (function(window, $, undefined){
 
