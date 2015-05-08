@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.3 js
 * 王福朋
-* 2015-05－06
+* 2015-05-08
 */
 (function(window, $, undefined){
 
@@ -132,6 +132,18 @@
                 }
             });
             return result;
+        },
+        //替换html中的单引号（&#39;）、双引号(&quot;)
+        'replaceQuotes': function(html){
+            return html.replace( /(<.*?>)|(')|(")/g, function(a,b,c,d){ 
+                if( b ){
+                    return b
+                }else if(c){
+                    return "&#39;"
+                }else if(d){
+                    return "&quot;"
+                }
+            });
         }
     });
 
@@ -1656,6 +1668,10 @@
 
             //editor.latestHtml中存储了最后一次修改之后的内容
             if(html.length !== editor.latestHtml.length || html !== editor.latestHtml){
+
+                //替换其中的单引号、双引号
+                html = $E.replaceQuotes(html);
+
                 //将html保存到textarea
                 editor.textareaVal(html);
 
