@@ -395,18 +395,6 @@
   border-bottom: 20px solid #505050;
   border-left: 20px solid transparent;
 }
-.wangEditor-container .wangEditor-code {
-  border: 1px solid #ccc;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  background-color: #f5f5f5;
-  padding: 10px;
-  margin: 5px 0px;
-  line-height: 1.4;
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  font-size: 0.8em;
-}
 .wangEditor-mask {
   position: fixed;
   top: 0;

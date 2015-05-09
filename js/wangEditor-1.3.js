@@ -234,7 +234,9 @@
             //dropPanel-floatItem
             'dropPanel_floatItem': '<div class="wangEditor-drop-panel-floatItem">{content}</div>',
             //视频
-            'videoEmbed': '<embed src="{src}" allowFullScreen="true" quality="high" width="{width}" height="{height}" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>'
+            'videoEmbed': '<embed src="{src}" allowFullScreen="true" quality="high" width="{width}" height="{height}" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>',
+            //代码块
+            'codePre': '<pre style="border:1px solid #ccc; background-color: #f5f5f5; padding: 10px; margin: 5px 0px; line-height: 1.4; font-size: 0.8em; font-family: Menlo, Monaco, Consolas; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;">{content}</pre><p><br></p>'
         },
         //表情配置（1.gif, 2.gif, 3.gif ... 100.gif）
         'expressionConfig': {
@@ -1593,8 +1595,7 @@
                                            .replace(/>/gm, '&gt;')
                                            .replace(/\n/gm, '<br>')
                                            .replace(/\s{1}/gm, '&nbsp;');
-                                code = '<pre class="wangEditor-code">' + code + '</pre><p><br></p>';
-
+                                code = $E.htmlTemplates.codePre.replace('{content}', code);
                                 editor.command(e, 'insertHTML', code, simpleCode_callback);
                             }
                         });
