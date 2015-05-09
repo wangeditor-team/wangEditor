@@ -47,6 +47,7 @@ $('#textarea1').wangEditor({
 具体的配置说明，可下载源码，源码中相应的demo页面有详细使用说明。
 * <code>demo.html</code> （demo演示）
 * <code>demo-basic.html</code> （基本配置说明）
+* <code>demo-getValue.html</code>（获取富文本的源码值）
 * <code>demo-initContent.html</code> （配置初始化时要显示的内容）
 * <code>demo-menuConfig.html</code> （配置要显示的菜单按钮，其他的隐藏）
 * <code>demo-onchange.html</code> （配置onchange事件）
