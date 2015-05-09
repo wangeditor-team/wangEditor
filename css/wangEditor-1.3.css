@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.3 less-css
 * 王福朋
-* 2015-05-08
+* 2015-05-09
 */
 @font-face {
   font-family: 'icomoon';
@@ -239,6 +239,9 @@
   display: block;
   width: 18px;
   border: 1px solid #cccccc;
+}
+.wangEditor-container .wangEditor-drop-panel-big {
+  width: 400px;
 }
 .wangEditor-container .wangEditor-toolTip {
   position: absolute;

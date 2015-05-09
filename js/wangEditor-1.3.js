@@ -1,7 +1,7 @@
 /*
 * wangEditor 1.3 js
 * 王福朋
-* 2015-05-08
+* 2015-05-09
 */
 (function(window, $, undefined){
 
@@ -229,8 +229,16 @@
             'dropMenu': '<ul class="wangEditor-drop-menu">{content}</ul>',
             //dropPanel
             'dropPanel': '<ul class="wangEditor-drop-panel">{content}</ul>',
+            //dropPanel-big
+            'dropPanelBig': '<ul class="wangEditor-drop-panel wangEditor-drop-panel-big">{content}</ul>',
             //dropPanel-floatItem
             'dropPanel_floatItem': '<div class="wangEditor-drop-panel-floatItem">{content}</div>'
+        },
+        //表情配置（1.gif, 2.gif, 3.gif ... 100.gif）
+        'expressionConfig': {
+            'path':'http://www.wangeditor.com/expressions/',
+            'fileNames':[1,100],
+            'ext':'.gif'
         }
     });
 
@@ -432,8 +440,6 @@
             }
             //下拉面板
             else if(type === 'dropPanel'){
-                $btn.append($( $E.htmlTemplates.btnAngleDown ));  //btn后面的下拉箭头
-
                 //渲染下拉面板
                 resultArray.unshift($dropPanel);
 
@@ -657,7 +663,7 @@
             //初始化img右下角的resize按钮------------------
             if(!isIE && !isFireFox){
                 //IE和firefox自带resize功能
-                editor.initImgResizeBtn();
+                editor.initImgResizeBtn('img');
             }
 
             //txtContainer和btnContainer被点击时，要隐藏modal
@@ -780,7 +786,7 @@
         },
 
         //初始化img右下角的resize按钮
-        'initImgResizeBtn': function(){
+        'initImgResizeBtn': function(selectExpression){
             var editor = this,
                 $resizeBtn = editor.$imgResizeBtn,
                 focusIdNow,  //当前focus元素的id——$elem.data('imgResizeId')
@@ -802,7 +808,7 @@
             }
 
             //绑定img的click事件（显示resize按钮）
-            editor.$txt.on('click', 'img', function(e){
+            editor.$txt.on('click', selectExpression, function(e){
                 var $elem = $(this),
                     elemId = $elem.data('imgResizeId'),
                     uniqueId = $E.getUniqeId();
@@ -1218,6 +1224,47 @@
                     'type': 'btn',
                     'txt':'icon-wangEditor-unlink',
                     'command': 'unLink ' 
+                },
+                'insertExpression': {
+                    'title': '插入表情',
+                    'type': 'dropPanel',
+                    'command': 'insertImage',
+                    'txt': 'icon-wangEditor-happy',
+                    'dropPanel': function(){
+                        //生成表情配置列表
+                        var config = $E.expressionConfig,
+                            path = config.path,
+                            fileNames = config.fileNames,  // [1,100]
+                            firstName = fileNames[0],  // 1
+                            lastName = fileNames[1],  // 100
+                            ext = config.ext,  //.gif
+                            expressionArr = [],
+                            i = 1;
+
+                        for(; i<=lastName; i++){
+                            expressionArr.push( path + i + ext );
+                        }
+
+                        //生成dropPanel
+                        var arr = [],
+                            temp = 
+                                '<a href="#" commandValue="${value}">' +   //注意，此处commandValue必填项，否则程序不会跟踪
+                                '   <img src="${src}" expression="1"/>' + 
+                                '</a>',
+                            $panel;
+
+                        $.each(expressionArr, function(key, value){
+                            var floatItem = temp.replace('${value}', value)
+                                                .replace('${src}', value);
+                            arr.push(
+                                $E.htmlTemplates.dropPanel_floatItem.replace('{content}', floatItem)
+                            );
+                        });
+                        $panel = $( 
+                            $E.htmlTemplates.dropPanelBig.replace('{content}', arr.join('')) 
+                        );
+                        return $panel; 
+                    }
                 },
                 'insertHr': {
                     'title': '插入横线',
@@ -1681,7 +1728,7 @@
                 ['indent', 'outdent'],
                 ['unOrderedList', 'orderedList'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight'] ,
-                ['createLink', 'unLink'],
+                ['createLink', 'unLink', 'insertExpression'],
                 ['insertHr', 'insertTable', 'webImage', 'uploadImg', 'insertLocation','insertSimpleCode'],
                 ['undo', 'redo']
             ];
@@ -2090,7 +2137,7 @@
         *   $initContent: $elem, //配置要初始化内容
         *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
         *   onchange: function(){...},  //配置onchange事件，
-        *   uploadUrl: string  //图片上传的地址
+        *   uploadUrl: 'string'  //图片上传的地址
         * }
         */
         'wangEditor': function(options){
