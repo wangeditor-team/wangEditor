@@ -148,6 +148,8 @@
   float: left;
   padding: 5px 5px 2px 0px;
   border-right: 1px solid #d2d4d1;
+  border-bottom: 1px solid #d2d4d1;
+  margin-bottom: -1px;
 }
 .wangEditor-container .wangEditor-btn-container-btn {
   display: inline-block;
