@@ -141,11 +141,11 @@
         'replaceQuotes': function(html){
             return html.replace( /(<.*?>)|(')|(")/g, function(a,b,c,d){ 
                 if( b ){
-                    return b
+                    return b;
                 }else if(c){
-                    return "&#39;"
+                    return "&#39;";
                 }else if(d){
-                    return "&quot;"
+                    return "&quot;";
                 }
             });
         }
@@ -275,7 +275,7 @@
                 return this.getElemForInsertTable($elem.parent());
             }
         }
-    })
+    });
     
     //------------------------------------createMenu函数------------------------------------
     $.extend($E, {
@@ -397,7 +397,7 @@
                                 flag = false;
                             }
                         });
-                        return flag
+                        return flag;
                     }
                     editor.bindEventFor$txt('keydown', function(e){
                         if(isFnKeys(e) === false){
@@ -1209,7 +1209,7 @@
                             if(url !== ''){
                                 //xss过滤
                                 if($E.filterXSSForUrl(url) === false){
-                                    alert('您的输入内容有不安全字符，请重新输入！')
+                                    alert('您的输入内容有不安全字符，请重新输入！');
                                     return;
                                 }
                                 if(title === '' && !isBlank){
@@ -1298,11 +1298,11 @@
                                     $('#' + txtSrcId).val('');
                                     $('#' + txtWidthId).val(defaultWidth);
                                     $('#' + txtHeightId).val(defaultHeight);
-                                }
+                                };
 
                             //验证src的合法性
                             if($E.filterXSSForUrl(src) === false){
-                                alert('您的输入内容有不安全字符，请重新输入！')
+                                alert('您的输入内容有不安全字符，请重新输入！');
                                 return;
                             }
 
@@ -1378,7 +1378,7 @@
                                 firstTrTemp = '<tr style="font-weight:bold;background-color:#f1f1f1;">${content}</tr>',
                                 trTemp = '<tr>${content}</tr>',
                                 tdArray,
-                                tdTemp_FirstRow = '<td style="width:100px;">&nbsp;</td>'
+                                tdTemp_FirstRow = '<td style="width:100px;">&nbsp;</td>',
                                 tdTemp = '<td>&nbsp;</td>';
                             
                             for (i = 0; i < rowNum; i++) {
@@ -1441,7 +1441,7 @@
                             if(url !== ''){
                                 //xss过滤
                                 if($E.filterXSSForUrl(url) === false){
-                                    alert('您的输入内容有不安全字符，请重新输入！')
+                                    alert('您的输入内容有不安全字符，请重新输入！');
                                     return;
                                 }
                                 if(title === ''){
@@ -1497,7 +1497,7 @@
 
                             //检验后缀名是否是图片
                             var ext = fileVal.slice( fileVal.lastIndexOf('.') - fileVal.length );
-                            ext = '|' + ext.toLowerCase() + '|'
+                            ext = '|' + ext.toLowerCase() + '|';
                             if(imgExts.indexOf(ext) === -1){
                                 alert('选择的文件不是图片格式');
                                 return;
@@ -1654,7 +1654,7 @@
                                 marker.enableDragging();
                                 markers.push(marker);  //加入到数组中
                             });
-                        }
+                        };
 
                         //异步加载 script
                         $(function(){
@@ -2033,9 +2033,9 @@
             },
             //自定义插入链接，包含title，target
             'customCreateLink': function(commandName, commandValue){
-                var url = commandValue['url'],
-                    title = commandValue['title'],
-                    isBlank = commandValue['isBlank'],
+                var url = commandValue.url,
+                    title = commandValue.title,
+                    isBlank = commandValue.isBlank,
                     parentElem = this.parentElemForCurrentRange(),
                     $parentElem,
                     id = $E.getUniqeId(),
@@ -2181,7 +2181,7 @@
                 }
             }
             return -1;
-        }
+        };
         //IE低版本不支持 arr.lastIndexOf
         Array.prototype.lastIndexOf = function(elem){
             var length = this.length;
@@ -2191,7 +2191,7 @@
                 }
             }
             return -1;
-        }
+        };
     }
 
     //------------------------------------生成jquery插件------------------------------------
