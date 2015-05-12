@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>wangEditor demo uploadImg</title>
+	<style type="text/css">
+		body{
+			line-height: 1.4;
+		}
+		.dialogue{
+			font-size: 0.9em;
+			border: 1px solid #ccc;
+			padding: 3px 5px;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			color: #003399;
+		}
+		.code{
+			  padding: 2px 4px;
+			  font-size: 90%;
+			  color: #c7254e;
+			  background-color: #f9f2f4;
+			  border-radius: 4px;
+			  font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+		}
+		pre{
+			border: 1px solid #ccc;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			border-radius: 4px;
+			background-color: #f5f5f5;
+			padding: 10px;
+			margin: 5px 0px;
+			line-height: 1.4;
+			font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+			font-size: 0.8em;
+		}
+	</style>
+
+	<!--引入wangEditor.css-->
+    <link rel="stylesheet" type="text/css" href="../css/build/wangEditor-1.3.0.min.css">
+</head>
+<body  style='padding: 0px 30px'>
+	<a href="http://www.wangEditor.com/" target='_blank'>wangEditor官网</a>&nbsp;
+	<a href='https://github.com/wangfupeng1988/wangEditor' target='_blank'>下载源码</a>
+	
+	<h3>wangEditor demo uploadImg</h3>
+	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
+	
+	<!--说明-->
+	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
+		<p>在demo-basic.html应用的基础上，可通过传入'uploadUrl'，来配置上传图片功能，<b>支持跨域上传。</b>
+		<hr>
+		<h3>小张和小李的故事</h3>
+		<p>故事背景：</p>
+		<ul>
+			<li>小张，某网站的web前端程序猿，网站的网址是：http://somedomain.com</li>
+			<li>小李，某网站的后台程序猿，后台服务的网址是：http://serverdomain.com &nbsp; （注意，前后端域名不同，wangEditor支持跨域上传图片）</li>
+		</ul>
+		<p>假设小张要使用wangEditor配置图片上传功能。图片上传可不是光web前端就能独立完成的，它还需要服务器后端的支持，于是小张找到小李。于是发生了如下对话：</p>
+		<p class='dialogue'>小张：“小李子，哥要使用wangEditor配置图片上传，需要你提供一个服务端的API。”</p>
+		<p class='dialogue'>小李：“一定积极配合组织的工作！不过我在开发服务端API时，需要知道两个事情。第一：后台在request.files时，根据什么id获取文件？第二：文件上传完成或者上传失败时，分别返回什么信息？”</p>
+		<p>小张看了看前端文件结构，在wangEditor的所有文件中，找到了 <span class='code'>wangEditor_uoloadImg_assist.html</span> 这个文件，并获取了这个文件的url地址：<span class='code'>http://somedomain.com/wangEditor/wangEditor_upload_assist.html</span>，把这个地址记下来，然后继续同小李对话。</p>
+		<p class='dialogue'>小张：“第一，你必须通过 <span class='code'>wangEditor_uploadImg</span> 这个id获取文件。第二，如果图片上传成功，你要返回 <span class='code'>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#图片url"&gt;&lt;/iframe&gt;</span> ；如果上传失败，你要返回 <span class='code'>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#错误信息"&gt;&lt;/iframe&gt;</span>。”</p>
+		<p class='dialogue'>小李：“明白了。”</p>
+		<p class='dialogue'>小张：“注意，返回的文档类型必须是 <span class='code'>text/html</span>，编码类型必须是 <span class='code'>utf-8</span>。”</p>
+		<p class='dialogue'>小李：“这个不用你说！”</p>
+		<p>10分钟之后，小李写下了如下代码：</p>
+<pre>
+<b>（wangEditor作者标注：以下代码都是算法描述，不是真正可运行的代码。）</b>
+
+//设置类型和编码
+response.ContentType = "text/html";
+response.Charset = "utf-8";
+
+//获取文件对象 （小张告诉我，必须用 'wangEditor_uploadImg' 获取图片文件 ）
+var file = request.files["<b>wangEditor_uploadImg</b>"];
+
+//验证文件对象是否存在
+//验证是否是图片格式
+//验证图片大小
+//验证安全性
+//其他各种验证
+
+//如果以上验证没有通过：
+response.write(" <b>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#错误信息"&gt;&lt;/iframe&gt; </b>");
+
+//如果顺利通过验证：
+//保存图片
+//获取图片url地址
+response.write(" <b>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#图片url地址"&gt;&lt;/iframe&gt; </b>")
+</pre>
+		<p>小李写完代码，经过单元测试之后，发布程序，然后联系小张。</p>
+		<p class='dialogue'>小李：小张，后台程序我已经发布了，API地址是：<span class='code'>http://serverdomain.com/data.ashx</span> ，你快去试试吧。</p>
+		<p class='dialogue'>小张：哇咔咔，这么快！我这就去试试。</p>
+		<p>于是，小张记录下了小李发给他的API地址，并配置wangEditor。</p>
+<pre>
+$('#textarea1').wangEditor({
+	'uploadUrl': '<b>http://serverdomain.com/data.ashx</b>'
+});
+</pre>
+		<p>小张运行程序进行测试，发现图片成功上传，并在浏览器的控制台中输出如下log：</p>
+<pre>
+wangEditor/wangEditor_uploadImg_assist.html提示： wangEditor_uploadImg_assist.html加载完成！
+wangEditor/wangEditor_uploadImg_assist.html提示： 获取的hash为 “ok|http://localhost:4780/wangEditor_uploadify_test/uploadedFiles/1088589134.jpg”！
+wangEditor/wangEditor_uploadImg_assist.html提示： wangEditor_uploadImg_assist.html页面准备开始调用父页面的wangEditor_uploadImgCallback方法！
+wangEditor提示： 父页面的wangEditor_uploadImgCallback方法已经开始被调用！
+wangEditor提示： wangEditor_uploadImgCallback方法成功获取到图片url：http://localhost:4780/wangEditor_uploadify_test/uploadedFiles/1088589134.jpg
+wangEditor提示： wangEditor_uploadImgCallback方法已经成功插入图片，弹出框也被关闭！
+wangEditor/wangEditor_uploadImg_assist.html提示： wangEditor_uploadImg_assist.html页面已经调用完了父页面的wangEditor_uploadImgCallback方法！
+</pre>
+		<p>下班了，小张请小李吃了一顿沙县小吃。</p>
+
+		<hr>
+		<h3>总结</h3>
+		<p>根据以上的小故事，做几句话的总结：</p>
+		<p>第一，对于前端开发人员来说，你只需要知道：上传服务的API，并配置到wangEditor中即可。</p>
+		<p>第二，针对后台开发人员来说，你需要知道：</p>
+		<ul>
+			<li>获取文件对象的id（即 'wangEditor_uploadImg' ）</li>
+			<li>图片上传成功时返回的信息（即 '&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#图片url地址"&gt;&lt;/iframe&gt;'）</li>
+			<li>图片上传失败时返回的信息（即 '&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#错误信息"&gt;&lt;/iframe&gt;'）</li>
+		</ul>
+	</div>
+	
+	<script type="text/javascript" src='../js/build/jquery-1.10.2.min.js'></script>
+	<script type="text/javascript" src='../js/build/wangEditor-1.3.0.min.js'></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#textarea1').wangEditor({
+				'uploadUrl': 'http://localhost:4780/wangEditor_uploadify_test/data.ashx'
+			});
+		});
+	</script>
+</body>
+</html>

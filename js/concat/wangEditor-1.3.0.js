@@ -1,18 +1,5 @@
-/*
-* wangEditor 1.3 js
-* 王福朋
-* 2015-05-09
-*/
-(function(window, $, undefined){
-
-	//检测jquery是否正常
-	if(!$){
-		alert('检测到页面没有引用jQuery，请先引用，否则wangEditor将无法使用。');
-	} else if(typeof $ !== 'function' || /^\d+\.\d+\.\d+$/.test($().jquery) === false){
-		alert('检测到 window.jQuery 已被修改，wangEditor无法使用。');
-	}
-
-    //判断IE6、7、8
+(function($){
+	//判断IE6、7、8
     var isIE6 = false, 
         isIE7 = false, 
         isIE8 = false,
@@ -77,6 +64,28 @@
             });
         };
     }
+})(window.jQuery);
+//百度地图构造函数
+var BMap;
+
+(function(window, $, undefined){
+
+	//检测jquery是否正常
+	if(!$){
+		alert('检测到页面没有引用jQuery，请先引用，否则wangEditor将无法使用。');
+	} else if(typeof $ !== 'function' || /^\d+\.\d+\.\d+$/.test($().jquery) === false){
+		alert('检测到 window.jQuery 已被修改，wangEditor无法使用。');
+	}
+
+    //判断IE6、7
+    var isIE6 = false, 
+        isIE7 = false, 
+        appVersion;
+    if(navigator.appName === "Microsoft Internet Explorer"){
+        appVersion = navigator.appVersion.split(";")[1].replace(/[ ]/g,"");
+        isIE6 = appVersion === 'MSIE6.0';
+        isIE7 = appVersion === 'MSIE7.0';
+    }
 
 	//------------------------------------定义全局变量------------------------------------
 	var document = window.document,
@@ -101,7 +110,7 @@
         comandRecordMaxLength = 10,
 
         //url中的不安全关键字
-        urlUnsafeKeywords = ['javascript:', '<', '>', '(', ')'],
+        urlUnsafeKeywords = ['<', '>', '(', ')'],
 
         //全局的构造函数
 		$E = function($textarea, $initContent, menuConfig, onchange, uploadUrl){
@@ -130,6 +139,9 @@
         //专门针对url的xss验证
         'filterXSSForUrl': function(url){
             var result = true;
+            // if(url.indexOf("javascript:") >= 0){
+            //     return false;
+            // }
             $.each(urlUnsafeKeywords, function(key, val){
                 if(url.indexOf(val) >= 0){
                     result = false;
@@ -333,7 +345,13 @@
                 $modal = menu.modal && menu.modal(editor),
                 callback = menu.callback,
                 $btn = $( $E.htmlTemplates.btn ),  
-                resultArray = [$btn];
+                resultArray = [$btn],
+
+                //讲在下文定义的函数
+                isFnKeys,
+                hideDropMenu,
+                hideDropPanel,
+                showToolTip;
 
             if(typeof command === 'string'){
                 command = $.trim(command);
@@ -387,7 +405,7 @@
                     $.each(fnKeys, function(key, value){
                         fnKeys[key] = $.trim(value);
                     });
-                    function isFnKeys(e){
+                    isFnKeys = function(e){
                         //判断功能键，暂时支持 ['ctrl', 'shift', 'alt', 'meta']
                         var flag = true;
                         $.each(['ctrl', 'shift', 'alt', 'meta'], function(key, value){
@@ -398,7 +416,7 @@
                             }
                         });
                         return flag;
-                    }
+                    };
                     editor.bindEventFor$txt('keydown', function(e){
                         if(isFnKeys(e) === false){
                             return;
@@ -417,9 +435,9 @@
                 //渲染下拉菜单
                 resultArray.unshift($dropMenu);
 
-                function hideDropMenu(){
+                hideDropMenu = function(){
                     $dropMenu.hide();
-                }
+                };
                 $btn.click(function(e){
                     editor.hideModal();   //先视图隐藏目前显示的modal
 
@@ -447,9 +465,9 @@
                 //渲染下拉面板
                 resultArray.unshift($dropPanel);
 
-                function hideDropPanel(){
+                hideDropPanel = function(){
                     $dropPanel.hide();
-                }
+                };
                 $btn.click(function(e){
                     editor.hideModal();   //先视图隐藏目前显示的modal
 
@@ -516,9 +534,9 @@
                 $toolTip.append($toolTipContent);
                 resultArray.unshift($toolTip);
 
-                function showToolTip(){
+                showToolTip = function(){
                     $toolTip.css('display', 'inline-block');
-                }
+                };
                 $btn.mouseenter(function(){
                     //计算$tooltip的margin-left，只计算一次
                     if(!margin_left){
@@ -589,6 +607,12 @@
                 //计算txtContainer的高度，必须等待页面加载完成才能计算，否则dom没有被渲染，无法计算高度
                 var txtContainerHeight = height - editor.$btnContainer.outerHeight(); 
                 txtContainerHeight = txtContainerHeight - 2;  //减去$editorContainer的上下两个边框宽度
+                
+                if(txtContainerHeight <= 0){
+                    //有时候，页面加载时，txtContainerHeight 会莫名其妙的变为负值
+                    //强制刷新页面之后，又恢复正常
+                    txtContainerHeight = height - 32;
+                }
 
                 editor.$txtContainer.height( txtContainerHeight );
                 editor.$txt.css('min-height', height + 'px');
@@ -1134,19 +1158,19 @@
                     'txt':'icon-wangEditor-eraser',
                     'command': 'RemoveFormat ' 
                 },
-                'indent': {
-                    'title': '增加缩进',
-                    'type': 'btn',
-                    'hotKey': 'ctrl,shift + i',
-                    'txt':'icon-wangEditor-indent-right',
-                    'command': 'indent'
-                },
-                'outdent': {
-                    'title': '减少缩进',
-                    'type': 'btn',
-                    'txt':'icon-wangEditor-indent-left',
-                    'command': 'outdent'
-                },
+                // 'indent': {
+                //     'title': '增加缩进',
+                //     'type': 'btn',
+                //     'hotKey': 'ctrl,shift + i',
+                //     'txt':'icon-wangEditor-indent-right',
+                //     'command': 'indent'
+                // },
+                // 'outdent': {
+                //     'title': '减少缩进',
+                //     'type': 'btn',
+                //     'txt':'icon-wangEditor-indent-left',
+                //     'command': 'outdent'
+                // },
                 'unOrderedList': {
                     'title': '无序列表',
                     'type': 'btn',
@@ -1185,7 +1209,7 @@
                         var urlTxtId = $E.getUniqeId(),
                             titleTxtId = $E.getUniqeId(),
                             blankCheckId = $E.getUniqeId(),
-                            btnId = $E.getUniqeId();
+                            btnId = $E.getUniqeId(),
                             content = '链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br />' +
                                         '标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br />' + 
                                         '新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/><br />' +
@@ -1358,10 +1382,10 @@
                             //注意，该方法中的 $table_modal 不要跟其他modal中的变量名重复！！否则程序会混淆
                             //具体原因还未查证？？？
 
-                            var rowNum = $('#' + rowNumTxtId).val(),
-                                rowNum = rowNum === '' || isNaN(+rowNum) ? 3 : rowNum,
-                                colNum = $('#' + colNumTxtId).val(),
-                                colNum = colNum === '' || isNaN(+colNum) ? 5 : colNum,
+                            var rowNumValue = $('#' + rowNumTxtId).val(),
+                                rowNum = rowNumValue === '' || isNaN(+rowNumValue) ? 3 : rowNumValue,
+                                colNumValue = $('#' + colNumTxtId).val(),
+                                colNum = colNumValue === '' || isNaN(+colNumValue) ? 5 : colNumValue,
                                 firstRowBold = $('#' + titleCheckId).is(':checked'),
 
                                 table_callback = function(){
@@ -1789,7 +1813,7 @@
                 ['fontFamily', 'fontSize'],
                 ['bold', 'underline', 'italic'],
                 ['setHead', 'foreColor', 'backgroundColor', 'removeFormat'],
-                ['indent', 'outdent'],
+                //['indent', 'outdent'],
                 ['unOrderedList', 'orderedList'],
                 ['justifyLeft', 'justifyCenter', 'justifyRight'] ,
                 ['createLink', 'unLink', 'insertExpression', 'insertVideo'],
@@ -2073,8 +2097,8 @@
             },
             //自定义插入image，包含title，alt
             'customeInsertImage': function(commandName, commandValue){
-                var url = commandValue['url'],
-                    title = commandValue['title'],
+                var url = commandValue.url,
+                    title = commandValue.title,
                     parentElem = this.parentElemForCurrentRange(),
                     $parentElem,
                     id = $E.getUniqeId(),
@@ -2210,9 +2234,10 @@
                 alert('wangEditor提示：请使用textarea扩展富文本框。详情可参见作者的demo.html');
                 return;
             }
-
-            var options = options || {},
-                menuConfig = options.menuConfig,
+            if(options == null){
+                options = {};
+            }
+            var menuConfig = options.menuConfig,
                 $initContent = options.$initContent || $('<p><br/></p>'),
                 onchange = options.onchange,
                 uploadUrl = options.uploadUrl;

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>wangEditor demo html</title>
+	<title>wangEditor demo append</title>
 	<style type="text/css">
 		pre{
 			border: 1px solid #ccc;
@@ -19,39 +19,40 @@
 	</style>
 
 	<!--引入wangEditor.css-->
-    <link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.css">
+    <link rel="stylesheet" type="text/css" href="../css/build/wangEditor-1.3.0.min.css">
 </head>
 <body style='padding: 0px 30px'>
 	<a href="http://www.wangEditor.com/" target='_blank'>wangEditor官网</a>&nbsp;
 	<a href='https://github.com/wangfupeng1988/wangEditor' target='_blank'>下载源码</a>
 
-	<h3>wangEditor demo</h3>
+	<h3>wangEditor demo append</h3>
 	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
 	<br>
-	<button id='btnHtml'>自定义修改编辑器的html内容</button>
+	<button id='btnAppend'>使用append方法自定义追加内容</button>
 
 	<!--说明-->
 	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
-		<p>在demo-basic.html应用的基础上，可通过 html() 方法修改html内容。如下例子：</p>
+		<p>在demo-basic.html应用的基础上，可通过 append() 方法追加内容。但往 append() 方法内传入的，只能是jquery对象，如下例子：</p>
 <pre>
 var editor = $('#textarea1').wangEditor();
 
-$('#btnHtml').click(function(e){
-	var dt = new Date();
-	editor.html('&lt;p&gt;欢迎使用wangEditor，当前的时间是：' + dt.toString() + '&lt;/p&gt;');
+$('#btnAppend').click(function(e){
+	var $p = $('&lt;p&gt;wangEditor，轻量级富文本编辑器。&lt;/p&gt;');
+	editor.append($p);
 });
 </pre>
 	</div>
+
 	
-	<script type="text/javascript" src='js/jquery-1.10.2.min.js'></script>
-	<script type="text/javascript" src='js/wangEditor-1.3.js'></script>
+	<script type="text/javascript" src='../js/build/jquery-1.10.2.min.js'></script>
+	<script type="text/javascript" src='../js/build/wangEditor-1.3.0.min.js'></script>
 	<script type="text/javascript">
 		$(function(){
 			var editor = $('#textarea1').wangEditor();
-
-			$('#btnHtml').click(function(e){
-				var dt = new Date();
-				editor.html('<p>欢迎使用wangEditor，当前的时间是：' + dt.toString() + '</p>');
+			
+			$('#btnAppend').click(function(e){
+				var $p = $('<p>wangEditor，轻量级富文本编辑器。</p>');
+				editor.append($p);
 			});
 		});
 	</script>
