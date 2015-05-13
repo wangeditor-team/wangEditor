@@ -68,7 +68,7 @@ module.exports = function(grunt) {
     // watch插件的配置信息
     watch: { 
       build: { 
-        files: ['js/src/*.js', 'css/src/*.css'], 
+        files: ['js/src/*.js', 'css/src/*.less', 'css/src/fontIcon.css'], 
         tasks: ['concat', 'uglify', 'less', 'cssmin','jshint', 'csslint'], 
         options: { spawn: false}
       }

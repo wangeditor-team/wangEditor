@@ -255,6 +255,9 @@
   border-top: 1px solid #cccccc;
   margin: 5px 0 5px 0;
 }
+.wangEditor-container .wangEditor-modal p {
+  margin: 8px 0;
+}
 .wangEditor-container .wangEditor-modal-btn {
   color: #505050;
   background-color: #f1f1f1;
@@ -263,7 +266,6 @@
   cursor: pointer;
   font-size: 14px;
   line-height: 1.4;
-  margin-top: 5px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -273,7 +275,7 @@
 }
 .wangEditor-container .wangEditor-modal input[type=text] {
   border: 1px solid #999999;
-  padding: 2px 5px;
+  padding: 5px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;

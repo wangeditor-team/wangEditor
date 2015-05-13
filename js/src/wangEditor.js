@@ -57,6 +57,12 @@ var BMap;
         $body.prepend($maskDiv);
     }
 
+    //点击遮罩层时，自动隐藏modal
+    $maskDiv.click(function(){
+        $('.wangEditor-modal').hide();
+        $maskDiv.hide();
+    });
+
     //------------------------------------公用方法------------------------------------
     $.extend($E, {
         //console.log提示
@@ -1143,10 +1149,10 @@ var BMap;
                             titleTxtId = $E.getUniqeId(),
                             blankCheckId = $E.getUniqeId(),
                             btnId = $E.getUniqeId(),
-                            content = '链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br />' +
-                                        '标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br />' + 
-                                        '新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/><br />' +
-                                        '<button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入链接</button>',
+                            content = '<p>链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"/></p>' +
+                                        '<p>标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' + 
+                                        '<p>新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/></p>' +
+                                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入链接</button></p>',
                             $link_modal = $(
                                 $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
@@ -1237,10 +1243,10 @@ var BMap;
                             txtHeightId = $E.getUniqeId(),
                             btnId = $E.getUniqeId(),
                             defaultWidth = 480, defaultHeight = 400;
-                        var content = '地址：<input id="' + txtSrcId + '" type="text" style="width:300px;"/> <br>' +
-                                        '宽度：<input id="' + txtWidthId + '" type="text" style="width:50px" value="' + defaultWidth + '"/> px（像素） <br>' +
-                                        '高度：<input id="' + txtHeightId + '" type="text" style="width:50px" value="' + defaultHeight + '"/> px（像素） <br>' +
-                                        '<button id="' + btnId + '" class="wangEditor-modal-btn">插入视频</button>';
+                        var content = '<p>地址：<input id="' + txtSrcId + '" type="text" style="width:300px;"/></p>' +
+                                        '<p>宽度：<input id="' + txtWidthId + '" type="text" style="width:50px" value="' + defaultWidth + '"/> px（像素）</p>' +
+                                        '<p>高度：<input id="' + txtHeightId + '" type="text" style="width:50px" value="' + defaultHeight + '"/> px（像素） </p>' +
+                                        '<p><button id="' + btnId + '" class="wangEditor-modal-btn">插入视频</button></p>';
                         var $video_modal = $(
                                 $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
@@ -1303,11 +1309,10 @@ var BMap;
                             colNumTxtId = $E.getUniqeId(),
                             titleCheckId = $E.getUniqeId(),
                             btnId = $E.getUniqeId(),
-                            content = '行数：<input id="' + rowNumTxtId + '" type="text" style="width:30px;"/>' + 
-                                        '列数：<input id="' + colNumTxtId + '" type="text"  style="width:30px;"/>' +
-                                        '显示标题行：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/>' + 
-                                        '&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                        '<button id="' + btnId + '" class="wangEditor-modal-btn">插入表格</button>',
+                            content = '<p>行数：<input id="' + rowNumTxtId + '" type="text" value="3"/></p>' + 
+                                        '<p>列数：<input id="' + colNumTxtId + '" type="text" value="5"/></p>' +
+                                        '<p>显示首行背景：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/></p>' + 
+                                        '<p><button id="' + btnId + '" class="wangEditor-modal-btn">插入表格</button></p>',
                             $table_modal = $(
                                 $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
@@ -1372,9 +1377,9 @@ var BMap;
                         var urlTxtId = $E.getUniqeId(),
                             titleTxtId = $E.getUniqeId(),
                             btnId = $E.getUniqeId(),
-                            content = '网址：<input id="' + urlTxtId + '" type="text" style="width:300px;"/><br/>' +
-                                        '标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/><br/>' +
-                                        '<button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入图片</button>',
+                            content = '<p>网址：<input id="' + urlTxtId + '" type="text" style="width:300px;"/></p>' +
+                                        '<p>标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' +
+                                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入图片</button></p>',
                             $webimg_modal = $(
                                 $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
@@ -1428,9 +1433,9 @@ var BMap;
                             infoId = $E.getUniqeId(),
                             iframeId = $E.getUniqeId(),
                             content =   '<form id="' + formId + '" method="post" enctype="multipart/form-data" target="' + iframeId + '">'+
-                                        '   选择文件：<input type="file" name="' + fileInputName + '" id="' + fileId + '"/><br/>' +
-                                        '   图片标题：<input type="text" id="' + titleTxtId + '" style="width:250px;"/><br/>' +
-                                        '   <button id="' + btnId + '" class="wangEditor-modal-btn">上传</button>' +
+                                        '   <p>选择文件：<input type="file" name="' + fileInputName + '" id="' + fileId + '"/></p>' +
+                                        '   <p>图片标题：<input type="text" id="' + titleTxtId + '" style="width:250px;"/></p>' +
+                                        '   <p><button id="' + btnId + '" class="wangEditor-modal-btn">上传</button></p>' +
                                         '   <span stype="color:red;" id="' + infoId + '"></span>' +
                                         '</form>' +
                                         '<iframe id="' + iframeId + '" name="' + iframeId + '" style="display:none;"></iframe>',
@@ -1757,13 +1762,19 @@ var BMap;
                             editor.$btnContainer.find('.icon-wangEditor-code') //找到<i>
                                                 .parent()  //找到 <a> 即 btn
                             .click(function(e){
-                                $('#' + txtId).val(editor.html());
+                                var sourceCode = editor.html();
+                                //转译引号
+                                sourceCode = $E.replaceQuotes(sourceCode);
+                                $('#' + txtId).val( sourceCode );
                             });
                         });
 
                         //更新源码
                         $sourceCode_modal.find('#' + btnId).click(function(e){
                             var sourceCode = $('#' + txtId).val();
+                            if( $.trim(sourceCode) === '' ){
+                                sourceCode = '<p><br></p>';
+                            }
                             editor.command(e, 'replaceSourceCode', sourceCode);
                         });
 
