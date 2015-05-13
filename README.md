@@ -12,7 +12,7 @@
 <b>wangEditor——轻量级web富文本编辑器，配置方便，使用简单</b>。支持IE6+浏览器。<br/>
 
 * 软件官网：[www.wangEditor.com](http://www.wangEditor.com)
-* demo演示：[www.wangeditor.com/wangEditor/demo.html](http://www.wangeditor.com/wangEditor/demo.html)
+* demo演示：[www.wangeditor.com/wangEditor/demo/demo.html](http://www.wangeditor.com/wangEditor/demo/demo.html)
 
 ![](http://images.cnitblog.com/blog2015/138012/201504/092122513835286.png)
 
