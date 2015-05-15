@@ -19,7 +19,7 @@
 	</style>
 
 	<!--引入wangEditor.css-->
-    <link rel="stylesheet" type="text/css" href="../css/build/wangEditor-1.3.0.min.css">
+    <link rel="stylesheet" type="text/css" href="../dist/css/wangEditor-1.3.0.min.css">
 </head>
 <body style='padding: 0px 30px'>
 	<a href="http://www.wangEditor.com/" target='_blank'>wangEditor官网</a>&nbsp;
@@ -32,27 +32,35 @@
 
 	<!--说明-->
 	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
-		<p>在demo-basic.html应用的基础上，可通过 append() 方法追加内容。但往 append() 方法内传入的，只能是jquery对象，如下例子：</p>
+		<p>在demo-basic.html应用的基础上，可通过 append() 方法追加内容。参数可以是jquery对象，也可以是字符串，如下例子：</p>
 <pre>
 var editor = $('#textarea1').wangEditor();
 
 $('#btnAppend').click(function(e){
+	//插入jquery对象
 	var $p = $('&lt;p&gt;wangEditor，轻量级富文本编辑器。&lt;/p&gt;');
 	editor.append($p);
+	
+	//插入字符串
+	editor.append('<span>欢迎使用wangEditor</span>');
 });
 </pre>
 	</div>
 
 	
-	<script type="text/javascript" src='../js/build/jquery-1.10.2.min.js'></script>
-	<script type="text/javascript" src='../js/build/wangEditor-1.3.0.min.js'></script>
+	<script type="text/javascript" src='../dist/js/jquery-1.10.2.min.js'></script>
+	<script type="text/javascript" src='../dist/js/wangEditor-1.3.0.min.js'></script>
 	<script type="text/javascript">
 		$(function(){
 			var editor = $('#textarea1').wangEditor();
 			
 			$('#btnAppend').click(function(e){
+				//插入jquery对象
 				var $p = $('<p>wangEditor，轻量级富文本编辑器。</p>');
 				editor.append($p);
+
+				//插入字符串
+				editor.append('<span>欢迎使用wangEditor</span>');
 			});
 		});
 	</script>

@@ -10,36 +10,38 @@ module.exports = function(grunt) {
     // uglify插件的配置信息
     uglify: {
       options: {
+        stripBanners: true,
         banner: '/*! <%=pkg.name%>-<%=pkg.version%>.js <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'js/concat/<%=pkg.name%>-<%=pkg.version%>.js',        
-        dest: 'js/build/<%=pkg.name%>-<%=pkg.version%>.min.js'
+        src: 'src/js/concat/<%=pkg.name%>-<%=pkg.version%>.js',        
+        dest: 'dist/js/<%=pkg.name%>-<%=pkg.version%>.min.js'
       }
     },
 
     //less插件的配置信息
     less: {
       build: {
-        src: 'css/src/wangEditor.less',
-        dest: 'css/src/wangEditor.css'
+        src: 'src/css/wangEditor.less',
+        dest: 'src/css/wangEditor.css'
       }
     },
 
     //cssmin插件的配置信息
     cssmin: {
       options: {
+        stripBanners: true,
         banner: '/*! <%=pkg.name%>-<%=pkg.version%>.js <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'css/concat/<%=pkg.name%>-<%=pkg.version%>.css',
-        dest: 'css/build/<%=pkg.name%>-<%=pkg.version%>.min.css'
+        src: 'src/css/concat/<%=pkg.name%>-<%=pkg.version%>.css',
+        dest: 'dist/css/<%=pkg.name%>-<%=pkg.version%>.min.css'
       }
     },
 
     //jshint插件的配置信息'
     jshint:{
-      build: [ 'Gruntfile.js', 'js/src/*.js' ],
+      build: [ 'Gruntfile.js', 'src/js/*.js' ],
       options: {
         jshintrc: '.jshintrc'
       }
@@ -50,26 +52,26 @@ module.exports = function(grunt) {
       options: {
         csslintrc: '.csslintrc'
       },
-      build: [ 'css/src/*.css' ]
+      build: [ 'src/css/*.css' ]
     },
 
     //concat插件的配置信息
     concat: {
       css:{
-        src: 'css/src/*.css',
-        dest: 'css/concat/<%=pkg.name%>-<%=pkg.version%>.css'
+        src: 'src/css/*.css',
+        dest: 'src/css/concat/<%=pkg.name%>-<%=pkg.version%>.css'
       },
       js:{
-        src: 'js/src/*.js',
-        dest: 'js/concat/<%=pkg.name%>-<%=pkg.version%>.js'
+        src: 'src/js/*.js',
+        dest: 'src/js/concat/<%=pkg.name%>-<%=pkg.version%>.js'
       }
     },
 
     // watch插件的配置信息
     watch: { 
       build: { 
-        files: ['js/src/*.js', 'css/src/*.less', 'css/src/fontIcon.css'], 
-        tasks: ['concat', 'uglify', 'less', 'cssmin','jshint', 'csslint'], 
+        files: ['src/js/*.js', 'src/css/*.less', 'src/css/fontIcon.css'], 
+        tasks: ['less', 'jshint', 'csslint', 'concat','uglify', 'cssmin'], 
         options: { spawn: false}
       }
     }
@@ -87,12 +89,13 @@ module.exports = function(grunt) {
  
   // 告诉grunt当我们在终端中输入grunt时需要做些什么（注意先后顺序）
   grunt.registerTask('default', [
-    'concat',
-    'uglify', 
-    'less', 
-    'cssmin', 
+    //注意下面注册任务时的前后顺序
+    'less',
     'jshint', 
     'csslint', 
+    'concat',
+    'uglify', 
+    'cssmin',     
     'watch'
   ]);
  

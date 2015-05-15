@@ -113,8 +113,8 @@ var BMap;
         urlUnsafeKeywords = ['<', '>', '(', ')'],
 
         //全局的构造函数
-		$E = function($textarea, $initContent, menuConfig, onchange, uploadUrl){
-            return new $E.fn.init($textarea, $initContent, menuConfig, onchange, uploadUrl);
+		$E = function($textarea, $initContent, menuConfig, onchange, uploadUrl, expressions){
+            return new $E.fn.init($textarea, $initContent, menuConfig, onchange, uploadUrl, expressions);
         };
     //prototype简写为fn
     $E.fn = $E.prototype;
@@ -347,7 +347,7 @@ var BMap;
                 fnKeys = [],
                 keyCode,
                 $dropMenu = menu.dropMenu && menu.dropMenu(),
-                $dropPanel = menu.dropPanel && menu.dropPanel(),
+                $dropPanel = menu.dropPanel && menu.dropPanel(editor),
                 $modal = menu.modal && menu.modal(editor),
                 callback = menu.callback,
                 $btn = $( $E.htmlTemplates.btn ),  
@@ -574,7 +574,7 @@ var BMap;
     //------------------------------------init初始化------------------------------------
     $.extend($E.fn, {
         //初始化函数
-        'init': function($textarea, $initContent, menuConfig, onchange, uploadUrl){
+        'init': function($textarea, $initContent, menuConfig, onchange, uploadUrl, expressions){
             var editor = this,
                 height = $textarea.height();
 
@@ -632,6 +632,11 @@ var BMap;
             //绑定上传图片的url
             if(uploadUrl && typeof uploadUrl === 'string'){
                 editor.uploadUrl = uploadUrl;
+            }
+
+            //绑定表情图片配置
+            if(expressions && expressions.length && expressions.length > 0){
+                editor.expressions = expressions;
             }
 
             //初始化menus
@@ -970,7 +975,14 @@ var BMap;
 
         //追加内容
         'append': function($elem){
-            if($elem && $elem instanceof $){
+            if($elem == null){
+                return;
+            }
+            if(typeof $elem === 'string'){
+                $elem = '<div>' + $elem + '</div>';
+                this.$txt.append( $($elem) );
+            }
+            if($elem instanceof $){
                 this.$txt.append($elem);
             }
         },
@@ -1264,7 +1276,7 @@ var BMap;
                     'type': 'dropPanel',
                     'command': 'insertImage',
                     'txt': 'icon-wangEditor-happy',
-                    'dropPanel': function(){
+                    'dropPanel': function(editor){
                         //生成表情配置列表
                         var config = $E.expressionConfig,
                             path = config.path,
@@ -1275,8 +1287,14 @@ var BMap;
                             expressionArr = [],
                             i = 1;
 
-                        for(; i<=lastName; i++){
-                            expressionArr.push( path + i + ext );
+                        if(editor.expressions){
+                            //自定义配置的表情图片配置
+                            expressionArr = editor.expressions;
+                        }else{
+                            //默认的表情图片配置
+                            for(; i<=lastName; i++){
+                                expressionArr.push( path + i + ext );
+                            }
                         }
 
                         //生成dropPanel
@@ -2274,6 +2292,7 @@ var BMap;
         *   $initContent: $elem, //配置要初始化内容
         *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
         *   onchange: function(){...},  //配置onchange事件，
+        *   expressions: [...],  //配置表情图片的url地址
         *   uploadUrl: 'string'  //图片上传的地址
         * }
         */
@@ -2283,16 +2302,16 @@ var BMap;
                 alert('wangEditor提示：请使用textarea扩展富文本框。详情可参见作者的demo.html');
                 return;
             }
-            if(options == null){
-                options = {};
-            }
+            options = options || {};
+
             var menuConfig = options.menuConfig,
                 $initContent = options.$initContent || $('<p><br/></p>'),
                 onchange = options.onchange,
-                uploadUrl = options.uploadUrl;
+                uploadUrl = options.uploadUrl,
+                expressions = options.expressions;
 
             //获取editor对象
-            var editor = $E(this, $initContent, menuConfig, onchange, uploadUrl);
+            var editor = $E(this, $initContent, menuConfig, onchange, uploadUrl, expressions);
 
             //渲染editor，并隐藏textarea
             this.before(editor.$editorContainer);

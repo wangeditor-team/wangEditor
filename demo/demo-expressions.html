@@ -1,8 +1,8 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>wangEditor demo multi-text</title>
+	<title>wangEditor demo expressions</title>
 	<style type="text/css">
 		pre{
 			border: 1px solid #ccc;
@@ -21,35 +21,43 @@
 	<!--引入wangEditor.css-->
     <link rel="stylesheet" type="text/css" href="../dist/css/wangEditor-1.3.0.min.css">
 </head>
-<body style='padding: 0px 30px'>
+<body style='padding: 0px 30px; '>
 	<a href="http://www.wangEditor.com/" target='_blank'>wangEditor官网</a>&nbsp;
 	<a href='https://github.com/wangfupeng1988/wangEditor' target='_blank'>下载源码</a>
 
-	<h3>wangEditor demo 1</h3>
-	<textarea id='textarea1' style='height:200px; width:100%;'></textarea>
-	<h3>wangEditor demo 2</h3>
-	<textarea id='textarea2' style='height:200px; width:100%;'></textarea>
+	<h3>wangEditor demo</h3>
+	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
+
 	<!--说明-->
 	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
-		<p>在html中定义两个textarea，然后分别执行wangEditor()方法即可。</p>
-<pre style='background-color:#f1f1f1;font-family: Menlo, Monaco, Consolas;'>
-&lt;!--先在html中定义两个textarea，然后：--&gt;
-&lt;script type="text/javascript"&gt;
-    $(function(){
-        $('#textarea1').wangEditor();
-        $('#textarea2').wangEditor();
-    });
-&lt;/script&gt;
+		<p>在demo-basic.html应用的基础上，可以通过 'expressions' 配置项来自定义配置表情图片的url，如下例子：</p>
+<pre>
+var editor = $('#textarea1').wangEditor();
+
+$('#btnAppend').click(function(e){
+	//自定义配置3个表情图片
+	'expressions': [
+		'http://www.wangeditor.com/expressions/29.gif',
+		'http://www.wangeditor.com/expressions/27.gif',
+		'http://www.wangeditor.com/expressions/59.gif'
+	]
+});
 </pre>
 	</div>
-	
+
 	<script type="text/javascript" src='../dist/js/jquery-1.10.2.min.js'></script>
 	<script type="text/javascript" src='../dist/js/wangEditor-1.3.0.min.js'></script>
 	<script type="text/javascript">
 		$(function(){
-			$('#textarea1').wangEditor();
-			$('#textarea2').wangEditor();
+			$('#textarea1').wangEditor({
+				'expressions': [
+					'http://www.wangeditor.com/expressions/29.gif',
+					'http://www.wangeditor.com/expressions/27.gif',
+					'http://www.wangeditor.com/expressions/59.gif'
+				]
+			});
 		});
+
 	</script>
 </body>
 </html>
