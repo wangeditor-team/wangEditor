@@ -697,7 +697,6 @@ var BMap;
             }else{
                 editor.initDeleteBtn('img,table');
             }
-            
 
             //初始化img右下角的resize按钮------------------
             if(!isIE && !isFireFox){
@@ -726,6 +725,7 @@ var BMap;
                 editor.change();
             });
 
+            //编辑区域自动获取焦点
             editor.$txt.focus();
 
             //返回------------------
@@ -2319,6 +2319,10 @@ var BMap;
 
             //页面刚加载时，初始化selection
             editor.initSelection();
+
+            //一开始先把编辑器内容写入textarea
+            //因为编辑器一开始可能被初始化initContent内容
+            editor.textareaVal( editor.html() );
 
             return editor;
         }
