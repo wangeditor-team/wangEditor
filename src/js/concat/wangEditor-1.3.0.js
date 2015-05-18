@@ -2302,6 +2302,15 @@ var BMap;
                 alert('wangEditor提示：请使用textarea扩展富文本框。详情可参见作者的demo.html');
                 return;
             }
+
+            //针对一个textarea不能执行两遍 wangEditor() 事件
+            if(this.data('wangEditorFlag')){
+                alert('针对一个textarea不能执行两遍wangEditor()事件');
+                return;
+            }else{
+                this.data('wangEditorFlag', true);
+            }
+
             options = options || {};
 
             var menuConfig = options.menuConfig,
