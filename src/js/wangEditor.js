@@ -906,6 +906,11 @@ var BMap;
             }
         },
 
+        //获取text（不包含html标签）
+        'text': function(){
+            return this.$txt.text();
+        },
+
         //追加内容
         'append': function($elem){
             if($elem == null){
