@@ -62,7 +62,7 @@
 		<p class='dialogue'>小张：“小李子，哥要使用wangEditor配置图片上传，需要你提供一个服务端的API。”</p>
 		<p class='dialogue'>小李：“一定积极配合组织的工作！不过我在开发服务端API时，需要知道两个事情。第一：后台在request.files时，根据什么id获取文件？第二：文件上传完成或者上传失败时，分别返回什么信息？”</p>
 		<p>小张看了看前端文件结构，在wangEditor的所有文件中，找到了 <span class='code'>wangEditor_uoloadImg_assist.html</span> 这个文件，并获取了这个文件的url地址：<span class='code'>http://somedomain.com/wangEditor/wangEditor_upload_assist.html</span>，把这个地址记下来，然后继续同小李对话。</p>
-		<p class='dialogue'>小张：“第一，你必须通过 <span class='code'>wangEditor_uploadImg</span> 这个id获取文件。第二，如果图片上传成功，你要返回 <span class='code'>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#图片url"&gt;&lt;/iframe&gt;</span> ；如果上传失败，你要返回 <span class='code'>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#错误信息"&gt;&lt;/iframe&gt;</span>。”</p>
+		<p class='dialogue'>小张：“第一，你必须通过 <span class='code'>wangEditor_uploadImg</span> 这个id获取文件。第二，如果图片上传成功，你要返回 <span class='code'>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#ok|图片url"&gt;&lt;/iframe&gt;</span> ；如果上传失败，你要返回 <span class='code'>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#错误信息"&gt;&lt;/iframe&gt;</span>。”</p>
 		<p class='dialogue'>小李：“明白了。”</p>
 		<p class='dialogue'>小张：“注意，返回的文档类型必须是 <span class='code'>text/html</span>，编码类型必须是 <span class='code'>utf-8</span>。”</p>
 		<p class='dialogue'>小李：“这个不用你说！”</p>
@@ -89,7 +89,7 @@ response.write(" <b>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_
 //如果顺利通过验证：
 //保存图片
 //获取图片url地址
-response.write(" <b>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#图片url地址"&gt;&lt;/iframe&gt; </b>")
+response.write(" <b>&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#ok|图片url地址"&gt;&lt;/iframe&gt; </b>")
 </pre>
 		<p>小李写完代码，经过单元测试之后，发布程序，然后联系小张。</p>
 		<p class='dialogue'>小李：小张，后台程序我已经发布了，API地址是：<span class='code'>http://serverdomain.com/data.ashx</span> ，你快去试试吧。</p>
@@ -119,7 +119,7 @@ wangEditor/wangEditor_uploadImg_assist.html提示： wangEditor_uploadImg_assist
 		<p>第二，针对后台开发人员来说，你需要知道：</p>
 		<ul>
 			<li>获取文件对象的id（即 'wangEditor_uploadImg' ）</li>
-			<li>图片上传成功时返回的信息（即 '&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#图片url地址"&gt;&lt;/iframe&gt;'）</li>
+			<li>图片上传成功时返回的信息（即 '&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#ok|图片url地址"&gt;&lt;/iframe&gt;'）</li>
 			<li>图片上传失败时返回的信息（即 '&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#错误信息"&gt;&lt;/iframe&gt;'）</li>
 		</ul>
 	</div>
