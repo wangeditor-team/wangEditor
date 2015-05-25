@@ -290,11 +290,11 @@
   width: 200px;
 }
 .wangEditor-container .wangEditor-textarea-container {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .wangEditor-container .wangEditor-textarea {
   background-color: #ffffff;
-  padding: 0 15px 10px 15px;
+  padding: 10px 15px 10px 15px;
 }
 .wangEditor-container .wangEditor-textarea p {
   margin: 0.7em 0;

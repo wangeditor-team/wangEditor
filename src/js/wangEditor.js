@@ -524,10 +524,14 @@ var BMap;
             editor.$modalContainer = $( $E.htmlTemplates.modalContainer );
             editor.$txtContainer = $( $E.htmlTemplates.txtContainer );
             editor.$txt = $( $E.htmlTemplates.txt );
-            editor.$txt.append($initContent);
             editor.$textarea = $textarea;
             editor.$elemDeleteBtn = $( $E.htmlTemplates.elemDeleteBtn );  //元素左上角的删除按钮
             editor.$imgResizeBtn = $( $E.htmlTemplates.imgResizeBtn );  //img右下角的resize按钮
+
+            //初始化内容
+            if($initContent){
+                editor.$txt.append($initContent);
+            }
 
             editor.$txtContainer.append(editor.$txt);
             editor.$editorContainer
@@ -554,7 +558,8 @@ var BMap;
                 }
 
                 editor.$txtContainer.height( txtContainerHeight );
-                editor.$txt.css('min-height', height + 'px');
+                //editor.$txt.css('min-height', height + 'px');
+                editor.$txt.css('min-height', (txtContainerHeight - 10) + 'px');
             });
 
             //绑定onchange函数
@@ -2252,7 +2257,7 @@ var BMap;
             options = options || {};
 
             var menuConfig = options.menuConfig,
-                $initContent = options.$initContent || $('<p><br/></p>'),
+                $initContent = options.$initContent,
                 onchange = options.onchange,
                 uploadUrl = options.uploadUrl,
                 expressions = options.expressions;
