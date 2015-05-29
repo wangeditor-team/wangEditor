@@ -113,8 +113,8 @@ var BMap;
         urlUnsafeKeywords = ['<', '>', '(', ')'],
 
         //全局的构造函数
-		$E = function($textarea, $initContent, menuConfig, onchange, uploadUrl, expressions){
-            return new $E.fn.init($textarea, $initContent, menuConfig, onchange, uploadUrl, expressions);
+		$E = function($textarea, menuConfig, onchange, uploadUrl, expressions){
+            return new $E.fn.init($textarea, menuConfig, onchange, uploadUrl, expressions);
         };
     //prototype简写为fn
     $E.fn = $E.prototype;
@@ -157,6 +157,9 @@ var BMap;
         },
         //替换html中的单引号（&#39;）、双引号(&quot;)
         'replaceQuotes': function(html){
+            if(html === ''){
+                return html;
+            }
             return html.replace( /(<.*?>)|(')|(")/g, function(a,b,c,d){ 
                 if( b ){
                     return b;
@@ -574,7 +577,7 @@ var BMap;
     //------------------------------------init初始化------------------------------------
     $.extend($E.fn, {
         //初始化函数
-        'init': function($textarea, $initContent, menuConfig, onchange, uploadUrl, expressions){
+        'init': function($textarea, menuConfig, onchange, uploadUrl, expressions){
             var editor = this,
                 height = $textarea.height();
 
@@ -594,11 +597,6 @@ var BMap;
             editor.$textarea = $textarea;
             editor.$elemDeleteBtn = $( $E.htmlTemplates.elemDeleteBtn );  //元素左上角的删除按钮
             editor.$imgResizeBtn = $( $E.htmlTemplates.imgResizeBtn );  //img右下角的resize按钮
-
-            //初始化内容
-            if($initContent){
-                editor.$txt.append($initContent);
-            }
 
             editor.$txtContainer.append(editor.$txt);
             editor.$editorContainer
@@ -971,10 +969,13 @@ var BMap;
 
         //读取或设置html
         'html': function(html){
-            if(html && typeof html === 'string'){
-                this.$txt.html(html);
-            }else{
+            if(html == null){
                 return this.$txt.html();
+            }else if(typeof html === 'string'){
+                this.$txt.html(html);
+
+                //主动执行change事件
+                this.change();
             }
         },
 
@@ -995,11 +996,14 @@ var BMap;
             if($elem instanceof $){
                 this.$txt.append($elem);
             }
+
+            //主动执行change事件
+            this.change();
         },
 
         //设置textarea的值
         'textareaVal': function(val){
-            if(val){
+            if(val || val === ''){
                 this.$textarea.val(val);
             }else{
                 return this.$textarea.val();
@@ -2299,7 +2303,6 @@ var BMap;
     $.fn.extend({
         /*
         * options: {
-        *   $initContent: $elem, //配置要初始化内容
         *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
         *   onchange: function(){...},  //配置onchange事件，
         *   expressions: [...],  //配置表情图片的url地址
@@ -2324,13 +2327,12 @@ var BMap;
             options = options || {};
 
             var menuConfig = options.menuConfig,
-                $initContent = options.$initContent,
                 onchange = options.onchange,
                 uploadUrl = options.uploadUrl,
                 expressions = options.expressions;
 
             //获取editor对象
-            var editor = $E(this, $initContent, menuConfig, onchange, uploadUrl, expressions);
+            var editor = $E(this, menuConfig, onchange, uploadUrl, expressions);
 
             //渲染editor，并隐藏textarea
             this.before(editor.$editorContainer);
@@ -2339,10 +2341,7 @@ var BMap;
             //页面刚加载时，初始化selection
             editor.initSelection();
 
-            //一开始先把编辑器内容写入textarea
-            //因为编辑器一开始可能被初始化initContent内容
-            editor.textareaVal( editor.html() );
-
+            //返回editor对象
             return editor;
         }
     });

@@ -23,7 +23,8 @@
 </head>
 <body style='padding: 0px 30px; '>
 	<a href="http://www.wangEditor.com/" target='_blank'>wangEditor官网</a>&nbsp;
-	<a href='https://github.com/wangfupeng1988/wangEditor' target='_blank'>下载源码</a>
+	<a href='https://github.com/wangfupeng1988/wangEditor' target='_blank'>下载源码</a>&nbsp;
+	<a href="http://www.wangEditor.com/doc.html" target='_blank'>文档说明</a>
 
 	<h3>wangEditor demo basic</h3>
 	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
@@ -41,7 +42,7 @@
 &lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src='js/wangEditor-1.3.0.min.js'&gt;&lt;/script&gt;
 </pre>
-		<p>第三步，配置富文本框。想要获取富文本框的html代码，直接获取textarea的值即可。可参见 <a href="demo-getValue.html" target='_blank'>demo-getValue.html</a></p>
+		<p>第三步，配置富文本框。</p>
 <pre>
 &lt;script type="text/javascript"&gt;
 	$(function(){
@@ -49,37 +50,7 @@
 	});
 &lt;/script&gt;
 </pre>
-		<p>如果想要在一个页面创建多个富文本编辑器，也很简单。可参见 <a href="demo-multi-text.html" target='_blank'>demo-multi-text.html</a></p>
-<pre style='background-color:#f1f1f1;font-family: Menlo, Monaco, Consolas;'>
-&lt;!--先在html中定义两个textarea，然后：--&gt;
-&lt;script type="text/javascript"&gt;
-    $(function(){
-        $('#textarea1').wangEditor();
-        $('#textarea2').wangEditor();
-    });
-&lt;/script&gt;
-</pre>
-		<p>最后，除了以上基本应用之外，<b>wangEditor还支持多种配置</b>，具体的参见相应的demo页面说明。</p>
-<pre style='background-color:#f1f1f1;font-family: Menlo, Monaco, Consolas;'>
-$('#textarea1').wangEditor({
-	'$initContent': ...    //配置要初始化的内容
-	'menuConfig': ...      //配置要显示的菜单（其他的隐藏）
-	'onchange': ...        //配置onchange事件
-	'expressions': ...     //配置表情图片
-	'uploadUrl': ...       //配置上传图片的url
-});
-</pre>
-		<a href="demo-initContent.html" target='_blank'>demo-initContent.html</a><br>
-		<a href="demo-getValue.html" target='_blank'>demo-getValue.html</a><br>
-		<a href="demo-menuConfig.html" target='_blank'>demo-menuConfig.html</a><br>
-		<a href="demo-onchange.html" target='_blank'>demo-onchange.html</a><br>
-		<a href="demo-uploadImg.html" target='_blank'>demo-uploadImg.html</a><br>
-		<a href="demo-expressions.html" target='_blank'>demo-expressions.html</a><br>
-		<a href="demo-multi-text.html" target='_blank'>demo-multi-text.html</a>
-		
-		<p>可以通过手动编写javascript代码来修改编辑器的内容。可以追加内容，也可以直接修改其中的html。</p>
-		<a href='demo-append.html' target='_blank'>demo-append.html</a><br>
-		<a href='demo-html.html' target='_blank'>demo-html.html</a>
+		<p>更多配置请参见：<a href="http://www.wangEditor.com/doc.html" target='_blank'>文档说明</a></p>
 	</div>
 	<p><br></p>
 
