@@ -446,7 +446,8 @@ var BMap;
                     editor.hideModal();   //先视图隐藏目前显示的modal
 
                     //计算margin-left;
-                    $modal.css('margin-left', ($window.outerWidth()/2 - $modal.outerWidth()/2));
+                    //editor.$editorContainer的position时relative，因此要根据它来计算
+                    $modal.css('margin-left', (editor.$editorContainer.outerWidth()/2 - $modal.outerWidth()/2));
 
                     $maskDiv.show();
                     $modal.show();
