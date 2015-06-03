@@ -2060,7 +2060,7 @@ var BMap;
                 }
                 $elem = $E.getElemForInsertTable($(parentElem));
                 if($elem.next().length === 0){
-                    commandValue += '<p>&nbsp;</p>';
+                    commandValue += '<p><br/></p>';
                 }
                 $elem.after($(commandValue));
             },
@@ -2171,6 +2171,11 @@ var BMap;
 
                 //执行
                 if($E.commandEnabled(commandName) === true){
+                    //针对html多做一步处理：在value后面加一个换行
+                    if (commandName === 'insertHTML') {
+                        commandValue += '<p><br/></p>';
+                    }
+
                     document.execCommand(commandName, false, commandValue);
                 }else{
                     commandHook = this.commandHooks[commandName];
