@@ -178,7 +178,7 @@ var BMap;
             //编辑框的容器
             'txtContainer': '<div class="wangEditor-textarea-container"></div>',
             //编辑框
-            'txt': '<div class="wangEditor-textarea" contenteditable="true"></div>',
+            'txt': '<div class="wangEditor-textarea" contenteditable="true"><p><br/></p></div>',
             //dropmenu
             'dropMenu': '<ul class="wangEditor-drop-menu">{content}</ul>',
             //dropPanel
@@ -1516,18 +1516,34 @@ var BMap;
                                 //提示已经开始调用
                                 $E.consoleLog('父页面的wangEditor_uploadImgCallback方法已经开始被调用！');
 
-                                var url;
+                                var arr,
+                                    url,  //真实图片url
+                                    thumbnailUrl;  //缩略图url，有可能不用缩略图
                                 if(result.indexOf('ok|') === 0){
                                     //成功
-                                    url = result.split('|')[1];
+                                    arr = result.split('|');
 
-                                    //提示成功获取到图片url
+                                    //获取图片url
+                                    url = arr[1];
                                     $E.consoleLog('wangEditor_uploadImgCallback方法成功获取到图片url：' + url);
 
-                                    if(title === ''){
-                                        editor.command(e, 'insertImage', url, uploadImg_callback);
+                                    if(arr.length === 2){
+                                        //无缩略图形式
+                                        if(title === ''){
+                                            editor.command(e, 'insertImage', url, uploadImg_callback);
+                                        }else{
+                                            editor.command(e, 'customeInsertImage', {'url':url, 'title':title}, uploadImg_callback);
+                                        }
+                                    }else if(arr.length === 3){
+                                        //有缩略图形式
+                                        thumbnailUrl = arr[2];
+                                        $E.consoleLog('wangEditor_uploadImgCallback方法成功获取到缩略图url：' + thumbnailUrl);
+
+                                        //执行插入图片（显示缩略图，链接到真实图片）
+                                        editor.command(e, 'customeInsertImage', {'url':thumbnailUrl, 'link': url, 'title':title}, uploadImg_callback);
                                     }else{
-                                        editor.command(e, 'customeInsertImage', {'url':url, 'title':title}, uploadImg_callback);
+                                        alert('hash格式错误：' + result);
+                                        return;
                                     }
 
                                     //提示成功插入图片
@@ -2108,6 +2124,7 @@ var BMap;
             'customeInsertImage': function(commandName, commandValue){
                 var url = commandValue.url,
                     title = commandValue.title,
+                    link = commandValue.link,
                     parentElem = this.parentElemForCurrentRange(),
                     $parentElem,
                     id = $E.getUniqeId(),
@@ -2129,12 +2146,17 @@ var BMap;
                 //执行
                 document.execCommand("insertImage", false, url);
 
-                //获取新产生的 a （即没有标记）
+                //获取新产生的 img （即没有标记）
                 newImgs= $parentElem.find('img').not('[' + id + ']');
                 newImgs.attr('title', title);
                 newImgs.attr('alt', title);
 
-                //去掉上文对a的标记
+                //加链接
+                if(link && typeof link === 'string'){
+                    newImgs.wrap('<a href="' + link + '" target="_blank"></a>');
+                }
+
+                //去掉上文对img的标记
                 if(oldImgs.length > 0){
                     oldImgs.removeAttr(id);
                 }

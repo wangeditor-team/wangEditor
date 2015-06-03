@@ -47,7 +47,7 @@
 	<a href="http://www.wangEditor.com/doc.html" target='_blank'>文档说明</a>
 	
 	<h3>wangEditor demo uploadImg</h3>
-	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
+	<textarea id='textarea1' style='height:200px; width:100%;'></textarea>
 	
 	<!--说明-->
 	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
@@ -124,15 +124,23 @@ wangEditor/wangEditor_uploadImg_assist.html提示： wangEditor_uploadImg_assist
 			<li>图片上传成功时返回的信息（即 '&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#ok|图片url地址"&gt;&lt;/iframe&gt;'）</li>
 			<li>图片上传失败时返回的信息（即 '&lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#错误信息"&gt;&lt;/iframe&gt;'）</li>
 		</ul>
+		<hr>
+		<h3>使用缩略图？</h3>
+		<p>当你上传了一个尺寸很大的图片，上传后你在后台通过压缩技术生成了一个小型图片。你想在web前端显示小型图片，同时小型图片链接到大型图片上。该怎么办？</p>
+		<p>很简单，你只需要将返回结果改为以下字符串即可：</p>
+<pre>
+<b>" &lt;iframe src="http://somedomain.com/wangEditor/wangEditor_upload_assist.html#ok|真实图片的url地址|缩略图url地址"&gt;&lt;/iframe&gt; "</b>
+</pre>
 	</div>
 	
 	<script type="text/javascript" src='../dist/js/jquery-1.10.2.min.js'></script>
 	<script type="text/javascript" src='../dist/js/wangEditor-1.3.0.min.js'></script>
 	<script type="text/javascript">
 		$(function(){
-			$('#textarea1').wangEditor({
+			var editor = $('#textarea1').wangEditor({
 				'uploadUrl': 'http://localhost:4780/wangEditor_uploadify_test/data.ashx'
 			});
+			editor.html('<h1 style="color:red;">注意，该demo尚未配置上传图片的url，不能上传图片。具体配置可参见下文说明。</h1>')
 		});
 	</script>
 </body>
