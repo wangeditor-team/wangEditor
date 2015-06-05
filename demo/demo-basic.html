@@ -27,7 +27,9 @@
 	<a href="http://www.wangEditor.com/doc.html" target='_blank'>文档说明</a>
 
 	<h3>wangEditor demo basic</h3>
-	<textarea id='textarea1' style='height:300px; width:100%;'></textarea>
+	<textarea id='textarea1' style='height:300px; width:100%;'>
+		<p>如果页面初始化时textarea中有内容，wangEditor会将该内容作为html代码，初始化到编辑器中。</p>
+	</textarea>
 
 	<!--说明-->
 	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
@@ -49,6 +51,12 @@
 		$('#textarea1').wangEditor();
 	});
 &lt;/script&gt;
+</pre>
+		<p>最后，wangEditor会默认把textarea中的内容作为初始值。</p>
+<pre>
+&lt;textarea id='textarea1' style='height:300px; width:100%;'&gt;
+	&lt;p&gt;如果页面初始化时textarea中有内容，wangEditor会将该内容作为html代码，初始化到编辑器中。&lt;/p&gt;
+&lt;/textarea&gt;
 </pre>
 		<p>更多配置请参见：<a href="http://www.wangEditor.com/doc.html" target='_blank'>文档说明</a></p>
 	</div>

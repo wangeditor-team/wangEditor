@@ -607,6 +607,9 @@ var BMap;
                 .append(editor.$elemDeleteBtn)
                 .append(editor.$imgResizeBtn);
 
+            //如果textarea有内容，则作为初始值
+            editor.$txt.html( editor.$textarea.val() );
+
             //设置高度的最小值（再小了，文本框就显示不出来了）
             if(height <= 80){
                 height = 80;
@@ -2152,20 +2155,12 @@ var BMap;
                 var url = commandValue.url,
                     title = commandValue.title,
                     isBlank = commandValue.isBlank,
-                    parentElem = this.parentElemForCurrentRange(),
-                    $parentElem,
                     id = $E.getUniqeId(),
                     oldLinks,
                     newLinks;
 
-                //获取父节点（必须是element，不能是textNode）
-                while(parentElem.nodeType !== 1){
-                    parentElem = parentElem.parentNode;
-                }
-                $parentElem = $(parentElem);
-
                 //对当前的 a 先进行标记
-                oldLinks = $parentElem.find('a');
+                oldLinks = this.$txt.find('a');
                 if(oldLinks.length > 0){
                     oldLinks.attr(id, '1');
                 }
@@ -2174,7 +2169,7 @@ var BMap;
                 document.execCommand("createLink", false, url);
 
                 //获取新产生的 a （即没有标记）
-                newLinks= $parentElem.find('a').not('[' + id + ']');
+                newLinks= this.$txt.find('a').not('[' + id + ']');
                 if(title){
                     newLinks.attr('title', title);
                 }
@@ -2192,20 +2187,12 @@ var BMap;
                 var url = commandValue.url,
                     title = commandValue.title,
                     link = commandValue.link,
-                    parentElem = this.parentElemForCurrentRange(),
-                    $parentElem,
                     id = $E.getUniqeId(),
                     oldImgs,
                     newImgs;
 
-                //获取父节点（必须是element，不能是textNode）
-                while(parentElem.nodeType !== 1){
-                    parentElem = parentElem.parentNode;
-                }
-                $parentElem = $(parentElem);
-
                 //对当前的 img 先进行标记
-                oldImgs = $parentElem.find('img');
+                oldImgs = this.$txt.find('img');
                 if(oldImgs.length > 0){
                     oldImgs.attr(id, '1');
                 }
@@ -2214,7 +2201,7 @@ var BMap;
                 document.execCommand("insertImage", false, url);
 
                 //获取新产生的 img （即没有标记）
-                newImgs= $parentElem.find('img').not('[' + id + ']');
+                newImgs = this.$txt.find('img').not('[' + id + ']');
                 newImgs.attr('title', title);
                 newImgs.attr('alt', title);
 
