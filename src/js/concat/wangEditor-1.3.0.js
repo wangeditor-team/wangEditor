@@ -581,7 +581,8 @@ var BMap;
         //初始化函数
         'init': function($textarea, menuConfig, onchange, uploadUrl, expressions){
             var editor = this,
-                height = $textarea.height();
+                height = $textarea.height(),
+                initVal = $.trim( $textarea.val() );
 
             //设置id
             var id = $textarea.attr('id');
@@ -609,7 +610,9 @@ var BMap;
                 .append(editor.$imgResizeBtn);
 
             //如果textarea有内容，则作为初始值
-            editor.$txt.html( editor.$textarea.val() );
+            if(initVal){
+                editor.$txt.html(initVal);
+            }
 
             //设置高度的最小值（再小了，文本框就显示不出来了）
             if(height <= 80){
