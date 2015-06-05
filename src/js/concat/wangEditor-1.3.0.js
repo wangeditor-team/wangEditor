@@ -50,7 +50,8 @@
                 'icon-wangEditor-music':'&#xe911;',
                 'icon-wangEditor-play':'&#xe912;',
                 'icon-wangEditor-location':'&#xe947;',
-                'icon-wangEditor-happy':'&#xe9df;'
+                'icon-wangEditor-happy':'&#xe9df;',
+                'icon-wangEditor-sigma':'&#xea67'
             };
 
             //遍历菜单按钮，替换fontIcon
