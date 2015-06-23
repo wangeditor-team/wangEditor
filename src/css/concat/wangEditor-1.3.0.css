@@ -55,6 +55,8 @@
 .icon-wangEditor-location:before {content: "\e947";}
 .icon-wangEditor-happy:before {content: "\e9df";}
 .icon-wangEditor-sigma:before {content: "\ea67";}
+.icon-wangEditor-enlarge2:before {content: "\e98b";}
+.icon-wangEditor-shrink2:before {content: "\e98c";}
 
 .wangEditor-container {
   position: relative;
@@ -65,9 +67,10 @@
   box-sizing: border-box;
 }
 .wangEditor-container .clearfix:after {
-  content: ' ';
-  display: table;
+  content: '';
+  display: block;
   clear: both;
+  height: 0;
 }
 .wangEditor-container .clearfix {
   *zoom: 1;
@@ -331,17 +334,4 @@
   height: 0;
   border-bottom: 20px solid #505050;
   border-left: 20px solid transparent;
-}
-.wangEditor-mask {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: none;
-  background-color: #f1f1f1;
-  filter: alpha(opacity=50);
-  -moz-opacity: 0.5;
-  opacity: 0.5;
-  z-index: 50;
 }

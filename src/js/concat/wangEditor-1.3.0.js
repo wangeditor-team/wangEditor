@@ -51,7 +51,9 @@
                 'icon-wangEditor-play':'&#xe912;',
                 'icon-wangEditor-location':'&#xe947;',
                 'icon-wangEditor-happy':'&#xe9df;',
-                'icon-wangEditor-sigma':'&#xea67'
+                'icon-wangEditor-sigma':'&#xea67',
+                'icon-wangEditor-enlarge2':'&#xe98b;',
+                'icon-wangEditor-shrink2':'&#xe98c'
             };
 
             //遍历菜单按钮，替换fontIcon
@@ -78,16 +80,6 @@ var BMap;
 		alert('检测到 window.jQuery 已被修改，wangEditor无法使用。');
 	}
 
-    //判断IE6、7
-    var isIE6 = false, 
-        isIE7 = false, 
-        appVersion;
-    if(navigator.appName === "Microsoft Internet Explorer"){
-        appVersion = navigator.appVersion.split(";")[1].replace(/[ ]/g,"");
-        isIE6 = appVersion === 'MSIE6.0';
-        isIE7 = appVersion === 'MSIE7.0';
-    }
-
 	//------------------------------------定义全局变量------------------------------------
 	var document = window.document,
         $document = $(document),
@@ -104,9 +96,6 @@ var BMap;
         idPrefix = 'wangeditor_' + Math.random().toString().replace('.', '') + '_',
         globalNum = 1,
 
-        //遮罩层
-        $maskDiv = $('<div class="wangEditor-mask"></div>'),
-
         //最大的缓存步数
         comandRecordMaxLength = 10,
 
@@ -119,17 +108,6 @@ var BMap;
         };
     //prototype简写为fn
     $E.fn = $E.prototype;
-
-    if( !isIE6 && !isIE7 ){
-        //添加遮罩层（IE6、7下不用遮罩层，各种兼容性问题！）
-        $body.prepend($maskDiv);
-    }
-
-    //点击遮罩层时，自动隐藏modal
-    $maskDiv.click(function(){
-        $('.wangEditor-modal').hide();
-        $maskDiv.hide();
-    });
 
     //------------------------------------公用方法------------------------------------
     $.extend($E, {
@@ -161,7 +139,12 @@ var BMap;
             if(html === ''){
                 return html;
             }
-            return html.replace( /(<.*?>)|(')|(")/g, function(a,b,c,d){ 
+
+            //去掉换行
+            var result = html.replace(/\n/mg, "");
+
+            //过滤单引号，双引号
+            result = result.replace( /(<.*?>)|(')|(")/mg, function(a,b,c,d){ 
                 if( b ){
                     return b;
                 }else if(c){
@@ -169,6 +152,15 @@ var BMap;
                 }else if(d){
                     return "&quot;";
                 }
+            });
+
+            return result;
+        },
+        //将table的边框强制显示
+        'showTableBorder': function($content){
+            $content.find('table').each(function(){
+                this.setAttribute('border', "1");
+                this.setAttribute('bordercolor', "#cccccc");
             });
         }
     });
@@ -517,14 +509,12 @@ var BMap;
                     //editor.$editorContainer的position时relative，因此要根据它来计算
                     $modal.css('margin-left', (editor.$editorContainer.outerWidth()/2 - $modal.outerWidth()/2));
 
-                    $maskDiv.show();
                     $modal.show();
                     e.preventDefault();
 
                     e.stopPropagation();  //最后阻止冒泡
                 });
                 $modal.find('[commandName=close]').click(function(e){
-                    $maskDiv.hide();
                     $modal.hide();
                     e.preventDefault();
                 });
@@ -716,7 +706,6 @@ var BMap;
             }
 
             //txtContainer和btnContainer被点击时，要隐藏modal
-            //（因为IE6、7下没有遮罩层）
             editor.$txtContainer.click(function(){
                 editor.hideModal();
             });
@@ -1018,12 +1007,14 @@ var BMap;
             }
         },
 
-        //隐藏modal和遮罩层
+        //隐藏modal
         'hideModal': function(){
             this.$modalContainer.find('.wangEditor-modal:visible').hide();
-            if($maskDiv.is(':visible')){
-                $maskDiv.hide();  //关闭遮罩层
-            }
+        },
+
+        //获取editor Container
+        'getEditorContainer': function(){
+            return this.$editorContainer;
         }
     });
 
@@ -1873,7 +1864,7 @@ var BMap;
                     'modal': function(editor){
                         var txtId = $E.getUniqeId(),
                             btnId = $E.getUniqeId();
-                        var content = '<textarea style="width:100%; height:200px;" id="' + txtId + '"></textarea>' +
+                        var content = '<div><textarea style="width:100%; height:200px;" id="' + txtId + '"></textarea></div>' +
                                         '<button id="' + btnId + '" class="wangEditor-modal-btn">更新源码</button>';
                         var $sourceCode_modal = $(
                                 $E.htmlTemplates.modalBig.replace('{content}', content)
@@ -1903,6 +1894,12 @@ var BMap;
 
                         return $sourceCode_modal;
                     }
+                },
+                'fullScreen': {
+                    'title': '切换全屏',
+                    'type': 'btn',
+                    'txt': 'icon-wangEditor-enlarge2',
+                    'command': 'fullScreen'
                 }
             };
 
@@ -1917,7 +1914,8 @@ var BMap;
                 ['justifyLeft', 'justifyCenter', 'justifyRight'] ,
                 ['createLink', 'unLink', 'insertExpression', 'insertVideo'],
                 ['insertHr', 'insertTable', 'webImage', 'uploadImg', 'insertLocation','insertSimpleCode'],
-                ['undo', 'redo']
+                ['undo', 'redo'],
+                ['fullScreen']
             ];
         }
     });
@@ -2075,6 +2073,9 @@ var BMap;
 
                 //替换其中的单引号、双引号
                 html = $E.replaceQuotes(html);
+
+                //强制显示table边框
+                $E.showTableBorder(this.$txt);
 
                 //将html保存到textarea
                 editor.textareaVal(html);
@@ -2236,6 +2237,64 @@ var BMap;
             //覆盖整个源码
             'replaceSourceCode': function(commandName, commandValue){
                 this.html(commandValue);
+            },
+            //切换全屏
+            'fullScreen': function(commandName, commandValue){
+                var $txtContainer = this.$txtContainer,
+                    $editorContainer = this.getEditorContainer(),
+                    position =$editorContainer.css('position'),
+
+                    enlargeClass = 'icon-wangEditor-enlarge2',
+                    shrinkClass = 'icon-wangEditor-shrink2',
+
+                    $enlargeIcon = $editorContainer.find('.' + enlargeClass),
+                    $shrinkIcon = $editorContainer.find('.' + shrinkClass);
+
+                //切换icon
+                if($enlargeIcon.length){
+                    $enlargeIcon.removeClass(enlargeClass).addClass(shrinkClass);
+                }else if($shrinkIcon.length){
+                    $shrinkIcon.removeClass(shrinkClass).addClass(enlargeClass);
+                }
+
+                if(position !== 'fixed'){
+                    //记录txtContainer高度
+                    this._txtContainerHeight = $txtContainer.height();
+                    //修改txtContainer高度
+                    $txtContainer.css({
+                        'height': '90%'
+                    });
+
+                    //切换到全屏
+                    $editorContainer.css({
+                        'position': 'fixed',
+                        'top': 25,
+                        'left': 20,
+                        'right': 20,
+                        'bottom': 20,
+                        'z-index': 1000,
+
+                        '-webkit-box-shadow': '0 0 15px #CCC', 
+                        '-moz-box-shadow': '0 0 15px #CCC',
+                        'box-shadow': '0 0 15px #CCC'
+                    });
+                }else{
+                    //还原txtContainer高度
+                    $txtContainer.height(this._txtContainerHeight);
+                    //还原
+                    $editorContainer.css({
+                        'position': 'relative',
+                        'top': 0,
+                        'left': 0,
+                        'right': 0,
+                        'bottom': 0,
+                        'z-index': 0,
+
+                        '-webkit-box-shadow': '0 0 0 #CCC', 
+                        '-moz-box-shadow': '0 0 0 #CCC',
+                        'box-shadow': '0 0 0 #CCC'
+                    });
+                }
             }
         },
 

@@ -53,9 +53,10 @@
 
 	//清除浮动
 	.clearfix:after{
-		content:' ';
-		display: table;
+		content:'';
+		display: block;
 		clear: both;
+		height: 0;
 	}
 	.clearfix{
 		*zoom:1; /*兼容IE低版本*/
@@ -344,19 +345,4 @@
 	    border-bottom: 20px solid @fore-color;
 	    border-left: 20px solid transparent;
 	}
-}
-
-
-.wangEditor-mask {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: none;
-  background-color: #f1f1f1;
-  filter: alpha(opacity=50);
-  -moz-opacity: 0.5;
-  opacity: 0.5;
-  z-index: 50;
 }

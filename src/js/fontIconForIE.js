@@ -51,7 +51,9 @@
                 'icon-wangEditor-play':'&#xe912;',
                 'icon-wangEditor-location':'&#xe947;',
                 'icon-wangEditor-happy':'&#xe9df;',
-                'icon-wangEditor-sigma':'&#xea67'
+                'icon-wangEditor-sigma':'&#xea67',
+                'icon-wangEditor-enlarge2':'&#xe98b;',
+                'icon-wangEditor-shrink2':'&#xe98c'
             };
 
             //遍历菜单按钮，替换fontIcon
