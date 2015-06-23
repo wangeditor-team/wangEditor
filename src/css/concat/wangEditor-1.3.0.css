@@ -295,6 +295,7 @@
 }
 .wangEditor-container .wangEditor-textarea-container {
   overflow-y: auto;
+  background-color: #fff;
 }
 .wangEditor-container .wangEditor-textarea {
   background-color: #ffffff;
