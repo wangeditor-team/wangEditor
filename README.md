@@ -16,7 +16,7 @@
 * demo演示：[www.wangeditor.com/wangEditor/demo/demo.html](http://www.wangeditor.com/wangEditor/demo/demo.html)
 * 文档：[www.wangEditor.com/doc.html](http://www.wangEditor.com/doc.html)
 
-![](http://images.cnitblog.com/blog2015/138012/201504/092122513835286.png)
+![](http://images0.cnblogs.com/blog2015/138012/201506/251724492835253.png)
 
 2. 如何使用？
 ===
