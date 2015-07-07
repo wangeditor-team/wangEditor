@@ -62,6 +62,7 @@ $('#btnAppend').click(function(e){
 
 				//插入字符串
 				editor.append('<span>欢迎使用wangEditor</span>');
+				//注意，插入字符串时，不能插入零碎的片段（如 '<td>123</td></tr></table>' 等），否则会报错！
 			});
 		});
 	</script>

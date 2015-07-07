@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>wangEditor demo extendedMenus</title>
+	<style type="text/css">
+		pre{
+			border: 1px solid #ccc;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			border-radius: 4px;
+			background-color: #f5f5f5;
+			padding: 10px;
+			margin: 5px 0px;
+			line-height: 1.4;
+			font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+			font-size: 0.8em;
+		}
+	</style>
+
+	<!--引入wangEditor.css-->
+    <link rel="stylesheet" type="text/css" href="../dist/css/wangEditor-1.3.0.min.css">
+</head>
+<body style='padding: 0px 30px'>
+	<a href="http://www.wangEditor.com/" target='_blank'>wangEditor官网</a>&nbsp;
+	<a href='https://github.com/wangfupeng1988/wangEditor' target='_blank'>下载源码</a>&nbsp;
+	<a href="http://www.wangEditor.com/doc.html" target='_blank'>文档说明</a>
+	
+	<h3>wangEditor demo extendedMenus</h3>
+	<textarea id='textarea1' style='height:200px; width:100%;'></textarea>
+
+	<!--说明-->
+	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
+		<p>
+			在demo-basic.html应用的基础上，可通过 “extendedMenus” 配置参数来自定义扩展菜单项。
+			目前只支持弹出框（modal）模式。以下例子中，通过扩展实现了自定义的插入图片功能。
+			请看如下代码的注释：
+		</p>
+<pre>
+var editor = $('#textarea1').wangEditor({
+	'extendedMenus': {
+		<b>//这里的"extendedInsertImg"是一个菜单id，尽量保证不与其他菜单id重复</b>
+		'extendedInsertImg':{ 
+			'title': '自定义插入图片',  
+			'type': 'modal',  <b>//注意，这里必须写 'modal'，暂时只支持 'modal'</b>
+			'cssClass': 'icon-wangEditor-file-image',
+			'modal': function(editor){
+				//制作几个不会重复的id
+				var random = (Math.random() + '').slice(2),
+					txtSrcId = random + 'txtSrc',
+					txtTitleId = random + 'txtTile',
+					btnId = random + 'btn';
+
+				//生成内容
+				var content = '&lt;p&gt;网址：&lt;input id="' + txtSrcId + '" type="text"/&gt;&lt;/p&gt;' +
+		                            '&lt;p&gt;标题：&lt;input id="' + txtTitleId + '" type="text"/&gt;&lt;/p&gt;' +
+		                            '&lt;p&gt;&lt;button id="' + btnId + '" type="button"&gt;自定义插入图片&lt;/button&gt;&lt;/p&gt;',
+				    
+				    $extendedInsertImg_modal = $(
+			                        window.wangEditorData.htmlTemplates.modalSmall.replace('{content}', content)
+			                        //window.wangEditorData.htmlTemplates 存储了html模板
+						//在模板中，根据大小，modal分为：modalMini modalSmall modal modalBig
+                		    );
+
+		                //回调事件（可选）
+		                function callback(){
+		                	$('#' + txtSrcId).val('');
+		                	$('#' + txtTitleId).val('');
+		                };
+
+		                //命令事件的触发
+		                $extendedInsertImg_modal.find('#' + btnId).click(function(e){
+		                	var url = $('#' + txtSrcId).val(),
+		                	    title = $('#' + txtTitleId).val();
+
+		                	//执行命令
+		                	editor.command(e, 'customeInsertImage', {'url':url, 'title':title}, callback);
+		                });
+
+		                //返回modal
+		                return $extendedInsertImg_modal;
+			}
+		}
+	},
+	//需自定义配置菜单。如何配置菜单，<a href='http://www.wangeditor.com/doc.html' target="_blank">参见配置菜单的说明文档页面</a>
+	'menuConfig': [
+		['fontFamily','bold','setHead'],
+		['extendedInsertImg']  //这就是刚刚添加的自定义菜单的id
+	]
+});
+</pre>
+		<p>
+			如果您觉得wangEditor的上传图片不好用，或者您有其他上传图片的方式（如上传到七牛云存储），
+			不妨用自定义扩展菜单的方式。核心代码，上面的例子都给出了。
+			剩下的就是如何上传了，这个需要您自己来写。
+		</p>
+	</div>
+
+	<script type="text/javascript" src='../dist/js/jquery-1.10.2.min.js'></script>
+	<script type="text/javascript" src='../dist/js/wangEditor-1.3.0.min.js'></script>
+	<script type="text/javascript">
+		$(function(){
+			var editor = $('#textarea1').wangEditor({
+				'extendedMenus': {
+					//这里的"extendedInsertImg"是一个菜单id，尽量保证不与其他菜单id重复
+					'extendedInsertImg':{ 
+						'title': '自定义插入图片',  
+						'type': 'modal',  //注意，这里必须写 'modal'，暂时只支持 'modal'
+						'cssClass': 'icon-wangEditor-file-image',
+						'modal': function(editor){
+							//制作几个不会重复的id
+							var random = (Math.random() + '').slice(2),
+								txtSrcId = random + 'txtSrc',
+								txtTitleId = random + 'txtTile',
+								btnId = random + 'btn';
+
+							//生成内容
+							var content = '<p>网址：<input id="' + txtSrcId + '" type="text"/></p>' +
+                                        '<p>标题：<input id="' + txtTitleId + '" type="text"/></p>' +
+                                        '<p><button id="' + btnId + '" type="button">自定义插入图片</button></p>',
+								$extendedInsertImg_modal = $(
+	                                window.wangEditorData.htmlTemplates.modalSmall.replace('{content}', content)
+	                                //window.wangEditorData.htmlTemplates 存储了html模板
+									//在模板中，根据大小，modal分为：modalMini modalSmall modal modalBig
+	                            );
+
+	                        //回调事件（可选）
+	                        function callback(){
+	                        	$('#' + txtSrcId).val('');
+	                        	$('#' + txtTitleId).val('');
+	                        };
+
+	                        //命令事件的触发
+	                        $extendedInsertImg_modal.find('#' + btnId).click(function(e){
+	                        	var url = $('#' + txtSrcId).val(),
+	                        		title = $('#' + txtTitleId).val();
+
+	                        	//执行命令
+	                        	editor.command(e, 'customeInsertImage', {'url':url, 'title':title}, callback);
+	                        });
+
+	                        //返回modal
+	                        return $extendedInsertImg_modal;
+						}
+					}
+				},
+				//需自定义配置菜单。如何配置菜单，参见配置菜单的说明文档页面
+				'menuConfig': [
+					['fontFamily','bold','setHead'],
+					['extendedInsertImg']
+				]
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,14 +1,15 @@
-//百度地图构造函数
-var BMap;
+var BMap; //百度地图构造函数（为了应对jshint检查，其实没有也可以照常运行）
 
 (function(window, $, undefined){
-
 	//检测jquery是否正常
 	if(!$){
 		alert('检测到页面没有引用jQuery，请先引用，否则wangEditor将无法使用。');
 	} else if(typeof $ !== 'function' || /^\d+\.\d+\.\d+$/.test($().jquery) === false){
 		alert('检测到 window.jQuery 已被修改，wangEditor无法使用。');
 	}
+
+    //需要想全局公开的数据
+    window.wangEditorData = {};
 
 	//------------------------------------定义全局变量------------------------------------
 	var document = window.document,
@@ -33,8 +34,8 @@ var BMap;
         urlUnsafeKeywords = ['<', '>', '(', ')'],
 
         //全局的构造函数
-		$E = function($textarea, menuConfig, onchange, uploadUrl, expressions){
-            return new $E.fn.init($textarea, menuConfig, onchange, uploadUrl, expressions);
+		$E = function($textarea, options){
+            return new $E.fn.init($textarea, options);
         };
     //prototype简写为fn
     $E.fn = $E.prototype;
@@ -89,8 +90,26 @@ var BMap;
         //将table的边框强制显示
         'showTableBorder': function($content){
             $content.find('table').each(function(){
-                this.setAttribute('border', "1");
-                this.setAttribute('bordercolor', "#cccccc");
+                var $this = $(this),
+                    mark = 'wangEditor_table_border_mark',
+                    markValue = $this.attr(mark);
+                if(!markValue){
+                    //没有做标记的进来设置
+                    $this.attr('border', "1");
+                    $this.attr('bordercolor', "#cccccc");
+                    $this.attr('cellpadding', '0');
+                    $this.attr('cellspacing', '0');
+                    $this.css({
+                        'border-collapse': 'collapse'
+                        
+                    });
+                    $this.find('tr').first().find('td').css({
+                        'min-width': '100px'
+                    });
+
+                    //做一个标记
+                    $this.attr(mark, '1');
+                }
             });
         }
     });
@@ -189,6 +208,8 @@ var BMap;
             'ext':'.gif'
         }
     });
+    //html模板需要公开，用户自定义modal菜单时，会用到
+    window.wangEditorData.htmlTemplates = $E.htmlTemplates;
 
     //------------------------------------command相关------------------------------------
     $.extend($E, {
@@ -266,7 +287,8 @@ var BMap;
 
             var title = menu.title,
                 type = menu.type,
-                txt = menu.txt,
+                cssClass = menu.cssClass,
+                txt,
                 style = menu.style,
                 command = menu.command,  //函数或者字符串
                 hotKey = menu.hotKey, //快捷键
@@ -291,9 +313,9 @@ var BMap;
 
             //btn txt
             if(style){
-                txt = '<i class="' + txt + '" style="' + style + '"></i>';
+                txt = '<i class="' + cssClass + '" style="' + style + '"></i>';
             }else{
-                txt = '<i class="' + txt + '"></i>';
+                txt = '<i class="' + cssClass + '"></i>';
             }
             $btn.html(txt);
 
@@ -499,8 +521,26 @@ var BMap;
     //------------------------------------init初始化------------------------------------
     $.extend($E.fn, {
         //初始化函数
-        'init': function($textarea, menuConfig, onchange, uploadUrl, expressions){
-            var editor = this,
+        'init': function($textarea, options){
+            /*
+            * options: {
+            *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
+            *   onchange: function(){...},  //配置onchange事件，
+            *   expressions: [...],  //配置表情图片的url地址
+            *   uploadUrl: 'string',  //图片上传的地址
+            *   extendedMenus: {...}    //扩展的菜单
+            * }
+            */
+
+            var //options
+                onchange = options.onchange,
+                menuConfig = options.menuConfig,
+                expressions = options.expressions,
+                uploadUrl = options.uploadUrl,
+                extendedMenus = options.extendedMenus,
+
+                //editor
+                editor = this,
                 height = $textarea.height(),
                 initVal = $.trim( $textarea.val() );
 
@@ -572,6 +612,11 @@ var BMap;
 
             //初始化menus
             editor.initMenus();
+            //增加扩展菜单
+            if(extendedMenus){
+                //将扩展菜单加入到原有的菜单中
+                $.extend(editor.menus, extendedMenus);
+            }
             //配置menuConfig
             if(menuConfig && (menuConfig instanceof Array) === true && (menuConfig[0] instanceof Array) === true){  //需要确定menuConfig是二维数组才行
                 //如果options中配置了menuConfig，直接复制给 editor.editorMenuConfig
@@ -962,7 +1007,7 @@ var BMap;
                     'menuId-1': {
                         'title': （字符串，必须）标题,
                         'type':（字符串，必须）类型，可以是 btn / dropMenu / dropPanel / modal,
-                        'txt': （字符串，必须）fontAwesome字体样式，例如 'fa fa-head',
+                        'cssClass': （字符串，必须）fontAwesome字体样式，例如 'fa fa-head',
                         'style': （字符串，可选）设置btn的样式
                         'hotKey':（字符串，可选）快捷键，如'ctrl + b', 'ctrl,shift + i', 'alt,meta + y'等，支持 ctrl, shift, alt, meta 四个功能键（只有type===btn才有效）,
                         'command':（字符串）document.execCommand的命令名，如'fontName'；也可以是自定义的命令名，如“撤销”、“插入表格”按钮（type===modal时，command无效）,
@@ -979,7 +1024,7 @@ var BMap;
                 'fontFamily': {
                     'title': '字体',
                     'type': 'dropMenu',
-                    'txt': 'icon-wangEditor-font',
+                    'cssClass': 'icon-wangEditor-font',
                     'command': 'fontName ', 
                     'dropMenu': function(){
                         var arr = [],
@@ -1004,7 +1049,7 @@ var BMap;
                 'fontSize': {
                     'title': '字号',
                     'type': 'dropMenu',
-                    'txt': 'icon-wangEditor-text-height',
+                    'cssClass': 'icon-wangEditor-text-height',
                     'command': 'fontSize',
                     'dropMenu': function () {
                         var arr = [],
@@ -1027,7 +1072,7 @@ var BMap;
                     'title': '加粗',
                     'type': 'btn',
                     'hotKey': 'ctrl + b',
-                    'txt':'icon-wangEditor-bold',
+                    'cssClass':'icon-wangEditor-bold',
                     'command': 'bold',
                     'callback': function(editor){
                         //console.log(editor);
@@ -1037,20 +1082,20 @@ var BMap;
                     'title': '下划线',
                     'type': 'btn',
                     'hotKey': 'ctrl + u',
-                    'txt':'icon-wangEditor-underline',
+                    'cssClass':'icon-wangEditor-underline',
                     'command': 'underline '
                 },
                 'italic': {
                     'title': '斜体',
                     'type': 'btn',
                     'hotKey': 'ctrl + i',
-                    'txt':'icon-wangEditor-italic',
+                    'cssClass':'icon-wangEditor-italic',
                     'command': 'italic '
                 },
                 'setHead': {
                     'title': '设置标题',
                     'type': 'dropMenu', 
-                    'txt':'icon-wangEditor-header',
+                    'cssClass':'icon-wangEditor-header',
                     'command': 'formatBlock ',
                     'dropMenu': function(){ 
                         var liListStr =  '<li><a href="#" commandValue="<h1>"><h1>标题1</h1></a></li>' + 
@@ -1064,7 +1109,7 @@ var BMap;
                 'foreColor': {
                     'title': '前景色',
                     'type': 'dropPanel',
-                    'txt': 'icon-wangEditor-pencil',   //如果要颜色： 'txt': 'fa fa-pencil|color:#4a7db1'
+                    'cssClass': 'icon-wangEditor-pencil', 
                     'style': 'color:blue;',
                     'command': 'foreColor',
                     'dropPanel': function(){
@@ -1090,7 +1135,7 @@ var BMap;
                 'backgroundColor': {
                     'title': '背景色',
                     'type': 'dropPanel',
-                    'txt': 'icon-wangEditor-brush',   //如果要颜色： 'txt': 'fa fa-paint-brush|color:Red'
+                    'cssClass': 'icon-wangEditor-brush',  
                     'style':'color:red;',
                     'command': 'backColor ',
                     'dropPanel': function(){
@@ -1116,56 +1161,56 @@ var BMap;
                 'removeFormat': {
                     'title': '清除格式',
                     'type': 'btn',
-                    'txt':'icon-wangEditor-eraser',
+                    'cssClass':'icon-wangEditor-eraser',
                     'command': 'RemoveFormat ' 
                 },
                 // 'indent': {
                 //     'title': '增加缩进',
                 //     'type': 'btn',
                 //     'hotKey': 'ctrl,shift + i',
-                //     'txt':'icon-wangEditor-indent-right',
+                //     'cssClass':'icon-wangEditor-indent-right',
                 //     'command': 'indent'
                 // },
                 // 'outdent': {
                 //     'title': '减少缩进',
                 //     'type': 'btn',
-                //     'txt':'icon-wangEditor-indent-left',
+                //     'cssClass':'icon-wangEditor-indent-left',
                 //     'command': 'outdent'
                 // },
                 'unOrderedList': {
                     'title': '无序列表',
                     'type': 'btn',
-                    'txt':'icon-wangEditor-list-bullet',
+                    'cssClass':'icon-wangEditor-list-bullet',
                     'command': 'InsertUnorderedList '
                 },
                 'orderedList': {
                     'title': '有序列表',
                     'type': 'btn',
-                    'txt':'icon-wangEditor-list-numbered',
+                    'cssClass':'icon-wangEditor-list-numbered',
                     'command': 'InsertOrderedList '
                 },
                 'justifyLeft': {
                     'title': '左对齐',
                     'type': 'btn',
-                    'txt':'icon-wangEditor-align-left',
+                    'cssClass':'icon-wangEditor-align-left',
                     'command': 'JustifyLeft '   
                 },
                 'justifyCenter': {
                     'title': '居中',
                     'type': 'btn',
-                    'txt':'icon-wangEditor-align-center',
+                    'cssClass':'icon-wangEditor-align-center',
                     'command': 'JustifyCenter'  
                 },
                 'justifyRight': {
                     'title': '右对齐',
                     'type': 'btn',
-                    'txt':'icon-wangEditor-align-right',
+                    'cssClass':'icon-wangEditor-align-right',
                     'command': 'JustifyRight ' 
                 },
                 'createLink': {
                     'title': '插入链接',
                     'type': 'modal', 
-                    'txt': 'icon-wangEditor-link',
+                    'cssClass': 'icon-wangEditor-link',
                     'modal': function (editor) {
                         var urlTxtId = $E.getUniqeId(),
                             titleTxtId = $E.getUniqeId(),
@@ -1211,14 +1256,14 @@ var BMap;
                 'unLink': {
                     'title': '取消链接',
                     'type': 'btn',
-                    'txt':'icon-wangEditor-unlink',
+                    'cssClass':'icon-wangEditor-unlink',
                     'command': 'unLink ' 
                 },
                 'insertExpression': {
                     'title': '插入表情',
                     'type': 'dropPanel',
                     'command': 'insertImage',
-                    'txt': 'icon-wangEditor-happy',
+                    'cssClass': 'icon-wangEditor-happy',
                     'dropPanel': function(editor){
                         //生成表情配置列表
                         var config = $E.expressionConfig,
@@ -1264,7 +1309,7 @@ var BMap;
                 'insertVideo': {
                     'title': '插入视频',
                     'type': 'modal',
-                    'txt': 'icon-wangEditor-play',
+                    'cssClass': 'icon-wangEditor-play',
                     'modal': function(editor){
                         var txtSrcId = $E.getUniqeId(),
                             txtWidthId = $E.getUniqeId(),
@@ -1325,13 +1370,13 @@ var BMap;
                 'insertHr': {
                     'title': '插入横线',
                     'type': 'btn',
-                    'txt':'icon-wangEditor-minus',
+                    'cssClass':'icon-wangEditor-minus',
                     'command': 'InsertHorizontalRule' 
                 },
                 'insertTable': {
                     'title': '插入表格',
                     'type': 'modal',
-                    'txt': 'icon-wangEditor-table',
+                    'cssClass': 'icon-wangEditor-table',
                     'modal': function(editor){
                         var rowNumTxtId = $E.getUniqeId(),
                             colNumTxtId = $E.getUniqeId(),
@@ -1368,7 +1413,7 @@ var BMap;
                                 firstTrTemp = '<tr style="font-weight:bold;background-color:#f1f1f1;">${content}</tr>',
                                 trTemp = '<tr>${content}</tr>',
                                 tdArray,
-                                tdTemp_FirstRow = '<td style="width:100px;">&nbsp;</td>',
+                                tdTemp_FirstRow = '<td style="min-width:100px;">&nbsp;</td>',
                                 tdTemp = '<td>&nbsp;</td>';
                             
                             for (i = 0; i < rowNum; i++) {
@@ -1400,7 +1445,7 @@ var BMap;
                 'webImage': {
                     'title': '网络图片',
                     'type': 'modal',
-                    'txt': 'icon-wangEditor-picture',
+                    'cssClass': 'icon-wangEditor-picture',
                     'modal': function (editor) {
                         var urlTxtId = $E.getUniqeId(),
                             titleTxtId = $E.getUniqeId(),
@@ -1448,7 +1493,7 @@ var BMap;
                 'uploadImg':{
                     'title': '上传图片',
                     'type': 'modal',
-                    'txt': 'icon-wangEditor-file-image',
+                    'cssClass': 'icon-wangEditor-file-image',
                     'modal': function(editor){
                         var uploadUrl = editor.uploadUrl,
                             fileInputName = 'wangEditor_uploadImg',  //服务器端根据这个name获取file
@@ -1577,7 +1622,7 @@ var BMap;
                 'insertSimpleCode':{
                     'title': '插入代码',
                     'type': 'modal',
-                    'txt': 'icon-wangEditor-terminal',
+                    'cssClass': 'icon-wangEditor-terminal',
                     'modal': function(editor){
                         var txtId = $E.getUniqeId(),
                             btnId = $E.getUniqeId(),
@@ -1612,7 +1657,7 @@ var BMap;
                 'insertLocation':{
                     'title': '插入位置',
                     'type': 'modal',
-                    'txt': 'icon-wangEditor-location',
+                    'cssClass': 'icon-wangEditor-location',
                     'modal': function(editor){
                         var txtCityId = $E.getUniqeId(),
                             txtLocationId = $E.getUniqeId(),
@@ -1778,19 +1823,19 @@ var BMap;
                     'title': '撤销',
                     'type': 'btn',
                     'hotKey': 'ctrl+z',  //例如'ctrl+z'/'ctrl,shift+z'/'ctrl,shift,alt+z'/'ctrl,shift,alt,meta+z'，支持这四种情况。只有type==='btn'的情况下，才可以使用快捷键
-                    'txt': 'icon-wangEditor-ccw',
+                    'cssClass': 'icon-wangEditor-ccw',
                     'command': 'commonUndo'
                 },
                 'redo': {
                     'title': '重复',
                     'type': 'btn',
-                    'txt': 'icon-wangEditor-cw',
+                    'cssClass': 'icon-wangEditor-cw',
                     'command': 'commonRedo'
                 },
                 'viewSourceCode': {
                     'title': '查看源码',
                     'type': 'modal',
-                    'txt': 'icon-wangEditor-code',
+                    'cssClass': 'icon-wangEditor-code',
                     'modal': function(editor){
                         var txtId = $E.getUniqeId(),
                             btnId = $E.getUniqeId();
@@ -1828,7 +1873,7 @@ var BMap;
                 'fullScreen': {
                     'title': '切换全屏',
                     'type': 'btn',
-                    'txt': 'icon-wangEditor-enlarge2',
+                    'cssClass': 'icon-wangEditor-enlarge2',
                     'command': 'fullScreen'
                 }
             };
@@ -2314,7 +2359,8 @@ var BMap;
         *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
         *   onchange: function(){...},  //配置onchange事件，
         *   expressions: [...],  //配置表情图片的url地址
-        *   uploadUrl: 'string'  //图片上传的地址
+        *   uploadUrl: 'string',  //图片上传的地址
+        *   extendedMenus: {...}    //扩展的菜单
         * }
         */
         'wangEditor': function(options){
@@ -2334,13 +2380,8 @@ var BMap;
 
             options = options || {};
 
-            var menuConfig = options.menuConfig,
-                onchange = options.onchange,
-                uploadUrl = options.uploadUrl,
-                expressions = options.expressions;
-
             //获取editor对象
-            var editor = $E(this, menuConfig, onchange, uploadUrl, expressions);
+            var editor = $E(this, options);
 
             //渲染editor，并隐藏textarea
             this.before(editor.$editorContainer);
