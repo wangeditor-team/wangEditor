@@ -14,7 +14,7 @@ module.exports = function(grunt) {
         banner: '/*! <%=pkg.name%>-<%=pkg.version%>.js <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/js/concat/<%=pkg.name%>-<%=pkg.version%>.js',        
+        src: 'src/js/<%=pkg.name%>-<%=pkg.version%>.js',        
         dest: 'dist/js/<%=pkg.name%>-<%=pkg.version%>.min.js'
       }
     },
@@ -60,10 +60,6 @@ module.exports = function(grunt) {
       css:{
         src: 'src/css/*.css',
         dest: 'src/css/concat/<%=pkg.name%>-<%=pkg.version%>.css'
-      },
-      js:{
-        src: 'src/js/*.js',
-        dest: 'src/js/concat/<%=pkg.name%>-<%=pkg.version%>.js'
       }
     },
 

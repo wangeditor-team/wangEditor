@@ -1,5 +1,16 @@
-(function($){
-	//判断IE6、7、8
+var BMap; //百度地图构造函数（为了应对jshint检查，其实没有也可以照常运行）
+var define;
+
+(function (factory) {
+    if (typeof define === "function" && define.amd) {
+        // AMD模式
+        define('wangEditor', ["jquery"], factory);
+    } else {
+        // 全局模式
+        factory(window.jQuery);
+    }
+})(function($){ 
+    //判断IE6、7、8
     var isIE6 = false, 
         isIE7 = false, 
         isIE8 = false,
@@ -66,16 +77,15 @@
                 }
             });
         };
-    }
-})(window.jQuery);
-var BMap; //百度地图构造函数（为了应对jshint检查，其实没有也可以照常运行）
+    } //---------end: 配置IE6、7、8的font-Icon---------
 
-(function(window, $, undefined){
 	//检测jquery是否正常
 	if(!$){
 		alert('检测到页面没有引用jQuery，请先引用，否则wangEditor将无法使用。');
+        return;
 	} else if(typeof $ !== 'function' || /^\d+\.\d+\.\d+$/.test($().jquery) === false){
 		alert('检测到 window.jQuery 已被修改，wangEditor无法使用。');
+        return;
 	}
 
     //需要想全局公开的数据
@@ -2465,4 +2475,4 @@ var BMap; //百度地图构造函数（为了应对jshint检查，其实没有�
         }
     });
 
-})(window, window.jQuery);
+});
