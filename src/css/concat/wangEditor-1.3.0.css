@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('fonts/icomoon.eot?-aje5n');
-	src:url('fonts/icomoon.eot?#iefix-aje5n') format('embedded-opentype'),
-		url('fonts/icomoon.woff?-aje5n') format('woff'),
-		url('fonts/icomoon.ttf?-aje5n') format('truetype'),
-		url('fonts/icomoon.svg?-aje5n#icomoon') format('svg');
+	src:url('fonts/icomoon.eot?-qdfu1s');
+	src:url('fonts/icomoon.eot?#iefix-qdfu1s') format('embedded-opentype'),
+		url('fonts/icomoon.ttf?-qdfu1s') format('truetype'),
+		url('fonts/icomoon.woff?-qdfu1s') format('woff'),
+		url('fonts/icomoon.svg?-qdfu1s#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -57,7 +57,25 @@
 .icon-wangEditor-sigma:before {content: "\ea67";}
 .icon-wangEditor-enlarge2:before {content: "\e98b";}
 .icon-wangEditor-shrink2:before {content: "\e98c";}
-
+.icon-wangEditor-newspaper:before{content: "\e904";}
+.icon-wangEditor-camera:before{content: "\e90f";}
+.icon-wangEditor-video-camera:before{content: "\e914";}
+.icon-wangEditor-file-zip:before{content: "\e92b";}
+.icon-wangEditor-stack:before{content: "\e92e";}
+.icon-wangEditor-credit-card:before{content: "\e93f";}
+.icon-wangEditor-address-book:before{content: "\e944";}
+.icon-wangEditor-envelop:before{content: "\e945";}
+.icon-wangEditor-drawer:before{content: "\e95c";}
+.icon-wangEditor-download:before{content: "\e960";}
+.icon-wangEditor-upload:before{content: "\e961";}
+.icon-wangEditor-lock:before{content: "\e98f";}
+.icon-wangEditor-unlocked:before{content: "\e990";}
+.icon-wangEditor-wrench:before{content: "\e991";}
+.icon-wangEditor-eye:before{content: "\e9ce";}
+.icon-wangEditor-eye-blocked:before{content: "\e9d1";}
+.icon-wangEditor-command:before{content: "\ea4e";}
+.icon-wangEditor-font2:before{content: "\ea5c";}
+.icon-wangEditor-libreoffice:before{content: "\eade";}
 .wangEditor-container {
   position: relative;
   border: 1px solid #cccccc;

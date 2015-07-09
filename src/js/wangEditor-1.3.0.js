@@ -64,7 +64,26 @@ var define;
                 'icon-wangEditor-happy':'&#xe9df;',
                 'icon-wangEditor-sigma':'&#xea67',
                 'icon-wangEditor-enlarge2':'&#xe98b;',
-                'icon-wangEditor-shrink2':'&#xe98c'
+                'icon-wangEditor-shrink2':'&#xe98c',
+                'icon-wangEditor-newspaper':'&#xe904',
+                'icon-wangEditor-camera':'&#xe90f',
+                'icon-wangEditor-video-camera':'&#xe914',
+                'icon-wangEditor-file-zip':'&#xe92b',
+                'icon-wangEditor-stack':'&#xe92e',
+                'icon-wangEditor-credit-card':'&#xe93f',
+                'icon-wangEditor-address-book':'&#xe944',
+                'icon-wangEditor-envelop':'&#xe945',
+                'icon-wangEditor-drawer':'&#xe95c',
+                'icon-wangEditor-download':'&#xe960',
+                'icon-wangEditor-upload':'&#xe961',
+                'icon-wangEditor-lock':'&#xe98f',
+                'icon-wangEditor-unlocked':'&#xe990',
+                'icon-wangEditor-wrench':'&#xe991',
+                'icon-wangEditor-eye':'&#xe9ce',
+                'icon-wangEditor-eye-blocked':'&#xe9d1',
+                'icon-wangEditor-command':'&#xea4e',
+                'icon-wangEditor-font2':'&#xea5c',
+                'icon-wangEditor-libreoffice':'&#xeade'
             };
 
             //遍历菜单按钮，替换fontIcon
@@ -1104,7 +1123,7 @@ var define;
                 'fontFamily': {
                     'title': '字体',
                     'type': 'dropMenu',
-                    'cssClass': 'icon-wangEditor-font',
+                    'cssClass': 'icon-wangEditor-font2',
                     'command': 'fontName ', 
                     'dropMenu': function(){
                         var arr = [],

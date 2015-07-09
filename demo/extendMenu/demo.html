@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>wangEditor demo extendMenu</title>
+	<style type="text/css">
+		pre{
+			border: 1px solid #ccc;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			border-radius: 4px;
+			background-color: #f5f5f5;
+			padding: 10px;
+			margin: 5px 0px;
+			line-height: 1.4;
+			font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+			font-size: 0.8em;
+		}
+	</style>
+
+	<!--引入wangEditor.css-->
+    <link rel="stylesheet" type="text/css" href="../../dist/css/wangEditor-1.3.0.min.css">
+</head>
+<body style='padding: 0px 30px'>
+	<a href="http://www.wangEditor.com/" target='_blank'>wangEditor官网</a>&nbsp;
+	<a href='https://github.com/wangfupeng1988/wangEditor' target='_blank'>下载源码</a>&nbsp;
+	<a href="http://www.wangEditor.com/doc.html" target='_blank'>文档说明</a>
+
+	<h3>wangEditor demo extendedMenus</h3>
+	<textarea id='textarea1' style='height:200px; width:100%;'></textarea>
+
+	<!--说明-->
+	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
+		<p>
+			在demo-basic.html应用的基础上，可通过 “extendedMenus” 配置参数来自定义扩展菜单项。
+			以下代码简单的演示了如何自定义扩展菜单。
+		</p>
+		<p>以下示例，通过自定义配置扩展菜单，实现了一个简单的自定义插入内容的功能，可以在上面demo中查看效果。</p>
+<pre>
+var editor = $('#textarea1').wangEditor({
+	//配置自定义扩展菜单
+	'extendedMenus': {
+		//此处“insertCustomHtml”是这个菜单的id，尽量命名的不要与其他id重复
+		'insertCustomHtml': {
+			'title': '我是标题',
+			'type': 'modal', //type只能是'modal'，目前只支持'modal'
+			'cssClass': 'icon-wangEditor-pencil', //cssClass配置了菜单按钮的图标，<a href="cssClass.html" target="_blank">点击查看所有的cssClass</a>
+			//'style': 'color:red', //自定义菜单按钮的css样式
+			'modal': function(editor){
+				var random = (Math.random() + '').slice(2),
+				    btnId = 'btn-' + random;
+
+				//定义弹出框的内容
+				var content = '&lt;p&gt;弹出框其他内容。。。&lt;/p&gt;' +
+						'&lt;hr&gt;' +
+						'&lt;br&gt;' +
+						'&lt;button id="' + btnId + '"&gt;插入一句话&lt;/button&gt;',
+						$modal = $(
+							window.wangEditorData.htmlTemplates.modalSmall.replace('{content}', content)
+	                    				//window.wangEditorData.htmlTemplates 存储了html模板
+							//在模板中，根据大小，modal分为：modalMini, modalSmall, modal, modalBig
+						);
+
+				//回调事件
+				function callback(){
+					alert('命令已经执行完成');
+				}
+
+				//绑定按钮点击事件
+				$modal.find('#' + btnId).click(function(e){
+					editor.command(e, 'insertHTML', '&lt;p&gt;插入的内容&lt;/p&gt;', callback);
+					
+					//利用editor.command()执行命令，参数说明如下：
+					//	e - 点击事件的event对象
+					//  	'insertHTML' - 命令名称，即插入html代码的命令
+					//	'&lt;p&gt;...&lt;/p&gt;' - 值，即你想插入的html代码
+					//	callback - 自定义的回调函数，可以不传
+				});
+
+				//返回 $modal
+				return $modal;
+			}
+		}
+	},
+	//需自定义配置菜单。<a href="http://www.wangeditor.com/wangEditor/demo/demo-menuConfig.html" target="_blank">点击查看如何配置菜单</a>
+	'menuConfig': [
+		['fontFamily','bold','setHead'],
+		['insertCustomHtml']
+	]
+});
+</pre>
+		<p>以上代码都有注释，就不一一解释了。需要注意以下几点：</p>
+		<ul>
+			<li>系统支持哪些可选择的cssClass样式</li>
+			<li>明白如何通过editor.command()执行插入html代码的命令</li>
+			<li>最后需要自定义配置菜单</li>
+		</ul>
+	</div>
+
+	<script type="text/javascript" src='../../dist/js/jquery-1.10.2.min.js'></script>
+	<script type="text/javascript" src='../../dist/js/wangEditor-1.3.0.min.js'></script>
+	<script type="text/javascript">
+		$(function(){
+			var editor = $('#textarea1').wangEditor({
+				//配置自定义扩展菜单
+				'extendedMenus': {
+					//此处“insertCustomHtml”是这个菜单的id，尽量命名的不要与其他id重复
+					'insertCustomHtml': {
+						'title': '我是标题',
+						'type': 'modal', //type只能是'modal'，目前只支持'modal'
+						'cssClass': 'icon-wangEditor-pencil', //cssClass配置了菜单按钮的样式，更多样式...
+						//'style': 'color:red',
+						'modal': function(editor){
+							var random = (Math.random() + '').slice(2),
+								btnId = 'btn-' + random;
+
+							//定义弹出框的内容
+							var content = '<p>弹出框其他内容。。。</p>' +
+										  '<hr>' +
+										  '<br>' +
+										  '<button id="' + btnId + '">插入一句话</button>',
+								$modal = $(
+									window.wangEditorData.htmlTemplates.modalSmall.replace('{content}', content)
+	                                //window.wangEditorData.htmlTemplates 存储了html模板
+									//在模板中，根据大小，modal分为：modalMini, modalSmall, modal, modalBig
+								);
+
+							//回调事件
+							function callback(){
+								alert('命令已经执行完成');
+							}
+
+							//绑定按钮点击事件
+							$modal.find('#' + btnId).click(function(e){
+								//利用editor.command()执行命令，参数说明如下：
+								//	e - 点击事件的event对象
+								//  'insertHTML' - 命令名称，即插入html代码的命令
+								//	'<p>...</p>' - 值，即你想插入的html代码
+								//	callback - 自定义的回调函数，可以不传
+								editor.command(e, 'insertHTML', '<p>插入的内容</p>', callback);
+							});
+
+							//返回 $modal
+							return $modal;
+						}
+					}
+				},
+				//需自定义配置菜单。如何配置菜单，参见配置菜单的说明文档页面
+				'menuConfig': [
+					['fontFamily','bold','setHead'],
+					['insertCustomHtml']
+				]
+			});
+		});
+	</script>
+</body>
+</html>
