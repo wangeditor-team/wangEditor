@@ -668,11 +668,6 @@ var define;
                 .append(editor.$elemDeleteBtn)
                 .append(editor.$imgResizeBtn);
 
-            //如果textarea有内容，则作为初始值
-            if(initVal){
-                editor.$txt.html(initVal);
-            }
-
             //设置高度的最小值（再小了，文本框就显示不出来了）
             if(height <= 80){
                 height = 80;
@@ -798,6 +793,12 @@ var define;
                 //blur时监控变化
                 editor.change();
             });
+
+            //如果textarea有内容，则作为初始值
+            if(initVal){
+                editor.$txt.html(initVal);
+                editor.change();
+            }
 
             //编辑区域自动获取焦点
             editor.$txt.focus();
