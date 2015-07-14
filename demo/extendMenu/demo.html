@@ -12,7 +12,7 @@
 			background-color: #f5f5f5;
 			padding: 10px;
 			margin: 5px 0px;
-			line-height: 1.4;
+			line-height: 1.8;
 			font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 			font-size: 0.8em;
 		}
@@ -33,48 +33,50 @@
 	<div style='margin-top:20px; border:1px solid #ccc; padding:0px 10px 15px 10px;'>
 		<p>
 			在demo-basic.html应用的基础上，可通过 “extendedMenus” 配置参数来自定义扩展菜单项。
-			以下代码简单的演示了如何自定义扩展菜单。
+			并且可以利用这个自定义的菜单来插入任何你想插入的内容。
 		</p>
-		<p>以下示例，通过自定义配置扩展菜单，实现了一个简单的自定义插入内容的功能，可以在上面demo中查看效果。</p>
+		<p>
+			特别是您想自己实现<b>上传图片、上传文件、插入公式和表单</b>之类的操作
+		</p>
+		<p>以下示例，通过自定义配置扩展菜单，模拟一个文件上传的功能，可以在上面demo中查看效果。</p>
 <pre>
 var editor = $('#textarea1').wangEditor({
 	//配置自定义扩展菜单
 	'extendedMenus': {
 		//此处“insertCustomHtml”是这个菜单的id，尽量命名的不要与其他id重复
 		'insertCustomHtml': {
-			'title': '我是标题',
+			'title': '模拟文件上传',
 			'type': 'modal', //type只能是'modal'，目前只支持'modal'
-			'cssClass': 'icon-wangEditor-pencil', //cssClass配置了菜单按钮的图标，<a href="cssClass.html" target="_blank">点击查看所有的cssClass</a>
-			//'style': 'color:red', //自定义菜单按钮的css样式
+			'cssClass': 'icon-wangEditor-upload', //cssClass配置了菜单按钮的图标，<a href="cssClass.html" target="_blank">点击查看所有的cssClass</a>
+			//'style': 'color:red',  //如果想对菜单设置css样式，可以在此配置
 			'modal': function(editor){
 				var random = (Math.random() + '').slice(2),
 				    btnId = 'btn-' + random;
 
 				//定义弹出框的内容
-				var content = '&lt;p&gt;弹出框其他内容。。。&lt;/p&gt;' +
-						'&lt;hr&gt;' +
-						'&lt;br&gt;' +
-						'&lt;button id="' + btnId + '"&gt;插入一句话&lt;/button&gt;',
-						$modal = $(
-							window.wangEditorData.htmlTemplates.modalSmall.replace('{content}', content)
-	                    				//window.wangEditorData.htmlTemplates 存储了html模板
-							//在模板中，根据大小，modal分为：modalMini, modalSmall, modal, modalBig
-						);
+				var content = '&lt;p&gt;选择一个文件：&lt;/p&gt;' +
+						  '&lt;input type="file"&gt;&lt;br&gt;&lt;br&gt;' +
+						  '&lt;button id="' + btnId + '"&gt;上传文件&lt;/button&gt;&lt;br&gt;' + 
+						  '&lt;p style="color:#999999;"&gt;（用户点击上传按钮之后，系统上传文件，并返回一个指向文件的链接）&lt;/p&gt;',
+				    $modal = $(
+					    window.wangEditorData.htmlTemplates.modalSmall.replace('{content}', content)
+	                    		    //window.wangEditorData.htmlTemplates 存储了html模板
+					    //在模板中，根据大小，modal分为：modalMini, modalSmall, modal, modalBig
+				    );
 
 				//回调事件
 				function callback(){
-					alert('命令已经执行完成');
+					alert('命令完成之后，调用传入的callback事件');
 				}
 
 				//绑定按钮点击事件
 				$modal.find('#' + btnId).click(function(e){
-					editor.command(e, 'insertHTML', '&lt;p&gt;插入的内容&lt;/p&gt;', callback);
-					
 					//利用editor.command()执行命令，参数说明如下：
 					//	e - 点击事件的event对象
 					//  	'insertHTML' - 命令名称，即插入html代码的命令
 					//	'&lt;p&gt;...&lt;/p&gt;' - 值，即你想插入的html代码
 					//	callback - 自定义的回调函数，可以不传
+					editor.command(e, 'insertHTML', '&lt;p&gt;&lt;a href="#"&gt;指向文件的链接&lt;/a&gt;&lt;/p&gt;', callback);
 				});
 
 				//返回 $modal
@@ -82,7 +84,7 @@ var editor = $('#textarea1').wangEditor({
 			}
 		}
 	},
-	//需自定义配置菜单。<a href="http://www.wangeditor.com/wangEditor/demo/demo-menuConfig.html" target="_blank">点击查看如何配置菜单</a>
+	//需自定义配置菜单。如何配置菜单，参见配置菜单的说明文档页面
 	'menuConfig': [
 		['fontFamily','bold','setHead'],
 		['insertCustomHtml']
@@ -106,19 +108,19 @@ var editor = $('#textarea1').wangEditor({
 				'extendedMenus': {
 					//此处“insertCustomHtml”是这个菜单的id，尽量命名的不要与其他id重复
 					'insertCustomHtml': {
-						'title': '我是标题',
+						'title': '模拟文件上传',
 						'type': 'modal', //type只能是'modal'，目前只支持'modal'
-						'cssClass': 'icon-wangEditor-pencil', //cssClass配置了菜单按钮的样式，更多样式...
+						'cssClass': 'icon-wangEditor-upload', //cssClass配置了菜单按钮的样式，更多样式...
 						//'style': 'color:red',
 						'modal': function(editor){
 							var random = (Math.random() + '').slice(2),
 								btnId = 'btn-' + random;
 
 							//定义弹出框的内容
-							var content = '<p>弹出框其他内容。。。</p>' +
-										  '<hr>' +
-										  '<br>' +
-										  '<button id="' + btnId + '">插入一句话</button>',
+							var content = '<p>选择一个文件：</p>' +
+										  '<input type="file"><br><br>' +
+										  '<button id="' + btnId + '">上传文件</button><br>' + 
+										  '<p style="color:#999999;">（用户点击上传按钮之后，系统上传文件，并返回一个指向文件的链接）</p>',
 								$modal = $(
 									window.wangEditorData.htmlTemplates.modalSmall.replace('{content}', content)
 	                                //window.wangEditorData.htmlTemplates 存储了html模板
@@ -127,7 +129,7 @@ var editor = $('#textarea1').wangEditor({
 
 							//回调事件
 							function callback(){
-								alert('命令已经执行完成');
+								alert('命令完成之后，调用传入的callback事件');
 							}
 
 							//绑定按钮点击事件
@@ -137,7 +139,7 @@ var editor = $('#textarea1').wangEditor({
 								//  'insertHTML' - 命令名称，即插入html代码的命令
 								//	'<p>...</p>' - 值，即你想插入的html代码
 								//	callback - 自定义的回调函数，可以不传
-								editor.command(e, 'insertHTML', '<p>插入的内容</p>', callback);
+								editor.command(e, 'insertHTML', '<p><a href="#">指向文件的链接</a></p>', callback);
 							});
 
 							//返回 $modal
