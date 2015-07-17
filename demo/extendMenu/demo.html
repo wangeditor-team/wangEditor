@@ -49,6 +49,13 @@ var editor = $('#textarea1').wangEditor({
 			'type': 'modal', //type只能是'modal'，目前只支持'modal'
 			'cssClass': 'icon-wangEditor-upload', //cssClass配置了菜单按钮的图标，<a href="cssClass.html" target="_blank">点击查看所有的cssClass</a>
 			//'style': 'color:red',  //如果想对菜单设置css样式，可以在此配置
+			'beforeFn': function(editor){
+				//点击菜单按钮之后，弹出modal之前，触发的事件
+				alert('点击菜单按钮之后，立即触发的事件，此时还未执行命令。');
+				if(window.console){
+					console.log(editor);
+				}
+			},
 			'modal': function(editor){
 				var random = (Math.random() + '').slice(2),
 				    btnId = 'btn-' + random;
@@ -112,6 +119,13 @@ var editor = $('#textarea1').wangEditor({
 						'type': 'modal', //type只能是'modal'，目前只支持'modal'
 						'cssClass': 'icon-wangEditor-upload', //cssClass配置了菜单按钮的样式，更多样式...
 						//'style': 'color:red',
+						'beforeFn': function(editor){
+							//点击菜单按钮之后，弹出modal之前，触发的事件
+							alert('点击菜单按钮之后，立即触发的事件，此时还未执行命令。');
+							if(window.console){
+								console.log(editor);
+							}
+						},
 						'modal': function(editor){
 							var random = (Math.random() + '').slice(2),
 								btnId = 'btn-' + random;

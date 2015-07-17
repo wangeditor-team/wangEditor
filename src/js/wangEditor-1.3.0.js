@@ -377,15 +377,6 @@ var define;
                 return;
             }
 
-            var dependence = menu.dependence,
-                dependenceAlert = menu.dependenceAlert;
-
-            if( ('dependence' in menu) && dependence == null ){
-                //检测依赖
-                $E.consoleLog(dependenceAlert);
-                return;
-            }
-
             var title = menu.title,
                 type = menu.type,
                 cssClass = menu.cssClass,
@@ -395,6 +386,7 @@ var define;
                 hotKey = menu.hotKey, //快捷键
                 fnKeys = [],
                 keyCode,
+                beforeFn = menu.beforeFn,  //在menus配置文件中定义的，点击按钮之前的事件
                 $dropMenu = menu.dropMenu && menu.dropMenu(),
                 $dropPanel = menu.dropPanel && menu.dropPanel(editor),
                 $modal = menu.modal && menu.modal(editor),
@@ -402,7 +394,8 @@ var define;
                 $btn = $( $E.htmlTemplates.btn ),  
                 resultArray = [$btn],
 
-                //讲在下文定义的函数
+                //将在下文定义的函数
+                btnClick,
                 isFnKeys,
                 hideDropMenu,
                 hideDropPanel,
@@ -434,23 +427,23 @@ var define;
 
                 //基本命令（command是字符串）
                 if(typeof command === 'string'){
-                    $btn.click(function(e){
+                    btnClick = function(e){
                         editor.hideModal();   //先视图隐藏目前显示的modal
                         //执行操作
                         editor.command(e, command, undefined, callback);
 
                         e.stopPropagation();  //最后阻止冒泡
-                    });
+                    };
                 }
                 //自定义命令（command是函数）
                 if(typeof command === 'function'){
-                    $btn.click(function(e){
+                    btnClick = function(e){
                         editor.hideModal();   //先视图隐藏目前显示的modal
                         
                         command(e);  //如果command是函数，则直接执行command
                         
                         e.stopPropagation();  //最后阻止冒泡
-                    });
+                    };
                 }
                 if(hotKey){
                     //快捷键
@@ -493,7 +486,7 @@ var define;
                 hideDropMenu = function(){
                     $dropMenu.hide();
                 };
-                $btn.click(function(e){
+                btnClick = function(e){
                     editor.hideModal();   //先视图隐藏目前显示的modal
 
                     $dropMenu.css('display', 'inline-block');
@@ -501,8 +494,9 @@ var define;
                     this.focus();  //for 360急速浏览器
                     
                     e.stopPropagation();  //最后阻止冒泡
-                }).blur(function(e){
-                    setTimeout(hideDropMenu, 200);  //待执行完命令，再隐藏
+                };
+                $btn.blur(function(e){
+                    setTimeout(hideDropMenu, 200);  //待执行完命令（等待200ms），再隐藏
                 });
 
                 //命令（使用事件代理）
@@ -523,7 +517,7 @@ var define;
                 hideDropPanel = function(){
                     $dropPanel.hide();
                 };
-                $btn.click(function(e){
+                btnClick = function(e){
                     editor.hideModal();   //先视图隐藏目前显示的modal
 
                     $dropPanel.css('display', 'inline-block');
@@ -531,7 +525,8 @@ var define;
                     this.focus();  //for 360急速浏览器
                     
                     e.stopPropagation();  //最后阻止冒泡
-                }).blur(function(e){
+                };
+                $btn.blur(function(e){
                     setTimeout(hideDropPanel, 200);  //待执行完命令，再隐藏
                 });
 
@@ -555,7 +550,7 @@ var define;
                 //插入编辑器
                 editor.insertModal($modal);
 
-                $btn.click(function(e){
+                btnClick = function(e){
                     editor.hideModal();   //先视图隐藏目前显示的modal
 
                     //计算margin-left;
@@ -566,12 +561,22 @@ var define;
                     e.preventDefault();
 
                     e.stopPropagation();  //最后阻止冒泡
-                });
+                };
                 $modal.find('[commandName=close]').click(function(e){
                     $modal.hide();
                     e.preventDefault();
                 });
             }
+
+            //绑定按钮点击事件
+            $btn.click(function(e){
+                if(beforeFn && typeof beforeFn === 'function'){
+                    beforeFn(editor);
+                }
+                if(btnClick && typeof btnClick === 'function'){
+                    btnClick(e);
+                }
+            });
 
             //按钮 tooltip 效果
             if(title){
@@ -1112,6 +1117,7 @@ var define;
                         'cssClass': （字符串，必须）fontAwesome字体样式，例如 'fa fa-head',
                         'style': （字符串，可选）设置btn的样式
                         'hotKey':（字符串，可选）快捷键，如'ctrl + b', 'ctrl,shift + i', 'alt,meta + y'等，支持 ctrl, shift, alt, meta 四个功能键（只有type===btn才有效）,
+                        'beforeFn': (函数，可选) 点击按钮之后立即出发的事件
                         'command':（字符串）document.execCommand的命令名，如'fontName'；也可以是自定义的命令名，如“撤销”、“插入表格”按钮（type===modal时，command无效）,
                         'dropMenu': （$ul，可选）type===dropMenu时，要返回一个$ul，作为下拉菜单,
                         'modal':（$div，可选）type===modal是，要返回一个$div，作为弹出框,
@@ -1174,6 +1180,10 @@ var define;
                     'title': '加粗',
                     'type': 'btn',
                     'hotKey': 'ctrl + b',
+                    'beforeFn': function(editor){
+                        //alert('点击按钮之后立即出发的事件，此时还未触发command');
+                        //console.log(editor);
+                    },
                     'cssClass':'icon-wangEditor-bold',
                     'command': 'bold',
                     'callback': function(editor){
