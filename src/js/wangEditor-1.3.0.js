@@ -1092,6 +1092,11 @@ var define;
         //隐藏modal
         'hideModal': function(){
             this.$modalContainer.find('.wangEditor-modal:visible').hide();
+
+            //经测试，safari浏览器菜单按钮检测不到blur事件
+            //因此，只能强制隐藏dropmenu和droppanel
+            this.$btnContainer.find('.wangEditor-drop-panel:visible').hide();
+            this.$btnContainer.find('.wangEditor-drop-menu:visible').hide();
         },
 
         //获取editor Container
@@ -1431,7 +1436,7 @@ var define;
                         var content = '<p>地址：<input id="' + txtSrcId + '" type="text" style="width:300px;"/></p>' +
                                         '<p>宽度：<input id="' + txtWidthId + '" type="text" style="width:50px" value="' + defaultWidth + '"/> px（像素）</p>' +
                                         '<p>高度：<input id="' + txtHeightId + '" type="text" style="width:50px" value="' + defaultHeight + '"/> px（像素） </p>' +
-                                        '<p><button id="' + btnId + '" class="wangEditor-modal-btn">插入视频</button></p>';
+                                        '<p><button id="' + btnId + '" class="wangEditor-modal-btn" type="button">插入视频</button></p>';
                         var $video_modal = $(
                                 $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
@@ -1497,7 +1502,7 @@ var define;
                             content = '<p>行数：<input id="' + rowNumTxtId + '" type="text" value="3"/></p>' + 
                                         '<p>列数：<input id="' + colNumTxtId + '" type="text" value="5"/></p>' +
                                         '<p>显示首行背景：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/></p>' + 
-                                        '<p><button id="' + btnId + '" class="wangEditor-modal-btn">插入表格</button></p>',
+                                        '<p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">插入表格</button></p>',
                             $table_modal = $(
                                 $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
@@ -1620,7 +1625,7 @@ var define;
                             content =   '<form id="' + formId + '" method="post" enctype="multipart/form-data" target="' + iframeId + '">'+
                                         '   <p>选择文件：<input type="file" name="' + fileInputName + '" id="' + fileId + '"/></p>' +
                                         '   <p>图片标题：<input type="text" id="' + titleTxtId + '" style="width:250px;"/></p>' +
-                                        '   <p><button id="' + btnId + '" class="wangEditor-modal-btn">上传</button></p>' +
+                                        '   <p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">上传</button></p>' +
                                         '   <span stype="color:red;" id="' + infoId + '"></span>' +
                                         '</form>' +
                                         '<iframe id="' + iframeId + '" name="' + iframeId + '" style="display:none;"></iframe>',
@@ -1740,7 +1745,7 @@ var define;
                             btnId = $E.getUniqeId(),
                             content = '<p>请输入代码：</p>' +
                                         '<div><textarea id="' + txtId + '" style="width:100%; height:100px;"></textarea></div>' + 
-                                        '<button id="' + btnId + '" class="wangEditor-modal-btn">插入</button>',
+                                        '<button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">插入</button>',
                             $simpleCode_modal = $(
                                 $E.htmlTemplates.modalSmall.replace('{content}', content)
                             );
@@ -1780,10 +1785,10 @@ var define;
                             checkDynamicId = $E.getUniqeId();
                         var content = ' 城市：<input type="text" id="' + txtCityId + '" style="width:60px;"/> ' + 
                                       ' 位置：<input type="text" id="' + txtLocationId + '">' +
-                                      ' <button class="wangEditor-modal-btn" id="' + btnSearchId + '">搜索</button>' + 
-                                      ' <button class="wangEditor-modal-btn" id="' + btnClearId + '">清除位置</button>' +
+                                      ' <button class="wangEditor-modal-btn" id="' + btnSearchId + '"  type="button">搜索</button>' + 
+                                      ' <button class="wangEditor-modal-btn" id="' + btnClearId + '"  type="button">清除位置</button>' +
                                       ' <div id="' + divMapId + '" style="width:100%; height:220px; border:1px solid #ccc; margin:10px 0px;">地图加载中……</div>' +
-                                      ' <button class="wangEditor-modal-btn" id="' + btnInsertId +'">插入位置</button>' +
+                                      ' <button class="wangEditor-modal-btn" id="' + btnInsertId +'"  type="button">插入位置</button>' +
                                       ' <input type="checkbox" id="' + checkDynamicId + '"/>动态地图';
                         var $location_modal = $(
                                 $E.htmlTemplates.modal.replace('{content}', content)
@@ -1952,7 +1957,7 @@ var define;
                         var txtId = $E.getUniqeId(),
                             btnId = $E.getUniqeId();
                         var content = '<div><textarea style="width:100%; height:200px;" id="' + txtId + '"></textarea></div>' +
-                                        '<button id="' + btnId + '" class="wangEditor-modal-btn">更新源码</button>';
+                                        '<button id="' + btnId + '" class="wangEditor-modal-btn"  type="button">更新源码</button>';
                         var $sourceCode_modal = $(
                                 $E.htmlTemplates.modalBig.replace('{content}', content)
                             );
