@@ -312,6 +312,7 @@
   width: 200px;
 }
 .wangEditor-container .wangEditor-textarea-container {
+  word-wrap: break-word;
   overflow-y: auto;
   background-color: #fff;
 }

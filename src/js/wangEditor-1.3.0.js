@@ -491,7 +491,7 @@ var define;
 
                     $dropMenu.css('display', 'inline-block');
                     e.preventDefault();
-                    this.focus();  //for 360急速浏览器
+                    $btn.focus();  //for 360急速浏览器
                     
                     e.stopPropagation();  //最后阻止冒泡
                 };
@@ -522,7 +522,7 @@ var define;
 
                     $dropPanel.css('display', 'inline-block');
                     e.preventDefault();
-                    this.focus();  //for 360急速浏览器
+                    $btn.focus();  //for 360急速浏览器
                     
                     e.stopPropagation();  //最后阻止冒泡
                 };
