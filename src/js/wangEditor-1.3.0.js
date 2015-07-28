@@ -696,6 +696,11 @@ var define;
                 editor.$txt.css('min-height', (txtContainerHeight - 10) + 'px');
             });
 
+            //设置为readonly
+            if( $textarea.prop('readonly') ){
+                editor.$txt.attr('contenteditable', false);
+            }
+
             //绑定onchange函数
             if(onchange && typeof onchange === 'function'){
                 editor.onchange = onchange;
@@ -723,11 +728,18 @@ var define;
                 //如果options中配置了menuConfig，直接复制给 editor.editorMenuConfig
                 editor.editorMenuConfig = menuConfig;
             }
+
+            //初始化菜单组的数量（会在菜单组创建时候被修改）
+            editor.menuGroupLength = 0;
             //创建menu
             $.each(editor.editorMenuConfig, function(key, menuGroup){
                 $E.createMenuGroup(menuGroup, editor);
             });
 
+            //如果只有一个菜单组，则隐藏该菜单组的 border-right
+            if(editor.menuGroupLength === 1){
+                editor.$btnContainer.children().first().css('border-right', '0');
+            }
 
             //定义$txt监听函数----------------------------
             function txtListener(e){
@@ -817,6 +829,7 @@ var define;
         //往menu中插入btn Group
         'insertMenuGroup': function($btnGroup){
             this.$btnContainer.append($btnGroup);
+            this.menuGroupLength  += 1;
         },
 
         //插入modal弹出层
@@ -1731,6 +1744,8 @@ var define;
                                 $info.html('');
                                 e.preventDefault();
                             }
+
+                            return false;
                         });
 
                         return $uploadImg_modal;
