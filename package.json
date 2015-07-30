@@ -1,7 +1,7 @@
 {
   "name": "wangEditor",
   "version": "1.3.0",
-  "author": "weangfupeng",
+  "author": "wangfupeng",
   "website": "www.wangEditor.com",
   "devDependencies": {
     "grunt": "^0.4.5",
