@@ -163,9 +163,9 @@
   line-height: 1.4;
   text-align: center;
   text-align: left;
-  border: 3px solid #cccccc;
+  border: 1px solid #ccc;
   background-color: #ffffff;
-  padding: 10px 15px 15px 15px;
+  padding: 15px 20px 15px 20px;
   position: absolute;
   margin-top: 5px;
   display: none;
@@ -173,6 +173,9 @@
   -webkit-border-radius: 5px;
   border-radius: 5px;
   color: #505050;
+  -webkit-box-shadow: 0px 5px 15px #ccc;
+  -moz-box-shadow: 0px 5px 15px #ccc;
+  box-shadow: 0px 5px 15px #ccc;
 }
 .wangEditor-container .wangEditor-modal-header {
   text-align: left;
@@ -204,7 +207,7 @@
 }
 .wangEditor-container .wangEditor-modal-btn {
   color: #505050;
-  background-color: #f1f1f1;
+  background-color: #fff;
   border: 1px solid #cccccc;
   padding: 4px 12px 4px 12px;
   cursor: pointer;
@@ -215,7 +218,7 @@
   border-radius: 4px;
 }
 .wangEditor-container .wangEditor-modal-btn:hover {
-  background-color: #cccccc;
+  background-color: #f1f1f1;
 }
 .wangEditor-container .wangEditor-modal input[type=text] {
   border: 1px solid #999999;

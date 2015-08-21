@@ -31,7 +31,7 @@ module.exports = function(grunt) {
     cssmin: {
       options: {
         stripBanners: true,
-        banner: '/*! <%=pkg.name%>-<%=pkg.version%>.js <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        banner: '/*! <%=pkg.name%>-<%=pkg.version%>.css <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
         src: 'src/css/concat/<%=pkg.name%>-<%=pkg.version%>.css',
@@ -60,13 +60,17 @@ module.exports = function(grunt) {
       css:{
         src: 'src/css/*.css',
         dest: 'src/css/concat/<%=pkg.name%>-<%=pkg.version%>.css'
+      },
+      js:{
+        src: 'src/js/parts/*.js',
+        dest: 'src/js/<%=pkg.name%>-<%=pkg.version%>.js'
       }
     },
 
     // watch插件的配置信息
     watch: { 
       build: { 
-        files: ['src/js/*.js', 'src/css/*.less', 'src/css/fontIcon.css'], 
+        files: ['src/js/parts/*.js', 'src/css/*.less', 'src/css/fontIcon.css'], 
         tasks: ['less', 'jshint', 'csslint', 'concat','uglify', 'cssmin'], 
         options: { spawn: false}
       }
