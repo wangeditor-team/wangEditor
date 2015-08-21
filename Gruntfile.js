@@ -61,7 +61,11 @@ module.exports = function(grunt) {
         src: 'src/css/*.css',
         dest: 'src/css/concat/<%=pkg.name%>-<%=pkg.version%>.css'
       },
-      js:{
+      menus:{
+        src: 'src/js/parts/11-fn-menus/*.js',
+        dest: 'src/js/parts/11-fn-menus.js'
+      },
+      build:{
         src: 'src/js/parts/*.js',
         dest: 'src/js/<%=pkg.name%>-<%=pkg.version%>.js'
       }
