@@ -98,11 +98,6 @@ $(function(){
 	        console.log(value);
 	    });
 
-	    //清空文件队列
-	    $.each(files, function(key, value){
-		    uploader.removeFile(value);
-	    });
-
 	    //清空url数组
 	    urls = [];
 
@@ -252,11 +247,6 @@ $(function(){
 	        <span class="alert">//调用 editor.command 方法，把每一个图片的url，都插入到编辑器中</span>
 	        <span class="alert">//此处的 event 即上文定义的 event 变量</span>
 	        editor.command(event, 'insertHTML', '&lt;img src="' + value + '"/&gt;');
-	    });
-
-	    //清空文件队列
-	    $.each(files, function(key, value){
-		    uploader.removeFile(value);
 	    });
 
 	    //清空url数组
