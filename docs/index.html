@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>wangEditor文档</title>
+	<link rel="stylesheet" type="text/css" href="docs.css">
+</head>
+<body>
+
+<!--导航边栏-->
+<div id="sidebar">
+	<a href="#" class="group-title">关于wangEditor</a>
+	<ul>
+		<li><a href="#links">链接</a></li>
+		<li><a href="#comm">交流</a></li>
+		<li><a href="#donate">捐赠</a></li>
+		<li><a href="#author">了解作者</a></li>
+	</ul>
+	<a href="#basic" class="group-title">基础应用</a>
+	<ul>
+		<li><a href="#start">开始使用</a></li>
+		<li><a href="#set-value">初始化内容</a></li>
+		<li><a href="#get-value">获取内容</a></li>
+		<li><a href="#append">追加内容</a></li>
+	</ul>
+	<a href="#basic-config" class="group-title">基本配置</a>
+	<ul>
+		<li><a href="#menu-config">自定义配置菜单</a></li>
+		<li><a href="#onchange">添加change监听事件</a></li>
+		<li><a href="#expressions">自定义配置表情图标</a></li>
+	</ul>
+	<a href="#upload-img" class="group-title">图片上传</a>
+	<ul>
+		<li><a href="#upload-img-no-cross-domain">图片上传(非跨域)</a></li>
+		<li><a href="#upload-img-cross-domain">图片上传(跨域)</a></li>
+	</ul>
+	<a href="#other" class="group-title">其他</a>
+	<ul>
+		<li><a href="#multi-text">单页多个编辑器</a></li>
+		<li><a href="#requirejs">使用requirejs</a></li>
+		<li><a href="#custom-dev">定制开发</a></li>
+	</ul>
+</div><!--导航边栏 end-->
+
+
+<!--内容区域的开始-->
+<div id="container">
+
+
+<div>
+	<h1>wangEditor —— 轻量级html富文本编辑器</h1>
+	<!--介绍-->
+	<p>
+		wangEditor是一款基于javascript和css开发的html富文本编辑器，开源免费。
+	</p>
+	<ul>
+		<li>
+			与常用的国产编辑器
+			<a href="http://ueditor.baidu.com/website/" target="_blank">
+				百度ueditor
+			</a>
+			和
+			<a href="http://kindeditor.net/demo.php" target="_blank">
+				kindeditor
+			</a>
+			相比，它轻量、易用、UI设计精致漂亮，兼容IE低版本浏览器。
+		</li>
+		<li>
+			与国外编辑器
+			<a href="http://www.bootcss.com/p/bootstrap-wysiwyg/" target="_blank">
+				bootstrap-wysiwyg
+			</a>
+			和
+			<a href="http://simditor.tower.im/" target="_blank">
+				simditor
+			</a>
+			相比，它文档易读、交流方便，更接地气，还可直接与作者沟通，提交问题和建议。
+		</li>
+		<li>
+			它还会根据使用者的反馈不断完善，未来将支持移动版。
+		</li>
+	</ul>
+
+	<!--链接-->
+	<h3 id="links">链接</h3>
+	<ul>
+		<li>官网：<a href="http://www.wangeditor.com/" target="_blank">www.wangeditor.com</a></li>
+		<li>demo：<a href="http://www.wangeditor.com/" target="_blank">www.wangeditor.com</a></li>
+		<li>下载：<a href="http://www.wangeditor.com/wangEditor.zip" target="_blank">wangeditor.zip</a></li>
+		<li>github：<a href="https://github.com/wangfupeng1988/wangEditor/" target="_blank">github.com/wangfupeng1988/wangEditor/</a></li>
+	</ul>
+
+	<!--交流-->
+	<h3 id="comm">交流</h3>
+	<ul>
+		<li>加入QQ群：164999061</li>
+		<li>
+			提交建议和问题：<a href="https://github.com/wangfupeng1988/wangEditor/issues" target="_blank">https://github.com/wangfupeng1988/wangEditor/issues</a>
+		</li>
+	</ul>
+
+	<h3 id="donate">捐赠</h3>
+	<p>
+		欢迎捐赠，为开源软件积攒能量！请用支付宝扫描已下二维码。
+		<a href="http://www.wangeditor.com/donate.html" target="_blank">
+			查看捐赠者名单
+		</a>
+	</p>
+	<img src="images/zhifubao.png"/>
+
+	<h3 id="author">了解作者</h3>
+	<ul>
+		<li><a href="http://www.cnblogs.com/wangfupeng1988/default.html?OnlyTitle=1" target="_blank">关注作者的博客</a></li>
+		<li><a href="http://study.163.com/u/6536426288" target="_blank">学习作者的教程</a></li>
+	</ul>
+</div>
+<div id="basic">
+	<h2>基本应用</h2>
+	<p>
+		使用wangEditor非常简单，只需要下载相应的javascript文件、css文件，
+		根据以下文档说明，几分钟即可搭建一个html富文本编辑器。
+	</p>
+</div>
+<div id="start">
+	<h3>开始使用</h3>
+	<p>
+		第一步，下载wangEditor所必要的文件
+		（<a href="http://www.wangeditor.com/wangEditor.zip" target="_blank">下载链接</a>），
+		下载的文件结构如下图所示。
+		<span class="alert">
+			注意，fonts文件夹千万不要丢失，而且要和css文件放在同一目录下，否则菜单的小图标将不显示！
+		</span>
+	</p>
+	<img src="images/download-file-tree.png" style="width:230px;">
+	<p>
+		第二步，创建一个页面，引用wangEditor的css文件、js文件，还有引用jquery。
+		<span class="alert">
+			jquery只支持1.7及以上版本
+		</span>
+	</p>
+<pre>
+&lt;!--引入wangEditor.css--&gt;
+&lt;link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.0.css"&gt;
+
+……省略其他内容……
+
+&lt;!--引入jquery和wangEditor.js--&gt;
+&lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src='js/wangEditor-1.3.0.min.js'&gt;&lt;/script&gt;
+</pre>
+	<p>
+		第三步，在html页面中创建一个textarea标签，可自定义设置其高度。
+		此处设置的高度，将是编辑器的高度。
+		最后，获取这个textarea节点，并执行wangEditor()方法。
+	</p>
+<pre>
+&lt;textarea id='textarea1' style='height:300px; width:100%;'&gt;&lt;/textarea&gt;
+
+……省略其他内容……
+
+&lt;script type="text/javascript"&gt;
+	$(function(){
+		var editor = $('#textarea1').wangEditor();
+	});
+&lt;/script&gt;
+</pre>
+	
+	<p>
+		这样，一个最简单的demo，就成功搭建起来了。
+		可参见 <a href="../test/test.html" target="_blank">在线的demo</a>
+	</p>
+
+</div>
+<div id="set-value">
+	<h3>初始化内容</h3>
+	<p>
+		第一，可以在textarea标签增加内容，
+		这些内容会在执行wangEditor()方法时自动附加到编辑器中。
+		可参见 <a href="../test/test.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+&lt;textarea id='textarea1' style='height:300px; width:100%;'&gt;
+	&lt;p&gt;最简单的demo&lt;/p&gt;
+&lt;/textarea&gt;
+</pre>
+	<p><span class="alert">
+		注意，textarea的内容一定要在执行wangEditor()方法前添加进去，否则无效！
+	</span></p>
+
+	<p>
+		第二，可以通过html()方法赋值，该方法将会全部覆盖原内容。
+		可参见 <a href="../test/test-set-value.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor();
+
+//点击按钮时，将当前最新时间赋值到编辑器中（覆盖之前的内容）
+$('#btn').click(function(e){
+	var dt = new Date();
+	editor.html('&lt;p&gt;当前的时间是：' + dt.toString() + '&lt;/p&gt;');
+});
+</pre>
+</div>
+<div id="get-value">
+	<h3>获取内容</h3>
+	<p>
+		用户在使用编辑器时，源码都是实时更新到textarea中。
+		用户可以通过textarea获取编辑器的源码值。
+		可参见 <a href="../test/test-get-value.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor();
+
+//点击按钮，获取编辑器的源码
+$('#btn').click(function(){
+	var html = $('#textarea1').val();
+});
+</pre>
+</div>
+<div id="append">
+	<h3>追加内容</h3>
+	<p>
+		可通过append方法向编辑器中追加内容，包括jquery对象和字符串。
+		可参见 <a href="../test/test-append.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor();
+
+//点击按钮，追加内容
+$('#btn').click(function(e){
+	//追加jquery对象
+	var $p = $('&lt;p&gt;wangEditor，轻量级富文本编辑器。&lt;/p&gt;');
+	editor.append($p);
+
+	//追加字符串
+	editor.append('<span>欢迎使用wangEditor</span>');
+	//注意，插入字符串时，不能插入零碎的html片段（如 '<td>123</td></tr></table>' 等），否则会报错！
+});
+</pre>
+</div>
+<div id="basic-config">
+	<h2>基本配置</h2>
+	<p>
+		在使用wangEditor生成富文本框时，可以加一些配置项来满足你的个性需求。
+		以下是一些基本配置，还有<a href="#super-config">高级配置</a>，在下文讲解。
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor({
+	menuConfig: [...],  //自定义配置菜单
+	onchange: function(){...},  //自定义配置onchange监听事件
+	expressions: [...]  //自定义配置表情图标
+});
+</pre>
+</div>
+<div id="menu-config">
+	<h3>自定义配置菜单</h3>
+	<p>
+		编辑器默认情况下会显示出所有可用的菜单，菜单是分组的，
+		因此默认的菜单配置是一个<span class="alert">二维数组</span>。
+	</p>
+<pre>
+[
+    ['viewSourceCode'],
+    ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor'],
+    ['fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
+    ['createLink', 'unLink', 'insertTable', 'insertExpression'],
+    ['insertImage', 'insertVideo', 'insertLocation','insertSimpleCode'],
+    ['undo', 'redo', 'fullScreen']
+]
+</pre>
+	<p>
+		可以自定义删除某些不用的菜单，也可以自定义修改菜单的组和顺序，实现自定义菜单配置。
+		但修改后的菜单配置，必须还是一个二维数组。
+		可参见 <a href="../test/test-menu-config.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor({
+	'menuConfig': [
+		['fontFamily','bold','setHead'],
+		['list','justify'],
+		['createLink','insertHr','undo']
+	]
+});
+</pre>
+</div>
+<div id="onchange">
+	<h3>添加change监听事件</h3>
+	<p>
+		在创建编辑器时，可通过传入 onchange 参数，来监听编辑器内容的变化。
+		就像浏览器自带的 textarea 的 onchange 事件一样。
+		可参见 <a href="../test/test-onchange.html" target="_blank">在线的demo</a>
+	</p>
+	<p>
+		另外，onchange 参数中必须传入一个函数，该函数的 html 参数即编辑器最新内容的源码。
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor({
+	'onchange': function(html){
+		//html参数即编辑器内容的源码
+		alert('onchange事件触发，最新的html为：\n' + html);
+	}
+});
+</pre>
+</div>
+<div id="expressions">
+	<h3>自定义配置表情图标</h3>
+	<p>
+		在创建编辑器时，可传入 expressions 参数，自定义配置表情图标。
+		可参见 <a href="../test/test-set-expressions.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor({
+	'expressions': [
+		'http://www.wangeditor.com/expressions/29.gif',
+		'http://www.wangeditor.com/expressions/27.gif',
+		'http://www.wangeditor.com/expressions/59.gif'
+	]
+});
+</pre>
+	<p>
+		PS：有用户曾抱怨说，如果表情图标很多，挨个填写会很麻烦
+		———
+		其实，expressions 参数传入的仅仅是一个数组而已，至于这个数组如何拼接，我想应该有N种方式。
+		发挥你的想象力，不必拘泥于这一个例子。
+	</p>
+</div>
+<div id="upload-img">
+	<h2>图片上传</h2>
+	<p>
+		wangEditor的图片上传分为跨域和非跨域两种情况，但是只能选择一种使用。
+		<span class="alert">如果同时使用，则以跨域为准。</span>
+	</p>
+	<ul>
+		<li>
+			非跨域上传，借用plupload插件，上传功能强大，支持多文件上传、拖拽上传、图片预览等，但不支持跨域。
+			但需要自己写前端界面，并集成进wangEditor中。
+		</li>
+		<li>
+			跨域上传，采用wangEditor自带的上传组件，功能简单。
+			无需自己编写界面，只需要传入 url 地址即可。
+			但需要服务器后台做相应的处理。
+		</li>
+	</ul>
+	<p>
+		可根据自己项目的情况，选择使用其中一个。
+		<span class="alert">
+			PS: 我暂时没有找到 plupload 跨域上传的方法，如果有同学知道，不妨给我分享一下！
+		</span>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor({
+	uploadImgComponent: $('#someId'),  //非跨域图片上传组件
+	uploadUrl: '...'   //跨域图片上传的url
+});
+</pre>
+</div>
+<div id="upload-img-no-cross-domain">
+	<h3>图片上传(非跨域)</h3>
+	<p>
+		非跨域的图片上传将借助
+		<a href="http://www.plupload.com/" target="_blank">
+			plupload
+		</a>
+		插件来实现。
+		你可以放心使用该插件，因为七牛云存储的javascript上传中，也借用了该插件。
+	</p>
+	<p>
+		plupload插件功能非常强大，尚未使用的同学，可以参考以下链接：
+	</p>
+	<ul>
+		<li>
+			<a href="http://www.cnblogs.com/2050/p/3913184.html" target="_blank">
+				plupload使用介绍
+			</a>
+		</li>
+		<li>
+			<a href="http://chaping.github.io/plupload/demo" target="_blank">
+				plupload常用功能demo演示
+			</a>
+			（可查看demo网页的源码，学习如何配置）
+		</li>
+		<li>
+			<a href="http://chaping.github.io/plupload/doc" target="_blank">
+				plupload文档
+			</a>
+		</li>
+	</ul>
+	<p>
+		<b>第一步</b>，先建立一个plupload上传图片的页面，以下代码是关键部分。
+	</p>
+<pre>
+……省略部分代码……
+
+&lt;div id="uploadContainer"&gt;
+    &lt;input type="button" value="选择文件" id="btnBrowse"/&gt;
+    &lt;input type="button" value="上传文件" id="btnUpload"&gt;
+    &lt;ul id="fileList"&gt;&lt;/ul&gt;
+&lt;/div&gt;
+
+……省略部分代码……
+
+&lt;!--引入jquery、plupload.js--&gt;
+&lt;script type="text/javascript" src="js/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="plupload/plupload.full.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+$(function(){
+        //获取dom节点
+	var $uploadContainer = $('#uploadContainer'),
+            $fileList = $('#fileList'),
+	    $btnUpload = $('#btnUpload');
+
+	//实例化一个上传对象
+	var uploader = new plupload.Uploader({
+		browse_button: 'btnBrowse',
+		url: 'upload.ashx', 
+		flash_swf_url: 'plupload/Moxie.swf',
+		sliverlight_xap_url: 'plupload/Moxie.xap',
+		filters: {
+	                mime_types: [
+	                  //只允许上传图片文件 （注意，extensions中，逗号后面不要加空格）
+	                  { title: "图片文件", extensions: "jpg,gif,png,bmp" }
+	                ]
+	        }
+	});
+
+        <span class="alert">//存储所有图片的url地址</span>
+	var urls = [];
+
+	//初始化
+	uploader.init();
+
+	//绑定文件添加到队列的事件
+	uploader.bind('FilesAdded', function (uploader, files) {
+	    	//显示添加进来的文件名
+		$.each(files, function(key, value){
+			var fileName = value.name,
+				html = '&lt;li&gt;' + fileName + '&lt;/li&gt;';
+			$fileList.append(html);
+		});
+	});
+
+	//单个文件上传之后
+	uploader.bind('FileUploaded', function (uploader, file, responseObject) {
+            <span class="alert">//注意，要从服务器返回图片的url地址，否则上传的图片无法显示在编辑器中</span>
+	    var url = responseObject.response;
+            //先将url地址存储来，待所有图片都上传完了，再统一处理
+	    urls.push(url);
+    	});
+
+    	//全部文件上传时候
+	uploader.bind('UploadComplete', function (uploader, files) {
+	    //打印出所有图片的url地址
+	    $.each(urls, function (key, value) {
+	        console.log(value);
+	    });
+
+	    //清空文件队列
+	    $.each(files, function(key, value){
+		    uploader.removeFile(value);
+	    });
+
+	    //清空url数组
+	    urls = [];
+
+	    //清空显示列表
+	    $fileList.html('');
+	});
+
+	//上传事件
+	$btnUpload.click(function(){
+		uploader.start();
+	});
+});
+&lt;/script&gt;
+</pre>
+
+	<p>
+		<b>第二步</b>，在该页面的基础上，引用wangEitor的css、js，添加textarea，生成编辑器。
+		不明白的同学，可参见<a href="#start">开始使用</a>一节。之后该页面的代码如下：
+	</p>
+<pre>
+&lt;!--引入wangEditor.css--&gt;
+&lt;link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.0.css"&gt;
+
+……省略其他内容……
+
+&lt;div id="uploadContainer"&gt;
+    &lt;input type="button" value="选择文件" id="btnBrowse"/&gt;
+    &lt;input type="button" value="上传文件" id="btnUpload"&gt;
+    &lt;ul id="fileList"&gt;&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;textarea id='textarea1' style='height:300px; width:100%;'&gt;&lt;/textarea&gt;
+
+……省略其他内容……
+
+&lt;!--引入jquery、wangEditor.js、plupload.js--&gt;
+&lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src='js/wangEditor-1.3.0.min.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="plupload/plupload.full.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+$(function(){
+	//获取dom节点
+	var $uploadContainer = $('#uploadContainer'),
+    		$fileList = $('#fileList'),
+  		$btnUpload = $('#btnUpload');
+
+	var editor = $('#textarea1').wangEditor();
+
+	……plupload配置的内容……
+});
+&lt;/script&gt;
+</pre>
+	<p>
+		截止到此，plupload和wangEditor的功能都是相互独立的，两者没有任何关系。
+		此时，你点击“图片”菜单，肯定得不到你想要的结果（如下图）。
+		接下来，我们将把两者结合起来。
+	</p>
+	<img src="images/upload-img-1.png" style="width:300px;">
+	<p>
+		<b>第三步</b>，我们将对合并出来的代码进行改造，
+		改造之后，wangEditor将把plupload的功能集成进来。
+		需要改造的地方有：
+	</p>
+	<ul>
+		<li>配置wangEditor()方法的 uploadImgComponent 参数，传入 $uploadContainer</li>
+		<li>定义event变量，用于存储上传事件中的event对象</li>
+		<li>所有文件上传完成之后，使用 editor.command() 方法插入图片</li>
+	</ul>
+	<p>具体内容可参考如下代码高亮部分</p>
+
+<pre>
+&lt;!--引入wangEditor.css--&gt;
+&lt;link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.0.css"&gt;
+
+……省略其他内容……
+
+&lt;div id="uploadContainer"&gt;
+    &lt;input type="button" value="选择文件" id="btnBrowse"/&gt;
+    &lt;input type="button" value="上传文件" id="btnUpload"&gt;
+    &lt;ul id="fileList"&gt;&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;textarea id='textarea1' style='height:300px; width:100%;'&gt;&lt;/textarea&gt;
+
+……省略其他内容……
+
+&lt;!--引入jquery、wangEditor.js、plupload.js--&gt;
+&lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src='js/wangEditor-1.3.0.min.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="plupload/plupload.full.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+$(function(){
+	//获取dom节点
+	var $uploadContainer = $('#uploadContainer'),
+    		$fileList = $('#fileList'),
+  		$btnUpload = $('#btnUpload');
+
+	var editor = $('#textarea1').wangEditor({
+		<span class="alert">//传入 uploadImgComponent 参数，值为 $uploadContainer</span>
+		uploadImgComponent: $uploadContainer
+	});
+
+	//实例化一个上传对象
+	var uploader = new plupload.Uploader({
+		browse_button: 'btnBrowse',
+		url: 'upload.ashx', 
+		flash_swf_url: 'plupload/Moxie.swf',
+		sliverlight_xap_url: 'plupload/Moxie.xap',
+		filters: {
+	                mime_types: [
+	                  //只允许上传图片文件 （注意，extensions中，逗号后面不要加空格）
+	                  { title: "图片文件", extensions: "jpg,gif,png,bmp" }
+	                ]
+	        }
+	});
+
+        //存储多个图片的url地址
+	var urls = [];
+
+	<span class="alert">//定义 event 变量，会在下文（触发上传事件时）被赋值</span>
+	var event;
+
+	//初始化
+	uploader.init();
+
+	//绑定文件添加到队列的事件
+	uploader.bind('FilesAdded', function (uploader, files) {
+	    	//显示添加进来的文件名
+		$.each(files, function(key, value){
+			var fileName = value.name,
+				html = '&lt;li&gt;' + fileName + '&lt;/li&gt;';
+			$fileList.append(html);
+		});
+	});
+
+	//单个文件上传之后
+	uploader.bind('FileUploaded', function (uploader, file, responseObject) {
+            //从服务器返回图片url地址
+	    var url = responseObject.response;
+            //先将url地址存储来，待所有图片都上传完了，再统一处理
+	    urls.push(url);
+    	});
+
+    	//全部文件上传时候
+	uploader.bind('UploadComplete', function (uploader, files) {
+	    $.each(urls, function (key, value) {
+	        <span class="alert">//调用 editor.command 方法，把每一个图片的url，都插入到编辑器中</span>
+	        <span class="alert">//此处的 event 即上文定义的 event 变量</span>
+	        editor.command(event, 'insertHTML', '&lt;img src="' + value + '"/&gt;');
+	    });
+
+	    //清空文件队列
+	    $.each(files, function(key, value){
+		    uploader.removeFile(value);
+	    });
+
+	    //清空url数组
+	    urls = [];
+
+	    //清空显示列表
+	    $fileList.html('');
+	});
+
+	//上传事件
+	$btnUpload.click(function(e){
+		<span class="alert">//将事件参数 e 赋值给 上文定义的 event 变量</span>
+		event = e;
+		uploader.start();
+	});
+});
+&lt;/script&gt;
+</pre>
+	
+	<p>
+		至此，配置结束。此时在此点击“图片”按钮，就能使用plupload上传图片了。
+	</p>
+	<img src="images/upload-img-2.png" style="width:300px;">
+
+</div>
+<div id="upload-img-cross-domain">
+	<h3>图片上传(跨域)</h3>
+	<p>
+		使用wangEditor配置图片跨域上传并不复杂，可根据以下步骤操作。
+	</p>
+	
+	<p>
+		第一步，下载 
+		<a href="https://github.com/wangfupeng1988/wangEditor/blob/master/test/wangEditor_uploadImg_assist.html" target="_blank">
+			wangEditor_uploadImg_assist.html
+		</a>
+		并放在你的项目中。然后，得到这个页面的url地址。
+	</p>
+<pre>
+http://localhost:8080/wangEditor_uploadImg_assist.html
+</pre>
+	
+	<p>
+		第二步，编写后台代码。
+		<span class="alert">
+			注意，以下仅是算法描述，你可以使用asp.net、jsp、php等任何web框架，来实现该程序。
+		</span>
+		请注意算法描述中高亮部分。
+	</p>
+
+<pre>
+<span class="alert">//类型必须是 "text/html"</span>
+response.ContentType = "text/html";
+response.Charset = "utf-8";
+
+//获取第一步中得到的 wangEditor_uploadImg_assist.html 页面的url地址
+string assitUrl = "http://localhost:8080/wangEditor_uploadImg_assist.html";
+
+//获取文件对象
+File file = request.Files[0];
+<span class="alert">//你可以可以通过 File file = request.Files["wangEditor_uploadImg"]; 来获取文件对象</span>
+<span class="alert">//用该方法获取时，key必须写“wangEditor_uploadImg”，否则出错</span>
+
+//验证、保存文件，省略此处代码
+
+if(success) {
+	//如果保存成功
+	
+	<span class="alert">//获取图片的url地址</span>
+	string imgUrl = ...省略此处代码...;  
+	<span class="alert">//assitUrl 即 wangEditor_uploadImg_assist.html 的url地址</span>
+	<span class="alert">//别忘了“ok|”</span>
+	string iframeSrc = assitUrl + "#" + "ok|" + imgUrl; 
+	//拼接最终结果 
+	string result = "&lt;iframe src=\"" + iframeSrc + "\"&gt;&lt;/iframe&gt;";
+
+	//返回
+    	response.Write(result);
+    	response.End();
+    	return;
+
+} else {
+	//如果失败
+
+	<span class="alert">//此处的“上传失败”可随意填写</span>
+	string iframeSrc = assitUrl + "#" + "上传失败";
+	string result = "&lt;iframe src=\"" + iframeSrc + "\"&gt;&lt;/iframe&gt;";
+
+	response.Write(result);
+	response.End();
+	return;
+}
+</pre>
+
+	<p>
+		第三步，把服务器的url地址，传入到 wangEditor() 方法中。
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor({
+	'uploadUrl': 'http://localhost:4780/data.ashx'
+});
+</pre>
+	
+	<p>
+		至此，点击“图片”菜单，将得到你想要的结果。
+	</p>
+	<img src="images/upload-img-3.png" style="width:300px;">
+</div>
+<div id="other">
+	<h2>其他</h2>
+	<p>
+		以下内容的添加，主要感谢wangEditor使用者的反馈和建议。
+		也希望更多的使用者反馈你们的建议和问题，只要建议合理，我肯定会及时修改、添加。
+	</p>
+</div>
+<div id="multi-text">
+	<h3>单页多个编辑器</h3>
+	<p>
+		如何在一个页面配置多个编辑器，其实非常简单。
+		只需要定义两个 textarea ，并各自执行 wangEditor() 方法即可。
+		可参见 <a href="../test/test-multi-text.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+&lt;textarea id='textarea1' style='height:200px; width:100%;'&gt;&lt;/textarea&gt;
+&lt;textarea id='textarea2' style='height:200px; width:100%;'&gt;&lt;/textarea&gt;
+
+……省略其他内容……
+
+&lt;script type="text/javascript"&gt;
+	$(function(){
+		var editor1 = $('#textarea1').wangEditor();
+		var editor2 = $('#textarea2').wangEditor();
+	});
+&lt;/script&gt;
+</pre>
+</div>
+<div id="requirejs">
+	<h3>使用requirejs</h3>
+	<p>
+		如果你的项目中使用了requirejs，并希望编辑器能支持。
+		很荣幸，wangEditor可以做到。
+	</p>
+	<p>
+		首先，创建一个 main.js ，作为启动项，并在其中使用 requirejs 定义 wangEditor 。
+		（注意，wangEditor依赖于jquery，所以这里必须有jquery的定义）
+	</p>
+	<p>
+		可参考 <a href="../test/byrequirejs/test.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+require.config({
+    paths: {
+        jquery: '/js/jquery-1.10.2.min',
+        wangEditor: '/js/wangEditor-1.3.0.min'
+    }
+});
+
+require(['wangEditor'], function(){
+	$(function(){
+		var editor = $('#textarea1').wangEditor();
+	});
+});
+</pre>
+
+	<p>
+		下一步，在你的页面中，引用 requirejs 即可。
+	</p>
+<pre>
+&lt;textarea id='textarea1' style='height:200px; width:100%;'&gt;&lt;/textarea&gt;
+
+...省略其他代码...
+
+&lt;!--引用requirejs--&gt;
+&lt;script data-main="main" src="require.js"&gt;&lt;/script&gt;
+</pre>
+</div>
+<div id="custom-dev">
+	<h3>定制开发</h3>
+	<p>
+		想要定制开发的朋友，可以在QQ群 164999061 中联系群主，价格面议。
+	</p>
+</div>
+
+<br>
+<hr />
+<center>
+	<a href="http://www.wangeditor.com/" target="_blank">
+		&copy; wangEditor
+	</a>
+</center>
+
+</div> <!--内容区域 end-->
+
+</body>
+</html>

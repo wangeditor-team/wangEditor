@@ -1,6 +1,3 @@
-//需要想全局公开的数据
-window.wangEditorData = {};
-
 //------------------------------------定义全局变量------------------------------------
 var document = window.document,
     $document = $(document),

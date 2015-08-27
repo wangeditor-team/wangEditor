@@ -1,0 +1,22 @@
+<div id="expressions">
+	<h3>自定义配置表情图标</h3>
+	<p>
+		在创建编辑器时，可传入 expressions 参数，自定义配置表情图标。
+		可参见 <a href="../test/test-set-expressions.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor({
+	'expressions': [
+		'http://www.wangeditor.com/expressions/29.gif',
+		'http://www.wangeditor.com/expressions/27.gif',
+		'http://www.wangeditor.com/expressions/59.gif'
+	]
+});
+</pre>
+	<p>
+		PS：有用户曾抱怨说，如果表情图标很多，挨个填写会很麻烦
+		———
+		其实，expressions 参数传入的仅仅是一个数组而已，至于这个数组如何拼接，我想应该有N种方式。
+		发挥你的想象力，不必拘泥于这一个例子。
+	</p>
+</div>

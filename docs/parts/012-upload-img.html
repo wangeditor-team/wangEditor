@@ -1,0 +1,30 @@
+<div id="upload-img">
+	<h2>图片上传</h2>
+	<p>
+		wangEditor的图片上传分为跨域和非跨域两种情况，但是只能选择一种使用。
+		<span class="alert">如果同时使用，则以跨域为准。</span>
+	</p>
+	<ul>
+		<li>
+			非跨域上传，借用plupload插件，上传功能强大，支持多文件上传、拖拽上传、图片预览等，但不支持跨域。
+			但需要自己写前端界面，并集成进wangEditor中。
+		</li>
+		<li>
+			跨域上传，采用wangEditor自带的上传组件，功能简单。
+			无需自己编写界面，只需要传入 url 地址即可。
+			但需要服务器后台做相应的处理。
+		</li>
+	</ul>
+	<p>
+		可根据自己项目的情况，选择使用其中一个。
+		<span class="alert">
+			PS: 我暂时没有找到 plupload 跨域上传的方法，如果有同学知道，不妨给我分享一下！
+		</span>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor({
+	uploadImgComponent: $('#someId'),  //非跨域图片上传组件
+	uploadUrl: '...'   //跨域图片上传的url
+});
+</pre>
+</div>

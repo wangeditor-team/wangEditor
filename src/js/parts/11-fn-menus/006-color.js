@@ -2,7 +2,7 @@
     'title': '前景色',
     'type': 'dropPanel',
     'cssClass': 'icon-wangEditor-pencil', 
-    'style': 'color:blue;',
+    //'style': 'color:blue;',
     'command': 'foreColor',
     'dropPanel': function(){
         var arr = [],
@@ -28,7 +28,7 @@
     'title': '背景色',
     'type': 'dropPanel',
     'cssClass': 'icon-wangEditor-brush',  
-    'style':'color:red;',
+    //'style':'color:red;',
     'command': 'backColor ',
     'dropPanel': function(){
         var arr = [],

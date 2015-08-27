@@ -3,16 +3,14 @@ $.extend($E.fn, {
 		//默认的菜单显示配置
         this.editorMenuConfig = [
             ['viewSourceCode'],
-            ['fontFamily', 'fontSize'],
-            ['bold', 'underline', 'italic'],
-            ['setHead', 'foreColor', 'backgroundColor', 'removeFormat'],
+            ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor'],
+            //['removeFormat'],
+            ['fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
             //['indent', 'outdent'],
-            ['unOrderedList', 'orderedList'],
-            ['justifyLeft', 'justifyCenter', 'justifyRight'] ,
-            ['createLink', 'unLink', 'insertExpression', 'insertVideo'],
-            ['insertHr', 'insertTable', 'webImage', 'uploadImg', 'insertLocation','insertSimpleCode'],
-            ['undo', 'redo'],
-            ['fullScreen']
+            //['insertHr'],
+            ['createLink', 'unLink', 'insertTable', 'insertExpression'],
+            ['insertImage', 'insertVideo', 'insertLocation','insertSimpleCode'],
+            ['undo', 'redo', 'fullScreen']
         ];
 	}
 });

@@ -1,0 +1,30 @@
+<div id="set-value">
+	<h3>初始化内容</h3>
+	<p>
+		第一，可以在textarea标签增加内容，
+		这些内容会在执行wangEditor()方法时自动附加到编辑器中。
+		可参见 <a href="../test/test.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+&lt;textarea id='textarea1' style='height:300px; width:100%;'&gt;
+	&lt;p&gt;最简单的demo&lt;/p&gt;
+&lt;/textarea&gt;
+</pre>
+	<p><span class="alert">
+		注意，textarea的内容一定要在执行wangEditor()方法前添加进去，否则无效！
+	</span></p>
+
+	<p>
+		第二，可以通过html()方法赋值，该方法将会全部覆盖原内容。
+		可参见 <a href="../test/test-set-value.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor();
+
+//点击按钮时，将当前最新时间赋值到编辑器中（覆盖之前的内容）
+$('#btn').click(function(e){
+	var dt = new Date();
+	editor.html('&lt;p&gt;当前的时间是：' + dt.toString() + '&lt;/p&gt;');
+});
+</pre>
+</div>

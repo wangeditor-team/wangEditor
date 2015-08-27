@@ -7,7 +7,7 @@
             titleTxtId = $E.getUniqeId(),
             blankCheckId = $E.getUniqeId(),
             btnId = $E.getUniqeId(),
-            content = '<p>链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"/></p>' +
+            content = '<p>链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
                         '<p>标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' + 
                         '<p>新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/></p>' +
                         '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入链接</button></p>',

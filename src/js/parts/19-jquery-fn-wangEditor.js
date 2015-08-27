@@ -4,14 +4,14 @@ $.fn.extend({
     *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
     *   onchange: function(){...},  //配置onchange事件，
     *   expressions: [...],  //配置表情图片的url地址
-    *   uploadUrl: 'string',  //图片上传的地址
-    *   extendedMenus: {...}    //扩展的菜单
+    *   uploadImgComponent : $('#someId'),  //上传图片的组件
+    *   uploadUrl: 'string'  //图片上传的地址
     * }
     */
     'wangEditor': function(options){
         if(this[0].nodeName !== 'TEXTAREA'){
             //只支持textarea
-            alert('wangEditor提示：请使用textarea扩展富文本框。详情可参见作者的demo.html');
+            alert('wangEditor提示：请使用textarea扩展富文本框。');
             return;
         }
 

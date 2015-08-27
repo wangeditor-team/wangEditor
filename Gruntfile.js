@@ -22,22 +22,22 @@ module.exports = function(grunt) {
     //less插件的配置信息
     less: {
       build: {
-        src: 'src/css/wangEditor.less',
-        dest: 'src/css/wangEditor.css'
+        src: 'src/css/parts/wangEditor.less',
+        dest: 'src/css/parts/wangEditor.css'
       }
     },
 
     //cssmin插件的配置信息
-    cssmin: {
-      options: {
-        stripBanners: true,
-        banner: '/*! <%=pkg.name%>-<%=pkg.version%>.css <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'src/css/concat/<%=pkg.name%>-<%=pkg.version%>.css',
-        dest: 'dist/css/<%=pkg.name%>-<%=pkg.version%>.min.css'
-      }
-    },
+    // cssmin: {
+    //   options: {
+    //     stripBanners: true,
+    //     banner: '/*! <%=pkg.name%>-<%=pkg.version%>.css <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+    //   },
+    //   build: {
+    //     src: 'src/css/<%=pkg.name%>-<%=pkg.version%>.css',
+    //     dest: 'dist/css/<%=pkg.name%>-<%=pkg.version%>.min.css'
+    //   }
+    // },
 
     //jshint插件的配置信息'
     jshint:{
@@ -48,18 +48,18 @@ module.exports = function(grunt) {
     },
 
     //csslint插件的配置信息
-    csslint: {
-      options: {
-        csslintrc: '.csslintrc'
-      },
-      build: [ 'src/css/*.css' ]
-    },
+    // csslint: {
+    //   options: {
+    //     csslintrc: '.csslintrc'
+    //   },
+    //   build: [ 'src/css/*.css' ]
+    // },
 
     //concat插件的配置信息
     concat: {
       css:{
-        src: 'src/css/*.css',
-        dest: 'src/css/concat/<%=pkg.name%>-<%=pkg.version%>.css'
+        src: 'src/css/parts/*.css',
+        dest: 'src/css/<%=pkg.name%>-<%=pkg.version%>.css'
       },
       menus:{
         src: 'src/js/parts/11-fn-menus/*.js',
@@ -68,14 +68,74 @@ module.exports = function(grunt) {
       build:{
         src: 'src/js/parts/*.js',
         dest: 'src/js/<%=pkg.name%>-<%=pkg.version%>.js'
+      },
+      docs:{
+        src: 'docs/parts/*.html',
+        dest: 'docs/index.html'
+      }
+    },
+
+    //copy插件的配置信息
+    copy: {
+      main: {
+        files:[
+          //js
+          {
+            expand: true, 
+            flatten: true,
+            src: ['src/js/*.js'], 
+            dest: 'dist/js/', 
+            filter: 'isFile'
+          },
+          //css
+          {
+            expand: true, 
+            flatten: true,
+            src: ['src/css/*.css'], 
+            dest: 'dist/css/', 
+            filter: 'isFile'
+          }
+        ]
       }
     },
 
     // watch插件的配置信息
     watch: { 
-      build: { 
-        files: ['src/js/parts/*.js', 'src/css/*.less', 'src/css/fontIcon.css'], 
-        tasks: ['less', 'jshint', 'csslint', 'concat','uglify', 'cssmin'], 
+      js: { 
+        files: [
+          'src/js/parts/*.js', 
+          'src/js/parts/11-fn-menus/*.js'
+        ], 
+        tasks: [
+          'concat', 
+          'jshint', 
+          'uglify',
+          'copy'
+        ], 
+        options: { spawn: false}
+      },
+      css:{
+        files: [
+          'src/css/parts/*.less', 
+          'src/css/fontIcon.css',
+          'src/css/wangEditor-hack.css'
+        ], 
+        tasks: [
+          'less', 
+          'concat', 
+          //'csslint', 
+          //'cssmin',  //暂且不用cssmin
+          'copy'
+        ], 
+        options: { spawn: false}
+      },
+      docs:{
+        files: [
+          'docs/parts/*.html'
+        ],
+        tasks:[
+          'concat'
+        ],
         options: { spawn: false}
       }
     }
@@ -87,19 +147,21 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-csslint');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  //grunt.loadNpmTasks('grunt-contrib-csslint');
+  //grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
  
   // 告诉grunt当我们在终端中输入grunt时需要做些什么（注意先后顺序）
   grunt.registerTask('default', [
     //注意下面注册任务时的前后顺序
     'less',
-    'jshint', 
-    'csslint', 
     'concat',
+    'jshint', 
+    //'csslint', 
     'uglify', 
-    'cssmin',     
+    //'cssmin',    //暂且不用cssmin
+    'copy',
     'watch'
   ]);
  

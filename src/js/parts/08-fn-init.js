@@ -7,8 +7,8 @@ $.extend($E.fn, {
         *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
         *   onchange: function(){...},  //配置onchange事件，
         *   expressions: [...],  //配置表情图片的url地址
-        *   uploadUrl: 'string',  //图片上传的地址
-        *   extendedMenus: {...}    //扩展的菜单
+        *   uploadImgComponent : $('#someId'),  //上传图片的组件
+        *   uploadUrl: 'string'  //图片上传的地址
         * }
         */
 
@@ -16,8 +16,8 @@ $.extend($E.fn, {
             onchange = options.onchange,
             menuConfig = options.menuConfig,
             expressions = options.expressions,
+            uploadImgComponent = options.uploadImgComponent,
             uploadUrl = options.uploadUrl,
-            extendedMenus = options.extendedMenus,
 
             //editor
             editor = this,
@@ -80,25 +80,27 @@ $.extend($E.fn, {
             editor.onchange = onchange;
         }
 
-        //绑定上传图片的url
-        if(uploadUrl && typeof uploadUrl === 'string'){
-            editor.uploadUrl = uploadUrl;
-        }
-
         //绑定表情图片配置
         if(expressions && expressions.length && expressions.length > 0){
             editor.expressions = expressions;
         }
 
+        //跨域上传图片的url
+        if(uploadUrl && typeof uploadUrl === 'string'){
+            editor.uploadUrl = uploadUrl;
+            //获取跨域上传图片的组件
+            editor.uploadImgComponent = $E.getUploadImgComponentForCrossDomain(editor);
+        }
+
+        //上传图片的组件啊
+        if(uploadImgComponent){
+            editor.uploadImgComponent = uploadImgComponent;
+        }
+
         //初始化menus
         editor.initMenus();
         editor.initMenuConfig();
-
-        //增加扩展菜单
-        if(extendedMenus){
-            //将扩展菜单加入到原有的菜单中
-            $.extend(editor.menus, extendedMenus);
-        }
+        
         //配置menuConfig
         if(menuConfig && (menuConfig instanceof Array) === true && (menuConfig[0] instanceof Array) === true){  //需要确定menuConfig是二维数组才行
             //如果options中配置了menuConfig，直接复制给 editor.editorMenuConfig

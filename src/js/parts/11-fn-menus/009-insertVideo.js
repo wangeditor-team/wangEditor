@@ -8,7 +8,7 @@
             txtHeightId = $E.getUniqeId(),
             btnId = $E.getUniqeId(),
             defaultWidth = 480, defaultHeight = 400;
-        var content = '<p>地址：<input id="' + txtSrcId + '" type="text" style="width:300px;"/></p>' +
+        var content = '<p>地址：<input id="' + txtSrcId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
                         '<p>宽度：<input id="' + txtWidthId + '" type="text" style="width:50px" value="' + defaultWidth + '"/> px（像素）</p>' +
                         '<p>高度：<input id="' + txtHeightId + '" type="text" style="width:50px" value="' + defaultHeight + '"/> px（像素） </p>' +
                         '<p><button id="' + btnId + '" class="wangEditor-modal-btn" type="button">插入视频</button></p>';

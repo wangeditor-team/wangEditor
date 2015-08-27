@@ -38,8 +38,8 @@
                 firstTrTemp = '<tr style="font-weight:bold;background-color:#f1f1f1;">${content}</tr>',
                 trTemp = '<tr>${content}</tr>',
                 tdArray,
-                tdTemp_FirstRow = '<td style="min-width:100px;">&nbsp;</td>',
-                tdTemp = '<td>&nbsp;</td>';
+                tdTemp_FirstRow = '<td style="min-width:100px; padding:5px;">&nbsp;</td>',
+                tdTemp = '<td style="padding:5px;">&nbsp;</td>';
             
             for (i = 0; i < rowNum; i++) {
                 //遍历每一行

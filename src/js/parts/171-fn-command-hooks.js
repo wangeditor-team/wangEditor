@@ -142,9 +142,9 @@ $.extend($E.fn, {
                     'bottom': 20,
                     'z-index': 1000,
 
-                    '-webkit-box-shadow': '0 0 15px #CCC', 
-                    '-moz-box-shadow': '0 0 15px #CCC',
-                    'box-shadow': '0 0 15px #CCC'
+                    '-webkit-box-shadow': '0 0 30px #999', 
+                    '-moz-box-shadow': '0 0 30px #999',
+                    'box-shadow': '0 0 30px #999'
                 });
             }else{
                 //还原txtContainer高度

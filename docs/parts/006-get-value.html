@@ -1,0 +1,16 @@
+<div id="get-value">
+	<h3>获取内容</h3>
+	<p>
+		用户在使用编辑器时，源码都是实时更新到textarea中。
+		用户可以通过textarea获取编辑器的源码值。
+		可参见 <a href="../test/test-get-value.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor();
+
+//点击按钮，获取编辑器的源码
+$('#btn').click(function(){
+	var html = $('#textarea1').val();
+});
+</pre>
+</div>

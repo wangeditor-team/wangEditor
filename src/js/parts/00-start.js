@@ -9,4 +9,4 @@ var define;
         // 全局模式
         factory(window.jQuery);
     }
-})(function($){ 
+})(function($){

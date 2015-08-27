@@ -1,3 +1,8 @@
+
+/*
+注意：该文档为合并文档，由“11-fn-menus”文件夹中的多个文件合并而成
+*/
+
 $.extend($E.fn, {
 	'initMenus': function(){
 		//菜单配置集
@@ -67,37 +72,7 @@ $.extend($E.fn, {
 //     'type': 'btn',
 //     'cssClass':'icon-wangEditor-indent-left',
 //     'command': 'outdent'
-// },
-'unOrderedList': {
-    'title': '无序列表',
-    'type': 'btn',
-    'cssClass':'icon-wangEditor-list-bullet',
-    'command': 'InsertUnorderedList '
-},
-'orderedList': {
-    'title': '有序列表',
-    'type': 'btn',
-    'cssClass':'icon-wangEditor-list-numbered',
-    'command': 'InsertOrderedList '
-},
-'justifyLeft': {
-    'title': '左对齐',
-    'type': 'btn',
-    'cssClass':'icon-wangEditor-align-left',
-    'command': 'JustifyLeft '   
-},
-'justifyCenter': {
-    'title': '居中',
-    'type': 'btn',
-    'cssClass':'icon-wangEditor-align-center',
-    'command': 'JustifyCenter'  
-},
-'justifyRight': {
-    'title': '右对齐',
-    'type': 'btn',
-    'cssClass':'icon-wangEditor-align-right',
-    'command': 'JustifyRight ' 
-},
+// }, 
 'unLink': {
     'title': '取消链接',
     'type': 'btn',
@@ -109,6 +84,74 @@ $.extend($E.fn, {
     'type': 'btn',
     'cssClass':'icon-wangEditor-minus',
     'command': 'InsertHorizontalRule' 
+},
+'justify': {
+    'title': '对齐',
+    'type': 'dropMenu',
+    'cssClass':'icon-wangEditor-align-left',
+    'dropMenu': function(){
+        var arr = [],
+            temp = '<li><a href="#" customCommandName="${command}">${txt}</a></li>',
+            $ul,
+
+            data = [
+                {
+                    //左对齐
+                    'commandName': 'JustifyLeft',
+                    'txt': '<i class="icon-wangEditor-align-left"> 左对齐</i>'
+                },{
+                    //居中
+                    'commandName': 'JustifyCenter',
+                    'txt': '<i class="icon-wangEditor-align-center"> 居中</i>'
+                },{
+                    //右对齐
+                    'commandName': 'JustifyRight',
+                    'txt': '<i class="icon-wangEditor-align-right"> 右对齐</i>'
+                }
+            ];
+
+        $.each(data, function(key, value){
+            arr.push(
+                temp.replace('${command}', value.commandName)
+                    .replace('${txt}', value.txt)
+            );
+        });
+
+        $ul = $( $E.htmlTemplates.dropMenu.replace('{content}', arr.join('')) );
+        return $ul; 
+    }
+},
+'list': {
+    'title': '列表',
+    'type': 'dropMenu',
+    'cssClass':'icon-wangEditor-list-bullet',
+    'dropMenu': function () {
+        var arr = [],
+            temp = '<li><a href="#" customCommandName="${command}">${txt}</a></li>',
+            $ul,
+
+            data = [
+                {
+                    //无须列表
+                    'commandName': 'InsertUnorderedList',
+                    'txt': '<i class="icon-wangEditor-list-bullet"> 无须列表</i>'
+                },{
+                    //有序列表
+                    'commandName': 'InsertOrderedList',
+                    'txt': '<i class="icon-wangEditor-list-numbered"> 有序列表</i>'
+                }
+            ];
+
+        $.each(data, function(key, value){
+            arr.push(
+                temp.replace('${command}', value.commandName)
+                    .replace('${txt}', value.txt)
+            );
+        });
+
+        $ul = $( $E.htmlTemplates.dropMenu.replace('{content}', arr.join('')) );
+        return $ul; 
+    }
 },
 'fontFamily': {
     'title': '字体',
@@ -175,7 +218,7 @@ $.extend($E.fn, {
     'title': '前景色',
     'type': 'dropPanel',
     'cssClass': 'icon-wangEditor-pencil', 
-    'style': 'color:blue;',
+    //'style': 'color:blue;',
     'command': 'foreColor',
     'dropPanel': function(){
         var arr = [],
@@ -201,7 +244,7 @@ $.extend($E.fn, {
     'title': '背景色',
     'type': 'dropPanel',
     'cssClass': 'icon-wangEditor-brush',  
-    'style':'color:red;',
+    //'style':'color:red;',
     'command': 'backColor ',
     'dropPanel': function(){
         var arr = [],
@@ -232,7 +275,7 @@ $.extend($E.fn, {
             titleTxtId = $E.getUniqeId(),
             blankCheckId = $E.getUniqeId(),
             btnId = $E.getUniqeId(),
-            content = '<p>链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"/></p>' +
+            content = '<p>链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
                         '<p>标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' + 
                         '<p>新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/></p>' +
                         '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入链接</button></p>',
@@ -326,7 +369,7 @@ $.extend($E.fn, {
             txtHeightId = $E.getUniqeId(),
             btnId = $E.getUniqeId(),
             defaultWidth = 480, defaultHeight = 400;
-        var content = '<p>地址：<input id="' + txtSrcId + '" type="text" style="width:300px;"/></p>' +
+        var content = '<p>地址：<input id="' + txtSrcId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
                         '<p>宽度：<input id="' + txtWidthId + '" type="text" style="width:50px" value="' + defaultWidth + '"/> px（像素）</p>' +
                         '<p>高度：<input id="' + txtHeightId + '" type="text" style="width:50px" value="' + defaultHeight + '"/> px（像素） </p>' +
                         '<p><button id="' + btnId + '" class="wangEditor-modal-btn" type="button">插入视频</button></p>';
@@ -417,8 +460,8 @@ $.extend($E.fn, {
                 firstTrTemp = '<tr style="font-weight:bold;background-color:#f1f1f1;">${content}</tr>',
                 trTemp = '<tr>${content}</tr>',
                 tdArray,
-                tdTemp_FirstRow = '<td style="min-width:100px;">&nbsp;</td>',
-                tdTemp = '<td>&nbsp;</td>';
+                tdTemp_FirstRow = '<td style="min-width:100px; padding:5px;">&nbsp;</td>',
+                tdTemp = '<td style="padding:5px;">&nbsp;</td>';
             
             for (i = 0; i < rowNum; i++) {
                 //遍历每一行
@@ -446,21 +489,82 @@ $.extend($E.fn, {
         return $table_modal;
     }
 },
-'webImage': {
-    'title': '网络图片',
+'insertImage': {
+    'title': '图片',
     'type': 'modal',
     'cssClass': 'icon-wangEditor-picture',
     'modal': function (editor) {
-        var urlTxtId = $E.getUniqeId(),
+        var 
+            //上传组件
+            uploadImgComponent = editor.uploadImgComponent,
+
+            webImgContainerId = $E.getUniqeId(),
+            alertInfoId = $E.getUniqeId(),
+            changeLinkId = $E.getUniqeId(),
+            urlTxtId = $E.getUniqeId(),
             titleTxtId = $E.getUniqeId(),
             btnId = $E.getUniqeId(),
-            content = '<p>网址：<input id="' + urlTxtId + '" type="text" style="width:300px;"/></p>' +
-                        '<p>标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' +
-                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入图片</button></p>',
+            content =   '<p>' +
+                        '   <span id="' + alertInfoId + '">插入网络图片</span> ' +
+                        '   <a href="#" id="' + changeLinkId + '"></a>' +
+                        '</p>' +
+                        '<div id="' + webImgContainerId + '">' +
+                        '   <p>网址：<input id="' + urlTxtId + '" type="text" style="width:300px;" placeholder="http://"/></p>' +
+                        '   <p>标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' +
+                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入图片</button></p>' +
+                        '</div>',
             $webimg_modal = $(
                 $E.htmlTemplates.modalSmall.replace('{content}', content)
             );
 
+        //处理 上传图片 和 插入网络图片 的显示与隐藏关系
+        $(function(){
+            var $webImgContainerId = $('#' + webImgContainerId),
+                $alertInfoId = $('#' + alertInfoId),
+                $changeLinkId = $('#' + changeLinkId);
+
+            //显示本地上传，隐藏网路图片
+            function showUploadImg(){
+                uploadImgComponent.show();
+                $webImgContainerId.hide();
+
+                //修改提示内容
+                $alertInfoId.text('上传本地图片');
+                $changeLinkId.text('或插入网络图片');
+            }
+
+            //显示网络图片，隐藏本地上传
+            function showWebImg(){
+                uploadImgComponent.hide();
+                $webImgContainerId.show();
+
+                //修改提示内容
+                $alertInfoId.text('插入网络图片');
+                $changeLinkId.text('或上传本地图片');
+            }
+ 
+            if(uploadImgComponent){  
+                //如果有上传组件
+                //将上传组件移动到model中
+                $webimg_modal.append(uploadImgComponent);
+                //显示上传图片
+                showUploadImg();
+            }
+
+            //切换
+            $changeLinkId.click(function(e){
+                var txt = $changeLinkId.text();
+                if(txt.indexOf('本地') >= 0){
+                    showUploadImg();
+                }else{
+                    showWebImg();
+                }
+
+                e.preventDefault();
+            });
+        });
+
+        //添加 webImg
         $webimg_modal.find('#' + btnId).click(function(e){
             //注意，该方法中的 $webimg_modal 不要跟其他modal中的变量名重复！！否则程序会混淆
             //具体原因还未查证？？？
@@ -492,137 +596,6 @@ $.extend($E.fn, {
         });
 
         return $webimg_modal;
-    }
-},
-'uploadImg':{
-    'title': '上传图片',
-    'type': 'modal',
-    'cssClass': 'icon-wangEditor-file-image',
-    'modal': function(editor){
-        var uploadUrl = editor.uploadUrl,
-            fileInputName = 'wangEditor_uploadImg',  //服务器端根据这个name获取file
-            imgExts = '|.bmp|.jpg|.jpeg|.png|.gif|',  //图片文件的后缀名（注意：前后都要加“|”）
-
-            formId = $E.getUniqeId(),
-            fileId = $E.getUniqeId(),
-            titleTxtId = $E.getUniqeId(),
-            btnId = $E.getUniqeId(),
-            infoId = $E.getUniqeId(),
-            iframeId = $E.getUniqeId(),
-            content =   '<form id="' + formId + '" method="post" enctype="multipart/form-data" target="' + iframeId + '">'+
-                        '   <p>选择文件：<input type="file" name="' + fileInputName + '" id="' + fileId + '"/></p>' +
-                        '   <p>图片标题：<input type="text" id="' + titleTxtId + '" style="width:250px;"/></p>' +
-                        '   <p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">上传</button></p>' +
-                        '   <span stype="color:red;" id="' + infoId + '"></span>' +
-                        '</form>' +
-                        '<iframe id="' + iframeId + '" name="' + iframeId + '" style="display:none;"></iframe>',
-            $uploadImg_modal = $(
-                $E.htmlTemplates.modalSmall.replace('{content}', content)
-            );
-        
-        $uploadImg_modal.find('#' + btnId).click(function(e){
-            //检验是否传入uploadUrl配置
-            if(uploadUrl == null || typeof uploadUrl !== 'string'){
-                alert('未配置URL地址，不能上传图片');
-                return;
-            }
-
-            //检验是否选择文件
-            var fileVal = $('#' + fileId).val();
-            if(fileVal === ''){
-                alert('请选择图片文件');
-                return;
-            }
-
-            //检验后缀名是否是图片
-            var ext = fileVal.slice( fileVal.lastIndexOf('.') - fileVal.length );
-            ext = '|' + ext.toLowerCase() + '|';
-            if(imgExts.indexOf(ext) === -1){
-                alert('选择的文件不是图片格式');
-                return;
-            }
-            
-            //检验通过，开始提交...
-
-            var $btn = $(this),
-                $info = $('#' + infoId),
-                $form = $('#' + formId),
-                title = $('#' + titleTxtId).val(),
-                iframe = document.getElementById(iframeId),
-                uploadImg_callback = function(){
-                    //uploadImg callback
-                    $('#' + fileId).val('');
-                    $('#' + titleTxtId).val('');
-                };
-
-            //定义callback事件
-            window.wangEditor_uploadImgCallback = function(result){
-                //提示已经开始调用
-                $E.consoleLog('父页面的wangEditor_uploadImgCallback方法已经开始被调用！');
-
-                var arr,
-                    url,  //真实图片url
-                    thumbnailUrl;  //缩略图url，有可能不用缩略图
-                if(result.indexOf('ok|') === 0){
-                    //成功
-                    arr = result.split('|');
-
-                    //获取图片url
-                    url = arr[1];
-                    $E.consoleLog('wangEditor_uploadImgCallback方法成功获取到图片url：' + url);
-
-                    if(arr.length === 2){
-                        //无缩略图形式
-                        if(title === ''){
-                            editor.command(e, 'insertImage', url, uploadImg_callback);
-                        }else{
-                            editor.command(e, 'customeInsertImage', {'url':url, 'title':title}, uploadImg_callback);
-                        }
-                    }else if(arr.length === 3){
-                        //有缩略图形式
-                        thumbnailUrl = arr[2];
-                        $E.consoleLog('wangEditor_uploadImgCallback方法成功获取到缩略图url：' + thumbnailUrl);
-
-                        //执行插入图片（显示缩略图，链接到真实图片）
-                        editor.command(e, 'customeInsertImage', {'url':thumbnailUrl, 'link': url, 'title':title}, uploadImg_callback);
-                    }else{
-                        alert('hash格式错误：' + result);
-                        return;
-                    }
-
-                    //提示成功插入图片
-                    $E.consoleLog('wangEditor_uploadImgCallback方法已经成功插入图片，弹出框也被关闭！');
-                    
-                }else{
-                    //失败
-                    alert(result);
-                }
-
-                //用完立刻清除，防止影响其他editor
-                window.wangEditor_uploadImgCallback = undefined;
-            };
-
-            //先暂时禁用按钮
-            $btn.hide();
-            $info.html('上传中...');
-
-            try{
-                //设置uploadUrl，提交form
-                $form.attr('action', uploadUrl);
-                $form.submit();
-            }catch(ex){
-                alert(ex.name + ':' + ex.message);
-            }finally{
-                //恢复按钮状态
-                $btn.show();
-                $info.html('');
-                e.preventDefault();
-            }
-
-            return false;
-        });
-
-        return $uploadImg_modal;
     }
 },
 'insertSimpleCode':{

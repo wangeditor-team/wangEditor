@@ -156,9 +156,15 @@ $.extend($E, {
             });
 
             //命令（使用事件代理）
-            $dropMenu.on('click', 'a[commandValue]', function(e){
+            $dropMenu.on('click', 'a[commandValue], a[customCommandName]', function(e){
                 var $this = $(this),
-                    value = $this.attr('commandValue');
+                    value = $this.attr('commandValue'),
+                    commandName = $this.attr('customCommandName');
+
+                //下拉菜单类型中，有些可能每个菜单的commandName不同，例如列表、对齐方式
+                if(commandName){
+                    command = commandName;
+                }
                 
                 editor.command(e, command, value, callback);
             });

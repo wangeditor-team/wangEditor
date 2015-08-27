@@ -44,37 +44,7 @@
 //     'type': 'btn',
 //     'cssClass':'icon-wangEditor-indent-left',
 //     'command': 'outdent'
-// },
-'unOrderedList': {
-    'title': '无序列表',
-    'type': 'btn',
-    'cssClass':'icon-wangEditor-list-bullet',
-    'command': 'InsertUnorderedList '
-},
-'orderedList': {
-    'title': '有序列表',
-    'type': 'btn',
-    'cssClass':'icon-wangEditor-list-numbered',
-    'command': 'InsertOrderedList '
-},
-'justifyLeft': {
-    'title': '左对齐',
-    'type': 'btn',
-    'cssClass':'icon-wangEditor-align-left',
-    'command': 'JustifyLeft '   
-},
-'justifyCenter': {
-    'title': '居中',
-    'type': 'btn',
-    'cssClass':'icon-wangEditor-align-center',
-    'command': 'JustifyCenter'  
-},
-'justifyRight': {
-    'title': '右对齐',
-    'type': 'btn',
-    'cssClass':'icon-wangEditor-align-right',
-    'command': 'JustifyRight ' 
-},
+// }, 
 'unLink': {
     'title': '取消链接',
     'type': 'btn',

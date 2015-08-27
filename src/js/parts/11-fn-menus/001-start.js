@@ -1,3 +1,8 @@
+
+/*
+注意：该文档为合并文档，由“11-fn-menus”文件夹中的多个文件合并而成
+*/
+
 $.extend($E.fn, {
 	'initMenus': function(){
 		//菜单配置集

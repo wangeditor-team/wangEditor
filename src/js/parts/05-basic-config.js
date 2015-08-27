@@ -51,7 +51,7 @@ $.extend($E, {
         //单个菜单按钮（一定要有 herf='#'，否则无法监听blur事件）
         'btn': '<a class="wangEditor-btn-container-btn wangEditor-btn-container-btn-default" href="#"></a>', 
         //下拉按钮右侧的小三角
-        'btnAngleDown': '<i class="icon-wangEditor-angle-down"></i>',
+        'btnAngleDown': '<i class="icon-wangEditor-angle-down" style="margin-left:3px;"></i>',
         //btn tooltip
         'tooltip': '<div class="wangEditor-toolTip"></div>',
         //btn tooltipContent
@@ -64,7 +64,7 @@ $.extend($E, {
         'modalSmall': '<div class="wangEditor-modal wangEditor-modal-small">{content}</div>',
         'modalMini': '<div class="wangEditor-modal wangEditor-modal-mini">{content}</div>',
         //modal header
-        'modalHeader': '<div class="wangEditor-modal-header">' + 
+        'modalHeader': '<div class="wangEditor-modal-header clearfix">' + 
                             '<a href="#" commandName="close" class="wangEditor-modal-header-close"><i class="icon-wangEditor-cancel"></i></a>' + 
                             '<b>{title}</b>' + 
                             '<div class="wangEditor-modal-header-line"></div>' + 
@@ -94,6 +94,3 @@ $.extend($E, {
         'ext':'.gif'
     }
 });
-
-//html模板需要公开，用户自定义modal菜单时，会用到
-window.wangEditorData.htmlTemplates = $E.htmlTemplates;

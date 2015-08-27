@@ -1,0 +1,21 @@
+<div id="multi-text">
+	<h3>单页多个编辑器</h3>
+	<p>
+		如何在一个页面配置多个编辑器，其实非常简单。
+		只需要定义两个 textarea ，并各自执行 wangEditor() 方法即可。
+		可参见 <a href="../test/test-multi-text.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+&lt;textarea id='textarea1' style='height:200px; width:100%;'&gt;&lt;/textarea&gt;
+&lt;textarea id='textarea2' style='height:200px; width:100%;'&gt;&lt;/textarea&gt;
+
+……省略其他内容……
+
+&lt;script type="text/javascript"&gt;
+	$(function(){
+		var editor1 = $('#textarea1').wangEditor();
+		var editor2 = $('#textarea2').wangEditor();
+	});
+&lt;/script&gt;
+</pre>
+</div>

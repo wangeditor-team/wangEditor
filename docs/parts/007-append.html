@@ -1,0 +1,21 @@
+<div id="append">
+	<h3>追加内容</h3>
+	<p>
+		可通过append方法向编辑器中追加内容，包括jquery对象和字符串。
+		可参见 <a href="../test/test-append.html" target="_blank">在线的demo</a>
+	</p>
+<pre>
+var editor = $('#textarea1').wangEditor();
+
+//点击按钮，追加内容
+$('#btn').click(function(e){
+	//追加jquery对象
+	var $p = $('&lt;p&gt;wangEditor，轻量级富文本编辑器。&lt;/p&gt;');
+	editor.append($p);
+
+	//追加字符串
+	editor.append('<span>欢迎使用wangEditor</span>');
+	//注意，插入字符串时，不能插入零碎的html片段（如 '<td>123</td></tr></table>' 等），否则会报错！
+});
+</pre>
+</div>
