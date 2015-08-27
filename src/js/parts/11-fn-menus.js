@@ -132,9 +132,9 @@ $.extend($E.fn, {
 
             data = [
                 {
-                    //无须列表
+                    //无序列表
                     'commandName': 'InsertUnorderedList',
-                    'txt': '<i class="icon-wangEditor-list-bullet"> 无须列表</i>'
+                    'txt': '<i class="icon-wangEditor-list-bullet"> 无序列表</i>'
                 },{
                     //有序列表
                     'commandName': 'InsertOrderedList',
