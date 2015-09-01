@@ -76,6 +76,7 @@
 .icon-wangEditor-command:before{content: "\ea4e";}
 .icon-wangEditor-font2:before{content: "\ea5c";}
 .icon-wangEditor-libreoffice:before{content: "\eade";}
+.icon-wangEditor-quotes-left:before{content: "\e977";}
 .wangEditor-container .wangEditor-drop-menu{
 	border: 1px\9 solid\9 #eeeeee\9;
 }
