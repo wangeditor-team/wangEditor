@@ -1467,7 +1467,7 @@ $.extend($E.fn, {
     }
 },
 'foreColor': {
-    'title': '前景色',
+    'title': '字体颜色',
     'type': 'dropPanel',
     'cssClass': 'icon-wangEditor-pencil', 
     //'style': 'color:blue;',

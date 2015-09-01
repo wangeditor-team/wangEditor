@@ -32,7 +32,9 @@
 	<a href="#upload-img" class="group-title">图片上传</a>
 	<ul>
 		<li><a href="#upload-img-no-cross-domain">图片上传(非跨域)</a></li>
+		<li><a href="#upload-img-no-cross-domain-server"> - <i style="font-size:0.8em;">后台代码示例</i></a></li>
 		<li><a href="#upload-img-cross-domain">图片上传(跨域)</a></li>
+		<li><a href="#upload-img-cross-domain-server"> - <i style="font-size:0.8em;">后台代码示例</i></a></li>
 	</ul>
 	<a href="#other" class="group-title">其他</a>
 	<ul>
@@ -102,7 +104,7 @@
 	<h3 id="donate">捐赠</h3>
 	<p>
 		欢迎捐赠，为开源软件积攒能量！请用支付宝扫描已下二维码。
-		<a href="http://www.wangeditor.com/donate.html" target="_blank">
+		<a href="http://www.wangeditor.com/#donate" target="_blank">
 			查看捐赠者名单
 		</a>
 	</p>
@@ -140,13 +142,13 @@
 	</p>
 <pre>
 &lt;!--引入wangEditor.css--&gt;
-&lt;link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.0.css"&gt;
+&lt;link rel="stylesheet" type="text/css" href="css/<span class="css-version"></span>"&gt;
 
 ……省略其他内容……
 
 &lt;!--引入jquery和wangEditor.js--&gt;
 &lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src='js/wangEditor-1.3.0.min.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src='js/<span class="js-min-version"></span>'&gt;&lt;/script&gt;
 </pre>
 	<p>
 		第三步，在html页面中创建一个textarea标签，可自定义设置其高度。
@@ -486,7 +488,7 @@ $(function(){
 	</p>
 <pre>
 &lt;!--引入wangEditor.css--&gt;
-&lt;link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.0.css"&gt;
+&lt;link rel="stylesheet" type="text/css" href="css/<span class="css-version"></span>"&gt;
 
 ……省略其他内容……
 
@@ -502,7 +504,7 @@ $(function(){
 
 &lt;!--引入jquery、wangEditor.js、plupload.js--&gt;
 &lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src='js/wangEditor-1.3.0.min.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src='js/<span class="js-min-version"></span>'&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="plupload/plupload.full.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript"&gt;
 $(function(){
@@ -537,7 +539,7 @@ $(function(){
 
 <pre>
 &lt;!--引入wangEditor.css--&gt;
-&lt;link rel="stylesheet" type="text/css" href="css/wangEditor-1.3.0.css"&gt;
+&lt;link rel="stylesheet" type="text/css" href="css/<span class="css-version"></span>"&gt;
 
 ……省略其他内容……
 
@@ -553,7 +555,7 @@ $(function(){
 
 &lt;!--引入jquery、wangEditor.js、plupload.js--&gt;
 &lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src='js/wangEditor-1.3.0.min.js'&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src='js/<span class="js-min-version"></span>'&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="plupload/plupload.full.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript"&gt;
 $(function(){
@@ -638,6 +640,80 @@ $(function(){
 	</p>
 	<img src="images/upload-img-2.png" style="width:300px;">
 
+</div>
+<div id="upload-img-no-cross-domain-server">
+	<h3>后台代码示例（非跨域）</h3>
+	<p>
+		上文描述了非跨域上传时，前端代码如何编写，以下是后台代码的示例。
+		<span class="alert">
+			以下只是代码的示例，供开发者参考。
+			但是不能保证在每个环境下都能运行成功，开发者可根据自己的情况做相应调整。
+		</span>
+	</p>
+	<br>
+	<p>C#示例参考：</p>
+<pre>
+//文件名：upload.ashx
+
+&lt;%@ WebHandler Language="C#" Class="upload" %&gt;
+using System;
+using System.Web;
+
+public class upload : IHttpHandler 
+{
+    public void ProcessRequest (HttpContext context) 
+    {
+        context.Response.ContentType = "text/plain";
+        context.Response.Charset = "utf-8";
+
+        var files = context.Request.Files;
+        if (files.Count &lt;= 0) 
+        {
+            return;
+        }
+
+        HttpPostedFile file = files[0];
+
+        if (file == null)
+        {
+            context.Response.Write("file is null");
+            return;
+        }
+        else
+        {
+            string path = context.Server.MapPath("~/uploadedFiles/");  //存储图片的文件夹
+            string originalFileName = file.FileName;
+            string fileExtension = originalFileName.Substring(originalFileName.LastIndexOf('.'), originalFileName.Length - originalFileName.LastIndexOf('.'));
+            string currentFileName = (new Random()).Next() + fileExtension;  //文件名中不要带中文，否则会出错
+            //生成文件路径
+            string imagePath = path + currentFileName;
+            //保存文件
+            file.SaveAs(imagePath);
+
+            //获取图片url地址
+            string imgUrl = context.Request.Url.GetLeftPart(UriPartial.Authority) + "/wangEditor_upload_test/uploadedFiles/" + currentFileName;
+
+            //返回图片url地址
+            context.Response.Write(imgUrl);
+            return;
+        }
+    }
+ 
+    public bool IsReusable 
+    {
+        get 
+        {
+            return false;
+        }
+    }
+}
+</pre>
+    <p>
+        <b class="alert">征集，为开源软件贡献力量！</b>
+        现征集其他后台语言的示例代码，如java、php、nodejs、python、ruby等，
+        有意者可直接给我发邮件：642009075#qq.com ( # -> @)，
+        作者将不胜感激！
+    </p>
 </div>
 <div id="upload-img-cross-domain">
 	<h3>图片上传(跨域)</h3>
@@ -733,6 +809,173 @@ var editor = $('#textarea1').wangEditor({
 	</p>
 	<img src="images/upload-img-3.png" style="width:300px;">
 </div>
+<div id="upload-img-cross-domain-server">
+	<h3>后台代码示例（跨域）</h3>
+	<p>
+		上文描述了跨域上传时，前端代码如何编写，以下是后台代码的示例。
+		<span class="alert">
+			以下只是代码的示例，供开发者参考。
+			但是不能保证在每个环境下都能运行成功，开发者可根据自己的情况做相应调整。
+		</span>
+	</p>
+
+	<br>
+	<p>C#示例参考：</p>
+<pre>
+//文件名称：upload_cross_domain.ashx
+
+&lt;%@ WebHandler Language="C#" Class="data" %&gt;
+
+using System;
+using System.Web;
+using System.IO;
+
+public class data : IHttpHandler 
+{    
+    public void ProcessRequest (HttpContext context)
+    {
+        //设置文件类型和编码类型
+        context.Response.ContentType = "text/html";
+        context.Response.Charset = "utf-8";
+
+        //获取web前端 wangEditor_uploadImg_assist.html 页面的url地址
+        string assistUrl = "http://localhost:8080/wangEditor_uploadImg_assist.html";
+
+        //取得文件对象
+        HttpPostedFile file = context.Request.Files[0];
+        //HttpPostedFile file = context.Request.Files["wangEditor_uploadImg"];
+
+        if (file == null)
+        {
+            string iframeSrc = assistUrl + "#" + "未成功获取文件，上传失败";
+            string result = "&lt;iframe src=\"" + iframeSrc + "\"&gt;&lt;/iframe&gt;";
+
+            context.Response.Write(result);
+            context.Response.End();
+            return;
+        }
+        else
+        {
+            //验证通过了，最后保存文件
+            string path = context.Server.MapPath("~/uploadedFiles/");
+            string originalFileName = file.FileName;
+            string fileExtension = originalFileName.Substring(originalFileName.LastIndexOf('.'), originalFileName.Length - originalFileName.LastIndexOf('.'));
+            string currentFileName = (new Random()).Next() + fileExtension;  //文件名中不要带中文，否则会出错
+            //生成文件路径
+            string imagePath = path + currentFileName;
+            //保存文件
+            file.SaveAs(imagePath);
+
+
+            //保存文件之后，要告诉web前端上传已经成功了
+            //获取图片的url
+            string imgUrl = context.Request.Url.GetLeftPart(UriPartial.Authority) + "/wangEditor_upload_test/uploadedFiles/" + currentFileName;
+            string iframeSrc = assistUrl + "#" + "ok|" + imgUrl;
+            string result = "&lt;iframe src=\"" + iframeSrc + "\"&gt;&lt;/iframe&gt;";
+
+            context.Response.Write(result);
+            context.Response.End();
+            return;
+        }
+    }
+ 
+    public bool IsReusable 
+    {
+        get 
+        {
+            return false;
+        }
+    }
+}
+</pre>
+	<br>
+	<p>java示例参考：</p>
+<pre>
+package com.demo.servlet;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Dictionary;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import com.sun.xml.internal.ws.wsdl.writer.document.Part;
+
+public class UploadImgServiet extends HttpServlet {
+
+	public UploadImgServiet() {
+		super();
+	}
+
+	public void destroy() {
+		super.destroy(); // Just puts "destroy" string in log
+		// Put your code here
+	}
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doPost(request, response);
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String path = request.getRealPath("/image");
+		File file = new File(path);
+		if (!file.exists())
+			file.mkdirs();
+		String fileName = "";// 文件名称
+		
+		
+		/**上传文件处理内容**/
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload sfu = new ServletFileUpload(factory);
+		sfu.setHeaderEncoding("UTF-8"); // 处理中文问题
+		sfu.setSizeMax(1024 * 1024); // 限制文件大小
+		try {
+			List<FileItem> fileItems = sfu.parseRequest(request); // 解码请求
+			for (FileItem fi : fileItems) {
+				fileName = UUID.randomUUID()+fi.getName().substring(fi.getName().lastIndexOf("."),fi.getName().length());
+				fi.write(new File(path, fileName));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		/**********************/
+
+		//组织http响应数据，返回html内容
+		//src="页面地址#ok|图片路径"
+		String html = "&lt;iframe src='http://localhost:8080/wang_editor_demo/wangEditor_uploadImg_assist.jsp#ok|http://localhost:8080/wang_editor_demo/image/"+fileName+"'&gt;&lt;/iframe&gt;";
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(html);
+		out.flush();
+		out.close();
+	}
+
+	public void init() throws ServletException {
+		// Put your code here
+	}
+}
+</pre>
+	<p>
+		<b class="alert">征集，为开源软件贡献力量！</b>
+		现征集其他后台语言的示例代码，如php、nodejs、python、ruby等，
+		有意者可直接给我发邮件：642009075#qq.com ( # -> @)，
+		作者将不胜感激！
+	</p>
+</div>
 <div id="other">
 	<h2>其他</h2>
 	<p>
@@ -778,7 +1021,7 @@ var editor = $('#textarea1').wangEditor({
 require.config({
     paths: {
         jquery: '/js/jquery-1.10.2.min',
-        wangEditor: '/js/wangEditor-1.3.0.min'
+        wangEditor: '/js/<span class="js-min-version-for-requirejs"></span>'
     }
 });
 
@@ -818,5 +1061,22 @@ require(['wangEditor'], function(){
 
 </div> <!--内容区域 end-->
 
+
+<script type="text/javascript" src="../dist/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var version = '1.3.5',
+			css = 'wangEditor-' + version + '.css',
+			js = 'wangEditor-' + version + '.js',
+			js_min = 'wangEditor-' + version + '.min.js'
+
+		$('.css-version').html( css );
+		$('.js-version').html( js );
+		$('.js-min-version').html( js_min );
+
+		$('.js-version-for-requirejs').html('wangEditor-' + version);
+		$('.js-min-version-for-requirejs').html('wangEditor-' + version + '.min');
+	});
+</script>
 </body>
 </html>

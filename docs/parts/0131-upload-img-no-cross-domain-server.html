@@ -1,0 +1,74 @@
+<div id="upload-img-no-cross-domain-server">
+	<h3>后台代码示例（非跨域）</h3>
+	<p>
+		上文描述了非跨域上传时，前端代码如何编写，以下是后台代码的示例。
+		<span class="alert">
+			以下只是代码的示例，供开发者参考。
+			但是不能保证在每个环境下都能运行成功，开发者可根据自己的情况做相应调整。
+		</span>
+	</p>
+	<br>
+	<p>C#示例参考：</p>
+<pre>
+//文件名：upload.ashx
+
+&lt;%@ WebHandler Language="C#" Class="upload" %&gt;
+using System;
+using System.Web;
+
+public class upload : IHttpHandler 
+{
+    public void ProcessRequest (HttpContext context) 
+    {
+        context.Response.ContentType = "text/plain";
+        context.Response.Charset = "utf-8";
+
+        var files = context.Request.Files;
+        if (files.Count &lt;= 0) 
+        {
+            return;
+        }
+
+        HttpPostedFile file = files[0];
+
+        if (file == null)
+        {
+            context.Response.Write("file is null");
+            return;
+        }
+        else
+        {
+            string path = context.Server.MapPath("~/uploadedFiles/");  //存储图片的文件夹
+            string originalFileName = file.FileName;
+            string fileExtension = originalFileName.Substring(originalFileName.LastIndexOf('.'), originalFileName.Length - originalFileName.LastIndexOf('.'));
+            string currentFileName = (new Random()).Next() + fileExtension;  //文件名中不要带中文，否则会出错
+            //生成文件路径
+            string imagePath = path + currentFileName;
+            //保存文件
+            file.SaveAs(imagePath);
+
+            //获取图片url地址
+            string imgUrl = context.Request.Url.GetLeftPart(UriPartial.Authority) + "/wangEditor_upload_test/uploadedFiles/" + currentFileName;
+
+            //返回图片url地址
+            context.Response.Write(imgUrl);
+            return;
+        }
+    }
+ 
+    public bool IsReusable 
+    {
+        get 
+        {
+            return false;
+        }
+    }
+}
+</pre>
+    <p>
+        <b class="alert">征集，为开源软件贡献力量！</b>
+        现征集其他后台语言的示例代码，如java、php、nodejs、python、ruby等，
+        有意者可直接给我发邮件：642009075#qq.com ( # -> @)，
+        作者将不胜感激！
+    </p>
+</div>

@@ -9,5 +9,22 @@
 
 </div> <!--内容区域 end-->
 
+
+<script type="text/javascript" src="../dist/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var version = '1.3.5',
+			css = 'wangEditor-' + version + '.css',
+			js = 'wangEditor-' + version + '.js',
+			js_min = 'wangEditor-' + version + '.min.js'
+
+		$('.css-version').html( css );
+		$('.js-version').html( js );
+		$('.js-min-version').html( js_min );
+
+		$('.js-version-for-requirejs').html('wangEditor-' + version);
+		$('.js-min-version-for-requirejs').html('wangEditor-' + version + '.min');
+	});
+</script>
 </body>
 </html>
