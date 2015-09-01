@@ -129,11 +129,15 @@
 		第一步，下载wangEditor所必要的文件
 		（<a href="http://www.wangeditor.com/wangEditor.zip" target="_blank">下载链接</a>），
 		下载的文件结构如下图所示。
-		<span class="alert">
-			注意，fonts文件夹千万不要丢失，而且要和css文件放在同一目录下，否则菜单的小图标将不显示！
-		</span>
 	</p>
-	<img src="images/download-file-tree.png" style="width:230px;">
+	<img src="images/download-file-tree.png" style="width:300px;">
+	<p>
+		针对该文件结构，<span class="alert">请注意以下几点</span>：
+	</p>
+	<ul>
+		<li>fonts文件夹及其非常重要，不要丢失。并且要和css文件放在一个目录下。</li>
+		<li>截图以1.3.5版本为例演示的，不一定是用户当前使用的版本。</li>
+	</ul>
 	<p>
 		第二步，创建一个页面，引用wangEditor的css文件、js文件，还有引用jquery。
 		<span class="alert">
@@ -708,9 +712,91 @@ public class upload : IHttpHandler
     }
 }
 </pre>
+    <br>
+    <p>
+        java示例参考：
+    </p>
+<pre>
+package com.demo.servlet;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Dictionary;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import com.sun.xml.internal.ws.wsdl.writer.document.Part;
+
+public class UploadImgServiet extends HttpServlet {
+
+    public UploadImgServiet() {
+        super();
+    }
+
+    public void destroy() {
+        super.destroy(); // Just puts "destroy" string in log
+        // Put your code here
+    }
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doPost(request, response);
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String path = request.getRealPath("/image");
+        File file = new File(path);
+        if (!file.exists())
+            file.mkdirs();
+        String fileName = "";// 文件名称
+        
+        
+        /**上传文件处理内容**/
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload sfu = new ServletFileUpload(factory);
+        sfu.setHeaderEncoding("UTF-8"); // 处理中文问题
+        sfu.setSizeMax(1024 * 1024); // 限制文件大小
+        try {
+            List fileItems = sfu.parseRequest(request); // 解码请求
+            for (FileItem fi : fileItems) {
+                fileName = UUID.randomUUID()+fi.getName().substring(fi.getName().lastIndexOf("."),fi.getName().length());
+                fi.write(new File(path, fileName));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /**********************/
+
+        //获取图片url地址
+        string imgUrl = "http://localhost:8080/wang_editor_demo/image/" + fileName;
+        response.setContentType("text/text;charset=utf-8");
+        PrintWriter out = response.getWriter();
+        out.print(imgUrl);  //返回url地址
+        out.flush();
+        out.close();
+    }
+
+    public void init() throws ServletException {
+        // Put your code here
+    }
+}
+</pre>
     <p>
         <b class="alert">征集，为开源软件贡献力量！</b>
-        现征集其他后台语言的示例代码，如java、php、nodejs、python、ruby等，
+        现征集其他后台语言的示例代码，如php、nodejs、python、ruby等，
         有意者可直接给我发邮件：642009075#qq.com ( # -> @)，
         作者将不胜感激！
     </p>
