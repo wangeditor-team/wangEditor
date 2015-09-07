@@ -1,6 +1,7 @@
 .wangEditor-container {
   position: relative;
   border: 1px solid #cccccc;
+  background-color: #ffffff;
 }
 .wangEditor-container * {
   margin: 0;

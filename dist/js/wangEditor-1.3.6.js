@@ -248,7 +248,7 @@ $.extend($E, {
             6: '25px',
             7: '28px'
         },
-        'blockQuoteStyle': 'display:block; border-left: 5px solid #d0e5f2; padding:0 0 0 10px; margin:0; line-height:1.4;'
+        'blockQuoteStyle': 'display:block; border-left: 5px solid #d0e5f2; padding:0 0 0 10px; margin:0; line-height:1.4; font-size: 100%;'
     },
 
     //html模板
