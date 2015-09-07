@@ -39,6 +39,7 @@ $.extend($E, {
             txt,
             style = menu.style,
             command = menu.command,  //函数或者字符串
+            commandValue = menu.commandValue, //字符串或者undefined
             hotKey = menu.hotKey, //快捷键
             fnKeys = [],
             keyCode,
@@ -86,7 +87,7 @@ $.extend($E, {
                 btnClick = function(e){
                     editor.hideModal();   //先视图隐藏目前显示的modal
                     //执行操作
-                    editor.command(e, command, undefined, callback);
+                    editor.command(e, command, commandValue, callback);
 
                     e.stopPropagation();  //最后阻止冒泡
                 };

@@ -16,6 +16,7 @@ $.extend($E.fn, {
                     'hotKey':（字符串，可选）快捷键，如'ctrl + b', 'ctrl,shift + i', 'alt,meta + y'等，支持 ctrl, shift, alt, meta 四个功能键（只有type===btn才有效）,
                     'beforeFn': (函数，可选) 点击按钮之后立即出发的事件
                     'command':（字符串）document.execCommand的命令名，如'fontName'；也可以是自定义的命令名，如“撤销”、“插入表格”按钮（type===modal时，command无效）,
+                    'commandValue': (字符串) document.execCommand的命令值，如 'blockQuote'，可选
                     'dropMenu': （$ul，可选）type===dropMenu时，要返回一个$ul，作为下拉菜单,
                     'modal':（$div，可选）type===modal是，要返回一个$div，作为弹出框,
                     'callback':（函数，可选）回调函数,

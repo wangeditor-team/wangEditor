@@ -6,7 +6,7 @@ $.extend($E.fn, {
             var $elem,
                 currentRange = this.currentRange(),
                 parentElem = this.parentElemForCurrentRange();
-
+            
             if(!currentRange){
                 return;
             }

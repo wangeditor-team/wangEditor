@@ -5,7 +5,7 @@ $.extend($E.fn, {
             ['viewSourceCode'],
             ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor'],
             //['removeFormat'],
-            ['fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
+            ['blockquote', 'fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
             //['indent', 'outdent'],
             //['insertHr'],
             ['createLink', 'unLink', 'insertTable', 'insertExpression'],

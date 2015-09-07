@@ -155,6 +155,11 @@ $.extend($E.fn, {
         }).on('focus blur', function(){
             //focus blur 时记录，以便撤销
             editor.addCommandRecord();
+        }).on('keydown', function(e){
+            if(e.keyCode === 9){
+                //按tab键，增加缩进
+                editor.command(e, 'insertHTML', '&nbsp;&nbsp;&nbsp;&nbsp;');
+            }
         });
 
         //初始化特定元素左上角的删除按钮------------------

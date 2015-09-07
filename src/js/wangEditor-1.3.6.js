@@ -247,7 +247,8 @@ $.extend($E, {
             5: '22px',
             6: '25px',
             7: '28px'
-        }
+        },
+        'blockQuoteStyle': 'display:block; border-left: 5px solid #d0e5f2; padding:0 0 0 10px; margin:0; line-height:1.4;'
     },
 
     //html模板
@@ -506,6 +507,7 @@ $.extend($E, {
             txt,
             style = menu.style,
             command = menu.command,  //函数或者字符串
+            commandValue = menu.commandValue, //字符串或者undefined
             hotKey = menu.hotKey, //快捷键
             fnKeys = [],
             keyCode,
@@ -553,7 +555,7 @@ $.extend($E, {
                 btnClick = function(e){
                     editor.hideModal();   //先视图隐藏目前显示的modal
                     //执行操作
-                    editor.command(e, command, undefined, callback);
+                    editor.command(e, command, commandValue, callback);
 
                     e.stopPropagation();  //最后阻止冒泡
                 };
@@ -903,6 +905,11 @@ $.extend($E.fn, {
         }).on('focus blur', function(){
             //focus blur 时记录，以便撤销
             editor.addCommandRecord();
+        }).on('keydown', function(e){
+            if(e.keyCode === 9){
+                //按tab键，增加缩进
+                editor.command(e, 'insertHTML', '&nbsp;&nbsp;&nbsp;&nbsp;');
+            }
         });
 
         //初始化特定元素左上角的删除按钮------------------
@@ -1269,6 +1276,7 @@ $.extend($E.fn, {
                     'hotKey':（字符串，可选）快捷键，如'ctrl + b', 'ctrl,shift + i', 'alt,meta + y'等，支持 ctrl, shift, alt, meta 四个功能键（只有type===btn才有效）,
                     'beforeFn': (函数，可选) 点击按钮之后立即出发的事件
                     'command':（字符串）document.execCommand的命令名，如'fontName'；也可以是自定义的命令名，如“撤销”、“插入表格”按钮（type===modal时，command无效）,
+                    'commandValue': (字符串) document.execCommand的命令值，如 'blockQuote'，可选
                     'dropMenu': （$ul，可选）type===dropMenu时，要返回一个$ul，作为下拉菜单,
                     'modal':（$div，可选）type===modal是，要返回一个$div，作为弹出框,
                     'callback':（函数，可选）回调函数,
@@ -1337,6 +1345,43 @@ $.extend($E.fn, {
     'type': 'btn',
     'cssClass':'icon-wangEditor-minus',
     'command': 'InsertHorizontalRule' 
+},
+'blockquote': {
+    'title': '引用',
+    'type': 'btn',
+    'cssClass':'icon-wangEditor-quotes-left',
+    'command': 'formatBlock',
+    'commandValue': 'blockquote',
+    'callback': function(editor){
+        //获取所有的引用块
+        var $blockquotes = editor.$txt.find('blockquote'),
+            key = 'hadStyle';
+
+        //遍历所有引用块，设置样式
+        $.each($blockquotes, function(index, value){
+            var $quote = $(value),
+                data = $quote.data(key),  //获取 key 的值
+                style;
+
+            if(data){
+                //如果通过 key 获取的有值，说明它已经有样式了
+                //可以不再重复操作
+                return;
+            }
+
+             //获取当前的 style ，或者初始化为空字符串
+            style = $quote.attr('style') || '';
+            
+            //拼接新的 style
+            style = $E.styleConfig.blockQuoteStyle + style;
+
+            //重新赋值
+            $quote.attr('style', style);
+
+            //最后，做标记
+            $quote.data(key, true);
+        });
+    }
 },
 'justify': {
     'title': '对齐',
@@ -2117,7 +2162,7 @@ $.extend($E.fn, {
             ['viewSourceCode'],
             ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor'],
             //['removeFormat'],
-            ['fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
+            ['blockquote', 'fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
             //['indent', 'outdent'],
             //['insertHr'],
             ['createLink', 'unLink', 'insertTable', 'insertExpression'],
@@ -2355,7 +2400,7 @@ $.extend($E.fn, {
             var $elem,
                 currentRange = this.currentRange(),
                 parentElem = this.parentElemForCurrentRange();
-
+            
             if(!currentRange){
                 return;
             }
@@ -2528,9 +2573,10 @@ $.extend($E.fn, {
             //执行
             if($E.commandEnabled(commandName) === true){
                 //针对html多做一步处理：在value后面加一个换行
-                if (commandName === 'insertHTML') {
-                    commandValue += '<p><br/></p>';
-                }
+                // if (commandName === 'insertHTML') {
+                //     commandValue += '<p><br/></p>';
+                // }
+                // PS：以上代码不知之前为何添加，后来在tab键功能注释，暂且留着
 
                 document.execCommand(commandName, false, commandValue);
             }else{

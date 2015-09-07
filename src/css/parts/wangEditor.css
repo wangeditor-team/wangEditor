@@ -184,9 +184,9 @@
   -webkit-border-radius: 5px;
   border-radius: 5px;
   color: #333333;
-  -webkit-box-shadow: 0px 5px 15px #666;
-  -moz-box-shadow: 0px 5px 15px #666;
-  box-shadow: 0px 5px 15px #666;
+  -webkit-box-shadow: 0 5px 15px #666;
+  -moz-box-shadow: 0 5px 15px #666;
+  box-shadow: 0 5px 15px #666;
 }
 .wangEditor-container .wangEditor-modal-header {
   text-align: left;

@@ -11,9 +11,10 @@ $.extend($E.fn, {
             //执行
             if($E.commandEnabled(commandName) === true){
                 //针对html多做一步处理：在value后面加一个换行
-                if (commandName === 'insertHTML') {
-                    commandValue += '<p><br/></p>';
-                }
+                // if (commandName === 'insertHTML') {
+                //     commandValue += '<p><br/></p>';
+                // }
+                // PS：以上代码不知之前为何添加，后来在tab键功能注释，暂且留着
 
                 document.execCommand(commandName, false, commandValue);
             }else{
