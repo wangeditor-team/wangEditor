@@ -72,7 +72,8 @@ $(function(){
                 'icon-wangEditor-command':'&#xea4e;',
                 'icon-wangEditor-font2':'&#xea5c;',
                 'icon-wangEditor-libreoffice':'&#xeade;',
-                'icon-wangEditor-quotes-left':'&#xe977;'
+                'icon-wangEditor-quotes-left':'&#xe977;',
+                'icon-wangEditor-strikethrough':'&#xea65;'
             };
 
             //遍历菜单按钮，替换fontIcon

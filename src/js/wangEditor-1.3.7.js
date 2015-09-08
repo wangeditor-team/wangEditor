@@ -84,7 +84,8 @@ $(function(){
                 'icon-wangEditor-command':'&#xea4e;',
                 'icon-wangEditor-font2':'&#xea5c;',
                 'icon-wangEditor-libreoffice':'&#xeade;',
-                'icon-wangEditor-quotes-left':'&#xe977;'
+                'icon-wangEditor-quotes-left':'&#xe977;',
+                'icon-wangEditor-strikethrough':'&#xea65;'
             };
 
             //遍历菜单按钮，替换fontIcon
@@ -1346,6 +1347,12 @@ $.extend($E.fn, {
     'cssClass':'icon-wangEditor-minus',
     'command': 'InsertHorizontalRule' 
 },
+'strikethrough':{
+    'title': '删除线',
+    'type': 'btn',
+    'cssClass':'icon-wangEditor-strikethrough',
+    'command': 'StrikeThrough'
+},
 'blockquote': {
     'title': '引用',
     'type': 'btn',
@@ -1907,7 +1914,7 @@ $.extend($E.fn, {
                         '<div><textarea id="' + txtId + '" style="width:100%; height:100px;"></textarea></div>' + 
                         '<button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">插入</button>',
             $simpleCode_modal = $(
-                $E.htmlTemplates.modalSmall.replace('{content}', content)
+                $E.htmlTemplates.modal.replace('{content}', content)
             );
 
         $simpleCode_modal.find('#' + btnId).click(function(e){
@@ -2160,7 +2167,7 @@ $.extend($E.fn, {
 		//默认的菜单显示配置
         this.editorMenuConfig = [
             ['viewSourceCode'],
-            ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor'],
+            ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor', 'strikethrough'],
             //['removeFormat'],
             ['blockquote', 'fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
             //['indent', 'outdent'],

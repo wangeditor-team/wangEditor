@@ -150,7 +150,7 @@
 
 ……省略其他内容……
 
-&lt;!--引入jquery和wangEditor.js--&gt;
+&lt;!--引入jquery和wangEditor.js--&gt;   <span class="alert">&lt;!--注意：javascript必须放在body最后，否则可能会出现问题--&gt;</span>
 &lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src='js/<span class="js-min-version"></span>'&gt;&lt;/script&gt;
 </pre>
@@ -164,6 +164,7 @@
 
 ……省略其他内容……
 
+<span class="alert">&lt;!--注意：javascript必须放在body最后，否则可能会出现问题--&gt;</span>
 &lt;script type="text/javascript"&gt;
 	$(function(){
 		var editor = $('#textarea1').wangEditor();
@@ -267,7 +268,7 @@ var editor = $('#textarea1').wangEditor({
 <pre>
 [
     ['viewSourceCode'],
-    ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor'],
+    ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor', 'strikethrough'],
     ['blockquote', 'fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
     ['createLink', 'unLink', 'insertTable', 'insertExpression'],
     ['insertImage', 'insertVideo', 'insertLocation','insertSimpleCode'],
@@ -312,7 +313,8 @@ var editor = $('#textarea1').wangEditor({
 	<h3>自定义配置表情图标</h3>
 	<p>
 		在创建编辑器时，可传入 expressions 参数，自定义配置表情图标。
-		可参见 <a href="../test/test-set-expressions.html" target="_blank">在线的demo</a>
+		可参见 <a href="../test/test-set-expressions.html" target="_blank">在线的demo</a> ，
+		系统默认的表情包下载如下： <a href="http://www.wangeditor.com/expressions.zip">默认表情包</a>
 	</p>
 <pre>
 var editor = $('#textarea1').wangEditor({
@@ -1151,7 +1153,7 @@ require(['wangEditor'], function(){
 <script type="text/javascript" src="../dist/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
 	$(function(){
-		var version = '1.3.6',
+		var version = '1.3.7',
 			css = 'wangEditor-' + version + '.css',
 			js = 'wangEditor-' + version + '.js',
 			js_min = 'wangEditor-' + version + '.min.js'

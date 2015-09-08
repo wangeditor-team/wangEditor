@@ -86,6 +86,12 @@ $.extend($E.fn, {
     'cssClass':'icon-wangEditor-minus',
     'command': 'InsertHorizontalRule' 
 },
+'strikethrough':{
+    'title': '删除线',
+    'type': 'btn',
+    'cssClass':'icon-wangEditor-strikethrough',
+    'command': 'StrikeThrough'
+},
 'blockquote': {
     'title': '引用',
     'type': 'btn',
@@ -647,7 +653,7 @@ $.extend($E.fn, {
                         '<div><textarea id="' + txtId + '" style="width:100%; height:100px;"></textarea></div>' + 
                         '<button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">插入</button>',
             $simpleCode_modal = $(
-                $E.htmlTemplates.modalSmall.replace('{content}', content)
+                $E.htmlTemplates.modal.replace('{content}', content)
             );
 
         $simpleCode_modal.find('#' + btnId).click(function(e){

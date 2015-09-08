@@ -25,7 +25,7 @@
 
 ……省略其他内容……
 
-&lt;!--引入jquery和wangEditor.js--&gt;
+&lt;!--引入jquery和wangEditor.js--&gt;   <span class="alert">&lt;!--注意：javascript必须放在body最后，否则可能会出现问题--&gt;</span>
 &lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src='js/<span class="js-min-version"></span>'&gt;&lt;/script&gt;
 </pre>
@@ -39,6 +39,7 @@
 
 ……省略其他内容……
 
+<span class="alert">&lt;!--注意：javascript必须放在body最后，否则可能会出现问题--&gt;</span>
 &lt;script type="text/javascript"&gt;
 	$(function(){
 		var editor = $('#textarea1').wangEditor();

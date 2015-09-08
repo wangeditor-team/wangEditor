@@ -57,6 +57,12 @@
     'cssClass':'icon-wangEditor-minus',
     'command': 'InsertHorizontalRule' 
 },
+'strikethrough':{
+    'title': '删除线',
+    'type': 'btn',
+    'cssClass':'icon-wangEditor-strikethrough',
+    'command': 'StrikeThrough'
+},
 'blockquote': {
     'title': '引用',
     'type': 'btn',
