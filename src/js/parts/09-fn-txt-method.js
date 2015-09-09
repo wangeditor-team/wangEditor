@@ -76,5 +76,20 @@ $.extend($E.fn, {
     //让编辑器失去焦点
     'blur': function(){
         this.$txt.blur();
+    },
+
+    //让编辑器获取焦点
+    'focus': function(){
+        this.$txt.focus();
+    },
+
+    //隐藏编辑器
+    'hide': function(){
+        this.$editorContainer.hide();
+    },
+
+    //显示编辑器
+    'show': function(){
+        this.$editorContainer.show();
     }
 });
