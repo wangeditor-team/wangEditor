@@ -71,5 +71,10 @@ $.extend($E.fn, {
     //获取editor Container
     'getEditorContainer': function(){
         return this.$editorContainer;
+    },
+
+    //让编辑器失去焦点
+    'blur': function(){
+        this.$txt.blur();
     }
 });

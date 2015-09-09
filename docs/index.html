@@ -28,6 +28,7 @@
 		<li><a href="#menu-config">自定义配置菜单</a></li>
 		<li><a href="#onchange">添加change监听事件</a></li>
 		<li><a href="#expressions">自定义配置表情图标</a></li>
+		<li><a href="#highlight">配置代码高亮</a></li>
 	</ul>
 	<a href="#upload-img" class="group-title">图片上传</a>
 	<ul>
@@ -331,6 +332,92 @@ var editor = $('#textarea1').wangEditor({
 		其实，expressions 参数传入的仅仅是一个数组而已，至于这个数组如何拼接，我想应该有N种方式。
 		发挥你的想象力，不必拘泥于这一个例子。
 	</p>
+</div>
+<div id="highlight">
+	<h3>配置代码高亮</h3>
+	<p>
+		wangEditor自带的代码插入功能，比较简单，也没有高亮功能。
+		下面介绍一种简单的方法，几分钟即可让wangEditor拥有代码高亮功能
+		———— wangEditor可以集成
+		<a href="https://highlightjs.org/" target="_blank">
+			hightlight
+		</a>
+		插件来实现代码高亮。
+		可查看
+		<a href="../test/highlightJS/test.html" target="_blank">
+			在线的demo
+		</a>
+	</p>
+	<p>
+		<br>
+		<b>第一步，你需要下载 hightlight 插件</b>
+	</p>
+	<p>
+		国外网站访问比较慢，你可以快速<a href="http://pan.baidu.com/s/1mgIQjH2" target="_blank">下载作者整理好的</a>，
+		但是，它只能支持20多种常用语言。
+		<span class="alert">想要支持更多语言，</span>
+		请点击
+		<a href="https://highlightjs.org/download/">
+			https://highlightjs.org/download/
+		</a>
+		里面有上百种语言供你选择、打包下载。
+	</p>
+	<img src="images/highlight1.png" style="width:400px;">
+	<p>
+		下载之后，可以得到一个 highlight.pack.js 和一个 style 文件夹，其中有很多个 css 文件。
+		从这些 css 文件名，你就可以看出，每一个 css 文件就是一个主题包。
+		<span class="alert">想要哪种代码高亮的样式主题，就引用哪一个 css 到页面中！</span>
+	</p>
+	<img src="images/highlight2.png" style="width:300px;">
+
+	<p>
+		<br>
+		<b>第二步，在页面中引用 highlight 的 css 和 js 文件</b>
+	</p>
+<pre>
+&lt;!--在 head 中引用 css 文件--&gt;
+<span class="alert">&lt;!--style文件夹中，每一个css就是一个样式主题，可自行选择--&gt;</span>
+&lt;link rel="stylesheet" type="text/css" href="highlightJS/styles/github.css"&gt;
+
+...省略若干内容...
+
+&lt;!--在 body 最下方引用 javascript 文件--&gt;
+&lt;!--引用jquery、highlight.pack.js--&gt;
+&lt;script type="text/javascript" src="js/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="highlightJS/highlight.pack.js"&gt;&lt;/script&gt;
+</pre>
+
+	<p>
+		<br>
+		<b>第三步，执行 hightlight 的方法</b>
+	</p>
+<pre>
+&lt;!-- 引用jquery、highlight.pack.js 之后，再执行如下代码--&gt;
+&lt;script type="text/javascript"&gt;
+	$(function(){
+		$('pre code').each(function(i, block) {
+	    		hljs.highlightBlock(block);
+	  	});
+	});
+&lt;/script&gt;
+</pre>
+	<p>
+		至此，hightlight 插件已经集成到了页面中。
+	</p>
+	<p>
+		那么如何将它集成进 wangEditor 呢 ———— 答案：<b>不用集成！
+		你只需要在这个页面的基础上做一个 wangEditor 编辑器即可，
+		wangEditor会自动识别你是否引用了 highlight 插件。</b>
+	</p>
+	<p>
+		不会的同学，可参考<a href="#start" target="_blank">开始使用</a>一节
+	</p>
+	<p>
+		<br>
+		以上都做完了，你会发现 wangEditor 的“插入代码”界面中，
+		多了选择语言的下拉框，插入代码后，也有了高亮效果，快去试试吧！
+	</p>
+	<img src="images/highlight3.png" style="width:400px;">
 </div>
 <div id="upload-img">
 	<h2>图片上传</h2>
@@ -1153,7 +1240,7 @@ require(['wangEditor'], function(){
 <script type="text/javascript" src="../dist/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
 	$(function(){
-		var version = '1.3.7',
+		var version = '1.3.8',
 			css = 'wangEditor-' + version + '.css',
 			js = 'wangEditor-' + version + '.js',
 			js_min = 'wangEditor-' + version + '.min.js'

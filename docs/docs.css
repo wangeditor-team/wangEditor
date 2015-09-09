@@ -73,9 +73,13 @@ ul{
 }
 #container h2{
 	margin-top: 30px;
+	margin-bottom: 15px;
+	border-bottom: 3px solid #999;
 }
 #container h3{
 	margin-top: 15px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ccc;
 }
 #container .alert{
 	background-color: yellow;
