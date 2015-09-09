@@ -41,6 +41,7 @@
 	<ul>
 		<li><a href="#multi-text">单页多个编辑器</a></li>
 		<li><a href="#requirejs">使用requirejs</a></li>
+		<li><a href="#placeholder">增加placehoder功能</a></li>
 		<li><a href="#custom-dev">定制开发</a></li>
 	</ul>
 </div><!--导航边栏 end-->
@@ -1218,6 +1219,24 @@ require(['wangEditor'], function(){
 &lt;!--引用requirejs--&gt;
 &lt;script data-main="main" src="require.js"&gt;&lt;/script&gt;
 </pre>
+</div>
+<div id="placeholder">
+	<h3>增加 placeholder 功能</h3>
+	<p>
+		wangEditor目前不默认支持 placeholder 功能，
+		但是你可以通过简单的二次开发，实现很不错的 placeholder 效果。
+	</p>
+	<p>
+		开发思路：
+		在页面中编辑器下面增加一个 input 标签，并设置 placeholder 属性。
+		页面加载完成后，先将 wangEditor 编辑器隐藏。
+		当 input 触发 focus 事件时，再隐藏 input ，显示 wangEditor 编辑器。
+	</p>
+	<p>
+		源代码：<a href="https://github.com/wangfupeng1988/wangEditor/blob/master/test/test-placeholder.html" target="_blank">https://github.com/wangfupeng1988/wangEditor/blob/master/test/test-placeholder.html</a>
+		<br>
+		demo演示：<a href="http://www.wangeditor.com/wangEditor/test/test-placeholder.html" target="_blank">http://www.wangeditor.com/wangEditor/test/test-placeholder.html</a>
+	</p>
 </div>
 <div id="custom-dev">
 	<h3>定制开发</h3>
