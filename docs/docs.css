@@ -56,7 +56,7 @@ ul{
 
 /*代码区域*/
 #container pre{
-	border: 1px solid #ccc;
+	/*border: 1px solid #ccc;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
@@ -65,7 +65,7 @@ ul{
 	margin: 5px 0px;
 	line-height: 1.8;
 	font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-	font-size: 0.8em;
+	font-size: 0.8em;*/
 	width: 100%;
 	max-height: 400px;
 	overflow-x: auto;

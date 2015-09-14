@@ -1,5 +1,5 @@
 'foreColor': {
-    'title': '字体颜色',
+    'title': langMenus.foreColor.title,
     'type': 'dropPanel',
     'cssClass': 'icon-wangEditor-pencil', 
     //'style': 'color:blue;',
@@ -25,7 +25,7 @@
     }
 },
 'backgroundColor': {
-    'title': '背景色',
+    'title': langMenus.backgroundColor.title,
     'type': 'dropPanel',
     'cssClass': 'icon-wangEditor-brush',  
     //'style':'color:red;',

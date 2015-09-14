@@ -4,22 +4,21 @@
 		编辑器默认情况下会显示出所有可用的菜单，菜单是分组的，
 		因此默认的菜单配置是一个<span class="alert">二维数组</span>。
 	</p>
-<pre>
-[
+<pre><code class="javascript">[
     ['viewSourceCode'],
     ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor', 'strikethrough'],
     ['blockquote', 'fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
     ['createLink', 'unLink', 'insertTable', 'insertExpression'],
-    ['insertImage', 'insertVideo', 'insertLocation','insertSimpleCode'],
+    ['insertImage', 'insertVideo', 'insertLocation','insertCode'],
     ['undo', 'redo', 'fullScreen']
 ]
-</pre>
+</code></pre>
 	<p>
 		可以自定义删除某些不用的菜单，也可以自定义修改菜单的组和顺序，实现自定义菜单配置。
 		但修改后的菜单配置，必须还是一个二维数组。
 		可参见 <a href="../test/test-menu-config.html" target="_blank">在线的demo</a>
 	</p>
-<pre>
+<pre><code class="javascript">//自定义菜单配置
 var editor = $('#textarea1').wangEditor({
 	'menuConfig': [
 		['fontFamily','bold','setHead'],
@@ -27,5 +26,5 @@ var editor = $('#textarea1').wangEditor({
 		['createLink','insertHr','undo']
 	]
 });
-</pre>
+</code></pre>
 </div>

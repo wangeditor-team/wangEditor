@@ -19,8 +19,7 @@
 			jquery只支持1.7及以上版本
 		</span>
 	</p>
-<pre>
-&lt;!--引入wangEditor.css--&gt;
+<pre><code class="xml">&lt;!--引入wangEditor.css--&gt;
 &lt;link rel="stylesheet" type="text/css" href="css/<span class="css-version"></span>"&gt;
 
 ……省略其他内容……
@@ -28,13 +27,13 @@
 &lt;!--引入jquery和wangEditor.js--&gt;   <span class="alert">&lt;!--注意：javascript必须放在body最后，否则可能会出现问题--&gt;</span>
 &lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src='js/<span class="js-min-version"></span>'&gt;&lt;/script&gt;
-</pre>
+</code></pre>
 	<p>
 		第三步，在html页面中创建一个textarea标签，可自定义设置其高度。
 		此处设置的高度，将是编辑器的高度。
 		最后，获取这个textarea节点，并执行wangEditor()方法。
 	</p>
-<pre>
+<pre><code class="xml">&lt;!--创建一个 textarea 标签--&gt;
 &lt;textarea id='textarea1' style='height:300px; width:100%;'&gt;&lt;/textarea&gt;
 
 ……省略其他内容……
@@ -45,7 +44,7 @@
 		var editor = $('#textarea1').wangEditor();
 	});
 &lt;/script&gt;
-</pre>
+</code></pre>
 	
 	<p>
 		这样，一个最简单的demo，就成功搭建起来了。

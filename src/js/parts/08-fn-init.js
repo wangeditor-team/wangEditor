@@ -8,7 +8,8 @@ $.extend($E.fn, {
         *   onchange: function(){...},  //配置onchange事件，
         *   expressions: [...],  //配置表情图片的url地址
         *   uploadImgComponent : $('#someId'),  //上传图片的组件
-        *   uploadUrl: 'string'  //图片上传的地址
+        *   uploadUrl: 'string',  //图片上传的地址
+        *   lang: '...' / {...}  //语言包
         * }
         */
 
@@ -18,6 +19,7 @@ $.extend($E.fn, {
             expressions = options.expressions,
             uploadImgComponent = options.uploadImgComponent,
             uploadUrl = options.uploadUrl,
+            lang = options.lang,
 
             //editor
             editor = this,
@@ -84,6 +86,11 @@ $.extend($E.fn, {
         if(expressions && expressions.length && expressions.length > 0){
             editor.expressions = expressions;
         }
+
+        //配置语言包
+        //要在初始化menus之前
+        //要在init跨域图片上传组件之前
+        editor.initLang(lang);
 
         //跨域上传图片的url
         if(uploadUrl && typeof uploadUrl === 'string'){
@@ -175,6 +182,9 @@ $.extend($E.fn, {
             //IE和firefox自带resize功能
             editor.initImgResizeBtn('img');
         }
+
+        //配置编辑器语言
+        editor.initLang(lang);
 
         //txtContainer和btnContainer被点击时，要隐藏modal
         editor.$txtContainer.click(function(){

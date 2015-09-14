@@ -9,7 +9,7 @@ $.extend($E.fn, {
             //['indent', 'outdent'],
             //['insertHr'],
             ['createLink', 'unLink', 'insertTable', 'insertExpression'],
-            ['insertImage', 'insertVideo', 'insertLocation','insertSimpleCode'],
+            ['insertImage', 'insertVideo', 'insertLocation','insertCode'],
             ['undo', 'redo', 'fullScreen']
         ];
 	}

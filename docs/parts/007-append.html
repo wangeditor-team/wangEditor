@@ -4,8 +4,7 @@
 		可通过append方法向编辑器中追加内容，包括jquery对象和字符串。
 		可参见 <a href="../test/test-append.html" target="_blank">在线的demo</a>
 	</p>
-<pre>
-var editor = $('#textarea1').wangEditor();
+<pre><code class="javascript">var editor = $('#textarea1').wangEditor();
 
 //点击按钮，追加内容
 $('#btn').click(function(e){
@@ -17,5 +16,5 @@ $('#btn').click(function(e){
 	editor.append('<span>欢迎使用wangEditor</span>');
 	//注意，插入字符串时，不能插入零碎的html片段（如 '<td>123</td></tr></table>' 等），否则会报错！
 });
-</pre>
+</code></pre>
 </div>

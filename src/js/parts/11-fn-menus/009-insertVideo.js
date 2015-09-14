@@ -1,5 +1,5 @@
 'insertVideo': {
-    'title': '插入视频',
+    'title': langMenus.insertVideo.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-play',
     'modal': function(editor){
@@ -8,10 +8,21 @@
             txtHeightId = $E.getUniqeId(),
             btnId = $E.getUniqeId(),
             defaultWidth = 480, defaultHeight = 400;
-        var content = '<p>地址：<input id="' + txtSrcId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
-                        '<p>宽度：<input id="' + txtWidthId + '" type="text" style="width:50px" value="' + defaultWidth + '"/> px（像素）</p>' +
-                        '<p>高度：<input id="' + txtHeightId + '" type="text" style="width:50px" value="' + defaultHeight + '"/> px（像素） </p>' +
-                        '<p><button id="' + btnId + '" class="wangEditor-modal-btn" type="button">插入视频</button></p>';
+
+        var langModal = langMenus.insertVideo.modal,
+            langUrl = langModal.url,
+            langWidth = langModal.width,
+            langHeight = langModal.height,
+
+            langBtn = langCommon.insert,
+
+            langUnsafe = langCommon.unsafeAlert,
+            langFormatError = langCommon.formatError;
+
+        var content = '<p>' +langUrl+ '：<input id="' + txtSrcId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
+                        '<p>' +langWidth+ '：<input id="' + txtWidthId + '" type="text" style="width:50px" value="' + defaultWidth + '"/> px（像素）</p>' +
+                        '<p>' +langHeight+ '：<input id="' + txtHeightId + '" type="text" style="width:50px" value="' + defaultHeight + '"/> px（像素） </p>' +
+                        '<p><button id="' + btnId + '" class="wangEditor-modal-btn" type="button">' +langBtn+ '</button></p>';
         var $video_modal = $(
                 $E.htmlTemplates.modalSmall.replace('{content}', content)
             );
@@ -30,13 +41,13 @@
 
             //验证src的合法性
             if($E.filterXSSForUrl(src) === false){
-                alert('您的输入内容有不安全字符，请重新输入！');
+                alert( langUnsafe );
                 return;
             }
 
             //在此验证src
             if( (src.indexOf('http://') !== 0 && src.indexOf('https://') !== 0) || src.indexOf('.swf') === -1 ){
-                alert('您输入的内容不符合要求');
+                alert( langFormatError );
                 return;
             }
 

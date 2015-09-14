@@ -1,5 +1,5 @@
 'list': {
-    'title': '列表',
+    'title': langMenus.list.title,
     'type': 'dropMenu',
     'cssClass':'icon-wangEditor-list-bullet',
     'dropMenu': function () {
@@ -11,11 +11,11 @@
                 {
                     //无序列表
                     'commandName': 'InsertUnorderedList',
-                    'txt': '<i class="icon-wangEditor-list-bullet"> 无序列表</i>'
+                    'txt': '<i class="icon-wangEditor-list-bullet"> ' + langMenus.list.unOrdered.title + '</i>'
                 },{
                     //有序列表
                     'commandName': 'InsertOrderedList',
-                    'txt': '<i class="icon-wangEditor-list-numbered"> 有序列表</i>'
+                    'txt': '<i class="icon-wangEditor-list-numbered"> ' + langMenus.list.unOrdered.title + '</i>'
                 }
             ];
 

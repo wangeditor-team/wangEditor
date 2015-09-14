@@ -39,8 +39,7 @@
 		<br>
 		<b>第二步，在页面中引用 highlight 的 css 和 js 文件</b>
 	</p>
-<pre>
-&lt;!--在 head 中引用 css 文件--&gt;
+<pre><code class="xml">&lt;!--在 head 中引用 css 文件--&gt;
 <span class="alert">&lt;!--style文件夹中，每一个css就是一个样式主题，可自行选择--&gt;</span>
 &lt;link rel="stylesheet" type="text/css" href="highlightJS/styles/github.css"&gt;
 
@@ -50,14 +49,13 @@
 &lt;!--引用jquery、highlight.pack.js--&gt;
 &lt;script type="text/javascript" src="js/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="highlightJS/highlight.pack.js"&gt;&lt;/script&gt;
-</pre>
+</code></pre>
 
 	<p>
 		<br>
 		<b>第三步，执行 hightlight 的方法</b>
 	</p>
-<pre>
-&lt;!-- 引用jquery、highlight.pack.js 之后，再执行如下代码--&gt;
+<pre><code class="xml">&lt;!-- 引用jquery、highlight.pack.js 之后，再执行如下代码--&gt;
 &lt;script type="text/javascript"&gt;
 	$(function(){
 		$('pre code').each(function(i, block) {
@@ -65,7 +63,7 @@
 	  	});
 	});
 &lt;/script&gt;
-</pre>
+</code></pre>
 	<p>
 		至此，hightlight 插件已经集成到了页面中。
 	</p>

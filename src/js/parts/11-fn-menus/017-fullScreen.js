@@ -1,4 +1,5 @@
-'fullScreen': {'title': '切换全屏',
+'fullScreen': {
+	'title':langMenus.fullScreen.title,
     'type': 'btn',
     'cssClass': 'icon-wangEditor-enlarge2',
     'command': 'fullScreen'

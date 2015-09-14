@@ -11,7 +11,7 @@
 	<p>
 		可参考 <a href="../test/byrequirejs/test.html" target="_blank">在线的demo</a>
 	</p>
-<pre>
+<pre><code class="javascript">
 require.config({
     paths: {
         jquery: '/js/jquery-1.10.2.min',
@@ -24,17 +24,17 @@ require(['wangEditor'], function(){
 		var editor = $('#textarea1').wangEditor();
 	});
 });
-</pre>
+</code></pre>
 
 	<p>
 		下一步，在你的页面中，引用 requirejs 即可。
 	</p>
-<pre>
+<pre><code class="xml">
 &lt;textarea id='textarea1' style='height:200px; width:100%;'&gt;&lt;/textarea&gt;
 
 ...省略其他代码...
 
 &lt;!--引用requirejs--&gt;
 &lt;script data-main="main" src="require.js"&gt;&lt;/script&gt;
-</pre>
+</code></pre>
 </div>

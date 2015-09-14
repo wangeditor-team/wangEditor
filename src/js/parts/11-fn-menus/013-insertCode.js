@@ -1,12 +1,16 @@
-'insertSimpleCode':{
-    'title': '插入代码',
+'insertCode':{
+    'title': langMenus.insertCode.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-terminal',
     'modal': function(editor){
         var txtId = $E.getUniqeId(),
             selectId = $E.getUniqeId(),
-            btnId = $E.getUniqeId(),
-            content = '<p>请输入代码：{selectLangs}</p>' +  // selectLangs 待填充语言列表下拉框
+            btnId = $E.getUniqeId();
+
+        var langModal = langMenus.insertCode.modal,
+            langTitle = langModal.title;
+
+        var content = '<p>' +langTitle+ '：{selectLangs}</p>' +  // selectLangs 待填充语言列表下拉框
                         '<div><textarea id="' + txtId + '" style="width:100%; height:100px;"></textarea></div>' + 
                         '<button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">插入</button>',
             selectLangs = '<select id="' + selectId + '">{content}</select>',  // content 待填充语言列表

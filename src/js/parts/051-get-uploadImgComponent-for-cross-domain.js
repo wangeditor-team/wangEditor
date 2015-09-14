@@ -2,18 +2,34 @@ $.extend($E, {
 	'getUploadImgComponentForCrossDomain': function(editor){
 		var uploadUrl = editor.uploadUrl,
 	        fileInputName = 'wangEditor_uploadImg',  //服务器端根据这个name获取file
-	        imgExts = '|.bmp|.jpg|.jpeg|.png|.gif|',  //图片文件的后缀名（注意：前后都要加“|”）
+	        imgExts = '|.bmp|.jpg|.jpeg|.png|.gif|';  //图片文件的后缀名（注意：前后都要加“|”）
 
-	        formId = $E.getUniqeId(),
+	    var formId = $E.getUniqeId(),
 	        fileId = $E.getUniqeId(),
 	        titleTxtId = $E.getUniqeId(),
 	        btnId = $E.getUniqeId(),
 	        infoId = $E.getUniqeId(),
-	        iframeId = $E.getUniqeId(),
-	        content =   '<form id="' + formId + '" method="post" enctype="multipart/form-data" target="' + iframeId + '">'+
-	                    '   <p>选择文件：<input type="file" name="' + fileInputName + '" id="' + fileId + '"/></p>' +
-	                    '   <p>图片标题：<input type="text" id="' + titleTxtId + '" style="width:250px;"/></p>' +
-	                    '   <p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">上传</button></p>' +
+	        iframeId = $E.getUniqeId();
+
+	    //配置多语言
+	    var langConfig = editor.langConfig,
+	    	langIsertImage = langConfig.menus.insertImage,
+
+	    	langModal = langIsertImage.modal,
+	    	langChoose = langModal.choose,
+	    	langTitle = langModal.title,
+
+	    	langAlert = langIsertImage.alert,
+	    	langChooseAImage = langAlert.chooseAImage,
+	    	langFileTypeError = langAlert.fileTypeError,
+	    	langUploading = langAlert.uploading,
+
+	    	langUpload = langConfig.common.upload;
+
+	    var content =   '<form id="' + formId + '" method="post" enctype="multipart/form-data" target="' + iframeId + '">'+
+	                    '   <p>' +langChoose+ '：<input type="file" name="' + fileInputName + '" id="' + fileId + '"/></p>' +
+	                    '   <p>' +langTitle+ '：<input type="text" id="' + titleTxtId + '" style="width:250px;"/></p>' +
+	                    '   <p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">' +langUpload+ '</button></p>' +
 	                    '   <span stype="color:red;" id="' + infoId + '"></span>' +
 	                    '</form>' +
 	                    '<div style="display:none;"><iframe id="' + iframeId + '" name="' + iframeId + '" style="display:none; width:0; height:0;"></iframe></div>',
@@ -22,14 +38,15 @@ $.extend($E, {
 	    $uploadImg_modal.find('#' + btnId).click(function(e){
 	        //检验是否传入uploadUrl配置
 	        if(uploadUrl == null || typeof uploadUrl !== 'string'){
-	            alert('未配置URL地址，不能上传图片');
+	            alert('未配置URL地址，不能上传图片');  
+	            //该提示给测试人员，而非让用户看到，因此不用多语言
 	            return;
 	        }
 
 	        //检验是否选择文件
 	        var fileVal = $('#' + fileId).val();
 	        if(fileVal === ''){
-	            alert('请选择图片文件');
+	            alert( langChooseAImage );
 	            return;
 	        }
 
@@ -37,7 +54,7 @@ $.extend($E, {
 	        var ext = fileVal.slice( fileVal.lastIndexOf('.') - fileVal.length );
 	        ext = '|' + ext.toLowerCase() + '|';
 	        if(imgExts.indexOf(ext) === -1){
-	            alert('选择的文件不是图片格式');
+	            alert( langFileTypeError );
 	            return;
 	        }
 	        
@@ -103,7 +120,7 @@ $.extend($E, {
 
 	        //先暂时禁用按钮
 	        $btn.hide();
-	        $info.html('上传中...');
+	        $info.html( langUploading );
 
 	        try{
 	            //设置uploadUrl，提交form

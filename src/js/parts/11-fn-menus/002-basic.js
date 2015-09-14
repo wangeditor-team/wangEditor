@@ -1,5 +1,5 @@
 'bold': {
-    'title': '加粗',
+    'title': langMenus.bold.title,
     'type': 'btn',
     'hotKey': 'ctrl + b',
     'beforeFn': function(editor){
@@ -13,58 +13,58 @@
     }
 },
 'underline': {
-    'title': '下划线',
+    'title': langMenus.underline.title,
     'type': 'btn',
     'hotKey': 'ctrl + u',
     'cssClass':'icon-wangEditor-underline',
     'command': 'underline '
 },
 'italic': {
-    'title': '斜体',
+    'title': langMenus.italic.title,
     'type': 'btn',
     'hotKey': 'ctrl + i',
     'cssClass':'icon-wangEditor-italic',
     'command': 'italic '
 },
 'removeFormat': {
-    'title': '清除格式',
+    'title': langMenus.removeFormat.title,
     'type': 'btn',
     'cssClass':'icon-wangEditor-eraser',
     'command': 'RemoveFormat ' 
 },
 // 'indent': {
-//     'title': '增加缩进',
+//     'title': langMenus.indent.title,
 //     'type': 'btn',
 //     'hotKey': 'ctrl,shift + i',
 //     'cssClass':'icon-wangEditor-indent-right',
 //     'command': 'indent'
 // },
 // 'outdent': {
-//     'title': '减少缩进',
+//     'title': langMenus.outdent.title,
 //     'type': 'btn',
 //     'cssClass':'icon-wangEditor-indent-left',
 //     'command': 'outdent'
 // }, 
 'unLink': {
-    'title': '取消链接',
+    'title': langMenus.unLink.title,
     'type': 'btn',
     'cssClass':'icon-wangEditor-unlink',
     'command': 'unLink ' 
 },
 'insertHr': {
-    'title': '插入横线',
+    'title': langMenus.insertHr.title,
     'type': 'btn',
     'cssClass':'icon-wangEditor-minus',
     'command': 'InsertHorizontalRule' 
 },
 'strikethrough':{
-    'title': '删除线',
+    'title': langMenus.strikethrough.title,
     'type': 'btn',
     'cssClass':'icon-wangEditor-strikethrough',
     'command': 'StrikeThrough'
 },
 'blockquote': {
-    'title': '引用',
+    'title': langMenus.blockquote.title,
     'type': 'btn',
     'cssClass':'icon-wangEditor-quotes-left',
     'command': 'formatBlock',

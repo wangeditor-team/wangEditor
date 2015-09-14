@@ -26,4 +26,9 @@ $.extend($E.fn, {
                 }
             }
         */
-        this.menus = {
+
+        var editor = this,
+            langCommon = editor.langConfig.common,
+            langMenus = editor.langConfig.menus;
+
+        editor.menus = {

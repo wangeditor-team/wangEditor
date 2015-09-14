@@ -1,5 +1,5 @@
 'fontSize': {
-    'title': '字号',
+    'title': langMenus.fontSize.title,
     'type': 'dropMenu',
     'cssClass': 'icon-wangEditor-text-height',
     'command': 'fontSize',

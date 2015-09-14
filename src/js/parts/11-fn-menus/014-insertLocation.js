@@ -1,5 +1,5 @@
 'insertLocation':{
-    'title': '插入位置',
+    'title': langMenus.insertLocation.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-location',
     'modal': function(editor){
@@ -10,13 +10,28 @@
             divMapId = $E.getUniqeId(),
             btnInsertId = $E.getUniqeId(),
             checkDynamicId = $E.getUniqeId();
-        var content = ' 城市：<input type="text" id="' + txtCityId + '" style="width:60px;"/> ' + 
-                      ' 位置：<input type="text" id="' + txtLocationId + '">' +
-                      ' <button class="wangEditor-modal-btn" id="' + btnSearchId + '"  type="button">搜索</button>' + 
-                      ' <button class="wangEditor-modal-btn" id="' + btnClearId + '"  type="button">清除位置</button>' +
-                      ' <div id="' + divMapId + '" style="width:100%; height:220px; border:1px solid #ccc; margin:10px 0px;">地图加载中……</div>' +
-                      ' <button class="wangEditor-modal-btn" id="' + btnInsertId +'"  type="button">插入位置</button>' +
-                      ' <input type="checkbox" id="' + checkDynamicId + '"/>动态地图';
+
+        var langModal = langMenus.insertLocation.modal,
+            langCity = langModal.city,
+            langLocation = langModal.location,
+            langSearch = langModal.search,
+            langClear = langModal.clear,
+            langLoading = langModal.loading,
+            langDynamic = langModal.dynamic,
+
+            langInsert = langCommon.insert,
+
+            langAlert = langMenus.insertLocation.alert,
+            langCantFindLocation = langAlert.cantFindLocation,
+            langDynamicOneLocation = langAlert.dynamicOneLocation;
+
+        var content = langCity + '：<input type="text" id="' + txtCityId + '" style="width:60px;"/> ' + 
+                      langLocation + '：<input type="text" id="' + txtLocationId + '">' +
+                      ' <button class="wangEditor-modal-btn" id="' + btnSearchId + '"  type="button">' +langSearch+ '</button>' + 
+                      ' <button class="wangEditor-modal-btn" id="' + btnClearId + '"  type="button">' +langClear+ '</button>' +
+                      ' <div id="' + divMapId + '" style="width:100%; height:220px; border:1px solid #ccc; margin:10px 0px;">' +langLoading+ '</div>' +
+                      ' <button class="wangEditor-modal-btn" id="' + btnInsertId +'"  type="button">' +langInsert+ '</button>' +
+                      ' <input type="checkbox" id="' + checkDynamicId + '"/>' + langDynamic;
         var $location_modal = $(
                 $E.htmlTemplates.modal.replace('{content}', content)
             );
@@ -84,7 +99,7 @@
                             marker.enableDragging();  //允许拖拽
                             markers.push(marker);  //将marker加入到数组中
                         }else{
-                            alert("没有找到您输入的地址!");
+                            alert( langCantFindLocation );
                             map.centerAndZoom(cityName, 11);  //找不到则重新定位到城市
                         }
                     }, cityName);
@@ -144,7 +159,7 @@
 
             if(isDynamic){
                 if(markers.length > 1){
-                    alert('动态地图只能显示一个位置！');
+                    alert( langDynamicOneLocation );
                     return;
                 }
 

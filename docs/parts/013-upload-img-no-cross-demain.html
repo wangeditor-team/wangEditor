@@ -43,8 +43,7 @@
 	<p>
 		<b>第一步</b>，先建立一个plupload上传图片的页面，以下代码是关键部分。
 	</p>
-<pre>
-……省略部分代码……
+<pre><code class="xml">……省略部分代码……
 
 &lt;div id="uploadContainer"&gt;
     &lt;input type="button" value="选择文件" id="btnBrowse"/&gt;
@@ -122,14 +121,13 @@ $(function(){
 	});
 });
 &lt;/script&gt;
-</pre>
+</code></pre>
 
 	<p>
 		<b>第二步</b>，在该页面的基础上，引用wangEitor的css、js，添加textarea，生成编辑器。
 		不明白的同学，可参见<a href="#start">开始使用</a>一节。之后该页面的代码如下：
 	</p>
-<pre>
-&lt;!--引入wangEditor.css--&gt;
+<pre><code class="xml">&lt;!--引入wangEditor.css--&gt;
 &lt;link rel="stylesheet" type="text/css" href="css/<span class="css-version"></span>"&gt;
 
 ……省略其他内容……
@@ -160,7 +158,7 @@ $(function(){
 	……plupload配置的内容……
 });
 &lt;/script&gt;
-</pre>
+</code></pre>
 	<p>
 		截止到此，plupload和wangEditor的功能都是相互独立的，两者没有任何关系。
 		此时，你点击“图片”菜单，肯定得不到你想要的结果（如下图）。
@@ -179,8 +177,7 @@ $(function(){
 	</ul>
 	<p>具体内容可参考如下代码高亮部分</p>
 
-<pre>
-&lt;!--引入wangEditor.css--&gt;
+<pre><code class="xml">&lt;!--引入wangEditor.css--&gt;
 &lt;link rel="stylesheet" type="text/css" href="css/<span class="css-version"></span>"&gt;
 
 ……省略其他内容……
@@ -275,7 +272,7 @@ $(function(){
 	});
 });
 &lt;/script&gt;
-</pre>
+</code></pre>
 	
 	<p>
 		至此，配置结束。此时在此点击“图片”按钮，就能使用plupload上传图片了。

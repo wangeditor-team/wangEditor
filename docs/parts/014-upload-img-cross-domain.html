@@ -22,9 +22,8 @@
 		</a>
 		并放在你的项目中。然后，得到这个页面的url地址。
 	</p>
-<pre>
-http://localhost:8080/wangEditor_uploadImg_assist.html
-</pre>
+<pre><code class="xml">http://localhost:8080/wangEditor_uploadImg_assist.html
+</code></pre>
 	
 	<p>
 		第二步，编写后台代码。
@@ -34,7 +33,7 @@ http://localhost:8080/wangEditor_uploadImg_assist.html
 		请注意算法描述中高亮部分。
 	</p>
 
-<pre>
+<pre><code class="java">
 <span class="alert">//类型必须是 "text/html"</span>
 response.ContentType = "text/html";
 response.Charset = "utf-8";
@@ -76,16 +75,16 @@ if(success) {
 	response.End();
 	return;
 }
-</pre>
+</code></pre>
 
 	<p>
 		第三步，把服务器的url地址，传入到 wangEditor() 方法中。
 	</p>
-<pre>
+<pre><code class="javascript">//配置如下
 var editor = $('#textarea1').wangEditor({
 	'uploadUrl': 'http://localhost:4780/data.ashx'
 });
-</pre>
+</code></pre>
 	
 	<p>
 		至此，点击“图片”菜单，将得到你想要的结果。
