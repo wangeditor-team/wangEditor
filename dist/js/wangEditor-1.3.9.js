@@ -1878,7 +1878,7 @@ $.extend($E.fn, {
                 },{
                     //有序列表
                     'commandName': 'InsertOrderedList',
-                    'txt': '<i class="icon-wangEditor-list-numbered"> ' + langMenus.list.unOrdered.title + '</i>'
+                    'txt': '<i class="icon-wangEditor-list-numbered"> ' + langMenus.list.ordered.title + '</i>'
                 }
             ];
 
