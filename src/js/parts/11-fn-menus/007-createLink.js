@@ -1,19 +1,30 @@
 'createLink': {
-    'title': '插入链接',
+    'title': langMenus.createLink.title,
     'type': 'modal', 
     'cssClass': 'icon-wangEditor-link',
     'modal': function (editor) {
         var urlTxtId = $E.getUniqeId(),
             titleTxtId = $E.getUniqeId(),
             blankCheckId = $E.getUniqeId(),
-            btnId = $E.getUniqeId(),
-            content = '<p>链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
-                        '<p>标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' + 
-                        '<p>新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/></p>' +
-                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入链接</button></p>',
+            btnId = $E.getUniqeId();
+
+        var langModal = langMenus.createLink.modal,
+            langLink = langModal.link,
+            langTitle = langModal.title,
+            langBlank = langModal.blank,
+            
+            langBtn = langCommon.insert,
+
+            langUnsafe = langCommon.unsafeAlert;
+
+        var content = '<p>' +langLink+ '：<input id="' + urlTxtId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
+                        '<p>' +langTitle+ '：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' + 
+                        '<p>' +langBlank+ '：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/></p>' +
+                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">' +langBtn+ '</button></p>',
             $link_modal = $(
                 $E.htmlTemplates.modalSmall.replace('{content}', content)
             );
+
         $link_modal.find('#' + btnId).click(function(e){
             //注意，该方法中的 $link_modal 不要跟其他modal中的变量名重复！！否则程序会混淆
             //具体原因还未查证？？？
@@ -30,7 +41,7 @@
             if(url !== ''){
                 //xss过滤
                 if($E.filterXSSForUrl(url) === false){
-                    alert('您的输入内容有不安全字符，请重新输入！');
+                    alert( langUnsafe );
                     return;
                 }
                 if(title === '' && !isBlank){

@@ -1,5 +1,5 @@
 'fontFamily': {
-    'title': '字体',
+    'title': langMenus.fontFamily.title,
     'type': 'dropMenu',
     'cssClass': 'icon-wangEditor-font2',
     'command': 'fontName ', 

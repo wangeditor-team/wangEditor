@@ -1,10 +1,9 @@
 'insertImage': {
-    'title': '图片',
+    'title': langMenus.insertImage.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-picture',
     'modal': function (editor) {
-        var 
-            //上传组件
+        var //上传组件
             uploadImgComponent = editor.uploadImgComponent,
 
             webImgContainerId = $E.getUniqeId(),
@@ -12,15 +11,27 @@
             changeLinkId = $E.getUniqeId(),
             urlTxtId = $E.getUniqeId(),
             titleTxtId = $E.getUniqeId(),
-            btnId = $E.getUniqeId(),
-            content =   '<p>' +
-                        '   <span id="' + alertInfoId + '">插入网络图片</span> ' +
+            btnId = $E.getUniqeId();
+
+        var langModal = langMenus.insertImage.modal,
+            langInsertWeb = langModal.insertWeb,
+            langInsertLocal = langModal.insertLocal,
+            langUrl = langModal.url,
+            langTitle = langModal.title,
+
+            langBtn = langCommon.insert,
+
+            langUnsafe = langCommon.unsafeAlert;
+
+
+        var content =   '<p>' +
+                        '   <span id="' + alertInfoId + '">' +langInsertWeb+ '</span> ' +
                         '   <a href="#" id="' + changeLinkId + '"></a>' +
                         '</p>' +
                         '<div id="' + webImgContainerId + '">' +
-                        '   <p>网址：<input id="' + urlTxtId + '" type="text" style="width:300px;" placeholder="http://"/></p>' +
-                        '   <p>标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' +
-                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入图片</button></p>' +
+                        '   <p>' +langUrl+ '：<input id="' + urlTxtId + '" type="text" style="width:300px;" placeholder="http://"/></p>' +
+                        '   <p>' +langTitle+ '：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' +
+                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">' +langBtn+ '</button></p>' +
                         '</div>',
             $webimg_modal = $(
                 $E.htmlTemplates.modalSmall.replace('{content}', content)
@@ -38,8 +49,8 @@
                 $webImgContainerId.hide();
 
                 //修改提示内容
-                $alertInfoId.text('上传本地图片');
-                $changeLinkId.text('或插入网络图片');
+                $alertInfoId.text( langInsertLocal );
+                $changeLinkId.text( langInsertWeb );
             }
 
             //显示网络图片，隐藏本地上传
@@ -48,8 +59,8 @@
                 $webImgContainerId.show();
 
                 //修改提示内容
-                $alertInfoId.text('插入网络图片');
-                $changeLinkId.text('或上传本地图片');
+                $alertInfoId.text( langInsertWeb );
+                $changeLinkId.text( langInsertLocal );
             }
  
             if(uploadImgComponent){  
@@ -63,7 +74,7 @@
             //切换
             $changeLinkId.click(function(e){
                 var txt = $changeLinkId.text();
-                if(txt.indexOf('本地') >= 0){
+                if(txt === langInsertLocal){
                     showUploadImg();
                 }else{
                     showWebImg();
@@ -93,7 +104,7 @@
             if(url !== ''){
                 //xss过滤
                 if($E.filterXSSForUrl(url) === false){
-                    alert('您的输入内容有不安全字符，请重新输入！');
+                    alert( langUnsafe );
                     return;
                 }
                 if(title === ''){

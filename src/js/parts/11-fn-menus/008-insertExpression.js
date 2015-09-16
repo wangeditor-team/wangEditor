@@ -1,5 +1,5 @@
 'insertExpression': {
-    'title': '插入表情',
+    'title': langMenus.insertExpression.title,
     'type': 'dropPanel',
     'command': 'insertImage',
     'cssClass': 'icon-wangEditor-happy',

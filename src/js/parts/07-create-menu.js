@@ -244,9 +244,10 @@ $.extend($E, {
         //按钮 tooltip 效果
         if(title){
             $btn.attr('title', '');
-            if(hotKey){
-                title = title + '('  + hotKey + ')';  //加入快捷键提示
-            }
+            // if(hotKey){
+            //     title = title + '('  + hotKey + ')';  //加入快捷键提示
+                    //PS：注释掉这个，是因为名称较长的菜单，加上之后，tooltip的小三角位置不对
+            // }
 
             var $toolTip = $( $E.htmlTemplates.tooltip ),
                 $toolTipContent = $( $E.htmlTemplates.tooltipContent.replace('{title}', title) ),

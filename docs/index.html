@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>wangEditor文档</title>
 	<link rel="stylesheet" type="text/css" href="docs.css">
+	<link rel="stylesheet" type="text/css" href="highlightJS/styles/github.css">
 </head>
 <body>
 
@@ -19,6 +20,7 @@
 	<a href="#basic" class="group-title">基础应用</a>
 	<ul>
 		<li><a href="#start">开始使用</a></li>
+		<li><a href="#height">设置高度</a></li>
 		<li><a href="#set-value">初始化内容</a></li>
 		<li><a href="#get-value">获取内容</a></li>
 		<li><a href="#append">追加内容</a></li>
@@ -39,6 +41,7 @@
 	</ul>
 	<a href="#other" class="group-title">其他</a>
 	<ul>
+		<li><a href="#langs">多语言支持</a></li>
 		<li><a href="#multi-text">单页多个编辑器</a></li>
 		<li><a href="#requirejs">使用requirejs</a></li>
 		<li><a href="#placeholder">增加placehoder功能</a></li>
@@ -49,8 +52,6 @@
 
 <!--内容区域的开始-->
 <div id="container">
-
-
 <div>
 	<h1>wangEditor —— 轻量级html富文本编辑器</h1>
 	<!--介绍-->
@@ -146,8 +147,7 @@
 			jquery只支持1.7及以上版本
 		</span>
 	</p>
-<pre>
-&lt;!--引入wangEditor.css--&gt;
+<pre><code class="xml">&lt;!--引入wangEditor.css--&gt;
 &lt;link rel="stylesheet" type="text/css" href="css/<span class="css-version"></span>"&gt;
 
 ……省略其他内容……
@@ -155,13 +155,13 @@
 &lt;!--引入jquery和wangEditor.js--&gt;   <span class="alert">&lt;!--注意：javascript必须放在body最后，否则可能会出现问题--&gt;</span>
 &lt;script type="text/javascript" src='js/jquery-1.10.2.min.js'&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src='js/<span class="js-min-version"></span>'&gt;&lt;/script&gt;
-</pre>
+</code></pre>
 	<p>
 		第三步，在html页面中创建一个textarea标签，可自定义设置其高度。
 		此处设置的高度，将是编辑器的高度。
 		最后，获取这个textarea节点，并执行wangEditor()方法。
 	</p>
-<pre>
+<pre><code class="xml">&lt;!--创建一个 textarea 标签--&gt;
 &lt;textarea id='textarea1' style='height:300px; width:100%;'&gt;&lt;/textarea&gt;
 
 ……省略其他内容……
@@ -172,13 +172,53 @@
 		var editor = $('#textarea1').wangEditor();
 	});
 &lt;/script&gt;
-</pre>
+</code></pre>
 	
 	<p>
 		这样，一个最简单的demo，就成功搭建起来了。
 		可参见 <a href="../test/test.html" target="_blank">在线的demo</a>
 	</p>
 
+</div>
+<div id="height">
+	<h3>设置高度</h3>
+	<p>
+		wangEditor设置高度有两种方法：
+		第一，设置一个绝对高度；第二，设置一个默认高度、和一个最大高度。
+	</p>
+	<p>
+		<br>
+		<b>设置绝对高度：</b>
+	</p>
+	<p>
+		设置绝对高度只需要给 textarea 设置一个 height 样式即可。
+		但是请注意，<span class="alert">
+			定义的高度不要小于80px
+		</span>，否则 wangEditor 会强项处理为 80px。
+	</p>
+<pre><code class="xml">&lt;!--设置绝对高度--&gt;
+&lt;textarea id='textarea1' style='height:200px; width:100%;'&gt;
+&lt;/textarea&gt;
+</code></pre>
+	<p>
+		<br>
+		<b>设置默认高度和最大高度：</b>
+	</p>
+	<p>
+		在以上设置绝对高度的基础上，再给 textarea 增加一个 max-height 样式，
+		即可设置默认高度和最大高度。注意：<span class="alert">
+			max-height 的值不要小于等于 height 的值，否则无效
+		</span> 。
+	</p>
+	<p>
+		设置完了之后，wangEditor 编辑器区域的高度，会随着内容的变化，
+		在默认高度和最大高度之间变化。
+		可参见 <a href="../test/test.html" target="_blank">在线的demo</a>
+	</p>
+<pre><code class="xml">&lt;!--设置默认高度、最大高度--&gt;
+&lt;textarea id='textarea1' style='height:200px; max-height:400px; width:100%;'&gt;
+&lt;/textarea&gt;
+</code></pre>
 </div>
 <div id="set-value">
 	<h3>初始化内容</h3>
@@ -187,11 +227,11 @@
 		这些内容会在执行wangEditor()方法时自动附加到编辑器中。
 		可参见 <a href="../test/test.html" target="_blank">在线的demo</a>
 	</p>
-<pre>
+<pre><code class="xml">&lt;!--可在此设置高度、宽度--&gt;
 &lt;textarea id='textarea1' style='height:300px; width:100%;'&gt;
 	&lt;p&gt;最简单的demo&lt;/p&gt;
 &lt;/textarea&gt;
-</pre>
+</code></pre>
 	<p><span class="alert">
 		注意，textarea的内容一定要在执行wangEditor()方法前添加进去，否则无效！
 	</span></p>
@@ -200,7 +240,7 @@
 		第二，可以通过html()方法赋值，该方法将会全部覆盖原内容。
 		可参见 <a href="../test/test-set-value.html" target="_blank">在线的demo</a>
 	</p>
-<pre>
+<pre><code class="javascript">//执行 wangEditor 方法即可根据 textarea 生成编辑器
 var editor = $('#textarea1').wangEditor();
 
 //点击按钮时，将当前最新时间赋值到编辑器中（覆盖之前的内容）
@@ -208,7 +248,7 @@ $('#btn').click(function(e){
 	var dt = new Date();
 	editor.html('&lt;p&gt;当前的时间是：' + dt.toString() + '&lt;/p&gt;');
 });
-</pre>
+</code></pre>
 </div>
 <div id="get-value">
 	<h3>获取内容</h3>
@@ -217,14 +257,13 @@ $('#btn').click(function(e){
 		用户可以通过textarea获取编辑器的源码值。
 		可参见 <a href="../test/test-get-value.html" target="_blank">在线的demo</a>
 	</p>
-<pre>
-var editor = $('#textarea1').wangEditor();
+<pre><code class="javascript">var editor = $('#textarea1').wangEditor();
 
 //点击按钮，获取编辑器的源码
 $('#btn').click(function(){
 	var html = $('#textarea1').val();
 });
-</pre>
+</code></pre>
 </div>
 <div id="append">
 	<h3>追加内容</h3>
@@ -232,8 +271,7 @@ $('#btn').click(function(){
 		可通过append方法向编辑器中追加内容，包括jquery对象和字符串。
 		可参见 <a href="../test/test-append.html" target="_blank">在线的demo</a>
 	</p>
-<pre>
-var editor = $('#textarea1').wangEditor();
+<pre><code class="javascript">var editor = $('#textarea1').wangEditor();
 
 //点击按钮，追加内容
 $('#btn').click(function(e){
@@ -245,7 +283,7 @@ $('#btn').click(function(e){
 	editor.append('<span>欢迎使用wangEditor</span>');
 	//注意，插入字符串时，不能插入零碎的html片段（如 '<td>123</td></tr></table>' 等），否则会报错！
 });
-</pre>
+</code></pre>
 </div>
 <div id="basic-config">
 	<h2>基本配置</h2>
@@ -253,13 +291,13 @@ $('#btn').click(function(e){
 		在使用wangEditor生成富文本框时，可以加一些配置项来满足你的个性需求。
 		以下是一些基本配置，还有<a href="#super-config">高级配置</a>，在下文讲解。
 	</p>
-<pre>
+<pre><code class="javascript">//基本配置的参数如下：
 var editor = $('#textarea1').wangEditor({
 	menuConfig: [...],  //自定义配置菜单
 	onchange: function(){...},  //自定义配置onchange监听事件
 	expressions: [...]  //自定义配置表情图标
 });
-</pre>
+</code></pre>
 </div>
 <div id="menu-config">
 	<h3>自定义配置菜单</h3>
@@ -267,22 +305,21 @@ var editor = $('#textarea1').wangEditor({
 		编辑器默认情况下会显示出所有可用的菜单，菜单是分组的，
 		因此默认的菜单配置是一个<span class="alert">二维数组</span>。
 	</p>
-<pre>
-[
+<pre><code class="javascript">[
     ['viewSourceCode'],
     ['bold', 'underline', 'italic', 'foreColor', 'backgroundColor', 'strikethrough'],
     ['blockquote', 'fontFamily', 'fontSize', 'setHead', 'list', 'justify'],
     ['createLink', 'unLink', 'insertTable', 'insertExpression'],
-    ['insertImage', 'insertVideo', 'insertLocation','insertSimpleCode'],
+    ['insertImage', 'insertVideo', 'insertLocation','insertCode'],
     ['undo', 'redo', 'fullScreen']
 ]
-</pre>
+</code></pre>
 	<p>
 		可以自定义删除某些不用的菜单，也可以自定义修改菜单的组和顺序，实现自定义菜单配置。
 		但修改后的菜单配置，必须还是一个二维数组。
 		可参见 <a href="../test/test-menu-config.html" target="_blank">在线的demo</a>
 	</p>
-<pre>
+<pre><code class="javascript">//自定义菜单配置
 var editor = $('#textarea1').wangEditor({
 	'menuConfig': [
 		['fontFamily','bold','setHead'],
@@ -290,7 +327,7 @@ var editor = $('#textarea1').wangEditor({
 		['createLink','insertHr','undo']
 	]
 });
-</pre>
+</code></pre>
 </div>
 <div id="onchange">
 	<h3>添加change监听事件</h3>
@@ -302,14 +339,14 @@ var editor = $('#textarea1').wangEditor({
 	<p>
 		另外，onchange 参数中必须传入一个函数，该函数的 html 参数即编辑器最新内容的源码。
 	</p>
-<pre>
+<pre><code class="javascript">//onchange配置
 var editor = $('#textarea1').wangEditor({
 	'onchange': function(html){
 		//html参数即编辑器内容的源码
 		alert('onchange事件触发，最新的html为：\n' + html);
 	}
 });
-</pre>
+</code></pre>
 </div>
 <div id="expressions">
 	<h3>自定义配置表情图标</h3>
@@ -318,7 +355,7 @@ var editor = $('#textarea1').wangEditor({
 		可参见 <a href="../test/test-set-expressions.html" target="_blank">在线的demo</a> ，
 		系统默认的表情包下载如下： <a href="http://www.wangeditor.com/expressions.zip">默认表情包</a>
 	</p>
-<pre>
+<pre><code class="javascript">//自定义表情
 var editor = $('#textarea1').wangEditor({
 	'expressions': [
 		'http://www.wangeditor.com/expressions/29.gif',
@@ -326,7 +363,7 @@ var editor = $('#textarea1').wangEditor({
 		'http://www.wangeditor.com/expressions/59.gif'
 	]
 });
-</pre>
+</code></pre>
 	<p>
 		PS：有用户曾抱怨说，如果表情图标很多，挨个填写会很麻烦
 		———
@@ -375,8 +412,7 @@ var editor = $('#textarea1').wangEditor({
 		<br>
 		<b>第二步，在页面中引用 highlight 的 css 和 js 文件</b>
 	</p>
-<pre>
-&lt;!--在 head 中引用 css 文件--&gt;
+<pre><code class="xml">&lt;!--在 head 中引用 css 文件--&gt;
 <span class="alert">&lt;!--style文件夹中，每一个css就是一个样式主题，可自行选择--&gt;</span>
 &lt;link rel="stylesheet" type="text/css" href="highlightJS/styles/github.css"&gt;
 
@@ -386,14 +422,13 @@ var editor = $('#textarea1').wangEditor({
 &lt;!--引用jquery、highlight.pack.js--&gt;
 &lt;script type="text/javascript" src="js/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="highlightJS/highlight.pack.js"&gt;&lt;/script&gt;
-</pre>
+</code></pre>
 
 	<p>
 		<br>
 		<b>第三步，执行 hightlight 的方法</b>
 	</p>
-<pre>
-&lt;!-- 引用jquery、highlight.pack.js 之后，再执行如下代码--&gt;
+<pre><code class="xml">&lt;!-- 引用jquery、highlight.pack.js 之后，再执行如下代码--&gt;
 &lt;script type="text/javascript"&gt;
 	$(function(){
 		$('pre code').each(function(i, block) {
@@ -401,7 +436,7 @@ var editor = $('#textarea1').wangEditor({
 	  	});
 	});
 &lt;/script&gt;
-</pre>
+</code></pre>
 	<p>
 		至此，hightlight 插件已经集成到了页面中。
 	</p>
@@ -443,12 +478,12 @@ var editor = $('#textarea1').wangEditor({
 			PS: 我暂时没有找到 plupload 跨域上传的方法，如果有同学知道，不妨给我分享一下！
 		</span>
 	</p>
-<pre>
+<pre><code class="javascript">//图片上传的配置参数
 var editor = $('#textarea1').wangEditor({
 	uploadImgComponent: $('#someId'),  //非跨域图片上传组件
 	uploadUrl: '...'   //跨域图片上传的url
 });
-</pre>
+</code></pre>
 </div>
 <div id="upload-img-no-cross-domain">
 	<h3>图片上传(非跨域)</h3>
@@ -495,8 +530,7 @@ var editor = $('#textarea1').wangEditor({
 	<p>
 		<b>第一步</b>，先建立一个plupload上传图片的页面，以下代码是关键部分。
 	</p>
-<pre>
-……省略部分代码……
+<pre><code class="xml">……省略部分代码……
 
 &lt;div id="uploadContainer"&gt;
     &lt;input type="button" value="选择文件" id="btnBrowse"/&gt;
@@ -574,14 +608,13 @@ $(function(){
 	});
 });
 &lt;/script&gt;
-</pre>
+</code></pre>
 
 	<p>
 		<b>第二步</b>，在该页面的基础上，引用wangEitor的css、js，添加textarea，生成编辑器。
 		不明白的同学，可参见<a href="#start">开始使用</a>一节。之后该页面的代码如下：
 	</p>
-<pre>
-&lt;!--引入wangEditor.css--&gt;
+<pre><code class="xml">&lt;!--引入wangEditor.css--&gt;
 &lt;link rel="stylesheet" type="text/css" href="css/<span class="css-version"></span>"&gt;
 
 ……省略其他内容……
@@ -612,7 +645,7 @@ $(function(){
 	……plupload配置的内容……
 });
 &lt;/script&gt;
-</pre>
+</code></pre>
 	<p>
 		截止到此，plupload和wangEditor的功能都是相互独立的，两者没有任何关系。
 		此时，你点击“图片”菜单，肯定得不到你想要的结果（如下图）。
@@ -631,8 +664,7 @@ $(function(){
 	</ul>
 	<p>具体内容可参考如下代码高亮部分</p>
 
-<pre>
-&lt;!--引入wangEditor.css--&gt;
+<pre><code class="xml">&lt;!--引入wangEditor.css--&gt;
 &lt;link rel="stylesheet" type="text/css" href="css/<span class="css-version"></span>"&gt;
 
 ……省略其他内容……
@@ -727,7 +759,7 @@ $(function(){
 	});
 });
 &lt;/script&gt;
-</pre>
+</code></pre>
 	
 	<p>
 		至此，配置结束。此时在此点击“图片”按钮，就能使用plupload上传图片了。
@@ -746,8 +778,7 @@ $(function(){
 	</p>
 	<br>
 	<p>C#示例参考：</p>
-<pre>
-//文件名：upload.ashx
+<pre><code class="c#">//文件名：upload.ashx
 
 &lt;%@ WebHandler Language="C#" Class="upload" %&gt;
 using System;
@@ -801,12 +832,12 @@ public class upload : IHttpHandler
         }
     }
 }
-</pre>
+</code></pre>
     <br>
     <p>
         java示例参考：
     </p>
-<pre>
+<pre><code class="code">//java示例参考
 package com.demo.servlet;
 
 import java.io.File;
@@ -883,7 +914,7 @@ public class UploadImgServiet extends HttpServlet {
         // Put your code here
     }
 }
-</pre>
+</code></pre>
     <p>
         <b class="alert">征集，为开源软件贡献力量！</b>
         现征集其他后台语言的示例代码，如php、nodejs、python、ruby等，
@@ -915,9 +946,8 @@ public class UploadImgServiet extends HttpServlet {
 		</a>
 		并放在你的项目中。然后，得到这个页面的url地址。
 	</p>
-<pre>
-http://localhost:8080/wangEditor_uploadImg_assist.html
-</pre>
+<pre><code class="xml">http://localhost:8080/wangEditor_uploadImg_assist.html
+</code></pre>
 	
 	<p>
 		第二步，编写后台代码。
@@ -927,7 +957,7 @@ http://localhost:8080/wangEditor_uploadImg_assist.html
 		请注意算法描述中高亮部分。
 	</p>
 
-<pre>
+<pre><code class="java">
 <span class="alert">//类型必须是 "text/html"</span>
 response.ContentType = "text/html";
 response.Charset = "utf-8";
@@ -969,16 +999,16 @@ if(success) {
 	response.End();
 	return;
 }
-</pre>
+</code></pre>
 
 	<p>
 		第三步，把服务器的url地址，传入到 wangEditor() 方法中。
 	</p>
-<pre>
+<pre><code class="javascript">//配置如下
 var editor = $('#textarea1').wangEditor({
 	'uploadUrl': 'http://localhost:4780/data.ashx'
 });
-</pre>
+</code></pre>
 	
 	<p>
 		至此，点击“图片”菜单，将得到你想要的结果。
@@ -997,8 +1027,7 @@ var editor = $('#textarea1').wangEditor({
 
 	<br>
 	<p>C#示例参考：</p>
-<pre>
-//文件名称：upload_cross_domain.ashx
+<pre><code class="javascript">//文件名称：upload_cross_domain.ashx
 
 &lt;%@ WebHandler Language="C#" Class="data" %&gt;
 
@@ -1063,11 +1092,10 @@ public class data : IHttpHandler
         }
     }
 }
-</pre>
+</code></pre>
 	<br>
 	<p>java示例参考：</p>
-<pre>
-package com.demo.servlet;
+<pre><code class="java">package com.demo.servlet;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -1144,7 +1172,7 @@ public class UploadImgServiet extends HttpServlet {
 		// Put your code here
 	}
 }
-</pre>
+</code></pre>
 	<p>
 		<b class="alert">征集，为开源软件贡献力量！</b>
 		现征集其他后台语言的示例代码，如php、nodejs、python、ruby等，
@@ -1159,6 +1187,232 @@ public class UploadImgServiet extends HttpServlet {
 		也希望更多的使用者反馈你们的建议和问题，只要建议合理，我肯定会及时修改、添加。
 	</p>
 </div>
+<div id="langs">
+	<h3>多语言支持</h3>
+	<p>
+		<b>默认使用中文：</b>
+	</p>
+	<p>
+		默认情况下，不做任何语言的配置，wangEditor 会选择使用中文。
+	</p>
+	<p>
+		<br/>
+		<b>使用英文：</b>
+	</p>
+	<p>
+		在多语言环境中，除了中文之外，使用英文的概率最大。因此 wangEditor 对英文做了快捷配置。只需要在执行 wangEditor() 方法时候，传入一个简单的标识即可。
+		<a href="../test/langs/english.html" target="_blank">
+			可参见在线demo演示
+		</a>
+	</p>
+	<p>
+		<span class="alert">PS：如果发现英文翻译不对，欢迎在QQ群（164999061）反馈给我。</span>
+	</p>
+
+<pre><code class="javascript">//配置英文
+var editor = $('#textarea1').wangEditor({
+	'lang': 'en'
+});
+</code></pre>
+
+	<p>
+		<br/>
+		<b>使用其他语言：</b>
+	</p>
+	<p>
+		wangEditor 支持自定义配置其他语言。
+		你只需要将自己定义的语言对象（JSON格式）传入到 wangEditor() 方法中即可。
+	</p>
+
+<pre><code class="javascript">//自定义配置语言
+
+var langConfig = {
+	//...语言配置（格式见下文）...
+};
+
+var editor = $('#textarea1').wangEditor({
+	'lang': langConfig
+});
+</code></pre>
+
+	<p>语言的配置格式如下（以中文为例）：</p>
+
+<pre><code class="javascript">//中文配置如下：
+var langConfig = {
+
+	//通用语言配置
+	'common': {
+		'insert': '插入',
+		'submit': '提交',
+		'update': '更新',
+		'cancel': '取消',
+		'close': '关闭',
+		'upload': '上传',
+
+		'unsafeAlert': '输入的内容不安全，请重新输入！',
+		'formatError': '输入的内容格式错误，请重新输入！'
+	},
+
+	//菜单语言配置
+	'menus': {
+		'viewSourceCode': {
+			'title': '查看源码'
+		},
+		'bold': {
+			'title': '加粗'
+		},
+		'underline': {
+			'title': '下划线'
+		},
+		'italic': {
+			'title': '斜体'
+		},
+		'removeFormat': {
+			'title': '清除格式'
+		},
+		'indent': {
+			'title': '增加缩进'
+		},
+		'outdent': {
+			'title': '减少缩进'
+		},
+		'foreColor': {
+			'title': '字体颜色'
+		},
+		'backgroundColor': {
+			'title': '背景色'
+		},
+		'strikethrough': {
+			'title': '删除线'
+		},
+		'blockquote': {
+			'title': '引用'
+		},
+		'fontFamily': {
+			'title': '字体'
+		},
+		'fontSize': {
+			'title': '字号'
+		},
+		'setHead': {
+			'title': '标题',
+			'content': '正文'
+		},
+		'list': {
+			'title': '列表',
+			'unOrdered': {
+				'title': '无序列表'
+			},
+			'ordered': {
+				'title': '有序列表'
+			}
+		},
+		'justify': {
+			'title': '对齐',
+			'left': {
+				'title': '左对齐'
+			},
+			'center': {
+				'title': '居中'
+			},
+			'right': {
+				'title': '右对齐'
+			}
+		},
+		'createLink': {
+			'title': '插入链接',
+			'modal': {
+				'link': '链接',
+				'title': '标题',
+				'blank': '新窗口'
+			}
+		},
+		'unLink': {
+			'title': '取消链接'
+		},
+		'insertTable': {
+			'title': '插入表格',
+			'modal': {
+				'rowNum': '行数',
+				'colNum': '列数',
+				'showFirstRow': '显示首行'
+			}
+		},
+		'insertHr': {
+			'title': '横线'
+		},
+		'insertExpression': {
+			'title': '表情'
+		},
+		'insertImage': {
+			'title': '图片',
+			'modal': {
+				'insertWeb': '插入网络图片',
+				'insertLocal': '上传本地图片',
+
+				'url': '网址',
+				'title': '标题',
+				'choose': '选择'
+			},
+			'alert': {
+				'chooseAImage': '请选择图片文件',
+				'fileTypeError': '选择的文件不是图片格式',
+				'uploading': '上传中...'
+			}
+		},
+		'insertVideo': {
+			'title': '视频',
+			'modal': {
+				'url': '地址',
+				'width': '宽度',
+				'height': '高度'
+			}
+		},
+		'insertLocation': {
+			'title': '位置',
+			'modal': {
+				'city': '城市',
+				'location': '位置',
+				'search': '搜索',
+				'clear': '清楚标记',
+				'loading': '地图加载中...',
+				'dynamic': '动态地图'
+			},
+			'alert': {
+				'cantFindLocation': '没有找到您输入的地址',
+				'dynamicOneLocation': '动态地图只能显示一个位置'
+			}
+		},
+		'insertCode': {
+			'title': '插入代码',
+			'modal': {
+				'title': '请输入代码 '
+			}
+		},
+		'undo': {
+			'title': '撤销'
+		},
+		'redo': {
+			'title': '重复'
+		},
+		'fullScreen': {
+			'title': '全屏'
+		}
+	} //menus配置结束
+};
+</code></pre>
+
+	<p>
+		PS：以上列出的配置比较复杂，内容比较多。
+		<span class="alert">如果用户遗漏了某些项，wangEditor 不会提示错误，
+		而是哪些地方遗漏了，会用默认的语言来补充。</span>
+		<a href="../test/langs/japanese.html" target="_blank">
+			可参见日语配置demo
+		</a>
+		，可查看demo页面源码，来详细了解如何自定义配置语言。
+	</p>
+
+</div>
 <div id="multi-text">
 	<h3>单页多个编辑器</h3>
 	<p>
@@ -1166,7 +1420,7 @@ public class UploadImgServiet extends HttpServlet {
 		只需要定义两个 textarea ，并各自执行 wangEditor() 方法即可。
 		可参见 <a href="../test/test-multi-text.html" target="_blank">在线的demo</a>
 	</p>
-<pre>
+<pre><code class="xml">
 &lt;textarea id='textarea1' style='height:200px; width:100%;'&gt;&lt;/textarea&gt;
 &lt;textarea id='textarea2' style='height:200px; width:100%;'&gt;&lt;/textarea&gt;
 
@@ -1178,7 +1432,7 @@ public class UploadImgServiet extends HttpServlet {
 		var editor2 = $('#textarea2').wangEditor();
 	});
 &lt;/script&gt;
-</pre>
+</code></pre>
 </div>
 <div id="requirejs">
 	<h3>使用requirejs</h3>
@@ -1193,7 +1447,7 @@ public class UploadImgServiet extends HttpServlet {
 	<p>
 		可参考 <a href="../test/byrequirejs/test.html" target="_blank">在线的demo</a>
 	</p>
-<pre>
+<pre><code class="javascript">
 require.config({
     paths: {
         jquery: '/js/jquery-1.10.2.min',
@@ -1206,19 +1460,19 @@ require(['wangEditor'], function(){
 		var editor = $('#textarea1').wangEditor();
 	});
 });
-</pre>
+</code></pre>
 
 	<p>
 		下一步，在你的页面中，引用 requirejs 即可。
 	</p>
-<pre>
+<pre><code class="xml">
 &lt;textarea id='textarea1' style='height:200px; width:100%;'&gt;&lt;/textarea&gt;
 
 ...省略其他代码...
 
 &lt;!--引用requirejs--&gt;
 &lt;script data-main="main" src="require.js"&gt;&lt;/script&gt;
-</pre>
+</code></pre>
 </div>
 <div id="placeholder">
 	<h3>增加 placeholder 功能</h3>
@@ -1257,9 +1511,10 @@ require(['wangEditor'], function(){
 
 
 <script type="text/javascript" src="../dist/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="highlightJS/highlight.pack.js"></script>
 <script type="text/javascript">
 	$(function(){
-		var version = '1.3.8',
+		var version = '1.3.9.1',
 			css = 'wangEditor-' + version + '.css',
 			js = 'wangEditor-' + version + '.js',
 			js_min = 'wangEditor-' + version + '.min.js'
@@ -1270,6 +1525,11 @@ require(['wangEditor'], function(){
 
 		$('.js-version-for-requirejs').html('wangEditor-' + version);
 		$('.js-min-version-for-requirejs').html('wangEditor-' + version + '.min');
+		
+		//执行代码高亮方法
+		$('pre code').each(function(i, block) {
+	    	hljs.highlightBlock(block);
+	  	});
 	});
 </script>
 </body>

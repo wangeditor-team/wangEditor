@@ -7,9 +7,37 @@
 <body style="padding:20px;">
 	
 	<p>欢迎使用wangEditor，请输入内容...</p>
-	<p>欢迎使用wangEditor，请输入内容...</p>
-	<s>欢迎使用wangEditor，请输入内容...</s>
-	<p>欢迎使用wangEditor，请输入内容...</p>
 
+	<script type="text/javascript" src='../dist/js/jquery-1.10.2.min.js'></script>
+	<script type="text/javascript">
+		$(function(){
+
+			//默认配置
+			var a = {
+				x: 10,
+				y: [1, 2, 3],
+				z: {
+					a: 5,
+					b: 15
+				}
+			};
+
+			//自定义配置
+			var b = {
+				v: 100,
+				y: [1, true],
+				z: {
+					a: 55,
+					c: 555
+				}
+			};
+
+			//合并
+			$.extend(true, a, b);
+
+			//最终结果
+			console.log(a);
+		});
+	</script>
 </body>
 </html>

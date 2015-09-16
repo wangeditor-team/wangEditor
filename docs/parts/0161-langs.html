@@ -1,0 +1,226 @@
+<div id="langs">
+	<h3>多语言支持</h3>
+	<p>
+		<b>默认使用中文：</b>
+	</p>
+	<p>
+		默认情况下，不做任何语言的配置，wangEditor 会选择使用中文。
+	</p>
+	<p>
+		<br/>
+		<b>使用英文：</b>
+	</p>
+	<p>
+		在多语言环境中，除了中文之外，使用英文的概率最大。因此 wangEditor 对英文做了快捷配置。只需要在执行 wangEditor() 方法时候，传入一个简单的标识即可。
+		<a href="../test/langs/english.html" target="_blank">
+			可参见在线demo演示
+		</a>
+	</p>
+	<p>
+		<span class="alert">PS：如果发现英文翻译不对，欢迎在QQ群（164999061）反馈给我。</span>
+	</p>
+
+<pre><code class="javascript">//配置英文
+var editor = $('#textarea1').wangEditor({
+	'lang': 'en'
+});
+</code></pre>
+
+	<p>
+		<br/>
+		<b>使用其他语言：</b>
+	</p>
+	<p>
+		wangEditor 支持自定义配置其他语言。
+		你只需要将自己定义的语言对象（JSON格式）传入到 wangEditor() 方法中即可。
+	</p>
+
+<pre><code class="javascript">//自定义配置语言
+
+var langConfig = {
+	//...语言配置（格式见下文）...
+};
+
+var editor = $('#textarea1').wangEditor({
+	'lang': langConfig
+});
+</code></pre>
+
+	<p>语言的配置格式如下（以中文为例）：</p>
+
+<pre><code class="javascript">//中文配置如下：
+var langConfig = {
+
+	//通用语言配置
+	'common': {
+		'insert': '插入',
+		'submit': '提交',
+		'update': '更新',
+		'cancel': '取消',
+		'close': '关闭',
+		'upload': '上传',
+
+		'unsafeAlert': '输入的内容不安全，请重新输入！',
+		'formatError': '输入的内容格式错误，请重新输入！'
+	},
+
+	//菜单语言配置
+	'menus': {
+		'viewSourceCode': {
+			'title': '查看源码'
+		},
+		'bold': {
+			'title': '加粗'
+		},
+		'underline': {
+			'title': '下划线'
+		},
+		'italic': {
+			'title': '斜体'
+		},
+		'removeFormat': {
+			'title': '清除格式'
+		},
+		'indent': {
+			'title': '增加缩进'
+		},
+		'outdent': {
+			'title': '减少缩进'
+		},
+		'foreColor': {
+			'title': '字体颜色'
+		},
+		'backgroundColor': {
+			'title': '背景色'
+		},
+		'strikethrough': {
+			'title': '删除线'
+		},
+		'blockquote': {
+			'title': '引用'
+		},
+		'fontFamily': {
+			'title': '字体'
+		},
+		'fontSize': {
+			'title': '字号'
+		},
+		'setHead': {
+			'title': '标题',
+			'content': '正文'
+		},
+		'list': {
+			'title': '列表',
+			'unOrdered': {
+				'title': '无序列表'
+			},
+			'ordered': {
+				'title': '有序列表'
+			}
+		},
+		'justify': {
+			'title': '对齐',
+			'left': {
+				'title': '左对齐'
+			},
+			'center': {
+				'title': '居中'
+			},
+			'right': {
+				'title': '右对齐'
+			}
+		},
+		'createLink': {
+			'title': '插入链接',
+			'modal': {
+				'link': '链接',
+				'title': '标题',
+				'blank': '新窗口'
+			}
+		},
+		'unLink': {
+			'title': '取消链接'
+		},
+		'insertTable': {
+			'title': '插入表格',
+			'modal': {
+				'rowNum': '行数',
+				'colNum': '列数',
+				'showFirstRow': '显示首行'
+			}
+		},
+		'insertHr': {
+			'title': '横线'
+		},
+		'insertExpression': {
+			'title': '表情'
+		},
+		'insertImage': {
+			'title': '图片',
+			'modal': {
+				'insertWeb': '插入网络图片',
+				'insertLocal': '上传本地图片',
+
+				'url': '网址',
+				'title': '标题',
+				'choose': '选择'
+			},
+			'alert': {
+				'chooseAImage': '请选择图片文件',
+				'fileTypeError': '选择的文件不是图片格式',
+				'uploading': '上传中...'
+			}
+		},
+		'insertVideo': {
+			'title': '视频',
+			'modal': {
+				'url': '地址',
+				'width': '宽度',
+				'height': '高度'
+			}
+		},
+		'insertLocation': {
+			'title': '位置',
+			'modal': {
+				'city': '城市',
+				'location': '位置',
+				'search': '搜索',
+				'clear': '清楚标记',
+				'loading': '地图加载中...',
+				'dynamic': '动态地图'
+			},
+			'alert': {
+				'cantFindLocation': '没有找到您输入的地址',
+				'dynamicOneLocation': '动态地图只能显示一个位置'
+			}
+		},
+		'insertCode': {
+			'title': '插入代码',
+			'modal': {
+				'title': '请输入代码 '
+			}
+		},
+		'undo': {
+			'title': '撤销'
+		},
+		'redo': {
+			'title': '重复'
+		},
+		'fullScreen': {
+			'title': '全屏'
+		}
+	} //menus配置结束
+};
+</code></pre>
+
+	<p>
+		PS：以上列出的配置比较复杂，内容比较多。
+		<span class="alert">如果用户遗漏了某些项，wangEditor 不会提示错误，
+		而是哪些地方遗漏了，会用默认的语言来补充。</span>
+		<a href="../test/langs/japanese.html" target="_blank">
+			可参见日语配置demo
+		</a>
+		，可查看demo页面源码，来详细了解如何自定义配置语言。
+	</p>
+
+</div>

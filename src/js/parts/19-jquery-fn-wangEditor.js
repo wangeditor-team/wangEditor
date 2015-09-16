@@ -5,7 +5,8 @@ $.fn.extend({
     *   onchange: function(){...},  //配置onchange事件，
     *   expressions: [...],  //配置表情图片的url地址
     *   uploadImgComponent : $('#someId'),  //上传图片的组件
-    *   uploadUrl: 'string'  //图片上传的地址
+    *   uploadUrl: 'string',  //图片上传的地址
+    *   lang: '...' / {...}  //语言包
     * }
     */
     'wangEditor': function(options){

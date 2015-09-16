@@ -1,0 +1,40 @@
+<div id="height">
+	<h3>设置高度</h3>
+	<p>
+		wangEditor设置高度有两种方法：
+		第一，设置一个绝对高度；第二，设置一个默认高度、和一个最大高度。
+	</p>
+	<p>
+		<br>
+		<b>设置绝对高度：</b>
+	</p>
+	<p>
+		设置绝对高度只需要给 textarea 设置一个 height 样式即可。
+		但是请注意，<span class="alert">
+			定义的高度不要小于80px
+		</span>，否则 wangEditor 会强项处理为 80px。
+	</p>
+<pre><code class="xml">&lt;!--设置绝对高度--&gt;
+&lt;textarea id='textarea1' style='height:200px; width:100%;'&gt;
+&lt;/textarea&gt;
+</code></pre>
+	<p>
+		<br>
+		<b>设置默认高度和最大高度：</b>
+	</p>
+	<p>
+		在以上设置绝对高度的基础上，再给 textarea 增加一个 max-height 样式，
+		即可设置默认高度和最大高度。注意：<span class="alert">
+			max-height 的值不要小于等于 height 的值，否则无效
+		</span> 。
+	</p>
+	<p>
+		设置完了之后，wangEditor 编辑器区域的高度，会随着内容的变化，
+		在默认高度和最大高度之间变化。
+		可参见 <a href="../test/test.html" target="_blank">在线的demo</a>
+	</p>
+<pre><code class="xml">&lt;!--设置默认高度、最大高度--&gt;
+&lt;textarea id='textarea1' style='height:200px; max-height:400px; width:100%;'&gt;
+&lt;/textarea&gt;
+</code></pre>
+</div>

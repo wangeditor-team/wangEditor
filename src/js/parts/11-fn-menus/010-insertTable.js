@@ -1,19 +1,28 @@
 'insertTable': {
-    'title': '插入表格',
+    'title': langMenus.insertTable.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-table',
     'modal': function(editor){
         var rowNumTxtId = $E.getUniqeId(),
             colNumTxtId = $E.getUniqeId(),
             titleCheckId = $E.getUniqeId(),
-            btnId = $E.getUniqeId(),
-            content = '<p>行数：<input id="' + rowNumTxtId + '" type="text" value="3"/></p>' + 
-                        '<p>列数：<input id="' + colNumTxtId + '" type="text" value="5"/></p>' +
-                        '<p>显示首行背景：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/></p>' + 
-                        '<p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">插入表格</button></p>',
+            btnId = $E.getUniqeId();
+
+        var langModal = langMenus.insertTable.modal,
+            langRowNum = langModal.rowNum,
+            langColNum = langModal.colNum,
+            langShowFirstRow = langModal.showFirstRow,
+
+            langBtn = langCommon.insert;
+
+        var content = '<p>' +langRowNum+ '：<input id="' + rowNumTxtId + '" type="text" value="3"/></p>' + 
+                        '<p>' +langColNum+ '：<input id="' + colNumTxtId + '" type="text" value="5"/></p>' +
+                        '<p>' +langShowFirstRow+ '：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/></p>' + 
+                        '<p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">' +langBtn+ '</button></p>',
             $table_modal = $(
                 $E.htmlTemplates.modalSmall.replace('{content}', content)
             );
+
         $table_modal.find('#' + btnId).click(function(e){
             //注意，该方法中的 $table_modal 不要跟其他modal中的变量名重复！！否则程序会混淆
             //具体原因还未查证？？？

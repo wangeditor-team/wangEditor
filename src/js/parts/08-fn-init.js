@@ -1,6 +1,6 @@
 $.extend($E.fn, {
 
-	//初始化函数
+    //初始化函数
     'init': function($textarea, options){
         /*
         * options: {
@@ -8,7 +8,8 @@ $.extend($E.fn, {
         *   onchange: function(){...},  //配置onchange事件，
         *   expressions: [...],  //配置表情图片的url地址
         *   uploadImgComponent : $('#someId'),  //上传图片的组件
-        *   uploadUrl: 'string'  //图片上传的地址
+        *   uploadUrl: 'string',  //图片上传的地址
+        *   lang: '...' / {...}  //语言包
         * }
         */
 
@@ -18,10 +19,12 @@ $.extend($E.fn, {
             expressions = options.expressions,
             uploadImgComponent = options.uploadImgComponent,
             uploadUrl = options.uploadUrl,
+            lang = options.lang,
 
             //editor
             editor = this,
             height = $textarea.height(),
+            maxHeight = $textarea.css('max-height'),
             initVal = $.trim( $textarea.val() );
 
         //设置id
@@ -53,6 +56,10 @@ $.extend($E.fn, {
         if(height <= 80){
             height = 80;
         }
+        if( parseInt(maxHeight) <= height || !maxHeight ){
+            //保证 maxHeight 是一个有效值
+            maxHeight = 'none';
+        }
         //设置高度（必须在dom渲染完之后才行）
         $(function(){
             //计算txtContainer的高度，必须等待页面加载完成才能计算，否则dom没有被渲染，无法计算高度
@@ -65,8 +72,15 @@ $.extend($E.fn, {
                 txtContainerHeight = height - 32;
             }
 
-            editor.$txtContainer.height( txtContainerHeight );
-            //editor.$txt.css('min-height', height + 'px');
+            if(typeof maxHeight === 'string' && maxHeight !== 'none'){
+                //设置最大高度
+                editor.$txtContainer.css('max-height', maxHeight);
+            }else{
+                //设置绝对高度
+                editor.$txtContainer.height( txtContainerHeight );
+            }
+            
+            //设置 txt 的高度
             editor.$txt.css('min-height', (txtContainerHeight - 10) + 'px');
         });
 
@@ -84,6 +98,11 @@ $.extend($E.fn, {
         if(expressions && expressions.length && expressions.length > 0){
             editor.expressions = expressions;
         }
+
+        //配置语言包
+        //要在初始化menus之前
+        //要在init跨域图片上传组件之前
+        editor.initLang(lang);
 
         //跨域上传图片的url
         if(uploadUrl && typeof uploadUrl === 'string'){
@@ -176,6 +195,9 @@ $.extend($E.fn, {
             editor.initImgResizeBtn('img');
         }
 
+        //配置编辑器语言
+        editor.initLang(lang);
+
         //txtContainer和btnContainer被点击时，要隐藏modal
         editor.$txtContainer.click(function(){
             editor.hideModal();
@@ -208,5 +230,5 @@ $.extend($E.fn, {
         //返回------------------
         return editor;
     },
-	
+    
 });

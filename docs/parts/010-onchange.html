@@ -8,12 +8,12 @@
 	<p>
 		另外，onchange 参数中必须传入一个函数，该函数的 html 参数即编辑器最新内容的源码。
 	</p>
-<pre>
+<pre><code class="javascript">//onchange配置
 var editor = $('#textarea1').wangEditor({
 	'onchange': function(html){
 		//html参数即编辑器内容的源码
 		alert('onchange事件触发，最新的html为：\n' + html);
 	}
 });
-</pre>
+</code></pre>
 </div>

@@ -316,18 +316,34 @@ $.extend($E, {
 	'getUploadImgComponentForCrossDomain': function(editor){
 		var uploadUrl = editor.uploadUrl,
 	        fileInputName = 'wangEditor_uploadImg',  //服务器端根据这个name获取file
-	        imgExts = '|.bmp|.jpg|.jpeg|.png|.gif|',  //图片文件的后缀名（注意：前后都要加“|”）
+	        imgExts = '|.bmp|.jpg|.jpeg|.png|.gif|';  //图片文件的后缀名（注意：前后都要加“|”）
 
-	        formId = $E.getUniqeId(),
+	    var formId = $E.getUniqeId(),
 	        fileId = $E.getUniqeId(),
 	        titleTxtId = $E.getUniqeId(),
 	        btnId = $E.getUniqeId(),
 	        infoId = $E.getUniqeId(),
-	        iframeId = $E.getUniqeId(),
-	        content =   '<form id="' + formId + '" method="post" enctype="multipart/form-data" target="' + iframeId + '">'+
-	                    '   <p>选择文件：<input type="file" name="' + fileInputName + '" id="' + fileId + '"/></p>' +
-	                    '   <p>图片标题：<input type="text" id="' + titleTxtId + '" style="width:250px;"/></p>' +
-	                    '   <p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">上传</button></p>' +
+	        iframeId = $E.getUniqeId();
+
+	    //配置多语言
+	    var langConfig = editor.langConfig,
+	    	langIsertImage = langConfig.menus.insertImage,
+
+	    	langModal = langIsertImage.modal,
+	    	langChoose = langModal.choose,
+	    	langTitle = langModal.title,
+
+	    	langAlert = langIsertImage.alert,
+	    	langChooseAImage = langAlert.chooseAImage,
+	    	langFileTypeError = langAlert.fileTypeError,
+	    	langUploading = langAlert.uploading,
+
+	    	langUpload = langConfig.common.upload;
+
+	    var content =   '<form id="' + formId + '" method="post" enctype="multipart/form-data" target="' + iframeId + '">'+
+	                    '   <p>' +langChoose+ '：<input type="file" name="' + fileInputName + '" id="' + fileId + '"/></p>' +
+	                    '   <p>' +langTitle+ '：<input type="text" id="' + titleTxtId + '" style="width:250px;"/></p>' +
+	                    '   <p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">' +langUpload+ '</button></p>' +
 	                    '   <span stype="color:red;" id="' + infoId + '"></span>' +
 	                    '</form>' +
 	                    '<div style="display:none;"><iframe id="' + iframeId + '" name="' + iframeId + '" style="display:none; width:0; height:0;"></iframe></div>',
@@ -336,14 +352,15 @@ $.extend($E, {
 	    $uploadImg_modal.find('#' + btnId).click(function(e){
 	        //检验是否传入uploadUrl配置
 	        if(uploadUrl == null || typeof uploadUrl !== 'string'){
-	            alert('未配置URL地址，不能上传图片');
+	            alert('未配置URL地址，不能上传图片');  
+	            //该提示给测试人员，而非让用户看到，因此不用多语言
 	            return;
 	        }
 
 	        //检验是否选择文件
 	        var fileVal = $('#' + fileId).val();
 	        if(fileVal === ''){
-	            alert('请选择图片文件');
+	            alert( langChooseAImage );
 	            return;
 	        }
 
@@ -351,7 +368,7 @@ $.extend($E, {
 	        var ext = fileVal.slice( fileVal.lastIndexOf('.') - fileVal.length );
 	        ext = '|' + ext.toLowerCase() + '|';
 	        if(imgExts.indexOf(ext) === -1){
-	            alert('选择的文件不是图片格式');
+	            alert( langFileTypeError );
 	            return;
 	        }
 	        
@@ -417,7 +434,7 @@ $.extend($E, {
 
 	        //先暂时禁用按钮
 	        $btn.hide();
-	        $info.html('上传中...');
+	        $info.html( langUploading );
 
 	        try{
 	            //设置uploadUrl，提交form
@@ -437,6 +454,343 @@ $.extend($E, {
 
 	    return $uploadImg_modal;
 	}
+});
+$.extend($E, {
+	'langs': {
+		//空对象，后面填充
+	}
+});
+$.extend($E.langs, {
+
+	//中文语言配置
+	'zhs': {
+		'common': {
+			'insert': '插入',
+			'submit': '提交',
+			'update': '更新',
+			'cancel': '取消',
+			'close': '关闭',
+			'upload': '上传',
+
+			'unsafeAlert': '输入的内容不安全，请重新输入！',
+			'formatError': '输入的内容格式错误，请重新输入！'
+		},
+
+		//菜单语言配置
+		'menus': {
+			'viewSourceCode': {
+				'title': '查看源码'
+			},
+			'bold': {
+				'title': '加粗'
+			},
+			'underline': {
+				'title': '下划线'
+			},
+			'italic': {
+				'title': '斜体'
+			},
+			'removeFormat': {
+				'title': '清除格式'
+			},
+			'indent': {
+				'title': '增加缩进'
+			},
+			'outdent': {
+				'title': '减少缩进'
+			},
+			'foreColor': {
+				'title': '字体颜色'
+			},
+			'backgroundColor': {
+				'title': '背景色'
+			},
+			'strikethrough': {
+				'title': '删除线'
+			},
+			'blockquote': {
+				'title': '引用'
+			},
+			'fontFamily': {
+				'title': '字体'
+			},
+			'fontSize': {
+				'title': '字号'
+			},
+			'setHead': {
+				'title': '标题',
+				'content': '正文'
+			},
+			'list': {
+				'title': '列表',
+				'unOrdered': {
+					'title': '无序列表'
+				},
+				'ordered': {
+					'title': '有序列表'
+				}
+			},
+			'justify': {
+				'title': '对齐',
+				'left': {
+					'title': '左对齐'
+				},
+				'center': {
+					'title': '居中'
+				},
+				'right': {
+					'title': '右对齐'
+				}
+			},
+			'createLink': {
+				'title': '插入链接',
+				'modal': {
+					'link': '链接',
+					'title': '标题',
+					'blank': '新窗口'
+				}
+			},
+			'unLink': {
+				'title': '取消链接'
+			},
+			'insertTable': {
+				'title': '插入表格',
+				'modal': {
+					'rowNum': '行数',
+					'colNum': '列数',
+					'showFirstRow': '显示首行'
+				}
+			},
+			'insertHr': {
+				'title': '横线'
+			},
+			'insertExpression': {
+				'title': '表情'
+			},
+			'insertImage': {
+				'title': '图片',
+				'modal': {
+					'insertWeb': '插入网络图片',
+					'insertLocal': '上传本地图片',
+
+					'url': '网址',
+					'title': '标题',
+					'choose': '选择'
+				},
+				'alert': {
+					'chooseAImage': '请选择图片文件',
+					'fileTypeError': '选择的文件不是图片格式',
+					'uploading': '上传中...'
+				}
+			},
+			'insertVideo': {
+				'title': '视频',
+				'modal': {
+					'url': '地址',
+					'width': '宽度',
+					'height': '高度'
+				}
+			},
+			'insertLocation': {
+				'title': '位置',
+				'modal': {
+					'city': '城市',
+					'location': '位置',
+					'search': '搜索',
+					'clear': '清楚标记',
+					'loading': '地图加载中...',
+					'dynamic': '动态地图'
+				},
+				'alert': {
+					'cantFindLocation': '没有找到您输入的地址',
+					'dynamicOneLocation': '动态地图只能显示一个位置'
+				}
+			},
+			'insertCode': {
+				'title': '插入代码',
+				'modal': {
+					'title': '请输入代码 '
+				}
+			},
+			'undo': {
+				'title': '撤销'
+			},
+			'redo': {
+				'title': '重复'
+			},
+			'fullScreen': {
+				'title': '全屏'
+			}
+		} //menus配置结束
+
+	} //中文配置结束
+
+});
+$.extend($E.langs, {
+
+	//因为语言配置
+	'en': {
+		'common': {
+			'insert': 'insert',
+			'submit': 'submit',
+			'update': 'update',
+			'cancel': 'cancel',
+			'close': 'close',
+			'upload': 'upload',
+
+			'unsafeAlert': 'Unsafe content, please input again!',
+			'formatError': 'Format error, please input again!'
+		},
+
+		//菜单语言配置
+		'menus': {
+			'viewSourceCode': {
+				'title': 'source code'
+			},
+			'bold': {
+				'title': 'bold'
+			},
+			'underline': {
+				'title': 'under line'
+			},
+			'italic': {
+				'title': 'italic'
+			},
+			'removeFormat': {
+				'title': 'remove format'
+			},
+			'indent': {
+				'title': 'indent'
+			},
+			'outdent': {
+				'title': 'outdent'
+			},
+			'foreColor': {
+				'title': 'font color'
+			},
+			'backgroundColor': {
+				'title': 'background Color'
+			},
+			'strikethrough': {
+				'title': 'delete line'
+			},
+			'blockquote': {
+				'title': 'quote'
+			},
+			'fontFamily': {
+				'title': 'font family'
+			},
+			'fontSize': {
+				'title': 'font size'
+			},
+			'setHead': {
+				'title': 'head',
+				'content': 'content'
+			},
+			'list': {
+				'title': 'list',
+				'unOrdered': {
+					'title': 'unOrdered'
+				},
+				'ordered': {
+					'title': 'ordered'
+				}
+			},
+			'justify': {
+				'title': 'justify',
+				'left': {
+					'title': 'left'
+				},
+				'center': {
+					'title': 'center'
+				},
+				'right': {
+					'title': 'right'
+				}
+			},
+			'createLink': {
+				'title': 'create link',
+				'modal': {
+					'link': 'link',
+					'title': 'title',
+					'blank': 'blank'
+				}
+			},
+			'unLink': {
+				'title': 'unlink'
+			},
+			'insertTable': {
+				'title': 'table',
+				'modal': {
+					'rowNum': 'rows',
+					'colNum': 'columns',
+					'showFirstRow': 'show first row'
+				}
+			},
+			'insertHr': {
+				'title': 'hr'
+			},
+			'insertExpression': {
+				'title': 'expressions'
+			},
+			'insertImage': {
+				'title': 'image',
+				'modal': {
+					'insertWeb': 'inset web image',
+					'insertLocal': 'upload local image',
+
+					'url': 'url',
+					'title': 'title',
+					'choose': 'choose'
+				},
+				'alert': {
+					'chooseAImage': 'Choose a image file please!',
+					'fileTypeError': 'Selected file is not a picture format!',
+					'uploading': 'uploading...'
+				}
+			},
+			'insertVideo': {
+				'title': 'video',
+				'modal': {
+					'url': 'url',
+					'width': 'width',
+					'height': 'height'
+				}
+			},
+			'insertLocation': {
+				'title': 'location',
+				'modal': {
+					'city': 'city',
+					'location': 'location',
+					'search': 'search',
+					'clear': 'clear locations',
+					'loading': 'map loading...',
+					'dynamic': 'dynamic map'
+				},
+				'alert': {
+					'cantFindLocation': 'Can not find location which you input',
+					'dynamicOneLocation': 'Keep only one location in dynamic map'
+				}
+			},
+			'insertCode': {
+				'title': 'insert code',
+				'modal': {
+					'title': 'insert code here '
+				}
+			},
+			'undo': {
+				'title': 'undo'
+			},
+			'redo': {
+				'title': 'redo'
+			},
+			'fullScreen': {
+				'title': 'full screen'
+			}
+		} //menus配置结束
+
+	} //英文配置结束
+
 });
 $.extend($E, {
 
@@ -715,9 +1069,10 @@ $.extend($E, {
         //按钮 tooltip 效果
         if(title){
             $btn.attr('title', '');
-            if(hotKey){
-                title = title + '('  + hotKey + ')';  //加入快捷键提示
-            }
+            // if(hotKey){
+            //     title = title + '('  + hotKey + ')';  //加入快捷键提示
+                    //PS：注释掉这个，是因为名称较长的菜单，加上之后，tooltip的小三角位置不对
+            // }
 
             var $toolTip = $( $E.htmlTemplates.tooltip ),
                 $toolTipContent = $( $E.htmlTemplates.tooltipContent.replace('{title}', title) ),
@@ -753,7 +1108,7 @@ $.extend($E, {
 });
 $.extend($E.fn, {
 
-	//初始化函数
+    //初始化函数
     'init': function($textarea, options){
         /*
         * options: {
@@ -761,7 +1116,8 @@ $.extend($E.fn, {
         *   onchange: function(){...},  //配置onchange事件，
         *   expressions: [...],  //配置表情图片的url地址
         *   uploadImgComponent : $('#someId'),  //上传图片的组件
-        *   uploadUrl: 'string'  //图片上传的地址
+        *   uploadUrl: 'string',  //图片上传的地址
+        *   lang: '...' / {...}  //语言包
         * }
         */
 
@@ -771,10 +1127,12 @@ $.extend($E.fn, {
             expressions = options.expressions,
             uploadImgComponent = options.uploadImgComponent,
             uploadUrl = options.uploadUrl,
+            lang = options.lang,
 
             //editor
             editor = this,
             height = $textarea.height(),
+            maxHeight = $textarea.css('max-height'),
             initVal = $.trim( $textarea.val() );
 
         //设置id
@@ -806,6 +1164,10 @@ $.extend($E.fn, {
         if(height <= 80){
             height = 80;
         }
+        if( parseInt(maxHeight) <= height || !maxHeight ){
+            //保证 maxHeight 是一个有效值
+            maxHeight = 'none';
+        }
         //设置高度（必须在dom渲染完之后才行）
         $(function(){
             //计算txtContainer的高度，必须等待页面加载完成才能计算，否则dom没有被渲染，无法计算高度
@@ -818,8 +1180,15 @@ $.extend($E.fn, {
                 txtContainerHeight = height - 32;
             }
 
-            editor.$txtContainer.height( txtContainerHeight );
-            //editor.$txt.css('min-height', height + 'px');
+            if(typeof maxHeight === 'string' && maxHeight !== 'none'){
+                //设置最大高度
+                editor.$txtContainer.css('max-height', maxHeight);
+            }else{
+                //设置绝对高度
+                editor.$txtContainer.height( txtContainerHeight );
+            }
+            
+            //设置 txt 的高度
             editor.$txt.css('min-height', (txtContainerHeight - 10) + 'px');
         });
 
@@ -837,6 +1206,11 @@ $.extend($E.fn, {
         if(expressions && expressions.length && expressions.length > 0){
             editor.expressions = expressions;
         }
+
+        //配置语言包
+        //要在初始化menus之前
+        //要在init跨域图片上传组件之前
+        editor.initLang(lang);
 
         //跨域上传图片的url
         if(uploadUrl && typeof uploadUrl === 'string'){
@@ -929,6 +1303,9 @@ $.extend($E.fn, {
             editor.initImgResizeBtn('img');
         }
 
+        //配置编辑器语言
+        editor.initLang(lang);
+
         //txtContainer和btnContainer被点击时，要隐藏modal
         editor.$txtContainer.click(function(){
             editor.hideModal();
@@ -961,7 +1338,7 @@ $.extend($E.fn, {
         //返回------------------
         return editor;
     },
-	
+    
 });
 $.extend($E.fn, {
 	//往menu中插入btn Group
@@ -1277,6 +1654,49 @@ $.extend($E.fn, {
         });
     }
 });
+$.extend($E.fn, {
+
+	//初始化编辑器的语言
+
+	'initLang': function(lang){
+		var editor = this,
+			langs = $E.langs,
+			defaultLang = 'zhs',  //默认语言为中文 zhs
+			langConfig = langs[defaultLang];  //语言的详细配置
+
+		if(typeof lang === 'object'){
+			//lang传入的是对象形式
+
+			if(lang === null){
+				lang = {};
+			}
+
+			//将 lang 对象中的配置，覆盖进 langConfig 中
+			//langConfig 可能会被修改
+			$.extend(true, langConfig, lang);
+
+		}else if(typeof lang === 'string'){
+			//lang 为字符串形式，即直接制定默认配置中的一个语言
+
+			if(lang in langs){
+				//如果 lang 字符串是现有语言配置中的一项
+				//获取编辑器配置集合中的语言配置（lang为undefined和string的情况）
+				langConfig = langs[lang];
+			}else{
+				//不是 langs 配置中的一项，则设置回默认
+				lang = defaultLang;
+			}
+		}else{
+			//lang 既不是对象，又不是字符串，就设置为默认
+			lang = defaultLang;
+		}
+
+		//赋值
+		editor.defaultLang = defaultLang;
+		editor.lang = lang;
+		editor.langConfig = langConfig;
+	}
+});
 //重点！！！
 //构造函数是$E.fn.init，将构造函数的prototype指向$E.fn
 //模仿jquery写法
@@ -1309,9 +1729,14 @@ $.extend($E.fn, {
                 }
             }
         */
-        this.menus = {
+
+        var editor = this,
+            langCommon = editor.langConfig.common,
+            langMenus = editor.langConfig.menus;
+
+        editor.menus = {
 'bold': {
-    'title': '加粗',
+    'title': langMenus.bold.title,
     'type': 'btn',
     'hotKey': 'ctrl + b',
     'beforeFn': function(editor){
@@ -1325,58 +1750,58 @@ $.extend($E.fn, {
     }
 },
 'underline': {
-    'title': '下划线',
+    'title': langMenus.underline.title,
     'type': 'btn',
     'hotKey': 'ctrl + u',
     'cssClass':'icon-wangEditor-underline',
     'command': 'underline '
 },
 'italic': {
-    'title': '斜体',
+    'title': langMenus.italic.title,
     'type': 'btn',
     'hotKey': 'ctrl + i',
     'cssClass':'icon-wangEditor-italic',
     'command': 'italic '
 },
 'removeFormat': {
-    'title': '清除格式',
+    'title': langMenus.removeFormat.title,
     'type': 'btn',
     'cssClass':'icon-wangEditor-eraser',
     'command': 'RemoveFormat ' 
 },
 // 'indent': {
-//     'title': '增加缩进',
+//     'title': langMenus.indent.title,
 //     'type': 'btn',
 //     'hotKey': 'ctrl,shift + i',
 //     'cssClass':'icon-wangEditor-indent-right',
 //     'command': 'indent'
 // },
 // 'outdent': {
-//     'title': '减少缩进',
+//     'title': langMenus.outdent.title,
 //     'type': 'btn',
 //     'cssClass':'icon-wangEditor-indent-left',
 //     'command': 'outdent'
 // }, 
 'unLink': {
-    'title': '取消链接',
+    'title': langMenus.unLink.title,
     'type': 'btn',
     'cssClass':'icon-wangEditor-unlink',
     'command': 'unLink ' 
 },
 'insertHr': {
-    'title': '插入横线',
+    'title': langMenus.insertHr.title,
     'type': 'btn',
     'cssClass':'icon-wangEditor-minus',
     'command': 'InsertHorizontalRule' 
 },
 'strikethrough':{
-    'title': '删除线',
+    'title': langMenus.strikethrough.title,
     'type': 'btn',
     'cssClass':'icon-wangEditor-strikethrough',
     'command': 'StrikeThrough'
 },
 'blockquote': {
-    'title': '引用',
+    'title': langMenus.blockquote.title,
     'type': 'btn',
     'cssClass':'icon-wangEditor-quotes-left',
     'command': 'formatBlock',
@@ -1413,7 +1838,7 @@ $.extend($E.fn, {
     }
 },
 'justify': {
-    'title': '对齐',
+    'title': langMenus.justify.title,
     'type': 'dropMenu',
     'cssClass':'icon-wangEditor-align-left',
     'dropMenu': function(){
@@ -1425,15 +1850,15 @@ $.extend($E.fn, {
                 {
                     //左对齐
                     'commandName': 'JustifyLeft',
-                    'txt': '<i class="icon-wangEditor-align-left"> 左对齐</i>'
+                    'txt': '<i class="icon-wangEditor-align-left"> ' + langMenus.justify.left.title + '</i>'
                 },{
                     //居中
                     'commandName': 'JustifyCenter',
-                    'txt': '<i class="icon-wangEditor-align-center"> 居中</i>'
+                    'txt': '<i class="icon-wangEditor-align-center"> ' + langMenus.justify.center.title + '</i>'
                 },{
                     //右对齐
                     'commandName': 'JustifyRight',
-                    'txt': '<i class="icon-wangEditor-align-right"> 右对齐</i>'
+                    'txt': '<i class="icon-wangEditor-align-right"> ' + langMenus.justify.right.title + '</i>'
                 }
             ];
 
@@ -1449,7 +1874,7 @@ $.extend($E.fn, {
     }
 },
 'list': {
-    'title': '列表',
+    'title': langMenus.list.title,
     'type': 'dropMenu',
     'cssClass':'icon-wangEditor-list-bullet',
     'dropMenu': function () {
@@ -1461,11 +1886,11 @@ $.extend($E.fn, {
                 {
                     //无序列表
                     'commandName': 'InsertUnorderedList',
-                    'txt': '<i class="icon-wangEditor-list-bullet"> 无序列表</i>'
+                    'txt': '<i class="icon-wangEditor-list-bullet"> ' + langMenus.list.unOrdered.title + '</i>'
                 },{
                     //有序列表
                     'commandName': 'InsertOrderedList',
-                    'txt': '<i class="icon-wangEditor-list-numbered"> 有序列表</i>'
+                    'txt': '<i class="icon-wangEditor-list-numbered"> ' + langMenus.list.unOrdered.title + '</i>'
                 }
             ];
 
@@ -1481,7 +1906,7 @@ $.extend($E.fn, {
     }
 },
 'fontFamily': {
-    'title': '字体',
+    'title': langMenus.fontFamily.title,
     'type': 'dropMenu',
     'cssClass': 'icon-wangEditor-font2',
     'command': 'fontName ', 
@@ -1506,7 +1931,7 @@ $.extend($E.fn, {
     }
 },
 'fontSize': {
-    'title': '字号',
+    'title': langMenus.fontSize.title,
     'type': 'dropMenu',
     'cssClass': 'icon-wangEditor-text-height',
     'command': 'fontSize',
@@ -1528,21 +1953,24 @@ $.extend($E.fn, {
     }
 },
 'setHead': {
-    'title': '设置标题',
+    'title': langMenus.setHead.title,
     'type': 'dropMenu', 
     'cssClass':'icon-wangEditor-header',
     'command': 'formatBlock ',
-    'dropMenu': function(){ 
-        var liListStr =  '<li><a href="#" commandValue="<h1>"><h1>标题1</h1></a></li>' + 
-                    '<li><a href="#" commandValue="<h2>"><h2>标题2</h2></a></li>' + 
-                    '<li><a href="#" commandValue="<h3>"><h3>标题3</h3></a></li>' + 
-                    '<li><a href="#" commandValue="<h4>"><h4>标题4</h4></a></li>' + 
-                    '<li><a href="#" commandValue="<p>">正文</a></li>';
+    'dropMenu': function(){
+        var head = langMenus.setHead.title,
+            content = langMenus.setHead.content;
+
+        var liListStr =  '<li><a href="#" commandValue="<h1>"><h1>' + head + '1</h1></a></li>' + 
+                    '<li><a href="#" commandValue="<h2>"><h2>' + head + '2</h2></a></li>' + 
+                    '<li><a href="#" commandValue="<h3>"><h3>' + head + '3</h3></a></li>' + 
+                    '<li><a href="#" commandValue="<h4>"><h4>' + head + '4</h4></a></li>' + 
+                    '<li><a href="#" commandValue="<p>">' + content + '</a></li>';
         return $( $E.htmlTemplates.dropMenu.replace('{content}', liListStr) );
     }
 },
 'foreColor': {
-    'title': '字体颜色',
+    'title': langMenus.foreColor.title,
     'type': 'dropPanel',
     'cssClass': 'icon-wangEditor-pencil', 
     //'style': 'color:blue;',
@@ -1568,7 +1996,7 @@ $.extend($E.fn, {
     }
 },
 'backgroundColor': {
-    'title': '背景色',
+    'title': langMenus.backgroundColor.title,
     'type': 'dropPanel',
     'cssClass': 'icon-wangEditor-brush',  
     //'style':'color:red;',
@@ -1594,21 +2022,32 @@ $.extend($E.fn, {
     }
 },
 'createLink': {
-    'title': '插入链接',
+    'title': langMenus.createLink.title,
     'type': 'modal', 
     'cssClass': 'icon-wangEditor-link',
     'modal': function (editor) {
         var urlTxtId = $E.getUniqeId(),
             titleTxtId = $E.getUniqeId(),
             blankCheckId = $E.getUniqeId(),
-            btnId = $E.getUniqeId(),
-            content = '<p>链接：<input id="' + urlTxtId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
-                        '<p>标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' + 
-                        '<p>新窗口：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/></p>' +
-                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入链接</button></p>',
+            btnId = $E.getUniqeId();
+
+        var langModal = langMenus.createLink.modal,
+            langLink = langModal.link,
+            langTitle = langModal.title,
+            langBlank = langModal.blank,
+            
+            langBtn = langCommon.insert,
+
+            langUnsafe = langCommon.unsafeAlert;
+
+        var content = '<p>' +langLink+ '：<input id="' + urlTxtId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
+                        '<p>' +langTitle+ '：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' + 
+                        '<p>' +langBlank+ '：<input id="' + blankCheckId + '" type="checkbox" checked="checked"/></p>' +
+                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">' +langBtn+ '</button></p>',
             $link_modal = $(
                 $E.htmlTemplates.modalSmall.replace('{content}', content)
             );
+
         $link_modal.find('#' + btnId).click(function(e){
             //注意，该方法中的 $link_modal 不要跟其他modal中的变量名重复！！否则程序会混淆
             //具体原因还未查证？？？
@@ -1625,7 +2064,7 @@ $.extend($E.fn, {
             if(url !== ''){
                 //xss过滤
                 if($E.filterXSSForUrl(url) === false){
-                    alert('您的输入内容有不安全字符，请重新输入！');
+                    alert( langUnsafe );
                     return;
                 }
                 if(title === '' && !isBlank){
@@ -1640,7 +2079,7 @@ $.extend($E.fn, {
     }
 },
 'insertExpression': {
-    'title': '插入表情',
+    'title': langMenus.insertExpression.title,
     'type': 'dropPanel',
     'command': 'insertImage',
     'cssClass': 'icon-wangEditor-happy',
@@ -1687,7 +2126,7 @@ $.extend($E.fn, {
     }
 },
 'insertVideo': {
-    'title': '插入视频',
+    'title': langMenus.insertVideo.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-play',
     'modal': function(editor){
@@ -1696,10 +2135,21 @@ $.extend($E.fn, {
             txtHeightId = $E.getUniqeId(),
             btnId = $E.getUniqeId(),
             defaultWidth = 480, defaultHeight = 400;
-        var content = '<p>地址：<input id="' + txtSrcId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
-                        '<p>宽度：<input id="' + txtWidthId + '" type="text" style="width:50px" value="' + defaultWidth + '"/> px（像素）</p>' +
-                        '<p>高度：<input id="' + txtHeightId + '" type="text" style="width:50px" value="' + defaultHeight + '"/> px（像素） </p>' +
-                        '<p><button id="' + btnId + '" class="wangEditor-modal-btn" type="button">插入视频</button></p>';
+
+        var langModal = langMenus.insertVideo.modal,
+            langUrl = langModal.url,
+            langWidth = langModal.width,
+            langHeight = langModal.height,
+
+            langBtn = langCommon.insert,
+
+            langUnsafe = langCommon.unsafeAlert,
+            langFormatError = langCommon.formatError;
+
+        var content = '<p>' +langUrl+ '：<input id="' + txtSrcId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
+                        '<p>' +langWidth+ '：<input id="' + txtWidthId + '" type="text" style="width:50px" value="' + defaultWidth + '"/> px（像素）</p>' +
+                        '<p>' +langHeight+ '：<input id="' + txtHeightId + '" type="text" style="width:50px" value="' + defaultHeight + '"/> px（像素） </p>' +
+                        '<p><button id="' + btnId + '" class="wangEditor-modal-btn" type="button">' +langBtn+ '</button></p>';
         var $video_modal = $(
                 $E.htmlTemplates.modalSmall.replace('{content}', content)
             );
@@ -1718,13 +2168,13 @@ $.extend($E.fn, {
 
             //验证src的合法性
             if($E.filterXSSForUrl(src) === false){
-                alert('您的输入内容有不安全字符，请重新输入！');
+                alert( langUnsafe );
                 return;
             }
 
             //在此验证src
             if( (src.indexOf('http://') !== 0 && src.indexOf('https://') !== 0) || src.indexOf('.swf') === -1 ){
-                alert('您输入的内容不符合要求');
+                alert( langFormatError );
                 return;
             }
 
@@ -1748,21 +2198,30 @@ $.extend($E.fn, {
     }
 },
 'insertTable': {
-    'title': '插入表格',
+    'title': langMenus.insertTable.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-table',
     'modal': function(editor){
         var rowNumTxtId = $E.getUniqeId(),
             colNumTxtId = $E.getUniqeId(),
             titleCheckId = $E.getUniqeId(),
-            btnId = $E.getUniqeId(),
-            content = '<p>行数：<input id="' + rowNumTxtId + '" type="text" value="3"/></p>' + 
-                        '<p>列数：<input id="' + colNumTxtId + '" type="text" value="5"/></p>' +
-                        '<p>显示首行背景：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/></p>' + 
-                        '<p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">插入表格</button></p>',
+            btnId = $E.getUniqeId();
+
+        var langModal = langMenus.insertTable.modal,
+            langRowNum = langModal.rowNum,
+            langColNum = langModal.colNum,
+            langShowFirstRow = langModal.showFirstRow,
+
+            langBtn = langCommon.insert;
+
+        var content = '<p>' +langRowNum+ '：<input id="' + rowNumTxtId + '" type="text" value="3"/></p>' + 
+                        '<p>' +langColNum+ '：<input id="' + colNumTxtId + '" type="text" value="5"/></p>' +
+                        '<p>' +langShowFirstRow+ '：<input id="' + titleCheckId + '" type="checkbox" checked="checked"/></p>' + 
+                        '<p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">' +langBtn+ '</button></p>',
             $table_modal = $(
                 $E.htmlTemplates.modalSmall.replace('{content}', content)
             );
+
         $table_modal.find('#' + btnId).click(function(e){
             //注意，该方法中的 $table_modal 不要跟其他modal中的变量名重复！！否则程序会混淆
             //具体原因还未查证？？？
@@ -1817,12 +2276,11 @@ $.extend($E.fn, {
     }
 },
 'insertImage': {
-    'title': '图片',
+    'title': langMenus.insertImage.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-picture',
     'modal': function (editor) {
-        var 
-            //上传组件
+        var //上传组件
             uploadImgComponent = editor.uploadImgComponent,
 
             webImgContainerId = $E.getUniqeId(),
@@ -1830,15 +2288,27 @@ $.extend($E.fn, {
             changeLinkId = $E.getUniqeId(),
             urlTxtId = $E.getUniqeId(),
             titleTxtId = $E.getUniqeId(),
-            btnId = $E.getUniqeId(),
-            content =   '<p>' +
-                        '   <span id="' + alertInfoId + '">插入网络图片</span> ' +
+            btnId = $E.getUniqeId();
+
+        var langModal = langMenus.insertImage.modal,
+            langInsertWeb = langModal.insertWeb,
+            langInsertLocal = langModal.insertLocal,
+            langUrl = langModal.url,
+            langTitle = langModal.title,
+
+            langBtn = langCommon.insert,
+
+            langUnsafe = langCommon.unsafeAlert;
+
+
+        var content =   '<p>' +
+                        '   <span id="' + alertInfoId + '">' +langInsertWeb+ '</span> ' +
                         '   <a href="#" id="' + changeLinkId + '"></a>' +
                         '</p>' +
                         '<div id="' + webImgContainerId + '">' +
-                        '   <p>网址：<input id="' + urlTxtId + '" type="text" style="width:300px;" placeholder="http://"/></p>' +
-                        '   <p>标题：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' +
-                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">插入图片</button></p>' +
+                        '   <p>' +langUrl+ '：<input id="' + urlTxtId + '" type="text" style="width:300px;" placeholder="http://"/></p>' +
+                        '   <p>' +langTitle+ '：<input id="' + titleTxtId + '" type="text" style="width:300px;"/></p>' +
+                        '<p><button id="' + btnId + '" type="button" class="wangEditor-modal-btn">' +langBtn+ '</button></p>' +
                         '</div>',
             $webimg_modal = $(
                 $E.htmlTemplates.modalSmall.replace('{content}', content)
@@ -1856,8 +2326,8 @@ $.extend($E.fn, {
                 $webImgContainerId.hide();
 
                 //修改提示内容
-                $alertInfoId.text('上传本地图片');
-                $changeLinkId.text('或插入网络图片');
+                $alertInfoId.text( langInsertLocal );
+                $changeLinkId.text( langInsertWeb );
             }
 
             //显示网络图片，隐藏本地上传
@@ -1866,8 +2336,8 @@ $.extend($E.fn, {
                 $webImgContainerId.show();
 
                 //修改提示内容
-                $alertInfoId.text('插入网络图片');
-                $changeLinkId.text('或上传本地图片');
+                $alertInfoId.text( langInsertWeb );
+                $changeLinkId.text( langInsertLocal );
             }
  
             if(uploadImgComponent){  
@@ -1881,7 +2351,7 @@ $.extend($E.fn, {
             //切换
             $changeLinkId.click(function(e){
                 var txt = $changeLinkId.text();
-                if(txt.indexOf('本地') >= 0){
+                if(txt === langInsertLocal){
                     showUploadImg();
                 }else{
                     showWebImg();
@@ -1911,7 +2381,7 @@ $.extend($E.fn, {
             if(url !== ''){
                 //xss过滤
                 if($E.filterXSSForUrl(url) === false){
-                    alert('您的输入内容有不安全字符，请重新输入！');
+                    alert( langUnsafe );
                     return;
                 }
                 if(title === ''){
@@ -1925,15 +2395,19 @@ $.extend($E.fn, {
         return $webimg_modal;
     }
 },
-'insertSimpleCode':{
-    'title': '插入代码',
+'insertCode':{
+    'title': langMenus.insertCode.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-terminal',
     'modal': function(editor){
         var txtId = $E.getUniqeId(),
             selectId = $E.getUniqeId(),
-            btnId = $E.getUniqeId(),
-            content = '<p>请输入代码：{selectLangs}</p>' +  // selectLangs 待填充语言列表下拉框
+            btnId = $E.getUniqeId();
+
+        var langModal = langMenus.insertCode.modal,
+            langTitle = langModal.title;
+
+        var content = '<p>' +langTitle+ '：{selectLangs}</p>' +  // selectLangs 待填充语言列表下拉框
                         '<div><textarea id="' + txtId + '" style="width:100%; height:100px;"></textarea></div>' + 
                         '<button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">插入</button>',
             selectLangs = '<select id="' + selectId + '">{content}</select>',  // content 待填充语言列表
@@ -2026,7 +2500,7 @@ $.extend($E.fn, {
     }
 },
 'insertLocation':{
-    'title': '插入位置',
+    'title': langMenus.insertLocation.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-location',
     'modal': function(editor){
@@ -2037,13 +2511,28 @@ $.extend($E.fn, {
             divMapId = $E.getUniqeId(),
             btnInsertId = $E.getUniqeId(),
             checkDynamicId = $E.getUniqeId();
-        var content = ' 城市：<input type="text" id="' + txtCityId + '" style="width:60px;"/> ' + 
-                      ' 位置：<input type="text" id="' + txtLocationId + '">' +
-                      ' <button class="wangEditor-modal-btn" id="' + btnSearchId + '"  type="button">搜索</button>' + 
-                      ' <button class="wangEditor-modal-btn" id="' + btnClearId + '"  type="button">清除位置</button>' +
-                      ' <div id="' + divMapId + '" style="width:100%; height:220px; border:1px solid #ccc; margin:10px 0px;">地图加载中……</div>' +
-                      ' <button class="wangEditor-modal-btn" id="' + btnInsertId +'"  type="button">插入位置</button>' +
-                      ' <input type="checkbox" id="' + checkDynamicId + '"/>动态地图';
+
+        var langModal = langMenus.insertLocation.modal,
+            langCity = langModal.city,
+            langLocation = langModal.location,
+            langSearch = langModal.search,
+            langClear = langModal.clear,
+            langLoading = langModal.loading,
+            langDynamic = langModal.dynamic,
+
+            langInsert = langCommon.insert,
+
+            langAlert = langMenus.insertLocation.alert,
+            langCantFindLocation = langAlert.cantFindLocation,
+            langDynamicOneLocation = langAlert.dynamicOneLocation;
+
+        var content = langCity + '：<input type="text" id="' + txtCityId + '" style="width:60px;"/> ' + 
+                      langLocation + '：<input type="text" id="' + txtLocationId + '">' +
+                      ' <button class="wangEditor-modal-btn" id="' + btnSearchId + '"  type="button">' +langSearch+ '</button>' + 
+                      ' <button class="wangEditor-modal-btn" id="' + btnClearId + '"  type="button">' +langClear+ '</button>' +
+                      ' <div id="' + divMapId + '" style="width:100%; height:220px; border:1px solid #ccc; margin:10px 0px;">' +langLoading+ '</div>' +
+                      ' <button class="wangEditor-modal-btn" id="' + btnInsertId +'"  type="button">' +langInsert+ '</button>' +
+                      ' <input type="checkbox" id="' + checkDynamicId + '"/>' + langDynamic;
         var $location_modal = $(
                 $E.htmlTemplates.modal.replace('{content}', content)
             );
@@ -2111,7 +2600,7 @@ $.extend($E.fn, {
                             marker.enableDragging();  //允许拖拽
                             markers.push(marker);  //将marker加入到数组中
                         }else{
-                            alert("没有找到您输入的地址!");
+                            alert( langCantFindLocation );
                             map.centerAndZoom(cityName, 11);  //找不到则重新定位到城市
                         }
                     }, cityName);
@@ -2171,7 +2660,7 @@ $.extend($E.fn, {
 
             if(isDynamic){
                 if(markers.length > 1){
-                    alert('动态地图只能显示一个位置！');
+                    alert( langDynamicOneLocation );
                     return;
                 }
 
@@ -2191,7 +2680,7 @@ $.extend($E.fn, {
     }
 },
 'undo': {
-    'title': '撤销',
+    'title': langMenus.undo.title,
     'type': 'btn',
     'hotKey': 'ctrl+z',  //例如'ctrl+z'/'ctrl,shift+z'/'ctrl,shift,alt+z'/'ctrl,shift,alt,meta+z'，支持这四种情况。只有type==='btn'的情况下，才可以使用快捷键
     'cssClass': 'icon-wangEditor-ccw',
@@ -2203,7 +2692,7 @@ $.extend($E.fn, {
     }
 },
 'redo': {
-    'title': '重复',
+    'title': langMenus.redo.title,
     'type': 'btn',
     'cssClass': 'icon-wangEditor-cw',
     'command': 'commonRedo',
@@ -2214,14 +2703,17 @@ $.extend($E.fn, {
     }
 },
 'viewSourceCode': {
-    'title': '查看源码',
+    'title': langMenus.viewSourceCode.title,
     'type': 'modal',
     'cssClass': 'icon-wangEditor-code',
     'modal': function(editor){
         var txtId = $E.getUniqeId(),
             btnId = $E.getUniqeId();
+
+        var langUpdate = langCommon.update;
+
         var content = '<div><textarea style="width:100%; height:200px;" id="' + txtId + '"></textarea></div>' +
-                        '<button id="' + btnId + '" class="wangEditor-modal-btn"  type="button">更新源码</button>';
+                        '<button id="' + btnId + '" class="wangEditor-modal-btn"  type="button">' +langUpdate+ '</button>';
         var $sourceCode_modal = $(
                 $E.htmlTemplates.modalBig.replace('{content}', content)
             );
@@ -2251,7 +2743,8 @@ $.extend($E.fn, {
         return $sourceCode_modal;
     }
 },
-'fullScreen': {'title': '切换全屏',
+'fullScreen': {
+	'title':langMenus.fullScreen.title,
     'type': 'btn',
     'cssClass': 'icon-wangEditor-enlarge2',
     'command': 'fullScreen'
@@ -2270,7 +2763,7 @@ $.extend($E.fn, {
             //['indent', 'outdent'],
             //['insertHr'],
             ['createLink', 'unLink', 'insertTable', 'insertExpression'],
-            ['insertImage', 'insertVideo', 'insertLocation','insertSimpleCode'],
+            ['insertImage', 'insertVideo', 'insertLocation','insertCode'],
             ['undo', 'redo', 'fullScreen']
         ];
 	}
@@ -2748,7 +3241,8 @@ $.fn.extend({
     *   onchange: function(){...},  //配置onchange事件，
     *   expressions: [...],  //配置表情图片的url地址
     *   uploadImgComponent : $('#someId'),  //上传图片的组件
-    *   uploadUrl: 'string'  //图片上传的地址
+    *   uploadUrl: 'string',  //图片上传的地址
+    *   lang: '...' / {...}  //语言包
     * }
     */
     'wangEditor': function(options){

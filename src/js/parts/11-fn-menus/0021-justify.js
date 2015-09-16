@@ -1,5 +1,5 @@
 'justify': {
-    'title': '对齐',
+    'title': langMenus.justify.title,
     'type': 'dropMenu',
     'cssClass':'icon-wangEditor-align-left',
     'dropMenu': function(){
@@ -11,15 +11,15 @@
                 {
                     //左对齐
                     'commandName': 'JustifyLeft',
-                    'txt': '<i class="icon-wangEditor-align-left"> 左对齐</i>'
+                    'txt': '<i class="icon-wangEditor-align-left"> ' + langMenus.justify.left.title + '</i>'
                 },{
                     //居中
                     'commandName': 'JustifyCenter',
-                    'txt': '<i class="icon-wangEditor-align-center"> 居中</i>'
+                    'txt': '<i class="icon-wangEditor-align-center"> ' + langMenus.justify.center.title + '</i>'
                 },{
                     //右对齐
                     'commandName': 'JustifyRight',
-                    'txt': '<i class="icon-wangEditor-align-right"> 右对齐</i>'
+                    'txt': '<i class="icon-wangEditor-align-right"> ' + langMenus.justify.right.title + '</i>'
                 }
             ];
 
