@@ -183,13 +183,46 @@
 
 	    	//表情icon
 	    	img{
-	    		border:0;
+	    		border: 0;
+	    		max-width: 70px;
+	    		max-height: 50px;
 	    	}
 	    }
 	}
 
 	.wangEditor-drop-panel-big{
 		width: 400px;
+	}
+
+	//表情tab container
+	.wangEditor-expression-tab-container{
+		padding-left: 10px;
+		padding-top: 2px;
+		padding-bottom: 6px;
+
+		//表情tab
+		.wangEditor-expression-tab{
+			cursor: pointer;
+			float: left;
+			margin-right: 5px;
+			padding: 3px 5px;
+			font-size: 0.8em;
+			.border-radius();
+		}
+	
+		//选中状态
+		.selected{
+			background-color: #dddddd;
+		}
+	}
+
+	//表情分组 container
+	.wangEditor-expression-group-container{
+
+		//表情分组
+		.wangEditor-expression-group{
+			
+		}
 	}
 
 	//鼠标放置在按钮上的 tooltip 效果

@@ -2,8 +2,19 @@
 	<h3>自定义配置表情图标</h3>
 	<p>
 		在创建编辑器时，可传入 expressions 参数，自定义配置表情图标。
-		可参见 <a href="../test/test-set-expressions.html" target="_blank">在线的demo</a> ，
+	</p>
+	<p>
+		<br>
+		<b>配置简单的表情图标：</b>
+	</p>
+	<img src="images/expression1.png" style="width:260px;">
+	<p>
+		传入简单的一维数组可配置最简单的表情图标，参见 <a href="../test/test-set-expressions.html" target="_blank">在线的demo</a> ，
 		系统默认的表情包下载如下： <a href="http://www.wangeditor.com/expressions.zip">默认表情包</a>
+	</p>
+	<p>
+		自定义配置表情的好处是：
+		wangEditor默认提供的免费服务比较慢，使用者可以将表情添加到自己的服务器中，提高速度。
 	</p>
 <pre><code class="javascript">//自定义表情
 var editor = $('#textarea1').wangEditor({
@@ -20,4 +31,38 @@ var editor = $('#textarea1').wangEditor({
 		其实，expressions 参数传入的仅仅是一个数组而已，至于这个数组如何拼接，我想应该有N种方式。
 		发挥你的想象力，不必拘泥于这一个例子。
 	</p>
+
+	<p>
+		<br>
+		<b>配置多组表情：</b>
+	</p>
+	<img src="images/expression2.png" style="width:300px;">
+	<p>
+		传入一个二维数组，可以自定义配置多组表情，如上图。可参考
+		<a href="../test/expressions/test.html" target="_blank">在线的demo</a>
+	</p>
+<pre><code class="javascript">//配置多组表情
+$('#textarea1').wangEditor({
+	'expressions': [{
+		'title': '默认',
+		'items': [
+			'default/1.gif',
+			'default/2.gif',
+			'default/3.gif'
+		]
+	},{
+		'title': '金星',
+		'items': [
+			'jinxing/1.gif',
+			'jinxing/2.gif'
+		]
+	},{
+		'title': '卖萌海狮',
+		'items': [
+			'sealion/1.gif',
+			'sealion/2.gif'
+		]
+	}]
+});  // wangEditor配置 end
+</code></pre>
 </div>

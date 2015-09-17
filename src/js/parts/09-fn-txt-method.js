@@ -58,7 +58,7 @@ $.extend($E.fn, {
         }
     },
 
-    //隐藏modal
+    //隐藏modal、dropPanel和dropMenu
     'hideModal': function(){
         this.$modalContainer.find('.wangEditor-modal:visible').hide();
 

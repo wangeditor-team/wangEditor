@@ -189,9 +189,13 @@ $.extend($E, {
                 
                 e.stopPropagation();  //最后阻止冒泡
             };
-            $btn.blur(function(e){
-                setTimeout(hideDropPanel, 200);  //待执行完命令，再隐藏
-            });
+
+            //0916 - 因为表情tab切换时，会出发 $btn.blur 会隐藏 dropPanel
+            //       因此暂时注释掉
+            //       带来的问题：点击editor外面的body，dropPanel不隐藏
+            // $btn.blur(function(e){
+            //     setTimeout(hideDropPanel, 200);  //待执行完命令，再隐藏
+            // });
 
             //命令（使用事件代理）
             $dropPanel.on('click', 'a[commandValue]', function(e){

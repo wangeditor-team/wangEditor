@@ -225,9 +225,29 @@
 }
 .wangEditor-container .wangEditor-drop-panel .wangEditor-drop-panel-floatItem img {
   border: 0;
+  max-width: 70px;
+  max-height: 50px;
 }
 .wangEditor-container .wangEditor-drop-panel-big {
   width: 400px;
+}
+.wangEditor-container .wangEditor-expression-tab-container {
+  padding-left: 10px;
+  padding-top: 2px;
+  padding-bottom: 6px;
+}
+.wangEditor-container .wangEditor-expression-tab-container .wangEditor-expression-tab {
+  cursor: pointer;
+  float: left;
+  margin-right: 5px;
+  padding: 3px 5px;
+  font-size: 0.8em;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+.wangEditor-container .wangEditor-expression-tab-container .selected {
+  background-color: #dddddd;
 }
 .wangEditor-container .wangEditor-toolTip {
   position: absolute;

@@ -77,11 +77,21 @@ $.extend($E, {
         //dropmenu
         'dropMenu': '<ul class="wangEditor-drop-menu">{content}</ul>',
         //dropPanel
-        'dropPanel': '<ul class="wangEditor-drop-panel">{content}</ul>',
+        'dropPanel': '<div class="wangEditor-drop-panel">{content}</div>',
         //dropPanel-big
-        'dropPanelBig': '<ul class="wangEditor-drop-panel wangEditor-drop-panel-big">{content}</ul>',
-        //dropPanel-floatItem
+        'dropPanelBig': '<div class="wangEditor-drop-panel wangEditor-drop-panel-big">{content}</div>',
+        //dropPanel-floatItem（即 dropPanel 里面一个一个的块 ）
         'dropPanel_floatItem': '<div class="wangEditor-drop-panel-floatItem">{content}</div>',
+        
+        //表情dropPanel的tab容器
+        'dropPanel_expression_tab_container': '<div class="clearfix wangEditor-expression-tab-container">{content}</div>',
+        //表情dropPanel中的tab
+        'dropPanel_expression_tab': '<div index="{index}" class="wangEditor-expression-tab">{content}</div>',
+        //表情分组的容器
+        'dropPanel_expression_group_container': '<div class="wangEditor-expression-group-container">{content}</div>',
+        //表情分组
+        'dropPanel_expression_group': '<div index="{index}" class="clearfix wangEditor-expression-group">{content}</div>',
+
         //视频
         'videoEmbed': '<embed src="{src}" allowFullScreen="true" quality="high" width="{width}" height="{height}" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>',
         //代码块
