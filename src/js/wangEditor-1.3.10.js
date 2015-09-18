@@ -1518,12 +1518,8 @@ $.extend($E.fn, {
             e.preventDefault();
         });
         //隐藏删除按钮
-        editor.$txt.on('click keyup blur', function(e){
-            if(e.type === 'blur'){
-                setTimeout(hideElemDeleteBtn, 100); //预留0.1毫秒，等待 $deleteBtn.click 执行
-            }else{
-                hideElemDeleteBtn();
-            }
+        editor.$txt.on('click keyup', function(e){
+            hideElemDeleteBtn();
         });
     }
 });
