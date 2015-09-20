@@ -4,7 +4,7 @@
 
 * 软件官网：[www.wangEditor.com](http://www.wangEditor.com)
 * demo演示：[www.wangEditor.com](http://www.wangEditor.com)
-* 文档：[www.wangEditor.com/docs/](http://www.wangeditor.com/wangEditor/docs/index.html)
+* 文档：[www.kancloud.cn/wangfupeng/wangeditor](http://www.kancloud.cn/wangfupeng/wangeditor)
 
 ![](http://images2015.cnblogs.com/blog/138012/201509/138012-20150910004209122-1645253022.png)
 
