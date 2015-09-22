@@ -1130,7 +1130,8 @@ $.extend($E.fn, {
         *   onchange: function(){...},  //配置onchange事件，
         *   expressions: [...],  //配置表情图片的url地址
         *   uploadImgComponent : $('#someId'),  //上传图片的组件
-        *   uploadUrl: 'string',  //图片上传的地址
+        *   uploadUrl: 'string',  //跨域图片上传的地址
+        *   pasteUrl: 'string',  //粘贴图片上传的地址
         *   lang: '...' / {...}  //语言包
         * }
         */
@@ -1141,6 +1142,7 @@ $.extend($E.fn, {
             expressions = options.expressions,
             uploadImgComponent = options.uploadImgComponent,
             uploadUrl = options.uploadUrl,
+            pasteUrl = options.pasteUrl,
             lang = options.lang,
 
             //editor
@@ -1319,6 +1321,9 @@ $.extend($E.fn, {
 
         //配置编辑器语言
         editor.initLang(lang);
+
+        //绑定paste事件
+        editor.bindPaste(pasteUrl);
 
         //txtContainer和btnContainer被点击时，要隐藏modal
         editor.$txtContainer.click(function(){
@@ -1705,6 +1710,58 @@ $.extend($E.fn, {
 		editor.defaultLang = defaultLang;
 		editor.lang = lang;
 		editor.langConfig = langConfig;
+	}
+});
+$.extend($E.fn, {
+	'bindPaste': function(uploadUrl){
+		var editor = this,
+			$txt = editor.$txt;
+
+		$txt.on('paste', function(e){
+			var data = e.clipboardData || e.originalEvent.clipboardData,
+				items = data.items;
+
+			$.each(items, function(key, value){
+				if(value.type.indexOf('image') > -1){
+					var file = value.getAsFile(),
+						reader = new FileReader();
+
+					//已经读取了粘贴的图片
+					reader.onload = function(e){
+						var base64 = e.target.result || this.result,
+							src,
+							xhr,
+							formData;
+
+						if(uploadUrl){
+							//上传到服务器
+
+							xhr = new XMLHttpRequest();  //只有高版本浏览器才支持粘贴，因此不用检查兼容性了
+				            formData = new FormData();
+
+				            xhr.open('POST', uploadUrl, true);
+				            xhr.onload = function () {
+				            	//服务器端要返回图片url地址
+				            	src = xhr.responseText;
+				            	//执行插入
+								editor.command(e, 'insertImage', src);
+				            };
+
+				            formData.append('wangEditorPasteFile', base64);
+				            xhr.send(formData);
+						}else{
+							//不上传，则保存为 base64编码
+							src = base64;  
+							//执行插入
+							editor.command(e, 'insertImage', src);
+						}
+					};
+
+					//读取粘贴的文件
+					reader.readAsDataURL(file);
+				}
+			});
+		}); //bind paste end
 	}
 });
 //重点！！！
@@ -3201,13 +3258,14 @@ $.extend($E.fn, {
             var $txtContainer = this.$txtContainer,
                 $editorContainer = this.getEditorContainer(),
                 position =$editorContainer.css('position'),
+                maxHeight = $txtContainer.css('max-height'),
 
                 enlargeClass = 'icon-wangEditor-enlarge2',
                 shrinkClass = 'icon-wangEditor-shrink2',
 
                 $enlargeIcon = $editorContainer.find('.' + enlargeClass),
                 $shrinkIcon = $editorContainer.find('.' + shrinkClass);
-
+            
             //切换icon
             if($enlargeIcon.length){
                 $enlargeIcon.removeClass(enlargeClass).addClass(shrinkClass);
@@ -3236,6 +3294,10 @@ $.extend($E.fn, {
                     '-moz-box-shadow': '0 0 30px #999',
                     'box-shadow': '0 0 30px #999'
                 });
+
+                //去掉maxheight
+                $txtContainer.css('max-height', 'none');
+
             }else{
                 //还原txtContainer高度
                 $txtContainer.height(this._txtContainerHeight);
@@ -3252,6 +3314,9 @@ $.extend($E.fn, {
                     '-moz-box-shadow': '0 0 0 #CCC',
                     'box-shadow': '0 0 0 #CCC'
                 });
+
+                //还原maxheight
+                $txtContainer.css('max-height', maxHeight);
             }
         }
     }
@@ -3336,12 +3401,7 @@ if(!Array.prototype.indexOf){
 $.fn.extend({
     /*
     * options: {
-    *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
-    *   onchange: function(){...},  //配置onchange事件，
-    *   expressions: [...],  //配置表情图片的url地址
-    *   uploadImgComponent : $('#someId'),  //上传图片的组件
-    *   uploadUrl: 'string',  //图片上传的地址
-    *   lang: '...' / {...}  //语言包
+    *   options的参数，参考 $E.fn.init 方法的注释
     * }
     */
     'wangEditor': function(options){

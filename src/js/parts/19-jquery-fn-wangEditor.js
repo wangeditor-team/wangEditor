@@ -1,12 +1,7 @@
 $.fn.extend({
     /*
     * options: {
-    *   menuConfig: [...],   //配置要显示的菜单（menuConfig会覆盖掉hideMenuConfig）
-    *   onchange: function(){...},  //配置onchange事件，
-    *   expressions: [...],  //配置表情图片的url地址
-    *   uploadImgComponent : $('#someId'),  //上传图片的组件
-    *   uploadUrl: 'string',  //图片上传的地址
-    *   lang: '...' / {...}  //语言包
+    *   options的参数，参考 $E.fn.init 方法的注释
     * }
     */
     'wangEditor': function(options){

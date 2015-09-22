@@ -68,10 +68,6 @@ module.exports = function(grunt) {
       build:{
         src: 'src/js/parts/*.js',
         dest: 'src/js/<%=pkg.name%>-<%=pkg.version%>.js'
-      },
-      docs:{
-        src: 'docs/parts/*.html',
-        dest: 'docs/index.html'
       }
     },
 
@@ -127,15 +123,6 @@ module.exports = function(grunt) {
           //'cssmin',  //暂且不用cssmin
           'copy'
         ], 
-        options: { spawn: false}
-      },
-      docs:{
-        files: [
-          'docs/parts/*.html'
-        ],
-        tasks:[
-          'concat'
-        ],
         options: { spawn: false}
       }
     }

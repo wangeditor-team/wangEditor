@@ -8,7 +8,8 @@ $.extend($E.fn, {
         *   onchange: function(){...},  //配置onchange事件，
         *   expressions: [...],  //配置表情图片的url地址
         *   uploadImgComponent : $('#someId'),  //上传图片的组件
-        *   uploadUrl: 'string',  //图片上传的地址
+        *   uploadUrl: 'string',  //跨域图片上传的地址
+        *   pasteUrl: 'string',  //粘贴图片上传的地址
         *   lang: '...' / {...}  //语言包
         * }
         */
@@ -19,6 +20,7 @@ $.extend($E.fn, {
             expressions = options.expressions,
             uploadImgComponent = options.uploadImgComponent,
             uploadUrl = options.uploadUrl,
+            pasteUrl = options.pasteUrl,
             lang = options.lang,
 
             //editor
@@ -197,6 +199,9 @@ $.extend($E.fn, {
 
         //配置编辑器语言
         editor.initLang(lang);
+
+        //绑定paste事件
+        editor.bindPaste(pasteUrl);
 
         //txtContainer和btnContainer被点击时，要隐藏modal
         editor.$txtContainer.click(function(){

@@ -111,13 +111,14 @@ $.extend($E.fn, {
             var $txtContainer = this.$txtContainer,
                 $editorContainer = this.getEditorContainer(),
                 position =$editorContainer.css('position'),
+                maxHeight = $txtContainer.css('max-height'),
 
                 enlargeClass = 'icon-wangEditor-enlarge2',
                 shrinkClass = 'icon-wangEditor-shrink2',
 
                 $enlargeIcon = $editorContainer.find('.' + enlargeClass),
                 $shrinkIcon = $editorContainer.find('.' + shrinkClass);
-
+            
             //切换icon
             if($enlargeIcon.length){
                 $enlargeIcon.removeClass(enlargeClass).addClass(shrinkClass);
@@ -146,6 +147,10 @@ $.extend($E.fn, {
                     '-moz-box-shadow': '0 0 30px #999',
                     'box-shadow': '0 0 30px #999'
                 });
+
+                //去掉maxheight
+                $txtContainer.css('max-height', 'none');
+
             }else{
                 //还原txtContainer高度
                 $txtContainer.height(this._txtContainerHeight);
@@ -162,6 +167,9 @@ $.extend($E.fn, {
                     '-moz-box-shadow': '0 0 0 #CCC',
                     'box-shadow': '0 0 0 #CCC'
                 });
+
+                //还原maxheight
+                $txtContainer.css('max-height', maxHeight);
             }
         }
     }
