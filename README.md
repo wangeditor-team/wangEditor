@@ -16,7 +16,7 @@ $(function(){
 	$('#textarea1').wangEditor();
 });
 ```
-更多配置，可参见官网的文档页面：[www.wangEditor.com/docs/](http://www.wangeditor.com/wangEditor/docs/index.html)
+更多配置，可参见官网的文档页面：[www.kancloud.cn/wangfupeng/wangeditor](http://www.kancloud.cn/wangfupeng/wangeditor)
 
 3. 交流
 ===
