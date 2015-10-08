@@ -135,7 +135,7 @@ $.extend($E.langs, {
 					'city': '城市',
 					'location': '位置',
 					'search': '搜索',
-					'clear': '清楚标记',
+					'clear': '清除标记',
 					'loading': '地图加载中...',
 					'dynamic': '动态地图'
 				},
