@@ -203,9 +203,10 @@ $.extend($E, {
                     'border-collapse': 'collapse'
                     
                 });
-                $this.find('tr').first().find('td').css({
-                    'min-width': '100px'
-                });
+                // 暂时先屏蔽掉这个最小宽度，因为有些 td 比较窄，100px太宽了
+                // $this.find('tr').first().find('td,th').css({
+                //     'min-width': '100px'
+                // });
 
                 //做一个标记
                 $this.attr(mark, '1');
@@ -1298,6 +1299,11 @@ $.extend($E.fn, {
         }).on('focus blur', function(){
             //focus blur 时记录，以便撤销
             editor.addCommandRecord();
+        }).on('keyup', function(e){
+            if(e.keyCode === 13){
+                //回车时，记录以下，以便撤销
+                editor.addCommandRecord();
+            }
         }).on('keydown', function(e){
             if(e.keyCode === 9){
                 //按tab键，增加缩进

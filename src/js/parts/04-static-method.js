@@ -65,9 +65,10 @@ $.extend($E, {
                     'border-collapse': 'collapse'
                     
                 });
-                $this.find('tr').first().find('td').css({
-                    'min-width': '100px'
-                });
+                // 暂时先屏蔽掉这个最小宽度，因为有些 td 比较窄，100px太宽了
+                // $this.find('tr').first().find('td,th').css({
+                //     'min-width': '100px'
+                // });
 
                 //做一个标记
                 $this.attr(mark, '1');

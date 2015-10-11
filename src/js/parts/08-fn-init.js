@@ -176,6 +176,11 @@ $.extend($E.fn, {
         }).on('focus blur', function(){
             //focus blur 时记录，以便撤销
             editor.addCommandRecord();
+        }).on('keyup', function(e){
+            if(e.keyCode === 13){
+                //回车时，记录以下，以便撤销
+                editor.addCommandRecord();
+            }
         }).on('keydown', function(e){
             if(e.keyCode === 9){
                 //按tab键，增加缩进
