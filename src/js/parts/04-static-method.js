@@ -33,8 +33,8 @@ $.extend($E, {
         }
 
         //去掉换行
-        var result = html.replace(/\n/mg, "");
-
+        //var result = html.replace(/\n/mg, "");  //去掉换行，会在更新代码时高亮代码不换行了
+        var result = html;
         //过滤单引号，双引号
         result = result.replace( /(<.*?>)|(')|(")/mg, function(a,b,c,d){ 
             if( b ){
