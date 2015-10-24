@@ -1,67 +1,13 @@
 
 .wangEditor-container {
-	//-----------------------------------begin：颜色配置-----------------------------------
-
-	//开发者可自定义以下颜色。通过定义颜色，可实现不同的主题风格。
-
-	@editor-container-border-color:#ccc; 		//整个编辑器外边框的颜色
-
-	@fore-color:#333333;  						//默认字体颜色、按钮颜色
-	@reverse-color:#fff;  						//反转后的字体颜色、按钮颜色（如按钮tooltip中的字体颜色）
-	@selected-bg-color:#aec5e6; 				//按钮选中时的背景色
-
-	@btn-container-bg-color:#fff; 			//菜单按钮容器的背景色
-	@btn-container-border-color:#eeeeee;  		//菜单按钮容器的边框颜色
-
-	@txt-container-bg-color:#dfdfdf; 			//编辑框容器的背景色
-	@txt-border-color:#a8aaa7;  				//编辑框边框颜色
-	@txt-bg-color:#fff; 						//编辑框背景色
-	//-----------------------------------end:颜色配置-----------------------------------
-
+	
+	//引用通用样式
+	@import 'common.less';
 
 	//.wangEditor-container的样式
 	position: relative;
 	border: 1px solid @editor-container-border-color;
 	background-color: @reverse-color;
-
-
-	//-----------------------------------通用设置-----------------------------------
-	* {
-		margin: 0;
-		box-sizing: border-box;
-	}
-
-	//通用字体样式
-	.common-font-style(@fz:0.9em, @lh:1.4, @ta: center){
-		font-size: @fz;
-		line-height: @lh;
-		text-align: @ta;
-	}
-
-	//圆角边框
-	.border-radius(@radius: 3px){
-		-moz-border-radius: @radius;   
-	    -webkit-border-radius: @radius;
-	    border-radius: @radius;
-	}
-
-	//透明度
-	.filter(@opacity: 50){
-		filter:alpha(opacity=@opacity);  
-	    -moz-opacity:@opacity/100; 
-	    opacity:@opacity/100;
-	}
-
-	//清除浮动
-	.clearfix:after{
-		content:'';
-		display: block;
-		clear: both;
-		height: 0;
-	}
-	.clearfix{
-		*zoom:1; /*兼容IE低版本*/
-	}
 
 	//-----------------------------------元素样式-----------------------------------
 	//清除编辑器 focus 时的边框
@@ -251,100 +197,6 @@
 	//弹出框容器
 	.wangEditor-modal-container{
 		z-index: 15000;
-	}
-
-	//弹出框
-	.wangEditor-modal{
-		z-index: 10000;
-		width: 600px;
-
-		.common-font-style();
-		text-align: left;
-		border-top:1px solid @editor-container-border-color;
-	    background-color: @reverse-color;
-	    padding: 15px 20px 15px 20px;
-	    position: absolute;
-	    margin-top: 5px;
-	    display: none;
-	    .border-radius(5px);
-	    color:@fore-color;
-	    -webkit-box-shadow: 0 5px 15px #666;  
-		-moz-box-shadow: 0 5px 15px #666;  
-		box-shadow: 0 5px 15px #666;  
-
-	    //弹出框标题
-	    &-header {
-	    	text-align: left;
-	    	
-	    	//关闭按钮
-	    	&-close{
-	    		display:block;
-			    text-align: center;
-			    float: right;
-			    padding: 0 3px;
-			    color: @fore-color;
-			    text-decoration: none;
-			    cursor: pointer;
-			    .border-radius();
-			    .filter(60);
-
-			    &:hover{
-			    	//background-color: @selected-bg-color;
-			    	.filter(100);
-			    }
-	    	}
-
-	    	&-close i{
-	    		font-style: normal;
-	    	}
-
-	    	//分隔横线
-	    	&-line{
-	    		border-top:1px solid @editor-container-border-color; 
-    			margin:5px 0 10px 0;
-    			clear: both;
-	    	}
-	    }
-
-	    p{
-	    	margin: 8px 0;
-	    }
-
-	    a{
-	    	text-decoration: none;
-	    }
-
-	    //modal中的btn
-	    &-btn{
-	    	color: @fore-color;
-		    background-color: #fff;
-		    border: 1px solid #cccccc;
-		    padding: 4px 12px 4px 12px;
-		    cursor: pointer;
-		    font-size: 14px;
-		    line-height: 1.4;
-		    .border-radius(4px);
-
-		    &:hover{
-		    	background-color: #f1f1f1;
-		    }
-	    }
-
-	    //modal中的input-txt
-	    input[type=text]{
-	    	border:1px solid #999999;
-	    	padding: 5px;
-	    	.border-radius();
-	    }
-	}
-	.wangEditor-modal-big{
-		width: 800px;
-	}
-	.wangEditor-modal-small{
-		width: 400px;
-	}
-	.wangEditor-modal-mini{
-		width: 200px;
 	}
 
 	//富文本编辑区

@@ -78,6 +78,114 @@
 .icon-wangEditor-libreoffice:before{content: "\eade";}
 .icon-wangEditor-quotes-left:before{content: "\e977";}
 .icon-wangEditor-strikethrough:before{content: "\ea65";}
+.wangEditor-modal-container {
+  position: relative;
+  z-index: 15000;
+}
+.wangEditor-modal-container * {
+  margin: 0;
+  box-sizing: border-box;
+}
+.wangEditor-modal-container .clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+}
+.wangEditor-modal-container .clearfix {
+  *zoom: 1;
+  /*兼容IE低版本*/
+}
+.wangEditor-modal-container .wangEditor-modal {
+  z-index: 10000;
+  width: 600px;
+  font-size: 0.9em;
+  line-height: 1.4;
+  text-align: center;
+  text-align: left;
+  border-top: 1px solid #cccccc;
+  background-color: #ffffff;
+  padding: 15px 20px 15px 20px;
+  position: absolute;
+  top: 0;
+  display: none;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  color: #333333;
+  -webkit-box-shadow: 0 5px 15px #666;
+  -moz-box-shadow: 0 5px 15px #666;
+  box-shadow: 0 5px 15px #666;
+}
+.wangEditor-modal-container .wangEditor-modal-header {
+  text-align: left;
+}
+.wangEditor-modal-container .wangEditor-modal-header-close {
+  display: block;
+  text-align: center;
+  float: right;
+  padding: 0 3px;
+  color: #333333;
+  text-decoration: none;
+  cursor: pointer;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  filter: alpha(opacity=60);
+  -moz-opacity: 0.6;
+  opacity: 0.6;
+}
+.wangEditor-modal-container .wangEditor-modal-header-close:hover {
+  filter: alpha(opacity=100);
+  -moz-opacity: 1;
+  opacity: 1;
+}
+.wangEditor-modal-container .wangEditor-modal-header-close i {
+  font-style: normal;
+}
+.wangEditor-modal-container .wangEditor-modal-header-line {
+  border-top: 1px solid #cccccc;
+  margin: 5px 0 10px 0;
+  clear: both;
+}
+.wangEditor-modal-container .wangEditor-modal p {
+  margin: 8px 0;
+}
+.wangEditor-modal-container .wangEditor-modal a {
+  text-decoration: none;
+}
+.wangEditor-modal-container .wangEditor-modal-btn {
+  color: #333333;
+  background-color: #fff;
+  border: 1px solid #cccccc;
+  padding: 4px 12px 4px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+.wangEditor-modal-container .wangEditor-modal-btn:hover {
+  background-color: #f1f1f1;
+}
+.wangEditor-modal-container .wangEditor-modal input[type=text] {
+  border: 1px solid #999999;
+  padding: 5px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+.wangEditor-modal-container .wangEditor-modal-big {
+  width: 800px;
+}
+.wangEditor-modal-container .wangEditor-modal-small {
+  width: 400px;
+}
+.wangEditor-modal-container .wangEditor-modal-mini {
+  width: 200px;
+}
+
 .wangEditor-container .wangEditor-drop-menu{
 	border: 1px\9 solid\9 #eeeeee\9;
 }
@@ -276,95 +384,6 @@
 }
 .wangEditor-container .wangEditor-modal-container {
   z-index: 15000;
-}
-.wangEditor-container .wangEditor-modal {
-  z-index: 10000;
-  width: 600px;
-  font-size: 0.9em;
-  line-height: 1.4;
-  text-align: center;
-  text-align: left;
-  border-top: 1px solid #cccccc;
-  background-color: #ffffff;
-  padding: 15px 20px 15px 20px;
-  position: absolute;
-  margin-top: 5px;
-  display: none;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  color: #333333;
-  -webkit-box-shadow: 0 5px 15px #666;
-  -moz-box-shadow: 0 5px 15px #666;
-  box-shadow: 0 5px 15px #666;
-}
-.wangEditor-container .wangEditor-modal-header {
-  text-align: left;
-}
-.wangEditor-container .wangEditor-modal-header-close {
-  display: block;
-  text-align: center;
-  float: right;
-  padding: 0 3px;
-  color: #333333;
-  text-decoration: none;
-  cursor: pointer;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  filter: alpha(opacity=60);
-  -moz-opacity: 0.6;
-  opacity: 0.6;
-}
-.wangEditor-container .wangEditor-modal-header-close:hover {
-  filter: alpha(opacity=100);
-  -moz-opacity: 1;
-  opacity: 1;
-}
-.wangEditor-container .wangEditor-modal-header-close i {
-  font-style: normal;
-}
-.wangEditor-container .wangEditor-modal-header-line {
-  border-top: 1px solid #cccccc;
-  margin: 5px 0 10px 0;
-  clear: both;
-}
-.wangEditor-container .wangEditor-modal p {
-  margin: 8px 0;
-}
-.wangEditor-container .wangEditor-modal a {
-  text-decoration: none;
-}
-.wangEditor-container .wangEditor-modal-btn {
-  color: #333333;
-  background-color: #fff;
-  border: 1px solid #cccccc;
-  padding: 4px 12px 4px 12px;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1.4;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-}
-.wangEditor-container .wangEditor-modal-btn:hover {
-  background-color: #f1f1f1;
-}
-.wangEditor-container .wangEditor-modal input[type=text] {
-  border: 1px solid #999999;
-  padding: 5px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-.wangEditor-container .wangEditor-modal-big {
-  width: 800px;
-}
-.wangEditor-container .wangEditor-modal-small {
-  width: 400px;
-}
-.wangEditor-container .wangEditor-modal-mini {
-  width: 200px;
 }
 .wangEditor-container .wangEditor-textarea-container {
   word-wrap: break-word;

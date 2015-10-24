@@ -21,9 +21,13 @@ module.exports = function(grunt) {
 
     //less插件的配置信息
     less: {
-      build: {
+      editorBuild: {
         src: 'src/css/parts/wangEditor.less',
         dest: 'src/css/parts/wangEditor.css'
+      },
+      modalBuild: {
+        src: 'src/css/parts/modal.less',
+        dest: 'src/css/parts/modal.css'
       }
     },
 

@@ -1056,17 +1056,31 @@ $.extend($E, {
             btnClick = function(e){
                 editor.hideModal();   //先视图隐藏目前显示的modal
 
-                //计算margin-left;
-                //editor.$editorContainer的position时relative，因此要根据它来计算
-                $modal.css('margin-left', (editor.$editorContainer.outerWidth()/2 - $modal.outerWidth()/2));
-
+                // 显示modal，才能取出top、left
                 $modal.show();
-                e.preventDefault();
 
-                e.stopPropagation();  //最后阻止冒泡
+                //计算margin-left;
+                var editorContainerWidth = editor.$editorContainer.outerWidth(),
+                    modalWidth = $modal.outerWidth(),
+                    editorContainerLeft = editor.$editorContainer.offset().left,
+                    modalLeft = $modal.offset().left;
+                $modal.css('margin-left', (editorContainerLeft - modalLeft) + (editorContainerWidth/2 - modalWidth/2));
+
+                //计算margin-top，让modal紧靠在$txt上面
+                var txtTop = editor.$txt.offset().top,
+                    modalContainerTop = $modal.offset().top;
+                console.log(txtTop - modalContainerTop);
+                $modal.css('margin-top', txtTop - modalContainerTop + 5);
+
+                //最后阻止默认时间、阻止冒泡
+                e.preventDefault();
+                e.stopPropagation();
             };
             $modal.find('[commandName=close]').click(function(e){
-                $modal.hide();
+                $modal.css({
+                    'margin-left': 0,
+                    'margin-top': 0
+                }).hide();
                 e.preventDefault();
             });
         }
@@ -1172,10 +1186,13 @@ $.extend($E.fn, {
         editor.$txtContainer.append(editor.$txt);
         editor.$editorContainer
             .append(editor.$btnContainer)
-            .append(editor.$modalContainer)
             .append(editor.$txtContainer)
             .append(editor.$elemDeleteBtn)
             .append(editor.$imgResizeBtn);
+
+        //将 modalContainer 添加到 body
+        //以免 modalContainer 中的 form 会影响到外面的form 
+        $('body').append(editor.$modalContainer);
 
         //设置高度的最小值（再小了，文本框就显示不出来了）
         if(height <= 80){
@@ -1427,7 +1444,11 @@ $.extend($E.fn, {
 
     //隐藏modal、dropPanel和dropMenu
     'hideModal': function(){
-        this.$modalContainer.find('.wangEditor-modal:visible').hide();
+        this.$modalContainer.find('.wangEditor-modal:visible')
+                            .css({
+                                'margin-top': 0,
+                                'margin-left': 0
+                            }).hide();
 
         //经测试，safari浏览器菜单按钮检测不到blur事件
         //因此，只能强制隐藏dropmenu和droppanel
@@ -1888,6 +1909,7 @@ $.extend($E.fn, {
         $.each($blockquotes, function(index, value){
             var $quote = $(value),
                 data = $quote.data(key),  //获取 key 的值
+                $next,
                 style;
 
             if(data){
@@ -1896,7 +1918,10 @@ $.extend($E.fn, {
                 return;
             }
 
-             //获取当前的 style ，或者初始化为空字符串
+            //获取下一个elem
+            $next = $quote.next();
+
+            //获取当前的 style ，或者初始化为空字符串
             style = $quote.attr('style') || '';
             
             //拼接新的 style
@@ -1907,6 +1932,11 @@ $.extend($E.fn, {
 
             //最后，做标记
             $quote.data(key, true);
+
+            //如果后面再也没有元素，给加一个空行。否则新生成的引用无法删除
+            if('length' in $next && $next.length === 0){
+                $quote.after('<p><br></p>');
+            }
         });
     }
 },

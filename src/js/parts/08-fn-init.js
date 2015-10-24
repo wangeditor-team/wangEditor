@@ -49,10 +49,13 @@ $.extend($E.fn, {
         editor.$txtContainer.append(editor.$txt);
         editor.$editorContainer
             .append(editor.$btnContainer)
-            .append(editor.$modalContainer)
             .append(editor.$txtContainer)
             .append(editor.$elemDeleteBtn)
             .append(editor.$imgResizeBtn);
+
+        //将 modalContainer 添加到 body
+        //以免 modalContainer 中的 form 会影响到外面的form 
+        $('body').append(editor.$modalContainer);
 
         //设置高度的最小值（再小了，文本框就显示不出来了）
         if(height <= 80){

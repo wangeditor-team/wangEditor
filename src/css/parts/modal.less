@@ -1,0 +1,102 @@
+.wangEditor-modal-container{
+
+	//引用通用样式
+	@import 'common.less';
+
+	position: relative;
+	z-index: 15000;
+
+	//弹出框
+	.wangEditor-modal{
+		z-index: 10000;
+		width: 600px;
+
+		.common-font-style();
+		text-align: left;
+		border-top:1px solid @editor-container-border-color;
+	    background-color: @reverse-color;
+	    padding: 15px 20px 15px 20px;
+	    position: absolute;
+	    top: 0;
+	    display: none;
+	    .border-radius(5px);
+	    color:@fore-color;
+	    -webkit-box-shadow: 0 5px 15px #666;  
+		-moz-box-shadow: 0 5px 15px #666;  
+		box-shadow: 0 5px 15px #666;  
+
+	    //弹出框标题
+	    &-header {
+	    	text-align: left;
+	    	
+	    	//关闭按钮
+	    	&-close{
+	    		display:block;
+			    text-align: center;
+			    float: right;
+			    padding: 0 3px;
+			    color: @fore-color;
+			    text-decoration: none;
+			    cursor: pointer;
+			    .border-radius();
+			    .filter(60);
+
+			    &:hover{
+			    	//background-color: @selected-bg-color;
+			    	.filter(100);
+			    }
+	    	}
+
+	    	&-close i{
+	    		font-style: normal;
+	    	}
+
+	    	//分隔横线
+	    	&-line{
+	    		border-top:1px solid @editor-container-border-color; 
+    			margin:5px 0 10px 0;
+    			clear: both;
+	    	}
+	    }
+
+	    p{
+	    	margin: 8px 0;
+	    }
+
+	    a{
+	    	text-decoration: none;
+	    }
+
+	    //modal中的btn
+	    &-btn{
+	    	color: @fore-color;
+		    background-color: #fff;
+		    border: 1px solid #cccccc;
+		    padding: 4px 12px 4px 12px;
+		    cursor: pointer;
+		    font-size: 14px;
+		    line-height: 1.4;
+		    .border-radius(4px);
+
+		    &:hover{
+		    	background-color: #f1f1f1;
+		    }
+	    }
+
+	    //modal中的input-txt
+	    input[type=text]{
+	    	border:1px solid #999999;
+	    	padding: 5px;
+	    	.border-radius();
+	    }
+	}
+	.wangEditor-modal-big{
+		width: 800px;
+	}
+	.wangEditor-modal-small{
+		width: 400px;
+	}
+	.wangEditor-modal-mini{
+		width: 200px;
+	}
+}

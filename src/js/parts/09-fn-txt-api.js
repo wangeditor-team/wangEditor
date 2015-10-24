@@ -60,7 +60,11 @@ $.extend($E.fn, {
 
     //隐藏modal、dropPanel和dropMenu
     'hideModal': function(){
-        this.$modalContainer.find('.wangEditor-modal:visible').hide();
+        this.$modalContainer.find('.wangEditor-modal:visible')
+                            .css({
+                                'margin-top': 0,
+                                'margin-left': 0
+                            }).hide();
 
         //经测试，safari浏览器菜单按钮检测不到blur事件
         //因此，只能强制隐藏dropmenu和droppanel

@@ -112,6 +112,7 @@ $.extend($E.fn, {
         $.each($blockquotes, function(index, value){
             var $quote = $(value),
                 data = $quote.data(key),  //获取 key 的值
+                $next,
                 style;
 
             if(data){
@@ -120,7 +121,10 @@ $.extend($E.fn, {
                 return;
             }
 
-             //获取当前的 style ，或者初始化为空字符串
+            //获取下一个elem
+            $next = $quote.next();
+
+            //获取当前的 style ，或者初始化为空字符串
             style = $quote.attr('style') || '';
             
             //拼接新的 style
@@ -131,6 +135,11 @@ $.extend($E.fn, {
 
             //最后，做标记
             $quote.data(key, true);
+
+            //如果后面再也没有元素，给加一个空行。否则新生成的引用无法删除
+            if('length' in $next && $next.length === 0){
+                $quote.after('<p><br></p>');
+            }
         });
     }
 },

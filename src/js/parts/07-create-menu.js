@@ -220,17 +220,31 @@ $.extend($E, {
             btnClick = function(e){
                 editor.hideModal();   //先视图隐藏目前显示的modal
 
-                //计算margin-left;
-                //editor.$editorContainer的position时relative，因此要根据它来计算
-                $modal.css('margin-left', (editor.$editorContainer.outerWidth()/2 - $modal.outerWidth()/2));
-
+                // 显示modal，才能取出top、left
                 $modal.show();
-                e.preventDefault();
 
-                e.stopPropagation();  //最后阻止冒泡
+                //计算margin-left;
+                var editorContainerWidth = editor.$editorContainer.outerWidth(),
+                    modalWidth = $modal.outerWidth(),
+                    editorContainerLeft = editor.$editorContainer.offset().left,
+                    modalLeft = $modal.offset().left;
+                $modal.css('margin-left', (editorContainerLeft - modalLeft) + (editorContainerWidth/2 - modalWidth/2));
+
+                //计算margin-top，让modal紧靠在$txt上面
+                var txtTop = editor.$txt.offset().top,
+                    modalContainerTop = $modal.offset().top;
+                console.log(txtTop - modalContainerTop);
+                $modal.css('margin-top', txtTop - modalContainerTop + 5);
+
+                //最后阻止默认时间、阻止冒泡
+                e.preventDefault();
+                e.stopPropagation();
             };
             $modal.find('[commandName=close]').click(function(e){
-                $modal.hide();
+                $modal.css({
+                    'margin-left': 0,
+                    'margin-top': 0
+                }).hide();
                 e.preventDefault();
             });
         }
