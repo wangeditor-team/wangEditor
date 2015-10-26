@@ -1130,6 +1130,12 @@ $.extend($E.fn, {
         //更新源码
         $sourceCode_modal.find('#' + btnId).click(function(e){
             var sourceCode = $('#' + txtId).val();
+
+            // 过滤掉js代码
+            if (editor.filterJs) {
+                sourceCode = sourceCode.replace(/<script[\s\S]*?<\/script>/ig, '');
+            }
+
             if( $.trim(sourceCode) === '' ){
                 sourceCode = '<p><br></p>';
             }

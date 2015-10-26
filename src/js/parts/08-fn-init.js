@@ -10,7 +10,8 @@ $.extend($E.fn, {
         *   uploadImgComponent : $('#someId'),  //上传图片的组件
         *   uploadUrl: 'string',  //跨域图片上传的地址
         *   pasteUrl: 'string',  //粘贴图片上传的地址
-        *   lang: '...' / {...}  //语言包
+        *   lang: '...' / {...},  //语言包
+        *   filterJs: false   //编辑源码时过滤js，默认为true
         * }
         */
 
@@ -22,6 +23,7 @@ $.extend($E.fn, {
             uploadUrl = options.uploadUrl,
             pasteUrl = options.pasteUrl,
             lang = options.lang,
+            filterJs = options.filterJs,
 
             //editor
             editor = this,
@@ -108,6 +110,13 @@ $.extend($E.fn, {
         //要在初始化menus之前
         //要在init跨域图片上传组件之前
         editor.initLang(lang);
+
+        //设置是否过滤js
+        if (filterJs == null) {
+            // 未定义，默认为true
+            filterJs = true;
+        }
+        editor.filterJs = filterJs;
 
         //跨域上传图片的url
         if(uploadUrl && typeof uploadUrl === 'string'){

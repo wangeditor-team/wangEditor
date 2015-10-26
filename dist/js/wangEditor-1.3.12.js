@@ -1069,7 +1069,6 @@ $.extend($E, {
                 //计算margin-top，让modal紧靠在$txt上面
                 var txtTop = editor.$txt.offset().top,
                     modalContainerTop = $modal.offset().top;
-                console.log(txtTop - modalContainerTop);
                 $modal.css('margin-top', txtTop - modalContainerTop + 5);
 
                 //最后阻止默认时间、阻止冒泡
@@ -1147,7 +1146,8 @@ $.extend($E.fn, {
         *   uploadImgComponent : $('#someId'),  //上传图片的组件
         *   uploadUrl: 'string',  //跨域图片上传的地址
         *   pasteUrl: 'string',  //粘贴图片上传的地址
-        *   lang: '...' / {...}  //语言包
+        *   lang: '...' / {...},  //语言包
+        *   filterJs: false   //编辑源码时过滤js，默认为true
         * }
         */
 
@@ -1159,6 +1159,7 @@ $.extend($E.fn, {
             uploadUrl = options.uploadUrl,
             pasteUrl = options.pasteUrl,
             lang = options.lang,
+            filterJs = options.filterJs,
 
             //editor
             editor = this,
@@ -1245,6 +1246,13 @@ $.extend($E.fn, {
         //要在初始化menus之前
         //要在init跨域图片上传组件之前
         editor.initLang(lang);
+
+        //设置是否过滤js
+        if (filterJs == null) {
+            // 未定义，默认为true
+            filterJs = true;
+        }
+        editor.filterJs = filterJs;
 
         //跨域上传图片的url
         if(uploadUrl && typeof uploadUrl === 'string'){
@@ -2927,6 +2935,12 @@ $.extend($E.fn, {
         //更新源码
         $sourceCode_modal.find('#' + btnId).click(function(e){
             var sourceCode = $('#' + txtId).val();
+
+            // 过滤掉js代码
+            if (editor.filterJs) {
+                sourceCode = sourceCode.replace(/<script[\s\S]*?<\/script>/ig, '');
+            }
+
             if( $.trim(sourceCode) === '' ){
                 sourceCode = '<p><br></p>';
             }
