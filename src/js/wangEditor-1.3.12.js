@@ -902,7 +902,9 @@ $.extend($E, {
             isFnKeys,
             hideDropMenu,
             hideDropPanel,
-            showToolTip;
+            showToolTip,
+
+            $editorContainer = editor.$editorContainer;
 
         if(typeof command === 'string'){
             command = $.trim(command);
@@ -1030,6 +1032,19 @@ $.extend($E, {
                 editor.hideModal();   //先视图隐藏目前显示的modal
 
                 $dropPanel.css('display', 'inline-block');
+
+                // 计算dropPanel的位置
+                var containerLeft = $editorContainer.offset().left,
+                    containerWidth = $editorContainer.outerWidth(),
+                    panelLeft = $dropPanel.offset().left,
+                    panelWidth = $dropPanel.outerWidth(),
+                    diff = (panelLeft + panelWidth) - (containerLeft + containerWidth);
+
+                if (diff > 0) {
+                    // 说明panel溢出了container之外
+                    $dropPanel.css('margin-left', 0 - diff);
+                }
+
                 e.preventDefault();
                 $btn.focus();  //for 360急速浏览器
                 
