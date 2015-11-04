@@ -1092,8 +1092,9 @@ $.extend($E, {
                 $modal.css('margin-left', (editorContainerLeft - modalLeft) + (editorContainerWidth/2 - modalWidth/2));
 
                 //计算margin-top，让modal紧靠在$txt上面
-                var txtTop = editor.$txt.offset().top,
+                var txtTop = editor.$txtContainer.offset().top,
                     modalContainerTop = $modal.offset().top;
+
                 $modal.css('margin-top', txtTop - modalContainerTop + 5);
 
                 //最后阻止默认时间、阻止冒泡
