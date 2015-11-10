@@ -27,7 +27,7 @@ $.extend($E, {
 	    	langUpload = langConfig.common.upload;
 
 	    var content =   '<form id="' + formId + '" method="post" enctype="multipart/form-data" target="' + iframeId + '">'+
-	                    '   <p>' +langChoose+ '：<input type="file" name="' + fileInputName + '" id="' + fileId + '"/></p>' +
+	                    '   <p>' +langChoose+ '：<input type="file" accept="image/*" name="' + fileInputName + '" id="' + fileId + '"/></p>' +
 	                    '   <p>' +langTitle+ '：<input type="text" id="' + titleTxtId + '" style="width:250px;"/></p>' +
 	                    '   <p><button id="' + btnId + '"  type="button" class="wangEditor-modal-btn">' +langUpload+ '</button></p>' +
 	                    '   <span stype="color:red;" id="' + infoId + '"></span>' +

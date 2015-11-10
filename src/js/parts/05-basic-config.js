@@ -4,7 +4,7 @@ $.extend($E, {
     'styleConfig': {
         'fontFamilyOptions': [
             '宋体', '黑体', '楷体', '隶书', '幼圆', '微软雅黑', 
-            'Arial', 'Verdana', 'Georgia', 'Times New Roman', 
+            'Arial', 'Verdana', 'Georgia', 'Times New Roman', 'Microsoft JhengHei',
             'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'
         ],
         'colorOptions': {
@@ -97,7 +97,7 @@ $.extend($E, {
         //代码块
         'codePre': '<pre style="border:1px solid #ccc; background-color: #f5f5f5; padding: 10px; margin: 5px 0px; line-height: 1.4; font-size: 0.8em; font-family: Menlo, Monaco, Consolas; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;"><code>{content}</code></pre><p><br></p>',
         //代码块（highlight插件）
-        'codePreWidthHightLight': '<pre><code class="{lang}">{content}</code></pre>'
+        'codePreWidthHightLight': '<pre><code class="{lang}">{content}</code></pre><p><br></p>'
     },
     
     //表情配置（1.gif, 2.gif, 3.gif ... 100.gif）
