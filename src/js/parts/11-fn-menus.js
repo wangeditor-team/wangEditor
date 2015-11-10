@@ -361,6 +361,8 @@ $.extend($E.fn, {
             var url = $.trim($('#' + urlTxtId).val()),
                 title = $.trim($('#' + titleTxtId).val()),
                 isBlank = $('#' + blankCheckId).is(':checked'),
+                hasSelectContent = editor.hasSelectionContent(),
+                linkHtml,
                 link_callback = function(){
                     //create link callback
                     $('#' + urlTxtId).val('');
@@ -373,7 +375,15 @@ $.extend($E.fn, {
                     alert( langUnsafe );
                     return;
                 }
-                if(title === '' && !isBlank){
+                if (hasSelectContent === false) {
+                    // 如果没有选中任何内容，则将标题当做链接内容插入
+                    if (title === '') {
+                        // 如果没有填写标题，只能将url当做内容插入
+                        title = url;
+                    }
+                    linkHtml = '<a href="' + url + '" target="_blank">' + title + '</a>';
+                    editor.command(e, 'insertHTML', linkHtml, link_callback);
+                }else if(title === '' && !isBlank){
                     editor.command(e, 'createLink', url, link_callback);
                 }else{
                     editor.command(e, 'customCreateLink', {'url':url, 'title':title, 'isBlank':isBlank}, link_callback);

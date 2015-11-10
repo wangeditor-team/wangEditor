@@ -110,6 +110,20 @@ $.extend($E.fn, {
         if(range){
             editor.saveSelection(range);
         }
+    },
+
+    // 判断是否选择了内容
+    'hasSelectionContent': function () {
+        var editor = this,
+            range = this.currentRange();
+
+        if (supportRange) {
+            if(range.endContainer === range.startContainer && range.endOffset === range.startOffset) {
+                // 说明没有选中任何内容
+                return false;
+            }
+        }
+        return true;
     }
     
 });
