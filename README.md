@@ -2,8 +2,8 @@
 ===
 <b>wangEditor——轻量级web富文本编辑器，配置方便，使用简单</b>。支持IE6+浏览器。<br/>
 
-* 软件官网：[www.wangEditor.com](http://www.wangEditor.com)
-* demo演示：[www.wangEditor.com](http://www.wangEditor.com)
+* 软件官网：[wangEditor.github.io](http://wangeditor.github.io/)
+* demo演示：[wangEditor.github.io](http://wangeditor.github.io/)
 * 文档：[http://www.kancloud.cn/wangfupeng/wangeditor/65722](http://www.kancloud.cn/wangfupeng/wangeditor/65722)
 
 ![](http://images2015.cnblogs.com/blog/138012/201509/138012-20150910004209122-1645253022.png)
