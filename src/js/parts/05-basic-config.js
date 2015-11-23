@@ -105,5 +105,17 @@ $.extend($E, {
         'path':'http://wangeditor.github.io/expressions/',
         'fileNames':[1,100],
         'ext':'.gif'
+    },
+
+    // 在demo页面页面的提醒配置
+    'demoAlertConfig': {
+        insertExpression: {
+            title: '实际项目中，表情图标要配置到自己的服务器（速度快），请查阅文档。\n\n\n【该弹出框在实际项目中不会出现】',
+            isAlert: false
+        },
+        insertImage: {
+            title: '实际项目中，可查阅配置文件，如何配置上传本地图片（支持跨域）\n\n\n【该弹出框在实际项目中不会出现】',
+            isAlert: false
+        }
     }
 });

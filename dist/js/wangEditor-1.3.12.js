@@ -124,6 +124,10 @@ var document = window.document,
     $window = $(window),
     $body = $('body'),
 
+    hostname = window.location.hostname,
+    isDemo = hostname === 'wangeditor.github.io' || hostname === 'wangEditor.github.io',
+    // isDemo = hostname === 'localhost',
+
     //是否支持W3C的selection操作？
 	supportRange = typeof document.createRange === 'function',
     //浏览器类型
@@ -144,6 +148,7 @@ var document = window.document,
 	$E = function($textarea, options){
         return new $E.fn.init($textarea, options);
     };
+
 //prototype简写为fn
 $E.fn = $E.prototype;
 $.extend($E, {
@@ -331,6 +336,18 @@ $.extend($E, {
         'path':'http://wangeditor.github.io/expressions/',
         'fileNames':[1,100],
         'ext':'.gif'
+    },
+
+    // 在demo页面页面的提醒配置
+    'demoAlertConfig': {
+        insertExpression: {
+            title: '实际项目中，表情图标要配置到自己的服务器（速度快），请查阅文档。\n\n\n【该弹出框在实际项目中不会出现】',
+            isAlert: false
+        },
+        insertImage: {
+            title: '实际项目中，可查阅配置文件，如何配置上传本地图片（支持跨域）\n\n\n【该弹出框在实际项目中不会出现】',
+            isAlert: false
+        }
     }
 });
 $.extend($E, {
@@ -873,27 +890,28 @@ $.extend($E, {
         if(menu == null){
             return;
         }
+
         menu = $.trim( menu.toString() );
-        menu = editor.menus[menu];
-        if(!menu){
+        var menuDate = editor.menus[menu];
+        if(!menuDate){
             return;
         }
 
-        var title = menu.title,
-            type = menu.type,
-            cssClass = menu.cssClass,
+        var title = menuDate.title,
+            type = menuDate.type,
+            cssClass = menuDate.cssClass,
             txt,
-            style = menu.style,
-            command = menu.command,  //函数或者字符串
-            commandValue = menu.commandValue, //字符串或者undefined
-            hotKey = menu.hotKey, //快捷键
+            style = menuDate.style,
+            command = menuDate.command,  //函数或者字符串
+            commandValue = menuDate.commandValue, //字符串或者undefined
+            hotKey = menuDate.hotKey, //快捷键
             fnKeys = [],
             keyCode,
-            beforeFn = menu.beforeFn,  //在menus配置文件中定义的，点击按钮之前的事件
-            $dropMenu = menu.dropMenu && menu.dropMenu(),
-            $dropPanel = menu.dropPanel && menu.dropPanel(editor),
-            $modal = menu.modal && menu.modal(editor),
-            callback = menu.callback,
+            beforeFn = menuDate.beforeFn,  //在menus配置文件中定义的，点击按钮之前的事件
+            $dropMenu = menuDate.dropMenu && menuDate.dropMenu(),
+            $dropPanel = menuDate.dropPanel && menuDate.dropPanel(editor),
+            $modal = menuDate.modal && menuDate.modal(editor),
+            callback = menuDate.callback,
             $btn = $( $E.htmlTemplates.btn ),  
             resultArray = [$btn],
 
@@ -1112,10 +1130,24 @@ $.extend($E, {
 
         //绑定按钮点击事件
         $btn.click(function(e){
+            // demo页面的提示配置
+            var demoAlertConfig = $E.demoAlertConfig;
+
             if(beforeFn && typeof beforeFn === 'function'){
                 beforeFn(editor);
             }
             if(btnClick && typeof btnClick === 'function'){
+
+                // demo页面的提示
+                if (isDemo) {
+                    if (demoAlertConfig[menu]) {
+                        if (demoAlertConfig[menu].isAlert === false) {
+                            alert(demoAlertConfig[menu].title);
+                            demoAlertConfig[menu].isAlert = true;
+                        }
+                    }
+                }
+
                 btnClick(e);
             }
         });

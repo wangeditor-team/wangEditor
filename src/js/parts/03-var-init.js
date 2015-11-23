@@ -4,6 +4,10 @@ var document = window.document,
     $window = $(window),
     $body = $('body'),
 
+    hostname = window.location.hostname,
+    isDemo = hostname === 'wangeditor.github.io' || hostname === 'wangEditor.github.io',
+    // isDemo = hostname === 'localhost',
+
     //是否支持W3C的selection操作？
 	supportRange = typeof document.createRange === 'function',
     //浏览器类型
@@ -24,5 +28,6 @@ var document = window.document,
 	$E = function($textarea, options){
         return new $E.fn.init($textarea, options);
     };
+
 //prototype简写为fn
 $E.fn = $E.prototype;
