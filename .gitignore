@@ -1,6 +1,7 @@
 
-#忽略 node_modules
+#忽略
 node_modules/
+uploadfiles/
 
 # Windows image file caches
 Thumbs.db

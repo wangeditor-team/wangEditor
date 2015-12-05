@@ -195,6 +195,11 @@
 .wangEditor-container .wangEditor-modal{
 	border: 1px\9 solid\9 #eeeeee\9;
 }
+
+// modal 边框适应 IE 低版本
+.wangEditor-modal {
+	border: 1px\9 solid\9 #ccc\9;
+}
 .wangEditor-container {
   position: relative;
   border: 1px solid #cccccc;

@@ -12,6 +12,9 @@ $.extend($E.fn, {
             //强制显示table边框
             $E.showTableBorder(this.$txt);
 
+            // img max-width
+            $E.addImgMaxWidth(this.$txt);
+
             //将html保存到textarea
             editor.textareaVal(html);
 

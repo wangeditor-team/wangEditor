@@ -60,9 +60,9 @@
             }
 
             embed = $E.htmlTemplates.videoEmbed
-                    .replace('{src}', src)
-                    .replace('{width}', width)
-                    .replace('{height}', height);
+                    .replace(/#{vedioUrl}/ig, src)
+                    .replace(/#{width}/ig, width)
+                    .replace(/#{height}/ig, height);
 
             editor.command(e, 'insertHTML', embed, video_callback);
         });

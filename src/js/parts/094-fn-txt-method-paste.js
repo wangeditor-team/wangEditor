@@ -3,6 +3,22 @@ $.extend($E.fn, {
 		var editor = this,
 			$txt = editor.$txt;
 
+		// 将以base64的图片url数据转换为Blob
+		function convertBase64UrlToBlob(urlData){
+    
+    		//去掉url的头，并转换为byte
+		    var bytes=window.atob(urlData.split(',')[1]);
+		    
+		    //处理异常,将ascii码小于0的转换为大于0
+		    var ab = new ArrayBuffer(bytes.length);
+		    var ia = new Uint8Array(ab);
+		    for (var i = 0; i < bytes.length; i++) {
+		        ia[i] = bytes.charCodeAt(i);
+		    }
+
+		    return new Blob([ab], {type : 'image/png'});
+		}
+
 		$txt.on('paste', function(e){
 			var data = e.clipboardData || e.originalEvent.clipboardData,
 				items = data.items;
@@ -33,7 +49,7 @@ $.extend($E.fn, {
 								editor.command(e, 'insertImage', src);
 				            };
 
-				            formData.append('wangEditorPasteFile', base64);
+				            formData.append('wangEditorPasteFile', convertBase64UrlToBlob(base64));
 				            xhr.send(formData);
 						}else{
 							//不上传，则保存为 base64编码

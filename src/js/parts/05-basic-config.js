@@ -93,7 +93,28 @@ $.extend($E, {
         'dropPanel_expression_group': '<div index="{index}" class="clearfix wangEditor-expression-group">{content}</div>',
 
         //视频
-        'videoEmbed': '<embed src="{src}" allowFullScreen="true" quality="high" width="{width}" height="{height}" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>',
+        'videoEmbed': [
+            '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" ',
+            '        codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" ',
+            '        width="#{width}" ',
+            '        height="#{height}" >',
+            '   <param name="movie" ',
+            '          value="#{vedioUrl}" />',
+            '   <param name="allowFullScreen" value="true" />',
+            '   <param name="allowScriptAccess" value="always" />',
+            '   <param value="transparent" name="wmode" />',
+            '   <embed src="#{vedioUrl}"',
+            '          width="#{width}" ',
+            '          height="#{height}" ',
+            '          name="cc_8E6888CDEA7087C49C33DC5901307461" ',
+            '          allowFullScreen="true" ',
+            '          wmode="transparent" ',
+            '          allowScriptAccess="always" ',
+            '          pluginspage="http://www.macromedia.com/go/getflashplayer" ',
+            '          type="application/x-shockwave-flash"/>',
+            '</object>'
+        ].join(''),
+        
         //代码块
         'codePre': '<pre style="border:1px solid #ccc; background-color: #f5f5f5; padding: 10px; margin: 5px 0px; line-height: 1.4; font-size: 0.8em; font-family: Menlo, Monaco, Consolas; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;"><code>{content}</code></pre><p><br></p>',
         //代码块（highlight插件）
@@ -110,11 +131,15 @@ $.extend($E, {
     // 在demo页面页面的提醒配置
     'demoAlertConfig': {
         insertExpression: {
-            title: '实际项目中，表情图标要配置到自己的服务器（速度快），请查阅文档。\n\n\n【该弹出框在实际项目中不会出现】',
+            title: '实际项目中，表情图标要配置到自己的服务器（速度快），也可配置多组表情，请查阅文档。\n\n\n【该弹出框在实际项目中不会出现】',
             isAlert: false
         },
         insertImage: {
             title: '实际项目中，可查阅配置文件，如何配置上传本地图片（支持跨域）\n\n\n【该弹出框在实际项目中不会出现】',
+            isAlert: false
+        },
+        insertCode: {
+            title: '实际项目中，可配置高亮代码，请查阅文档\n\n\n【该弹出框在实际项目中不会出现】',
             isAlert: false
         }
     }

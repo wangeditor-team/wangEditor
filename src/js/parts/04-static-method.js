@@ -74,5 +74,21 @@ $.extend($E, {
                 $this.attr(mark, '1');
             }
         });
+    },
+
+    // 为 img 标签增加 max-width
+    'addImgMaxWidth': function ($content) {
+        $content.find('img').each(function(){
+            var $this = $(this),
+                mark = 'wangEditor_img_max_width_mark',
+                markValue = $this.attr(mark);
+            if(!markValue){
+                //没有做标记的进来设置
+                $this.css('max-width', "100%");
+
+                //做一个标记
+                $this.attr(mark, '1');
+            }
+        });
     }
 });
