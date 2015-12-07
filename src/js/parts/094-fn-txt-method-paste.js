@@ -21,7 +21,14 @@ $.extend($E.fn, {
 
 		$txt.on('paste', function(e){
 			var data = e.clipboardData || e.originalEvent.clipboardData,
-				items = data.items;
+				items;
+
+			if (data == null) {
+				// 兼容IE低版本
+				return;
+			}
+
+			items = data.items;
 
 			$.each(items, function(key, value){
 				if(value.type.indexOf('image') > -1){

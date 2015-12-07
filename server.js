@@ -150,7 +150,12 @@ http.createServer(function (req, res) {
 				return;
 			}
 
-			res.writeHead('200');
+			if (filepath.slice(filepath.lastIndexOf('.') - filepath.length) === '.css') {
+				// 兼容IE
+				res.writeHead('200', {'Content-type': 'text/css'});
+			} else {
+				res.writeHead('200');
+			}
 			console.log('response file success: ' + filepath);
 			res.end(file);
 		});

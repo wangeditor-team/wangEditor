@@ -78,7 +78,13 @@ $.extend($E.fn, {
         }else{
             //IE8-
             range = document.selection.createRange();
-            range.setEndPoint('EndToEnd', currentRange);
+            try {
+                // 此处，plupload上传上传图片时，IE8-会报一个『参数无效』的错误
+                range.setEndPoint('EndToEnd', currentRange);
+            } catch (ex) {
+
+            }
+            
             if(currentRange.text.length === 0){
                 range.collapse(false);
             }else{

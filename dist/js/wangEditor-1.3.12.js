@@ -1487,7 +1487,7 @@ $.extend($E.fn, {
 
         //返回------------------
         return editor;
-    },
+    }
     
 });
 $.extend($E.fn, {
@@ -1870,7 +1870,14 @@ $.extend($E.fn, {
 
 		$txt.on('paste', function(e){
 			var data = e.clipboardData || e.originalEvent.clipboardData,
-				items = data.items;
+				items;
+
+			if (data == null) {
+				// 兼容IE低版本
+				return;
+			}
+
+			items = data.items;
 
 			$.each(items, function(key, value){
 				if(value.type.indexOf('image') > -1){
@@ -3212,7 +3219,13 @@ $.extend($E.fn, {
         }else{
             //IE8-
             range = document.selection.createRange();
-            range.setEndPoint('EndToEnd', currentRange);
+            try {
+                // 此处，plupload上传上传图片时，IE8-会报一个『参数无效』的错误
+                range.setEndPoint('EndToEnd', currentRange);
+            } catch (ex) {
+
+            }
+            
             if(currentRange.text.length === 0){
                 range.collapse(false);
             }else{

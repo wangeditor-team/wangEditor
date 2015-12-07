@@ -75,17 +75,21 @@
 
 		    //全部文件上传时候
 		    uploader.bind('UploadComplete', function (uploader, files) {
-		        //打印出所有图片的url地址
-		        $.each(urls, function (key, value) {
-		            console.log(value);
-		            editor.command(event, 'insertHTML', '<img src="' + value + '"/>');
-		        });
+		    	// 用 try catch 兼容IE低版本的异常情况
+		    	try {
+		    		//打印出所有图片的url地址
+		    		$.each(urls, function (key, value) {
+		    		    editor.command(event, 'insertHTML', '<img src="' + value + '"/>');
+		    		});
+		    	} catch (ex) {
+		    		// 此处可不写
+		    	} finally {
+		    		//清空url数组
+		    		urls = [];
 
-		        //清空url数组
-		        urls = [];
-
-		        //清空显示列表
-		        $fileList.html('');
+		    		//清空显示列表
+		    		$fileList.html('');
+		    	}
 		    });
 
 		    //上传事件
