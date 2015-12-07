@@ -23,7 +23,7 @@
   line-height: 1.4;
   text-align: center;
   text-align: left;
-  border-top: 1px solid #cccccc;
+  border: 1px solid #cccccc;
   background-color: #ffffff;
   padding: 15px 20px 15px 20px;
   position: absolute;
@@ -33,9 +33,9 @@
   -webkit-border-radius: 5px;
   border-radius: 5px;
   color: #333333;
-  -webkit-box-shadow: 0 5px 15px #666;
-  -moz-box-shadow: 0 5px 15px #666;
-  box-shadow: 0 5px 15px #666;
+  -webkit-box-shadow: 0 2px 15px #ccc;
+  -moz-box-shadow: 0 2px 15px #ccc;
+  box-shadow: 0 2px 15px #ccc;
 }
 .wangEditor-modal-container .wangEditor-modal-header {
   text-align: left;

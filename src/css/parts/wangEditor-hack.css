@@ -4,9 +4,3 @@
 .wangEditor-container .wangEditor-drop-panel{
 	border: 1px\9 solid\9 #eeeeee\9;
 }
-.wangEditor-container .wangEditor-modal{
-	/*border: 1px\9 solid\9 #eeeeee\9;*/
-	border-color/*\**/: #ccc\9;
-	border-style/*\**/: solid\9;
-	border-width/*\**/: 1px\9;
-}
