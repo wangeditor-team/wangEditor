@@ -3,6 +3,39 @@ $.extend($E.fn, {
 		var editor = this,
 			$txt = editor.$txt;
 
+		// ----------------------------- // 粘贴文字（去掉样式） -----------------------
+		$txt.on('paste', function(e){
+			var data = e.clipboardData || e.originalEvent.clipboardData;
+			var text;
+
+			if (data == null || data.getData == null) {
+				// 不支持粘贴API
+				return;
+			}
+
+			// 获取内容
+			text = data.getData('text');
+			if (text === '') {
+				return;
+			}
+
+			// 替换html特殊字符
+			text = text.replace(/&/g, '&amp;')
+			           .replace(/</g, '&lt;')
+			           .replace(/>/g, '&gt;')
+			           .replace(/\'/g ,'&#39;')
+			           .replace(/\"/g ,'&quot;')
+			           .replace(/\n/g ,'<br>');
+
+			// 插入内容
+			editor.command(e, 'insertHTML', text);
+
+			// 取消默认行为
+			e.preventDefault();
+		});
+
+		// ----------------------------- // 粘贴（上传）图片 -----------------------
+
 		// 将以base64的图片url数据转换为Blob
 		function convertBase64UrlToBlob(urlData){
     

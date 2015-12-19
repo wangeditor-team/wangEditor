@@ -14,7 +14,11 @@ module.exports = function(grunt) {
         banner: '/*! <%=pkg.name%>-<%=pkg.version%>.js <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/js/<%=pkg.name%>-<%=pkg.version%>.js',        
+        src: 'src/js/<%=pkg.name%>.js',        
+        dest: 'dist/js/<%=pkg.name%>.min.js'
+      },
+      buildVersion: {
+        src: 'src/js/<%=pkg.name%>.js',        
         dest: 'dist/js/<%=pkg.name%>-<%=pkg.version%>.min.js'
       }
     },
@@ -31,18 +35,6 @@ module.exports = function(grunt) {
       }
     },
 
-    //cssmin插件的配置信息
-    // cssmin: {
-    //   options: {
-    //     stripBanners: true,
-    //     banner: '/*! <%=pkg.name%>-<%=pkg.version%>.css <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-    //   },
-    //   build: {
-    //     src: 'src/css/<%=pkg.name%>-<%=pkg.version%>.css',
-    //     dest: 'dist/css/<%=pkg.name%>-<%=pkg.version%>.min.css'
-    //   }
-    // },
-
     //jshint插件的配置信息'
     jshint:{
       build: [ 'Gruntfile.js', 'src/js/*.js' ],
@@ -51,17 +43,13 @@ module.exports = function(grunt) {
       }
     },
 
-    //csslint插件的配置信息
-    // csslint: {
-    //   options: {
-    //     csslintrc: '.csslintrc'
-    //   },
-    //   build: [ 'src/css/*.css' ]
-    // },
-
     //concat插件的配置信息
     concat: {
       css:{
+        src: 'src/css/parts/*.css',
+        dest: 'src/css/<%=pkg.name%>.css'
+      },
+      cssVersion:{
         src: 'src/css/parts/*.css',
         dest: 'src/css/<%=pkg.name%>-<%=pkg.version%>.css'
       },
@@ -70,6 +58,10 @@ module.exports = function(grunt) {
         dest: 'src/js/parts/11-fn-menus.js'
       },
       build:{
+        src: 'src/js/parts/*.js',
+        dest: 'src/js/<%=pkg.name%>.js'
+      },
+      buildVersion:{
         src: 'src/js/parts/*.js',
         dest: 'src/js/<%=pkg.name%>-<%=pkg.version%>.js'
       }
@@ -123,8 +115,6 @@ module.exports = function(grunt) {
         tasks: [
           'less', 
           'concat', 
-          //'csslint', 
-          //'cssmin',  //暂且不用cssmin
           'copy'
         ], 
         options: { spawn: false}
@@ -138,8 +128,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  //grunt.loadNpmTasks('grunt-contrib-csslint');
-  //grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
  
@@ -149,9 +137,7 @@ module.exports = function(grunt) {
     'less',
     'concat',
     'jshint', 
-    //'csslint', 
     'uglify', 
-    //'cssmin',    //暂且不用cssmin
     'copy',
     'watch'
   ]);

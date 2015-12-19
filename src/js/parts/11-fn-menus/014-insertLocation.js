@@ -36,6 +36,8 @@
                 $E.htmlTemplates.modal.replace('{content}', content)
             );
 
+        var triggerClass = this.cssClass;
+
         //地图使用到的变量
         var map,
             markers = [];
@@ -66,13 +68,19 @@
             });
         };
 
-        //异步加载 script
+        // 点击菜单加载地图
         $(function(){
-            var ak = 'TVhjYjq1ICT2qqL5LdS8mwas';
-            var script = document.createElement("script");
-            script.type = "text/javascript";
-            script.src = "http://api.map.baidu.com/api?v=2.0&ak=" + ak + "&callback=baiduMapCallBack";  // baiduMapCallBack是一个本地函数
-            document.body.appendChild(script);
+            var $trigger = $('.' + triggerClass).parent();
+            $trigger.on('click.loadMap', function () {
+                var ak = 'TVhjYjq1ICT2qqL5LdS8mwas';
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.src = "http://api.map.baidu.com/api?v=2.0&ak=" + ak + "&callback=baiduMapCallBack";  // baiduMapCallBack是一个本地函数
+                document.body.appendChild(script);
+
+                // 加载完毕，删除加载事件
+                $trigger.off('click.loadMap');
+            });
         });
 
         //搜索位置

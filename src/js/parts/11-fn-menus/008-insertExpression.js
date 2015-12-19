@@ -14,6 +14,10 @@
             expressionArr = [],
             i = 1;
 
+        if (path.indexOf('wangeditor.github.io') > 0) {
+            $E.consoleLog('目前的表情图片要访问github.com，速度很慢（可能失败），强烈建议自行配置表情图标！');
+        }
+
         if(editor.expressions){
             //自定义配置的表情图片配置
             expressionArr = editor.expressions;
@@ -27,8 +31,10 @@
         //生成dropPanel
         var $panel,
             temp = 
-                '<a href="#" commandValue="${value}">' +   //注意，此处commandValue必填项，否则程序不会跟踪
-                '   <img src="${src}" expression="1"/>' + 
+                //注意，此处commandValue必填项，否则程序不会跟踪
+                '<a href="#" commandValue="${value}">' + 
+                // 菜单点击时，r_src 会替换为 src
+                '   <img r_src="${src}" expression="1"/>' +   
                 '</a>',
             
             //应对一组表情
@@ -39,7 +45,8 @@
             tabArr = [],
             tabContainer,
             groupArr = [],
-            groupContainer;
+            groupContainer,
+            triggerClass = this.cssClass;
 
         if( typeof expressionArr[0] === 'string' ){
             //只有一组表情
@@ -131,6 +138,21 @@
                 });
             });
         }
+
+        // 点击菜单才加载图标（需等待页面加载完了再绑定事件）
+        $(function () {
+            var $trigger = $('.' + triggerClass).parent();
+            $trigger.on('click.loadImg', function () {
+                $panel.find('img[r_src]').each(function () {
+                    var $img = $(this);
+                    var src = $img.attr('r_src');
+
+                    $img.attr('src', src);
+                    $img.removeAttr('r_src');
+                });
+                $trigger.off('click.loadImg');
+            });
+        });
         
         return $panel; 
     }
