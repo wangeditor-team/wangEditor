@@ -363,7 +363,7 @@ $.extend($E, {
         ].join(''),
         
         //代码块
-        'codePre': '<pre style="border:1px solid #ccc; background-color: #f5f5f5; padding: 10px; margin: 5px 0px; line-height: 1.4; font-size: 0.8em; font-family: Menlo, Monaco, Consolas; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;"><code>{content}</code></pre><p><br></p>',
+        'codePre': '<pre style="border:1px solid #ccc; background-color: #f5f5f5; padding: 10px; margin: 5px 0px; line-height: 1.4; font-size: 0.8em; font-family: Menlo, Monaco, Consolas; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;">{content}</pre><p><br></p>',
         //代码块（highlight插件）
         'codePreWidthHightLight': '<pre><code class="{lang}">{content}</code></pre><p><br></p>'
     },
@@ -1434,6 +1434,15 @@ $.extend($E.fn, {
                 //按tab键，增加缩进
                 editor.command(e, 'insertHTML', '&nbsp;&nbsp;&nbsp;&nbsp;');
             }
+
+            // 删除到最后内容为空的时候，就不要再删除了，留一个 <br>
+            var html;
+            if (e.keyCode === 8) {
+                html = editor.$txt.html();
+                if (/^<(\w+)[^<>]*><br><\/\1>$/.test(html)) {
+                    e.preventDefault();
+                }
+            }
         });
 
         //初始化特定元素左上角的删除按钮------------------
@@ -1850,7 +1859,18 @@ $.extend($E.fn, {
 $.extend($E.fn, {
 	'bindPaste': function(uploadUrl){
 		var editor = this,
-			$txt = editor.$txt;
+			$txt = editor.$txt,
+			pasteTime = Date.now();
+
+		// 判断当前时间和上一次粘贴时间的时间差
+		function checkTime() {
+			if (Date.now() - pasteTime < 100) {
+				return false;
+			} else {
+				pasteTime = Date.now();
+				return true;
+			}
+		}
 
 		// ----------------------------- // 粘贴文字（去掉样式） -----------------------
 		$txt.on('paste', function(e){
@@ -1861,10 +1881,15 @@ $.extend($E.fn, {
 				// 不支持粘贴API
 				return;
 			}
-
+			
 			// 获取内容
 			text = data.getData('text');
 			if (text === '') {
+				return;
+			}
+
+			// 和上一次粘贴事件紧挨着，则取消
+			if (!checkTime()) {
 				return;
 			}
 
@@ -1907,6 +1932,11 @@ $.extend($E.fn, {
 
 			if (data == null) {
 				// 兼容IE低版本
+				return;
+			}
+
+			// 和上一次粘贴事件紧挨着，则取消
+			if (!checkTime()) {
 				return;
 			}
 
@@ -2630,7 +2660,7 @@ $.extend($E.fn, {
                 i, j,
                 //表格模板
                 table = '',
-                tableTemp = '<table border="1" bordercolor="#cccccc" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" > ${content} </table>',
+                tableTemp = '<div style="max-width:100%;overflow-x:auto;"><table border="1" bordercolor="#cccccc" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" > ${content} </table></div>',
                 trArray = [],
                 firstTrTemp = '<tr style="font-weight:bold;background-color:#f1f1f1;">${content}</tr>',
                 trTemp = '<tr>${content}</tr>',

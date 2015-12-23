@@ -199,6 +199,15 @@ $.extend($E.fn, {
                 //按tab键，增加缩进
                 editor.command(e, 'insertHTML', '&nbsp;&nbsp;&nbsp;&nbsp;');
             }
+
+            // 删除到最后内容为空的时候，就不要再删除了，留一个 <br>
+            var html;
+            if (e.keyCode === 8) {
+                html = editor.$txt.html();
+                if (/^<(\w+)[^<>]*><br><\/\1>$/.test(html)) {
+                    e.preventDefault();
+                }
+            }
         });
 
         //初始化特定元素左上角的删除按钮------------------

@@ -1,7 +1,18 @@
 $.extend($E.fn, {
 	'bindPaste': function(uploadUrl){
 		var editor = this,
-			$txt = editor.$txt;
+			$txt = editor.$txt,
+			pasteTime = Date.now();
+
+		// 判断当前时间和上一次粘贴时间的时间差
+		function checkTime() {
+			if (Date.now() - pasteTime < 100) {
+				return false;
+			} else {
+				pasteTime = Date.now();
+				return true;
+			}
+		}
 
 		// ----------------------------- // 粘贴文字（去掉样式） -----------------------
 		$txt.on('paste', function(e){
@@ -12,10 +23,15 @@ $.extend($E.fn, {
 				// 不支持粘贴API
 				return;
 			}
-
+			
 			// 获取内容
 			text = data.getData('text');
 			if (text === '') {
+				return;
+			}
+
+			// 和上一次粘贴事件紧挨着，则取消
+			if (!checkTime()) {
 				return;
 			}
 
@@ -58,6 +74,11 @@ $.extend($E.fn, {
 
 			if (data == null) {
 				// 兼容IE低版本
+				return;
+			}
+
+			// 和上一次粘贴事件紧挨着，则取消
+			if (!checkTime()) {
 				return;
 			}
 

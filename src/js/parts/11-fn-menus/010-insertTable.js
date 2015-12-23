@@ -42,7 +42,7 @@
                 i, j,
                 //表格模板
                 table = '',
-                tableTemp = '<table border="1" bordercolor="#cccccc" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" > ${content} </table>',
+                tableTemp = '<div style="max-width:100%;overflow-x:auto;"><table border="1" bordercolor="#cccccc" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" > ${content} </table></div>',
                 trArray = [],
                 firstTrTemp = '<tr style="font-weight:bold;background-color:#f1f1f1;">${content}</tr>',
                 trTemp = '<tr>${content}</tr>',
