@@ -1,7 +1,7 @@
 'insertTable': {
     'title': langMenus.insertTable.title,
     'type': 'modal',
-    'cssClass': 'icon-wangEditor-table',
+    'cssClass': 'wangeditor-menu-img-table',
     'modal': function(editor){
         var rowNumTxtId = $E.getUniqeId(),
             colNumTxtId = $E.getUniqeId(),

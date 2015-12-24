@@ -1,7 +1,7 @@
 'list': {
     'title': langMenus.list.title,
     'type': 'dropMenu',
-    'cssClass':'icon-wangEditor-list-bullet',
+    'cssClass':'wangeditor-menu-img-list-bullet',
     'dropMenu': function () {
         var arr = [],
             temp = '<li><a href="#" customCommandName="${command}">${txt}</a></li>',
@@ -11,11 +11,11 @@
                 {
                     //无序列表
                     'commandName': 'InsertUnorderedList',
-                    'txt': '<i class="icon-wangEditor-list-bullet"> ' + langMenus.list.unOrdered.title + '</i>'
+                    'txt': '<i class="wangeditor-menu-img-list-bullet"> ' + langMenus.list.unOrdered.title + '</i>'
                 },{
                     //有序列表
                     'commandName': 'InsertOrderedList',
-                    'txt': '<i class="icon-wangEditor-list-numbered"> ' + langMenus.list.ordered.title + '</i>'
+                    'txt': '<i class="wangeditor-menu-img-list-numbered"> ' + langMenus.list.ordered.title + '</i>'
                 }
             ];
 

@@ -1,7 +1,7 @@
 'fontFamily': {
     'title': langMenus.fontFamily.title,
     'type': 'dropMenu',
-    'cssClass': 'icon-wangEditor-font2',
+    'cssClass': 'wangeditor-menu-img-font2',
     'command': 'fontName ', 
     'dropMenu': function(){
         var arr = [],

@@ -2,7 +2,7 @@
     'title': langMenus.insertExpression.title,
     'type': 'dropPanel',
     'command': 'insertImage',
-    'cssClass': 'icon-wangEditor-happy',
+    'cssClass': 'wangeditor-menu-img-happy',
     'dropPanel': function(editor){
         //生成表情配置列表
         var config = $E.expressionConfig,

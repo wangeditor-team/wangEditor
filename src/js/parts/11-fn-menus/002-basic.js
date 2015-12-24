@@ -6,7 +6,7 @@
         //alert('点击按钮之后立即出发的事件，此时还未触发command');
         //console.log(editor);
     },
-    'cssClass':'icon-wangEditor-bold',
+    'cssClass':'wangeditor-menu-img-bold',
     'command': 'bold',
     'callback': function(editor){
         //console.log(editor);
@@ -16,57 +16,57 @@
     'title': langMenus.underline.title,
     'type': 'btn',
     'hotKey': 'ctrl + u',
-    'cssClass':'icon-wangEditor-underline',
+    'cssClass':'wangeditor-menu-img-underline',
     'command': 'underline '
 },
 'italic': {
     'title': langMenus.italic.title,
     'type': 'btn',
     'hotKey': 'ctrl + i',
-    'cssClass':'icon-wangEditor-italic',
+    'cssClass':'wangeditor-menu-img-italic',
     'command': 'italic '
 },
 'removeFormat': {
     'title': langMenus.removeFormat.title,
     'type': 'btn',
-    'cssClass':'icon-wangEditor-eraser',
+    'cssClass':'wangeditor-menu-img-eraser',
     'command': 'RemoveFormat ' 
 },
 // 'indent': {
 //     'title': langMenus.indent.title,
 //     'type': 'btn',
 //     'hotKey': 'ctrl,shift + i',
-//     'cssClass':'icon-wangEditor-indent-right',
+//     'cssClass':'wangeditor-menu-img-indent-right',
 //     'command': 'indent'
 // },
 // 'outdent': {
 //     'title': langMenus.outdent.title,
 //     'type': 'btn',
-//     'cssClass':'icon-wangEditor-indent-left',
+//     'cssClass':'wangeditor-menu-img-indent-left',
 //     'command': 'outdent'
 // }, 
 'unLink': {
     'title': langMenus.unLink.title,
     'type': 'btn',
-    'cssClass':'icon-wangEditor-unlink',
+    'cssClass':'wangeditor-menu-img-unlink',
     'command': 'unLink ' 
 },
 'insertHr': {
     'title': langMenus.insertHr.title,
     'type': 'btn',
-    'cssClass':'icon-wangEditor-minus',
+    'cssClass':'wangeditor-menu-img-minus',
     'command': 'InsertHorizontalRule' 
 },
 'strikethrough':{
     'title': langMenus.strikethrough.title,
     'type': 'btn',
-    'cssClass':'icon-wangEditor-strikethrough',
+    'cssClass':'wangeditor-menu-img-strikethrough',
     'command': 'StrikeThrough'
 },
 'blockquote': {
     'title': langMenus.blockquote.title,
     'type': 'btn',
-    'cssClass':'icon-wangEditor-quotes-left',
+    'cssClass':'wangeditor-menu-img-quotes-left',
     'command': 'formatBlock',
     'commandValue': 'blockquote',
     'callback': function(editor){

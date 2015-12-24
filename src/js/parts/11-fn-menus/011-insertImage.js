@@ -1,7 +1,7 @@
 'insertImage': {
     'title': langMenus.insertImage.title,
     'type': 'modal',
-    'cssClass': 'icon-wangEditor-picture',
+    'cssClass': 'wangeditor-menu-img-picture',
     'modal': function (editor) {
         var //上传组件
             uploadImgComponent = editor.uploadImgComponent,

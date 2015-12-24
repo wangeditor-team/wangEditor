@@ -113,8 +113,8 @@ $.extend($E.fn, {
                 position =$editorContainer.css('position'),
                 maxHeight = $txtContainer.css('max-height'),
 
-                enlargeClass = 'icon-wangEditor-enlarge2',
-                shrinkClass = 'icon-wangEditor-shrink2',
+                enlargeClass = 'wangeditor-menu-img-enlarge2',
+                shrinkClass = 'wangeditor-menu-img-shrink2',
 
                 $enlargeIcon = $editorContainer.find('.' + enlargeClass),
                 $shrinkIcon = $editorContainer.find('.' + shrinkClass);

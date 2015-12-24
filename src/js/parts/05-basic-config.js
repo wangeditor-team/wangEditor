@@ -40,7 +40,7 @@ $.extend($E, {
     //html模板
     'htmlTemplates': {
         //删除table,img的按钮
-        'elemDeleteBtn': '<a href="#" class="wangEditor-elemDeleteBtn"><i class="icon-wangEditor-cancel"></i></a>',
+        'elemDeleteBtn': '<a href="#" class="wangEditor-elemDeleteBtn"><i class="wangeditor-menu-img-cancel"></i></a>',
         'imgResizeBtn': '<div class="wangEditor-imgResize"></div>',
 
         //整个编辑器的容器
@@ -52,7 +52,7 @@ $.extend($E, {
         //单个菜单按钮（一定要有 herf='#'，否则无法监听blur事件）
         'btn': '<a class="wangEditor-btn-container-btn wangEditor-btn-container-btn-default" href="#"></a>', 
         //下拉按钮右侧的小三角
-        'btnAngleDown': '<i class="icon-wangEditor-angle-down" style="margin-left:3px;"></i>',
+        'btnAngleDown': '<i class="wangeditor-menu-img-angle-down" style="margin-left:3px;"></i>',
         //btn tooltip
         'tooltip': '<div class="wangEditor-toolTip"></div>',
         //btn tooltipContent
@@ -66,7 +66,7 @@ $.extend($E, {
         'modalMini': '<div class="wangEditor-modal wangEditor-modal-mini">{content}</div>',
         //modal header
         'modalHeader': '<div class="wangEditor-modal-header clearfix">' + 
-                            '<a href="#" commandName="close" class="wangEditor-modal-header-close"><i class="icon-wangEditor-cancel"></i></a>' + 
+                            '<a href="#" commandName="close" class="wangEditor-modal-header-close"><i class="wangeditor-menu-img-cancel"></i></a>' + 
                             '<b>{title}</b>' + 
                             '<div class="wangEditor-modal-header-line"></div>' + 
                         '</div>',
@@ -92,7 +92,7 @@ $.extend($E, {
         //表情分组
         'dropPanel_expression_group': '<div index="{index}" class="clearfix wangEditor-expression-group">{content}</div>',
 
-        //视频
+        //视频 - .swf
         'videoEmbed': [
             '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" ',
             '        codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" ',
@@ -112,7 +112,15 @@ $.extend($E, {
             '          allowScriptAccess="always" ',
             '          pluginspage="http://www.macromedia.com/go/getflashplayer" ',
             '          type="application/x-shockwave-flash"/>',
-            '</object>'
+            '</object>',
+            '<p><br></p>'
+        ].join(''),
+
+        // 视频 -html5
+        'videoH5': [
+            '<video src="#{vedioUrl}" controls="controls" width="#{width}" height="#{height}">',
+            '</video>',
+            '<p><br></p>'
         ].join(''),
         
         //代码块

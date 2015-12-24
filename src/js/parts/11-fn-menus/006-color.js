@@ -1,7 +1,7 @@
 'foreColor': {
     'title': langMenus.foreColor.title,
     'type': 'dropPanel',
-    'cssClass': 'icon-wangEditor-pencil', 
+    'cssClass': 'wangeditor-menu-img-pencil', 
     //'style': 'color:blue;',
     'command': 'foreColor',
     'dropPanel': function(){
@@ -27,7 +27,7 @@
 'backgroundColor': {
     'title': langMenus.backgroundColor.title,
     'type': 'dropPanel',
-    'cssClass': 'icon-wangEditor-brush',  
+    'cssClass': 'wangeditor-menu-img-brush',  
     //'style':'color:red;',
     'command': 'backColor ',
     'dropPanel': function(){

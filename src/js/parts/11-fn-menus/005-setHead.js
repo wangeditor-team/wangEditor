@@ -1,7 +1,7 @@
 'setHead': {
     'title': langMenus.setHead.title,
     'type': 'dropMenu', 
-    'cssClass':'icon-wangEditor-header',
+    'cssClass':'wangeditor-menu-img-header',
     'command': 'formatBlock ',
     'dropMenu': function(){
         var head = langMenus.setHead.title,

@@ -1,7 +1,7 @@
 'viewSourceCode': {
     'title': langMenus.viewSourceCode.title,
     'type': 'modal',
-    'cssClass': 'icon-wangEditor-code',
+    'cssClass': 'wangeditor-menu-img-code',
     'modal': function(editor){
         var txtId = $E.getUniqeId(),
             btnId = $E.getUniqeId();
@@ -17,7 +17,7 @@
         //显示源码
         $(function(){
             //注意，这是一步特殊处理！！！
-            editor.$btnContainer.find('.icon-wangEditor-code') //找到<i>
+            editor.$btnContainer.find('.wangeditor-menu-img-code') //找到<i>
                                 .parent()  //找到 <a> 即 btn
             .click(function(e){
                 var sourceCode = editor.html();

@@ -158,6 +158,9 @@ $.extend($E.langs, {
 			},
 			'fullScreen': {
 				'title': 'full screen'
+			},
+			'mobilePreView': {
+				'title': 'mobile preview'
 			}
 		} //menus配置结束
 

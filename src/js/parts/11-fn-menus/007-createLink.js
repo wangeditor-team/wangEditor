@@ -1,7 +1,7 @@
 'createLink': {
     'title': langMenus.createLink.title,
     'type': 'modal', 
-    'cssClass': 'icon-wangEditor-link',
+    'cssClass': 'wangeditor-menu-img-link',
     'modal': function (editor) {
         var urlTxtId = $E.getUniqeId(),
             titleTxtId = $E.getUniqeId(),

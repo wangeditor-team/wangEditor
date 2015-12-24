@@ -1,7 +1,7 @@
 'fontSize': {
     'title': langMenus.fontSize.title,
     'type': 'dropMenu',
-    'cssClass': 'icon-wangEditor-text-height',
+    'cssClass': 'wangeditor-menu-img-text-height',
     'command': 'fontSize',
     'dropMenu': function () {
         var arr = [],

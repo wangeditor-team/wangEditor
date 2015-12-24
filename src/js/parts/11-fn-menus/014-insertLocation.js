@@ -1,7 +1,7 @@
 'insertLocation':{
     'title': langMenus.insertLocation.title,
     'type': 'modal',
-    'cssClass': 'icon-wangEditor-location',
+    'cssClass': 'wangeditor-menu-img-location',
     'modal': function(editor){
         var txtCityId = $E.getUniqeId(),
             txtLocationId = $E.getUniqeId(),

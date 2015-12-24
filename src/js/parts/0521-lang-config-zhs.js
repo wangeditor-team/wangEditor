@@ -158,6 +158,9 @@ $.extend($E.langs, {
 			},
 			'fullScreen': {
 				'title': '全屏'
+			},
+			'mobilePreView': {
+				'title': '手机预览'
 			}
 		} //menus配置结束
 

@@ -1,7 +1,7 @@
 'insertVideo': {
     'title': langMenus.insertVideo.title,
     'type': 'modal',
-    'cssClass': 'icon-wangEditor-play',
+    'cssClass': 'wangeditor-menu-img-play',
     'modal': function(editor){
         var txtSrcId = $E.getUniqeId(),
             txtWidthId = $E.getUniqeId(),
@@ -19,7 +19,7 @@
             langUnsafe = langCommon.unsafeAlert,
             langFormatError = langCommon.formatError;
 
-        var content = '<p>' +langUrl+ '：<input id="' + txtSrcId + '" type="text" style="width:300px;"  placeholder="http://"/></p>' +
+        var content = '<p>' +langUrl+ '：<input id="' + txtSrcId + '" type="text" style="width:300px;"  placeholder="*.swf, *.mp4, *.ogg, *.webm"/></p>' +
                         '<p>' +langWidth+ '：<input id="' + txtWidthId + '" type="text" style="width:50px" value="' + defaultWidth + '"/> px（像素）</p>' +
                         '<p>' +langHeight+ '：<input id="' + txtHeightId + '" type="text" style="width:50px" value="' + defaultHeight + '"/> px（像素） </p>' +
                         '<p><button id="' + btnId + '" class="wangEditor-modal-btn" type="button">' +langBtn+ '</button></p>';
@@ -32,7 +32,8 @@
             var src = $.trim( $('#' + txtSrcId).val() ), 
                 width = +( $('#' + txtWidthId).val() ),
                 height = +( $('#' + txtHeightId).val() ),
-                embed,
+                reg = /^\s*(http:\/\/|https:\/\/).+(\.swf|\.ogg|\.mp4|\.webm)\s*$/i,
+                html,
                 video_callback = function(){
                     $('#' + txtSrcId).val('');
                     $('#' + txtWidthId).val(defaultWidth);
@@ -46,7 +47,7 @@
             }
 
             //在此验证src
-            if( (src.indexOf('http://') !== 0 && src.indexOf('https://') !== 0) || src.indexOf('.swf') === -1 ){
+            if(!reg.test(src)){
                 alert( langFormatError );
                 return;
             }
@@ -59,12 +60,21 @@
                 height = defaultHeight;
             }
 
-            embed = $E.htmlTemplates.videoEmbed
-                    .replace(/#{vedioUrl}/ig, src)
-                    .replace(/#{width}/ig, width)
-                    .replace(/#{height}/ig, height);
-
-            editor.command(e, 'insertHTML', embed, video_callback);
+            if ((/.swf\s*$/i).test(src) === true) {
+                // swf 格式
+                html = $E.htmlTemplates.videoEmbed
+                        .replace(/#{vedioUrl}/ig, src)
+                        .replace(/#{width}/ig, width)
+                        .replace(/#{height}/ig, height);
+            } else {
+                // 其他格式，如ogg mp4 webm
+                html = $E.htmlTemplates.videoH5
+                        .replace(/#{vedioUrl}/ig, src)
+                        .replace(/#{width}/ig, width)
+                        .replace(/#{height}/ig, height);
+            }
+            
+            editor.command(e, 'insertHTML', html, video_callback);
         });
 
         return $video_modal;

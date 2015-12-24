@@ -1,7 +1,7 @@
 'insertCode':{
     'title': langMenus.insertCode.title,
     'type': 'modal',
-    'cssClass': 'icon-wangEditor-terminal',
+    'cssClass': 'wangeditor-menu-img-terminal',
     'modal': function(editor){
         var txtId = $E.getUniqeId(),
             selectId = $E.getUniqeId(),
