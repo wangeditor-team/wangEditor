@@ -1479,11 +1479,10 @@ $.extend($E.fn, {
         //记录当前html，否则未修改就会触发change事件------------------
         editor.latestHtml = editor.html();
 
-        //$txt blur时，触发change------------------
-        editor.$txt.blur(function(){
-            //blur时监控变化
-            editor.change();
-        });
+        //$txt propertychange change click keyup input paste时，触发change------------------
+            editor.$txt.bind("propertychange change click keyup input paste", function(event){
+                editor.change();
+            });
 
         //如果textarea有内容，则作为初始值
         if(initVal){
