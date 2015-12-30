@@ -9,7 +9,7 @@ $.extend($E.fn, {
             //['insertHr'],
             ['createLink', 'unLink', 'insertTable', 'insertExpression'],
             ['insertImage', 'insertVideo', 'insertLocation','insertCode'],
-            [ /*'mobilePreView',*/ 'undo', 'redo', 'fullScreen']
+            [ 'mobilePreView', 'undo', 'redo', 'fullScreen']
         ];
 	}
 });

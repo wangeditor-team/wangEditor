@@ -195,6 +195,9 @@ $.extend($E.fn, {
                 editor.addCommandRecord();
             }
         }).on('keydown', function(e){
+            // 兼容有其他插件时，无法执行 ctrl + v 粘贴的问题
+            e.stopPropagation();
+
             if(e.keyCode === 9){
                 //按tab键，增加缩进
                 editor.command(e, 'insertHTML', '&nbsp;&nbsp;&nbsp;&nbsp;');

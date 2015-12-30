@@ -13,11 +13,11 @@
         var $sourceCode_modal = $(
                 $E.htmlTemplates.modalBig.replace('{content}', content)
             );
+        var triggerClass = this.cssClass;
 
         //显示源码
         $(function(){
-            //注意，这是一步特殊处理！！！
-            editor.$btnContainer.find('.wangeditor-menu-img-code') //找到<i>
+            editor.$btnContainer.find('.' + triggerClass) //找到<i>
                                 .parent()  //找到 <a> 即 btn
             .click(function(e){
                 var sourceCode = editor.html();

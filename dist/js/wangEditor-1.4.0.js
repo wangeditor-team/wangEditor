@@ -1446,6 +1446,9 @@ $.extend($E.fn, {
                 editor.addCommandRecord();
             }
         }).on('keydown', function(e){
+            // 兼容有其他插件时，无法执行 ctrl + v 粘贴的问题
+            e.stopPropagation();
+
             if(e.keyCode === 9){
                 //按tab键，增加缩进
                 editor.command(e, 'insertHTML', '&nbsp;&nbsp;&nbsp;&nbsp;');
@@ -3170,11 +3173,11 @@ $.extend($E.fn, {
         var $sourceCode_modal = $(
                 $E.htmlTemplates.modalBig.replace('{content}', content)
             );
+        var triggerClass = this.cssClass;
 
         //显示源码
         $(function(){
-            //注意，这是一步特殊处理！！！
-            editor.$btnContainer.find('.wangeditor-menu-img-code') //找到<i>
+            editor.$btnContainer.find('.' + triggerClass) //找到<i>
                                 .parent()  //找到 <a> 即 btn
             .click(function(e){
                 var sourceCode = editor.html();
@@ -3213,9 +3216,31 @@ $.extend($E.fn, {
     'type': 'modal',
     'cssClass': 'wangeditor-menu-img-tablet',
     'modal': function (editor) {
-    	
+        var contentId = $E.getUniqeId();
+        var content = [
+            '<center><div class="mobile-prev-container">',
+            '   <div class="prev-tip-top"></div>',
+            '   <div class="prev-content" id="' + contentId + '"></div>',
+            '   <div class="prev-tip-bottom"></div>',
+            '</div></center>'
+        ].join('');
 
-    	return $('<div>');
+        var $modal = $(
+            $E.htmlTemplates.modalSmall.replace('{content}', content)
+        );
+
+        var triggerClass = this.cssClass;
+
+        $(function () {
+            var $content = $('#' + contentId);
+            editor.$btnContainer.find('.' + triggerClass) //找到<i>
+                                .parent() //找到 <a> 即 btn
+            .click(function () {
+                $content.html(editor.html());
+            });
+        });
+
+        return $modal;
     }
 }
 		};
@@ -3232,7 +3257,7 @@ $.extend($E.fn, {
             //['insertHr'],
             ['createLink', 'unLink', 'insertTable', 'insertExpression'],
             ['insertImage', 'insertVideo', 'insertLocation','insertCode'],
-            [ /*'mobilePreView',*/ 'undo', 'redo', 'fullScreen']
+            [ 'mobilePreView', 'undo', 'redo', 'fullScreen']
         ];
 	}
 });
