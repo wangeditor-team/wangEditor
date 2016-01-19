@@ -60,7 +60,7 @@
                 height = defaultHeight;
             }
 
-            if ((/.swf\s*$/i).test(src) === true) {
+            if ((/.swf/i).test(src) === true) {
                 // swf 格式
                 html = $E.htmlTemplates.videoEmbed
                         .replace(/#{vedioUrl}/ig, src)
