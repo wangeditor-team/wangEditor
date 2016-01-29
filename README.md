@@ -13,7 +13,7 @@
 2. 使用
 ===
 
-引用wangEditor.css、jquery.js和wangEditor.js之后，即可简单生成富文本编辑器，简单易用。
+引用`wangEditor.css`、`jquery.js`和`wangEditor.js`之后，即可简单生成富文本编辑器，简单易用。
 ```html
 <!DOCTYPE html>
 <html>
@@ -50,13 +50,10 @@
 3. 本地运行demo
 ===
 
-第一，确定本机安装了 `nodejs`，可使用 `node -v` 验证
-
-第二，下载源码、解压，或者 `https://github.com/wangfupeng1988/wangEditor.git` 。**注意，`windows`系统必须下载到`C盘`运行**
-
-第三，进入源码目录，找到 `server.js` 或者 `server-windows.js`，windows系统运行 `node server-windows.js` ，mac、linux系统运行 `node server.js`
-
-第四，打开浏览器访问 `http://localhost:8011/test/index.html`
+ - 确定本机安装了 `nodejs`，可使用 `node -v` 验证
+ - 下载源码、解压，或者 `https://github.com/wangfupeng1988/wangEditor.git` 。**注意，`windows`系统必须下载到`C盘`运行**
+ - 进入源码目录，找到 `server.js` 或者 `server-windows.js`，windows系统运行 `node server-windows.js` ，mac、linux系统运行 `node server.js`
+ - 打开浏览器访问 `http://localhost:8011/test/index.html`
 
 3. 交流
 ===
