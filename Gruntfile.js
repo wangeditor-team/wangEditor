@@ -11,27 +11,31 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         stripBanners: true,
-        banner: '/*! <%=pkg.name%>-<%=pkg.version%>.js <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+        banner: '/*! <%=pkg.name%>.js <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/js/<%=pkg.name%>.js',        
+        src: 'src/js/<%=pkg.name%>.js',
         dest: 'dist/js/<%=pkg.name%>.min.js'
-      },
-      buildVersion: {
-        src: 'src/js/<%=pkg.name%>.js',        
-        dest: 'dist/js/<%=pkg.name%>-<%=pkg.version%>.min.js'
       }
     },
 
     //less插件的配置信息
     less: {
-      editorBuild: {
-        src: 'src/css/parts/wangEditor.less',
-        dest: 'src/css/parts/wangEditor.css'
+      editor: {
+        src: 'src/css/<%=pkg.name%>.less',
+        dest: 'src/css/<%=pkg.name%>.css'
+      }
+    },
+
+    //cssmin插件的配置信息
+    cssmin: {
+      options: {
+        stripBanners: true,
+        banner: '/*! <%=pkg.name%>.css <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
-      modalBuild: {
-        src: 'src/css/parts/modal.less',
-        dest: 'src/css/parts/modal.css'
+      build: {
+        src: 'src/css/<%=pkg.name%>.css',
+        dest: 'dist/css/<%=pkg.name%>.min.css'
       }
     },
 
@@ -46,24 +50,12 @@ module.exports = function(grunt) {
     //concat插件的配置信息
     concat: {
       css:{
-        src: 'src/css/parts/*.css',
-        dest: 'src/css/<%=pkg.name%>.css'
+        src: 'src/css/parts/*.less',
+        dest: 'src/css/<%=pkg.name%>.less'
       },
-      cssVersion:{
-        src: 'src/css/parts/*.css',
-        dest: 'src/css/<%=pkg.name%>-<%=pkg.version%>.css'
-      },
-      menus:{
-        src: 'src/js/parts/11-fn-menus/*.js',
-        dest: 'src/js/parts/11-fn-menus.js'
-      },
-      build:{
+      js:{
         src: 'src/js/parts/*.js',
         dest: 'src/js/<%=pkg.name%>.js'
-      },
-      buildVersion:{
-        src: 'src/js/parts/*.js',
-        dest: 'src/js/<%=pkg.name%>-<%=pkg.version%>.js'
       }
     },
 
@@ -77,6 +69,14 @@ module.exports = function(grunt) {
             flatten: true,
             src: ['src/js/*.js'], 
             dest: 'dist/js/', 
+            filter: 'isFile'
+          },
+          //less
+          {
+            expand: true, 
+            flatten: true,
+            src: ['src/css/*.less'], 
+            dest: 'dist/css/', 
             filter: 'isFile'
           },
           //css
@@ -95,8 +95,7 @@ module.exports = function(grunt) {
     watch: { 
       js: { 
         files: [
-          'src/js/parts/*.js', 
-          'src/js/parts/11-fn-menus/*.js'
+          'src/js/parts/*.js'
         ], 
         tasks: [
           'concat', 
@@ -108,13 +107,12 @@ module.exports = function(grunt) {
       },
       css:{
         files: [
-          'src/css/parts/*.less', 
-          'src/css/fontIcon.css',
-          'src/css/wangEditor-hack.css'
+          'src/css/parts/*.less'
         ], 
         tasks: [
-          'less', 
           'concat', 
+          'less', 
+          'cssmin',
           'copy'
         ], 
         options: { spawn: false}
@@ -128,16 +126,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
  
   // 告诉grunt当我们在终端中输入grunt时需要做些什么（注意先后顺序）
   grunt.registerTask('default', [
     //注意下面注册任务时的前后顺序
-    'less',
     'concat',
+    'less',
     'jshint', 
     'uglify', 
+    'cssmin',
     'copy',
     'watch'
   ]);

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor2 test</title>
+    <link rel="stylesheet" type="text/css" href="../dist/css/wangEditor.min.css">
+    <style type="text/css">
+        #div1 {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+</head>
+<body style="padding:0 20px;">
+    <p>wangEditor - 配置表情</p>
+    <div class="container">
+        <div id="div1">
+            <p>请输入内容222</p>
+        </div>
+    </div>
+    
+    
+    <script type="text/javascript" src="../dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../dist/js/wangEditor.js"></script>
+    
+    <script type="text/javascript">
+        $(function () {
+            
+            var editor = new wangEditor('div1');
+
+            // 设置表情
+            editor.config.emotions = {
+                'default': {
+                    title: '默认',
+                    size: 18,
+                    imgs: [
+                        '../static/emotions/default/1s.gif',
+                        '../static/emotions/default/2.gif',
+                        '../static/emotions/default/3.gif',
+                        '../static/emotions/default/4.gif',
+                        '../static/emotions/default/5.gif',
+                        '../static/emotions/default/6.gif',
+                        '../static/emotions/default/7.gif',
+                        '../static/emotions/default/8.gif',
+                        '../static/emotions/default/9.gif',
+                        '../static/emotions/default/10.gif',
+                        '../static/emotions/default/11.gif',
+                    ]
+                },
+                'jinxing': {
+                    title: '金星',
+                    size: 50,
+                    imgs: [
+                        '../static/emotions/jinxing/1.gif',
+                        '../static/emotions/jinxing/2.gif',
+                        '../static/emotions/jinxing/6.gif'
+                    ]
+                }
+            };
+
+
+            editor.create();
+
+        });
+    </script>
+</body>
+</html>

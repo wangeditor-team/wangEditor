@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor2 test</title>
+    <link rel="stylesheet" type="text/css" href="../dist/css/wangEditor.min.css">
+    <style type="text/css">
+        #div1 {
+            width: 100%;
+            height: 300px;
+        }
+        .wangEditor-txt blockquote {
+            display: block; 
+            border-left: 8px solid #d0e5f2;
+            padding: 5px 10px;
+            margin: 10px 0; 
+            line-height: 1.4; 
+            font-size: 100%;
+            background-color: #f1f1f1;
+        }
+        .wangEditor-txt table {
+            border: none;
+            border-collapse: collapse;
+        }
+        .wangEditor-txt table td,
+        .wangEditor-txt table th {
+            border: 1px solid #f1f1f1;
+            padding: 3px 5px;
+            min-width: 50px;
+            height: 20px;
+        }
+        .wangEditor-txt pre {
+            border: 1px solid #ccc; 
+            background-color: #f8f8f8; 
+            padding: 10px; 
+            margin: 5px 0px;
+            font-size: 0.8em; 
+            font-family: Menlo, Monaco, Consolas; 
+            border-radius: 3px; 
+        }
+    </style>
+</head>
+<body style="padding:0 20px;">
+    <p>wangEditor 多语言 - 英文</p>
+    <div class="container">
+        <div id="div1">
+            <p>请输入内容222</p>
+        </div>
+    </div>
+    
+    
+    <script type="text/javascript" src="../dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../dist/js/wangEditor.js"></script>
+    
+    <script type="text/javascript">
+        $(function () {
+            
+            var editor = new wangEditor('div1');
+
+            // 设置语言
+            editor.config.lang = wangEditor.langs['en'];
+
+
+            editor.create();
+
+        });
+    </script>
+</body>
+</html>

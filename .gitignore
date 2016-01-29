@@ -1,7 +1,10 @@
 
 #忽略
 node_modules/
-uploadfiles/
+uploadfiles/grunt
+uploadfiles/grunt*
+src/
+issue
 
 # Windows image file caches
 Thumbs.db

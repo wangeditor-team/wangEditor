@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'icomoon';
-    src:    url('fonts/icomoon.eot?5se0ya');
-    src:    url('fonts/icomoon.eot?5se0ya#iefix') format('embedded-opentype'),
-        url('fonts/icomoon.ttf?5se0ya') format('truetype'),
-        url('fonts/icomoon.woff?5se0ya') format('woff'),
-        url('fonts/icomoon.svg?5se0ya#icomoon') format('svg');
+    src:    url('fonts/icomoon.eot?so1in7');
+    src:    url('fonts/icomoon.eot?so1in7#iefix') format('embedded-opentype'),
+        url('fonts/icomoon.ttf?so1in7') format('truetype'),
+        url('fonts/icomoon.woff?so1in7') format('woff'),
+        url('fonts/icomoon.svg?so1in7#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -191,6 +191,18 @@
 }
 .wangeditor-menu-img-libreoffice:before {
     content: "\eade";
+}
+.wangeditor-menu-img-search-plus:before {
+    content: "\f00e";
+}
+.wangeditor-menu-img-search-minus:before {
+    content: "\f010";
+}
+.wangeditor-menu-img-trash-o:before {
+    content: "\f014";
+}
+.wangeditor-menu-img-align-justify:before {
+    content: "\f039";
 }
 .wangeditor-menu-img-desktop:before {
     content: "\f108";
