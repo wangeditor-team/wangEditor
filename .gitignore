@@ -1,9 +1,9 @@
 
 #忽略
-node_modules/
-uploadfiles/grunt
-uploadfiles/grunt*
-src/
+node_modules/grunt/
+node_modules/grunt*/
+src/css/*
+src/js/*
 issue
 
 # Windows image file caches
