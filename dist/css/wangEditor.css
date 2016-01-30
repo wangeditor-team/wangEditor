@@ -9,6 +9,7 @@
   background-color: #fff;
   border: 1px solid #cccccc;
   z-index: 1;
+  width: 100%;
 }
 .wangEditor-container a:focus,
 .wangEditor-container button:focus {

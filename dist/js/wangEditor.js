@@ -3944,12 +3944,14 @@ _e(function (E, $) {
         };
 
         // 『取消』 按钮
-        $btnCancel.click(function () {
+        $btnCancel.click(function (e) {
+            e.preventDefault();
             menu.dropPanel.hide();
         });
 
         // 『确定』按钮
         $btnSubmit.click(function (e) {
+            e.preventDefault();
             var rangeElem = editor.getRangeElem();
             var targetElem = editor.getSelfOrParentByName(rangeElem, 'a');
             var isRangeEmpty = editor.isRangeEmpty();
@@ -4421,7 +4423,8 @@ _e(function (E, $) {
         $linkContent.append($urlContainer).append($btnSubmit).append($btnCancel);
 
         // 取消
-        $btnCancel.click(function () {
+        $btnCancel.click(function (e) {
+            e.preventDefault();
             menu.dropPanel.hide();
         });
 
@@ -4432,10 +4435,10 @@ _e(function (E, $) {
 
         // 确定
         $btnSubmit.click(function (e) {
+            e.preventDefault();
             var url = $.trim($urlInput.val());
             if (!url) {
                 // 无内容
-                e.preventDefault();
                 $urlInput.focus();
                 return;
             }
@@ -4518,13 +4521,15 @@ _e(function (E, $) {
         $content.append($urlInputContainer).append($sizeContainer).append($btnContainer);
 
         // 取消按钮
-        $btnCancel.click(function () {
+        $btnCancel.click(function (e) {
+            e.preventDefault();
             $urlInput.val('');
             menu.dropPanel.hide();
         });
 
         // 确定按钮
         $btnSubmit.click(function (e) {
+            e.preventDefault();
             var url = $.trim($urlInput.val());
             var width = parseInt($widthInput.val());
             var height = parseInt($heightInput.val());
@@ -4845,13 +4850,14 @@ _e(function (E, $) {
 
         // 『取消』按钮事件
         $btnCancel.click(function (e) {
+            e.preventDefault();
             callback();
             menu.dropPanel.hide();
-            e.preventDefault();
         });
 
         // 『确定』按钮事件
         $btnSubmit.click(function (e) {
+            e.preventDefault();
             var map = mapData.map,
                 isDynamic = $check.is(':checked'),
                 markers =  mapData.markers,
@@ -5122,13 +5128,15 @@ _e(function (E, $) {
             $content.append($btnContainer);
 
             // 取消按钮
-            $btnCancel.click(function () {
+            $btnCancel.click(function (e) {
+                e.preventDefault();
                 menu.dropPanel.hide();
             });
 
             // 确定按钮
             var codeTpl = '<pre style="max-width:100%;overflow-x:auto;"><code{#langClass}>{#content}</code></pre>';
             $btnSubmit.click(function (e) {
+                e.preventDefault();
                 var val = $textarea.val();
                 if (!val) {
                     // 无内容
@@ -5313,7 +5321,6 @@ _e(function (E, $) {
 
         var isSelected = false;
         var txtHeight;
-        var editorWidth;
         var zIndex;
 
         // 创建 menu 对象
@@ -5340,10 +5347,6 @@ _e(function (E, $) {
             var menuContainer = editor.menuContainer;
             $txt.height(E.$window.height() - menuContainer.height());
 
-            // 记录宽度，并重新设置
-            editorWidth = $editorContainer.css('width');
-            $editorContainer.css('width', '100%');
-
             // 取消menuContainer的内联样式（menu吸顶时，会为 menuContainer 设置一些内联样式）
             editor.menuContainer.$menuContainer.attr('style', '');
 
@@ -5366,9 +5369,6 @@ _e(function (E, $) {
             if (txtHeight) {
                 $txt.height(txtHeight);
             }
-
-            // 欢迎宽度
-            $editorContainer.css('width', editorWidth);
 
             // 保存状态
             isSelected = false;
@@ -5473,8 +5473,8 @@ _e(function (E, $) {
             $valueContainer.hide();
         }
 
-        // 设置宽度
-        $editorContainer.css('width', $valueContainer.css('width'));
+        // 设置宽度（这样设置宽度有问题）
+        // $editorContainer.css('width', $valueContainer.css('width'));
     };
 
 });
