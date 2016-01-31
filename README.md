@@ -55,6 +55,6 @@
  - 进入源码目录，找到 `server.js` 或者 `server-windows.js`，windows系统运行 `node server-windows.js` ，mac、linux系统运行 `node server.js`
  - 打开浏览器访问 `http://localhost:8011/test/index.html`
 
-3. 交流
+4. 交流
 ===
 交流QQ群：**164999061**
