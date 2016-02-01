@@ -888,6 +888,15 @@ _e(function (E, $) {
         editor.$txt = editor.txt.$txt;
     };
 
+    // 禁用编辑器
+    E.fn.disable = function () {
+        this.txt.$txt.removeAttr('contenteditable');
+    };
+    // 启用编辑器
+    E.fn.enable = function () {
+         this.txt.$txt.attr('contenteditable', 'true');
+    };
+
 });
 // menuContainer 构造函数
 _e(function (E, $) {
@@ -5263,10 +5272,12 @@ _e(function (E, $) {
         editor.menus[menuId] = menu;
 
 
-        // ------------ enter 时，做记录 ------------
+        // ------------ 初始化时、enter 时，做记录 ------------
         editor.ready(function () {
             var editor = this;
             var $txt = editor.txt.$txt;
+
+            // enter 做记录
             $txt.on('keydown', function (e) {
                 if (e.keyCode !== 13) {
                     // 只监听 tab 按钮
@@ -5274,6 +5285,9 @@ _e(function (E, $) {
                 }
                 editor.undoRecord();
             });
+
+            // 初始化做记录
+            editor.undoRecord();
         });
     });
 
