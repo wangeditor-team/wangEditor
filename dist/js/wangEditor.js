@@ -82,16 +82,16 @@ var define;
     // 暴露给全局对象
     window.wangEditor = E;
 
-    // 注册 ready 事件，用于用户自定义插件
-    // 用户在引用 wangEditor.js 之后，还可以通过 E.ready() 注入自定义函数，
+    // 注册 plugin 事件，用于用户自定义插件
+    // 用户在引用 wangEditor.js 之后，还可以通过 E.plugin() 注入自定义函数，
     // 该函数将会在 editor.create() 方法的最后一步执行
-    E.ready = function (fn) {
-        if (!E._readys) {
-            E._readys = [];
+    E.plugin = function (fn) {
+        if (!E._plugins) {
+            E._plugins = [];
         }
 
         if (typeof fn === 'function') {
-            E._readys.push(fn);
+            E._plugins.push(fn);
         }
     };
 
@@ -877,9 +877,9 @@ _e(function (E, $) {
         editor.initSelection();
 
         // 执行用户自定义事件，通过 E.ready() 添加
-        var _readys = E._readys;
-        if (_readys && _readys.length) {
-            $.each(_readys, function (k, val) {
+        var _plugins = E._plugins;
+        if (_plugins && _plugins.length) {
+            $.each(_plugins, function (k, val) {
                 val.call(editor);
             });
         }
@@ -5540,10 +5540,235 @@ _e(function (E, $) {
     };
 
 });
+// xhr 上传图片
+(function (window, E, $) {
+
+    if (!window.FileReader || !window.FormData) {
+        // 如果不支持html5的文档操作，直接返回
+        return;
+    }
+
+    E.plugin(function () {
+
+        var editor = this;
+        var config = editor.config;
+        var uploadImgUrl = config.uploadImgUrl;
+        var uploadTimeout = config.uploadTimeout;
+
+        if (!uploadImgUrl) {
+            return;
+        }
+
+        // -------- 将以base64的图片url数据转换为Blob --------
+        function convertBase64UrlToBlob(urlData, filetype){
+            //去掉url的头，并转换为byte
+            var bytes = window.atob(urlData.split(',')[1]);
+            
+            //处理异常,将ascii码小于0的转换为大于0
+            var ab = new ArrayBuffer(bytes.length);
+            var ia = new Uint8Array(ab);
+            var i;
+            for (i = 0; i < bytes.length; i++) {
+                ia[i] = bytes.charCodeAt(i);
+            }
+
+            // 类型
+            if (filetype === '' || !filetype) {
+                filetype = 'image/png';
+            }
+
+            return new Blob([ab], {type : filetype});
+        }
+
+        // -------- 插入图片的方法 --------
+        function insertImg(src, event) {
+            var img = document.createElement('img');
+            img.onload = function () {
+                var html = '<img src="' + src + '" style="max-width:100%;"/>';
+                editor.command(event, 'insertHtml', html);
+
+                E.log('已插入图片，地址 ' + src);
+                img = null;
+            };
+            img.onerror = function () {
+                E.error('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + src);
+                img = null;
+            };
+            img.src = src;
+        }
+
+        // -------- onprogress 事件 --------
+        function updateProgress(e) {
+            if (e.lengthComputable) {
+                var percentComplete = e.loaded / e.total;
+                editor.showUploadProgress(percentComplete);
+            }
+        }
+
+        // -------- xhr 上传图片 --------
+        editor.xhrUploadImg = function (opt) {
+            // opt 数据
+            var event = opt.event;
+            var base64 = opt.base64;
+            var fileType = opt.fileType;
+            var name = opt.name || 'wangEditor_upload_file';
+            var successFn = opt.successFn;
+            var errorFn = opt.errorFn;
+            var timeoutFn = opt.timeoutFn;
+            var failedFn = opt.failedFn;
+
+            // ------------ begin 预览模拟上传 ------------
+            if (E.isOnWebsite) {
+                E.log('预览模拟上传');
+                insertImg(base64, event);
+                return;
+            }
+            // ------------ end 预览模拟上传 ------------
+
+            // 变量声明
+            var xhr = new XMLHttpRequest();
+            var timeoutId;
+            var src;
+            var formData = new FormData();
+
+            // 超时处理
+            function timeoutCallback() {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+                if (xhr && xhr.abort) {
+                    xhr.abort();
+                }
+
+                // 超时了就阻止默认行为
+                event.preventDefault();
+
+                // 执行回调函数
+                if (timeoutFn) {
+                    timeoutFn.call(editor);
+                }
+
+                E.log('上传超时，超时时间 ' + uploadTimeout);
+                alert('图片上传超时');
+
+                // 隐藏进度条
+                editor.hideUploadProgress();
+            }
+
+            xhr.onload = function () {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+
+                // 服务器端要返回图片url地址
+                var resultSrc = xhr.responseText;
+                E.log('上传完成，返回结果为 ' + resultSrc);
+
+                if (resultSrc.indexOf('error|') === 0) {
+                    // 提示错误
+                    E.warn('上传失败：' + resultSrc.split('|')[1]);
+
+                    // 执行回调函数
+                    if (failedFn) {
+                        failedFn.call(editor);
+                    }
+
+                    alert(resultSrc.split('|')[1]);
+                } else {
+                    E.log('上传成功，即将插入编辑区域，结果为：' + resultSrc);
+                    // 将结果插入编辑器
+                    insertImg(resultSrc, event);
+
+                    // 执行回调函数
+                    if (successFn) {
+                        successFn.call(editor);
+                    }
+                }
+
+                // 隐藏进度条
+                editor.hideUploadProgress();
+            };
+            xhr.onerror = function () {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+
+                // 超时了就阻止默认行为
+                event.preventDefault();
+
+                E.error('发生错误');
+                alert('发生错误');
+
+                // 执行回调函数
+                if (errorFn) {
+                    errorFn.call(editor);
+                }
+
+                // 隐藏进度条
+                editor.hideUploadProgress();
+            };
+            // xhr.onprogress = updateProgress;
+            xhr.upload.onprogress = updateProgress;
+
+            // 填充数据
+            formData.append(name, convertBase64UrlToBlob(base64, fileType));
+
+            // 开始上传
+            xhr.open('POST', uploadImgUrl, true);
+            xhr.send(formData);
+            timeoutId = setTimeout(timeoutCallback, uploadTimeout);
+
+            E.log('开始上传...并开始超时计算');
+        };
+    });
+
+})(window, window.wangEditor, window.jQuery);
+// 进度条
+(function (window, E, $) {
+
+    E.plugin(function () {
+
+        var editor = this;
+        var menuContainer = editor.menuContainer;
+        var menuHeight = menuContainer.height();
+        var $editorContainer = editor.$editorContainer;
+        var width = $editorContainer.width();
+        var $progress = $('<div class="wangEditor-upload-progress"></div>');
+        
+        $progress.css({
+            top: menuHeight + 'px'
+        });
+        $editorContainer.append($progress);
+
+        // ------ 显示进度 ------
+        editor.showUploadProgress = function (pregress) {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            $progress.show();
+            $progress.width(pregress * width);
+        };
+
+        // ------ 隐藏进度条 ------
+        var timeoutId;
+        function hideProgress() {
+            $progress.hide();
+            timeoutId = null;
+        }
+        editor.hideUploadProgress = function (time) {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            time = time || 750;
+            timeoutId = setTimeout(hideProgress, time);
+        };
+    });
+
+})(window, window.wangEditor, window.jQuery);
 // upload img 插件
 (function (window, E, $) {
 
-    E.ready(function () {
+    E.plugin(function () {
         var editor = this;
         var config = editor.config;
         var uploadImgUrl = config.uploadImgUrl;
@@ -5566,39 +5791,11 @@ _e(function (E, $) {
 
         // ---------- 构建上传对象 ----------
         var upfile = new E.UploadFile({
+            editor: editor,
             uploadUrl: uploadImgUrl,
             timeout: uploadTimeout,
             fileAccept: 'image/*'    // 只允许选择图片 
         });
-
-        // 成功事件
-        upfile.onSuccess = function (result) {
-            var img = document.createElement('img');
-            img.onload = function () {
-                var html = '<img src="' + result + '" style="max-width:100%"/>';
-                editor.command(event, 'insertHtml', html);
-                img = null;
-            };
-            img.onerror = function () {
-                E.error('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + result);
-                img = null;
-            };
-            img.src = result;
-        };
-
-        // 失败事件
-        upfile.onFailed = function (error) {
-            alert('上传图片错误: \n' + error);
-        };
-
-        // 超时事件
-        upfile.onTimeout = function () {
-            alert('上传超时，请重试');
-            if (location.hostname.toLowerCase() === 'wangeditor.github.io') {
-                // 官网demo的特殊提示
-                alert('提示：wangEditor官网demo没有后台服务，因此超时（该alert在实际项目中不会出现）');
-            }
-        };
 
         // 选择本地文件，上传
         $uploadIcon.click(function (e) {
@@ -5617,31 +5814,11 @@ _e(function (E, $) {
 
     // 构造函数
     var UploadFile = function (opt) {
+        this.editor = opt.editor;
         this.uploadUrl = opt.uploadUrl;
         this.timeout = opt.timeout;
         this.fileAccept = opt.fileAccept;
         this.multiple = true;
-    };
-
-    // 将以base64的图片url数据转换为Blob
-    UploadFile.convertBase64UrlToBlob = function (urlData, filetype){
-        //去掉url的头，并转换为byte
-        var bytes = window.atob(urlData.split(',')[1]);
-        
-        //处理异常,将ascii码小于0的转换为大于0
-        var ab = new ArrayBuffer(bytes.length);
-        var ia = new Uint8Array(ab);
-        var i;
-        for (i = 0; i < bytes.length; i++) {
-            ia[i] = bytes.charCodeAt(i);
-        }
-
-        // 类型
-        if (filetype === '' || !filetype) {
-            filetype = 'image/png';
-        }
-
-        return new Blob([ab], {type : filetype});
     };
 
     UploadFile.fn = UploadFile.prototype;
@@ -5717,47 +5894,15 @@ _e(function (E, $) {
     // 上传单个文件
     UploadFile.fn.upload = function (file) {
         var self = this;
-        var timeout = self.timeout;
-        var timeoutFn = self.onTimeout;
-        var uploadUrl = self.uploadUrl;
-        var failedFn = self.onFailed;
-        var successFn = self.onSuccess;
+        var editor = self.editor;
         var filename = file.name || '';
         var fileType = file.type || '';
         var reader = new FileReader();
-        var xhr = new XMLHttpRequest();
-        var formData = new FormData();
-        var timeoutId;
-
-        // ------------ begin 预览模拟上传 ------------
-        if (E.isOnWebsite) {
-            E.log('预览模拟上传');
-
-            if (window.URL && window.URL.createObjectURL) {
-                if (successFn) {
-                    successFn.call(self, window.URL.createObjectURL(file));
-                } else {
-                    alert('上传成功，图片为 ' + window.URL.createObjectURL(file));
-                }
-            }
-            return;
-        }
-        // ------------ end 预览模拟上传 ------------
 
         E.log('开始执行 ' + filename + ' 文件的上传');
 
-        // 访问超时
-        function timeoutCallback() {
-            if (xhr.abort) {
-                xhr.abort();
-            }
-
-            E.log('上传超时，已终止操作。超时时间为 ' + timeout);
-            
-            if (timeoutFn) {
-                timeoutFn.call(self);
-            }
-
+        // 清空 input 数据
+        function clearInput() {
             self.clear();
         }
 
@@ -5766,44 +5911,26 @@ _e(function (E, $) {
             E.log('已读取' + filename + '文件');
 
             var base64 = e.target.result || this.result;
-            formData.append('wangEditorH5File', UploadFile.convertBase64UrlToBlob(base64, fileType));
-
-            // 上传准备中...
-            xhr.open('POST', uploadUrl, true);
-
-            // onload callback
-            xhr.onload = function () {
-                if (timeoutId) {
-                    clearTimeout(timeoutId);
-                }
-
-                // 服务器应该返回 url 地址
-                var resultSrc = xhr.responseText;
-
-                E.log('上传完成，返回结果为 ' + resultSrc);
-
-                if (resultSrc.indexOf('error|') === 0) {
-                    // 提示错误
-                    if (failedFn) {
-                        failedFn.call(self, resultSrc.split('|')[1]);
+            editor.xhrUploadImg({
+                event: e,
+                base64: base64,
+                fileType: fileType,
+                name: 'wangEditorH5File',
+                successFn: clearInput,
+                errorFn: function () {
+                    clearInput();
+                    if (E.isOnWebsite) {
+                        alert('wangEditor官网暂时没有服务端，因此报错。实际项目中不会发生');
                     }
-                } else {
-                    if (successFn) {
-                        successFn.call(self, resultSrc);
-                    } else {
-                        alert('图片上传成功，返回结果是 ' + resultSrc);
+                },
+                timeoutFn: function () {
+                    clearInput();
+                    if (E.isOnWebsite) {
+                        alert('wangEditor官网暂时没有服务端，因此超时。实际项目中不会发生');
                     }
-                }
-
-                self.clear();
-            };
-
-            // 开始上传
-            xhr.send(formData);
-            // 开始计时
-            timeoutId = setTimeout(timeoutCallback, timeout);
-
-            E.log('上传' + filename + '文件，并开始超时计算');
+                },
+                failedFn: clearInput
+            });
         };
 
         // 开始取文件
@@ -5823,6 +5950,7 @@ _e(function (E, $) {
     
     // 构造函数
     var UploadFile = function (opt) {
+        this.editor = opt.editor;
         this.uploadUrl = opt.uploadUrl;
         this.timeout = opt.timeout;
         this.fileAccept = opt.fileAccept;
@@ -5893,13 +6021,11 @@ _e(function (E, $) {
     // 选中文件之后
     UploadFile.fn.selected = function (e, input) {
         var self = this;
+        var editor = self.editor;
         var $iframe = self.$iframe;
         var iframe = $iframe.get(0);
         var iframeWindow = iframe.contentWindow;
         var $form = self.$form;
-        var timeoutFn = self.onTimeout;
-        var failedFn = self.onFailed;
-        var successFn = self.onSuccess;
         var timeout = self.timeout;
         var timeoutId;
 
@@ -5919,10 +6045,7 @@ _e(function (E, $) {
 
             E.log('上传超时，已终止操作。超时时间为 ' + timeout);
 
-            if (timeoutFn) {
-                timeoutFn.call(self);
-            }
-
+            // 清空 input 数据
             self.clear();
         }
 
@@ -5932,28 +6055,35 @@ _e(function (E, $) {
                 clearTimeout(timeoutId);
             }
             var resultSrc = iframeWindow.document.body.innerHTML;
+            var img;
 
             E.log('上传结束，返回结果为 ' + resultSrc);
 
             if (resultSrc.indexOf('error|') === 0) {
                 // 提示错误
-                if (failedFn) {
-                    failedFn.call(self, resultSrc.split('|')[1]);
-                }
+                E.log('上传失败：' + resultSrc.split('|')[1]);
+                alert(resultSrc.split('|')[1]);
             } else {
-                if (successFn) {
-                    successFn.call(self, resultSrc);
-                } else {
-                    alert('图片上传成功，返回结果是 ' + resultSrc);
-                }
+                E.log('上传成功，开始下载');
+                img = document.createElement('img');
+                img.onload = function () {
+                    var html = '<img src="' + resultSrc + '" style="max-width:100%"/>';
+                    editor.command(event, 'insertHtml', html);
+                    img = null;
+                };
+                img.onerror = function () {
+                    E.error('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + resultSrc);
+                    img = null;
+                };
+                img.src = resultSrc;
             }
 
+            // 清空 input 数据
             self.clear();
         };
 
         E.log('提交form，并开始超时计算，等待返回结果...');
         $form.submit();
-        // console.log($form.find('[type=submit]'));
         timeoutId = setTimeout(timeoutCallback, timeout);
 
         return false;
@@ -5966,133 +6096,360 @@ _e(function (E, $) {
 // upload img 插件 粘贴图片
 (function (window, E, $) {
     
-    E.ready(function () {
+    E.plugin(function () {
         var editor = this;
         var txt = editor.txt;
         var $txt = txt.$txt;
         var config = editor.config;
         var uploadImgUrl = config.uploadImgUrl;
-        var uploadTimeout = config.uploadTimeout;
+        var pasteEvent;
+        var $imgsBeforePaste;
 
         // 未配置上传图片url，则忽略
         if (!uploadImgUrl) {
             return;
         }
 
-        $txt.on('paste', function (pasteEvent) {
-            var data = pasteEvent.clipboardData || pasteEvent.originalEvent.clipboardData;
-            var text;
-            if (data == null) {
-                // IE 中
+        // -------- 非 chrome 下，通过查找粘贴的图片的方式上传 --------
+        function findPasteImgAndUpload() {
+            var reg = /^data:(image\/\w+);base64/;
+            var $imgs = $txt.find('img');
 
-                // 获取粘贴的文本
-                text = window.clipboardData.getData('text');
-                if (!text) {
-                    // IE中，如果没有text，阻止默认行为
-                    return pasteEvent.preventDefault();
-                }
+            E.log('粘贴后，检查到编辑器有' + $imgs.length + '个图片。开始遍历图片，试图找到刚刚粘贴过来的图片');
 
-                // IE中，如果text有值，则返回，不阻止默认行为
-                return;
-            }
+            $.each($imgs, function () {
+                var img = this;
+                var $img = $(img);
+                var flag;
+                var base64 = $img.attr('src');
+                var type;
 
-            // 非 IE 情况
-            text = data.getData('text') ;
-            var items = data.items;
+                // 判断当前图片是否是粘贴之前的
+                $imgsBeforePaste.each(function () {
+                    if (img === this) {
+                        // 当前图片是粘贴之前的
+                        flag = true;
+                        return false;
+                    }
+                });
 
-            // 以下两个判断是重点！！！
-            if (!items && text) {
-                // 取不到图片，到时有text，则不继续进行，但不阻止默认行为
-                return;
-            }
-            if (!items && !text) {
-                // 既取不到图片，又取不到text，则阻止默认行为
-                return pasteEvent.preventDefault();
-            }
-
-            function insertImg (src) {
-                var img = document.createElement('img');
-                img.onload = function () {
-                    var html = '<img src="' + src + '" style="max-width:100%;"/>';
-                    editor.command(pasteEvent, 'insertHtml', html);
-
-                    E.log('已插入图片，地址 ' + src);
-                    img = null;
-                };
-                img.onerror = function () {
-                    E.error('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + src);
-                    img = null;
-                };
-                img.src = src;
-            }
-
-            $.each(items, function (key, value) {
-                var fileType = value.type || '';
-                if(fileType.indexOf('image') < 0) {
-                    // 不是图片
+                // 当前图片是粘贴之前的，则忽略
+                if (flag) {
                     return;
                 }
 
-                var file = value.getAsFile();
-                var reader = new FileReader();
-                var xhr;
-                var timeoutId;
+                E.log('找到一个粘贴过来的图片');
 
-                E.log('得到一个粘贴图片');
-
-                // 超时处理
-                function timeoutCallback() {
-                    if (timeoutId) {
-                        clearTimeout(timeoutId);
-                    }
-                    if (xhr && xhr.abort) {
-                        xhr.abort();
-                    }
-
-                    E.log('上传超时，超时时间 ' + uploadTimeout);
-                    alert('粘贴图片上传超时');
+                if (reg.test(base64)) {
+                    // 得到的粘贴的图片是 base64 格式，符合要求
+                    E.log('src 是 base64 格式，可以上传');
+                    type = base64.match(reg)[1];
+                    editor.xhrUploadImg({
+                        event: pasteEvent,
+                        base64: base64,
+                        fileType: type,
+                        name: 'wangEditorPasteFile'
+                    });
+                } else {
+                    E.log('src 为 ' + base64 + ' ，不是 base64 格式，暂时不支持上传');
                 }
 
-                reader.onload = function (e) {
-                    E.log('读取到粘贴的图片');
+                // 最终移除原图片
+                $img.remove();
+            });
 
-                    var base64 = e.target.result || this.result;
-                    var formData = new FormData();
-                    var src;
-                    xhr = new XMLHttpRequest();
+            E.log('遍历结束');
+        }
 
-                    // ------------ begin 预览模拟上传 ------------
-                    if (E.isOnWebsite) {
-                        E.log('预览模拟上传');
-                        insertImg(base64);
+        // 开始监控粘贴事件
+        $txt.on('paste', function (e) {
+            pasteEvent = e;
+            var data = pasteEvent.clipboardData || pasteEvent.originalEvent.clipboardData;
+            var text;
+            var items;
+
+            // -------- 试图获取剪切板中的文字，有文字的情况下，就不处理图片粘贴 --------
+            if (data == null) {
+                text = window.clipboardData && window.clipboardData.getData('text');
+            } else {
+                text = data.getData('text');
+            }
+            if (text) {
+                return;
+            }
+
+            items = data && data.items;
+            if (items) {
+                // -------- chrome 可以用 data.items 取出图片 -----
+                E.log('通过 data.items 得到了数据');
+
+                $.each(items, function (key, value) {
+                    var fileType = value.type || '';
+                    if(fileType.indexOf('image') < 0) {
+                        // 不是图片
                         return;
                     }
-                    // ------------ end 预览模拟上传 ------------
 
-                    xhr.open('POST', uploadImgUrl, true);
-                    xhr.onload = function () {
-                        if (timeoutId) {
-                            clearTimeout(timeoutId);
-                        }
-                        //服务器端要返回图片url地址
-                        src = xhr.responseText;
-                        E.log('上传完成 得到结果 ' + src);
+                    var file = value.getAsFile();
+                    var reader = new FileReader();
 
-                        insertImg(src);
+                    E.log('得到一个粘贴图片');
+
+                    reader.onload = function (e) {
+                        E.log('读取到粘贴的图片');
+
+                        // 执行上传
+                        var base64 = e.target.result || this.result;
+                        editor.xhrUploadImg({
+                            event: pasteEvent,
+                            base64: base64,
+                            fileType: fileType,
+                            name: 'wangEditorPasteFile'
+                        });
                     };
 
-                    formData.append('wangEditorPasteFile', E.UploadFile.convertBase64UrlToBlob(base64, fileType));
-                    xhr.send(formData);
-                    timeoutId = setTimeout(timeoutCallback, uploadTimeout);
+                    //读取粘贴的文件
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                // -------- 非 chrome 不能用 data.items 取图片 -----
 
-                    E.log('开始上传...并开始超时计算');
+                E.log('未从 data.items 得到数据，使用检测粘贴图片的方式');
+
+                // 获取
+                $imgsBeforePaste = $txt.find('img');
+                E.log('粘贴前，检查到编辑器有' + $imgsBeforePaste.length + '个图片');
+
+                // 异步上传找到的图片
+                setTimeout(findPasteImgAndUpload, 0);
+            }
+        });
+
+    });
+
+})(window, window.wangEditor, window.jQuery);
+// 拖拽上传图片 插件 
+(function (window, E, $) {
+
+    E.plugin(function () {
+
+        var editor = this;
+        var txt = editor.txt;
+        var $txt = txt.$txt;
+        var config = editor.config;
+        var uploadImgUrl = config.uploadImgUrl;
+
+        // 未配置上传图片url，则忽略
+        if (!uploadImgUrl) {
+            return;
+        }
+
+        // 阻止浏览器默认行为
+        E.$document.on('dragleave drop dragenter dragover', function (e) {
+            e.preventDefault();
+        });
+
+        // 监控 $txt drop 事件
+        $txt.on('drop', function (dragEvent) {
+            dragEvent.preventDefault();
+
+            var originalEvent = dragEvent.originalEvent;
+            var files = originalEvent.dataTransfer && originalEvent.dataTransfer.files;
+
+            if (!files || !files.length) {
+                return;
+            }
+
+            $.each(files, function (k, file) {
+                var type = file.type;
+                var name = file.name;
+
+                if (type.indexOf('image/') < 0) {
+                    // 只接收图片
+                    return;
+                }
+
+                E.log('得到图片 ' + name);
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    E.log('读取到图片 ' + name);
+
+                    // 执行上传
+                    var base64 = e.target.result || this.result;
+                    editor.xhrUploadImg({
+                        event: dragEvent,
+                        base64: base64,
+                        fileType: type,
+                        name: 'wangEditorDragFile'
+                    });
                 };
 
                 //读取粘贴的文件
                 reader.readAsDataURL(file);
+
             });
         });
+    });
 
+})(window, window.wangEditor, window.jQuery);
+// 编辑器区域 table toolbar
+(function (window, E, $) {
+
+    E.plugin(function () {
+        var editor = this;
+        var txt = editor.txt;
+        var $txt = txt.$txt;
+        var $currentTable;
+
+        // 用到的dom节点
+        var isRendered = false;
+        var $toolbar = $('<div class="txt-toolbar"></div>');
+        var $triangle = $('<div class="tip-triangle"></div>');
+        var $delete = $('<a href="#"><i class="wangeditor-menu-img-trash-o"></i></a>');
+        var $zoomSmall = $('<a href="#"><i class="wangeditor-menu-img-search-minus"></i></a>');
+        var $zoomBig = $('<a href="#"><i class="wangeditor-menu-img-search-plus"></i></a>');
+
+        // 渲染到页面
+        function render() {
+            if (isRendered) {
+                return;
+            }
+            
+            // 绑定事件
+            bindEvent();
+
+            // 拼接 渲染到页面上
+            $toolbar.append($triangle)
+                    .append($delete)
+                    .append($zoomSmall)
+                    .append($zoomBig);
+            editor.$editorContainer.append($toolbar);
+            isRendered = true;
+        }
+
+        // 绑定事件
+        function bindEvent() {
+            // 统一执行命令的方法
+            var commandFn;
+            function command(e, callback) {
+                if (commandFn) {
+                    editor.customCommand(e, commandFn, callback);
+                }
+            }
+
+            // 删除
+            $delete.click(function (e) {
+                commandFn = function () {
+                    $currentTable.remove();
+                };
+                command(e, function () {
+                    setTimeout(hide, 100);
+                });
+            });
+
+            // 放大
+            $zoomBig.click(function (e) {
+                commandFn = function () {
+                    $currentTable.css({
+                        width: '100%'
+                    });
+                };
+                command(e, function () {
+                    setTimeout(show);
+                });
+            });
+
+            // 缩小
+            $zoomSmall.click(function (e) {
+                commandFn = function () {
+                    $currentTable.css({
+                        width: 'auto'
+                    });
+                };
+                command(e, function () {
+                    setTimeout(show);
+                });
+            });
+        }
+
+        // 显示 toolbar
+        function show() {
+            if ($currentTable == null) {
+                return;
+            }
+            $currentTable.addClass('clicked');
+            var tablePosition = $currentTable.position();
+            var tableTop = tablePosition.top;
+            var tableLeft = tablePosition.left;
+            var tableHeight = $currentTable.outerHeight();
+            var tableWidth = $currentTable.outerWidth();
+
+            // --- 定位 toolbar ---
+
+            // 计算初步结果
+            var top = tableTop + tableHeight;
+            var left = tableLeft;
+            var marginLeft = 0;
+
+            var txtTop = $txt.position().top;
+            var txtHeight = $txt.outerHeight();
+            if (top > (txtTop + txtHeight)) {
+                // top 不得超出编辑范围
+                top = txtTop + txtHeight;
+            }
+
+            // 显示（方便计算 margin）
+            $toolbar.show();
+
+            // 计算 margin
+            var width = $toolbar.outerWidth();
+            marginLeft = tableWidth / 2 - width / 2;
+
+            // 定位
+            $toolbar.css({
+                top: top + 5,
+                left: left,
+                'margin-left': marginLeft
+            });
+        }
+        
+        // 隐藏 toolbar
+        function hide() {
+            if ($currentTable == null) {
+                return;
+            }
+            $currentTable.removeClass('clicked');
+            $currentTable = null;
+            $toolbar.hide();
+        }
+
+        // click table 事件
+        $txt.on('click', 'table', function (e) {
+            var $table = $(e.currentTarget);
+
+            // 渲染
+            render();
+
+            if ($currentTable && ($currentTable.get(0) === $table.get(0))) {
+                setTimeout(hide, 100);
+                return;
+            }
+
+            // 显示 toolbar
+            $currentTable = $table;
+            show();
+
+            // 阻止冒泡
+            e.preventDefault();
+            e.stopPropagation();
+            
+        }).on('click keypress scroll', function (e) {
+            setTimeout(hide, 100);
+        });
+        E.$body.on('click keypress scroll', function (e) {
+            setTimeout(hide, 100);
+        });
     });
 
 })(window, window.wangEditor, window.jQuery);
@@ -6103,7 +6460,7 @@ _e(function (E, $) {
         return;
     }
     
-    E.ready(function () {
+    E.plugin(function () {
         var editor = this;
         var txt = editor.txt;
         var $txt = txt.$txt;
@@ -6430,170 +6787,10 @@ _e(function (E, $) {
     });
 
 })(window, window.wangEditor, window.jQuery);
-// 编辑器区域 table toolbar
-(function (window, E, $) {
-
-    E.ready(function () {
-        var editor = this;
-        var txt = editor.txt;
-        var $txt = txt.$txt;
-        var $currentTable;
-
-        // 用到的dom节点
-        var isRendered = false;
-        var $toolbar = $('<div class="txt-toolbar"></div>');
-        var $triangle = $('<div class="tip-triangle"></div>');
-        var $delete = $('<a href="#"><i class="wangeditor-menu-img-trash-o"></i></a>');
-        var $zoomSmall = $('<a href="#"><i class="wangeditor-menu-img-search-minus"></i></a>');
-        var $zoomBig = $('<a href="#"><i class="wangeditor-menu-img-search-plus"></i></a>');
-
-        // 渲染到页面
-        function render() {
-            if (isRendered) {
-                return;
-            }
-            
-            // 绑定事件
-            bindEvent();
-
-            // 拼接 渲染到页面上
-            $toolbar.append($triangle)
-                    .append($delete)
-                    .append($zoomSmall)
-                    .append($zoomBig);
-            editor.$editorContainer.append($toolbar);
-            isRendered = true;
-        }
-
-        // 绑定事件
-        function bindEvent() {
-            // 统一执行命令的方法
-            var commandFn;
-            function command(e, callback) {
-                if (commandFn) {
-                    editor.customCommand(e, commandFn, callback);
-                }
-            }
-
-            // 删除
-            $delete.click(function (e) {
-                commandFn = function () {
-                    $currentTable.remove();
-                };
-                command(e, function () {
-                    setTimeout(hide, 100);
-                });
-            });
-
-            // 放大
-            $zoomBig.click(function (e) {
-                commandFn = function () {
-                    $currentTable.css({
-                        width: '100%'
-                    });
-                };
-                command(e, function () {
-                    setTimeout(show);
-                });
-            });
-
-            // 缩小
-            $zoomSmall.click(function (e) {
-                commandFn = function () {
-                    $currentTable.css({
-                        width: 'auto'
-                    });
-                };
-                command(e, function () {
-                    setTimeout(show);
-                });
-            });
-        }
-
-        // 显示 toolbar
-        function show() {
-            if ($currentTable == null) {
-                return;
-            }
-            $currentTable.addClass('clicked');
-            var tablePosition = $currentTable.position();
-            var tableTop = tablePosition.top;
-            var tableLeft = tablePosition.left;
-            var tableHeight = $currentTable.outerHeight();
-            var tableWidth = $currentTable.outerWidth();
-
-            // --- 定位 toolbar ---
-
-            // 计算初步结果
-            var top = tableTop + tableHeight;
-            var left = tableLeft;
-            var marginLeft = 0;
-
-            var txtTop = $txt.position().top;
-            var txtHeight = $txt.outerHeight();
-            if (top > (txtTop + txtHeight)) {
-                // top 不得超出编辑范围
-                top = txtTop + txtHeight;
-            }
-
-            // 显示（方便计算 margin）
-            $toolbar.show();
-
-            // 计算 margin
-            var width = $toolbar.outerWidth();
-            marginLeft = tableWidth / 2 - width / 2;
-
-            // 定位
-            $toolbar.css({
-                top: top + 5,
-                left: left,
-                'margin-left': marginLeft
-            });
-        }
-        
-        // 隐藏 toolbar
-        function hide() {
-            if ($currentTable == null) {
-                return;
-            }
-            $currentTable.removeClass('clicked');
-            $currentTable = null;
-            $toolbar.hide();
-        }
-
-        // click table 事件
-        $txt.on('click', 'table', function (e) {
-            var $table = $(e.currentTarget);
-
-            // 渲染
-            render();
-
-            if ($currentTable && ($currentTable.get(0) === $table.get(0))) {
-                setTimeout(hide, 100);
-                return;
-            }
-
-            // 显示 toolbar
-            $currentTable = $table;
-            show();
-
-            // 阻止冒泡
-            e.preventDefault();
-            e.stopPropagation();
-            
-        }).on('click keypress scroll', function (e) {
-            setTimeout(hide, 100);
-        });
-        E.$body.on('click keypress scroll', function (e) {
-            setTimeout(hide, 100);
-        });
-    });
-
-})(window, window.wangEditor, window.jQuery);
 // menu吸顶
 (function (window, E, $) {
 
-    E.ready(function () {
+    E.plugin(function () {
         var editor = this;
         var menuFixed = editor.config.menuFixed;
         if (menuFixed === false || typeof menuFixed !== 'number') {

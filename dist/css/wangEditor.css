@@ -90,6 +90,16 @@
   margin-top: -6px;
   box-shadow: 1px 1px 5px #999;
 }
+.wangEditor-container .wangEditor-upload-progress {
+  position: absolute;
+  height: 1px;
+  background: #1e88e5;
+  width: 0;
+  display: none;
+  -webkit-transition: width .5s;
+  -o-transition: width .5s;
+  transition: width .5s;
+}
 .wangEditor-fullscreen {
   position: fixed;
   top: 0;
