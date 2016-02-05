@@ -648,6 +648,15 @@ body .wangeditor-menu-img-trash-o:before {
 body .wangeditor-menu-img-align-justify:before {
   content: "\f039";
 }
+body .wangeditor-menu-img-arrows-v:before {
+  content: "\f07d";
+}
+body .wangeditor-menu-img-sigma2:before {
+  content: "\ea68";
+}
+body .wangeditor-menu-img-omega:before {
+  content: "\e900";
+}
 .hljs {
   display: block;
   overflow-x: auto;
