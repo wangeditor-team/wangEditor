@@ -4611,13 +4611,13 @@ _e(function (E, $) {
     var index = 1;
 
     E.createMenu(function (check) {
-        if (index++ > 1) {
-            E.error('目前不支持在一个页面多个编辑器上同时使用地图，可通过自定义菜单配置去掉地图菜单');
+        var menuId = 'location';
+        if (!check(menuId)) {
             return;
         }
 
-        var menuId = 'location';
-        if (!check(menuId)) {
+        if (index++ > 1) {
+            E.error('目前不支持在一个页面多个编辑器上同时使用地图，可通过自定义菜单配置去掉地图菜单');
             return;
         }
 
@@ -5579,11 +5579,6 @@ _e(function (E, $) {
                 ia[i] = bytes.charCodeAt(i);
             }
 
-            // 类型
-            if (filetype === '' || !filetype) {
-                filetype = 'image/png';
-            }
-
             return new Blob([ab], {type : filetype});
         }
 
@@ -5617,12 +5612,18 @@ _e(function (E, $) {
             // opt 数据
             var event = opt.event;
             var base64 = opt.base64;
-            var fileType = opt.fileType;
+            var fileType = opt.fileType || 'image/png';  // 无扩展名，用png
             var name = opt.name || 'wangEditor_upload_file';
             var successFn = opt.successFn;
             var errorFn = opt.errorFn;
             var timeoutFn = opt.timeoutFn;
             var failedFn = opt.failedFn;
+
+            // 获取文件扩展名
+            var fileExt = 'png';  // 默认为 png
+            if (fileType.indexOf('/') > 0 && fileType.split('/')[1]) {
+                fileExt = fileType.split('/')[1];
+            }
 
             // ------------ begin 预览模拟上传 ------------
             if (E.isOnWebsite) {
@@ -5718,7 +5719,7 @@ _e(function (E, $) {
             xhr.upload.onprogress = updateProgress;
 
             // 填充数据
-            formData.append(name, convertBase64UrlToBlob(base64, fileType), name);
+            formData.append(name, convertBase64UrlToBlob(base64, fileType), E.random() + '.' + fileExt);
 
             // 开始上传
             xhr.open('POST', uploadImgUrl, true);
