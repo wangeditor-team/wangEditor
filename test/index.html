@@ -21,51 +21,58 @@
         <div id="div1">
             <p>请输入内容...</p>
         </div>
+        <!-- <textarea id="div1" style="display:none;">
+            <p>请输入内容...</p>
+        </textarea> -->
     </div>
     
-    
     <script type="text/javascript" src="../dist/js/lib/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="../dist/js/wangEditor.min.js"></script>
+    <script type="text/javascript" src="../dist/js/wangEditor.js"></script>
+    <!--<script type="text/javascript" src="../dist/js/wangEditor.min.js"></script>-->
     <script type="text/javascript">
-        $(function () {
+        // 阻止输出log
+        // wangEditor.config.printLog = false;
+        
+        var editor = new wangEditor('div1');
 
-            // 阻止输出log
-            // wangEditor.config.printLog = false;
-            
-            var editor = new wangEditor('div1');
+        // 上传图片
+        editor.config.uploadImgUrl = '/upload';
+        
+        // editor.config.menus = [
+        //     'img',
+        //     'insertcode',
+        //     'eraser',
+        //     'fullscreen'
+        // ];
 
-            // 上传图片
-            editor.config.uploadImgUrl = '/upload';
+        // onchange 事件
+        // editor.onchange = function () {
+        //     console.log(this.$txt.html());
+        // };
 
-            // onchange 事件
-            // editor.onchange = function () {
-            //     console.log(this.$txt.html());
-            // };
+        // 取消过滤js
+        // editor.config.jsFilter = false;
 
-            // 取消过滤js
-            // editor.config.jsFilter = false;
+        // 取消粘贴过来
+        // editor.config.pasteFilter = false;
 
-            // 取消粘贴过来
-            // editor.config.pasteFilter = false;
+        // 设置 z-index
+        // editor.config.zindex = 20000;
 
-            // 设置 z-index
-            // editor.config.zindex = 20000;
+        // 语言
+        // editor.config.lang = wangEditor.langs['en'];
 
-            // 语言
-            // editor.config.lang = wangEditor.langs['en'];
+        // 自定义菜单UI
+        // editor.UI.menus.bold = {
+        //     normal: '<button style="font-size:20px; margin-top:5px;">B</button>',
+        //     selected: '.selected'
+        // };
+        // editor.UI.menus.italic = {
+        //     normal: '<button style="font-size:20px; margin-top:5px;">I</button>',
+        //     selected: '<button style="font-size:20px; margin-top:5px;"><i>I</i></button>'
+        // };
 
-            // 自定义菜单UI
-            // editor.UI.menus.bold = {
-            //     normal: '<button style="font-size:20px; margin-top:5px;">B</button>',
-            //     selected: '.selected'
-            // };
-            // editor.UI.menus.italic = {
-            //     normal: '<button style="font-size:20px; margin-top:5px;">I</button>',
-            //     selected: '<button style="font-size:20px; margin-top:5px;"><i>I</i></button>'
-            // };
-
-            editor.create();
-        });
+        editor.create();
     </script>
 </body>
 </html>

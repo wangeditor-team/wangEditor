@@ -38,6 +38,7 @@ var define;
 (function (window, $) {
     if (window.wangEditor) {
         // 重复引用
+        alert('一个页面不能重复引用 wangEditor.js 或 wangEditor.min.js ！！！');
         return;
     }
 
@@ -186,6 +187,10 @@ _e(function (E, $) {
 
     // 除了传入的 menuIds，其他全部启用
     E.fn.enableMenusExcept = function (menuIds) {
+        if (this._disabled) {
+            // 编辑器处于禁用状态，则不执行改操作
+            return;
+        }
         // menuIds参数：支持数组和字符串
         menuIds = menuIds || [];
         if (typeof menuIds === 'string') {
@@ -202,6 +207,10 @@ _e(function (E, $) {
 
     // 除了传入的 menuIds，其他全部禁用
     E.fn.disableMenusExcept = function (menuIds) {
+        if (this._disabled) {
+            // 编辑器处于禁用状态，则不执行改操作
+            return;
+        }
         // menuIds参数：支持数组和字符串
         menuIds = menuIds || [];
         if (typeof menuIds === 'string') {
@@ -891,10 +900,56 @@ _e(function (E, $) {
     // 禁用编辑器
     E.fn.disable = function () {
         this.txt.$txt.removeAttr('contenteditable');
+        this.disableMenusExcept();
+
+        // 先禁用，再记录状态
+        this._disabled = true;
     };
     // 启用编辑器
     E.fn.enable = function () {
-         this.txt.$txt.attr('contenteditable', 'true');
+        // 先解除状态记录，再启用
+        this._disabled = false;
+        this.txt.$txt.attr('contenteditable', 'true');
+        this.enableMenusExcept();
+    };
+
+    // 销毁编辑器
+    E.fn.destroy = function () {
+        var self = this;
+        var $valueContainer = self.$valueContainer;
+        var $editorContainer = self.$editorContainer;
+        var valueNodeName = self.valueNodeName;
+
+        if (valueNodeName === 'div') {
+            // div 生成的编辑器
+            $valueContainer.removeAttr('contenteditable');
+            $editorContainer.after($valueContainer);
+            $editorContainer.hide();
+        } else {
+            // textarea 生成的编辑器
+            $valueContainer.show();
+            $editorContainer.hide();
+        }
+    };
+
+    // 撤销 销毁编辑器
+    E.fn.undestroy = function () {
+        var self = this;
+        var $valueContainer = self.$valueContainer;
+        var $editorContainer = self.$editorContainer;
+        var $menuContainer = self.menuContainer.$menuContainer;
+        var valueNodeName = self.valueNodeName;
+
+        if (valueNodeName === 'div') {
+            // div 生成的编辑器
+            $valueContainer.attr('contenteditable', 'true');
+            $menuContainer.after($valueContainer);
+            $editorContainer.show();
+        } else {
+            // textarea 生成的编辑器
+            $valueContainer.hide();
+            $editorContainer.show();
+        }
     };
 
 });
@@ -1855,6 +1910,9 @@ _e(function (E, $) {
 
         // 处理粘贴内容
         self.bindPasteFilter();
+
+        // $txt.formatText() 方法
+        self.bindFormatText();
     };
 
     // 删除时，如果没有内容了，就添加一个 <p><br></p>
@@ -2083,6 +2141,54 @@ _e(function (E, $) {
 
             return elem;
         }
+    };
+
+    // 绑定 $txt.formatText() 方法
+    Txt.fn.bindFormatText = function () {
+        var self = this;
+        var editor = self.editor;
+        var $txt = self.$txt;
+        var legalTags = E.config.legalTags;
+        var legalTagArr = legalTags.split(',');
+        var length = legalTagArr.length;
+        var regArr = [];
+
+        // 将 E.config.legalTags 配置的有效字符，生成正则表达式
+        $.each(legalTagArr, function (k, tag) {
+            var reg = '\>\\s*\<(' + tag + ')\>';
+            regArr.push(new RegExp(reg, 'ig'));
+        });
+
+        // 增加 li 
+        regArr.push(new RegExp('\>\\s*\<(li)\>', 'ig'));
+
+        // 增加 tr
+        regArr.push(new RegExp('\>\\s*\<(tr)\>', 'ig'));
+
+        // 增加 code
+        regArr.push(new RegExp('\>\\s*\<(code)\>', 'ig'));
+
+        // 生成 formatText 方法
+        $txt.formatText = function () {
+            var $temp = $('<div>');
+            var html = $txt.html();
+
+            // 去除空格
+            html = html.replace(/\s*</ig, '<');
+
+            // 段落、表格之间换行
+            $.each(regArr, function (k, reg) {
+                if (!reg.test(html)) {
+                    return;
+                }
+                html = html.replace(reg, function (matchStr, tag) {
+                    return '>\n<' + tag + '>';
+                });
+            });
+
+            $temp.html(html);
+            return $temp.text();
+        };
     };
 });
 // Txt.fn api
