@@ -1516,6 +1516,7 @@ _e(function (E, $) {
         var $list = self.$list;
         var editor = self.editor;
         var menu = self.menu;
+        var $menuContainer = editor.menuContainer.$menuContainer;
         var $menuDom = menu.selected ? menu.$domSelected : menu.$domNormal;
         // 注意这里的 offsetParent() 要返回 .menu-item 的 position
         // 因为 .menu-item 是 position:relative
@@ -1546,13 +1547,22 @@ _e(function (E, $) {
         if (valWithTxt > -10) {
             marginLeft = marginLeft - valWithTxt - 10;
         }
-
         // 设置样式
         $list.css({
             top: top,
             left: left,
             'margin-left': marginLeft
         });
+
+        // 如果因为向下滚动而导致菜单fixed，则再加一步处理
+        if (editor._isMenufixed) {
+            top = top + (($menuContainer.offset().top + $menuContainer.outerHeight()) - $list.offset().top);
+
+            // 重新设置top
+            $list.css({
+                top: top
+            });
+        }
     };
 
     // 显示
@@ -1719,6 +1729,7 @@ _e(function (E, $) {
         var $panel = self.$panel;
         var $triangle = self.$triangle;
         var editor = self.editor;
+        var $menuContainer = editor.menuContainer.$menuContainer;
         var menu = self.menu;
         var $menuDom = menu.selected ? menu.$domSelected : menu.$domNormal;
         // 注意这里的 offsetParent() 要返回 .menu-item 的 position
@@ -1763,6 +1774,16 @@ _e(function (E, $) {
             left: left,
             'margin-left': marginLeft
         });
+
+        // 如果因为向下滚动而导致菜单fixed，则再加一步处理
+        if (editor._isMenufixed) {
+            top = top + (($menuContainer.offset().top + $menuContainer.outerHeight()) - $panel.offset().top);
+
+            // 重新设置top
+            $panel.css({
+                top: top
+            });
+        }
 
         // 设置三角形 tip 的位置
         $triangle.css({
@@ -2487,7 +2508,7 @@ _e(function (E, $) {
         table: '表格',
         emotion: '表情',
         img: '图片',
-        vedio: '视频',
+        video: '视频',
         'width': '宽',
         'height': '高',
         location: '位置',
@@ -2529,7 +2550,7 @@ _e(function (E, $) {
         table: 'Table',
         emotion: 'Emotions',
         img: 'Image',
-        vedio: 'Vedio',
+        video: 'Video',
         'width': 'width',
         'height': 'height',
         location: 'Location',
@@ -2594,7 +2615,7 @@ _e(function (E, $) {
         'emotion',
         '|',
         'img',
-        'vedio',
+        'video',
         'location',
         'insertcode',
         '|',
@@ -2826,7 +2847,7 @@ _e(function (E, $) {
             normal: '<a href="#" tabindex="-1"><i class="wangeditor-menu-img-picture"></i></a>',
             selected: '.selected'
         },
-        vedio: {
+        video: {
             normal: '<a href="#" tabindex="-1"><i class="wangeditor-menu-img-play"></i></a>',
             selected: '.selected'
         },
@@ -4571,11 +4592,11 @@ _e(function (E, $) {
     }
 
 });
-// vedio 菜单
+// video 菜单
 _e(function (E, $) {
 
     E.createMenu(function (check) {
-        var menuId = 'vedio';
+        var menuId = 'video';
         if (!check(menuId)) {
             return;
         }
@@ -4587,22 +4608,22 @@ _e(function (E, $) {
         var menu = new E.Menu({
             editor: editor,
             id: menuId,
-            title: lang.vedio,
+            title: lang.video,
             commandName: 'unLink'
         });
 
         // 视频代码模板 - flash
-        var vedioTplFlash = [
+        var videoTplFlash = [
             '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" ',
             '        codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" ',
             '        width="#{width}" ',
             '        height="#{height}" >',
             '   <param name="movie" ',
-            '          value="#{vedioUrl}" />',
+            '          value="#{videoUrl}" />',
             '   <param name="allowFullScreen" value="true" />',
             '   <param name="allowScriptAccess" value="always" />',
             '   <param value="transparent" name="wmode" />',
-            '   <embed src="#{vedioUrl}"',
+            '   <embed src="#{videoUrl}"',
             '          width="#{width}" ',
             '          height="#{height}" ',
             '          name="cc_8E6888CDEA7087C49C33DC5901307461" ',
@@ -4616,8 +4637,8 @@ _e(function (E, $) {
         ].join('');
 
         // 视频代码模板 - h5
-        var vedioTplH5 = [
-            '<video src="#{vedioUrl}" controls="controls" width="#{width}" height="#{height}">',
+        var videoTplH5 = [
+            '<video src="#{videoUrl}" controls="controls" width="#{width}" height="#{height}">',
             '</video>',
             '<p><br></p>'
         ].join('');
@@ -4674,15 +4695,15 @@ _e(function (E, $) {
                 return;
             }
 
-            // 拼接 vedio 代码
+            // 拼接 video 代码
             if ((/.swf/i).test(url)) {
                 // swf 格式
-                html = vedioTplFlash.replace(/#{vedioUrl}/ig, url)
+                html = videoTplFlash.replace(/#{videoUrl}/ig, url)
                                     .replace(/#{width}/ig, width)
                                     .replace(/#{height}/ig, height);
             } else {
                 // 其他格式，如ogg mp4 webm
-                html = vedioTplH5.replace(/#{vedioUrl}/ig, url)
+                html = videoTplH5.replace(/#{videoUrl}/ig, url)
                                  .replace(/#{width}/ig, width)
                                  .replace(/#{height}/ig, height);
             }
@@ -5436,6 +5457,9 @@ _e(function (E, $) {
 // 全屏 菜单
 _e(function (E, $) {
 
+    // 记录全屏时的scrollTop
+    var scrollTopWhenFullScreen;
+
     E.createMenu(function (check) {
         var menuId = 'fullscreen';
         if (!check(menuId)) {
@@ -5482,6 +5506,9 @@ _e(function (E, $) {
 
             // 记录编辑器是否全屏
             editor.isFullScreen = true;
+
+            // 记录设置全屏时的高度
+            scrollTopWhenFullScreen = E.$window.scrollTop();
         };
 
         // 定义选中状态的 click 事件
@@ -5502,6 +5529,11 @@ _e(function (E, $) {
 
             // 记录编辑器是否全屏
             editor.isFullScreen = false;
+
+            // 还原scrollTop
+            if (scrollTopWhenFullScreen != null) {
+                E.$window.scrollTop(scrollTopWhenFullScreen);
+            }
         };
 
         // 定义选中事件
@@ -6935,7 +6967,7 @@ _e(function (E, $) {
                 return;
             }
 
-            var sTop = $(window).scrollTop();
+            var sTop = E.$window.scrollTop();
             if (sTop >= menuTop && sTop + menuFixed + menuHeight + 30 < editorTop + editorHeight) {
                 // 吸顶
                 $menuContainer.css({
@@ -6950,6 +6982,11 @@ _e(function (E, $) {
                 E.$body.css({
                     'margin-top': bodyMarginTop + menuHeight
                 });
+
+                // 记录
+                if (!editor._isMenufixed) {
+                    editor._isMenufixed = true;
+                }
             } else {
                 // 取消吸顶
                 $menuContainer.css({
@@ -6964,6 +7001,11 @@ _e(function (E, $) {
                 E.$body.css({
                     'margin-top': bodyMarginTop
                 });
+
+                // 撤销记录
+                if (editor._isMenufixed) {
+                    editor._isMenufixed = false;
+                }
             }
         });
     });
