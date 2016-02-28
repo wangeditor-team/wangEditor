@@ -442,6 +442,27 @@
   color: #666;
   border-color: #ccc;
 }
+.wangEditor-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #fff;
+  box-shadow: 1px 3px 3px #999;
+  border-top: 1px\9 solid\9 #ccc\9;
+  border-left: 1px\9 solid\9 #ccc\9;
+  border-bottom: 1px\9 solid\9 #999\9;
+  border-right: 1px\9 solid\9 #999\9;
+}
+.wangEditor-modal .wangEditor-modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: -25px;
+  margin-right: -25px;
+  font-size: 1.5em;
+  color: #666;
+  cursor: pointer;
+}
 @font-face {
   font-family: 'icomoon';
   src: url('fonts/icomoon.eot?-qdfu1s');
@@ -656,6 +677,9 @@ body .wangeditor-menu-img-sigma2:before {
 }
 body .wangeditor-menu-img-omega:before {
   content: "\e900";
+}
+body .wangeditor-menu-img-cancel-circle:before {
+  content: "\e901";
 }
 .hljs {
   display: block;

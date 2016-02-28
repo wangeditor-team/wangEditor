@@ -1466,6 +1466,9 @@ _e(function (E, $) {
         var thisList = self.$list.get(0);
 
         E.$body.on('click', function (e) {
+            if (!self.isShowing) {
+                return;
+            }
             var trigger = e.target;
 
             // 获取菜单elem
@@ -1683,6 +1686,9 @@ _e(function (E, $) {
         var thisPanle = self.$panel.get(0);
 
         E.$body.on('click', function (e) {
+            if (!self.isShowing) {
+                return;
+            }
             var trigger = e.target;
 
             // 获取菜单elem
@@ -1874,14 +1880,177 @@ _e(function (E, $) {
 _e(function (E, $) {
 
     // 定义构造函数
-    var Modal = function () {
+    var Modal = function (editor, menu, opt) {
+        this.editor = editor;
+        this.menu = menu;
+        this.$content = opt.$content;
 
+        this.init();
     };
 
     Modal.fn = Modal.prototype;
 
     // 暴露给 E 即 window.wangEditor
     E.Modal = Modal;
+});
+// modal fn bind
+_e(function (E, $) {
+
+    var Modal = E.Modal;
+
+    Modal.fn.init = function () {
+        var self = this;
+
+        // 初始化dom
+        self.initDom();
+
+        // 初始化隐藏事件
+        self.initHideEvent();
+    };
+
+    // 初始化dom
+    Modal.fn.initDom = function () {
+        var self = this;
+        var $content = self.$content;
+        var $modal = $('<div class="wangEditor-modal"></div>');
+        var $close = $('<div class="wangEditor-modal-close"><i class="wangeditor-menu-img-cancel-circle"></i></div>');
+
+        $modal.append($close);
+        $modal.append($content);
+
+        // 记录数据
+        self.$modal = $modal;
+        self.$close = $close;
+    };
+
+    // 初始化隐藏事件
+    Modal.fn.initHideEvent = function () {
+        var self = this;
+        var $close = self.$close;
+        var modal = self.$modal.get(0);
+
+        // 点击 $close 按钮，隐藏
+        $close.click(function () {
+            self.hide();
+        });
+
+        // 点击其他部分，隐藏
+        E.$body.on('click', function (e) {
+            if (!self.isShowing) {
+                return;
+            }
+            var trigger = e.target;
+
+            // 获取菜单elem
+            var menu = self.menu;
+            var menuDom;
+            if (menu) {
+                if (menu.selected) {
+                    menuDom = menu.$domSelected.get(0);
+                } else {
+                    menuDom = menu.$domNormal.get(0);
+                }
+
+                if (menuDom === trigger || $.contains(menuDom, trigger)) {
+                    // 说明由本菜单点击触发的
+                    return;
+                }
+            }
+
+            if (modal === trigger || $.contains(modal, trigger)) {
+                // 说明由本panel点击触发的
+                return;
+            }
+
+            // 其他情况，隐藏 panel
+            self.hide();
+        });
+    };
+});
+// modal fn api
+_e(function (E, $) {
+
+    var Modal = E.Modal;
+
+    // 渲染
+    Modal.fn._render = function () {
+        var self = this;
+        var editor = self.editor;
+        var $modal = self.$modal;
+
+        // $modal的z-index，在配置的z-index基础上再 +10
+        $modal.css('z-index', editor.config.zindex + 10 + '');
+
+        // 渲染到body最后面
+        E.$body.append($modal);
+
+        // 记录状态
+        self.rendered = true;
+    };
+
+    // 定位
+    Modal.fn._position = function () {
+        var self = this;
+        var $modal = self.$modal;
+        var top = $modal.offset().top;
+        var width = $modal.outerWidth();
+        var height = $modal.outerHeight();
+        var marginLeft = 0 - (width / 2);
+        var marginTop = 0 - (height / 2);
+
+        // 保证modal最顶部，不超过浏览器上边框
+        if ((height / 2) > top) {
+            marginTop = 0 - top;
+        }
+
+        $modal.css({
+            'margin-left': marginLeft + 'px',
+            'margin-top': marginTop + 'px'
+        });
+    };
+
+    // 显示
+    Modal.fn.show = function () {
+        var self = this;
+        var menu = self.menu;
+        if (!self.rendered) {
+            // 第一次show之前，先渲染
+            self._render();
+        }
+
+        if (self.isShowing) {
+            return;
+        }
+        // 记录状态
+        self.isShowing = true;
+
+        var $modal = self.$modal;
+        $modal.show();
+
+        // 定位
+        self._position();
+
+        // 激活菜单状态
+        menu && menu.activeStyle(true);
+    };
+
+    // 隐藏
+    Modal.fn.hide = function () {
+        var self = this;
+        var menu = self.menu;
+        if (!self.isShowing) {
+            return;
+        }
+        // 记录状态
+        self.isShowing = false;
+
+        // 隐藏
+        var $modal = self.$modal;
+        $modal.hide();
+
+        // 菜单状态
+        menu && menu.activeStyle(false);
+    };
 });
 // txt 构造函数
 _e(function (E, $) {
@@ -4602,11 +4771,11 @@ _e(function (E, $) {
             var uploadImgUrl = config.uploadImgUrl;
             var $uploadImgPanel;
 
-            // IE8 不支持图片上传（ form.submit 一直有bug ）！！！！！！！！！！！！
-            if (E.userAgent.indexOf('MSIE 8') > 0) {
-                hideUploadImg();
-                return;
-            }  // ！！！！！！！！！！
+            // // IE8 不支持图片上传（ form.submit 一直有bug ）！！！！！！！！！！！！
+            // if (E.userAgent.indexOf('MSIE 8') > 0) {
+            //     hideUploadImg();
+            //     return;
+            // }  // ！！！！！！！！！！
 
             if (uploadImgUrl) {
                 // 第一，暴露出 $uploadContent 以便用户自定义 ！！！重要
@@ -4618,10 +4787,20 @@ _e(function (E, $) {
                 // 未配置上传图片功能
                 hideUploadImg();
             }
+
+            // 点击 $uploadContent 立即隐藏 dropPanel
+            // 为了兼容IE8、9的上传，因为IE8、9使用 modal 上传
+            // 这里使用异步，为了不妨碍高级浏览器通过点击 $uploadContent 选择文件
+            function hidePanel() {
+                menu.dropPanel.hide();
+            }
+            $uploadContent.click(function () {
+                setTimeout(hidePanel);
+            });
         });
     });
 
-    // --------------- 处理上传图片content ---------------
+    // --------------- 处理网络图片content ---------------
     function linkContentHandler (editor, menu, $linkContent) {
         var lang = editor.config.lang;
         var $urlContainer = $('<div style="margin:20px 10px 10px 10px;"></div>');
@@ -6178,98 +6357,74 @@ _e(function (E, $) {
         E.log('input value 已清空');
     };
 
+    // 隐藏modal
+    UploadFile.fn.hideModal = function () {
+        this.modal.hide();
+    };
+
     // 渲染
     UploadFile.fn.render = function () {
         var self = this;
+        var editor = self.editor;
         if (self._hasRender) {
             // 不要重复渲染
             return;
         }
 
+        // 服务器端路径
         var uploadUrl = self.uploadUrl;
 
         E.log('渲染dom');
 
+        // 创建 form 和 iframe
         var iframeId = 'iframe' + E.random();
         var $iframe = $('<iframe name="' + iframeId + '" id="' + iframeId + '" frameborder="0" width="0" height="0"></iframe>');
         var multiple = self.multiple;
         var multipleTpl = multiple ? 'multiple="multiple"' : '';
+        var $p = $('<p>选择图片并上传</p>');
         var $input = $('<input type="file" ' + multipleTpl + ' name="wangEditorFormFile"/>');
+        var $btn = $('<input type="submit" value="上传"/>');
         var $form = $('<form enctype="multipart/form-data" method="post" action="' + uploadUrl + '" target="' + iframeId + '"></form>');
-        var $container = $('<div style="visibility:hidden;"></div>');
+        var $container = $('<div style="margin:10px 20px;"></div>');
 
-        $form.append($input).append($('<input type="submit" value="form-img-submit"/>'));
+        $form.append($p).append($input).append($btn);
         $container.append($form);
         $container.append($iframe);
-        E.$body.append($container);
 
-        // onchange 事件
-        $input.on('change', function (e) {
-            self.selected(e, $input.get(0));
-        });
-
-        // 记录对象数据
         self.$input = $input;
-        self.$form = $form;
         self.$iframe = $iframe;
+
+        // 生成 modal
+        var modal = new E.Modal(editor, undefined, {
+            $content: $container
+        });
+        self.modal = modal;
 
         // 记录
         self._hasRender = true;
     };
 
-    // 选择
-    UploadFile.fn.selectFiles = function () {
+    // 绑定 iframe load 事件
+    UploadFile.fn.bindLoadEvent = function () {
         var self = this;
+        if (self._hasBindLoad) {
+            // 不要重复绑定
+            return;
+        }
 
-        E.log('使用 form 方式上传');
-
-        // 先渲染
-        self.render();
-
-        // 选择
-        E.log('选择文件');
-        self.$input.click();
-    };
-
-    // 选中文件之后
-    UploadFile.fn.selected = function (e, input) {
-        var self = this;
         var editor = self.editor;
         var $iframe = self.$iframe;
         var iframe = $iframe.get(0);
         var iframeWindow = iframe.contentWindow;
-        var $form = self.$form;
-        var timeout = self.timeout;
         var timeoutId;
 
-        // 判断扩展名
-        var value = input.value.toLowerCase();
-        var fileExt = value.slice((value.lastIndexOf('.')) - value.length);
-        if (['.gif', '.jpg', 'jpeg', 'bmp', 'png'].indexOf(fileExt) < 0) {
-            alert('选择的文件不是图片');
-            self.clear();
-            return;
-        }
-
-
-        // 超时处理
-        function timeoutCallback() {
-            iframeWindow.onload = null;
-
-            E.log('上传超时，已终止操作。超时时间为 ' + timeout);
-
-            // 清空 input 数据
-            self.clear();
-        }
-
-        // iframe onload 事件
-        iframe.onload = function () {
-            if (timeoutId) {
-                clearTimeout(timeoutId);
+        // 定义load事件
+        function onloadFn() {
+            var resultSrc = $.trim(iframeWindow.document.body.innerHTML);
+            if (!resultSrc) {
+                return;
             }
-            var resultSrc = iframeWindow.document.body.innerHTML;
             var img;
-
             E.log('上传结束，返回结果为 ' + resultSrc);
 
             if (resultSrc.indexOf('error|') === 0) {
@@ -6281,11 +6436,12 @@ _e(function (E, $) {
                 img = document.createElement('img');
                 img.onload = function () {
                     var html = '<img src="' + resultSrc + '" style="max-width:100%"/>';
-                    editor.command(event, 'insertHtml', html);
+                    editor.command(null, 'insertHtml', html);
                     img = null;
                 };
                 img.onerror = function () {
                     E.error('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + resultSrc);
+                    alert('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + resultSrc);
                     img = null;
                 };
                 img.src = resultSrc;
@@ -6293,13 +6449,47 @@ _e(function (E, $) {
 
             // 清空 input 数据
             self.clear();
-        };
 
-        E.log('提交form，并开始超时计算，等待返回结果...');
-        $form.submit();
-        timeoutId = setTimeout(timeoutCallback, timeout);
+            // 隐藏modal
+            self.hideModal();
+        }
 
-        return false;
+        // 绑定 load 事件
+        if (iframe.attachEvent) {
+            iframe.attachEvent('onload', onloadFn);
+        } else {
+            iframe.onload = onloadFn;
+        }
+
+        // 记录
+        self._hasBindLoad = true;
+    };
+
+    UploadFile.fn.show = function () {
+        var self = this;
+        var modal = self.modal;
+
+        function show() {
+            modal.show();
+            self.bindLoadEvent();
+        }
+        setTimeout(show);
+    };
+
+    // 选择
+    UploadFile.fn.selectFiles = function () {
+        var self = this;
+
+        E.log('使用 form 方式上传');
+
+        // 先渲染
+        self.render();
+
+        // 先清空
+        self.clear();
+
+        // 显示
+        self.show();
     };
 
     // 暴露给 E
