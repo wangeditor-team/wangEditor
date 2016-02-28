@@ -1150,13 +1150,17 @@ _e(function (E, $) {
         // 计算 tip 宽度
         var $tempDiv;
         if (!self.tipWidth) {
-            $tempDiv = $('<p style="opacity:0; filter:Alpha(opacity=0); position:absolute;">' + title + '</p>');
-            editor.$editorContainer.append($tempDiv);
+            // 设置一个纯透明的 p（absolute;top:-10000px;不会显示在内容区域）
+            // 内容赋值为 title ，为了计算tip宽度
+            $tempDiv = $('<p style="opacity:0; filter:Alpha(opacity=0); position:absolute;top:-10000px;">' + title + '</p>');
+            // 先添加到body，计算完再 remove
+            E.$body.append($tempDiv);
             editor.ready(function () {
                 var editor = this;
                 var titleWidth = $tempDiv.outerWidth() + 5; // 多出 5px 的冗余
                 var currentWidth = $tip.outerWidth();
                 var currentMarginLeft = parseFloat($tip.css('margin-left'), 10);
+                // 计算完，拿到数据，则弃用
                 $tempDiv.remove();
                 $tempDiv = null;
 
@@ -2221,8 +2225,11 @@ _e(function (E, $) {
     Txt.fn.bindPasteFilter = function () {
         var self = this;
         var editor = self.editor;
-        var resultHtml;
+        var resultHtml = '';  //存储最终的结果
         var $txt = self.$txt;
+        var legalTags = editor.config.legalTags;
+        var legalTagArr = legalTags.split(',');
+
         $txt.on('paste', function (e) {
             if (!editor.config.pasteFilter) {
                 // 配置中取消了粘贴过滤
@@ -2236,10 +2243,11 @@ _e(function (E, $) {
 
                 // 获取粘贴过来的html
                 pasteHtml = data.getData('text/html');
+
                 // 创建dom
                 $paste = $('<div>' + pasteHtml + '</div>');
-                // 处理，并将结果存储到 resultHtml 变量
-                resultHtml = '';
+                // 处理，并将结果存储到 resultHtml 『全局』变量
+                resultHtml = ''; // 先清空 resultHtml
                 handle($paste.get(0));
             } else if (window.clipboardData && window.clipboardData.getData) {
                 // IE 直接从剪切板中取出纯文本格式
@@ -2269,54 +2277,59 @@ _e(function (E, $) {
             var $elem;
             var nodeName = elem.nodeName.toLowerCase();
             var nodeType = elem.nodeType;
-            var children, length, i;
-
-            // 只处理文本标签和node标签
+            
+            // 只处理文本和普通node标签
             if (nodeType !== 3 && nodeType !== 1) {
                 return;
             }
 
-            // 链接
-            if (nodeName === 'a' && elem.href) {
-                resultHtml = resultHtml + '<p><a href="' + elem.href + '" >' + (elem.textContent || elem.innerHTML) + '</a></p>';
-                return;
+            // 如果是容器，则继续深度遍历
+            if (nodeName === 'div') {
+                $elem = $(elem);
+                $elem.children().each(function () {
+                    handle(this);
+                });
             }
-
-            // 图片节点
-            if (nodeName === 'img' && elem.src) {
-                resultHtml = resultHtml + '<p><img src="' + elem.src + '" style="max-width:100%"/></p>';
-                return;
-            }
-
-            // head
-            if (/^h\d$/.test(nodeName)) {
-                resultHtml = resultHtml + '<' + nodeName + '>' + (elem.textContent || elem.innerHTML) + '</' + nodeName + '>';
-                return;
-            }
-
-            // 表格、列表
-            if (nodeName === 'table' || nodeName === 'ul' || nodeName === 'ol') {
+            
+            if (legalTagArr.indexOf(nodeName) >= 0) {
+                // 如果是合法标签之内的，则根据元素类型，获取值
+                resultHtml += getResult(elem);
+            } else if (nodeType === 3) {
+                // 如果是文本，则直接插入 p 标签
+                resultHtml += '<p>' + elem.textContent + '</p>';
+            } else {
+                // 其他情况，移除属性，插入 p 标签
                 $elem = $(removeAttrs(elem));
-                resultHtml += ($('<div></div>').append($elem)).html();
-                return;
+                resultHtml += $('<div>').append($elem).html();
             }
+        }
 
-            // 文本标签
-            if (nodeType === 3) {
-                resultHtml = resultHtml + '<p>' + (elem.textContent || elem.innerHTML) + '</p>';
-                return;
-            }
+        // 获取元素的结果
+        function getResult(elem) {
+            var nodeName = elem.nodeName.toLowerCase();
+            var $elem;
+            var htmlForLi = '';
 
-            // 其他情况，即不是 text、img、合法标签。但是有子元素
-            children = elem.childNodes;
-            length = children.length;
-            if (!length) {
-                // 无子元素，则忽略
-                return;
-            }
-            // 有子元素，则继续递归
-            for (i = 0; i < length; i++) {
-                handle(children[i]);
+            if (['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'blockquote'].indexOf(nodeName) >= 0) {
+                
+                // p, h1, h2 blockquote 等元素，直接取出元素text即可
+                $elem = $(elem);
+                return '<' + nodeName + '>' + $elem.text() + '</' + nodeName + '>';
+            
+            } else if (['ul', 'ol'].indexOf(nodeName) >= 0) {
+                
+                // ul ol元素，获取子元素（li元素）的text，再拼接
+                $elem = $(elem);
+                $elem.children().each(function () {
+                    htmlForLi += '<li>' + $(this).text() + '</li>';
+                });
+                return '<' + nodeName + '>' + htmlForLi + '</' + nodeName + '>';
+            
+            } else {
+                
+                // 其他元素，移除元素属性
+                $elem = $(removeAttrs(elem));
+                return $('<div>').append($elem).html();
             }
         }
 
@@ -2324,6 +2337,7 @@ _e(function (E, $) {
         function removeAttrs(elem) {
             var attrs = elem.attributes || [];
             var attrNames = [];
+            var exception = ['href', 'target', 'src']; //例外情况
 
             // 先存储下elem中所有 attr 的名称
             $.each(attrs, function (key, attr) {
@@ -2333,7 +2347,10 @@ _e(function (E, $) {
             });
             // 再根据名称删除所有attr
             $.each(attrNames, function (key, attr) {
-                elem.removeAttribute(attr);
+                if (exception.indexOf(attr) <= 0) {
+                    // 除了 exception 规定的例外情况，删除其他属性
+                    elem.removeAttribute(attr);
+                }
             });
 
 
