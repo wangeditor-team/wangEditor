@@ -2235,6 +2235,9 @@ _e(function (E, $) {
                 // 配置中取消了粘贴过滤
                 return;
             }
+
+            resultHtml = ''; // 先清空 resultHtml
+
             var pasteHtml, $paste;
             var data = e.clipboardData || e.originalEvent.clipboardData;
 
@@ -2243,12 +2246,24 @@ _e(function (E, $) {
 
                 // 获取粘贴过来的html
                 pasteHtml = data.getData('text/html');
-
-                // 创建dom
-                $paste = $('<div>' + pasteHtml + '</div>');
-                // 处理，并将结果存储到 resultHtml 『全局』变量
-                resultHtml = ''; // 先清空 resultHtml
-                handle($paste.get(0));
+                if (pasteHtml) {
+                    // 创建dom
+                    $paste = $('<div>' + pasteHtml + '</div>');
+                    // 处理，并将结果存储到 resultHtml 『全局』变量
+                    handle($paste.get(0));
+                } else {
+                    // 得不到html，试图获取text
+                    pasteHtml = data.getData('text/plain');
+                    if (pasteHtml) {
+                        // 替换特殊字符
+                        pasteHtml = pasteHtml.replace(/[ ]/g, '&nbsp;')
+                                             .replace(/</g, '&lt;')
+                                             .replace(/>/g, '&gt;')
+                                             .replace(/\n/g, '</p><p>');
+                        resultHtml = '<p>' + pasteHtml + '</p>';
+                    }
+                }
+                
             } else if (window.clipboardData && window.clipboardData.getData) {
                 // IE 直接从剪切板中取出纯文本格式
                 resultHtml = window.clipboardData.getData('text');
@@ -2289,6 +2304,7 @@ _e(function (E, $) {
                 $elem.children().each(function () {
                     handle(this);
                 });
+                return;
             }
             
             if (legalTagArr.indexOf(nodeName) >= 0) {
@@ -2298,7 +2314,11 @@ _e(function (E, $) {
                 // 如果是文本，则直接插入 p 标签
                 resultHtml += '<p>' + elem.textContent + '</p>';
             } else {
-                // 其他情况，移除属性，插入 p 标签
+                // 忽略的标签
+                if (['meta', 'style', 'script', 'object'].indexOf(nodeName) >= 0) {
+                    return;
+                }
+                // 其他标签，移除属性，插入 p 标签
                 $elem = $(removeAttrs(elem));
                 resultHtml += $('<div>').append($elem).html();
             }
