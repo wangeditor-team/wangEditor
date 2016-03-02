@@ -954,7 +954,10 @@ _e(function (E, $) {
 
     // 清空内容的快捷方式
     E.fn.clear = function () {
-        this.txt.$txt.html('<p><br></p>');
+        var editor = this;
+        var $txt = editor.txt.$txt;
+        $txt.html('<p><br></p>');
+        editor.restoreSelectionByElem($txt.find('p').get(0));
     };
 
 });
@@ -5092,7 +5095,15 @@ _e(function (E, $) {
         };
 
         // load script 之后的 callback
+        var hasCallback = false;
         window.baiduMapCallBack = function(){
+            // 避免重复加载
+            if (hasCallback) {
+                return;
+            } else {
+                hasCallback = true;
+            }
+
             var BMap = window.BMap;
             if (!mapData.map) {
                 // 创建Map实例
@@ -5170,7 +5181,7 @@ _e(function (E, $) {
                 map.addOverlay(marker);  
                 marker.enableDragging();
                 mapData.markers.push(marker);  //加入到数组中
-            });
+            }, false);
         };
 
         mapData.loadMapScript = function () {
