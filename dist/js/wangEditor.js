@@ -2263,7 +2263,13 @@ _e(function (E, $) {
                                              .replace(/</g, '&lt;')
                                              .replace(/>/g, '&gt;')
                                              .replace(/\n/g, '</p><p>');
+                        // 拼接
                         resultHtml = '<p>' + pasteHtml + '</p>';
+
+                        // 查询链接
+                        resultHtml = resultHtml.replace(/<p>(https?:\/\/.*?)<\/p>/ig, function (match, link) {
+                            return '<p><a href="' + link + '" target="_blank">' + link + '</p>';
+                        });
                     }
                 }
                 
@@ -2318,7 +2324,7 @@ _e(function (E, $) {
                 resultHtml += '<p>' + elem.textContent + '</p>';
             } else {
                 // 忽略的标签
-                if (['meta', 'style', 'script', 'object'].indexOf(nodeName) >= 0) {
+                if (['meta', 'style', 'script', 'object', 'form', 'iframe'].indexOf(nodeName) >= 0) {
                     return;
                 }
                 // 其他标签，移除属性，插入 p 标签
@@ -2331,20 +2337,50 @@ _e(function (E, $) {
         function getResult(elem) {
             var nodeName = elem.nodeName.toLowerCase();
             var $elem;
+            var htmlForP = '';
             var htmlForLi = '';
 
-            if (['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'blockquote'].indexOf(nodeName) >= 0) {
-                
-                // p, h1, h2 blockquote 等元素，直接取出元素text即可
+            if (['blockquote'].indexOf(nodeName) >= 0) {
+
+                // 直接取出元素text即可
                 $elem = $(elem);
                 return '<' + nodeName + '>' + $elem.text() + '</' + nodeName + '>';
-            
+
+            } else if (['p', 'h1', 'h2', 'h3', 'h4', 'h5'].indexOf(nodeName) >= 0) {
+
+                //p head 取出 text 和链接
+                elem = removeAttrs(elem);
+                $elem = $(elem);
+                htmlForP = $elem.html();
+
+                // 剔除 a img 之外的元素
+                htmlForP = htmlForP.replace(/<.*?>/ig, function (tag) {
+                    if (tag === '</a>' || tag.indexOf('<a ') === 0 || tag.indexOf('<img ') === 0) {
+                        return tag;
+                    } else {
+                        return '';
+                    }
+                });
+
+                return '<' + nodeName + '>' + htmlForP + '</' + nodeName + '>';
+
             } else if (['ul', 'ol'].indexOf(nodeName) >= 0) {
                 
-                // ul ol元素，获取子元素（li元素）的text，再拼接
+                // ul ol元素，获取子元素（li元素）的text link img，再拼接
                 $elem = $(elem);
                 $elem.children().each(function () {
-                    htmlForLi += '<li>' + $(this).text() + '</li>';
+                    var $li = $(removeAttrs(this));
+                    var html = $li.html();
+
+                    html = html.replace(/<.*?>/ig, function (tag) {
+                        if (tag === '</a>' || tag.indexOf('<a ') === 0 || tag.indexOf('<img ') === 0) {
+                            return tag;
+                        } else {
+                            return '';
+                        }
+                    });
+
+                    htmlForLi += '<li>' + html + '</li>';
                 });
                 return '<' + nodeName + '>' + htmlForLi + '</' + nodeName + '>';
             
@@ -2360,7 +2396,7 @@ _e(function (E, $) {
         function removeAttrs(elem) {
             var attrs = elem.attributes || [];
             var attrNames = [];
-            var exception = ['href', 'target', 'src']; //例外情况
+            var exception = ['href', 'target', 'src', 'alt']; //例外情况
 
             // 先存储下elem中所有 attr 的名称
             $.each(attrs, function (key, attr) {
@@ -2370,7 +2406,7 @@ _e(function (E, $) {
             });
             // 再根据名称删除所有attr
             $.each(attrNames, function (key, attr) {
-                if (exception.indexOf(attr) <= 0) {
+                if (exception.indexOf(attr) < 0) {
                     // 除了 exception 规定的例外情况，删除其他属性
                     elem.removeAttribute(attr);
                 }
@@ -2487,6 +2523,7 @@ _e(function (E, $) {
     // 计算高度
     Txt.fn.initHeight = function () {
         var editor = this.editor;
+        var $txt = this.$txt;
         var valueContainerHeight = editor.$valueContainer.height();
         var menuHeight = editor.menuContainer.height();
         var txtHeight = valueContainerHeight - menuHeight;
@@ -2494,7 +2531,49 @@ _e(function (E, $) {
         // 限制最小为 50px
         txtHeight = txtHeight < 50 ? 50 : txtHeight;
 
-        this.$txt.height(txtHeight);
+        $txt.height(txtHeight);
+
+        // 设置 max-height
+        this.initMaxHeight(txtHeight, menuHeight);
+    };
+
+    // 计算最大高度
+    Txt.fn.initMaxHeight = function (txtHeight, menuHeight) {
+        var editor = this.editor;
+        var $menuContainer = editor.menuContainer.$menuContainer;
+        var $txt = this.$txt;
+        var $wrap = $('<div>');
+
+        // 需要浏览器支持 max-height，否则不管
+        if (window.getComputedStyle && 'max-height'in window.getComputedStyle($txt.get(0))) {
+            // 获取 max-height 并判断是否有值
+            var maxHeight = parseInt(editor.$valueContainer.css('max-height'));
+            if (isNaN(maxHeight)) {
+                return;
+            }
+
+            $wrap.css({
+                'max-height': (maxHeight - menuHeight) + 'px',
+                'overflow-y': 'auto'
+            });
+            $txt.css({
+                'height': 'auto',
+                'overflow-y': 'visible',
+                'min-height': txtHeight + 'px'
+            });
+
+            // 滚动式，菜单阴影
+            $wrap.on('scroll', function () {
+                if ($txt.parent().scrollTop() > 10) {
+                    $menuContainer.addClass('wangEditor-menu-shadow');
+                } else {
+                    $menuContainer.removeClass('wangEditor-menu-shadow');
+                }
+            });
+
+            // 需在编辑器区域外面再包裹一层
+            $txt.wrap($wrap);
+        }
     };
 
     // 保存选区
@@ -2828,6 +2907,7 @@ _e(function (E, $) {
 
     E.config = {};
 
+    // 全屏时的 z-index
     E.config.zindex = 10000;
 
     // 是否打印log
@@ -2882,6 +2962,7 @@ _e(function (E, $) {
         'fullscreen'
     ];
 
+    // 颜色配置
     E.config.colors = {
         // 'value': 'title'
         '#880000': '暗红色',
@@ -2902,6 +2983,7 @@ _e(function (E, $) {
         '#ffffff': '白色'
     };
 
+    // 字体
     E.config.familys = [
         '宋体', '黑体', '楷体', '微软雅黑',
         'Arial', 'Verdana', 'Georgia',
@@ -2909,6 +2991,7 @@ _e(function (E, $) {
         'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'
     ];
 
+    // 字号
     E.config.fontsizes = {
         // 格式：'value': 'title'
         1: '10px',
@@ -5581,6 +5664,11 @@ _e(function (E, $) {
                     return;
                 }
 
+                var rangeElem = editor.getRangeElem();
+                if ($.trim($(rangeElem).text())) {
+                    codeTpl = '<p><br></p>' + codeTpl;
+                }
+
                 var lang = $langSelect ? $langSelect.val() : ''; // 获取高亮语言
                 var langClass = '';
                 var doHightlight = function () {
@@ -5610,7 +5698,6 @@ _e(function (E, $) {
                 }
 
                 // ---- menu 选中状态 ----
-                var rangeElem = editor.getRangeElem();
                 var targetElem = editor.getSelfOrParentByName(rangeElem, 'pre');
                 var $targetElem;
                 if (targetElem) {
@@ -6174,17 +6261,30 @@ _e(function (E, $) {
         var $editorContainer = editor.$editorContainer;
         var width = $editorContainer.width();
         var $progress = $('<div class="wangEditor-upload-progress"></div>');
-        
-        $progress.css({
-            top: menuHeight + 'px'
-        });
-        $editorContainer.append($progress);
+
+        // 渲染事件
+        var isRender = false;
+        function render() {
+            if (isRender) {
+                return;
+            }
+            isRender = true;
+
+            $progress.css({
+                top: menuHeight + 'px'
+            });
+            $editorContainer.append($progress);
+        }
 
         // ------ 显示进度 ------
         editor.showUploadProgress = function (pregress) {
             if (timeoutId) {
                 clearTimeout(timeoutId);
             }
+
+            // 显示之前，先判断是否渲染
+            render();
+
             $progress.show();
             $progress.width(pregress * width);
         };
