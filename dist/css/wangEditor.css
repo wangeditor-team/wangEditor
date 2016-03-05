@@ -432,11 +432,12 @@
 .wangEditor-drop-panel .upload-icon-container {
   color: #ccc;
   text-align: center;
-  margin: 20px 20px 15px 20px;
-  padding: 5px;
+  margin: 20px 20px 15px 20px !important;
+  padding: 5px !important;
   font-size: 65px;
   cursor: pointer;
   border: 2px dotted #f1f1f1;
+  display: block !important;
 }
 .wangEditor-drop-panel .upload-icon-container:hover {
   color: #666;

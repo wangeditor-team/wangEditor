@@ -1638,6 +1638,7 @@ _e(function (E, $) {
         this.$content = opt.$content;
         this.width = opt.width || 200;
         this.height = opt.height;
+        this.onRender = opt.onRender;
 
         // init
         this.init();
@@ -1739,11 +1740,15 @@ _e(function (E, $) {
     // 渲染
     DropPanel.fn._render = function () {
         var self = this;
+        var onRender = self.onRender;
         var editor = self.editor;
         var $panel = self.$panel;
 
         // 渲染到页面
         editor.$editorContainer.append($panel);
+
+        // 渲染后的回调事件
+        onRender && onRender.call(self);
 
         // 记录状态
         self.rendered = true;
@@ -3083,6 +3088,13 @@ _e(function (E, $) {
     E.config.uploadImgUrl = '';
     // 超时时间
     E.config.uploadTimeout = 20 * 1000;
+    // 用于存储上传回调事件
+    E.config.uploadImgFns = {};
+
+    // 自定义上传，设置为 true 之后，显示上传图标
+    E.config.customUpload = false;
+    // 自定义上传的init事件
+    // E.config.customUploadInit = function () {....};
 
     // 是否过滤粘贴内容
     E.config.pasteFilter = true;
@@ -4846,7 +4858,13 @@ _e(function (E, $) {
         // 添加panel
         menu.dropPanel = new E.DropPanel(editor, menu, {
             $content: $panelContent,
-            width: 400
+            width: 400,
+            onRender: function () {
+                // 渲染后的回调事件，用于执行自定义上传的init
+                // 因为渲染之后，上传面板的dom才会被渲染到页面，才能让第三方空间获取到
+                var init = editor.config.customUploadInit;
+                init && init.call(editor);
+            }
         });
 
         // 增加到editor对象中
@@ -4892,15 +4910,10 @@ _e(function (E, $) {
             var editor = this;
             var config = editor.config;
             var uploadImgUrl = config.uploadImgUrl;
+            var customUpload = config.customUpload;
             var $uploadImgPanel;
 
-            // // IE8 不支持图片上传（ form.submit 一直有bug ）！！！！！！！！！！！！
-            // if (E.userAgent.indexOf('MSIE 8') > 0) {
-            //     hideUploadImg();
-            //     return;
-            // }  // ！！！！！！！！！！
-
-            if (uploadImgUrl) {
+            if (uploadImgUrl || customUpload) {
                 // 第一，暴露出 $uploadContent 以便用户自定义 ！！！重要
                 editor.$uploadContent = $uploadContent;
 
@@ -6066,6 +6079,62 @@ _e(function (E, $) {
     };
 
 });
+// 上传图片事件
+(function (window, E, $) {
+
+    E.plugin(function () {
+        var editor = this;
+        var fns = editor.config.uploadImgFns; // editor.config.uploadImgFns = {} 在config文件中定义了
+
+        // -------- 插入图片的方法 --------
+        function insertImg(src) {
+            var img = document.createElement('img');
+            img.onload = function () {
+                var html = '<img src="' + src + '" style="max-width:100%;"/>';
+                editor.command(null, 'insertHtml', html);
+
+                E.log('已插入图片，地址 ' + src);
+                img = null;
+            };
+            img.onerror = function () {
+                E.error('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + src);
+                img = null;
+            };
+            img.src = src;
+        }
+
+        // -------- 定义load函数 --------
+        fns.onload || (fns.onload = function (resultText, xhr) {
+
+            E.log('上传结束，返回结果为 ' + resultText);
+
+            if (resultText.indexOf('error|') === 0) {
+                // 提示错误
+                E.warn('上传失败：' + resultText.split('|')[1]);
+                alert(resultText.split('|')[1]);
+            } else {
+                E.log('上传成功，即将插入编辑区域，结果为：' + resultText);
+                // 将结果插入编辑器
+                insertImg(resultText);
+            }
+
+        });
+
+        // -------- 定义tiemout函数 --------
+        fns.ontimeout || (fns.ontimeout = function (xhr) {
+            E.error('上传上图片发生错误');
+            alert('上传上图片发生错误');
+        });
+
+        // -------- 定义error函数 --------
+        fns.onerror || (fns.onerror = function (xhr) {
+            E.error('上传图片超时');
+            alert('上传图片超时');
+        });
+
+    });
+
+})(window, window.wangEditor, window.jQuery);
 // xhr 上传图片
 (function (window, E, $) {
 
@@ -6133,10 +6202,9 @@ _e(function (E, $) {
             var base64 = opt.base64;
             var fileType = opt.fileType || 'image/png';  // 无扩展名，用png
             var name = opt.name || 'wangEditor_upload_file';
-            var successFn = opt.successFn;
-            var errorFn = opt.errorFn;
-            var timeoutFn = opt.timeoutFn;
-            var failedFn = opt.failedFn;
+            var loadfn = opt.loadfn;
+            var errorfn = opt.errorfn;
+            var timeoutfn = opt.timeoutfn;
 
             // 获取文件扩展名
             var fileExt = 'png';  // 默认为 png
@@ -6170,13 +6238,8 @@ _e(function (E, $) {
                 // 超时了就阻止默认行为
                 event.preventDefault();
 
-                // 执行回调函数
-                if (timeoutFn) {
-                    timeoutFn.call(editor);
-                }
-
-                E.log('上传超时，超时时间 ' + uploadTimeout);
-                alert('图片上传超时');
+                // 执行回调函数，提示什么内容，都应该在回调函数中定义
+                timeoutfn && timeoutfn(xhr);
 
                 // 隐藏进度条
                 editor.hideUploadProgress();
@@ -6187,30 +6250,8 @@ _e(function (E, $) {
                     clearTimeout(timeoutId);
                 }
 
-                // 服务器端要返回图片url地址
-                var resultSrc = xhr.responseText;
-                E.log('上传完成，返回结果为 ' + resultSrc);
-
-                if (resultSrc.indexOf('error|') === 0) {
-                    // 提示错误
-                    E.warn('上传失败：' + resultSrc.split('|')[1]);
-
-                    // 执行回调函数
-                    if (failedFn) {
-                        failedFn.call(editor);
-                    }
-
-                    alert(resultSrc.split('|')[1]);
-                } else {
-                    E.log('上传成功，即将插入编辑区域，结果为：' + resultSrc);
-                    // 将结果插入编辑器
-                    insertImg(resultSrc, event);
-
-                    // 执行回调函数
-                    if (successFn) {
-                        successFn.call(editor);
-                    }
-                }
+                // 执行load函数，任何操作，都应该在load函数中定义
+                loadfn && loadfn(xhr.responseText, xhr);
 
                 // 隐藏进度条
                 editor.hideUploadProgress();
@@ -6223,13 +6264,8 @@ _e(function (E, $) {
                 // 超时了就阻止默认行为
                 event.preventDefault();
 
-                E.error('发生错误');
-                alert('发生错误');
-
-                // 执行回调函数
-                if (errorFn) {
-                    errorFn.call(editor);
-                }
+                // 执行error函数，错误提示，应该在error函数中定义
+                errorfn && errorfn(xhr);
 
                 // 隐藏进度条
                 editor.hideUploadProgress();
@@ -6437,7 +6473,17 @@ _e(function (E, $) {
         var editor = self.editor;
         var filename = file.name || '';
         var fileType = file.type || '';
+        var uploadImgFns = editor.config.uploadImgFns;
+        var onload = uploadImgFns.onload;
+        var ontimeout = uploadImgFns.ontimeout;
+        var onerror = uploadImgFns.onerror;
         var reader = new FileReader();
+
+        if (!onload || !ontimeout || !onerror) {
+            E.error('请为编辑器配置上传图片的 onload ontimeout onerror 回调事件');
+            return;
+        }
+
 
         E.log('开始执行 ' + filename + ' 文件的上传');
 
@@ -6456,20 +6502,27 @@ _e(function (E, $) {
                 base64: base64,
                 fileType: fileType,
                 name: 'wangEditorH5File',
-                successFn: clearInput,
-                errorFn: function () {
+                loadfn: function (resultText, xhr) {
+                    clearInput();
+                    // 执行配置中的方法
+                    onload(resultText, xhr);
+                },
+                errorfn: function (xhr) {
                     clearInput();
                     if (E.isOnWebsite) {
                         alert('wangEditor官网暂时没有服务端，因此报错。实际项目中不会发生');
                     }
+                    // 执行配置中的方法
+                    onerror(xhr);
                 },
-                timeoutFn: function () {
+                timeoutfn: function (xhr) {
                     clearInput();
                     if (E.isOnWebsite) {
                         alert('wangEditor官网暂时没有服务端，因此超时。实际项目中不会发生');
                     }
-                },
-                failedFn: clearInput
+                    // 执行配置中的方法
+                    ontimeout(xhr);
+                }
             });
         };
 
@@ -6564,36 +6617,17 @@ _e(function (E, $) {
         var $iframe = self.$iframe;
         var iframe = $iframe.get(0);
         var iframeWindow = iframe.contentWindow;
-        var timeoutId;
+        var onload = editor.config.uploadImgFns.onload;
 
         // 定义load事件
         function onloadFn() {
-            var resultSrc = $.trim(iframeWindow.document.body.innerHTML);
-            if (!resultSrc) {
+            var resultText = $.trim(iframeWindow.document.body.innerHTML);
+            if (!resultText) {
                 return;
             }
-            var img;
-            E.log('上传结束，返回结果为 ' + resultSrc);
 
-            if (resultSrc.indexOf('error|') === 0) {
-                // 提示错误
-                E.log('上传失败：' + resultSrc.split('|')[1]);
-                alert(resultSrc.split('|')[1]);
-            } else {
-                E.log('上传成功，开始下载');
-                img = document.createElement('img');
-                img.onload = function () {
-                    var html = '<img src="' + resultSrc + '" style="max-width:100%"/>';
-                    editor.command(null, 'insertHtml', html);
-                    img = null;
-                };
-                img.onerror = function () {
-                    E.error('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + resultSrc);
-                    alert('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + resultSrc);
-                    img = null;
-                };
-                img.src = resultSrc;
-            }
+            // 执行load函数，插入图片的操作，应该在load函数中执行
+            onload(resultText);
 
             // 清空 input 数据
             self.clear();
@@ -7371,7 +7405,7 @@ _e(function (E, $) {
         var $menuContainer = editor.menuContainer.$menuContainer;
         var menuCssPosition = $menuContainer.css('position');
         var menuCssTop = $menuContainer.css('top');
-        var menuWidth = $menuContainer.width();
+        var menuWidth;
         var menuHeight = $menuContainer.outerHeight();
         var menuTop = $menuContainer.offset().top;
 
@@ -7382,6 +7416,8 @@ _e(function (E, $) {
             if (editor.isFullScreen) {
                 return;
             }
+            // 需要重新计算宽度，因为浏览器可能此时出现滚动条
+            menuWidth = $menuContainer.width();
 
             var sTop = E.$window.scrollTop();
             if (sTop >= menuTop && sTop + menuFixed + menuHeight + 30 < editorTop + editorHeight) {
@@ -7585,6 +7621,41 @@ _e(function (E, $) {
     });
 
 })(window.wangEditor, window.jQuery);
+// 自定义上传
+(function (window, E, $) {
+
+    E.plugin(function () {
+
+        var editor = this;
+        var customUpload = editor.config.customUpload;
+        if (!customUpload) {
+            return;
+        } else if (editor.config.uploadImgUrl) {
+            alert('自定义上传无效，详看浏览器日志console.log');
+            E.error('已经配置了 uploadImgUrl ，就不能再配置 customUpload ，两者冲突。将导致自定义上传无效。');
+            return;
+        }
+
+        var $uploadContent = editor.$uploadContent;
+        if (!$uploadContent) {
+            E.error('自定义上传，无法获取 editor.$uploadContent');
+        }
+
+        // UI
+        var $uploadIcon = $('<a href="#" class="upload-icon-container"><i class="wangeditor-menu-img-upload"></i></a>');
+        $uploadContent.append($uploadIcon);
+
+        // 设置id，并暴露
+        var btnId = 'upload' + E.random();
+        var containerId = 'upload' + E.random();
+        $uploadIcon.attr('id', btnId);
+        $uploadContent.attr('id', containerId);
+
+        editor.customUploadBtnId = btnId;
+        editor.customUploadContainerId = containerId;
+    });
+
+})(window, window.wangEditor, window.jQuery);
 // 版权提示
 _e(function (E, $) {
     E.info('本页面富文本编辑器由 wangEditor 提供 http://wangeditor.github.io/ ');
