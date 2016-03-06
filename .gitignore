@@ -5,6 +5,7 @@ node_modules/grunt*/
 src/css/*
 src/js/*
 issue
+npm-debug.log
 
 # Windows image file caches
 Thumbs.db
