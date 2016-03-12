@@ -2401,7 +2401,7 @@ _e(function (E, $) {
         function removeAttrs(elem) {
             var attrs = elem.attributes || [];
             var attrNames = [];
-            var exception = ['href', 'target', 'src', 'alt']; //例外情况
+            var exception = ['href', 'target', 'src', 'alt', 'rowspan', 'colspan']; //例外情况
 
             // 先存储下elem中所有 attr 的名称
             $.each(attrs, function (key, attr) {
@@ -2538,6 +2538,9 @@ _e(function (E, $) {
 
         $txt.height(txtHeight);
 
+        // 记录原始高度
+        editor.valueContainerHeight = valueContainerHeight;
+
         // 设置 max-height
         this.initMaxHeight(txtHeight, menuHeight);
     };
@@ -2557,6 +2560,10 @@ _e(function (E, $) {
                 return;
             }
 
+            // 标记
+            editor.useMaxHeight = true;
+
+            // 设置maxheight
             $wrap.css({
                 'max-height': (maxHeight - menuHeight) + 'px',
                 'overflow-y': 'auto'
@@ -5860,13 +5867,15 @@ _e(function (E, $) {
             return;
         }
         var editor = this;
+        var $txt = editor.txt.$txt;
         var config = editor.config;
         var zIndexConfig = config.zindex || 10000;
         var lang = config.lang;
 
         var isSelected = false;
-        var txtHeight;
         var zIndex;
+
+        var maxHeight;
 
         // 创建 menu 对象
         var menu = new E.Menu({
@@ -5885,12 +5894,29 @@ _e(function (E, $) {
             zIndex = $editorContainer.css('z-index');
             $editorContainer.css('z-index', zIndexConfig);
 
-            // 记录高度
-            var $txt = editor.txt.$txt;
-            txtHeight = $txt.height();
-            // 重新设置高度
+            var $wrapper;
+            var txtHeight = $txt.height();
+            var txtOuterHeight = $txt.outerHeight();
+
+            if (editor.useMaxHeight) {
+                // 记录 max-height，并暂时去掉maxheight
+                maxHeight = $txt.css('max-height');
+                $txt.css('max-height', 'none');
+
+                // 如果使用了maxHeight， 将$txt从它的父元素中移出来
+                $wrapper = $txt.parent();
+                $wrapper.after($txt);
+                $wrapper.remove();
+                $txt.css('overflow-y', 'auto');
+            }
+
+            // 设置高度到全屏
             var menuContainer = editor.menuContainer;
-            $txt.height(E.$window.height() - menuContainer.height());
+            $txt.height(
+                E.$window.height() - 
+                menuContainer.height() - 
+                (txtOuterHeight - txtHeight)  // 去掉内边距和外边距
+            );
 
             // 取消menuContainer的内联样式（menu吸顶时，会为 menuContainer 设置一些内联样式）
             editor.menuContainer.$menuContainer.attr('style', '');
@@ -5912,11 +5938,16 @@ _e(function (E, $) {
             $editorContainer.removeClass('wangEditor-fullscreen');
             $editorContainer.css('z-index', zIndex);
 
-            // 还原高度
-            var $txt = editor.txt.$txt;
-            if (txtHeight) {
-                $txt.height(txtHeight);
+            // 还原height
+            if (editor.useMaxHeight) {
+                $txt.css('max-height', maxHeight);
+            } else {
+                // editor.valueContainerHeight 在 editor.txt.initHeight() 中事先保存了
+                editor.$valueContainer.css('height', editor.valueContainerHeight);
             }
+
+            // 重新计算高度
+            editor.txt.initHeight();
 
             // 保存状态
             isSelected = false;
@@ -6150,6 +6181,12 @@ _e(function (E, $) {
         var uploadImgUrl = config.uploadImgUrl;
         var uploadTimeout = config.uploadTimeout;
 
+        // 获取配置中的上传事件
+        var uploadImgFns = config.uploadImgFns;
+        var onload = uploadImgFns.onload;
+        var ontimeout = uploadImgFns.ontimeout;
+        var onerror = uploadImgFns.onerror;
+
         if (!uploadImgUrl) {
             return;
         }
@@ -6191,7 +6228,7 @@ _e(function (E, $) {
         function updateProgress(e) {
             if (e.lengthComputable) {
                 var percentComplete = e.loaded / e.total;
-                editor.showUploadProgress(percentComplete);
+                editor.showUploadProgress(percentComplete * 100);
             }
         }
 
@@ -6202,9 +6239,9 @@ _e(function (E, $) {
             var base64 = opt.base64;
             var fileType = opt.fileType || 'image/png';  // 无扩展名，用png
             var name = opt.name || 'wangEditor_upload_file';
-            var loadfn = opt.loadfn;
-            var errorfn = opt.errorfn;
-            var timeoutfn = opt.timeoutfn;
+            var loadfn = opt.loadfn || onload;
+            var errorfn = opt.errorfn || onerror;
+            var timeoutfn = opt.timeoutfn || ontimeout;
 
             // 获取文件扩展名
             var fileExt = 'png';  // 默认为 png
@@ -6313,7 +6350,7 @@ _e(function (E, $) {
         }
 
         // ------ 显示进度 ------
-        editor.showUploadProgress = function (pregress) {
+        editor.showUploadProgress = function (progress) {
             if (timeoutId) {
                 clearTimeout(timeoutId);
             }
@@ -6322,7 +6359,7 @@ _e(function (E, $) {
             render();
 
             $progress.show();
-            $progress.width(pregress * width);
+            $progress.width(progress * width / 100);
         };
 
         // ------ 隐藏进度条 ------
@@ -6997,6 +7034,14 @@ _e(function (E, $) {
                 left: left,
                 'margin-left': marginLeft
             });
+            // 如果定位太靠左了
+            if (marginLeft < 0) {
+                // 得到三角形的margin-left
+                $toolbar.css('margin-left', '0');
+                $triangle.hide();
+            } else {
+                $triangle.show();
+            }
         }
         
         // 隐藏 toolbar
@@ -7304,6 +7349,14 @@ _e(function (E, $) {
                 left: left,
                 'margin-left': marginLeft
             });
+            // 如果定位太靠左了
+            if (marginLeft < 0) {
+                // 得到三角形的margin-left
+                $toolbar.css('margin-left', '0');
+                $triangle.hide();
+            } else {
+                $triangle.show();
+            }
 
             // disable 菜单
             editor.disableMenusExcept();
