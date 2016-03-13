@@ -2244,6 +2244,12 @@ _e(function (E, $) {
                 return;
             }
 
+            var currentNodeName = editor.getRangeElem().nodeName;
+            if (currentNodeName === 'TD' || currentNodeName === 'TH') {
+                // 在表格的单元格中粘贴，忽略所有内容。否则会出现异常情况
+                return;
+            }
+
             resultHtml = ''; // 先清空 resultHtml
 
             var pasteHtml, $paste;
@@ -6117,36 +6123,33 @@ _e(function (E, $) {
         var editor = this;
         var fns = editor.config.uploadImgFns; // editor.config.uploadImgFns = {} 在config文件中定义了
 
-        // -------- 插入图片的方法 --------
-        function insertImg(src) {
-            var img = document.createElement('img');
-            img.onload = function () {
-                var html = '<img src="' + src + '" style="max-width:100%;"/>';
-                editor.command(null, 'insertHtml', html);
-
-                E.log('已插入图片，地址 ' + src);
-                img = null;
-            };
-            img.onerror = function () {
-                E.error('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + src);
-                img = null;
-            };
-            img.src = src;
-        }
-
         // -------- 定义load函数 --------
         fns.onload || (fns.onload = function (resultText, xhr) {
-
             E.log('上传结束，返回结果为 ' + resultText);
 
+            var editor = this;
+            var img;
             if (resultText.indexOf('error|') === 0) {
                 // 提示错误
                 E.warn('上传失败：' + resultText.split('|')[1]);
                 alert(resultText.split('|')[1]);
             } else {
                 E.log('上传成功，即将插入编辑区域，结果为：' + resultText);
+
                 // 将结果插入编辑器
-                insertImg(resultText);
+                img = document.createElement('img');
+                img.onload = function () {
+                    var html = '<img src="' + resultText + '" style="max-width:100%;"/>';
+                    editor.command(null, 'insertHtml', html);
+
+                    E.log('已插入图片，地址 ' + resultText);
+                    img = null;
+                };
+                img.onerror = function () {
+                    E.error('使用返回的结果获取图片，发生错误。请确认以下结果是否正确：' + resultText);
+                    img = null;
+                };
+                img.src = resultText;
             }
 
         });
@@ -6276,7 +6279,7 @@ _e(function (E, $) {
                 event.preventDefault();
 
                 // 执行回调函数，提示什么内容，都应该在回调函数中定义
-                timeoutfn && timeoutfn(xhr);
+                timeoutfn && timeoutfn.call(editor, xhr);
 
                 // 隐藏进度条
                 editor.hideUploadProgress();
@@ -6288,7 +6291,7 @@ _e(function (E, $) {
                 }
 
                 // 执行load函数，任何操作，都应该在load函数中定义
-                loadfn && loadfn(xhr.responseText, xhr);
+                loadfn && loadfn.call(editor, xhr.responseText, xhr);
 
                 // 隐藏进度条
                 editor.hideUploadProgress();
@@ -6302,7 +6305,7 @@ _e(function (E, $) {
                 event.preventDefault();
 
                 // 执行error函数，错误提示，应该在error函数中定义
-                errorfn && errorfn(xhr);
+                errorfn && errorfn.call(editor, xhr);
 
                 // 隐藏进度条
                 editor.hideUploadProgress();
@@ -6542,7 +6545,8 @@ _e(function (E, $) {
                 loadfn: function (resultText, xhr) {
                     clearInput();
                     // 执行配置中的方法
-                    onload(resultText, xhr);
+                    var editor = this;
+                    onload.call(editor, resultText, xhr);
                 },
                 errorfn: function (xhr) {
                     clearInput();
@@ -6550,7 +6554,8 @@ _e(function (E, $) {
                         alert('wangEditor官网暂时没有服务端，因此报错。实际项目中不会发生');
                     }
                     // 执行配置中的方法
-                    onerror(xhr);
+                    var editor = this;
+                    onerror.call(editor, xhr);
                 },
                 timeoutfn: function (xhr) {
                     clearInput();
@@ -6558,7 +6563,8 @@ _e(function (E, $) {
                         alert('wangEditor官网暂时没有服务端，因此超时。实际项目中不会发生');
                     }
                     // 执行配置中的方法
-                    ontimeout(xhr);
+                    var editor = this;
+                    ontimeout(editor, xhr);
                 }
             });
         };
@@ -7713,4 +7719,7 @@ _e(function (E, $) {
 _e(function (E, $) {
     E.info('本页面富文本编辑器由 wangEditor 提供 http://wangeditor.github.io/ ');
 });
+    
+    // 最终返回wangEditor构造函数
+    return window.wangEditor;
 });
