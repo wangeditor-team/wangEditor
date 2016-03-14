@@ -14,6 +14,11 @@ var define;
             // 全局模式
             factory(window.jQuery);
         }
+    } else if (typeof module === "object" && typeof module.exports === "object") {
+        // commonjs
+        module.exports = factory(
+            require('./wangEditor-jquery.js')
+        );
     } else {
         // 全局模式
         factory(window.jQuery);
