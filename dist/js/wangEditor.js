@@ -1,13 +1,11 @@
-var define;
-
 (function (factory) {
-    if (typeof define === 'function') {
-        if (define.amd) {
+    if (typeof window.define === 'function') {
+        if (window.define.amd) {
             // AMD模式
-            define('wangEditor', ["jquery"], factory);
-        } else if (define.cmd) {
+            window.define('wangEditor', ["jquery"], factory);
+        } else if (window.define.cmd) {
             // CMD模式
-            define(function (require, exports, module) {
+            window.define(function (require, exports, module) {
                 return factory;
             });
         } else {
@@ -6122,7 +6120,7 @@ _e(function (E, $) {
 
 });
 // 上传图片事件
-(function (window, E, $) {
+_e(function (E, $) {
 
     E.plugin(function () {
         var editor = this;
@@ -6172,10 +6170,9 @@ _e(function (E, $) {
         });
 
     });
-
-})(window, window.wangEditor, window.jQuery);
+});
 // xhr 上传图片
-(function (window, E, $) {
+_e(function (E, $) {
 
     if (!window.FileReader || !window.FormData) {
         // 如果不支持html5的文档操作，直接返回
@@ -6329,10 +6326,9 @@ _e(function (E, $) {
             E.log('开始上传...并开始超时计算');
         };
     });
-
-})(window, window.wangEditor, window.jQuery);
+});
 // 进度条
-(function (window, E, $) {
+_e(function (E, $) {
 
     E.plugin(function () {
 
@@ -6384,10 +6380,9 @@ _e(function (E, $) {
             timeoutId = setTimeout(hideProgress, time);
         };
     });
-
-})(window, window.wangEditor, window.jQuery);
+});
 // upload img 插件
-(function (window, E, $) {
+_e(function (E, $) {
 
     E.plugin(function () {
         var editor = this;
@@ -6424,9 +6419,9 @@ _e(function (E, $) {
             upfile.selectFiles();
         });
     });
-
-})(window, window.wangEditor, window.jQuery);
-(function (window, E, $) {
+});
+// h5 方式上传图片
+_e(function (E, $) {
 
     if (!window.FileReader || !window.FormData) {
         // 如果不支持html5的文档操作，直接返回
@@ -6581,8 +6576,9 @@ _e(function (E, $) {
     // 暴露给 E
     E.UploadFile = UploadFile;
 
-})(window, window.wangEditor, window.jQuery);
-(function (window, E, $) {
+});
+// form方式上传图片
+_e(function (E, $) {
 
     if (window.FileReader && window.FormData) {
         // 如果支持 html5 上传，则返回
@@ -6725,9 +6721,9 @@ _e(function (E, $) {
     // 暴露给 E
     E.UploadFile = UploadFile;
 
-})(window, window.wangEditor, window.jQuery);
+});
 // upload img 插件 粘贴图片
-(function (window, E, $) {
+_e(function (E, $) {
     
     E.plugin(function () {
         var editor = this;
@@ -6859,10 +6855,9 @@ _e(function (E, $) {
         });
 
     });
-
-})(window, window.wangEditor, window.jQuery);
+});
 // 拖拽上传图片 插件 
-(function (window, E, $) {
+_e(function (E, $) {
 
     E.plugin(function () {
 
@@ -6925,9 +6920,9 @@ _e(function (E, $) {
         });
     });
 
-})(window, window.wangEditor, window.jQuery);
+});
 // 编辑器区域 table toolbar
-(function (window, E, $) {
+_e(function (E, $) {
 
     E.plugin(function () {
         var editor = this;
@@ -7093,9 +7088,9 @@ _e(function (E, $) {
         });
     });
 
-})(window, window.wangEditor, window.jQuery);
+});
 // 编辑器区域 img toolbar
-(function (window, E, $) {
+_e(function (E, $) {
 
     if (E.userAgent.indexOf('MSIE 8') > 0) {
         return;
@@ -7446,9 +7441,9 @@ _e(function (E, $) {
 
     });
 
-})(window, window.wangEditor, window.jQuery);
+});
 // menu吸顶
-(function (window, E, $) {
+_e(function (E, $) {
 
     E.plugin(function () {
         var editor = this;
@@ -7526,9 +7521,9 @@ _e(function (E, $) {
         });
     });
 
-})(window, window.wangEditor, window.jQuery);
+});
 // 缩进 菜单插件
-(function (E, $) {
+_e(function (E, $) {
 
     // 用 createMenu 方法创建菜单
     E.createMenu(function (check) {
@@ -7621,9 +7616,9 @@ _e(function (E, $) {
         editor.menus[menuId] = menu;
     });
 
-})(window.wangEditor, window.jQuery);
+});
 // 行高 菜单插件
-(function (E, $) {
+_e(function (E, $) {
 
     // 用 createMenu 方法创建菜单
     E.createMenu(function (check) {
@@ -7684,9 +7679,9 @@ _e(function (E, $) {
 
     });
 
-})(window.wangEditor, window.jQuery);
+});
 // 自定义上传
-(function (window, E, $) {
+_e(function (E, $) {
 
     E.plugin(function () {
 
@@ -7719,7 +7714,7 @@ _e(function (E, $) {
         editor.customUploadContainerId = containerId;
     });
 
-})(window, window.wangEditor, window.jQuery);
+});
 // 版权提示
 _e(function (E, $) {
     E.info('本页面富文本编辑器由 wangEditor 提供 http://wangeditor.github.io/ ');
