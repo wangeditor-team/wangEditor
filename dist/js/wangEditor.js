@@ -6801,7 +6801,7 @@ _e(function (E, $) {
             if (data == null) {
                 text = window.clipboardData && window.clipboardData.getData('text');
             } else {
-                text = data.getData('text');
+                text = data.getData('text/plain') || data.getData('text/html');
             }
             if (text) {
                 return;
