@@ -341,9 +341,14 @@ _e(function (E, $) {
             return;
         }
 
-        selection = document.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
+        // 使用 try catch 来防止 IE 某些情况报错
+        try {
+            selection = document.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        } catch (ex) {
+            E.error('执行 editor.restoreSelection 时，IE可能会有异常，不影响使用');
+        }
     };
 
     // 根据elem恢复选区
@@ -785,8 +790,13 @@ _e(function (E, $) {
         // var range = data.range;
         // var range2 = range.cloneRange && range.cloneRange();
         var val = data.val;
+        var html = editor.txt.$txt.html();
 
         if(val == null) {
+            return;
+        }
+
+        if (val === html) {
             return;
         }
 
@@ -821,7 +831,7 @@ _e(function (E, $) {
         // 添加数据到 undoList
         undoList.unshift({
             range: editor.currentRange(),  // 将当前的range也记录下
-            val: $txt.html()
+            val: val
         });
 
         // 限制 undoList 长度
@@ -2601,16 +2611,49 @@ _e(function (E, $) {
     Txt.fn.saveSelectionEvent = function () {
         var $txt = this.$txt;
         var editor = this.editor;
+        var timeoutId;
+        var dt = Date.now();
+
+        function save() {
+            editor.saveSelection();
+        }
+
+        // 同步保存选区
+        function saveSync() {
+            // 100ms之内，不重复保存
+            if (Date.now() - dt < 100) {
+                return;
+            }
+
+            dt = Date.now();
+            save();
+        }
+
+        // 异步保存选区
+        function saveAync() {
+            // 节流，防止高频率重复操作
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            timeoutId = setTimeout(save, 300);
+        }
 
         // txt change 、focus、blur 时随时保存选区
         $txt.on(txtChangeEventNames + ' focus blur', function (e) {
-            editor.saveSelection();
+            // 先同步保存选区，为了让接下来就马上要执行 editor.getRangeElem() 的程序
+            // 能够获取到正确的 rangeElem
+            saveSync();
+
+            // 再异步保存选区，为了确定更加准确的选区，为后续的操作做准备
+            saveAync();
         });
 
         // 鼠标拖拽选择时，可能会拖拽到编辑器区域外面再松手，此时 $txt 就监听不到 click事件了
         $txt.on('mousedown', function () {
             $txt.on('mouseleave.saveSelection', function (e) {
-                editor.saveSelection();
+                // 先同步后异步，如上述注释
+                saveSync();
+                saveAync();
 
                 // 顺道吧菜单状态也更新了
                 editor.updateMenuStyle();
@@ -5816,18 +5859,37 @@ _e(function (E, $) {
         editor.menus[menuId] = menu;
 
 
-        // ------------ 初始化时、enter 时，做记录 ------------
+        // ------------ 初始化时、enter 时、打字中断时，做记录 ------------
+        // ------------ ctrl + z 是调用记录撤销，而不是使用浏览器默认的撤销 ------------
         editor.ready(function () {
             var editor = this;
             var $txt = editor.txt.$txt;
+            var timeoutId;
 
-            // enter 做记录
-            $txt.on('keydown', function (e) {
-                if (e.keyCode !== 13) {
-                    // 只监听 tab 按钮
+            // 执行undo记录
+            function undo() {
+                editor.undoRecord();
+            }
+
+            $txt.on('keyup', function (e) {
+                var keyCode = e.keyCode;
+
+                // 撤销 ctrl + z
+                if (e.ctrlKey && keyCode === 90) {
+                    editor.undo();
                     return;
                 }
-                editor.undoRecord();
+
+                if (keyCode === 13) {
+                    // enter 做记录
+                    undo();
+                } else {
+                    // keyup 之后 1s 之内不操作，则做一次记录
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    timeoutId = setTimeout(undo, 1000);
+                }
             });
 
             // 初始化做记录
@@ -7003,6 +7065,10 @@ _e(function (E, $) {
 
         // 显示 toolbar
         function show() {
+            if (editor._disabled) {
+                // 编辑器已经被禁用，则不让显示
+                return;
+            }
             if ($currentTable == null) {
                 return;
             }
@@ -7309,6 +7375,10 @@ _e(function (E, $) {
 
         // 显示 toolbar
         function show() {
+            if (editor._disabled) {
+                // 编辑器已经被禁用，则不让显示
+                return;
+            }
             if ($currentImg == null) {
                 return;
             }
