@@ -471,8 +471,8 @@
   font-weight: normal;
   font-style: normal;
 }
-body [class^="wangeditor-menu-img-"],
-body [class*=" wangeditor-menu-img-"] {
+[class^="wangeditor-menu-img-"],
+[class*=" wangeditor-menu-img-"] {
   font-family: 'icomoon';
   speak: none;
   font-style: normal;
@@ -484,202 +484,202 @@ body [class*=" wangeditor-menu-img-"] {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-body .wangeditor-menu-img-link:before {
+.wangeditor-menu-img-link:before {
   content: "\e800";
 }
-body .wangeditor-menu-img-unlink:before {
+.wangeditor-menu-img-unlink:before {
   content: "\e801";
 }
-body .wangeditor-menu-img-code:before {
+.wangeditor-menu-img-code:before {
   content: "\e802";
 }
-body .wangeditor-menu-img-cancel:before {
+.wangeditor-menu-img-cancel:before {
   content: "\e803";
 }
-body .wangeditor-menu-img-terminal:before {
+.wangeditor-menu-img-terminal:before {
   content: "\e804";
 }
-body .wangeditor-menu-img-angle-down:before {
+.wangeditor-menu-img-angle-down:before {
   content: "\e805";
 }
-body .wangeditor-menu-img-font:before {
+.wangeditor-menu-img-font:before {
   content: "\e806";
 }
-body .wangeditor-menu-img-bold:before {
+.wangeditor-menu-img-bold:before {
   content: "\e807";
 }
-body .wangeditor-menu-img-italic:before {
+.wangeditor-menu-img-italic:before {
   content: "\e808";
 }
-body .wangeditor-menu-img-header:before {
+.wangeditor-menu-img-header:before {
   content: "\e809";
 }
-body .wangeditor-menu-img-align-left:before {
+.wangeditor-menu-img-align-left:before {
   content: "\e80a";
 }
-body .wangeditor-menu-img-align-center:before {
+.wangeditor-menu-img-align-center:before {
   content: "\e80b";
 }
-body .wangeditor-menu-img-align-right:before {
+.wangeditor-menu-img-align-right:before {
   content: "\e80c";
 }
-body .wangeditor-menu-img-list-bullet:before {
+.wangeditor-menu-img-list-bullet:before {
   content: "\e80d";
 }
-body .wangeditor-menu-img-indent-left:before {
+.wangeditor-menu-img-indent-left:before {
   content: "\e80e";
 }
-body .wangeditor-menu-img-indent-right:before {
+.wangeditor-menu-img-indent-right:before {
   content: "\e80f";
 }
-body .wangeditor-menu-img-list-numbered:before {
+.wangeditor-menu-img-list-numbered:before {
   content: "\e810";
 }
-body .wangeditor-menu-img-underline:before {
+.wangeditor-menu-img-underline:before {
   content: "\e811";
 }
-body .wangeditor-menu-img-table:before {
+.wangeditor-menu-img-table:before {
   content: "\e812";
 }
-body .wangeditor-menu-img-eraser:before {
+.wangeditor-menu-img-eraser:before {
   content: "\e813";
 }
-body .wangeditor-menu-img-text-height:before {
+.wangeditor-menu-img-text-height:before {
   content: "\e814";
 }
-body .wangeditor-menu-img-brush:before {
+.wangeditor-menu-img-brush:before {
   content: "\e815";
 }
-body .wangeditor-menu-img-pencil:before {
+.wangeditor-menu-img-pencil:before {
   content: "\e816";
 }
-body .wangeditor-menu-img-minus:before {
+.wangeditor-menu-img-minus:before {
   content: "\e817";
 }
-body .wangeditor-menu-img-picture:before {
+.wangeditor-menu-img-picture:before {
   content: "\e818";
 }
-body .wangeditor-menu-img-file-image:before {
+.wangeditor-menu-img-file-image:before {
   content: "\e819";
 }
-body .wangeditor-menu-img-cw:before {
+.wangeditor-menu-img-cw:before {
   content: "\e81a";
 }
-body .wangeditor-menu-img-ccw:before {
+.wangeditor-menu-img-ccw:before {
   content: "\e81b";
 }
-body .wangeditor-menu-img-music:before {
+.wangeditor-menu-img-music:before {
   content: "\e911";
 }
-body .wangeditor-menu-img-play:before {
+.wangeditor-menu-img-play:before {
   content: "\e912";
 }
-body .wangeditor-menu-img-location:before {
+.wangeditor-menu-img-location:before {
   content: "\e947";
 }
-body .wangeditor-menu-img-happy:before {
+.wangeditor-menu-img-happy:before {
   content: "\e9df";
 }
-body .wangeditor-menu-img-sigma:before {
+.wangeditor-menu-img-sigma:before {
   content: "\ea67";
 }
-body .wangeditor-menu-img-enlarge2:before {
+.wangeditor-menu-img-enlarge2:before {
   content: "\e98b";
 }
-body .wangeditor-menu-img-shrink2:before {
+.wangeditor-menu-img-shrink2:before {
   content: "\e98c";
 }
-body .wangeditor-menu-img-newspaper:before {
+.wangeditor-menu-img-newspaper:before {
   content: "\e904";
 }
-body .wangeditor-menu-img-camera:before {
+.wangeditor-menu-img-camera:before {
   content: "\e90f";
 }
-body .wangeditor-menu-img-video-camera:before {
+.wangeditor-menu-img-video-camera:before {
   content: "\e914";
 }
-body .wangeditor-menu-img-file-zip:before {
+.wangeditor-menu-img-file-zip:before {
   content: "\e92b";
 }
-body .wangeditor-menu-img-stack:before {
+.wangeditor-menu-img-stack:before {
   content: "\e92e";
 }
-body .wangeditor-menu-img-credit-card:before {
+.wangeditor-menu-img-credit-card:before {
   content: "\e93f";
 }
-body .wangeditor-menu-img-address-book:before {
+.wangeditor-menu-img-address-book:before {
   content: "\e944";
 }
-body .wangeditor-menu-img-envelop:before {
+.wangeditor-menu-img-envelop:before {
   content: "\e945";
 }
-body .wangeditor-menu-img-drawer:before {
+.wangeditor-menu-img-drawer:before {
   content: "\e95c";
 }
-body .wangeditor-menu-img-download:before {
+.wangeditor-menu-img-download:before {
   content: "\e960";
 }
-body .wangeditor-menu-img-upload:before {
+.wangeditor-menu-img-upload:before {
   content: "\e961";
 }
-body .wangeditor-menu-img-lock:before {
+.wangeditor-menu-img-lock:before {
   content: "\e98f";
 }
-body .wangeditor-menu-img-unlocked:before {
+.wangeditor-menu-img-unlocked:before {
   content: "\e990";
 }
-body .wangeditor-menu-img-wrench:before {
+.wangeditor-menu-img-wrench:before {
   content: "\e991";
 }
-body .wangeditor-menu-img-eye:before {
+.wangeditor-menu-img-eye:before {
   content: "\e9ce";
 }
-body .wangeditor-menu-img-eye-blocked:before {
+.wangeditor-menu-img-eye-blocked:before {
   content: "\e9d1";
 }
-body .wangeditor-menu-img-command:before {
+.wangeditor-menu-img-command:before {
   content: "\ea4e";
 }
-body .wangeditor-menu-img-font2:before {
+.wangeditor-menu-img-font2:before {
   content: "\ea5c";
 }
-body .wangeditor-menu-img-libreoffice:before {
+.wangeditor-menu-img-libreoffice:before {
   content: "\eade";
 }
-body .wangeditor-menu-img-quotes-left:before {
+.wangeditor-menu-img-quotes-left:before {
   content: "\e977";
 }
-body .wangeditor-menu-img-strikethrough:before {
+.wangeditor-menu-img-strikethrough:before {
   content: "\ea65";
 }
-body .wangeditor-menu-img-desktop:before {
+.wangeditor-menu-img-desktop:before {
   content: "\f108";
 }
-body .wangeditor-menu-img-tablet:before {
+.wangeditor-menu-img-tablet:before {
   content: "\f10a";
 }
-body .wangeditor-menu-img-search-plus:before {
+.wangeditor-menu-img-search-plus:before {
   content: "\f00e";
 }
-body .wangeditor-menu-img-search-minus:before {
+.wangeditor-menu-img-search-minus:before {
   content: "\f010";
 }
-body .wangeditor-menu-img-trash-o:before {
+.wangeditor-menu-img-trash-o:before {
   content: "\f014";
 }
-body .wangeditor-menu-img-align-justify:before {
+.wangeditor-menu-img-align-justify:before {
   content: "\f039";
 }
-body .wangeditor-menu-img-arrows-v:before {
+.wangeditor-menu-img-arrows-v:before {
   content: "\f07d";
 }
-body .wangeditor-menu-img-sigma2:before {
+.wangeditor-menu-img-sigma2:before {
   content: "\ea68";
 }
-body .wangeditor-menu-img-omega:before {
+.wangeditor-menu-img-omega:before {
   content: "\e900";
 }
-body .wangeditor-menu-img-cancel-circle:before {
+.wangeditor-menu-img-cancel-circle:before {
   content: "\e901";
 }
 .hljs {

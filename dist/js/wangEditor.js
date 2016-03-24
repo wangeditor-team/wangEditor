@@ -7177,9 +7177,12 @@ _e(function (E, $) {
         var $delete = $('<a href="#"><i class="wangeditor-menu-img-trash-o"></i></a>');
         var $zoomSmall = $('<a href="#"><i class="wangeditor-menu-img-search-minus"></i></a>');
         var $zoomBig = $('<a href="#"><i class="wangeditor-menu-img-search-plus"></i></a>');
-        var $floatLeft = $('<a href="#"><i class="wangeditor-menu-img-align-left"></i></a>');
-        var $noFloat = $('<a href="#"><i class="wangeditor-menu-img-align-justify"></i></a>');
-        var $floatRight = $('<a href="#"><i class="wangeditor-menu-img-align-right"></i></a>');
+        // var $floatLeft = $('<a href="#"><i class="wangeditor-menu-img-align-left"></i></a>');
+        // var $noFloat = $('<a href="#"><i class="wangeditor-menu-img-align-justify"></i></a>');
+        // var $floatRight = $('<a href="#"><i class="wangeditor-menu-img-align-right"></i></a>');
+        var $alignLeft = $('<a href="#"><i class="wangeditor-menu-img-align-left"></i></a>');
+        var $alignCenter = $('<a href="#"><i class="wangeditor-menu-img-align-center"></i></a>');
+        var $alignRight = $('<a href="#"><i class="wangeditor-menu-img-align-right"></i></a>');
 
         // 记录是否正在拖拽
         var isOnDrag = false;
@@ -7199,9 +7202,12 @@ _e(function (E, $) {
                     .append($delete)
                     .append($zoomSmall)
                     .append($zoomBig)
-                    .append($floatLeft)
-                    .append($noFloat)
-                    .append($floatRight);
+                    // .append($floatLeft)
+                    // .append($noFloat)
+                    // .append($floatRight);
+                    .append($alignLeft)
+                    .append($alignCenter)
+                    .append($alignRight);
             editor.$editorContainer.append($toolbar).append($dragPoint);
             isRendered = true;
         }
@@ -7210,7 +7216,7 @@ _e(function (E, $) {
         function bindToolbarEvent() {
             // 统一执行命令的方法
             var commandFn;
-            function command(e, callback) {
+            function customCommand(e, callback) {
                 if (commandFn) {
                     editor.customCommand(e, commandFn, callback);
                 }
@@ -7221,7 +7227,7 @@ _e(function (E, $) {
                 commandFn = function () {
                     $currentImg.remove();
                 };
-                command(e, function () {
+                customCommand(e, function () {
                     setTimeout(hide, 100);
                 });
             });
@@ -7240,7 +7246,7 @@ _e(function (E, $) {
                         height: height + 'px'
                     });
                 };
-                command(e, function () {
+                customCommand(e, function () {
                     setTimeout(show);
                 });
             });
@@ -7259,43 +7265,79 @@ _e(function (E, $) {
                         height: height + 'px'
                     });
                 };
-                command(e, function () {
+                customCommand(e, function () {
                     setTimeout(show);
                 });
             });
 
-            // 左浮动
-            $floatLeft.click(function (e) {
+            // // 左浮动
+            // $floatLeft.click(function (e) {
+            //     commandFn = function () {
+            //         $currentImg.css({
+            //             float: 'left'
+            //         });
+            //     };
+            //     customCommand(e, function () {
+            //         setTimeout(hide, 100);
+            //     });
+            // });
+
+            // alignLeft
+            $alignLeft.click(function (e) {
                 commandFn = function () {
-                    $currentImg.css({
-                        float: 'left'
-                    });
+                    $currentImg.parent().css({
+                        'text-align': 'left'
+                    }).attr('align', 'left');
                 };
-                command(e, function () {
+                customCommand(e, function () {
                     setTimeout(hide, 100);
                 });
             });
 
-            // 右浮动
-            $floatRight.click(function (e) {
+            // // 右浮动
+            // $floatRight.click(function (e) {
+            //     commandFn = function () {
+            //         $currentImg.css({
+            //             float: 'right'
+            //         });
+            //     };
+            //     customCommand(e, function () {
+            //         setTimeout(hide, 100);
+            //     });
+            // });
+
+            // alignRight
+            $alignRight.click(function (e) {
                 commandFn = function () {
-                    $currentImg.css({
-                        float: 'right'
-                    });
+                    $currentImg.parent().css({
+                        'text-align': 'right'
+                    }).attr('align', 'right');
                 };
-                command(e, function () {
+                customCommand(e, function () {
                     setTimeout(hide, 100);
                 });
             });
 
-            // 无浮动
-            $noFloat.click(function (e) {
+            // // 无浮动
+            // $noFloat.click(function (e) {
+            //     commandFn = function () {
+            //         $currentImg.css({
+            //             float: 'none'
+            //         });
+            //     };
+            //     customCommand(e, function () {
+            //         setTimeout(hide, 100);
+            //     });
+            // });
+
+            // alignCenter
+            $alignCenter.click(function (e) {
                 commandFn = function () {
-                    $currentImg.css({
-                        float: 'none'
-                    });
+                    $currentImg.parent().css({
+                        'text-align': 'center'
+                    }).attr('align', 'center');
                 };
-                command(e, function () {
+                customCommand(e, function () {
                     setTimeout(hide, 100);
                 });
             });
