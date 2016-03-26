@@ -113,6 +113,7 @@
   line-height: 1.5;
   font-family: 'Verdana';
   color: #333;
+  margin: 15px;
 }
 .wangEditor-menu-container {
   width: 100%;
@@ -193,7 +194,7 @@
   margin-left: -25px;
 }
 .wangEditor-menu-shadow {
-  border-bottom-width: 0;
+  /*border-bottom-width: 0;*/
   border-bottom: 1px\9 solid\9 #f1f1f1\9;
   box-shadow: 0 1px 3px #999;
 }
@@ -448,6 +449,7 @@
   top: 50%;
   left: 50%;
   background-color: #fff;
+  border-top: 1px solid #f1f1f1;
   box-shadow: 1px 3px 3px #999;
   border-top: 1px\9 solid\9 #ccc\9;
   border-left: 1px\9 solid\9 #ccc\9;

@@ -649,6 +649,9 @@ _e(function (E, $) {
         // 最后插入空行
         editor.txt.insertEmptyP();
 
+        // 包裹暴露的img和text
+        editor.txt.wrapImgAndText();
+
         // 更新内容
         editor.updateValue();
 
@@ -2022,6 +2025,7 @@ _e(function (E, $) {
         var height = $modal.outerHeight();
         var marginLeft = 0 - (width / 2);
         var marginTop = 0 - (height / 2);
+        var sTop = E.$window.scrollTop();
 
         // 保证modal最顶部，不超过浏览器上边框
         if ((height / 2) > top) {
@@ -2030,7 +2034,7 @@ _e(function (E, $) {
 
         $modal.css({
             'margin-left': marginLeft + 'px',
-            'margin-top': marginTop + 'px'
+            'margin-top': (marginTop + sTop) + 'px'
         });
     };
 
@@ -2133,6 +2137,9 @@ _e(function (E, $) {
         // enter时，不能使用 div 换行
         self.bindEnterForDiv();
 
+        // enter时，用 p 包裹 text
+        self.bindEnterForText();
+
         // tab 插入4个空格
         self.bindTabEvent();
 
@@ -2221,6 +2228,24 @@ _e(function (E, $) {
                     editor.restoreSelectionByElem($pElem.get(0), 'start');
                 }
             }
+        });
+    };
+
+    // enter时，用 p 包裹 text
+    Txt.fn.bindEnterForText = function () {
+        var self = this;
+        var $txt = self.$txt;
+        var handle;
+        $txt.on('keyup', function (e) {
+            if (e.keyCode !== 13) {
+                return;
+            }
+            if (!handle) {
+                handle = function() {
+                    self.wrapImgAndText();
+                };
+            }
+            setTimeout(handle);
         });
     };
 
@@ -2728,6 +2753,42 @@ _e(function (E, $) {
 
         if ($children.last().html() !== '<br>') {
             $txt.append($('<p><br></p>'));
+        }
+    };
+
+    // 将编辑器暴露出来的文字和图片，都用 p 来包裹
+    Txt.fn.wrapImgAndText = function () {
+        var $txt = this.$txt;
+        var $imgs = $txt.children('img');
+        var txt = $txt[0];
+        var childNodes = txt.childNodes;
+        var childrenLength = childNodes.length;
+        var i, childNode, p;
+
+        // 处理图片
+        $imgs.length && $imgs.each(function () {
+            $(this).wrap('<p>');
+        });
+
+        // 处理文字
+        for (i = 0; i < childrenLength; i++) {
+            childNode = childNodes[i];
+            if (childNode.nodeType === 3 && childNode.textContent && $.trim(childNode.textContent)) {
+                $(childNode).wrap('<p>');
+            }
+        }
+    };
+
+    // 获取 scrollTop
+    Txt.fn.scrollTop = function (val) {
+        var self = this;
+        var editor = self.editor;
+        var $txt = self.$txt;
+
+        if (editor.useMaxHeight) {
+            return $txt.parent().scrollTop(val);
+        } else {
+            return $txt.scrollTop(val);
         }
     };
 
@@ -6990,6 +7051,8 @@ _e(function (E, $) {
         var editor = this;
         var txt = editor.txt;
         var $txt = txt.$txt;
+        // 说明：设置了 max-height 之后，$txt.parent() 负责滚动处理
+        var $currentTxt = editor.useMaxHeight ? $txt.parent() : $txt;
         var $currentTable;
 
         // 用到的dom节点
@@ -7086,8 +7149,8 @@ _e(function (E, $) {
             var left = tableLeft;
             var marginLeft = 0;
 
-            var txtTop = $txt.position().top;
-            var txtHeight = $txt.outerHeight();
+            var txtTop = $currentTxt.position().top;
+            var txtHeight = $currentTxt.outerHeight();
             if (top > (txtTop + txtHeight)) {
                 // top 不得超出编辑范围
                 top = txtTop + txtHeight;
@@ -7127,7 +7190,7 @@ _e(function (E, $) {
         }
 
         // click table 事件
-        $txt.on('click', 'table', function (e) {
+        $currentTxt.on('click', 'table', function (e) {
             var $table = $(e.currentTarget);
 
             // 渲染
@@ -7166,6 +7229,8 @@ _e(function (E, $) {
         var editor = this;
         var txt = editor.txt;
         var $txt = txt.$txt;
+        // 说明：设置了 max-height 之后，$txt.parent() 负责滚动处理
+        var $currentTxt = editor.useMaxHeight ? $txt.parent() : $txt;
         var $editorContainer = editor.$editorContainer;
         var $currentImg;
 
@@ -7431,6 +7496,7 @@ _e(function (E, $) {
             var imgHeight = $currentImg.outerHeight();
             var imgWidth = $currentImg.outerWidth();
 
+
             // --- 定位 dragpoint ---
             $dragPoint.css({
                 top: imgTop + imgHeight,
@@ -7444,8 +7510,8 @@ _e(function (E, $) {
             var left = imgLeft;
             var marginLeft = 0;
 
-            var txtTop = $txt.position().top;
-            var txtHeight = $txt.outerHeight();
+            var txtTop = $currentTxt.position().top;
+            var txtHeight = $currentTxt.outerHeight();
             if (top > (txtTop + txtHeight)) {
                 // top 不得超出编辑范围
                 top = txtTop + txtHeight;
@@ -7516,7 +7582,7 @@ _e(function (E, $) {
         }
 
         // click img 事件
-        $txt.on('mousedown', 'img', function (e) {
+        $currentTxt.on('mousedown', 'img', function (e) {
             e.preventDefault();
         }).on('click', 'img', function (e) {
             var $img = $(e.currentTarget);
