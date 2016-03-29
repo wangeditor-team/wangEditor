@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>angular test</title>
+    <style type="text/css">
+        #editor-trigger {
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="../../dist/css/wangEditor.min.css">
+
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+    
+    <div ng-app="editorContainer" ng-controller="editorCtrl">
+        <p>wangEditor 集成到 angular 的示例</p>
+        <div id="editor-trigger" ng-model="editorContent" contenteditable="true">
+        </div>
+        <hr>
+        <p><b>以下是编辑器的内容：</b></p>
+        <p ng-bind="editorContent"></p>
+
+    </div>
+
+    <script type="text/javascript" src="../../dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../dist/js/wangEditor.js"></script>
+    <script type="text/javascript">
+        var app = angular.module('editorContainer', []);
+        app.controller('editorCtrl', function ($scope) {
+            $scope.editorContent = '';
+        });
+        app.directive('contenteditable', function() {
+            return {
+                restrict: 'A' ,
+                require: 'ngModel',
+                link: function(scope, element, attrs, ctrl) {
+                    // 创建编辑器
+                    var editor = new wangEditor('editor-trigger');
+                    editor.onchange = function () {
+                        // 从 onchange 函数中更新数据
+                        scope.$apply(function () {
+                            var html = editor.$txt.html();
+                            ctrl.$setViewValue(html);
+                        });
+                    };
+                    editor.create();
+                }
+            };
+        });
+    </script>
+</body>
+</html>
