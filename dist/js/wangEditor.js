@@ -789,7 +789,7 @@ _e(function (E, $) {
     var length = 20;  // 缓存的最大长度
 
     // 数据处理
-    function _handle(editor, data) {
+    function _handle(editor, data, type) {
         // var range = data.range;
         // var range2 = range.cloneRange && range.cloneRange();
         var val = data.val;
@@ -800,12 +800,26 @@ _e(function (E, $) {
         }
 
         if (val === html) {
-            return;
+            if (type === 'redo') { 
+                editor.redo();
+                return;
+            } else if (type === 'undo') {
+                editor.undo();
+                return;
+            } else {
+                return;
+            }
         }
 
         // 保存数据
         editor.txt.$txt.html(val);
+        // 更新数据到textarea（有必要的话）
         editor.updateValue();
+
+        // onchange 事件
+        if (editor.onchange && typeof editor.onchange === 'function') {
+            editor.onchange.call(editor);
+        }
 
         // ?????
         // 注释：$txt 被重新赋值之后，range会被重置，cloneRange() 也不好使
@@ -822,7 +836,7 @@ _e(function (E, $) {
         var val = $txt.html();
         var currentVal = undoList.length ? undoList[0] : '';
 
-        if (val === currentVal) {
+        if (val === currentVal.val) {
             return;
         }
 
@@ -845,6 +859,7 @@ _e(function (E, $) {
 
     // undo 操作
     E.fn.undo = function () {
+
         if (!undoList.length) {
             return;
         }
@@ -854,7 +869,7 @@ _e(function (E, $) {
         redoList.unshift(data);
 
         // 并修改编辑器的内容
-        _handle(this, data);
+        _handle(this, data, 'undo');
     };
 
     // redo 操作
@@ -868,7 +883,7 @@ _e(function (E, $) {
         undoList.unshift(data);
 
         // 并修改编辑器的内容
-        _handle(this, data);
+        _handle(this, data, 'redo');
     };
 });
 // 暴露给用户的 API
@@ -2359,9 +2374,12 @@ _e(function (E, $) {
             // 如果是容器，则继续深度遍历
             if (nodeName === 'div') {
                 $elem = $(elem);
-                $elem.children().each(function () {
+                $.each(elem.childNodes, function () {
                     handle(this);
                 });
+                // $elem.children().each(function () {
+                //     handle(this);
+                // });
                 return;
             }
             
@@ -2373,7 +2391,7 @@ _e(function (E, $) {
                 resultHtml += '<p>' + elem.textContent + '</p>';
             } else {
                 // 忽略的标签
-                if (['meta', 'style', 'script', 'object', 'form', 'iframe'].indexOf(nodeName) >= 0) {
+                if (['meta', 'style', 'script', 'object', 'form', 'iframe', 'br', 'hr'].indexOf(nodeName) >= 0) {
                     return;
                 }
                 // 其他标签，移除属性，插入 p 标签
@@ -5932,7 +5950,7 @@ _e(function (E, $) {
                 editor.undoRecord();
             }
 
-            $txt.on('keyup', function (e) {
+            $txt.on('keydown', function (e) {
                 var keyCode = e.keyCode;
 
                 // 撤销 ctrl + z
