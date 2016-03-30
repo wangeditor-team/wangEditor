@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>editor test</title>
+    <style type="text/css">
+        #editor-trigger {
+            height: 200px;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="../../dist/css/wangEditor.min.css">
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/vue/1.0.14/vue.js"></script>
+</head>
+<body>
+    
+    <p>wangEditor width vuejs</p>
+
+    <div id="editor-container">
+        <div id="editor-trigger">
+        </div>
+
+        <hr>
+
+        <p><b>以下是编辑器的内容：</b></p>
+        <p>{{ editorContent }}</p>
+    </div>
+
+
+    <script type="text/javascript" src="../../dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../dist/js/wangEditor.js"></script>
+    <script type="text/javascript">
+        new Vue({
+            el: '#editor-container',
+            data: {
+                editorContent: ''
+            },
+            ready: function () {
+                var self = this;
+                // 创建编辑器
+                var editor = new wangEditor('editor-trigger');
+                editor.onchange = function () {
+                    // onchange 事件中更新数据
+                    self.editorContent = editor.$txt.html();
+                };
+                editor.create();
+            }
+        });
+    </script>
+</body>
+</html>
