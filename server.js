@@ -12,8 +12,8 @@ var path = require('path');
 var uploadfoldername = 'uploadfiles';
 var uploadfolderpath = path.join(__dirname, uploadfoldername);
 
-var server = '192.168.1.2';
-// var server = 'localhost';
+// var server = '192.168.1.2';
+var server = 'localhost';
 var port = 8011;
 
 http.createServer(function (req, res) {
