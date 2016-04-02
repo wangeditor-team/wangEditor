@@ -4,30 +4,32 @@
     <meta charset="UTF-8">
     <title>test</title>
     <style type="text/css">
-    
-        
 
     </style>
 </head>
 <body>
     
-    <textarea maxlength="10" style="width:500px;height:100px;"></textarea>
+    <p>上面</p>
+
+    <p>youku</p>
+    <p style="text-align:center">
+        <iframe  width="640" height="498" src="http://player.youku.com/embed/XOTMwMjg2NzYw" frameborder=0 allowfullscreen></iframe>
+    </p>
+    
+
+    <p>v.qq.com</p>
+    <p style="text-align:center">
+        <iframe frameborder="0" width="640" height="498" src="http://v.qq.com/iframe/player.html?vid=u0191au6dcw&tiny=0&auto=0" allowfullscreen></iframe>
+    </p>
+    
+    <p>iqiyi</p>
+    <p style="text-align:center">
+        <iframe src="http://open.iqiyi.com/developer/player_js/coopPlayerIndex.html?vid=7cec8d6da28a4b3d8f165520a05ae16d&tvId=466515300&accessToken=2.f22860a2479ad60d8da7697274de9346&appKey=3955c3425820435e86d0f4cdfe56f5e7&appId=1368&height=100%&width=100%" frameborder="0" allowfullscreen="true"  width="640" height="498"></iframe>
+    </p>
+    <p>下面</p>
 
     <script type="text/javascript">
 
-        var s = '            <p>请输入内容...</p>\n        <p><ul><li><span style="line-height: 1.8;">111</span><br></li><li><span style="line-height: 1.8;">222</span><br></li></ul></p><p><br></p>';
-        s = s.replace(/\s/ig, '');
-        s = s.replace(/>\s*<(p)>|>\s*<(h1)>|>\s*<(h2)>|>\s*<(h3)>|>\s*<(h4)>|>\s*<(h5)>|>\s*<(h6)>|>\s*<(blockquote)>|>\s*<(table)>|>\s*<(ul)>|>\s*<(ol)>|>\s*<(pre)>/gi, function (a, b, c) {
-            console.log(a, b);
-            return '>\n<' + b + '>';
-        });
-
-        console.log(s);
-
-        // console.log(s.match(/>\s*<(ul)>/ig));
-        s.replace(/>\s*<(ul)>/ig, function (a,b) {
-            console.log(a,b);
-        });
 
     </script>
 </body>

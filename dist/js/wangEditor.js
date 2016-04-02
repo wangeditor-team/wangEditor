@@ -2354,6 +2354,9 @@ _e(function (E, $) {
             // 执行命令
             if (resultHtml) {
                 editor.command(e, 'insertHtml', resultHtml);
+
+                // 删除内容为空的 p 和嵌套的 p
+                self.clearEmptyOrNestP();
             }
         });
 
@@ -2795,6 +2798,34 @@ _e(function (E, $) {
                 $(childNode).wrap('<p>');
             }
         }
+    };
+
+    // 清空内容为空的<p>，以及重复包裹的<p>（在windows下的chrome粘贴文字之后，会出现上述情况）
+    Txt.fn.clearEmptyOrNestP = function () {
+        var $txt = this.$txt;
+        var $pList = $txt.find('p');
+
+        $pList.each(function () {
+            var $p = $(this);
+            var $children = $p.children();
+            var childrenLength = $children.length;
+            var $firstChild;
+            var content = $.trim($p.html());
+
+            // 内容为空的p
+            if (!content) {
+                $p.remove();
+                return;
+            }
+
+            // 嵌套的p
+            if (childrenLength === 1) {
+                $firstChild = $children.first();
+                if ($firstChild.get(0) && $firstChild.get(0).nodeName === 'P') {
+                    $p.html( $firstChild.html() );
+                }
+            }
+        });
     };
 
     // 获取 scrollTop
@@ -5122,55 +5153,23 @@ _e(function (E, $) {
         }
         var editor = this;
         var lang = editor.config.lang;
-        var reg = /^\s*(http:\/\/|https:\/\/).+(\.swf|\.ogg|\.mp4|\.webm)/i;
+        var reg = /^<(iframe)|(embed)/i;  // <iframe... 或者 <embed... 格式
 
         // 创建 menu 对象
         var menu = new E.Menu({
             editor: editor,
             id: menuId,
-            title: lang.video,
-            commandName: 'unLink'
+            title: lang.video
         });
-
-        // 视频代码模板 - flash
-        var videoTplFlash = [
-            '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" ',
-            '        codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" ',
-            '        width="#{width}" ',
-            '        height="#{height}" >',
-            '   <param name="movie" ',
-            '          value="#{videoUrl}" />',
-            '   <param name="allowFullScreen" value="true" />',
-            '   <param name="allowScriptAccess" value="always" />',
-            '   <param value="transparent" name="wmode" />',
-            '   <embed src="#{videoUrl}"',
-            '          width="#{width}" ',
-            '          height="#{height}" ',
-            '          name="cc_8E6888CDEA7087C49C33DC5901307461" ',
-            '          allowFullScreen="true" ',
-            '          wmode="transparent" ',
-            '          allowScriptAccess="always" ',
-            '          pluginspage="http://www.macromedia.com/go/getflashplayer" ',
-            '          type="application/x-shockwave-flash"/>',
-            '</object>',
-            '<p><br></p>'
-        ].join('');
-
-        // 视频代码模板 - h5
-        var videoTplH5 = [
-            '<video src="#{videoUrl}" controls="controls" width="#{width}" height="#{height}">',
-            '</video>',
-            '<p><br></p>'
-        ].join('');
 
         // 创建 panel 内容
         var $content = $('<div></div>');
-        var $urlInputContainer = $('<div style="margin:20px 10px;"></div>');
-        var $urlInput = $('<input type="text" class="block" placeholder="*.swf, *.mp4, *.ogg, *.webm"/>');
-        $urlInputContainer.append($urlInput);
+        var $linkInputContainer = $('<div style="margin:20px 10px;"></div>');
+        var $linkInput = $('<input type="text" class="block" placeholder=\'格式如：<iframe src="..." frameborder=0 allowfullscreen></iframe>\'/>');
+        $linkInputContainer.append($linkInput);
         var $sizeContainer = $('<div style="margin:20px 10px;"></div>');
-        var $widthInput = $('<input type="text" value="480" style="width:50px;text-align:center;"/>');
-        var $heightInput = $('<input type="text" value="360" style="width:50px;text-align:center;"/>');
+        var $widthInput = $('<input type="text" value="640" style="width:50px;text-align:center;"/>');
+        var $heightInput = $('<input type="text" value="498" style="width:50px;text-align:center;"/>');
         $sizeContainer.append('<span> ' + lang.width + ' </span>')
                       .append($widthInput)
                       .append('<span> px &nbsp;&nbsp;&nbsp;</span>')
@@ -5178,33 +5177,36 @@ _e(function (E, $) {
                       .append($heightInput)
                       .append('<span> px </span>');
         var $btnContainer = $('<div></div>');
+        var $howToCopy = $('<a href="http://www.kancloud.cn/wangfupeng/wangeditor2/134973" target="_blank" style="display:inline-block;margin-top:10px;margin-left:10px;color:#999;">如何复制视频链接？</a>');
         var $btnSubmit = $('<button class="right">' + lang.submit + '</button>');
         var $btnCancel = $('<button class="right gray">' + lang.cancel + '</button>');
-        $btnContainer.append($btnSubmit).append($btnCancel);
-        $content.append($urlInputContainer).append($sizeContainer).append($btnContainer);
+        $btnContainer.append($howToCopy).append($btnSubmit).append($btnCancel);
+        $content.append($linkInputContainer).append($sizeContainer).append($btnContainer);
 
         // 取消按钮
         $btnCancel.click(function (e) {
             e.preventDefault();
-            $urlInput.val('');
+            $linkInput.val('');
             menu.dropPanel.hide();
         });
 
         // 确定按钮
         $btnSubmit.click(function (e) {
             e.preventDefault();
-            var url = $.trim($urlInput.val());
+            var link = $.trim($linkInput.val());
+            var $link;
             var width = parseInt($widthInput.val());
             var height = parseInt($heightInput.val());
-            var html;
+            var $div = $('<div>');
+            var html = '<p style="text-align:center;">{content}</p>';
 
             // 验证数据
-            if (!url) {
+            if (!link) {
                 menu.dropPanel.focusFirstInput();
                 return;
             }
 
-            if (!reg.test(url)) {
+            if (!reg.test(link)) {
                 alert('视频链接格式错误！');
                 menu.dropPanel.focusFirstInput();
                 return;
@@ -5215,22 +5217,18 @@ _e(function (E, $) {
                 return;
             }
 
-            // 拼接 video 代码
-            if ((/.swf/i).test(url)) {
-                // swf 格式
-                html = videoTplFlash.replace(/#{videoUrl}/ig, url)
-                                    .replace(/#{width}/ig, width)
-                                    .replace(/#{height}/ig, height);
-            } else {
-                // 其他格式，如ogg mp4 webm
-                html = videoTplH5.replace(/#{videoUrl}/ig, url)
-                                 .replace(/#{width}/ig, width)
-                                 .replace(/#{height}/ig, height);
-            }
+            $link = $(link);
+
+            // 设置高度和宽度
+            $link.attr('width', width)
+                 .attr('height', height);
+
+            // 拼接字符串
+            html = html.replace('{content}', $div.append($link).html());
 
             // 执行命令
             editor.command(e, 'insertHtml', html);
-            $urlInput.val('');
+            $linkInput.val('');
         });
 
         // 创建panel
@@ -5645,7 +5643,7 @@ _e(function (E, $) {
         }
         var script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "http://apps.bdimg.com/libs/highlight.js/9.1.0/highlight.min.js";
+        script.src = "//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js";
         document.body.appendChild(script);
     }
     
