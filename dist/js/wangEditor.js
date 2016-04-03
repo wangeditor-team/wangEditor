@@ -2378,11 +2378,9 @@ _e(function (E, $) {
             if (nodeName === 'div') {
                 $elem = $(elem);
                 $.each(elem.childNodes, function () {
+                    // elem.childNodes 可获取TEXT节点，而 $elem.children() 就获取不到
                     handle(this);
                 });
-                // $elem.children().each(function () {
-                //     handle(this);
-                // });
                 return;
             }
             
@@ -2392,9 +2390,13 @@ _e(function (E, $) {
             } else if (nodeType === 3) {
                 // 如果是文本，则直接插入 p 标签
                 resultHtml += '<p>' + elem.textContent + '</p>';
-            } else {
+            } else if (nodeName === 'br') {
+                // <br>保留
+                resultHtml += '<br/>';
+            }
+            else {
                 // 忽略的标签
-                if (['meta', 'style', 'script', 'object', 'form', 'iframe', 'br', 'hr'].indexOf(nodeName) >= 0) {
+                if (['meta', 'style', 'script', 'object', 'form', 'iframe', 'hr'].indexOf(nodeName) >= 0) {
                     return;
                 }
                 // 其他标签，移除属性，插入 p 标签
@@ -2571,7 +2573,10 @@ _e(function (E, $) {
             }
 
             if (html === undefined) {
-                return result;
+                // 取值，删除代码中的空格
+                return result.replace(/(^\s+)/img, '')
+                             .replace(/(\s+$)/img, '')
+                             .replace(/>\s+</img, '><');
             }
         };
     };
@@ -3178,73 +3183,71 @@ _e(function (E, $) {
     };
 
     // 表情包
+    E.config.emotionsShow = 'icon'; // 显示项，默认为'icon'，也可以配置成'value'
     E.config.emotions = {
         'default': {
             title: '默认',
-            size: 18,
-            imgs: [
-                '../static/emotions/default/1.gif',
-                '../static/emotions/default/2.gif',
-                '../static/emotions/default/3.gif',
-                '../static/emotions/default/4.gif',
-                '../static/emotions/default/5.gif',
-                '../static/emotions/default/6.gif',
-                '../static/emotions/default/7.gif',
-                '../static/emotions/default/8.gif',
-                '../static/emotions/default/9.gif',
-                '../static/emotions/default/10.gif',
-                '../static/emotions/default/11.gif',
-                '../static/emotions/default/12.gif',
-                '../static/emotions/default/13.gif',
-                '../static/emotions/default/14.gif',
-                '../static/emotions/default/15.gif',
-                '../static/emotions/default/16.gif',
-                '../static/emotions/default/17.gif',
-                '../static/emotions/default/18.gif',
-                '../static/emotions/default/19.gif',
-                '../static/emotions/default/20.gif',
-                '../static/emotions/default/21.gif',
-                '../static/emotions/default/22.gif',
-                '../static/emotions/default/23.gif',
-                '../static/emotions/default/24.gif',
-                '../static/emotions/default/25.gif',
-                '../static/emotions/default/26.gif',
-                '../static/emotions/default/27.gif',
-                '../static/emotions/default/28.gif',
-                '../static/emotions/default/29.gif',
-                '../static/emotions/default/30.gif',
-                '../static/emotions/default/31.gif',
-                '../static/emotions/default/32.gif',
-                '../static/emotions/default/33.gif',
-                '../static/emotions/default/34.gif',
-                '../static/emotions/default/35.gif',
-                '../static/emotions/default/36.gif',
-                '../static/emotions/default/37.gif',
-                '../static/emotions/default/38.gif',
-                '../static/emotions/default/39.gif',
-                '../static/emotions/default/40.gif',
-                '../static/emotions/default/41.gif',
-                '../static/emotions/default/42.gif',
-                '../static/emotions/default/43.gif',
-                '../static/emotions/default/44.gif',
-                '../static/emotions/default/45.gif',
-                '../static/emotions/default/46.gif',
-                '../static/emotions/default/47.gif',
-                '../static/emotions/default/48.gif',
-                '../static/emotions/default/49.gif',
-                '../static/emotions/default/50.gif'
-            ]
+            data: './emotions.data'
         },
-        'jinxing': {
-            title: '金星',
-            size: 50,
-            imgs: [
-                '../static/emotions/jinxing/1.gif',
-                '../static/emotions/jinxing/2.gif',
-                '../static/emotions/jinxing/3.gif',
-                '../static/emotions/jinxing/4.gif',
-                '../static/emotions/jinxing/5.gif',
-                '../static/emotions/jinxing/6.gif'
+        'weibo': {
+            title: '微博表情',
+            data: [
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/7a/shenshou_thumb.gif',
+                    value: '[草泥马]'    
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/60/horse2_thumb.gif',
+                    value: '[神马]'    
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/bc/fuyun_thumb.gif',
+                    value: '[浮云]'    
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/c9/geili_thumb.gif',
+                    value: '[给力]'    
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/f2/wg_thumb.gif',
+                    value: '[围观]'    
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/70/vw_thumb.gif',
+                    value: '[威武]'
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/6e/panda_thumb.gif',
+                    value: '[熊猫]'
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/81/rabbit_thumb.gif',
+                    value: '[兔子]'
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/bc/otm_thumb.gif',
+                    value: '[奥特曼]'
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/15/j_thumb.gif',
+                    value: '[囧]'
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/89/hufen_thumb.gif',
+                    value: '[互粉]'
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/c4/liwu_thumb.gif',
+                    value: '[礼物]'
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/ac/smilea_thumb.gif',
+                    value: '[呵呵]'
+                },
+                {
+                    icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/0b/tootha_thumb.gif',
+                    value: '[哈哈]'
+                }
             ]
         }
     };
@@ -4884,8 +4887,13 @@ _e(function (E, $) {
             return;
         }
         var editor = this;
-        var lang = editor.config.lang;
-        var configEmotions = editor.config.emotions;
+        var config = editor.config;
+        var lang = config.lang;
+        var configEmotions = config.emotions;
+        var emotionsShow = config.emotionsShow;
+
+        // 记录每一个表情图片的地址
+        editor.emotionUrls = [];
 
         // 创建 menu 对象
         var menu = new E.Menu({
@@ -4894,33 +4902,41 @@ _e(function (E, $) {
             title: lang.emotion
         });
 
-        // 拼接 dropPanel 内容
-        var $panelContent = $('<div class="panel-tab"></div>');
-        var $tabContainer = $('<div class="tab-container"></div>');
-        var $contentContainer = $('<div class="content-container"></div>');
-        $.each(configEmotions, function (k, val) {
-            var title = val.title;
-            var size = val.size;
-            var imgs = val.imgs;
-
-            var $tab = $('<a href="#">' + title +' </a>');
-            $tabContainer.append($tab);
-            var $tabContent = $('<div class="content"></div>');
-            $contentContainer.append($tabContent);
-
+        // 添加表情图片的函数
+        function insertEmotionImgs(data, $tabContent) {
             // 添加表情图片
-            $.each(imgs, function (k, src) {
-                var $command = $('<a href="#" commandValue="' + src + '"></a>');
+            $.each(data, function (k, emotion) {
+                var src = emotion.icon || emotion.url;
+                var value = emotion.value || emotion.title;
+                // 通过配置 editor.config.emotionsShow 的值来修改插入到编辑器的内容（图片/value）
+                var commandValue = emotionsShow === 'icon' ? src : value;
+                var $command = $('<a href="#" commandValue="' + commandValue + '"></a>');
                 var $img = $('<img>');
-                $img.css({
-                    width: size + 'px',
-                    height: size + 'px'
-                });
                 $img.attr('_src', src);  // 先将 src 复制到 '_src' 属性，先不加载
 
                 $command.append($img);
                 $tabContent.append($command);
+
+                // 记录下每一个表情图片的地址
+                editor.emotionUrls.push(src);
             });
+        }
+
+        // 拼接 dropPanel 内容
+        var $panelContent = $('<div class="panel-tab"></div>');
+        var $tabContainer = $('<div class="tab-container"></div>');
+        var $contentContainer = $('<div class="content-container emotion-content-container"></div>');
+        $.each(configEmotions, function (k, emotion) {
+            var title = emotion.title;
+            var data = emotion.data;
+
+            E.log('正在处理 ' + title + ' 表情的数据...');
+
+            // 增加该组表情的tab和content
+            var $tab = $('<a href="#">' + title +' </a>');
+            $tabContainer.append($tab);
+            var $tabContent = $('<div class="content"></div>');
+            $contentContainer.append($tabContent);
 
             // tab 切换事件
             $tab.click(function (e) {
@@ -4930,6 +4946,25 @@ _e(function (E, $) {
                 $tab.addClass('selected');
                 e.preventDefault();
             });
+
+            // 处理data
+            if (typeof data === 'string') {
+                // url 形式，需要通过ajax从该url获取数据
+                E.log('将通过 ' + data + ' 地址ajax下载表情包');
+                $.get(data, function (result) {
+                    result = $.parseJSON(result);
+                    E.log('下载完毕，得到 ' + result.length + ' 个表情');
+                    insertEmotionImgs(result, $tabContent);
+                });
+                
+            } else if ( Object.prototype.toString.call(data).toLowerCase().indexOf('array') > 0 ) {
+                // 数组，即 data 直接就是表情包数据
+                insertEmotionImgs(data, $tabContent);
+            } else {
+                // 其他情况，data格式不对
+                E.error('data 数据格式错误，请修改为正确格式，参考文档：' + E.docsite);
+                return;
+            }
         });
         $panelContent.append($tabContainer).append($contentContainer);
 
@@ -4940,9 +4975,24 @@ _e(function (E, $) {
         // 插入表情command事件
         $contentContainer.on('click', 'a[commandValue]', function (e) {
             var $a = $(e.currentTarget);
-            var src = $a.attr('commandValue');
+            var commandValue = $a.attr('commandValue');
 
-            editor.command(e, 'InsertImage', src);
+            // commandValue 有可能是图片url，也有可能是表情的 value，需要区别对待
+            // 用 commandValue 去下载图片，如果下载到，就是图片，下载失败，就不是图片
+            var img = document.createElement('img');
+            img.onload = function () {
+                // 是图片url
+                editor.command(e, 'InsertImage', commandValue);
+                img = null;
+            };
+            img.onerror = function () {
+                // 不是图片
+                editor.command(e, 'insertHtml', '<span>' + commandValue + '</span>');
+                img = null;
+            };
+            img.src = commandValue;
+
+            e.preventDefault();
         });
 
         // 添加panel
@@ -7578,20 +7628,19 @@ _e(function (E, $) {
         }
 
         // 判断img是否是一个表情
-        var emotionConfig = editor.config.emotions;
         function isEmotion(imgSrc) {
             var result = false;
-            $.each(emotionConfig, function (k, conf) {
+            if (!editor.emotionUrls) {
+                return result;
+            }
+            $.each(editor.emotionUrls, function (index, url) {
                 var flag = false;
-                $.each(conf.imgs, function (idx, val) {
-                    if (imgSrc === val) {
-                        result = true;
-                        flag = true;
-                        return false;
-                    }
-                });
+                if (imgSrc === url) {
+                    result = true;
+                    flag = true;
+                }
                 if (flag) {
-                    return false;
+                    return false;  // break 循环
                 }
             });
             return result;

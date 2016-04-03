@@ -144,12 +144,13 @@
 }
 .wangEditor-container {
     .code-textarea {
+        resize: none;
         width: 100%;
         font-size: 14px;
         line-height: 1.5;
         font-family: 'Verdana';
         color: #333;
-        margin: 15px;
+        padding: 0 15px 0 15px;
     }
 }
 .wangEditor-menu-container {
@@ -309,7 +310,7 @@
         }
         table td,
         table th {
-            border: 1px solid #f1f1f1;
+            border: 1px solid #999;
             padding: 3px 5px;
             min-width: 50px;
             height: 20px;
@@ -480,12 +481,12 @@
         border-collapse: collapse;
 
         td {
-            border: 1px solid #f1f1f1;
+            border: 1px solid #ccc;
             width: 16px;
             height: 12px;
         }
         td.active {
-            background-color: #f1f1f1;
+            background-color: #ccc;
             opacity: .5;
             filter: Alpha(opacity=50);
         }
@@ -527,6 +528,10 @@
             .selected {
                 display: block;
             }
+        }
+        .emotion-content-container {
+            height: 200px;
+            overflow-y: auto;
         }
     }
 
