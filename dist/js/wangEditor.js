@@ -916,6 +916,9 @@ _e(function (E, $) {
         // 初始化选区
         editor.initSelection();
 
+        // $txt 快捷方式
+        editor.$txt = editor.txt.$txt;
+
         // 执行用户自定义事件，通过 E.ready() 添加
         var _plugins = E._plugins;
         if (_plugins && _plugins.length) {
@@ -923,9 +926,6 @@ _e(function (E, $) {
                 val.call(editor);
             });
         }
-
-        // $txt 快捷方式
-        editor.$txt = editor.txt.$txt;
     };
 
     // 禁用编辑器
@@ -2368,15 +2368,16 @@ _e(function (E, $) {
             var $elem;
             var nodeName = elem.nodeName.toLowerCase();
             var nodeType = elem.nodeType;
-            
+
             // 只处理文本和普通node标签
             if (nodeType !== 3 && nodeType !== 1) {
                 return;
             }
 
+            $elem = $(elem);
+
             // 如果是容器，则继续深度遍历
             if (nodeName === 'div') {
-                $elem = $(elem);
                 $.each(elem.childNodes, function () {
                     // elem.childNodes 可获取TEXT节点，而 $elem.children() 就获取不到
                     handle(this);
@@ -2401,7 +2402,8 @@ _e(function (E, $) {
                 }
                 // 其他标签，移除属性，插入 p 标签
                 $elem = $(removeAttrs(elem));
-                resultHtml += $('<div>').append($elem).html();
+                // 注意，这里的 clone() 是必须的，否则会出错
+                resultHtml += $('<div>').append($elem.clone()).html();
             }
         }
 
@@ -6860,7 +6862,7 @@ _e(function (E, $) {
             }
 
             // 执行load函数，插入图片的操作，应该在load函数中执行
-            onload(resultText);
+            onload.call(editor, resultText);
 
             // 清空 input 数据
             self.clear();
