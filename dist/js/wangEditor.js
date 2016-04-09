@@ -71,7 +71,6 @@
 
     E.fn = E.prototype;
 
-
     E.$body = $('body');
     E.$document = $(document);
     E.$window = $(window);
@@ -892,6 +891,14 @@ _e(function (E, $) {
     // 创建编辑器
     E.fn.create = function () {
         var editor = this;
+
+        // 检查 E.$body 是否有值
+        // 如果在 body 之前引用了 js 文件，body 尚未加载，可能没有值
+        if (!E.$body || E.$body.length === 0) {
+            E.$body = $('body');
+            E.$document = $(document);
+            E.$window = $(window);
+        }
 
         // 执行 addMenus 之前：
         // 1. 允许用户修改 editor.UI 自定义配置UI
