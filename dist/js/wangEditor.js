@@ -2582,10 +2582,7 @@ _e(function (E, $) {
             }
 
             if (html === undefined) {
-                // 取值，删除代码中的空格
-                return result.replace(/(^\s+)/img, '')
-                             .replace(/(\s+$)/img, '')
-                             .replace(/>\s+</img, '><');
+                return result;
             }
         };
     };
