@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor2 test</title>
+    <link rel="stylesheet" type="text/css" href="../dist/css/wangEditor.min.css">
+    <style type="text/css">
+        #editor-trigger {
+            height: 400px;
+            /*max-height: 500px;*/
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+    </style>
+</head>
+<body style="padding:0 20px;">
+    <p>wangEditor2.0 支持 IE8 浏览器</p>
+    <div id="editor-container" class="container">
+        <!-- <div id="editor-trigger">
+            <p>请输入内容...</p>
+        </div> -->
+        <textarea id="editor-trigger" style="display:none;">
+            <p>请输入内容...</p>
+        </textarea>
+    </div>
+    <p><br></p>
+    
+    <script type="text/javascript" src="../dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../dist/js/wangEditor.js"></script>
+    <!--<script type="text/javascript" src="../dist/js/wangEditor.min.js"></script>-->
+    <script type="text/javascript">
+        
+        var elem = $('#editor-trigger').get(0);
+
+        // 通过 elem 创建编辑器
+        var editor = new wangEditor(elem);
+
+        // 上传图片
+        editor.config.uploadImgUrl = '/upload';
+
+        // 表情显示项
+        editor.config.emotionsShow = 'value';
+
+        editor.create();
+    </script>
+</body>
+</html>

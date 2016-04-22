@@ -13,6 +13,7 @@ var uploadfoldername = 'uploadfiles';
 var uploadfolderpath = path.join(__dirname, uploadfoldername);
 
 // var server = '192.168.1.2';
+// var server = '172.22.145.3';
 var server = 'localhost';
 var port = 8011;
 
@@ -34,6 +35,11 @@ http.createServer(function (req, res) {
 			}
 
 			console.log('formidable, form.parse ok');
+
+			// 显示参数，例如 token
+			console.log('显示上传时的参数 begin');
+			console.log(fields);
+			console.log('显示上传时的参数 end');
 
 			var item;
 

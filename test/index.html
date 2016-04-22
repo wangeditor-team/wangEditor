@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" href="../dist/css/wangEditor.min.css">
     <style type="text/css">
         #editor-trigger {
-            height: 300px;
-            max-height: 400px;
+            height: 400px;
+            /*max-height: 500px;*/
         }
         .container {
             width: 100%;
@@ -39,6 +39,10 @@
 
         // 上传图片
         editor.config.uploadImgUrl = '/upload';
+        editor.config.uploadParams = {
+            // token1: 'abcde',
+            // token2: '12345'
+        };
 
         // 表情显示项
         editor.config.emotionsShow = 'value';
