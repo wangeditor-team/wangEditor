@@ -285,7 +285,8 @@
 .wangEditor-drop-list a:hover {
   background-color: #f1f1f1;
 }
-.wangEditor-drop-panel {
+.wangEditor-drop-panel,
+.txt-toolbar {
   display: none;
   position: absolute;
   padding: 10px;
@@ -299,7 +300,8 @@
   border-bottom: 1px\9 solid\9 #999\9;
   border-right: 1px\9 solid\9 #999\9;
 }
-.wangEditor-drop-panel .tip-triangle {
+.wangEditor-drop-panel .tip-triangle,
+.txt-toolbar .tip-triangle {
   display: block;
   position: absolute;
   width: 0;
@@ -310,10 +312,12 @@
   left: 50%;
   margin-left: -5px;
 }
-.wangEditor-drop-panel a {
+.wangEditor-drop-panel a,
+.txt-toolbar a {
   text-decoration: none;
 }
-.wangEditor-drop-panel input[type=text] {
+.wangEditor-drop-panel input[type=text],
+.txt-toolbar input[type=text] {
   border: none;
   border-bottom: 1px solid #ccc;
   font-size: 14px;
@@ -321,22 +325,27 @@
   color: #333;
   padding: 3px 0;
 }
-.wangEditor-drop-panel input[type=text]:focus {
+.wangEditor-drop-panel input[type=text]:focus,
+.txt-toolbar input[type=text]:focus {
   outline: none;
   border-bottom: 2px solid #1e88e5;
 }
-.wangEditor-drop-panel input[type=text].block {
+.wangEditor-drop-panel input[type=text].block,
+.txt-toolbar input[type=text].block {
   display: block;
   width: 100%;
 }
-.wangEditor-drop-panel textarea {
+.wangEditor-drop-panel textarea,
+.txt-toolbar textarea {
   border: 1px solid #ccc;
 }
-.wangEditor-drop-panel textarea:focus {
+.wangEditor-drop-panel textarea:focus,
+.txt-toolbar textarea:focus {
   outline: none;
   border-color: #1e88e5;
 }
-.wangEditor-drop-panel button {
+.wangEditor-drop-panel button,
+.txt-toolbar button {
   font-size: 14px;
   color: #1e88e5;
   border: none;
@@ -345,27 +354,34 @@
   cursor: pointer;
   border-radius: 3px;
 }
-.wangEditor-drop-panel button:hover {
+.wangEditor-drop-panel button:hover,
+.txt-toolbar button:hover {
   background-color: #f1f1f1;
 }
-.wangEditor-drop-panel button:focus {
+.wangEditor-drop-panel button:focus,
+.txt-toolbar button:focus {
   outline: none;
 }
-.wangEditor-drop-panel button.right {
+.wangEditor-drop-panel button.right,
+.txt-toolbar button.right {
   float: right;
   margin-left: 10px;
 }
-.wangEditor-drop-panel button.gray {
+.wangEditor-drop-panel button.gray,
+.txt-toolbar button.gray {
   color: #999;
 }
-.wangEditor-drop-panel button.link {
+.wangEditor-drop-panel button.link,
+.txt-toolbar button.link {
   padding: 5px 10px;
 }
-.wangEditor-drop-panel button.link:hover {
+.wangEditor-drop-panel button.link:hover,
+.txt-toolbar button.link:hover {
   background-color: #fff;
   text-decoration: underline;
 }
-.wangEditor-drop-panel .color-item {
+.wangEditor-drop-panel .color-item,
+.txt-toolbar .color-item {
   display: block;
   float: left;
   width: 25px;
@@ -375,67 +391,82 @@
   border-radius: 2px;
   text-decoration: underline;
 }
-.wangEditor-drop-panel .color-item:hover {
+.wangEditor-drop-panel .color-item:hover,
+.txt-toolbar .color-item:hover {
   background-color: #f1f1f1;
 }
-.wangEditor-drop-panel .list-menu-item {
+.wangEditor-drop-panel .list-menu-item,
+.txt-toolbar .list-menu-item {
   display: block;
   float: left;
   color: #333;
   padding: 5px 5px;
   border-radius: 2px;
 }
-.wangEditor-drop-panel .list-menu-item:hover {
+.wangEditor-drop-panel .list-menu-item:hover,
+.txt-toolbar .list-menu-item:hover {
   background-color: #f1f1f1;
 }
-.wangEditor-drop-panel table.choose-table {
+.wangEditor-drop-panel table.choose-table,
+.txt-toolbar table.choose-table {
   border: none;
   border-collapse: collapse;
 }
-.wangEditor-drop-panel table.choose-table td {
+.wangEditor-drop-panel table.choose-table td,
+.txt-toolbar table.choose-table td {
   border: 1px solid #ccc;
   width: 16px;
   height: 12px;
 }
-.wangEditor-drop-panel table.choose-table td.active {
+.wangEditor-drop-panel table.choose-table td.active,
+.txt-toolbar table.choose-table td.active {
   background-color: #ccc;
   opacity: .5;
   filter: alpha(opacity=50);
 }
-.wangEditor-drop-panel .panel-tab .tab-container {
+.wangEditor-drop-panel .panel-tab .tab-container,
+.txt-toolbar .panel-tab .tab-container {
   margin-bottom: 5px;
 }
-.wangEditor-drop-panel .panel-tab .tab-container a {
+.wangEditor-drop-panel .panel-tab .tab-container a,
+.txt-toolbar .panel-tab .tab-container a {
   display: inline-block;
   color: #999;
   text-align: center;
   margin: 0 5px;
   padding: 5px 5px;
 }
-.wangEditor-drop-panel .panel-tab .tab-container a.selected {
+.wangEditor-drop-panel .panel-tab .tab-container a.selected,
+.txt-toolbar .panel-tab .tab-container a.selected {
   color: #1e88e5;
   border-bottom: 2px solid #1e88e5;
 }
-.wangEditor-drop-panel .panel-tab .content-container .content {
+.wangEditor-drop-panel .panel-tab .content-container .content,
+.txt-toolbar .panel-tab .content-container .content {
   display: none;
 }
-.wangEditor-drop-panel .panel-tab .content-container .content a {
+.wangEditor-drop-panel .panel-tab .content-container .content a,
+.txt-toolbar .panel-tab .content-container .content a {
   display: inline-block;
   margin: 2px;
   padding: 2px;
   border-radius: 2px;
 }
-.wangEditor-drop-panel .panel-tab .content-container .content a:hover {
+.wangEditor-drop-panel .panel-tab .content-container .content a:hover,
+.txt-toolbar .panel-tab .content-container .content a:hover {
   background-color: #f1f1f1;
 }
-.wangEditor-drop-panel .panel-tab .content-container .selected {
+.wangEditor-drop-panel .panel-tab .content-container .selected,
+.txt-toolbar .panel-tab .content-container .selected {
   display: block;
 }
-.wangEditor-drop-panel .panel-tab .emotion-content-container {
+.wangEditor-drop-panel .panel-tab .emotion-content-container,
+.txt-toolbar .panel-tab .emotion-content-container {
   height: 200px;
   overflow-y: auto;
 }
-.wangEditor-drop-panel .upload-icon-container {
+.wangEditor-drop-panel .upload-icon-container,
+.txt-toolbar .upload-icon-container {
   color: #ccc;
   text-align: center;
   margin: 20px 20px 15px 20px !important;
@@ -445,7 +476,8 @@
   border: 2px dotted #f1f1f1;
   display: block !important;
 }
-.wangEditor-drop-panel .upload-icon-container:hover {
+.wangEditor-drop-panel .upload-icon-container:hover,
+.txt-toolbar .upload-icon-container:hover {
   color: #666;
   border-color: #ccc;
 }

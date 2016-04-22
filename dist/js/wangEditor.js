@@ -46,10 +46,14 @@
     }
 
     // 编辑器（整体）构造函数
-    var E = function (elemId) {
+    var E = function (elem) {
+        // 支持 id 和 element 两种形式
+        if (typeof elem === 'string') {
+            elem = '#' + elem;
+        }
 
         // ---------------获取基本节点------------------
-        var $elem = $('#' + elemId);
+        var $elem = $(elem);
         if ($elem.length !== 1) {
             return;
         }
@@ -1433,6 +1437,10 @@ _e(function (E, $) {
         // 为了执行 editor.commandForElem 而传入的elem查询方式
         this.selectorForELemCommand = opt.selectorForELemCommand;
 
+        // 执行事件前后的钩子
+        this.beforeEvent = opt.beforeEvent;
+        this.afterEvent = opt.afterEvent;
+
         // 初始化
         this.init();
     };
@@ -1489,9 +1497,15 @@ _e(function (E, $) {
         var selectorForELemCommand = self.selectorForELemCommand;
         var $list = self.$list;
 
-        $list.on('click', 'a[commandValue]', function (e) {
-            // 执行命令
+        // 执行事件前后的钩子函数
+        var beforeEvent = self.beforeEvent;
+        var afterEvent = self.afterEvent;
 
+        $list.on('click', 'a[commandValue]', function (e) {
+            // 正式命令执行之前
+            beforeEvent.call(e);
+
+            // 执行命令
             var commandValue = $(e.currentTarget).attr('commandValue');
             if (menu.selected && editor.isRangeEmpty() && selectorForELemCommand) {
                 // 当前处于选中状态，并且选中内容为空
@@ -1500,6 +1514,9 @@ _e(function (E, $) {
                 // 当前未处于选中状态，或者有选中内容。则执行默认命令
                 editor.command(e, commandName, commandValue);
             }
+
+            // 正式命令之后的钩子
+            afterEvent.call(e);
         });
     };
 
@@ -2187,6 +2204,10 @@ _e(function (E, $) {
                 return;
             }
             var txtHtml = $.trim($txt.html());
+            if (txtHtml === '<p><br></p>') {
+                // 如果最后还剩余一个空行，就不再继续删除了
+                return;
+            }
             // ff时用 txtHtml === '<br>' 判断，其他用 !txtHtml 判断
             if (!txtHtml || txtHtml === '<br>') {
                 // 内容空了
@@ -2783,7 +2804,7 @@ _e(function (E, $) {
             return;
         }
 
-        if ($children.last().html() !== '<br>') {
+        if ($.trim($children.last().html()).toLowerCase() !== '<br>') {
             $txt.append($('<p><br></p>'));
         }
     };
@@ -3273,6 +3294,11 @@ _e(function (E, $) {
     E.config.customUpload = false;
     // 自定义上传的init事件
     // E.config.customUploadInit = function () {....};
+
+    // 自定义上传时传递的参数（如 token）
+    E.config.uploadParams = {
+        /* token: 'abcdef12345' */
+    };
 
     // 是否过滤粘贴内容
     E.config.pasteFilter = true;
@@ -4338,11 +4364,33 @@ _e(function (E, $) {
             }
         */
 
+        var isOrderedList;
+        function beforeEvent(e) {
+            if (editor.queryCommandState('InsertOrderedList')) {
+                isOrderedList = true;
+
+                // 先取消有序列表
+                editor.command(e, 'InsertOrderedList');
+            } else {
+                isOrderedList = false;
+            }
+        }
+
+        function afterEvent(e) {
+            if (isOrderedList) {
+                // 再设置有序列表
+                editor.command(e, 'InsertOrderedList');
+            }
+        }
+
         // 创建droplist
         var tpl = '{#commandValue}{#title}';
         menu.dropList = new E.DropList(editor, menu, {
             data: data,
-            tpl: tpl
+            tpl: tpl,
+            // 对 ol 直接设置 head，会出现每个 li 的 index 都变成 1 的问题，因此要先取消 ol，然后设置 head，最后再增加上 ol
+            beforeEvent: beforeEvent,
+            afterEvent: afterEvent
         });
 
         // 定义 update selected 事件
@@ -4796,10 +4844,10 @@ _e(function (E, $) {
         var $tr;
         var i, j;
 
-        // 创建一个10行10列的表格
-        for (i = 0; i < 10; i++) {
+        // 创建一个n行n列的表格
+        for (i = 0; i < 15; i++) {
             $tr = $('<tr index="' + (i + 1) + '">');
-            for (j = 0; j < 10; j++) {
+            for (j = 0; j < 20; j++) {
                 $tr.append($('<td index="' + (j + 1) + '">'));
             }
             $table.append($tr);
@@ -4843,6 +4891,9 @@ _e(function (E, $) {
         }).on('mouseleave', function (e) {
             // mouseleave 删除背景色
             $table.find('td').removeClass('active');
+
+            $row.text(0);
+            $col.text(0);
         });
 
         // 插入表格
@@ -4876,7 +4927,7 @@ _e(function (E, $) {
         // 创建 panel
         menu.dropPanel = new E.DropPanel(editor, menu, {
             $content: $content,
-            width: 181
+            width: 262
         });
 
         // 增加到editor对象中
@@ -6436,16 +6487,24 @@ _e(function (E, $) {
         editor.xhrUploadImg = function (opt) {
             // opt 数据
             var event = opt.event;
+            var fileName = opt.filename || '';
             var base64 = opt.base64;
-            var fileType = opt.fileType || 'image/png';  // 无扩展名，用png
+            var fileType = opt.fileType || 'image/png'; // 无扩展名则默认使用 png
             var name = opt.name || 'wangEditor_upload_file';
             var loadfn = opt.loadfn || onload;
             var errorfn = opt.errorfn || onerror;
             var timeoutfn = opt.timeoutfn || ontimeout;
 
+            // 上传参数（如 token）
+            var params = editor.config.uploadParams || {};
+
             // 获取文件扩展名
             var fileExt = 'png';  // 默认为 png
-            if (fileType.indexOf('/') > 0 && fileType.split('/')[1]) {
+            if (fileName.indexOf('.') > 0) {
+                // 原来的文件名有扩展名
+                fileExt = fileName.slice(fileName.lastIndexOf('.') - fileName.length + 1);
+            } else if (fileType.indexOf('/') > 0 && fileType.split('/')[1]) {
+                // 文件名没有扩展名，通过类型获取，如从 'image/png' 取 'png'
                 fileExt = fileType.split('/')[1];
             }
 
@@ -6512,6 +6571,11 @@ _e(function (E, $) {
 
             // 填充数据
             formData.append(name, convertBase64UrlToBlob(base64, fileType), E.random() + '.' + fileExt);
+
+            // 添加参数
+            $.each(params, function (key, value) {
+                formData.append(key, value);
+            });
 
             // 开始上传
             xhr.open('POST', uploadImgUrl, true);
@@ -6734,6 +6798,7 @@ _e(function (E, $) {
             var base64 = e.target.result || this.result;
             editor.xhrUploadImg({
                 event: e,
+                filename: filename,
                 base64: base64,
                 fileType: fileType,
                 name: 'wangEditorH5File',
@@ -6828,6 +6893,12 @@ _e(function (E, $) {
         var $container = $('<div style="margin:10px 20px;"></div>');
 
         $form.append($p).append($input).append($btn);
+
+        // 增加用户配置的参数，如 token
+        $.each(editor.config.uploadParams, function (key, value) {
+            $form.append( $('<input type="hidden" name="' + key + '" value="' + value + '"/>') );
+        });
+
         $container.append($form);
         $container.append($iframe);
 
@@ -7299,18 +7370,23 @@ _e(function (E, $) {
     
     E.plugin(function () {
         var editor = this;
+        var lang = editor.config.lang;
         var txt = editor.txt;
         var $txt = txt.$txt;
         // 说明：设置了 max-height 之后，$txt.parent() 负责滚动处理
         var $currentTxt = editor.useMaxHeight ? $txt.parent() : $txt;
         var $editorContainer = editor.$editorContainer;
         var $currentImg;
+        var currentLink = '';
 
         // 用到的dom节点
         var isRendered = false;
         var $dragPoint = $('<div class="img-drag-point"></div>');
+
         var $toolbar = $('<div class="txt-toolbar"></div>');
         var $triangle = $('<div class="tip-triangle"></div>');
+
+        var $menuContainer = $('<div></div>');
         var $delete = $('<a href="#"><i class="wangeditor-menu-img-trash-o"></i></a>');
         var $zoomSmall = $('<a href="#"><i class="wangeditor-menu-img-search-minus"></i></a>');
         var $zoomBig = $('<a href="#"><i class="wangeditor-menu-img-search-plus"></i></a>');
@@ -7320,9 +7396,71 @@ _e(function (E, $) {
         var $alignLeft = $('<a href="#"><i class="wangeditor-menu-img-align-left"></i></a>');
         var $alignCenter = $('<a href="#"><i class="wangeditor-menu-img-align-center"></i></a>');
         var $alignRight = $('<a href="#"><i class="wangeditor-menu-img-align-right"></i></a>');
+        var $link = $('<a href="#"><i class="wangeditor-menu-img-link"></i></a>');
+        var $unLink = $('<a href="#"><i class="wangeditor-menu-img-unlink"></i></a>');
+
+        var $linkInputContainer = $('<div style="display:none;"></div>');
+        var $linkInput = $('<input type="text" style="height:26px; margin-left:10px; width:200px;"/>');
+        var $linkBtnSubmit = $('<button class="right">' + lang.submit + '</button>');
+        var $linkBtnCancel = $('<button class="right gray">' + lang.cancel + '</button>');
 
         // 记录是否正在拖拽
         var isOnDrag = false;
+
+        // 获取 / 设置 链接
+        function imgLink(e, url) {
+            if (!$currentImg) {
+                return;
+            }
+            var commandFn;
+            var callback = function () {
+                // 及时保存currentLink
+                if (url != null) {
+                    currentLink = url;
+                }
+            };
+            var $link;
+            var inLink = false;
+            var $parent = $currentImg.parent();
+            if ($parent.get(0).nodeName.toLowerCase() === 'a') {
+                // 父元素就是图片链接
+                $link = $parent;
+                inLink = true;
+            } else {
+                // 父元素不是图片链接，则重新创建一个链接
+                $link = $('<a target="_blank"></a>');
+            }
+
+            if (url == null) {
+                // url 无值，是获取链接
+                return $link.attr('href') || '';
+            } else if (url === '') {
+                // url 是空字符串，是取消链接
+                if (inLink) {
+                    commandFn = function () {
+                        $currentImg.unwrap();
+                    };
+                }
+            } else {
+                // url 有值，是设置链接
+                if (url === currentLink) {
+                    return;
+                }
+                commandFn = function () {
+                    $link.attr('href', url);
+
+                    if (!inLink) {
+                        // 当前图片未包含在链接中，则包含进来
+                        $currentImg.wrap($link);
+                    }
+                };
+            }
+
+            // 执行命令
+            if (commandFn) {
+                editor.customCommand(e, commandFn, callback);
+            }
+        }
 
         // 渲染到页面
         function render() {
@@ -7334,17 +7472,29 @@ _e(function (E, $) {
             bindToolbarEvent();
             bindDragEvent();
 
+            // 菜单放入 container
+            $menuContainer.append($delete)
+                            .append($zoomSmall)
+                            .append($zoomBig)
+                            // .append($floatLeft)
+                            // .append($noFloat)
+                            // .append($floatRight);
+                            .append($alignLeft)
+                            .append($alignCenter)
+                            .append($alignRight)
+                            .append($link)
+                            .append($unLink);
+
+            // 链接input放入container
+            $linkInputContainer.append($linkInput)
+                               .append($linkBtnCancel)
+                               .append($linkBtnSubmit);
+
             // 拼接 渲染到页面上
             $toolbar.append($triangle)
-                    .append($delete)
-                    .append($zoomSmall)
-                    .append($zoomBig)
-                    // .append($floatLeft)
-                    // .append($noFloat)
-                    // .append($floatRight);
-                    .append($alignLeft)
-                    .append($alignCenter)
-                    .append($alignRight);
+                    .append($menuContainer)
+                    .append($linkInputContainer);
+                    
             editor.$editorContainer.append($toolbar).append($dragPoint);
             isRendered = true;
         }
@@ -7361,6 +7511,10 @@ _e(function (E, $) {
 
             // 删除
             $delete.click(function (e) {
+                // 删除之前先unlink
+                imgLink(e, '');
+
+                // 删除图片
                 commandFn = function () {
                     $currentImg.remove();
                 };
@@ -7477,6 +7631,53 @@ _e(function (E, $) {
                 customCommand(e, function () {
                     setTimeout(hide, 100);
                 });
+            });
+
+            // link
+            // 显示链接input
+            $link.click(function (e) {
+                e.preventDefault();
+
+                // 获取当前链接，并显示
+                currentLink = imgLink(e);
+                $linkInput.val(currentLink);
+
+                $menuContainer.hide();
+                $linkInputContainer.show();
+            });
+            // 设置链接
+            $linkBtnSubmit.click(function (e) {
+                e.preventDefault();
+
+                var url = $.trim($linkInput.val());
+                if (url) {
+                    // 设置链接，同时会自动更新 currentLink 的值
+                    imgLink(e, url);
+                }
+
+                // 隐藏 toolbar
+                setTimeout(hide);
+            });
+            // 取消设置链接
+            $linkBtnCancel.click(function (e) {
+                e.preventDefault();
+
+                // 重置链接 input
+                $linkInput.val(currentLink);
+
+                $menuContainer.show();
+                $linkInputContainer.hide();
+            });
+
+            // unlink
+            $unLink.click(function (e) {
+                e.preventDefault();
+
+                // 执行 unlink
+                imgLink(e, '');
+
+                // 隐藏 toolbar
+                setTimeout(hide);
             });
         }
 
@@ -7677,6 +7878,10 @@ _e(function (E, $) {
             // 显示 toolbar
             $currentImg = $img;
             show();
+
+            // 默认显示menuContainer，其他默认隐藏
+            $menuContainer.show();
+            $linkInputContainer.hide();
 
             // 阻止冒泡
             e.preventDefault();
