@@ -1503,7 +1503,9 @@ _e(function (E, $) {
 
         $list.on('click', 'a[commandValue]', function (e) {
             // 正式命令执行之前
-            beforeEvent.call(e);
+            if (beforeEvent && typeof beforeEvent === 'function') {
+                beforeEvent.call(e);
+            }
 
             // 执行命令
             var commandValue = $(e.currentTarget).attr('commandValue');
@@ -1516,7 +1518,9 @@ _e(function (E, $) {
             }
 
             // 正式命令之后的钩子
-            afterEvent.call(e);
+            if (afterEvent && typeof afterEvent === 'function') {
+                afterEvent.call(e);
+            }
         });
     };
 
