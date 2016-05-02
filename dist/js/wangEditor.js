@@ -2203,15 +2203,23 @@ _e(function (E, $) {
         var $txt = self.$txt;
         var $p;
 
+        $txt.on('keydown', function (e) {
+            if (e.keyCode !== 8) {
+                return;
+            }
+            var txtHtml = $.trim($txt.html().toLowerCase());
+            if (txtHtml === '<p><br></p>') {
+                // 如果最后还剩余一个空行，就不再继续删除了
+                e.preventDefault();
+                return;
+            }
+        });
+
         $txt.on('keyup', function (e) {
             if (e.keyCode !== 8) {
                 return;
             }
-            var txtHtml = $.trim($txt.html());
-            if (txtHtml === '<p><br></p>') {
-                // 如果最后还剩余一个空行，就不再继续删除了
-                return;
-            }
+            var txtHtml = $.trim($txt.html().toLowerCase());
             // ff时用 txtHtml === '<br>' 判断，其他用 !txtHtml 判断
             if (!txtHtml || txtHtml === '<br>') {
                 // 内容空了
@@ -2661,6 +2669,12 @@ _e(function (E, $) {
                 return;
             }
 
+            // max-height 和『全屏』暂时有冲突
+            if (editor.menus.fullscreen) {
+                E.warn('max-height和『全屏』菜单一起使用时，会有一些问题尚未解决，请暂时不要两个同时使用');
+                return;
+            }
+
             // 标记
             editor.useMaxHeight = true;
 
@@ -3067,7 +3081,8 @@ _e(function (E, $) {
         insertcode: '插入代码',
         undo: '撤销',
         redo: '重复',
-        fullscreen: '全屏'
+        fullscreen: '全屏',
+        openLink: '打开链接'
     };
 
     // 英文
@@ -3109,7 +3124,8 @@ _e(function (E, $) {
         insertcode: 'Insert Code',
         undo: 'Undo',
         redo: 'Redo',
-        fullscreen: 'Full screnn'
+        fullscreen: 'Full screnn',
+        openLink: 'open link'
     };
 });
 // 全局配置
@@ -3293,6 +3309,8 @@ _e(function (E, $) {
     E.config.uploadTimeout = 20 * 1000;
     // 用于存储上传回调事件
     E.config.uploadImgFns = {};
+    // 自定义上传图片的filename
+    // E.config.uploadImgFileName = 'customFileName';
 
     // 自定义上传，设置为 true 之后，显示上传图标
     E.config.customUpload = false;
@@ -4489,6 +4507,10 @@ _e(function (E, $) {
                         return true;
                     }
                 }
+                if ($(elem).attr('align') === 'left') {
+                    // ff 中，设置align-left之后，会是 <p align="left">xxx</p>
+                    return true;
+                }
                 return false;
             });
             if (rangeElem) {
@@ -4532,6 +4554,10 @@ _e(function (E, $) {
                         return true;
                     }
                 }
+                if ($(elem).attr('align') === 'center') {
+                    // ff 中，设置align-center之后，会是 <p align="center">xxx</p>
+                    return true;
+                }
                 return false;
             });
             if (rangeElem) {
@@ -4574,6 +4600,10 @@ _e(function (E, $) {
                     if (cssText && /text-align:\s*right;/.test(cssText)) {
                         return true;
                     }
+                }
+                if ($(elem).attr('align') === 'right') {
+                    // ff 中，设置align-right之后，会是 <p align="right">xxx</p>
+                    return true;
                 }
                 return false;
             });
@@ -4913,16 +4943,16 @@ _e(function (E, $) {
             // -------- 拼接tabel html --------
 
             var i, j;
-            var tableHtml = '\n<table>';
+            var tableHtml = '<table>';
             for (i = 0; i < rownum; i++) {
-                tableHtml += '\n  <tr>';
+                tableHtml += '<tr>';
 
                 for (j = 0; j < colnum; j++) {
-                    tableHtml += '\n    <td><span>&nbsp;</span></td>';
+                    tableHtml += '<td><span>&nbsp;</span></td>';
                 }
-                tableHtml += '\n  </tr>';
+                tableHtml += '</tr>';
             }
-            tableHtml += '\n</table>\n';
+            tableHtml += '</table>';
 
             // -------- 执行命令 --------
             editor.command(e, 'insertHtml', tableHtml);
@@ -6777,6 +6807,7 @@ _e(function (E, $) {
         var filename = file.name || '';
         var fileType = file.type || '';
         var uploadImgFns = editor.config.uploadImgFns;
+        var uploadFileName = editor.config.uploadImgFileName || 'wangEditorH5File';
         var onload = uploadImgFns.onload;
         var ontimeout = uploadImgFns.ontimeout;
         var onerror = uploadImgFns.onerror;
@@ -6805,7 +6836,7 @@ _e(function (E, $) {
                 filename: filename,
                 base64: base64,
                 fileType: fileType,
-                name: 'wangEditorH5File',
+                name: uploadFileName,
                 loadfn: function (resultText, xhr) {
                     clearInput();
                     // 执行配置中的方法
@@ -6875,6 +6906,7 @@ _e(function (E, $) {
     UploadFile.fn.render = function () {
         var self = this;
         var editor = self.editor;
+        var uploadFileName = editor.config.uploadImgFileName || 'wangEditorFormFile';
         if (self._hasRender) {
             // 不要重复渲染
             return;
@@ -6891,7 +6923,7 @@ _e(function (E, $) {
         var multiple = self.multiple;
         var multipleTpl = multiple ? 'multiple="multiple"' : '';
         var $p = $('<p>选择图片并上传</p>');
-        var $input = $('<input type="file" ' + multipleTpl + ' name="wangEditorFormFile"/>');
+        var $input = $('<input type="file" ' + multipleTpl + ' name="' + uploadFileName + '"/>');
         var $btn = $('<input type="submit" value="上传"/>');
         var $form = $('<form enctype="multipart/form-data" method="post" action="' + uploadUrl + '" target="' + iframeId + '"></form>');
         var $container = $('<div style="margin:10px 20px;"></div>');
@@ -7001,6 +7033,7 @@ _e(function (E, $) {
         var $txt = txt.$txt;
         var config = editor.config;
         var uploadImgUrl = config.uploadImgUrl;
+        var uploadFileName = config.uploadImgFileName || 'wangEditorPasteFile';
         var pasteEvent;
         var $imgsBeforePaste;
 
@@ -7047,7 +7080,7 @@ _e(function (E, $) {
                         event: pasteEvent,
                         base64: base64,
                         fileType: type,
-                        name: 'wangEditorPasteFile'
+                        name: uploadFileName
                     });
                 } else {
                     E.log('src 为 ' + base64 + ' ，不是 base64 格式，暂时不支持上传');
@@ -7103,7 +7136,7 @@ _e(function (E, $) {
                             event: pasteEvent,
                             base64: base64,
                             fileType: fileType,
-                            name: 'wangEditorPasteFile'
+                            name: uploadFileName
                         });
                     };
 
@@ -7136,6 +7169,7 @@ _e(function (E, $) {
         var $txt = txt.$txt;
         var config = editor.config;
         var uploadImgUrl = config.uploadImgUrl;
+        var uploadFileName = config.uploadImgFileName || 'wangEditorDragFile';
 
         // 未配置上传图片url，则忽略
         if (!uploadImgUrl) {
@@ -7179,7 +7213,7 @@ _e(function (E, $) {
                         event: dragEvent,
                         base64: base64,
                         fileType: type,
-                        name: 'wangEditorDragFile'
+                        name: uploadFileName
                     });
                 };
 
@@ -7899,6 +7933,131 @@ _e(function (E, $) {
 
     });
 
+});
+// 编辑区域 link toolbar
+_e(function (E, $) {
+    E.plugin(function () {
+        var editor = this;
+        var lang = editor.config.lang;
+        var $txt = editor.txt.$txt;
+
+        // 当前命中的链接
+        var $currentLink;
+
+        var $toolbar = $('<div class="txt-toolbar"></div>');
+        var $triangle = $('<div class="tip-triangle"></div>');
+        var $triggerLink = $('<a href="#" target="_blank"><i class="wangeditor-menu-img-link"></i> ' + lang.openLink + '</a>');
+        var isRendered;
+
+        // 记录当前的显示/隐藏状态
+        var isShow = false;
+
+        var showTimeoutId, hideTimeoutId;
+        var showTimeoutIdByToolbar, hideTimeoutIdByToolbar;
+
+        // 渲染 dom
+        function render() {
+            if (isRendered) {
+                return;
+            }
+
+            $toolbar.append($triangle)
+                    .append($triggerLink);
+
+            editor.$editorContainer.append($toolbar);
+
+            isRendered = true;
+        }
+
+        // 定位
+        function setPosition() {
+            if (!$currentLink) {
+                return;
+            }
+
+            var position = $currentLink.position();
+            var left = position.left;
+            var top = position.top;
+            var height = $currentLink.height();
+
+            $toolbar.css({
+                top: top + height + 5,
+                left: left
+            });
+        }
+
+        // 显示 toolbar
+        function show() {
+            if (isShow) {
+                return;
+            }
+
+            if (!$currentLink) {
+                return;
+            }
+
+            render();
+
+            $toolbar.show();
+
+            // 设置链接
+            var href = $currentLink.attr('href');
+            $triggerLink.attr('href', href);
+
+            // 定位
+            setPosition();
+
+            isShow = true;
+        }
+
+        // 隐藏 toolbar
+        function hide() {
+            if (!isShow) {
+                return;
+            }
+
+            if (!$currentLink) {
+                return;
+            }
+
+            $toolbar.hide();
+            isShow = false;
+        }
+
+        // $txt 绑定事件
+        $txt.on('mouseenter', 'a', function (e) {
+            // 延时 500ms 显示toolbar
+            if (showTimeoutId) {
+                clearTimeout(showTimeoutId);
+            }
+            showTimeoutId = setTimeout(function () {
+                var a = e.currentTarget;
+                $currentLink = $(a);
+                show();
+            }, 500);
+        }).on('mouseleave', 'a', function (e) {
+            // 延时 500ms 隐藏toolbar
+            if (hideTimeoutId) {
+                clearTimeout(hideTimeoutId);
+            }
+            hideTimeoutId = setTimeout(hide, 500);
+        }).on('click keypress scroll', function (e) {
+            setTimeout(hide, 100);
+        });
+        // $toolbar 绑定事件
+        $toolbar.on('mouseenter', function (e) {
+            // 先中断掉 $txt.mouseleave 导致的隐藏
+            if (hideTimeoutId) {
+                clearTimeout(hideTimeoutId);
+            }
+        }).on('mouseleave', function (e) {
+            // 延时 500ms 显示toolbar
+            if (showTimeoutIdByToolbar) {
+                clearTimeout(showTimeoutIdByToolbar);
+            }
+            showTimeoutIdByToolbar = setTimeout(hide, 500);
+        });
+    });
 });
 // menu吸顶
 _e(function (E, $) {
