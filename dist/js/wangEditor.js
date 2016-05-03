@@ -2616,6 +2616,9 @@ _e(function (E, $) {
 
             if (html === undefined) {
                 return result;
+            } else {
+                // 手动触发 change 事件，因为 $txt 监控了 change 事件来判断是否需要执行 editor.onchange 
+                $txt.change();
             }
         };
     };
@@ -5078,6 +5081,7 @@ _e(function (E, $) {
             };
             img.onerror = function () {
                 // 不是图片
+                E.log('如果此处有浏览器js报错，请忽略。这只是编辑器试图通过表情 value 下载图片没有成功，对功能无任何影响');
                 editor.command(e, 'insertHtml', '<span>' + commandValue + '</span>');
                 img = null;
             };
@@ -5827,6 +5831,9 @@ _e(function (E, $) {
             // highlightjs 语言列表
             var hljs = window.hljs;
             if (hljs && hljs.listLanguages) {
+                if ($langSelect.children().length !== 0) {
+                    return;
+                }
                 $langSelect.css({
                     'margin-top': '9px',
                     'margin-left': '5px'
