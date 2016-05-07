@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <link rel="stylesheet" type="text/css" href="../dist/css/wangEditor.min.css">
+    <style type="text/css">
+        #editor-trigger {
+            height: 400px;
+            /*max-height: 500px;*/
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+    </style>
+    <script type="text/javascript" src="../dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../dist/js/wangEditor.js"></script>
+    <script type="text/javascript">
+        // var editor = new wangEditor('editor-trigger');
+        // editor.create();
+        $(function () {
+            var editor = new wangEditor('editor-trigger');
+            editor.create();
+        });
+    </script>
+</head>
+<body>
+    <p>wangEditor2.0 支持 IE8 浏览器</p>
+    <div id="editor-container" class="container">
+        <div id="editor-trigger">
+            <p>请输入内容...</p>
+        </div>
+    </div>
+</body>
+</html>

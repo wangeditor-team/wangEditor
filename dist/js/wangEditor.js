@@ -172,7 +172,6 @@ _e(function (E, $) {
         var $valueContainer = editor.$valueContainer;
         var currentValue = '';
         var nodeName = editor.valueNodeName;
-
         if (nodeName === 'div') {
             currentValue = $valueContainer.html();
         } else if (nodeName === 'textarea') {
@@ -1781,7 +1780,7 @@ _e(function (E, $) {
             self.hide();
         });
 
-        E.$window.scroll(function () {
+        E.$window.scroll(function (e) {
             self.hide();
         });
 
@@ -2608,6 +2607,12 @@ _e(function (E, $) {
             if (html === undefined) {
                 // 取值，直接触发jquery原生html方法
                 result = $.fn.html.call($txt);
+
+                // 替换 html 中，src和href属性中的 & 字符。
+                // 因为 .html() 或者 .innerHTML 会把所有的 & 字符都改成 &amp; 但是 src 和 href 中的要保持 &
+                result = result.replace(/(href|src)\=\"(.*)\"/igm, function (a, b, c) {
+                    return b + '="' + c.replace('&amp;', '&') + '"';
+                });
             } else {
                 // 赋值，需要同时给 textarea 赋值
                 result = $.fn.html.call($txt, html);
@@ -5969,9 +5974,15 @@ _e(function (E, $) {
                 var lang = $langSelect ? $langSelect.val() : ''; // 获取高亮语言
                 var langClass = '';
                 var doHightlight = function () {
-                    $('pre code').each(function(i, block) {
-                        if (window.hljs) {
+                    $txt.find('pre code').each(function (i, block) {
+                        var $block = $(block);
+                        if ($block.attr('codemark')) {
+                            // 有 codemark 标记的代码块，就不再重新格式化了
+                            return;
+                        } else if (window.hljs) {
+                            // 新代码块，格式化之后，立即标记 codemark
                             window.hljs.highlightBlock(block);
+                            $block.attr('codemark', '1');
                         }
                     });
                 };
@@ -7397,10 +7408,10 @@ _e(function (E, $) {
             e.preventDefault();
             e.stopPropagation();
             
-        }).on('click keypress scroll', function (e) {
+        }).on('click keydown scroll', function (e) {
             setTimeout(hide, 100);
         });
-        E.$body.on('click keypress scroll', function (e) {
+        E.$body.on('click keydown scroll', function (e) {
             setTimeout(hide, 100);
         });
     });
@@ -7932,7 +7943,7 @@ _e(function (E, $) {
             e.preventDefault();
             e.stopPropagation();
             
-        }).on('click keypress scroll', function (e) {
+        }).on('click keydown scroll', function (e) {
             if (!isOnDrag) {
                 setTimeout(hide, 100);
             }
@@ -8048,7 +8059,7 @@ _e(function (E, $) {
                 clearTimeout(hideTimeoutId);
             }
             hideTimeoutId = setTimeout(hide, 500);
-        }).on('click keypress scroll', function (e) {
+        }).on('click keydown scroll', function (e) {
             setTimeout(hide, 100);
         });
         // $toolbar 绑定事件
