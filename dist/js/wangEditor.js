@@ -5075,22 +5075,17 @@ _e(function (E, $) {
         $contentContainer.on('click', 'a[commandValue]', function (e) {
             var $a = $(e.currentTarget);
             var commandValue = $a.attr('commandValue');
+            var img;
 
             // commandValue 有可能是图片url，也有可能是表情的 value，需要区别对待
-            // 用 commandValue 去下载图片，如果下载到，就是图片，下载失败，就不是图片
-            var img = document.createElement('img');
-            img.onload = function () {
-                // 是图片url
+
+            if (emotionsShow === 'icon') {
+                // 插入图片
                 editor.command(e, 'InsertImage', commandValue);
-                img = null;
-            };
-            img.onerror = function () {
-                // 不是图片
-                E.log('如果此处有浏览器js报错，请忽略。这只是编辑器试图通过表情 value 下载图片没有成功，对功能无任何影响');
+            } else {
+                // 插入value
                 editor.command(e, 'insertHtml', '<span>' + commandValue + '</span>');
-                img = null;
-            };
-            img.src = commandValue;
+            }
 
             e.preventDefault();
         });
@@ -7998,8 +7993,19 @@ _e(function (E, $) {
             var top = position.top;
             var height = $currentLink.height();
 
+            // 初步计算top值
+            var topResult = top + height + 5;
+
+            // 判断 toolbar 是否超过了编辑器区域的下边界
+            var menuHeight = editor.menuContainer.height();
+            var txtHeight = editor.txt.$txt.outerHeight();
+            if (topResult > menuHeight + txtHeight) {
+                topResult = menuHeight + txtHeight + 5;
+            }
+
+            // 最终设置
             $toolbar.css({
-                top: top + height + 5,
+                top: topResult,
                 left: left
             });
         }
@@ -8050,7 +8056,25 @@ _e(function (E, $) {
             }
             showTimeoutId = setTimeout(function () {
                 var a = e.currentTarget;
-                $currentLink = $(a);
+                var $a = $(a);
+                $currentLink = $a;
+
+                var $img = $a.children('img');
+                if ($img.length) {
+                    // 该链接下包含一个图片
+
+                    // 图片点击时，隐藏toolbar
+                    $img.click(function (e) {
+                        hide();
+                    });
+
+                    if ($img.hasClass('clicked')) {
+                        // 图片还处于clicked状态，则不显示toolbar
+                        return;
+                    }
+                }
+
+                // 显示toolbar
                 show();
             }, 500);
         }).on('mouseleave', 'a', function (e) {
