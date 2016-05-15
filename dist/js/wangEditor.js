@@ -8119,14 +8119,13 @@ _e(function (E, $) {
         var $editorContainer = editor.$editorContainer;
         var editorTop = $editorContainer.offset().top;
         var editorHeight = $editorContainer.outerHeight();
-
+        
         var $menuContainer = editor.menuContainer.$menuContainer;
         var menuCssPosition = $menuContainer.css('position');
         var menuCssTop = $menuContainer.css('top');
-        var menuWidth;
-        var menuHeight = $menuContainer.outerHeight();
         var menuTop = $menuContainer.offset().top;
-
+        var menuHeight = $menuContainer.outerHeight();
+        
         var $txt = editor.txt.$txt;
 
         E.$window.scroll(function () {
@@ -8134,10 +8133,20 @@ _e(function (E, $) {
             if (editor.isFullScreen) {
                 return;
             }
-            // 需要重新计算宽度，因为浏览器可能此时出现滚动条
-            menuWidth = $menuContainer.width();
 
             var sTop = E.$window.scrollTop();
+
+            // 需要重新计算宽度，因为浏览器可能此时出现滚动条
+            var menuWidth = $menuContainer.width();
+
+            // 如果 menuTop === 0 说明此前编辑器一直隐藏，后来显示出来了，要重新计算相关数据
+            if (menuTop === 0) {
+                menuTop = $menuContainer.offset().top;
+                editorTop = $editorContainer.offset().top;
+                editorHeight = $editorContainer.outerHeight();
+                menuHeight = $menuContainer.outerHeight();
+            }
+
             if (sTop >= menuTop && sTop + menuFixed + menuHeight + 30 < editorTop + editorHeight) {
                 // 吸顶
                 $menuContainer.css({
