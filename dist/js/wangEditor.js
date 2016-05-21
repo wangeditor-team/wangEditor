@@ -7627,15 +7627,9 @@ _e(function (E, $) {
             // alignLeft
             $alignLeft.click(function (e) {
                 commandFn = function () {
-                    if (e.currentTarget.tagName === 'A') {
-                        $currentImg.parent().parent().css({
-                            'text-align': 'left'
-                        }).attr('align', 'left');
-                    } else {
-                        $currentImg.parent().css({
-                            'text-align': 'left'
-                        }).attr('align', 'left');
-                    }
+                    $currentImg.closest('p').css({
+                        'text-align': 'left'
+                    }).attr('align', 'left');
                 };
                 customCommand(e, function () {
                     setTimeout(hide, 100);
@@ -7657,15 +7651,9 @@ _e(function (E, $) {
             // alignRight
             $alignRight.click(function (e) {
                 commandFn = function () {
-                    if (e.currentTarget.tagName === 'A') {
-                        $currentImg.parent().parent().css({
-                            'text-align': 'right'
-                        }).attr('align', 'right');
-                    } else {
-                        $currentImg.parent().css({
-                            'text-align': 'right'
-                        }).attr('align', 'right');
-                    }
+                    $currentImg.closest('p').css({
+                        'text-align': 'right'
+                    }).attr('align', 'right');
                 };
                 customCommand(e, function () {
                     setTimeout(hide, 100);
@@ -7687,15 +7675,9 @@ _e(function (E, $) {
             // alignCenter
             $alignCenter.click(function (e) {
                 commandFn = function () {
-                    if (e.currentTarget.tagName === 'A') {
-                        $currentImg.parent().parent().css({
-                            'text-align': 'center'
-                        }).attr('align', 'center');
-                    } else {
-                        $currentImg.parent().css({
-                            'text-align': 'center'
-                        }).attr('align', 'center');
-                    }
+                    $currentImg.closest('p').css({
+                        'text-align': 'center'
+                    }).attr('align', 'center');
                 };
                 customCommand(e, function () {
                     setTimeout(hide, 100);
