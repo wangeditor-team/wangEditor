@@ -2346,48 +2346,72 @@ _e(function (E, $) {
 
             var pasteHtml, $paste;
             var data = e.clipboardData || e.originalEvent.clipboardData;
+            var ieData = window.clipboardData;
 
-            if (data && data.getData) {
-                // w3c
+            if (editor.config.pasteText) {
+                // 只粘贴纯文本
 
-                // 获取粘贴过来的html
-                pasteHtml = data.getData('text/html');
-                if (pasteHtml) {
-                    // 创建dom
-                    $paste = $('<div>' + pasteHtml + '</div>');
-                    // 处理，并将结果存储到 resultHtml 『全局』变量
-                    handle($paste.get(0));
-                } else {
-                    // 得不到html，试图获取text
+                if (data && data.getData) {
+                    // w3c
                     pasteHtml = data.getData('text/plain');
-                    if (pasteHtml) {
-                        // 替换特殊字符
-                        pasteHtml = pasteHtml.replace(/[ ]/g, '&nbsp;')
-                                             .replace(/</g, '&lt;')
-                                             .replace(/>/g, '&gt;')
-                                             .replace(/\n/g, '</p><p>');
-                        // 拼接
-                        resultHtml = '<p>' + pasteHtml + '</p>';
-
-                        // 查询链接
-                        resultHtml = resultHtml.replace(/<p>(https?:\/\/.*?)<\/p>/ig, function (match, link) {
-                            return '<p><a href="' + link + '" target="_blank">' + link + '</p>';
-                        });
-                    }
-                }
-                
-            } else if (window.clipboardData && window.clipboardData.getData) {
-                // IE 直接从剪切板中取出纯文本格式
-                resultHtml = window.clipboardData.getData('text');
-                if (!resultHtml) {
+                } else if (ieData && ieData.getData) {
+                    // IE
+                    pasteHtml = ieData.getData('text');
+                } else {
+                    // 其他情况
                     return;
                 }
+
                 // 拼接为 <p> 标签
-                resultHtml = '<p>' + resultHtml + '</p>';
-                resultHtml = resultHtml.replace((new RegExp('\n', 'g'), '</p><p>'));
+                if (pasteHtml) {
+                    resultHtml = '<p>' + pasteHtml + '</p>';
+                }
+
             } else {
-                // 其他情况
-                return;
+                // 粘贴过滤了样式的、只有标签的 html
+
+                if (data && data.getData) {
+                    // w3c
+
+                    // 获取粘贴过来的html
+                    pasteHtml = data.getData('text/html');
+                    if (pasteHtml) {
+                        // 创建dom
+                        $paste = $('<div>' + pasteHtml + '</div>');
+                        // 处理，并将结果存储到 resultHtml 『全局』变量
+                        handle($paste.get(0));
+                    } else {
+                        // 得不到html，试图获取text
+                        pasteHtml = data.getData('text/plain');
+                        if (pasteHtml) {
+                            // 替换特殊字符
+                            pasteHtml = pasteHtml.replace(/[ ]/g, '&nbsp;')
+                                                 .replace(/</g, '&lt;')
+                                                 .replace(/>/g, '&gt;')
+                                                 .replace(/\n/g, '</p><p>');
+                            // 拼接
+                            resultHtml = '<p>' + pasteHtml + '</p>';
+
+                            // 查询链接
+                            resultHtml = resultHtml.replace(/<p>(https?:\/\/.*?)<\/p>/ig, function (match, link) {
+                                return '<p><a href="' + link + '" target="_blank">' + link + '</p>';
+                            });
+                        }
+                    }
+                    
+                } else if (ieData && ieData.getData) {
+                    // IE 直接从剪切板中取出纯文本格式
+                    resultHtml = ieData.getData('text');
+                    if (!resultHtml) {
+                        return;
+                    }
+                    // 拼接为 <p> 标签
+                    resultHtml = '<p>' + resultHtml + '</p>';
+                    resultHtml = resultHtml.replace((new RegExp('\n', 'g'), '</p><p>'));
+                } else {
+                    // 其他情况
+                    return;
+                }
             }
 
             // 执行命令
@@ -3332,7 +3356,10 @@ _e(function (E, $) {
 
     // 是否过滤粘贴内容
     E.config.pasteFilter = true;
-     
+
+    // 是否粘贴纯文本，当 editor.config.pasteFilter === false 时候，此配置将失效
+    E.config.pasteText = false;
+
 });
 // 全局UI
 _e(function (E, $) {
@@ -3926,7 +3953,11 @@ _e(function (E, $) {
         function updateValue() {
             var $code = menu.$codeTextarea;
             var $txt = editor.txt.$txt;
-            var value = $code.val(); // 取值
+            var value = $.trim($code.val()); // 取值
+
+            if (!value) {
+                value = '<p><br></p>';
+            }
             
             // 过滤js代码
             if (editor.config.jsFilter) {
@@ -6424,6 +6455,7 @@ _e(function (E, $) {
             E.log('上传结束，返回结果为 ' + resultText);
 
             var editor = this;
+            var originalName = editor.uploadImgOriginalName || '';  // 上传图片时，已经将图片的名字存在 editor.uploadImgOriginalName
             var img;
             if (resultText.indexOf('error|') === 0) {
                 // 提示错误
@@ -6435,7 +6467,7 @@ _e(function (E, $) {
                 // 将结果插入编辑器
                 img = document.createElement('img');
                 img.onload = function () {
-                    var html = '<img src="' + resultText + '" style="max-width:100%;"/>';
+                    var html = '<img src="' + resultText + '" alt="' + originalName + '" style="max-width:100%;"/>';
                     editor.command(null, 'insertHtml', html);
 
                     E.log('已插入图片，地址 ' + resultText);
@@ -6591,6 +6623,12 @@ _e(function (E, $) {
             xhr.onload = function () {
                 if (timeoutId) {
                     clearTimeout(timeoutId);
+                }
+
+                // 记录文件名到 editor.uploadImgOriginalName ，插入图片时，可做 alt 属性用
+                editor.uploadImgOriginalName = fileName;
+                if (fileName.indexOf('.') > 0) {
+                    editor.uploadImgOriginalName = fileName.split('.')[0];
                 }
 
                 // 执行load函数，任何操作，都应该在load函数中定义
@@ -6984,6 +7022,21 @@ _e(function (E, $) {
             if (!resultText) {
                 return;
             }
+
+            // 获取文件名
+            var fileFullName = self.$input.val();  // 结果如 C:\folder\abc.png 格式
+            var fileOriginalName = fileFullName;
+            if (fileFullName.lastIndexOf('\\') >= 0) {
+                // 获取 abc.png 格式
+                fileOriginalName = fileFullName.slice(fileFullName.lastIndexOf('\\') + 1);
+                if (fileOriginalName.indexOf('.') > 0) {
+                    // 获取 abc （即不带扩展名的文件名）
+                    fileOriginalName = fileOriginalName.split('.')[0];
+                }
+            }
+
+            // 将文件名暂存到 editor.uploadImgOriginalName ，插入图片时，可作为 alt 属性来用
+            editor.uploadImgOriginalName = fileOriginalName;
 
             // 执行load函数，插入图片的操作，应该在load函数中执行
             onload.call(editor, resultText);
@@ -7627,7 +7680,8 @@ _e(function (E, $) {
             // alignLeft
             $alignLeft.click(function (e) {
                 commandFn = function () {
-                    $currentImg.parent().css({
+                    // 如果 img 增加了链接，那么 img.parent() 就是 a 标签，设置 align 没用的，因此必须找到 P 父节点来设置 align
+                    $currentImg.parents('p').css({
                         'text-align': 'left'
                     }).attr('align', 'left');
                 };
@@ -7651,7 +7705,8 @@ _e(function (E, $) {
             // alignRight
             $alignRight.click(function (e) {
                 commandFn = function () {
-                    $currentImg.parent().css({
+                    // 如果 img 增加了链接，那么 img.parent() 就是 a 标签，设置 align 没用的，因此必须找到 P 父节点来设置 align
+                    $currentImg.parents('p').css({
                         'text-align': 'right'
                     }).attr('align', 'right');
                 };
@@ -7675,7 +7730,8 @@ _e(function (E, $) {
             // alignCenter
             $alignCenter.click(function (e) {
                 commandFn = function () {
-                    $currentImg.parent().css({
+                    // 如果 img 增加了链接，那么 img.parent() 就是 a 标签，设置 align 没用的，因此必须找到 P 父节点来设置 align
+                    $currentImg.parents('p').css({
                         'text-align': 'center'
                     }).attr('align', 'center');
                 };
