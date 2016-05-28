@@ -3354,6 +3354,11 @@ _e(function (E, $) {
         /* token: 'abcdef12345' */
     };
 
+    // 自定义上传时的请求头（如 Accept）
+    E.config.uploadHeaders = {
+        /* 'Accept' : 'text/x-json' */
+    };
+
     // 是否过滤粘贴内容
     E.config.pasteFilter = true;
 
@@ -6576,6 +6581,8 @@ _e(function (E, $) {
 
             // 上传参数（如 token）
             var params = editor.config.uploadParams || {};
+            // 自定义请求头 (如 Accept)
+            var headers = editor.config.uploadHeaders || {};
 
             // 获取文件扩展名
             var fileExt = 'png';  // 默认为 png
@@ -6664,6 +6671,9 @@ _e(function (E, $) {
 
             // 开始上传
             xhr.open('POST', uploadImgUrl, true);
+            $.each(headers, function (key, value) {
+                xhr.setRequestHeader(key, value);
+            });
             xhr.send(formData);
             timeoutId = setTimeout(timeoutCallback, uploadTimeout);
 
