@@ -14,8 +14,12 @@
         }
     } else if (typeof module === "object" && typeof module.exports === "object") {
         // commonjs
+
+        // 引用 css —— webapck
+        window.wangEditorCssPath ? require(window.wangEditorCssPath) : require('../css/wangEditor.css');
         module.exports = factory(
-            require('./wangEditor-jquery.js')
+            // 传入 jquery ，支持使用 npm 方式或者自己定义jquery的路径
+            window.wangEditorJQueryPath ? require(window.wangEditorJQueryPath) : require('jquery')
         );
     } else {
         // 全局模式
@@ -3354,9 +3358,9 @@ _e(function (E, $) {
         /* token: 'abcdef12345' */
     };
 
-    // 自定义上传时的请求头（如 Accept）
+    // 自定义上传是的header参数
     E.config.uploadHeaders = {
-        /* 'Accept' : 'text/x-json' */
+         /* 'Accept' : 'text/x-json' */
     };
 
     // 是否过滤粘贴内容
@@ -5434,7 +5438,8 @@ _e(function (E, $) {
     // 百度地图的key
     E.baiduMapAk = 'TVhjYjq1ICT2qqL5LdS8mwas';
 
-    var index = 1;
+    // 一个页面中，如果有多个编辑器，地图会出现问题。这个参数记录一下，如果超过 1 就提示
+    E.numberOfLocation = 0;
 
     E.createMenu(function (check) {
         var menuId = 'location';
@@ -5442,7 +5447,7 @@ _e(function (E, $) {
             return;
         }
 
-        if (index++ > 1) {
+        if (++E.numberOfLocation > 1) {
             E.error('目前不支持在一个页面多个编辑器上同时使用地图，可通过自定义菜单配置去掉地图菜单');
             return;
         }
@@ -5820,6 +5825,10 @@ _e(function (E, $) {
     function loadHljs() {
         if (E.userAgent.indexOf('MSIE 8') > 0) {
             // 不支持 IE8
+            return;
+        }
+        if (window.hljs) {
+            // 不要重复加载
             return;
         }
         var script = document.createElement("script");
@@ -6489,14 +6498,14 @@ _e(function (E, $) {
 
         // -------- 定义tiemout函数 --------
         fns.ontimeout || (fns.ontimeout = function (xhr) {
-            E.error('上传上图片发生错误');
-            alert('上传上图片发生错误');
+            E.error('上传图片超时');
+            alert('上传图片超时');
         });
 
         // -------- 定义error函数 --------
         fns.onerror || (fns.onerror = function (xhr) {
-            E.error('上传图片超时');
-            alert('上传图片超时');
+            E.error('上传上图片发生错误');
+            alert('上传上图片发生错误');
         });
 
     });
@@ -6581,7 +6590,8 @@ _e(function (E, $) {
 
             // 上传参数（如 token）
             var params = editor.config.uploadParams || {};
-            // 自定义请求头 (如 Accept)
+
+            // headers
             var headers = editor.config.uploadHeaders || {};
 
             // 获取文件扩展名
@@ -6671,9 +6681,14 @@ _e(function (E, $) {
 
             // 开始上传
             xhr.open('POST', uploadImgUrl, true);
+            // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");  // 将参数解析成传统form的方式上传
+
+            // 修改自定义配置的headers
             $.each(headers, function (key, value) {
                 xhr.setRequestHeader(key, value);
             });
+
+            // 发送数据
             xhr.send(formData);
             timeoutId = setTimeout(timeoutCallback, uploadTimeout);
 
@@ -8435,7 +8450,7 @@ _e(function (E, $) {
         }
 
         // UI
-        var $uploadIcon = $('<a href="#" class="upload-icon-container"><i class="wangeditor-menu-img-upload"></i></a>');
+        var $uploadIcon = $('<div class="upload-icon-container"><i class="wangeditor-menu-img-upload"></i></div>');
         $uploadContent.append($uploadIcon);
 
         // 设置id，并暴露

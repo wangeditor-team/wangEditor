@@ -1,10 +1,18 @@
 {
   "name": "wangeditor",
-  "filename": "dist/js/wangEditor.min.js",
-  "version": "2.1.11",
+  "title": "wangEditor",
+  "version": "2.1.12",
   "description": "wangEditor - 基于javascript和css开发的 Web富文本编辑器， 轻量、简洁、易用、开源免费",
   "homepage": "http://wangeditor.github.io/",
-  "keywords": ["wangEditor", "富文本编辑器"],
+  "author": {
+    "name": "wangfupeng1988",
+    "url": "https://github.com/wangfupeng1988"
+  },
+  "keywords": [
+    "wangEditor",
+    "富文本编辑器"
+  ],
+  "main": "dist/js/wangEditor.js",
   "maintainers": [
     {
       "name": "wangfupeng1988",
@@ -27,5 +35,8 @@
     "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1"
+  },
+  "dependencies": {
+    "jquery": "^2.2.3"
   }
 }

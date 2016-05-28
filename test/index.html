@@ -25,14 +25,14 @@
         </textarea> -->
     </div>
     <p><br></p>
-    
+
     <script type="text/javascript" src="../dist/js/lib/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../dist/js/wangEditor.js"></script>
     <!--<script type="text/javascript" src="../dist/js/wangEditor.min.js"></script>-->
     <script type="text/javascript">
         // 阻止输出log
         // wangEditor.config.printLog = false;
-        
+
         var editor = new wangEditor('editor-trigger');
 
         // 上传图片
@@ -41,6 +41,9 @@
             // token1: 'abcde',
             // token2: '12345'
         };
+        editor.config.uploadHeaders = {
+            // 'Accept' : 'text/x-json'
+        }
         // editor.config.uploadImgFileName = 'myFileName';
 
         // 表情显示项
@@ -54,7 +57,7 @@
 
         // 第三方上传
         // editor.config.customUpload = true;
-        
+
         // editor.config.menus = [
         //     'img',
         //     'insertcode',
