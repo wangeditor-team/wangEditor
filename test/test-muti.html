@@ -84,6 +84,9 @@
             editor1.create();
             editor2.create();
 
+            // 避免上面编辑器的 dropPanel 被下面的编辑器遮挡
+            editor1.$editorContainer.css('z-index', 20)
+            editor2.$editorContainer.css('z-index', 10)
         });
     </script>
 </body>
