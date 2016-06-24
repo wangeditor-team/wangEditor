@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../dist/css/wangEditor.min.css">
+    <style type="text/css">
+        #editor-trigger {
+            height: 400px;
+            /*max-height: 500px;*/
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+    </style>
+    <title>step test</title>
+</head>
+<body>
+    <div id="wizard">
+        <h1>First Step</h1>
+        <div>First Content</div>
+     
+        <h1>Second Step</h1>
+        <div>
+            <div id="editor-container" class="container">
+                <div id="editor-trigger"><p>请输入内容</p></div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script type="text/javascript" src="../../dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../dist/js/wangEditor.js"></script>
+    <script src="//cdn.bootcss.com/jquery-steps/1.1.0/jquery.steps.min.js"></script>
+    <script type="text/javascript">
+        var editor = new wangEditor('editor-trigger');
+        editor.create();
+
+        $("#wizard").steps();
+    </script>
+</body>
+</html>

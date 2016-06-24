@@ -19,7 +19,7 @@
 <body style="padding:0 20px;">
     <p>wangEditor2.0 支持 IE8 浏览器</p>
     <div id="editor-container" class="container">
-        <div id="editor-trigger"><p>请输入内容</p></div>
+        <div id="editor-trigger"><p>请输入内容</p><p>&lt;script&gt;&lt;/script&gt;</p></div>
         <!-- <textarea id="editor-trigger" style="display:none;">
             <p>请输入内容...</p>
         </textarea> -->
@@ -93,12 +93,23 @@
         // 第三方上传
         // editor.config.customUpload = true;
 
+        // 普通菜单配置
         // editor.config.menus = [
         //     'img',
         //     'insertcode',
         //     'eraser',
         //     'fullscreen'
         // ];
+        // 只排除某几个菜单（兼容IE低版本，不支持IE5的浏览器），支持ES5的浏览器可直接用 [].map 方法
+        // editor.config.menus = $.map(wangEditor.config.menus, function(item, key) {
+        //     if (item === 'insertcode') {
+        //         return null;
+        //     }
+        //     if (item === 'fullscreen') {
+        //         return null;
+        //     }
+        //     return item;
+        // });
 
         // onchange 事件
         // editor.onchange = function () {

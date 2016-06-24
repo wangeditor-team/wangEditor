@@ -12,7 +12,7 @@ var path = require('path');
 var uploadfoldername = 'uploadfiles';
 var uploadfolderpath = path.join(__dirname, uploadfoldername);
 
-// var server = '192.168.1.2';
+// var server = '192.168.1.5';
 // var server = '172.22.145.3';
 var server = 'localhost';
 var port = 8011;
