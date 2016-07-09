@@ -3363,6 +3363,9 @@ _e(function (E, $) {
          /* 'Accept' : 'text/x-json' */
     };
 
+    // 隐藏网络图片，默认为 false
+    E.config.hideLinkImg = false;
+
     // 是否过滤粘贴内容
     E.config.pasteFilter = true;
 
@@ -5259,12 +5262,20 @@ _e(function (E, $) {
             $linkContent.addClass('selected');
         }
 
+        // 隐藏网络图片
+        function hideLinkImg() {
+            $tabContainer.remove();
+            $linkContent.remove();
+            $uploadContent.addClass('selected');
+        }
+
         // 判断用户是否配置了上传图片
         editor.ready(function () {
             var editor = this;
             var config = editor.config;
             var uploadImgUrl = config.uploadImgUrl;
             var customUpload = config.customUpload;
+            var linkImg = config.hideLinkImg;
             var $uploadImgPanel;
 
             if (uploadImgUrl || customUpload) {
@@ -5273,6 +5284,11 @@ _e(function (E, $) {
 
                 // 第二，绑定tab切换事件
                 tabToggle();
+
+                if (linkImg) {
+                    // 隐藏网络图片
+                    hideLinkImg();
+                }
             } else {
                 // 未配置上传图片功能
                 hideUploadImg();

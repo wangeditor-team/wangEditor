@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor2 test</title>
+    <link rel="stylesheet" type="text/css" href="../dist/css/wangEditor.min.css">
+    <style type="text/css">
+        #editor-trigger {
+            height: 400px;
+            /*max-height: 500px;*/
+        }
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+    </style>
+</head>
+<body style="padding:0 20px;">
+    <p>wangEditor2.0 支持 IE8 浏览器</p>
+    <div id="editor-container" class="container">
+        <div id="editor-trigger"><p>请输入内容</p><p>&lt;script&gt;&lt;/script&gt;</p></div>
+    </div>
+    <p><br></p>
+
+    <script type="text/javascript" src="../dist/js/lib/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../dist/js/wangEditor.js"></script>
+    <script type="text/javascript">
+
+        var editor = new wangEditor('editor-trigger');
+
+        // 上传图片
+        editor.config.uploadImgUrl = '/upload';
+
+        // 自定义上传事件
+        editor.config.uploadImgFns.onload = function (resultText, xhr) {
+            // resultText 服务器端返回的text
+            // xhr 是 xmlHttpRequest 对象，IE8、9中不支持
+
+            // 上传图片时，已经将图片的名字存在 editor.uploadImgOriginalName
+            var originalName = editor.uploadImgOriginalName || '';  
+            alert(resultText);
+            // 如果 resultText 是图片的url地址，可以这样插入图片：
+            editor.command(null, 'insertHtml', '<img src="' + resultText + '" alt="' + originalName + '" style="max-width:100%;"/>');
+            // 如果不想要 img 的 max-width 样式，也可以这样插入：
+            // editor.command(null, 'InsertImage', resultText);
+        };
+
+        editor.create();
+    </script>
+</body>
+</html>
