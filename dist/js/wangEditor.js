@@ -3250,19 +3250,19 @@ _e(function (E, $) {
         '宋体', '黑体', '楷体', '微软雅黑',
         'Arial', 'Verdana', 'Georgia',
         'Times New Roman', 'Microsoft JhengHei',
-        'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS'
+        'Trebuchet MS', 'Courier New', 'Impact', 'Comic Sans MS', 'Consolas',
     ];
 
     // 字号
     E.config.fontsizes = {
         // 格式：'value': 'title'
-        1: '10px',
+        1: '12px',
         2: '13px',
         3: '16px',
-        4: '19px',
-        5: '22px',
-        6: '25px',
-        7: '28px'
+        4: '18px',
+        5: '24px',
+        6: '32px',
+        7: '48px',
     };
 
     // 表情包
