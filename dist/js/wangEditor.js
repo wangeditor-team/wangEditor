@@ -6705,6 +6705,9 @@ _e(function (E, $) {
                 xhr.setRequestHeader(key, value);
             });
 
+            // 跨域上传时，传cookie
+            xhr.withCredentials = true;
+
             // 发送数据
             xhr.send(formData);
             timeoutId = setTimeout(timeoutCallback, uploadTimeout);
