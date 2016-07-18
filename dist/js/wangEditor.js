@@ -3118,7 +3118,8 @@ _e(function (E, $) {
         undo: '撤销',
         redo: '重复',
         fullscreen: '全屏',
-        openLink: '打开链接'
+        openLink: '打开链接',
+        inserthr: '插入横线'
     };
 
     // 英文
@@ -3161,7 +3162,8 @@ _e(function (E, $) {
         undo: 'Undo',
         redo: 'Redo',
         fullscreen: 'Full screnn',
-        openLink: 'open link'
+        openLink: 'open link',
+        inserthr: 'Insert line'
     };
 });
 // 全局配置
@@ -3213,6 +3215,7 @@ _e(function (E, $) {
         'unlink',
         'table',
         'emotion',
+        'inserthr',
         '|',
         'img',
         'video',
@@ -3468,6 +3471,10 @@ _e(function (E, $) {
         emotion: {
             normal: '<a href="#" tabindex="-1"><i class="wangeditor-menu-img-happy"></i></a>',
             selected: '.selected'
+        },
+        inserthr: {
+            normal: '<a href="#" tabindex="-1"><i class="wangeditor-menu-img-minus"></i></a>',
+            selected: '<a href="#" tabindex="-1"><i class="wangeditor-menu-img-minus"></i></a>'
         },
         img: {
             normal: '<a href="#" tabindex="-1"><i class="wangeditor-menu-img-picture"></i></a>',
@@ -5174,6 +5181,51 @@ _e(function (E, $) {
     });
 
 });
+
+// inserthr 菜单
+_e(function (E, $) {
+
+    E.createMenu(function (check) {
+        var menuId = 'inserthr';
+        if (!check(menuId)) {
+            return;
+        }
+        var editor = this;
+        var lang = editor.config.lang;
+
+        // 创建 menu 对象
+        var menu = new E.Menu({
+            editor: editor,
+            id: menuId,
+            title: lang.inserthr
+        });
+
+        // 菜单正常状态下，点击将触发该事件
+        menu.clickEvent = function (e) {
+            // 找到当前选区所在的 p 元素
+            var elem = editor.getRangeElem();
+            var p = editor.getSelfOrParentByName(elem, 'p');
+            var $p;
+
+            if (!p) {
+                // 未找到 p 元素，则忽略
+                return e.preventDefault();
+            }
+            $p = $(p);
+
+            // 使用自定义命令
+            function commandFn() {
+                $p.before('<p><hr/></p>');
+            }
+            editor.customCommand(e, commandFn);
+        };
+
+        // 增加到editor对象中
+        editor.menus[menuId] = menu;
+    });
+
+});
+
 // img 菜单
 _e(function (E, $) {
 
