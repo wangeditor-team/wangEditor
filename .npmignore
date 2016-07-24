@@ -1,0 +1,10 @@
+node_modules/*
+src/css/*
+src/js/*
+issue
+npm-debug.log
+static/*
+test/*
+uploadfiles/*
+server.js
+server-for-cros.js

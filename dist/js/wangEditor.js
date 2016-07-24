@@ -790,9 +790,19 @@ _e(function (E, $) {
 // undo redo
 _e(function (E, $) {
 
-    var redoList = [];
-    var undoList = [];
     var length = 20;  // 缓存的最大长度
+    function _getRedoList(editor) {
+        if (editor._redoList == null) {
+            editor._redoList = [];
+        }
+        return editor._redoList;
+    }
+    function _getUndoList(editor) {
+        if (editor._undoList == null) {
+            editor._undoList = [];
+        }
+        return editor._undoList;
+    }
 
     // 数据处理
     function _handle(editor, data, type) {
@@ -840,6 +850,8 @@ _e(function (E, $) {
         var editor = this;
         var $txt = editor.txt.$txt;
         var val = $txt.html();
+        var undoList = _getUndoList(editor);
+        var redoList = _getRedoList(editor);
         var currentVal = undoList.length ? undoList[0] : '';
 
         if (val === currentVal.val) {
@@ -865,6 +877,9 @@ _e(function (E, $) {
 
     // undo 操作
     E.fn.undo = function () {
+        var editor = this;
+        var undoList = _getUndoList(editor);
+        var redoList = _getRedoList(editor);
 
         if (!undoList.length) {
             return;
@@ -880,6 +895,9 @@ _e(function (E, $) {
 
     // redo 操作
     E.fn.redo = function () {
+        var editor = this;
+        var undoList = _getUndoList(editor);
+        var redoList = _getRedoList(editor);
         if (!redoList.length) {
             return;
         }
@@ -5621,7 +5639,7 @@ _e(function (E, $) {
         mapData.loadMapScript = function () {
             var script = document.createElement("script");
             script.type = "text/javascript";
-            script.src = "http://api.map.baidu.com/api?v=2.0&ak=" + ak + "&callback=baiduMapCallBack";  // baiduMapCallBack是一个本地函数
+            script.src = "https://api.map.baidu.com/api?v=2.0&ak=" + ak + "&s=1&callback=baiduMapCallBack";  // baiduMapCallBack是一个本地函数
             try {
                 // IE10- 报错
                 document.body.appendChild(script);
