@@ -2429,7 +2429,7 @@ _e(function (E, $) {
                     }
                     // 拼接为 <p> 标签
                     resultHtml = '<p>' + resultHtml + '</p>';
-                    resultHtml = resultHtml.replace((new RegExp('\n', 'g'), '</p><p>'));
+                    resultHtml = resultHtml.replace(new RegExp('\n', 'g'), '</p><p>');
                 } else {
                     // 其他情况
                     return;
