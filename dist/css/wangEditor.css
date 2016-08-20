@@ -216,6 +216,14 @@
   margin: 10px 0;
   line-height: 1.8;
 }
+.wangEditor-container .wangEditor-txt p *,
+.wangEditor-container .wangEditor-txt h1 *,
+.wangEditor-container .wangEditor-txt h2 *,
+.wangEditor-container .wangEditor-txt h3 *,
+.wangEditor-container .wangEditor-txt h4 *,
+.wangEditor-container .wangEditor-txt h5 * {
+  line-height: 1.8;
+}
 .wangEditor-container .wangEditor-txt ul,
 .wangEditor-container .wangEditor-txt ol {
   padding-left: 20px;
