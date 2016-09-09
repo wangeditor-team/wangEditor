@@ -3390,6 +3390,9 @@ _e(function (E, $) {
     // 是否粘贴纯文本，当 editor.config.pasteFilter === false 时候，此配置将失效
     E.config.pasteText = false;
 
+    // 插入代码时，默认的语言
+    E.config.codeDefaultLang = 'javascript';
+
 });
 // 全局UI
 _e(function (E, $) {
@@ -5417,7 +5420,7 @@ _e(function (E, $) {
             var width = parseInt($widthInput.val());
             var height = parseInt($heightInput.val());
             var $div = $('<div>');
-            var html = '<p style="text-align:center;">{content}</p>';
+            var html = '<p>{content}</p>';
 
             // 验证数据
             if (!link) {
@@ -5883,7 +5886,8 @@ _e(function (E, $) {
         setTimeout(loadHljs, 0);
 
         var editor = this;
-        var lang = editor.config.lang;
+        var config = editor.config;
+        var lang = config.lang;
         var $txt = editor.txt.$txt;
 
         // 创建 menu 对象
@@ -5919,7 +5923,14 @@ _e(function (E, $) {
                     'margin-left': '5px'
                 });
                 $.each(hljs.listLanguages(), function (key, lang) {
-                    $langSelect.append('<option value="' + lang + '">' + lang + '</option>');
+                    if (lang === 'xml') {
+                        lang = 'html';
+                    }
+                    if (lang === config.codeDefaultLang) {
+                        $langSelect.append('<option value="' + lang + '" selected="selected">' + lang + '</option>');
+                    } else {
+                        $langSelect.append('<option value="' + lang + '">' + lang + '</option>');
+                    }
                 });
             } else {
                 $langSelect.hide();
@@ -6042,7 +6053,7 @@ _e(function (E, $) {
                 }
 
                 var rangeElem = editor.getRangeElem();
-                if ($.trim($(rangeElem).text())) {
+                if ($.trim($(rangeElem).text()) && codeTpl.indexOf('<p><br></p>') !== 0) {
                     codeTpl = '<p><br></p>' + codeTpl;
                 }
 
