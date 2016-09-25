@@ -1,0 +1,102 @@
+.wangEditor-menu-container {
+
+    width: 100%;
+    border-bottom: 1px solid #f1f1f1;
+    background-color: #fff;
+    
+    a {
+        text-decoration: none;
+    }
+
+    // 菜单组
+    .menu-group {
+        float: left;
+        padding: 0 8px;
+        border-right: 1px solid #f1f1f1;
+    }
+
+    // 单个菜单容器
+    .menu-item {
+        float: left;
+        position: relative;
+        text-align: center;
+        height: 31px;
+        width: 35px;
+
+        &:hover {
+            background-color: #f1f1f1;
+        }
+
+        // 菜单
+        a {
+            display: block;
+            text-align: center;
+            color: @fore-color;
+            width: 100%;
+            padding: 8px 0;
+            font-size: 0.9em;
+        }
+
+         // 菜单选中状态
+        .selected {
+            color: @selected-color;
+        }
+
+        // 激活状态
+        .active {
+            background-color: #f1f1f1;
+        }
+
+        // 禁用状态
+        .disable {
+            opacity: 0.5;
+            filter: Alpha(opacity=50);
+        }
+    }
+
+    // tip提示
+    .menu-tip {
+        display: block;
+        position: absolute;
+        z-index: 20;
+        width: 60px;
+        text-align: center;
+        background-color: @fore-color;
+        color: #fff;
+        padding: 7px 0;
+        font-size: 12px;
+        top: 100%;
+        left: 50%;
+        margin-left: -30px;
+        border-radius: 2px;
+        box-shadow: 1px 1px 5px #999;
+
+        display: none;
+
+        /*// 小三角
+        .tip-triangle {
+            display: block;
+            position: absolute;
+            width: 0;
+            height: 0;
+            border:5px solid;
+            border-color: transparent transparent @fore-color transparent;
+            top: -10px;
+            left: 50%;
+            margin-left: -5px;
+        }*/
+    }
+    .menu-tip-40 {
+        width: 40px;
+        margin-left: -20px;
+    }
+    .menu-tip-50 {
+        width: 50px;
+        margin-left: -25px;
+    }
+}
+.wangEditor-menu-shadow {
+    /*border-bottom-width: 0;*/
+    border-bottom: 1px\9 solid\9 #f1f1f1\9;
+    box-shadow: 0 1px 3px #999;
+}

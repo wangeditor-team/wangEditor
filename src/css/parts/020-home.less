@@ -1,0 +1,113 @@
+.wangEditor-container {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid @border-color;
+    z-index: 1;
+    width: 100%;
+
+    a:focus,
+    button:focus{
+        outline:none;
+    }
+
+    &,* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        line-height: 1;
+    }
+
+    img {
+        border: none;
+    }
+
+    .clearfix:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+    .clearfix {
+        *zoom: 1;
+    }
+
+    textarea {
+        border: none;
+        &:focus{
+            outline: none; 
+        }
+    }
+
+    // 显示p head 高度的 tip
+    .height-tip {
+        position: absolute;
+        width: 3px;
+        background-color: #ccc;
+        left: 0;
+        transition: top .2s;
+    }
+
+    // 设置 img table 的 toolbar
+    .txt-toolbar {
+        position: absolute;
+        background-color: #fff;
+        padding: 3px 5px;
+        border-top: 2px solid @fore-color;
+        box-shadow: 1px 3px 3px #999;
+
+        // for IE8
+        border-left: 1px\9 solid\9 #ccc\9;
+        border-bottom: 1px\9 solid\9 #999\9;
+        border-right: 1px\9 solid\9 #999\9;
+
+        // 小三角
+        .tip-triangle {
+            display: block;
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 5px solid;
+            border-color: transparent transparent @fore-color transparent;
+            top: -12px;
+            left: 50%;
+            margin-left: -5px;
+        }
+
+        a {
+            color: @fore-color;
+            display: inline-block;
+            margin: 0 3px;
+            padding: 5px;
+            text-decoration: none;
+            border-radius: 3px;
+
+            &:hover {
+                background-color: #f1f1f1;
+            }
+        }
+    }
+    // 图品拖拽大小
+    .img-drag-point {
+        display: block;
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        cursor: se-resize;
+        background-color: @fore-color;
+        margin-left: -6px;
+        margin-top: -6px;
+        box-shadow: 1px 1px 5px #999;
+    }
+
+    // 进度条
+    .wangEditor-upload-progress {
+        position: absolute;
+        height: 1px;
+        background: #1e88e5;
+        width: 0;
+        display: none;
+        -webkit-transition: width .5s;
+        -o-transition: width .5s;
+        transition: width .5s;
+    }
+}

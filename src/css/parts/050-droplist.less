@@ -1,0 +1,28 @@
+.wangEditor-drop-list {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    overflow: hidden;
+    z-index: 10;
+
+    transition: height .7s;
+    
+    border-top: 1px solid #f1f1f1;
+    box-shadow: 1px 3px 3px #999;
+
+    // for IE8
+    border-left: 1px\9 solid\9 #ccc\9;
+    border-bottom: 1px\9 solid\9 #999\9;
+    border-right: 1px\9 solid\9 #999\9;
+
+    a {
+        text-decoration: none;
+        display: block;
+        color: @fore-color;
+        padding: 3px 5px;
+
+        &:hover {
+            background-color: #f1f1f1;
+        }
+    }
+}

@@ -3,8 +3,6 @@
 node_modules/grunt/
 node_modules/grunt*/
 node_modules/jquery/
-src/css/*
-src/js/*
 issue
 npm-debug.log
 

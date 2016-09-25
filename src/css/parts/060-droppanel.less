@@ -1,0 +1,200 @@
+.wangEditor-drop-panel,
+.txt-toolbar {
+    display: none;
+    position: absolute;
+    padding: 10px;
+    font-size: 14px;
+    /*border: 1px\9 solid\9 #cccccc\9;*/
+
+    background-color: #fff;
+    z-index: 10;
+    
+    border-top: 2px solid @fore-color;
+    box-shadow: 1px 3px 3px #999;
+
+    // for IE8
+    border-left: 1px\9 solid\9 #ccc\9;
+    border-bottom: 1px\9 solid\9 #999\9;
+    border-right: 1px\9 solid\9 #999\9;
+
+    // 小三角
+    .tip-triangle {
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border: 5px solid;
+        border-color: transparent transparent @fore-color transparent;
+        top: -12px;
+        left: 50%;
+        margin-left: -5px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    // 输入框
+    input[type=text] {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        font-size: 14px;
+        height: 20px;
+        color: #333;
+        padding: 3px 0;
+
+        &:focus{
+            outline: none;
+            border-bottom: 2px solid @focus-input-color;
+        }
+    }
+    input[type=text].block {
+        display: block;
+        width: 100%;
+    }
+    textarea {
+        border: 1px solid #ccc;
+        &:focus {
+            outline: none;
+            border-color: @focus-input-color;
+        }
+    }
+
+    // 按钮
+    button {
+        font-size: 14px;
+        color: @button-color;
+        border: none;
+        padding: 10px;
+        background-color: #fff;
+        cursor: pointer;
+        border-radius: 3px;
+        
+        &:hover {
+            background-color: #f1f1f1;
+        }
+        &:focus{
+            outline: none; 
+        }
+    }
+    button.right {
+        float: right;
+        margin-left: 10px;
+    }
+    button.gray {
+        color: #999;
+    }
+    button.link {
+        padding: 5px 10px;
+        &:hover {
+            background-color: #fff;
+            text-decoration: underline;
+        }
+    }
+    
+    // 颜色块
+    .color-item {
+        display: block;
+        float: left;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        padding: 2px;
+        border-radius: 2px;
+        text-decoration: underline;
+
+        &:hover {
+            background-color: #f1f1f1;
+        }
+    }
+
+    // 列表
+    .list-menu-item {
+        display: block;
+        float: left;
+        color: #333;
+        padding: 5px 5px;
+        border-radius: 2px;
+
+        &:hover {
+            background-color: #f1f1f1;
+        }
+    }
+
+    // 表格
+    table.choose-table {
+        border: none;
+        border-collapse: collapse;
+
+        td {
+            border: 1px solid #ccc;
+            width: 16px;
+            height: 12px;
+        }
+        td.active {
+            background-color: #ccc;
+            opacity: .5;
+            filter: Alpha(opacity=50);
+        }
+    }
+
+    // tab
+    .panel-tab {
+        .tab-container {
+            margin-bottom: 5px;
+
+            a {
+                display: inline-block;
+                color: #999;
+                text-align: center;
+                margin: 0 5px;
+                padding: 5px 5px;
+            }
+
+            a.selected {
+                color: @selected-tab-color;
+                border-bottom: 2px solid @selected-tab-color;
+            }
+        }
+        .content-container {
+            .content {
+                display: none;
+
+                a {
+                    display: inline-block;
+                    margin: 2px;
+                    padding: 2px;
+                    border-radius: 2px;
+
+                    &:hover {
+                        background-color: #f1f1f1;
+                    }
+                }
+            }
+            .selected {
+                display: block;
+            }
+        }
+        .emotion-content-container {
+            height: 200px;
+            overflow-y: auto;
+        }
+    }
+
+    // 上传图片
+    .upload-icon-container {
+        color: #ccc;
+        text-align: center;
+        margin: 20px 20px 15px 20px !important;
+        padding: 5px !important;
+        font-size: 65px;
+        cursor: pointer;
+        border: 2px dotted #f1f1f1;
+        display: block !important;
+
+        &:hover {
+            color: #666;
+            border-color: #ccc;
+        }
+    }
+}

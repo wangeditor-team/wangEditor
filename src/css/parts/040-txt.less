@@ -1,0 +1,42 @@
+.wangEditor-container {
+    .wangEditor-txt{
+        width: 100%;
+        text-align: left;
+        padding: 15px;
+        padding-top: 0;
+        margin-top: 5px;
+        overflow-y: auto;
+
+        p,h1,h2,h3,h4,h5 {
+            margin: 10px 0;
+            line-height: 1.8;
+
+            * {
+                line-height: 1.8;
+            }
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        img {
+            cursor: pointer;
+        }
+        img.clicked {
+            box-shadow: 1px 1px 10px #999;
+        }
+
+        table.clicked {
+            box-shadow: 1px 1px 10px #999;
+        }
+
+        pre code {
+            line-height: 1.5;
+        }
+
+        &:focus{
+            outline: none; 
+        }
+    }
+}
