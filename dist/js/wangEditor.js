@@ -2453,6 +2453,7 @@ _e(function (E, $) {
             var $elem;
             var nodeName = elem.nodeName.toLowerCase();
             var nodeType = elem.nodeType;
+            var childNodesClone;
 
             // 只处理文本和普通node标签
             if (nodeType !== 3 && nodeType !== 1) {
@@ -2463,8 +2464,14 @@ _e(function (E, $) {
 
             // 如果是容器，则继续深度遍历
             if (nodeName === 'div') {
-                $.each(elem.childNodes, function () {
+                childNodesClone = [];
+                $.each(elem.childNodes, function (index, item) {
                     // elem.childNodes 可获取TEXT节点，而 $elem.children() 就获取不到
+                    // 先将 elem.childNodes 拷贝一份，一面在循环递归过程中 elem 发生变化
+                    childNodesClone.push(item);
+                });
+                // 遍历子元素，执行操作
+                $.each(childNodesClone, function () {
                     handle(this);
                 });
                 return;
