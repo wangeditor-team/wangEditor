@@ -35,7 +35,11 @@ _e(function (E, $) {
                 value = value.replace(/<script[\s\S]*?<\/script>/ig, '');
             }
             // 赋值
-            $txt.html(value);
+            try {
+                $txt.html(value);
+            } catch (ex) {
+                // 更新 html 源码出错，一般都是取消了 js 过滤之后，js报错导致的
+            }
         }
 
         // 定义click事件
@@ -57,6 +61,11 @@ _e(function (E, $) {
 
             // 赋值
             $code.val($txt.html());
+
+            // 监控变化
+            $code.on('change', function (e) {
+                updateValue();
+            });
 
             // 渲染
             $txt.after($code).hide();

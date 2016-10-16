@@ -5,6 +5,7 @@ _e(function (E, $) {
         var editor = this;
         var txt = editor.txt;
         var $txt = txt.$txt;
+        var html = '';
         // 说明：设置了 max-height 之后，$txt.parent() 负责滚动处理
         var $currentTxt = editor.useMaxHeight ? $txt.parent() : $txt;
         var $currentTable;
@@ -40,8 +41,20 @@ _e(function (E, $) {
             // 统一执行命令的方法
             var commandFn;
             function command(e, callback) {
+                // 执行命令之前，先存储html内容
+                html = $txt.html();
+                // 监控内容变化
+                var cb = function  () {
+                    if (callback) {
+                        callback();
+                    }
+                    if (html !== $txt.html()) {
+                        $txt.change();
+                    }
+                };
+                // 执行命令
                 if (commandFn) {
-                    editor.customCommand(e, commandFn, callback);
+                    editor.customCommand(e, commandFn, cb);
                 }
             }
 

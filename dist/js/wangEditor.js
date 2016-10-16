@@ -4005,7 +4005,11 @@ _e(function (E, $) {
                 value = value.replace(/<script[\s\S]*?<\/script>/ig, '');
             }
             // 赋值
-            $txt.html(value);
+            try {
+                $txt.html(value);
+            } catch (ex) {
+                // 更新 html 源码出错，一般都是取消了 js 过滤之后，js报错导致的
+            }
         }
 
         // 定义click事件
@@ -4027,6 +4031,11 @@ _e(function (E, $) {
 
             // 赋值
             $code.val($txt.html());
+
+            // 监控变化
+            $code.on('change', function (e) {
+                updateValue();
+            });
 
             // 渲染
             $txt.after($code).hide();
@@ -7379,6 +7388,7 @@ _e(function (E, $) {
         var editor = this;
         var txt = editor.txt;
         var $txt = txt.$txt;
+        var html = '';
         // 说明：设置了 max-height 之后，$txt.parent() 负责滚动处理
         var $currentTxt = editor.useMaxHeight ? $txt.parent() : $txt;
         var $currentTable;
@@ -7414,8 +7424,20 @@ _e(function (E, $) {
             // 统一执行命令的方法
             var commandFn;
             function command(e, callback) {
+                // 执行命令之前，先存储html内容
+                html = $txt.html();
+                // 监控内容变化
+                var cb = function  () {
+                    if (callback) {
+                        callback();
+                    }
+                    if (html !== $txt.html()) {
+                        $txt.change();
+                    }
+                };
+                // 执行命令
                 if (commandFn) {
-                    editor.customCommand(e, commandFn, callback);
+                    editor.customCommand(e, commandFn, cb);
                 }
             }
 
@@ -7558,6 +7580,7 @@ _e(function (E, $) {
         var lang = editor.config.lang;
         var txt = editor.txt;
         var $txt = txt.$txt;
+        var html = '';
         // 说明：设置了 max-height 之后，$txt.parent() 负责滚动处理
         var $currentTxt = editor.useMaxHeight ? $txt.parent() : $txt;
         var $editorContainer = editor.$editorContainer;
@@ -7603,6 +7626,9 @@ _e(function (E, $) {
                 if (url != null) {
                     currentLink = url;
                 }
+                if (html !== $txt.html()) {
+                    $txt.change();
+                }
             };
             var $link;
             var inLink = false;
@@ -7643,6 +7669,9 @@ _e(function (E, $) {
 
             // 执行命令
             if (commandFn) {
+                // 记录下执行命令之前的html内容
+                html = $txt.html();
+                // 执行命令
                 editor.customCommand(e, commandFn, callback);
             }
         }
@@ -7689,8 +7718,20 @@ _e(function (E, $) {
             // 统一执行命令的方法
             var commandFn;
             function customCommand(e, callback) {
+                var cb;
+                // 记录下执行命令之前的html内容
+                html = $txt.html();
+                cb = function () {
+                    if (callback) {
+                        callback();
+                    }
+                    if (html !== $txt.html()) {
+                        $txt.change();
+                    }
+                };
+                // 执行命令
                 if (commandFn) {
-                    editor.customCommand(e, commandFn, callback);
+                    editor.customCommand(e, commandFn, cb);
                 }
             }
 
