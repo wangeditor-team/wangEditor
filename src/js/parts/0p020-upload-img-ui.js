@@ -27,7 +27,7 @@ _e(function (E, $) {
             editor: editor,
             uploadUrl: uploadImgUrl,
             timeout: uploadTimeout,
-            fileAccept: 'image/*'    // 只允许选择图片 
+            fileAccept: 'image/jpg,image/jpeg,image/png,image/gif,image/bmp'    // 只允许选择图片 
         });
 
         // 选择本地文件，上传
