@@ -6978,38 +6978,45 @@ _e(function (E, $) {
         reader.onload = function (e) {
             E.log('已读取' + filename + '文件');
 
-            var base64 = e.target.result || this.result;
-            editor.xhrUploadImg({
-                event: e,
-                filename: filename,
-                base64: base64,
-                fileType: fileType,
-                name: uploadFileName,
-                loadfn: function (resultText, xhr) {
-                    clearInput();
-                    // 执行配置中的方法
-                    var editor = this;
-                    onload.call(editor, resultText, xhr);
-                },
-                errorfn: function (xhr) {
-                    clearInput();
-                    if (E.isOnWebsite) {
-                        alert('wangEditor官网暂时没有服务端，因此报错。实际项目中不会发生');
+            // preUpload
+            typeof editor.config.preUpload === 'function'
+                ? editor.config.preUpload(upload)
+                : upload();
+
+            function upload() {
+                var base64 = e.target.result || this.result;
+                editor.xhrUploadImg({
+                    event: e,
+                    filename: filename,
+                    base64: base64,
+                    fileType: fileType,
+                    name: uploadFileName,
+                    loadfn: function (resultText, xhr) {
+                        clearInput();
+                        // 执行配置中的方法
+                        var editor = this;
+                        onload.call(editor, resultText, xhr);
+                    },
+                    errorfn: function (xhr) {
+                        clearInput();
+                        if (E.isOnWebsite) {
+                            alert('wangEditor官网暂时没有服务端，因此报错。实际项目中不会发生');
+                        }
+                        // 执行配置中的方法
+                        var editor = this;
+                        onerror.call(editor, xhr);
+                    },
+                    timeoutfn: function (xhr) {
+                        clearInput();
+                        if (E.isOnWebsite) {
+                            alert('wangEditor官网暂时没有服务端，因此超时。实际项目中不会发生');
+                        }
+                        // 执行配置中的方法
+                        var editor = this;
+                        ontimeout(editor, xhr);
                     }
-                    // 执行配置中的方法
-                    var editor = this;
-                    onerror.call(editor, xhr);
-                },
-                timeoutfn: function (xhr) {
-                    clearInput();
-                    if (E.isOnWebsite) {
-                        alert('wangEditor官网暂时没有服务端，因此超时。实际项目中不会发生');
-                    }
-                    // 执行配置中的方法
-                    var editor = this;
-                    ontimeout(editor, xhr);
-                }
-            });
+                });
+            }
         };
 
         // 开始取文件
