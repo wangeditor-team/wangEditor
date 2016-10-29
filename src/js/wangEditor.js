@@ -6539,6 +6539,11 @@ _e(function (E, $) {
                 alert(resultText.split('|')[1]);
             } else {
                 E.log('上传成功，即将插入编辑区域，结果为：' + resultText);
+                
+                // 提供用户自己根据 resultText 处理 img url 的方法
+                // 比如七牛上传返回 { hash, key }
+                // 我需要根据 key 生成 自己的 resultText
+                typeof config.preInertImg === 'function' && resultText = preInertImg(resultText);
 
                 // 将结果插入编辑器
                 img = document.createElement('img');
@@ -7286,14 +7291,23 @@ _e(function (E, $) {
                     reader.onload = function (e) {
                         E.log('读取到粘贴的图片');
 
-                        // 执行上传
-                        var base64 = e.target.result || this.result;
-                        editor.xhrUploadImg({
-                            event: pasteEvent,
-                            base64: base64,
-                            fileType: fileType,
-                            name: uploadFileName
-                        });
+                        function upload() {
+                            // 执行上传
+                            var base64 = e.target.result || this.result;
+                            editor.xhrUploadImg({
+                                event: pasteEvent,
+                                base64: base64,
+                                fileType: fileType,
+                                name: uploadFileName
+                            });
+                        }
+
+                        // 在上传前给用户一个机会设置参数
+                        // 比如获取 七牛 客户端 返回的 { key, token }
+                        // 用于设置 config.uploadParams
+                        typeof config.preUpload === 'function')
+                            ? config.preUpload(upload)
+                            : upload();
                     };
 
                     //读取粘贴的文件
