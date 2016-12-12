@@ -38,7 +38,7 @@ _e(function (E, $) {
         var multiple = self.multiple;
         var multipleTpl = multiple ? 'multiple="multiple"' : '';
         var $input = $('<input type="file" ' + acceptTpl + ' ' + multipleTpl + '/>');
-        var $container = $('<div style="visibility:hidden;"></div>');
+        var $container = $('<div style="display:none;"></div>');
 
         $container.append($input);
         E.$body.append($container);
