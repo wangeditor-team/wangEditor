@@ -3198,7 +3198,7 @@ _e(function (E, $) {
     E.config.zindex = 10000;
 
     // 是否打印log
-    E.config.printLog = true;
+    E.config.printLog = false;
 
     // 菜单吸顶：false - 不吸顶；number - 吸顶，值为top值
     E.config.menuFixed = 0;
@@ -6894,7 +6894,7 @@ _e(function (E, $) {
         var multiple = self.multiple;
         var multipleTpl = multiple ? 'multiple="multiple"' : '';
         var $input = $('<input type="file" ' + acceptTpl + ' ' + multipleTpl + '/>');
-        var $container = $('<div style="visibility:hidden;"></div>');
+        var $container = $('<div style="display:none;"></div>');
 
         $container.append($input);
         E.$body.append($container);
