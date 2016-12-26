@@ -130,9 +130,13 @@ _e(function (E, $) {
         // 初始化commandHooks
         this.commandHooks();
 
+        // 版权提示
+        E.info('xx本页面富文本编辑器由 wangEditor 提供 http://wangeditor.github.io/ ');
+
     };
 
 });
+
 // editor api
 _e(function (E, $) {
 
@@ -8560,10 +8564,6 @@ _e(function (E, $) {
         editor.customUploadContainerId = containerId;
     });
 
-});
-// 版权提示
-_e(function (E, $) {
-    E.info('本页面富文本编辑器由 wangEditor 提供 http://wangeditor.github.io/ ');
 });
     
     // 最终返回wangEditor构造函数
