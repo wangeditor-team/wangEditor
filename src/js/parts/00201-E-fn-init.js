@@ -21,6 +21,9 @@ _e(function (E, $) {
         // 初始化commandHooks
         this.commandHooks();
 
+        // 版权提示
+        E.info('xx本页面富文本编辑器由 wangEditor 提供 http://wangeditor.github.io/ ');
+
     };
 
 });
