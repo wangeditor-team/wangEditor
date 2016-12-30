@@ -16,10 +16,10 @@
         // commonjs
 
         // 引用 css —— webapck
-        window.wangEditorCssPath ? require(window.wangEditorCssPath) : require('../css/wangEditor.css');
+        require('../css/wangEditor.css');
         module.exports = factory(
             // 传入 jquery ，支持使用 npm 方式或者自己定义jquery的路径
-            window.wangEditorJQueryPath ? require(window.wangEditorJQueryPath) : require('jquery')
+            require('jquery')
         );
     } else {
         // 全局模式
@@ -6601,7 +6601,7 @@ _e(function (E, $) {
         function convertBase64UrlToBlob(urlData, filetype){
             //去掉url的头，并转换为byte
             var bytes = window.atob(urlData.split(',')[1]);
-            
+
             //处理异常,将ascii码小于0的转换为大于0
             var ab = new ArrayBuffer(bytes.length);
             var ia = new Uint8Array(ab);
@@ -6751,7 +6751,7 @@ _e(function (E, $) {
             });
 
             // 跨域上传时，传cookie
-            xhr.withCredentials = true;
+            xhr.withCredentials = editor.config.withCredentials;
 
             // 发送数据
             xhr.send(formData);
@@ -6761,6 +6761,7 @@ _e(function (E, $) {
         };
     });
 });
+
 // 进度条
 _e(function (E, $) {
 
