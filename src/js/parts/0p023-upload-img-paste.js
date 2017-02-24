@@ -1,18 +1,19 @@
 // upload img 插件 粘贴图片
 _e(function (E, $) {
-    
+
     E.plugin(function () {
         var editor = this;
         var txt = editor.txt;
         var $txt = txt.$txt;
         var config = editor.config;
         var uploadImgUrl = config.uploadImgUrl;
+        var customUpload = config.customUpload;
         var uploadFileName = config.uploadImgFileName || 'wangEditorPasteFile';
         var pasteEvent;
         var $imgsBeforePaste;
 
         // 未配置上传图片url，则忽略
-        if (!uploadImgUrl) {
+        if (!uploadImgUrl && !customUpload) {
             return;
         }
 
@@ -50,12 +51,22 @@ _e(function (E, $) {
                     // 得到的粘贴的图片是 base64 格式，符合要求
                     E.log('src 是 base64 格式，可以上传');
                     type = base64.match(reg)[1];
-                    editor.xhrUploadImg({
-                        event: pasteEvent,
-                        base64: base64,
-                        fileType: type,
-                        name: uploadFileName
-                    });
+                    if ( customUpload )  {
+                        E.log("粘贴时使用自定义上传");
+                        editor.qiniuUpload({
+                            event: pasteEvent,
+                            base64: base64,
+                            fileType: type,
+                            name: uploadFileName
+                        });
+                    } else {
+                        editor.xhrUploadImg({
+                            event: pasteEvent,
+                            base64: base64,
+                            fileType: type,
+                            name: uploadFileName
+                        });
+                    }
                 } else {
                     E.log('src 为 ' + base64 + ' ，不是 base64 格式，暂时不支持上传');
                 }
@@ -106,12 +117,22 @@ _e(function (E, $) {
 
                         // 执行上传
                         var base64 = e.target.result || this.result;
-                        editor.xhrUploadImg({
-                            event: pasteEvent,
-                            base64: base64,
-                            fileType: fileType,
-                            name: uploadFileName
-                        });
+                        if ( customUpload )  {
+                            E.log("粘贴时使用自定义上传");
+                            editor.qiniuUpload({
+                                event: pasteEvent,
+                                base64: base64,
+                                fileType: fileType,
+                                name: uploadFileName
+                            });
+                        } else {
+                            editor.xhrUploadImg({
+                                event: pasteEvent,
+                                base64: base64,
+                                fileType: fileType,
+                                name: uploadFileName
+                            });
+                        }
                     };
 
                     //读取粘贴的文件
