@@ -6585,15 +6585,19 @@ _e(function (E, $) {
         var editor = this;
         var config = editor.config;
         var uploadImgUrl = config.uploadImgUrl;
+        var customUpload = config.customUpload;
         var uploadTimeout = config.uploadTimeout;
-
+        // 自定义上传至七牛
+        var token = config.uptokenstr;
+        var domainstr = config.domainstr;
+        var imgSuffix = config.imgSuffix || '';
         // 获取配置中的上传事件
         var uploadImgFns = config.uploadImgFns;
         var onload = uploadImgFns.onload;
         var ontimeout = uploadImgFns.ontimeout;
         var onerror = uploadImgFns.onerror;
 
-        if (!uploadImgUrl) {
+        if (!uploadImgUrl && !customUpload) {
             return;
         }
 
@@ -6601,7 +6605,7 @@ _e(function (E, $) {
         function convertBase64UrlToBlob(urlData, filetype){
             //去掉url的头，并转换为byte
             var bytes = window.atob(urlData.split(',')[1]);
-            
+
             //处理异常,将ascii码小于0的转换为大于0
             var ab = new ArrayBuffer(bytes.length);
             var ia = new Uint8Array(ab);
@@ -6617,7 +6621,7 @@ _e(function (E, $) {
         function insertImg(src, event) {
             var img = document.createElement('img');
             img.onload = function () {
-                var html = '<img src="' + src + '" style="max-width:100%;"/>';
+                var html = '<img src="' + src + imgSuffix + '" style="max-width:100%;"/>';
                 editor.command(event, 'insertHtml', html);
 
                 E.log('已插入图片，地址 ' + src);
@@ -6637,6 +6641,99 @@ _e(function (E, $) {
                 editor.showUploadProgress(percentComplete * 100);
             }
         }
+
+        // ------------上传至七牛云
+        editor.qiniuUpload = function (opt) {
+            // opt 数据
+            var event = opt.event;
+            var fileName = opt.filename || '';
+            var base64 = opt.base64;
+            var fileType = opt.fileType || 'image/png'; // 无扩展名则默认使用 png
+            var name = opt.name || 'wangEditor_upload_file';
+            var loadfn = opt.loadfn || onload;
+            var errorfn = opt.errorfn || onerror;
+            var timeoutfn = opt.timeoutfn || ontimeout;
+
+            // 上传参数（如 token）
+            var params = editor.config.uploadParams || {};
+
+            // headers
+            var headers = editor.config.uploadHeaders || {};
+
+            // 变量声明
+            var xhr = new XMLHttpRequest();
+            var timeoutId;
+            var formData = new FormData();
+            // 获取文件扩展名
+            var fileExt = 'png';  // 默认为 png
+            if (fileName.indexOf('.') > 0) {
+                // 原来的文件名有扩展名
+                fileExt = fileName.slice(fileName.lastIndexOf('.') - fileName.length + 1);
+            } else if (fileType.indexOf('/') > 0 && fileType.split('/')[1]) {
+                // 文件名没有扩展名，通过类型获取，如从 'image/png' 取 'png'
+                fileExt = fileType.split('/')[1];
+            }
+
+            // ------------ begin 预览模拟上传 ------------
+            if (E.isOnWebsite) {
+                E.log('预览模拟上传');
+                insertImg(base64, event);
+                return;
+            }
+            // ------------ end 预览模拟上传 ------------
+
+            // 超时处理
+            function timeoutCallback() {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+                if (xhr && xhr.abort) {
+                    xhr.abort();
+                }
+
+                // 超时了就阻止默认行为
+                event.preventDefault();
+
+                // 执行回调函数，提示什么内容，都应该在回调函数中定义
+                timeoutfn && timeoutfn.call(editor, xhr);
+
+                // 隐藏进度条
+                editor.hideUploadProgress();
+            }
+
+            xhr.open('POST', "http://upload.qiniu.com", true);
+            formData.append('token', token);
+            formData.append('file', convertBase64UrlToBlob(base64, fileType), E.random() + '.' + fileExt);
+            xhr.upload.addEventListener("progress", updateProgress, false);
+            xhr.onerror = function () {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+
+                // 超时了就阻止默认行为
+                event.preventDefault();
+
+                // 执行error函数，错误提示，应该在error函数中定义
+                errorfn && errorfn.call(editor, xhr);
+
+                // 隐藏进度条
+                editor.hideUploadProgress();
+            };
+            xhr.onreadystatechange = function(response) {
+                if ( xhr.readyState === 4 && xhr.status === 200 && xhr.responseText !== "" ) {
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    // 隐藏进度条
+                    editor.hideUploadProgress();
+                    var data = JSON.parse(xhr.responseText);
+                    insertImg( domainstr + data.key, event);
+                }
+            };
+            xhr.send(formData);
+            timeoutId = setTimeout(timeoutCallback, uploadTimeout);
+            E.log('开始上传...并开始超时计算');
+        };
 
         // -------- xhr 上传图片 --------
         editor.xhrUploadImg = function (opt) {
@@ -6761,6 +6858,7 @@ _e(function (E, $) {
         };
     });
 });
+
 // 进度条
 _e(function (E, $) {
 
@@ -7182,19 +7280,20 @@ _e(function (E, $) {
 });
 // upload img 插件 粘贴图片
 _e(function (E, $) {
-    
+
     E.plugin(function () {
         var editor = this;
         var txt = editor.txt;
         var $txt = txt.$txt;
         var config = editor.config;
         var uploadImgUrl = config.uploadImgUrl;
+        var customUpload = config.customUpload;
         var uploadFileName = config.uploadImgFileName || 'wangEditorPasteFile';
         var pasteEvent;
         var $imgsBeforePaste;
 
         // 未配置上传图片url，则忽略
-        if (!uploadImgUrl) {
+        if (!uploadImgUrl && !customUpload) {
             return;
         }
 
@@ -7232,12 +7331,22 @@ _e(function (E, $) {
                     // 得到的粘贴的图片是 base64 格式，符合要求
                     E.log('src 是 base64 格式，可以上传');
                     type = base64.match(reg)[1];
-                    editor.xhrUploadImg({
-                        event: pasteEvent,
-                        base64: base64,
-                        fileType: type,
-                        name: uploadFileName
-                    });
+                    if ( customUpload )  {
+                        E.log("粘贴时使用自定义上传");
+                        editor.qiniuUpload({
+                            event: pasteEvent,
+                            base64: base64,
+                            fileType: type,
+                            name: uploadFileName
+                        });
+                    } else {
+                        editor.xhrUploadImg({
+                            event: pasteEvent,
+                            base64: base64,
+                            fileType: type,
+                            name: uploadFileName
+                        });
+                    }
                 } else {
                     E.log('src 为 ' + base64 + ' ，不是 base64 格式，暂时不支持上传');
                 }
@@ -7288,12 +7397,22 @@ _e(function (E, $) {
 
                         // 执行上传
                         var base64 = e.target.result || this.result;
-                        editor.xhrUploadImg({
-                            event: pasteEvent,
-                            base64: base64,
-                            fileType: fileType,
-                            name: uploadFileName
-                        });
+                        if ( customUpload )  {
+                            E.log("粘贴时使用自定义上传");
+                            editor.qiniuUpload({
+                                event: pasteEvent,
+                                base64: base64,
+                                fileType: fileType,
+                                name: uploadFileName
+                            });
+                        } else {
+                            editor.xhrUploadImg({
+                                event: pasteEvent,
+                                base64: base64,
+                                fileType: fileType,
+                                name: uploadFileName
+                            });
+                        }
                     };
 
                     //读取粘贴的文件
@@ -7315,7 +7434,8 @@ _e(function (E, $) {
 
     });
 });
-// 拖拽上传图片 插件 
+
+// 拖拽上传图片 插件
 _e(function (E, $) {
 
     E.plugin(function () {
@@ -7325,10 +7445,11 @@ _e(function (E, $) {
         var $txt = txt.$txt;
         var config = editor.config;
         var uploadImgUrl = config.uploadImgUrl;
+        var customUpload = config.customUpload;
         var uploadFileName = config.uploadImgFileName || 'wangEditorDragFile';
 
         // 未配置上传图片url，则忽略
-        if (!uploadImgUrl) {
+        if (!uploadImgUrl && !customUpload) {
             return;
         }
 
@@ -7365,12 +7486,23 @@ _e(function (E, $) {
 
                     // 执行上传
                     var base64 = e.target.result || this.result;
-                    editor.xhrUploadImg({
-                        event: dragEvent,
-                        base64: base64,
-                        fileType: type,
-                        name: uploadFileName
-                    });
+                    if ( customUpload )  {
+                        E.log("粘贴时使用自定义上传");
+                        editor.qiniuUpload({
+                            event: dragEvent,
+                            base64: base64,
+                            fileType: type,
+                            name: uploadFileName
+                        });
+                    } else {
+                        // 执行上传
+                        editor.xhrUploadImg({
+                            event: dragEvent,
+                            base64: base64,
+                            fileType: type,
+                            name: uploadFileName
+                        });
+                    }
                 };
 
                 //读取粘贴的文件
@@ -7381,6 +7513,7 @@ _e(function (E, $) {
     });
 
 });
+
 // 编辑器区域 table toolbar
 _e(function (E, $) {
 

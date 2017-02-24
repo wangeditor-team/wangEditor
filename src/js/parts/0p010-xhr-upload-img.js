@@ -11,15 +11,19 @@ _e(function (E, $) {
         var editor = this;
         var config = editor.config;
         var uploadImgUrl = config.uploadImgUrl;
+        var customUpload = config.customUpload;
         var uploadTimeout = config.uploadTimeout;
-
+        // 自定义上传至七牛
+        var token = config.uptokenstr;
+        var domainstr = config.domainstr;
+        var imgSuffix = config.imgSuffix || '';
         // 获取配置中的上传事件
         var uploadImgFns = config.uploadImgFns;
         var onload = uploadImgFns.onload;
         var ontimeout = uploadImgFns.ontimeout;
         var onerror = uploadImgFns.onerror;
 
-        if (!uploadImgUrl) {
+        if (!uploadImgUrl && !customUpload) {
             return;
         }
 
@@ -27,7 +31,7 @@ _e(function (E, $) {
         function convertBase64UrlToBlob(urlData, filetype){
             //去掉url的头，并转换为byte
             var bytes = window.atob(urlData.split(',')[1]);
-            
+
             //处理异常,将ascii码小于0的转换为大于0
             var ab = new ArrayBuffer(bytes.length);
             var ia = new Uint8Array(ab);
@@ -43,7 +47,7 @@ _e(function (E, $) {
         function insertImg(src, event) {
             var img = document.createElement('img');
             img.onload = function () {
-                var html = '<img src="' + src + '" style="max-width:100%;"/>';
+                var html = '<img src="' + src + imgSuffix + '" style="max-width:100%;"/>';
                 editor.command(event, 'insertHtml', html);
 
                 E.log('已插入图片，地址 ' + src);
@@ -63,6 +67,99 @@ _e(function (E, $) {
                 editor.showUploadProgress(percentComplete * 100);
             }
         }
+
+        // ------------上传至七牛云
+        editor.qiniuUpload = function (opt) {
+            // opt 数据
+            var event = opt.event;
+            var fileName = opt.filename || '';
+            var base64 = opt.base64;
+            var fileType = opt.fileType || 'image/png'; // 无扩展名则默认使用 png
+            var name = opt.name || 'wangEditor_upload_file';
+            var loadfn = opt.loadfn || onload;
+            var errorfn = opt.errorfn || onerror;
+            var timeoutfn = opt.timeoutfn || ontimeout;
+
+            // 上传参数（如 token）
+            var params = editor.config.uploadParams || {};
+
+            // headers
+            var headers = editor.config.uploadHeaders || {};
+
+            // 变量声明
+            var xhr = new XMLHttpRequest();
+            var timeoutId;
+            var formData = new FormData();
+            // 获取文件扩展名
+            var fileExt = 'png';  // 默认为 png
+            if (fileName.indexOf('.') > 0) {
+                // 原来的文件名有扩展名
+                fileExt = fileName.slice(fileName.lastIndexOf('.') - fileName.length + 1);
+            } else if (fileType.indexOf('/') > 0 && fileType.split('/')[1]) {
+                // 文件名没有扩展名，通过类型获取，如从 'image/png' 取 'png'
+                fileExt = fileType.split('/')[1];
+            }
+
+            // ------------ begin 预览模拟上传 ------------
+            if (E.isOnWebsite) {
+                E.log('预览模拟上传');
+                insertImg(base64, event);
+                return;
+            }
+            // ------------ end 预览模拟上传 ------------
+
+            // 超时处理
+            function timeoutCallback() {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+                if (xhr && xhr.abort) {
+                    xhr.abort();
+                }
+
+                // 超时了就阻止默认行为
+                event.preventDefault();
+
+                // 执行回调函数，提示什么内容，都应该在回调函数中定义
+                timeoutfn && timeoutfn.call(editor, xhr);
+
+                // 隐藏进度条
+                editor.hideUploadProgress();
+            }
+
+            xhr.open('POST', "http://upload.qiniu.com", true);
+            formData.append('token', token);
+            formData.append('file', convertBase64UrlToBlob(base64, fileType), E.random() + '.' + fileExt);
+            xhr.upload.addEventListener("progress", updateProgress, false);
+            xhr.onerror = function () {
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+
+                // 超时了就阻止默认行为
+                event.preventDefault();
+
+                // 执行error函数，错误提示，应该在error函数中定义
+                errorfn && errorfn.call(editor, xhr);
+
+                // 隐藏进度条
+                editor.hideUploadProgress();
+            };
+            xhr.onreadystatechange = function(response) {
+                if ( xhr.readyState === 4 && xhr.status === 200 && xhr.responseText !== "" ) {
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    // 隐藏进度条
+                    editor.hideUploadProgress();
+                    var data = JSON.parse(xhr.responseText);
+                    insertImg( domainstr + data.key, event);
+                }
+            };
+            xhr.send(formData);
+            timeoutId = setTimeout(timeoutCallback, uploadTimeout);
+            E.log('开始上传...并开始超时计算');
+        };
 
         // -------- xhr 上传图片 --------
         editor.xhrUploadImg = function (opt) {

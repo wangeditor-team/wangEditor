@@ -1,4 +1,4 @@
-// 拖拽上传图片 插件 
+// 拖拽上传图片 插件
 _e(function (E, $) {
 
     E.plugin(function () {
@@ -8,10 +8,11 @@ _e(function (E, $) {
         var $txt = txt.$txt;
         var config = editor.config;
         var uploadImgUrl = config.uploadImgUrl;
+        var customUpload = config.customUpload;
         var uploadFileName = config.uploadImgFileName || 'wangEditorDragFile';
 
         // 未配置上传图片url，则忽略
-        if (!uploadImgUrl) {
+        if (!uploadImgUrl && !customUpload) {
             return;
         }
 
@@ -48,12 +49,23 @@ _e(function (E, $) {
 
                     // 执行上传
                     var base64 = e.target.result || this.result;
-                    editor.xhrUploadImg({
-                        event: dragEvent,
-                        base64: base64,
-                        fileType: type,
-                        name: uploadFileName
-                    });
+                    if ( customUpload )  {
+                        E.log("粘贴时使用自定义上传");
+                        editor.qiniuUpload({
+                            event: dragEvent,
+                            base64: base64,
+                            fileType: type,
+                            name: uploadFileName
+                        });
+                    } else {
+                        // 执行上传
+                        editor.xhrUploadImg({
+                            event: dragEvent,
+                            base64: base64,
+                            fileType: type,
+                            name: uploadFileName
+                        });
+                    }
                 };
 
                 //读取粘贴的文件

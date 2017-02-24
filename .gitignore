@@ -1,8 +1,10 @@
 
 #忽略
-node_modules/grunt/
-node_modules/grunt*/
-node_modules/jquery/
+node_modules
+uploadfiles
+#node_modules/grunt/
+#node_modules/grunt*/
+#node_modules/jquery/
 issue
 npm-debug.log
 
