@@ -23,8 +23,8 @@ _e(function (E, $) {
         $panelContent.append($tabContainer).append($contentContainer);
 
         // tab
-        var $uploadTab = $('<a href="#">上传图片</a>');
-        var $linkTab = $('<a href="#">网络图片</a>');
+        var $uploadTab = $('<a href="#">' + lang.uploadImg + '</a>');
+        var $linkTab = $('<a href="#">' + lang.linkImg + '</a>');
         $tabContainer.append($uploadTab).append($linkTab);
 
         // 上传图片 content

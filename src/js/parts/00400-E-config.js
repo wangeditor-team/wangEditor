@@ -197,6 +197,9 @@ _e(function (E, $) {
          /* 'Accept' : 'text/x-json' */
     };
 
+    // 跨域上传时传递 cookie，默认为 true
+    E.config.withCredentials = true;
+
     // 隐藏网络图片，默认为 false
     E.config.hideLinkImg = false;
 

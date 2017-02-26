@@ -16,10 +16,10 @@
         // commonjs
 
         // 引用 css —— webapck
-        window.wangEditorCssPath ? require(window.wangEditorCssPath) : require('../css/wangEditor.css');
+        require('../css/wangEditor.css');
         module.exports = factory(
             // 传入 jquery ，支持使用 npm 方式或者自己定义jquery的路径
-            window.wangEditorJQueryPath ? require(window.wangEditorJQueryPath) : require('jquery')
+            require('jquery')
         );
     } else {
         // 全局模式
@@ -2366,7 +2366,7 @@ _e(function (E, $) {
 
             resultHtml = ''; // 先清空 resultHtml
 
-            var pasteHtml, $paste;
+            var pasteHtml, $paste, docSplitHtml;
             var data = e.clipboardData || e.originalEvent.clipboardData;
             var ieData = window.clipboardData;
 
@@ -2397,6 +2397,13 @@ _e(function (E, $) {
 
                     // 获取粘贴过来的html
                     pasteHtml = data.getData('text/html');
+
+                    // 过滤从 word excel 粘贴过来的乱码
+                    docSplitHtml = pasteHtml.split('</html>');
+                    if (docSplitHtml.length === 2) {
+                        pasteHtml = docSplitHtml[0];
+                    }
+
                     if (pasteHtml) {
                         // 创建dom
                         $paste = $('<div>' + pasteHtml + '</div>');
@@ -3130,6 +3137,8 @@ _e(function (E, $) {
         table: '表格',
         emotion: '表情',
         img: '图片',
+        uploadImg: '上传图片',
+        linkImg: '网络图片',
         video: '视频',
         'width': '宽',
         'height': '高',
@@ -3173,6 +3182,8 @@ _e(function (E, $) {
         table: 'Table',
         emotion: 'Emotions',
         img: 'Image',
+        uploadImg: 'Upload',
+        linkImg: 'Link',
         video: 'Video',
         'width': 'width',
         'height': 'height',
@@ -3387,6 +3398,9 @@ _e(function (E, $) {
     E.config.uploadHeaders = {
          /* 'Accept' : 'text/x-json' */
     };
+
+    // 跨域上传时传递 cookie，默认为 true
+    E.config.withCredentials = true;
 
     // 隐藏网络图片，默认为 false
     E.config.hideLinkImg = false;
@@ -5236,8 +5250,8 @@ _e(function (E, $) {
         $panelContent.append($tabContainer).append($contentContainer);
 
         // tab
-        var $uploadTab = $('<a href="#">上传图片</a>');
-        var $linkTab = $('<a href="#">网络图片</a>');
+        var $uploadTab = $('<a href="#">' + lang.uploadImg + '</a>');
+        var $linkTab = $('<a href="#">' + lang.linkImg + '</a>');
         $tabContainer.append($uploadTab).append($linkTab);
 
         // 上传图片 content
@@ -6751,7 +6765,7 @@ _e(function (E, $) {
             });
 
             // 跨域上传时，传cookie
-            xhr.withCredentials = true;
+            xhr.withCredentials = editor.config.withCredentials || true;
 
             // 发送数据
             xhr.send(formData);
@@ -6894,7 +6908,7 @@ _e(function (E, $) {
         var multiple = self.multiple;
         var multipleTpl = multiple ? 'multiple="multiple"' : '';
         var $input = $('<input type="file" ' + acceptTpl + ' ' + multipleTpl + '/>');
-        var $container = $('<div style="visibility:hidden;"></div>');
+        var $container = $('<div style="display:none;"></div>');
 
         $container.append($input);
         E.$body.append($container);

@@ -203,7 +203,7 @@ _e(function (E, $) {
 
             resultHtml = ''; // 先清空 resultHtml
 
-            var pasteHtml, $paste;
+            var pasteHtml, $paste, docSplitHtml;
             var data = e.clipboardData || e.originalEvent.clipboardData;
             var ieData = window.clipboardData;
 
@@ -234,6 +234,13 @@ _e(function (E, $) {
 
                     // 获取粘贴过来的html
                     pasteHtml = data.getData('text/html');
+
+                    // 过滤从 word excel 粘贴过来的乱码
+                    docSplitHtml = pasteHtml.split('</html>');
+                    if (docSplitHtml.length === 2) {
+                        pasteHtml = docSplitHtml[0];
+                    }
+
                     if (pasteHtml) {
                         // 创建dom
                         $paste = $('<div>' + pasteHtml + '</div>');
