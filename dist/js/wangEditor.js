@@ -8320,7 +8320,18 @@ _e(function (E, $) {
         
         var $txt = editor.txt.$txt;
 
+        var goFlag = false; //true表示执行过，false表示未执行。
         E.$window.scroll(function () {
+            //防抖动--ltq
+            if (goFlag) {
+                clearTimeout(timer);
+                var timer = setTimeout(function() {
+                    goFlag = false;
+                }, 600);
+                return;
+            }
+            goFlag = true;
+
             //全屏模式不支持
             if (editor.isFullScreen) {
                 return;
