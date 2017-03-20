@@ -57,7 +57,8 @@ _e(function (E, $) {
                 menuHeight = $menuContainer.outerHeight();
             }
 
-            if (sTop >= menuTop && sTop + menuFixed + menuHeight + 30 < editorTop + editorHeight) {
+            //菜单fixed条件由离开屏幕后（sTop >= menuTop）触发改为达到menuFixed高度时（sTop + menuFixed >= menuTop）触发
+            if (sTop + menuFixed >= menuTop && sTop + menuFixed + menuHeight + 30 < editorTop + editorHeight) {
                 // 吸顶
                 $menuContainer.css({
                     position: 'fixed',
