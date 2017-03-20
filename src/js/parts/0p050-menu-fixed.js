@@ -16,16 +16,31 @@ _e(function (E, $) {
         var $editorContainer = editor.$editorContainer;
         var editorTop = $editorContainer.offset().top;
         var editorHeight = $editorContainer.outerHeight();
-        
+
         var $menuContainer = editor.menuContainer.$menuContainer;
         var menuCssPosition = $menuContainer.css('position');
         var menuCssTop = $menuContainer.css('top');
         var menuTop = $menuContainer.offset().top;
         var menuHeight = $menuContainer.outerHeight();
-        
-        var $txt = editor.txt.$txt;
+        var menuWidth = $menuContainer.width();
 
-        E.$window.scroll(function () {
+        //重新计算宽度
+        E.$window.resize(function () {
+            menuWidth = $menuContainer.width();
+        });
+        //编辑区高度变化
+        editor.onchange = function () {
+            editorHeight = $editorContainer.outerHeight();
+            menuWidth = $menuContainer.width();//可能出现滚动条
+            menuFixedFunc();
+        };
+
+        //这个变量未使用？
+        //var $txt = editor.txt.$txt;
+
+        E.$window.scroll(menuFixedFunc);
+
+        function menuFixedFunc () {
             //全屏模式不支持
             if (editor.isFullScreen) {
                 return;
@@ -33,8 +48,6 @@ _e(function (E, $) {
 
             var sTop = E.$window.scrollTop();
 
-            // 需要重新计算宽度，因为浏览器可能此时出现滚动条
-            var menuWidth = $menuContainer.width();
 
             // 如果 menuTop === 0 说明此前编辑器一直隐藏，后来显示出来了，要重新计算相关数据
             if (menuTop === 0) {
@@ -44,7 +57,8 @@ _e(function (E, $) {
                 menuHeight = $menuContainer.outerHeight();
             }
 
-            if (sTop >= menuTop && sTop + menuFixed + menuHeight + 30 < editorTop + editorHeight) {
+            //菜单fixed条件由离开屏幕后（sTop >= menuTop）触发改为达到menuFixed高度时（sTop + menuFixed >= menuTop）触发
+            if (sTop + menuFixed >= menuTop && sTop + menuFixed + menuHeight + 30 < editorTop + editorHeight) {
                 // 吸顶
                 $menuContainer.css({
                     position: 'fixed',
@@ -83,7 +97,7 @@ _e(function (E, $) {
                     editor._isMenufixed = false;
                 }
             }
-        });
+        }
     });
 
 });
