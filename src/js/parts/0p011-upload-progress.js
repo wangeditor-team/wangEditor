@@ -7,6 +7,7 @@ _e(function (E, $) {
         var menuContainer = editor.menuContainer;
         var menuHeight = menuContainer.height();
         var $editorContainer = editor.$editorContainer;
+        var $menuContainer = editor.menuContainer.$menuContainer;
         var width = $editorContainer.width();
         var $progress = $('<div class="wangEditor-upload-progress"></div>');
 
@@ -21,7 +22,7 @@ _e(function (E, $) {
             $progress.css({
                 top: menuHeight + 'px'
             });
-            $editorContainer.append($progress);
+            $menuContainer.append($progress);
         }
 
         // ------ 显示进度 ------

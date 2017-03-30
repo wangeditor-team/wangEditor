@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="../dist/css/wangEditor.min.css">
     <style type="text/css">
         #editor-trigger {
-            height: 400px;
+            height: 2400px;
             /*max-height: 500px;*/
         }
         .container {
@@ -14,10 +14,20 @@
             margin: 0 auto;
             position: relative;
         }
+        .test {
+            min-height: 100px;
+        }
+        .block {
+            height: 400px;
+        }
+        body {
+            padding-bottom: 11111rem !important;
+        }
     </style>
 </head>
 <body style="padding:0 20px;">
-    <p>wangEditor2.0 支持 IE8 浏览器</p>
+    <div class="test">wangEditor2.0 支持 IE8 浏览器</div>
+    <button onclick="add()">add</button>
     <div id="editor-container" class="container">
         <div id="editor-trigger"><p>请输入内容</p></div>
         <!-- <textarea id="editor-trigger" style="display:none;">
@@ -26,10 +36,16 @@
     </div>
     <p><br></p>
 
+
     <script type="text/javascript" src="../dist/js/lib/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../dist/js/wangEditor.js"></script>
     <!--<script type="text/javascript" src="../dist/js/wangEditor.min.js"></script>-->
     <script type="text/javascript">
+
+        function add () {
+            console.log("add");
+            $(".test")[0].innerHTML = "<div class='block'></div>";
+        }
         // 阻止输出log
         // wangEditor.config.printLog = false;
 
@@ -37,6 +53,14 @@
 
         // 上传图片
         editor.config.uploadImgUrl = '/upload';
+
+        // 设置 customUpload = true 启用自定义上传（至七牛云）
+        // 设置此项为 true 后，粘贴和拖拽上传会根据下面的 uptokenstr、domainstr 参数 上传至七牛云
+        // editor.config.customUpload = true;
+        // editor.config.uptokenstr = "你的上传token";
+        // editor.config.domainstr = "http://www.example.com/";
+        // editor.config.imgSuffix = "!w400";
+        editor.config.menuFixed = 10;
         editor.config.uploadParams = {
             // token1: 'abcde',
             // token2: '12345'
@@ -61,23 +85,23 @@
                 data: [
                     {
                         icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/7a/shenshou_thumb.gif',
-                        value: '[草泥马]'    
+                        value: '[草泥马]'
                     },
                     {
                         icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/60/horse2_thumb.gif',
-                        value: '[神马]'    
+                        value: '[神马]'
                     },
                     {
                         icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/bc/fuyun_thumb.gif',
-                        value: '[浮云]'    
+                        value: '[浮云]'
                     },
                     {
                         icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/c9/geili_thumb.gif',
-                        value: '[给力]'    
+                        value: '[给力]'
                     },
                     {
                         icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/f2/wg_thumb.gif',
-                        value: '[围观]'    
+                        value: '[围观]'
                     },
                     {
                         icon: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/70/vw_thumb.gif',
@@ -144,6 +168,7 @@
         //     selected: '<button style="font-size:20px; margin-top:5px;"><i>I</i></button>'
         // };
         editor.create();
+
     </script>
 </body>
 </html>

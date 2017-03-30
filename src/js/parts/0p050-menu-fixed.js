@@ -16,13 +16,13 @@ _e(function (E, $) {
         var $editorContainer = editor.$editorContainer;
         var editorTop = $editorContainer.offset().top;
         var editorHeight = $editorContainer.outerHeight();
-        
+
         var $menuContainer = editor.menuContainer.$menuContainer;
         var menuCssPosition = $menuContainer.css('position');
         var menuCssTop = $menuContainer.css('top');
         var menuTop = $menuContainer.offset().top;
         var menuHeight = $menuContainer.outerHeight();
-        
+
         var $txt = editor.txt.$txt;
 
         E.$window.scroll(function () {
@@ -32,7 +32,7 @@ _e(function (E, $) {
             }
 
             var sTop = E.$window.scrollTop();
-
+            var txtTop = $txt.offset().top;
             // 需要重新计算宽度，因为浏览器可能此时出现滚动条
             var menuWidth = $menuContainer.width();
 
@@ -44,7 +44,7 @@ _e(function (E, $) {
                 menuHeight = $menuContainer.outerHeight();
             }
 
-            if (sTop >= menuTop && sTop + menuFixed + menuHeight + 30 < editorTop + editorHeight) {
+            if (sTop >= txtTop - menuHeight - menuFixed && sTop + menuFixed + 2 * menuHeight + 30 < txtTop + editorHeight) {
                 // 吸顶
                 $menuContainer.css({
                     position: 'fixed',
