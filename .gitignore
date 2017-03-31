@@ -1,8 +1,6 @@
 
 #忽略
-node_modules/grunt/
-node_modules/grunt*/
-node_modules/jquery/
+node_modules
 issue
 npm-debug.log
 
