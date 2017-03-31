@@ -6784,6 +6784,7 @@ _e(function (E, $) {
         var menuContainer = editor.menuContainer;
         var menuHeight = menuContainer.height();
         var $editorContainer = editor.$editorContainer;
+        var $menuContainer = editor.menuContainer.$menuContainer;
         var width = $editorContainer.width();
         var $progress = $('<div class="wangEditor-upload-progress"></div>');
 
@@ -6798,7 +6799,7 @@ _e(function (E, $) {
             $progress.css({
                 top: menuHeight + 'px'
             });
-            $editorContainer.append($progress);
+            $menuContainer.append($progress);
         }
 
         // ------ 显示进度 ------
@@ -6829,6 +6830,7 @@ _e(function (E, $) {
         };
     });
 });
+
 // upload img 插件
 _e(function (E, $) {
 
@@ -8317,7 +8319,7 @@ _e(function (E, $) {
         var menuCssTop = $menuContainer.css('top');
         var menuTop = $menuContainer.offset().top;
         var menuHeight = $menuContainer.outerHeight();
-        
+
         var $txt = editor.txt.$txt;
 
         E.$window.scroll(function () {
@@ -8327,6 +8329,7 @@ _e(function (E, $) {
             }
 
             var sTop = E.$window.scrollTop();
+            var txtTop = $txt.offset().top;
 
             // 需要重新计算宽度，因为浏览器可能此时出现滚动条
             var menuWidth = $menuContainer.width();
@@ -8339,7 +8342,7 @@ _e(function (E, $) {
                 menuHeight = $menuContainer.outerHeight();
             }
 
-            if (sTop >= menuTop && sTop + menuFixed + menuHeight + 30 < editorTop + editorHeight) {
+            if (sTop >= txtTop - menuHeight - menuFixed && sTop + menuFixed + 2 * menuHeight + 30 < txtTop + editorHeight) {
                 // 吸顶
                 $menuContainer.css({
                     position: 'fixed',
@@ -8382,6 +8385,7 @@ _e(function (E, $) {
     });
 
 });
+
 // 缩进 菜单插件
 _e(function (E, $) {
 
