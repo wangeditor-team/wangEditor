@@ -19,7 +19,7 @@ Bold.prototype = {
 
     // 点击事件
     onClick: function (e) {
-
+        // 点击菜单将触发这里
     },
 
     // 试图改变 active 状态

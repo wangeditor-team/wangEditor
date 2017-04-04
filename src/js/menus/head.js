@@ -2,6 +2,7 @@
     menu - header
 */
 import $ from '../util/dom-core.js'
+import DropList from './droplist/index.js'
 
 // 构造函数
 function Head(editor) {
@@ -11,6 +12,9 @@ function Head(editor) {
 
     // 当前是否 active 状态
     this.active = false
+
+    // 初始化 droplist
+    this.droplist = new DropList()
 }
 
 // 原型

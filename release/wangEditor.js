@@ -37,519 +37,6 @@ var polyfill = function () {
             return to;
         };
     }
-
-    // Array.prototype.forEach
-    if (!Array.prototype.forEach) {
-        Array.prototype.forEach = function (callback /*, thisArg*/) {
-            var T, k;
-            if (this == null) {
-                throw new TypeError('this is null or not defined');
-            }
-
-            // 1. Let O be the result of calling toObject() passing the
-            // |this| value as the argument.
-            var O = Object(this);
-
-            // 2. Let lenValue be the result of calling the Get() internal
-            // method of O with the argument "length".
-            // 3. Let len be toUint32(lenValue).
-            var len = O.length >>> 0;
-
-            // 4. If isCallable(callback) is false, throw a TypeError exception. 
-            // See: http://es5.github.com/#x9.11
-            if (typeof callback !== 'function') {
-                throw new TypeError(callback + ' is not a function');
-            }
-
-            // 5. If thisArg was supplied, let T be thisArg; else let
-            // T be undefined.
-            if (arguments.length > 1) {
-                T = arguments[1];
-            }
-
-            // 6. Let k be 0
-            k = 0;
-
-            // 7. Repeat, while k < len
-            while (k < len) {
-
-                var kValue;
-
-                // a. Let Pk be ToString(k).
-                //    This is implicit for LHS operands of the in operator
-                // b. Let kPresent be the result of calling the HasProperty
-                //    internal method of O with argument Pk.
-                //    This step can be combined with c
-                // c. If kPresent is true, then
-                if (k in O) {
-
-                    // i. Let kValue be the result of calling the Get internal
-                    // method of O with argument Pk.
-                    kValue = O[k];
-
-                    // ii. Call the Call internal method of callback with T as
-                    // the this value and argument list containing kValue, k, and O.
-                    callback.call(T, kValue, k, O);
-                }
-                // d. Increase k by 1.
-                k++;
-            }
-            // 8. return undefined
-        };
-    }
-};
-
-// ierange - W3C DOM Ranges for IE - https://code.google.com/archive/p/ierange/
-// 该文件将被 eslint 忽略检查，见 ./.eslintignore 的配置
-
-var ierange = function () {
-    // sandbox
-
-    if (document.attachEvent == null) {
-        // 不是 IE 低版本
-        return;
-    }
-
-    /*
-      DOM functions
-     */
-
-    var DOMUtils = {
-        findChildPosition: function findChildPosition(node) {
-            for (var i = 0; node = node.previousSibling; i++) {
-                continue;
-            }return i;
-        },
-        isDataNode: function isDataNode(node) {
-            return node && node.nodeValue !== null && node.data !== null;
-        },
-        isAncestorOf: function isAncestorOf(parent, node) {
-            return !DOMUtils.isDataNode(parent) && (parent.contains(DOMUtils.isDataNode(node) ? node.parentNode : node) || node.parentNode == parent);
-        },
-        isAncestorOrSelf: function isAncestorOrSelf(root, node) {
-            return DOMUtils.isAncestorOf(root, node) || root == node;
-        },
-        findClosestAncestor: function findClosestAncestor(root, node) {
-            if (DOMUtils.isAncestorOf(root, node)) while (node && node.parentNode != root) {
-                node = node.parentNode;
-            }return node;
-        },
-        getNodeLength: function getNodeLength(node) {
-            return DOMUtils.isDataNode(node) ? node.length : node.childNodes.length;
-        },
-        splitDataNode: function splitDataNode(node, offset) {
-            if (!DOMUtils.isDataNode(node)) return false;
-            var newNode = node.cloneNode(false);
-            node.deleteData(offset, node.length);
-            newNode.deleteData(0, offset);
-            node.parentNode.insertBefore(newNode, node.nextSibling);
-        }
-    };
-
-    /*
-      Text Range utilities
-      functions to simplify text range manipulation in ie
-     */
-
-    var TextRangeUtils = {
-        convertToDOMRange: function convertToDOMRange(textRange, document) {
-            function adoptBoundary(domRange, textRange, bStart) {
-                // iterate backwards through parent element to find anchor location
-                var cursorNode = document.createElement('a'),
-                    cursor = textRange.duplicate();
-                cursor.collapse(bStart);
-                var parent = cursor.parentElement();
-                do {
-                    parent.insertBefore(cursorNode, cursorNode.previousSibling);
-                    cursor.moveToElementText(cursorNode);
-                } while (cursor.compareEndPoints(bStart ? 'StartToStart' : 'StartToEnd', textRange) > 0 && cursorNode.previousSibling);
-
-                // when we exceed or meet the cursor, we've found the node
-                if (cursor.compareEndPoints(bStart ? 'StartToStart' : 'StartToEnd', textRange) == -1 && cursorNode.nextSibling) {
-                    // data node
-                    cursor.setEndPoint(bStart ? 'EndToStart' : 'EndToEnd', textRange);
-                    domRange[bStart ? 'setStart' : 'setEnd'](cursorNode.nextSibling, cursor.text.length);
-                } else {
-                    // element
-                    domRange[bStart ? 'setStartBefore' : 'setEndBefore'](cursorNode);
-                }
-                cursorNode.parentNode.removeChild(cursorNode);
-            }
-
-            // return a DOM range
-            var domRange = new DOMRange(document);
-            adoptBoundary(domRange, textRange, true);
-            adoptBoundary(domRange, textRange, false);
-            return domRange;
-        },
-
-        convertFromDOMRange: function convertFromDOMRange(domRange) {
-            function adoptEndPoint(textRange, domRange, bStart) {
-                // find anchor node and offset
-                var container = domRange[bStart ? 'startContainer' : 'endContainer'];
-                var offset = domRange[bStart ? 'startOffset' : 'endOffset'],
-                    textOffset = 0;
-                var anchorNode = DOMUtils.isDataNode(container) ? container : container.childNodes[offset];
-                var anchorParent = DOMUtils.isDataNode(container) ? container.parentNode : container;
-                // visible data nodes need a text offset
-                if (container.nodeType == 3 || container.nodeType == 4) textOffset = offset;
-
-                // create a cursor element node to position range (since we can't select text nodes)
-                var cursorNode = domRange._document.createElement('a');
-                anchorParent.insertBefore(cursorNode, anchorNode);
-                var cursor = domRange._document.body.createTextRange();
-                cursor.moveToElementText(cursorNode);
-                cursorNode.parentNode.removeChild(cursorNode);
-                // move range
-                textRange.setEndPoint(bStart ? 'StartToStart' : 'EndToStart', cursor);
-                textRange[bStart ? 'moveStart' : 'moveEnd']('character', textOffset);
-            }
-
-            // return an IE text range
-            var textRange = domRange._document.body.createTextRange();
-            adoptEndPoint(textRange, domRange, true);
-            adoptEndPoint(textRange, domRange, false);
-            return textRange;
-        }
-    };
-
-    /*
-      DOM Range
-     */
-
-    function DOMRange(document) {
-        // save document parameter
-        this._document = document;
-
-        // initialize range
-        //[TODO] this should be located at document[0], document[0]
-        this.startContainer = this.endContainer = document.body;
-        this.endOffset = DOMUtils.getNodeLength(document.body);
-    }
-    DOMRange.START_TO_START = 0;
-    DOMRange.START_TO_END = 1;
-    DOMRange.END_TO_END = 2;
-    DOMRange.END_TO_START = 3;
-
-    DOMRange.prototype = {
-        // public properties
-        startContainer: null,
-        startOffset: 0,
-        endContainer: null,
-        endOffset: 0,
-        commonAncestorContainer: null,
-        collapsed: false,
-        // private properties
-        _document: null,
-
-        // private methods
-        _refreshProperties: function _refreshProperties() {
-            // collapsed attribute
-            this.collapsed = this.startContainer == this.endContainer && this.startOffset == this.endOffset;
-            // find common ancestor
-            var node = this.startContainer;
-            while (node && node != this.endContainer && !DOMUtils.isAncestorOf(node, this.endContainer)) {
-                node = node.parentNode;
-            }this.commonAncestorContainer = node;
-        },
-
-        // range methods
-        //[TODO] collapse if start is after end, end is before start
-        setStart: function setStart(container, offset) {
-            this.startContainer = container;
-            this.startOffset = offset;
-            this._refreshProperties();
-        },
-        setEnd: function setEnd(container, offset) {
-            this.endContainer = container;
-            this.endOffset = offset;
-            this._refreshProperties();
-        },
-        setStartBefore: function setStartBefore(refNode) {
-            // set start to beore this node
-            this.setStart(refNode.parentNode, DOMUtils.findChildPosition(refNode));
-        },
-        setStartAfter: function setStartAfter(refNode) {
-            // select next sibling
-            this.setStart(refNode.parentNode, DOMUtils.findChildPosition(refNode) + 1);
-        },
-        setEndBefore: function setEndBefore(refNode) {
-            // set end to beore this node
-            this.setEnd(refNode.parentNode, DOMUtils.findChildPosition(refNode));
-        },
-        setEndAfter: function setEndAfter(refNode) {
-            // select next sibling
-            this.setEnd(refNode.parentNode, DOMUtils.findChildPosition(refNode) + 1);
-        },
-        selectNode: function selectNode(refNode) {
-            this.setStartBefore(refNode);
-            this.setEndAfter(refNode);
-        },
-        selectNodeContents: function selectNodeContents(refNode) {
-            this.setStart(refNode, 0);
-            this.setEnd(refNode, DOMUtils.getNodeLength(refNode));
-        },
-        collapse: function collapse(toStart) {
-            if (toStart) this.setEnd(this.startContainer, this.startOffset);else this.setStart(this.endContainer, this.endOffset);
-        },
-
-        // editing methods
-        cloneContents: function cloneContents() {
-            // clone subtree
-            return function cloneSubtree(iterator) {
-                for (var node, frag = document.createDocumentFragment(); node = iterator.next();) {
-                    node = node.cloneNode(!iterator.hasPartialSubtree());
-                    if (iterator.hasPartialSubtree()) node.appendChild(cloneSubtree(iterator.getSubtreeIterator()));
-                    frag.appendChild(node);
-                }
-                return frag;
-            }(new RangeIterator(this));
-        },
-        extractContents: function extractContents() {
-            // cache range and move anchor points
-            var range = this.cloneRange();
-            if (this.startContainer != this.commonAncestorContainer) this.setStartAfter(DOMUtils.findClosestAncestor(this.commonAncestorContainer, this.startContainer));
-            this.collapse(true);
-            // extract range
-            return function extractSubtree(iterator) {
-                for (var node, frag = document.createDocumentFragment(); node = iterator.next();) {
-                    iterator.hasPartialSubtree() ? node = node.cloneNode(false) : iterator.remove();
-                    if (iterator.hasPartialSubtree()) node.appendChild(extractSubtree(iterator.getSubtreeIterator()));
-                    frag.appendChild(node);
-                }
-                return frag;
-            }(new RangeIterator(range));
-        },
-        deleteContents: function deleteContents() {
-            // cache range and move anchor points
-            var range = this.cloneRange();
-            if (this.startContainer != this.commonAncestorContainer) this.setStartAfter(DOMUtils.findClosestAncestor(this.commonAncestorContainer, this.startContainer));
-            this.collapse(true);
-            // delete range
-            (function deleteSubtree(iterator) {
-                while (iterator.next()) {
-                    iterator.hasPartialSubtree() ? deleteSubtree(iterator.getSubtreeIterator()) : iterator.remove();
-                }
-            })(new RangeIterator(range));
-        },
-        insertNode: function insertNode(newNode) {
-            // set original anchor and insert node
-            if (DOMUtils.isDataNode(this.startContainer)) {
-                DOMUtils.splitDataNode(this.startContainer, this.startOffset);
-                this.startContainer.parentNode.insertBefore(newNode, this.startContainer.nextSibling);
-            } else {
-                this.startContainer.insertBefore(newNode, this.startContainer.childNodes[this.startOffset]);
-            }
-            // resync start anchor
-            this.setStart(this.startContainer, this.startOffset);
-        },
-        surroundContents: function surroundContents(newNode) {
-            // extract and surround contents
-            var content = this.extractContents();
-            this.insertNode(newNode);
-            console.log(this);
-            newNode.appendChild(content);
-            this.selectNode(newNode);
-        },
-
-        // other methods
-        compareBoundaryPoints: function compareBoundaryPoints(how, sourceRange) {
-            // get anchors
-            var containerA, offsetA, containerB, offsetB;
-            switch (how) {
-                case DOMRange.START_TO_START:
-                case DOMRange.START_TO_END:
-                    containerA = this.startContainer;
-                    offsetA = this.startOffset;
-                    break;
-                case DOMRange.END_TO_END:
-                case DOMRange.END_TO_START:
-                    containerA = this.endContainer;
-                    offsetA = this.endOffset;
-                    break;
-            }
-            switch (how) {
-                case DOMRange.START_TO_START:
-                case DOMRange.END_TO_START:
-                    containerB = sourceRange.startContainer;
-                    offsetB = sourceRange.startOffset;
-                    break;
-                case DOMRange.START_TO_END:
-                case DOMRange.END_TO_END:
-                    containerB = sourceRange.endContainer;
-                    offsetB = sourceRange.endOffset;
-                    break;
-            }
-
-            // compare
-            return containerA.sourceIndex < containerB.sourceIndex ? -1 : containerA.sourceIndex == containerB.sourceIndex ? offsetA < offsetB ? -1 : offsetA == offsetB ? 0 : 1 : 1;
-        },
-        cloneRange: function cloneRange() {
-            // return cloned range
-            var range = new DOMRange(this._document);
-            range.setStart(this.startContainer, this.startOffset);
-            range.setEnd(this.endContainer, this.endOffset);
-            return range;
-        },
-        detach: function detach() {
-            //[TODO] Releases Range from use to improve performance. 
-        },
-        toString: function toString() {
-            return TextRangeUtils.convertFromDOMRange(this).text;
-        },
-        createContextualFragment: function createContextualFragment(tagString) {
-            // parse the tag string in a context node
-            var content = (DOMUtils.isDataNode(this.startContainer) ? this.startContainer.parentNode : this.startContainer).cloneNode(false);
-            content.innerHTML = tagString;
-            // return a document fragment from the created node
-            for (var fragment = this._document.createDocumentFragment(); content.firstChild;) {
-                fragment.appendChild(content.firstChild);
-            }return fragment;
-        }
-    };
-
-    /*
-      Range iterator
-     */
-
-    function RangeIterator(range) {
-        this.range = range;
-        if (range.collapsed) return;
-
-        //[TODO] ensure this works
-        // get anchors
-        var root = range.commonAncestorContainer;
-        this._next = range.startContainer == root && !DOMUtils.isDataNode(range.startContainer) ? range.startContainer.childNodes[range.startOffset] : DOMUtils.findClosestAncestor(root, range.startContainer);
-        this._end = range.endContainer == root && !DOMUtils.isDataNode(range.endContainer) ? range.endContainer.childNodes[range.endOffset] : DOMUtils.findClosestAncestor(root, range.endContainer).nextSibling;
-    }
-
-    RangeIterator.prototype = {
-        // public properties
-        range: null,
-        // private properties
-        _current: null,
-        _next: null,
-        _end: null,
-
-        // public methods
-        hasNext: function hasNext() {
-            return !!this._next;
-        },
-        next: function next() {
-            // move to next node
-            var current = this._current = this._next;
-            this._next = this._current && this._current.nextSibling != this._end ? this._current.nextSibling : null;
-
-            // check for partial text nodes
-            if (DOMUtils.isDataNode(this._current)) {
-                if (this.range.endContainer == this._current) (current = current.cloneNode(true)).deleteData(this.range.endOffset, current.length - this.range.endOffset);
-                if (this.range.startContainer == this._current) (current = current.cloneNode(true)).deleteData(0, this.range.startOffset);
-            }
-            return current;
-        },
-        remove: function remove() {
-            // check for partial text nodes
-            if (DOMUtils.isDataNode(this._current) && (this.range.startContainer == this._current || this.range.endContainer == this._current)) {
-                var start = this.range.startContainer == this._current ? this.range.startOffset : 0;
-                var end = this.range.endContainer == this._current ? this.range.endOffset : this._current.length;
-                this._current.deleteData(start, end - start);
-            } else this._current.parentNode.removeChild(this._current);
-        },
-        hasPartialSubtree: function hasPartialSubtree() {
-            // check if this node be partially selected
-            return !DOMUtils.isDataNode(this._current) && (DOMUtils.isAncestorOrSelf(this._current, this.range.startContainer) || DOMUtils.isAncestorOrSelf(this._current, this.range.endContainer));
-        },
-        getSubtreeIterator: function getSubtreeIterator() {
-            // create a new range
-            var subRange = new DOMRange(this.range._document);
-            subRange.selectNodeContents(this._current);
-            // handle anchor points
-            if (DOMUtils.isAncestorOrSelf(this._current, this.range.startContainer)) subRange.setStart(this.range.startContainer, this.range.startOffset);
-            if (DOMUtils.isAncestorOrSelf(this._current, this.range.endContainer)) subRange.setEnd(this.range.endContainer, this.range.endOffset);
-            // return iterator
-            return new RangeIterator(subRange);
-        }
-    };
-
-    /*
-      DOM Selection
-     */
-
-    //[NOTE] This is a very shallow implementation of the Selection object, based on Webkit's
-    // implementation and without redundant features. Complete selection manipulation is still
-    // possible with just removeAllRanges/addRange/getRangeAt.
-
-    function DOMSelection(document) {
-        // save document parameter
-        this._document = document;
-
-        // add DOM selection handler
-        var selection = this;
-        document.attachEvent('onselectionchange', function () {
-            selection._selectionChangeHandler();
-        });
-    }
-
-    DOMSelection.prototype = {
-        // public properties
-        rangeCount: 0,
-        // private properties
-        _document: null,
-
-        // private methods
-        _selectionChangeHandler: function _selectionChangeHandler() {
-            // check if there exists a range
-            this.rangeCount = this._selectionExists(this._document.selection.createRange()) ? 1 : 0;
-        },
-        _selectionExists: function _selectionExists(textRange) {
-            // checks if a created text range exists or is an editable cursor
-            return textRange.compareEndPoints('StartToEnd', textRange) != 0 || textRange.parentElement().isContentEditable;
-        },
-
-        // public methods
-        addRange: function addRange(range) {
-            // add range or combine with existing range
-            var selection = this._document.selection.createRange(),
-                textRange = TextRangeUtils.convertFromDOMRange(range);
-            if (!this._selectionExists(selection)) {
-                // select range
-                textRange.select();
-            } else {
-                // only modify range if it intersects with current range
-                if (textRange.compareEndPoints('StartToStart', selection) == -1) if (textRange.compareEndPoints('StartToEnd', selection) > -1 && textRange.compareEndPoints('EndToEnd', selection) == -1) selection.setEndPoint('StartToStart', textRange);else if (textRange.compareEndPoints('EndToStart', selection) < 1 && textRange.compareEndPoints('EndToEnd', selection) > -1) selection.setEndPoint('EndToEnd', textRange);
-                selection.select();
-            }
-        },
-        removeAllRanges: function removeAllRanges() {
-            // remove all ranges
-            this._document.selection.empty();
-        },
-        getRangeAt: function getRangeAt(index) {
-            // return any existing selection, or a cursor position in content editable mode
-            var textRange = this._document.selection.createRange();
-            if (this._selectionExists(textRange)) return TextRangeUtils.convertToDOMRange(textRange, this._document);
-            return null;
-        },
-        toString: function toString() {
-            // get selection text
-            return this._document.selection.createRange().text;
-        }
-    };
-
-    /*
-      scripting hooks
-     */
-
-    document.createRange = function () {
-        return new DOMRange(document);
-    };
-
-    var selection = new DOMSelection(document);
-    window.getSelection = function () {
-        return selection;
-    };
-
-    //[TODO] expose DOMRange/DOMSelection to window.?
 };
 
 /*
@@ -766,10 +253,30 @@ Bold.prototype = {
     constructor: Bold,
 
     // 点击事件
-    onClick: function onClick(e) {},
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+    },
 
     // 试图改变 active 状态
     tryChangeActive: function tryChangeActive(e) {}
+};
+
+/*
+    droplist
+*/
+
+// 构造函数
+function DropList() {}
+
+// 原型
+DropList.prototype = {
+    constructor: DropList,
+
+    // 显示（插入DOM）
+    show: function show() {},
+
+    // 隐藏（移除DOM）
+    hide: function hide() {}
 };
 
 /*
@@ -783,6 +290,9 @@ function Head(editor) {
 
     // 当前是否 active 状态
     this.active = false;
+
+    // 初始化 droplist
+    this.droplist = new DropList();
 }
 
 // 原型
@@ -791,6 +301,24 @@ Head.prototype = {
 
     // 试图改变 active 状态
     tryChangeActive: function tryChangeActive(e) {}
+};
+
+/*
+    panel
+*/
+
+// 构造函数
+function Panel() {}
+
+// 原型
+Panel.prototype = {
+    constructor: Panel,
+
+    // 显示（插入DOM）
+    show: function show() {},
+
+    // 隐藏（移除DOM）
+    hide: function hide() {}
 };
 
 /*
@@ -804,6 +332,9 @@ function Link(editor) {
 
     // 当前是否 active 状态
     this.active = false;
+
+    // 初始化 Panel
+    this.panel = new Panel();
 }
 
 // 原型
@@ -815,18 +346,21 @@ Link.prototype = {
 };
 
 /*
-    菜单集合
+    所有菜单的汇总
 */
+
 // 存储菜单的构造函数
 var MenuConstructors = {};
 
-// 引入所有的菜单，并记录
 MenuConstructors.bold = Bold;
 
 MenuConstructors.head = Head;
 
 MenuConstructors.link = Link;
 
+/*
+    菜单集合
+*/
 // 构造函数
 function Menus(editor) {
     this.editor = editor;
@@ -875,10 +409,59 @@ Menus.prototype = {
     },
 
     // 绑定菜单 click mouseenter 事件
-    _bindEvent: function _bindEvent() {},
+    _bindEvent: function _bindEvent() {
+        var menus = this.menus;
+        objForEach(menus, function (key, menu) {
+            var type = menu.type;
+            if (!type) {
+                return;
+            }
+            var $elem = menu.$elem;
+            var droplist = menu.droplist;
+            var panel = menu.panel;
+
+            // 点击类型，例如 bold
+            if (type === 'click' && menu.onClick) {
+                $elem.on('click', function (e) {
+                    menu.onClick(e);
+                });
+            }
+
+            // 下拉框，例如 head
+            if (type === 'droplist' && droplist) {
+                $elem.on('mouseenter', function (e) {
+                    // 显示
+                    if (droplist.hideTimeoutId) {
+                        // 清除之前的定时隐藏
+                        clearTimeout(droplist.hideTimeoutId);
+                    }
+                    droplist.show();
+                }).on('mouseleave', function (e) {
+                    // 定时隐藏
+                    droplist.hideTimeoutId = setTimeout(function () {
+                        droplist.hide();
+                    }, 500);
+                });
+            }
+
+            // 弹框类型，例如 link
+            if (type === 'panel' && panel) {
+                $elem.on('click', function (e) {
+                    panel.show();
+                });
+            }
+        });
+    },
 
     // 尝试修改菜单状态
-    changeActive: function changeActive() {}
+    changeActive: function changeActive() {
+        var menus = this.menus;
+        objForEach(menus, function (key, menu) {
+            if (menu.tryChangeActive) {
+                menu.tryChangeActive();
+            }
+        });
+    }
 };
 
 /*
@@ -925,11 +508,30 @@ Command.prototype = {
 // 构造函数
 function API(editor) {
     this.editor = editor;
+    this.currentRange = null;
 }
 
 // 修改原型
 API.prototype = {
-    constructor: API
+    constructor: API,
+
+    // 设置选区
+    setSelection: function setSelection(range) {
+        if (range) {
+            this.currentRange = range;
+        } else {
+            this.currentRange = window.getSelection();
+        }
+    },
+
+    // 选中区域的文字
+    getSelectionText: function getSelectionText() {},
+
+    // 选区的 Elem
+    getSelectionElem: function getSelectionElem() {},
+
+    // 恢复选区
+    restoreSelection: function restoreSelection() {}
 };
 
 /*
@@ -1012,12 +614,12 @@ Editor.prototype = {
 
     // 封装 command
     _initCommand: function _initCommand() {
-        this.command = new Command(this);
+        this.cmd = new Command(this);
     },
 
     // 封装 selection range API
-    _initSelectionRangeAPI: function _initSelectionRangeAPI() {
-        this.api = new API(this);
+    _initSelectionAPI: function _initSelectionAPI() {
+        this.sAPI = new API(this);
     },
 
     // 创建编辑器
@@ -1038,15 +640,12 @@ Editor.prototype = {
         this._initCommand();
 
         // 封装 selection range API
-        this._initSelectionRangeAPI();
+        this._initSelectionAPI();
     }
 };
 
 // polyfill
 polyfill();
-
-// 兼容 IE 的 Range 和 Selection 的 API
-ierange();
 
 // 将 css 代码添加到 <style> 中
 function createStyle(cssContent) {

@@ -2,20 +2,7 @@
     菜单集合
 */
 import { objForEach } from '../util/util.js'
-
-// 存储菜单的构造函数
-const MenuConstructors = {}
-
-// 引入所有的菜单，并记录
-import Bold from './bold.js'
-MenuConstructors.bold = Bold
-
-import Head from './head.js'
-MenuConstructors.head = Head
-
-import Link from './link.js'
-MenuConstructors.link = Link
-
+import MenuConstructors from './menu-list.js'
 
 // 构造函数
 function Menus(editor) {
@@ -64,12 +51,57 @@ Menus.prototype = {
 
     // 绑定菜单 click mouseenter 事件
     _bindEvent: function () {
+        const menus = this.menus
+        objForEach(menus, (key, menu) => {
+            const type = menu.type
+            if (!type) {
+                return
+            }
+            const $elem = menu.$elem
+            const droplist = menu.droplist
+            const panel = menu.panel
 
+            // 点击类型，例如 bold
+            if (type === 'click' && menu.onClick) {
+                $elem.on('click', e => {
+                    menu.onClick(e)
+                })
+            }
+
+            // 下拉框，例如 head
+            if (type === 'droplist' && droplist) {
+                $elem.on('mouseenter', e => {
+                    // 显示
+                    if (droplist.hideTimeoutId) {
+                        // 清除之前的定时隐藏
+                        clearTimeout(droplist.hideTimeoutId)
+                    }
+                    droplist.show()
+                }).on('mouseleave', e => {
+                    // 定时隐藏
+                    droplist.hideTimeoutId = setTimeout(() => {
+                        droplist.hide()
+                    }, 500)
+                })
+            }
+
+            // 弹框类型，例如 link
+            if (type === 'panel' && panel) {
+                $elem.on('click', e => {
+                    panel.show()
+                })
+            }
+        })
     },
 
     // 尝试修改菜单状态
     changeActive: function () {
-
+        const menus = this.menus
+        objForEach(menus, (key, menu) => {
+            if (menu.tryChangeActive) {
+                menu.tryChangeActive()
+            }
+        })
     }
 }
 

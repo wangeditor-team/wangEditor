@@ -2,6 +2,7 @@
     menu - link
 */
 import $ from '../util/dom-core.js'
+import Panel from './panel/index.js'
 
 // 构造函数
 function Link(editor) {
@@ -11,6 +12,9 @@ function Link(editor) {
 
     // 当前是否 active 状态
     this.active = false
+
+    // 初始化 Panel
+    this.panel = new Panel()
 }
 
 // 原型

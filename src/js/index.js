@@ -1,12 +1,8 @@
 import polyfill from './util/poly-fill.js'
-import ierange from './util/ierange.js'
 import Editor from './editor/index.js'
 
 // polyfill
 polyfill()
-
-// 兼容 IE 的 Range 和 Selection 的 API
-ierange()
 
 // 将 css 代码添加到 <style> 中
 function createStyle(cssContent) {

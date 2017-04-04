@@ -91,7 +91,7 @@ DomElement.prototype = {
     },
 
     // 绑定事件
-    on:  function (type, fn) {
+    on: function (type, fn) {
         return this.forEach(dom => {
             dom.addEventListener(type, fn.bind(dom))
         })

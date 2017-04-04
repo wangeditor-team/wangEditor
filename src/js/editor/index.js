@@ -7,7 +7,7 @@ import _config from '../config.js'
 import Menus from '../menus/index.js'
 import Text from '../text/index.js'
 import Command from '../command/index.js'
-import API from '../select-range/index.js'
+import selectionAPI from '../selection/index.js'
 
 // id，累加
 let editorId = 1
@@ -88,12 +88,12 @@ Editor.prototype = {
 
     // 封装 command
     _initCommand: function () {
-        this.command = new Command(this)
+        this.cmd = new Command(this)
     },
 
     // 封装 selection range API
-    _initSelectionRangeAPI: function () {
-        this.api = new API(this)
+    _initSelectionAPI: function () {
+        this.sAPI = new selectionAPI(this)
     },
 
     // 创建编辑器
@@ -114,7 +114,7 @@ Editor.prototype = {
         this._initCommand()
 
         // 封装 selection range API
-        this._initSelectionRangeAPI()
+        this._initSelectionAPI()
     }
 }
 
