@@ -105,3 +105,38 @@
 .w-e-icon-terminal:before {
   content: "\ea81";
 }
+
+.w-e-toolbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0 5px;
+}
+.w-e-toolbar .w-e-menu {
+  text-align: center;
+  padding: 5px 10px;
+  cursor: pointer;
+  opacity: .5;
+  filter: alpha(opacity=50);
+}
+.w-e-toolbar .w-e-menu:hover {
+  opacity: .8;
+  filter: alpha(opacity=80);
+}
+.w-e-toolbar .active {
+  color: #1e88e5;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.w-e-text {
+  padding: 0 10px;
+  overflow-y: scroll;
+}
+.w-e-text p {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+.w-e-text:focus {
+  outline: none;
+}

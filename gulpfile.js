@@ -14,7 +14,7 @@ const autoprefixer = require('autoprefixer')
 const cssgrace = require('cssgrace')
 const resolve = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
-const gukpReplace = require('gulp-replace')
+const gulpReplace = require('gulp-replace')
 
 // 拷贝 fonts 文件
 gulp.task('copy-fonts', () => {
@@ -34,7 +34,7 @@ gulp.task('css', () => {
             cssgrace
         ]))
         // 将 css 引用的字体文件转换为 base64 格式
-        .pipe(gukpReplace( /'fonts\/icomoon\..+?'/gm, function (fontFile) {
+        .pipe(gulpReplace( /'fonts\/icomoon\..+?'/gm, function (fontFile) {
             // fontFile 例如 'fonts/icomoon.eot?paxlku'
             fontFile = fontFile.slice(0, -1).slice(1)
             fontFile = fontFile.split('?')[0]
@@ -80,7 +80,7 @@ gulp.task('script', () => {
             // 待 rollup 打包 js 完毕之后，再进行如下的处理：
             gulp.src('./release/wangEditor.js')
                 // inline css
-                .pipe(gukpReplace(/__INLINE_CSS__/gm, function () {
+                .pipe(gulpReplace(/__INLINE_CSS__/gm, function () {
                     // 读取 css 文件内容
                     var filePath = path.resolve(__dirname, 'release', 'wangEditor.css')
                     var content = fs.readFileSync(filePath).toString('utf-8')
