@@ -54,6 +54,7 @@ function DomElement(selector) {
         selectorResult = selector
     } else if (typeof selector === 'string') {
         // 字符串
+        selector = selector.replace('/\n/mg', '').trim()
         if (selector.indexOf('<') === 0) {
             // 如 <div>
             selectorResult = createElemByHTML(selector)
@@ -65,7 +66,8 @@ function DomElement(selector) {
 
     const length = selectorResult.length
     if (!length) {
-        return
+        // 空数组
+        return this
     }
 
     // 加入 DOM 节点
@@ -84,23 +86,43 @@ DomElement.prototype = {
     forEach: function (fn) {
         let i
         for (i = 0; i < this.length; i++) {
-            const dom = this[i]
-            fn.call(dom, dom)
+            const elem = this[i]
+            fn.call(elem, elem)
         }
         return this
     },
 
+    // 获取第几个元素
+    get: function (index) {
+        const length = this.length
+        if (index >= length) {
+            index = index % length
+        }
+        return $(this[index])
+    },
+
+    // 第一个
+    first: function () {
+        return this.get(0)
+    },
+
+    // 最后一个
+    last: function () {
+        const length = this.length
+        return this.get(length - 1)
+    },
+
     // 绑定事件
     on: function (type, fn) {
-        return this.forEach(dom => {
-            dom.addEventListener(type, fn.bind(dom))
+        return this.forEach(elem => {
+            elem.addEventListener(type, fn.bind(elem))
         })
     },
 
     // 修改属性
     attr: function (key, val) {
-        return this.forEach(dom => {
-            dom.setAttribute(key, val)
+        return this.forEach(elem => {
+            elem.setAttribute(key, val)
         })
     },
 
@@ -109,62 +131,79 @@ DomElement.prototype = {
         if (!className) {
             return this
         }
-        return this.forEach(dom => {
-            if (dom.className) {
-                dom.className = dom.className + ' ' + className
+        return this.forEach(elem => {
+            if (elem.className) {
+                elem.className = elem.className + ' ' + className
             } else {
-                dom.className = className
+                elem.className = className
             }
         })
     },
 
     // 修改 css
     css: function (key, val) {
-        return this.forEach(dom => {
-            let style = dom.getAttribute('style')
+        return this.forEach(elem => {
+            const style = (elem.getAttribute('style') || '').trim()
+            let result = ''
             if (style) {
                 // style 有值
-                style = `${key}: ${val};${style}`
+                if (style.slice(-1) === ';') {
+                    // 最后有 ;
+                    result = `${style}${key}: ${val};`
+                } else {
+                    // 最后无 ;
+                    result = `${style};${key}: ${val};`
+                }
             } else {
                 // style 无值
-                style = `${key}: ${val};`
+                result = `${key}: ${val};`
             }
-            dom.setAttribute('style', style)
+            elem.setAttribute('style', result)
         })
     },
 
-    // 增加子节点
-    append: function(elem) {
+    // 获取子节点
+    children: function () {
+        const elem = this[0]
         if (!elem) {
-            return this
+            return null
         }
-        return this.forEach(dom => {
-            if (elem.nodeType === 1) {
-                // elem 是 DOM 节点
-                dom.appendChild(elem)
-            } else if (elem instanceof DomElement) {
-                // elem 是 DomElement 对象
-                elem.forEach((elemDom) => {
-                    dom.appendChild(elemDom)
-                })
-            }
+
+        return $(elem.children)
+    },
+
+    // 增加子节点
+    append: function($children) {
+        return this.forEach(elem => {
+            $children.forEach(child => {
+                elem.appendChild(child)
+            })
         })
     },
 
     // 移除当前节点
     remove: function () {
-        return this.forEach(dom => {
-            if (dom.remove) {
-                dom.remove()
+        return this.forEach(elem => {
+            if (elem.remove) {
+                elem.remove()
             } else {
-                const parent = dom.parentElement
-                parent.removeChild(dom)
+                const parent = elem.parentElement
+                parent.removeChild(elem)
             }
         })
+    },
+
+    // 是否包含某个子节点
+    isContain: function ($child) {
+        const elem = this[0]
+        const child = $child[0]
+        return elem.contains(child)
     }
 }
 
-
-export default (selector) => {
+// new 一个对象
+function $(selector) {
     return new DomElement(selector)
 }
+
+export default $

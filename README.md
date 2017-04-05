@@ -3,6 +3,8 @@
 
 v3 - 正在开发中，放在`v3`分支中
 
+支持 IE10 及以上浏览器
+
 下载源码 `git clone git@github.com:wangfupeng1988/wangEditor.git -b v3`
 
 进入目录，安装依赖 `cd wangEditor && npm i`

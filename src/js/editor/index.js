@@ -8,6 +8,7 @@ import Menus from '../menus/index.js'
 import Text from '../text/index.js'
 import Command from '../command/index.js'
 import selectionAPI from '../selection/index.js'
+import { arrForEach } from '../util/util.js'
 
 // id，累加
 let editorId = 1
@@ -36,35 +37,57 @@ Editor.prototype = {
     _initDom: function () {
         const toolbarSelector = this.toolbarSelector
         const textSelector = this.textSelector
+
+        // 定义变量
+        let $toolbarElem, $textContainerElem, $textElem, $children
+
         if (textSelector == null) {
             // 只传入一个参数，即是容器的选择器或元素，toolbar 和 text 的元素自行创建
-            const $toolbarElem = $('<div><!--wangEditor toolbar--></div>')
-            const $textElem = $('<div><!--wangEditor text--><p><br></p></div>')
-            // 添加到 DOM 结构中
-            $(toolbarSelector).append($toolbarElem).append($textElem)
+            $toolbarElem = $('<div></div>')
+            $textContainerElem = $('<div></div>')
 
-            // 记录属性
-            this.$toolbarElem = $toolbarElem
-            this.$textElem = $textElem
+            // 添加到 DOM 结构中
+            $(toolbarSelector).append($toolbarElem).append($textContainerElem)
 
             // 自行创建的，需要配置默认的样式
-            this.$toolbarElem.css('background-color', '#f1f1f1')
+            $toolbarElem.css('background-color', '#f1f1f1')
                             .css('border', '1px solid #ccc')
-            this.$textElem.css('border-top', 'none')
-                            .css('border', '1px solid #ccc')
-                            .css('min-height', '300px')
+            $textContainerElem.css('border', '1px solid #ccc')
+                            .css('border-top', 'none')
+                            .css('height', '300px')
         } else {
             // toolbar 和 text 的选择器都有值，记录属性
-            this.$toolbarElem = $(toolbarSelector)
-            this.$textElem = $(textSelector)
+            $toolbarElem = $(toolbarSelector)
+            $textContainerElem = $(textSelector)
+            // 将编辑器区域原有的内容，暂存起来
+            $children = $textContainerElem.children()
         }
 
-        // 设置样式
-        this.$toolbarElem.addClass('w-e-toolbar')
-        this.$textElem.addClass('w-e-text')
+        // 编辑区域
+        $textElem = $('<div></div>')
+        $textElem.attr('contenteditable', 'true')
+                .css('width', '100%')
+                .css('height', '100%')
 
-        // 设置编辑区域可编辑
-        this.$textElem.attr('contenteditable', 'true')
+        // 初始化编辑区域内容
+        if ($children && $children.length) {
+            $textElem.append($children)
+        } else {
+            $textElem.append($('<p><br></p>'))
+        }
+
+        // 编辑区域加入DOM
+        $textContainerElem.append($textElem)
+
+        // 设置通用的 class
+        $toolbarElem.addClass('w-e-toolbar')
+        $textContainerElem.addClass('w-e-text-container')
+        $textElem.addClass('w-e-text')
+
+        // 记录属性
+        this.$toolbarElem = $toolbarElem
+        this.$textContainerElem = $textContainerElem
+        this.$textElem = $textElem
     },
 
     // 初始化配置
@@ -72,6 +95,16 @@ Editor.prototype = {
         // _config 是默认配置，this.customConfig 是用户自定义配置，将它们 merge 之后再赋值
         let target = {}
         this.config = Object.assign(target, _config, this.customConfig)
+    },
+
+    // 封装 command
+    _initCommand: function () {
+        this.cmd = new Command(this)
+    },
+
+    // 封装 selection range API
+    _initSelectionAPI: function () {
+        this.selection = new selectionAPI(this)
     },
 
     // 初始化菜单
@@ -86,16 +119,6 @@ Editor.prototype = {
         this.text.init()
     },
 
-    // 封装 command
-    _initCommand: function () {
-        this.cmd = new Command(this)
-    },
-
-    // 封装 selection range API
-    _initSelectionAPI: function () {
-        this.sAPI = new selectionAPI(this)
-    },
-
     // 创建编辑器
     create: function () {
         // 初始化 DOM
@@ -104,17 +127,17 @@ Editor.prototype = {
         // 初始化配置信息
         this._initConfig()
 
-        // 初始化菜单
-        this._initMenus()
-
-        // 添加 text
-        this._initText()
-
         // 封装 command API
         this._initCommand()
 
         // 封装 selection range API
         this._initSelectionAPI()
+
+        // 初始化菜单
+        this._initMenus()
+
+        // 添加 text
+        this._initText()
     }
 }
 

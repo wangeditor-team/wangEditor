@@ -14,3 +14,16 @@ export function objForEach(obj, fn) {
         }
     }
 }
+
+// 遍历类数组
+export function arrForEach(fakeArr, fn) {
+    let i, item, result
+    const length = fakeArr.length || 0
+    for (i = 0; i < length; i++) {
+        item = fakeArr[i]
+        result = fn.call(fakeArr, item, i)
+        if (result === false) {
+            break
+        }
+    }
+}

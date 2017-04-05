@@ -113,6 +113,7 @@
   padding: 0 5px;
 }
 .w-e-toolbar .w-e-menu {
+  position: relative;
   text-align: center;
   padding: 5px 10px;
   cursor: pointer;
@@ -129,9 +130,11 @@
   filter: alpha(opacity=100);
 }
 
+.w-e-text-container {
+  overflow-y: scroll;
+}
 .w-e-text {
   padding: 0 10px;
-  overflow-y: scroll;
 }
 .w-e-text p {
   margin: 10px 0;
