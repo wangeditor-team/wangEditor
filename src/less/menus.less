@@ -2,19 +2,58 @@
     display: flex;
     padding: 0 5px;
 
+    /* 单个菜单 */
     .w-e-menu {
         position: relative;
         text-align: center;
         padding: 5px 10px;
         cursor: pointer;
-        opacity: .5;
+        
+        i {
+            color: #999;
+        }
+
         &:hover {
-            opacity: .8;
+            i {
+                color: #333;
+            }
+        }
+    }
+    .w-e-active {
+        i {
+            color: #1e88e5;
+        }
+        &:hover {
+            i {
+                color: #1e88e5;
+            }
         }
     }
 
-    .active {
-        color: #1e88e5;
-        opacity: 1;
+    /* droplist */
+    .w-e-droplist {
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: #fff;
+        border: 1px solid #f1f1f1;
+        border-right-color: #ccc;
+        border-bottom-color: #ccc;
+
+        .w-e-dp-title {
+            text-align: center;
+            color: #999;
+            line-height: 1.5;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        ul {
+            list-style: none;
+            line-height: 1;
+        }
+
+        li:hover {
+            background-color: #f1f1f1;
+        }
     }
 }

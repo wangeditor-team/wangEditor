@@ -47,8 +47,10 @@ Command.prototype = {
         const range = editor.selection.getRange()
 
         if (range.pasteHTML) {
+            // IE
             range.pasteHTML(html)
         } else {
+            // 非 IE
             this.execCommand('insertHTML', html)
         }
     },
@@ -56,6 +58,21 @@ Command.prototype = {
     // 封装 execCommand
     execCommand: function (name, value) {
         document.execCommand(name, false, value)
+    },
+
+    // 封装 document.queryCommandValue
+    queryCommandValue: function (name) {
+        return document.queryCommandValue(name)
+    },
+
+    // 封装 document.queryCommandState
+    queryCommandState: function (name) {
+        return document.queryCommandState(name)
+    },
+
+    // 封装 document.queryCommandSupported
+    queryCommandSupported: function (name) {
+        return document.queryCommandSupported(name)
     }
 }
 

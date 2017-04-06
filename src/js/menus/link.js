@@ -11,7 +11,7 @@ function Link(editor) {
     this.type = 'panel'
 
     // 当前是否 active 状态
-    this.active = false
+    this._active = false
 
     // 初始化 Panel
     this.panel = new Panel()

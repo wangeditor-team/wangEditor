@@ -132,34 +132,95 @@ DomElement.prototype = {
             return this
         }
         return this.forEach(elem => {
+            let arr
             if (elem.className) {
-                elem.className = elem.className + ' ' + className
+                // 解析当前 className 转换为数组
+                arr = elem.className.split(/\s/)
+                arr = arr.filter(item => {
+                    return !!item.trim()
+                })
+                // 添加 class
+                if (arr.indexOf(className) < 0) {
+                    arr.push(className)
+                }
+                // 修改 elem.class
+                elem.className = arr.join(' ')
             } else {
                 elem.className = className
             }
         })
     },
 
+    // 删除 class
+    removeClass: function (className) {
+        if (!className) {
+            return this
+        }
+        return this.forEach(elem => {
+            let arr
+            if (elem.className) {
+                // 解析当前 className 转换为数组
+                arr = elem.className.split(/\s/)
+                arr = arr.filter(item => {
+                    item = item.trim()
+                    // 删除 class
+                    if (!item || item === className) {
+                        return false
+                    }
+                    return true
+                })
+                // 修改 elem.class
+                elem.className = arr.join(' ')
+            }
+        })
+    },
+
     // 修改 css
     css: function (key, val) {
+        const currentStyle = `${key}:${val};`
         return this.forEach(elem => {
             const style = (elem.getAttribute('style') || '').trim()
-            let result = ''
+            let styleArr, resultArr = []
             if (style) {
-                // style 有值
-                if (style.slice(-1) === ';') {
-                    // 最后有 ;
-                    result = `${style}${key}: ${val};`
-                } else {
-                    // 最后无 ;
-                    result = `${style};${key}: ${val};`
+                // 将 style 按照 ; 拆分为数组
+                styleArr = style.split(';')
+                styleArr.forEach(item => {
+                    // 对每项样式，按照 : 拆分为 key 和 value
+                    let arr = item.split(':').map(i => {
+                        return i.trim()
+                    })
+                    if (arr.length === 2) {
+                        resultArr.push(arr[0] + ':' + arr[1])
+                    }
+                })
+                // 替换或者新增
+                resultArr = resultArr.map(item => {
+                    if (item.indexOf(key) === 0) {
+                        return currentStyle
+                    } else {
+                        return item
+                    }
+                })
+                if (resultArr.indexOf(currentStyle) < 0) {
+                    resultArr.push(currentStyle)
                 }
+                // 结果
+                elem.setAttribute('style', resultArr.join('; '))
             } else {
                 // style 无值
-                result = `${key}: ${val};`
+                elem.setAttribute('style', currentStyle)
             }
-            elem.setAttribute('style', result)
         })
+    },
+
+    // 显示
+    show: function () {
+        return this.css('display', 'block')
+    },
+
+    // 隐藏
+    hide: function () {
+        return this.css('display', 'none')
     },
 
     // 获取子节点
@@ -198,6 +259,12 @@ DomElement.prototype = {
         const elem = this[0]
         const child = $child[0]
         return elem.contains(child)
+    },
+
+    // 尺寸数据
+    getSizeData: function () {
+        const elem = this[0]
+        return elem.getBoundingClientRect()  // 可得到 bottom height left right top width 的数据
     }
 }
 

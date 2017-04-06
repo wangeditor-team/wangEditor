@@ -14,7 +14,7 @@ function Bold(editor) {
     this.type = 'click'
 
     // 当前是否 active 状态
-    this.active = false
+    this._active = false
 }
 
 // 原型
@@ -35,11 +35,25 @@ Bold.prototype = {
 
         // 执行 bold 命令
         editor.cmd.do('bold')
+
+        if (isSeleEmpty) {
+            // 需要将选取折叠起来
+            editor.selection.collapseRange()
+            editor.selection.restoreSelection()
+        }
     },
 
     // 试图改变 active 状态
     tryChangeActive: function (e) {
-
+        const editor = this.editor
+        const $elem = this.$elem
+        if (editor.cmd.queryCommandState('bold')) {
+            this._active = true
+            $elem.addClass('w-e-active')
+        } else {
+            this._active = false
+            $elem.removeClass('w-e-active')
+        }
     }
 }
 

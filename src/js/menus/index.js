@@ -72,16 +72,14 @@ Menus.prototype = {
             if (type === 'droplist' && droplist) {
                 $elem.on('mouseenter', e => {
                     // 显示
-                    if (droplist.hideTimeoutId) {
-                        // 清除之前的定时隐藏
-                        clearTimeout(droplist.hideTimeoutId)
-                    }
-                    droplist.show()
+                    droplist.showTimeoutId = setTimeout(() => {
+                        droplist.show()
+                    }, 200)
                 }).on('mouseleave', e => {
-                    // 定时隐藏
+                    // 隐藏
                     droplist.hideTimeoutId = setTimeout(() => {
                         droplist.hide()
-                    }, 500)
+                    }, 200)
                 })
             }
 

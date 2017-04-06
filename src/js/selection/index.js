@@ -41,6 +41,18 @@ API.prototype = {
         }
     },
 
+    // 折叠选取
+    collapseRange: function (toStart) {
+        if (toStart == null) {
+            // 默认为 false
+            toStart = false
+        }
+        const range = this._currentRange
+        if (range) {
+            range.collapse(toStart)
+        }
+    },
+
     // 选中区域的文字
     getSelectionText: function () {
         return this._currentRange.toString()
