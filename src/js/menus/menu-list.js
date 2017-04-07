@@ -14,5 +14,20 @@ MenuConstructors.head = Head
 import Link from './link/index.js'
 MenuConstructors.link = Link
 
+import Italic from './italic/index.js'
+MenuConstructors.italic = Italic
+
+import Redo from './redo/index.js'
+MenuConstructors.redo = Redo
+
+import StrikeThrough from './strikethrough/index.js'
+MenuConstructors.strikeThrough = StrikeThrough
+
+import Underline from './underline/index.js'
+MenuConstructors.underline = Underline
+
+import Undo from './undo/index.js'
+MenuConstructors.undo = Undo
+
 // 吐出所有菜单集合
 export default MenuConstructors

@@ -3,7 +3,16 @@
 */
 
 const config = {
-    menus: ['bold', 'head', 'link']
+    menus: [
+        'bold',
+        'italic',
+        'underline',
+        'strikeThrough',
+        'head',
+        'link',
+        'undo',
+        'redo'
+    ]
 }
 
 export default config

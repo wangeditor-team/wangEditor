@@ -352,7 +352,7 @@ function $(selector) {
 */
 
 var config = {
-    menus: ['bold', 'head', 'link']
+    menus: ['bold', 'italic', 'underline', 'strikeThrough', 'head', 'link', 'undo', 'redo']
 };
 
 /*
@@ -869,6 +869,221 @@ Link.prototype = {
 };
 
 /*
+    italic-menu
+*/
+// 构造函数
+function Italic(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-italic"><i/>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Italic.prototype = {
+    constructor: Italic,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+        var isSeleEmpty = editor.selection.isSelectionEmpty();
+
+        if (isSeleEmpty) {
+            // 选区是空的，插入并选中一个“空白”
+            editor.selection.createEmptyRange();
+        }
+
+        // 执行 italic 命令
+        editor.cmd.do('italic');
+
+        if (isSeleEmpty) {
+            // 需要将选取折叠起来
+            editor.selection.collapseRange();
+            editor.selection.restoreSelection();
+        }
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        if (editor.cmd.queryCommandState('italic')) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    redo-menu
+*/
+// 构造函数
+function Redo(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-redo"><i/>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Redo.prototype = {
+    constructor: Redo,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+
+        // 执行 redo 命令
+        editor.cmd.do('redo');
+    }
+};
+
+/*
+    strikeThrough-menu
+*/
+// 构造函数
+function StrikeThrough(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-strikethrough"><i/>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+StrikeThrough.prototype = {
+    constructor: StrikeThrough,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+        var isSeleEmpty = editor.selection.isSelectionEmpty();
+
+        if (isSeleEmpty) {
+            // 选区是空的，插入并选中一个“空白”
+            editor.selection.createEmptyRange();
+        }
+
+        // 执行 strikeThrough 命令
+        editor.cmd.do('strikeThrough');
+
+        if (isSeleEmpty) {
+            // 需要将选取折叠起来
+            editor.selection.collapseRange();
+            editor.selection.restoreSelection();
+        }
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        if (editor.cmd.queryCommandState('strikeThrough')) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    underline-menu
+*/
+// 构造函数
+function Underline(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-underline"><i/>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Underline.prototype = {
+    constructor: Underline,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+        var isSeleEmpty = editor.selection.isSelectionEmpty();
+
+        if (isSeleEmpty) {
+            // 选区是空的，插入并选中一个“空白”
+            editor.selection.createEmptyRange();
+        }
+
+        // 执行 underline 命令
+        editor.cmd.do('underline');
+
+        if (isSeleEmpty) {
+            // 需要将选取折叠起来
+            editor.selection.collapseRange();
+            editor.selection.restoreSelection();
+        }
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        if (editor.cmd.queryCommandState('underline')) {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
+    undo-menu
+*/
+// 构造函数
+function Undo(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-undo"><i/>\n        </div>');
+    this.type = 'click';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Undo.prototype = {
+    constructor: Undo,
+
+    // 点击事件
+    onClick: function onClick(e) {
+        // 点击菜单将触发这里
+
+        var editor = this.editor;
+
+        // 执行 undo 命令
+        editor.cmd.do('undo');
+    }
+};
+
+/*
     所有菜单的汇总
 */
 
@@ -880,6 +1095,16 @@ MenuConstructors.bold = Bold;
 MenuConstructors.head = Head;
 
 MenuConstructors.link = Link;
+
+MenuConstructors.italic = Italic;
+
+MenuConstructors.redo = Redo;
+
+MenuConstructors.strikeThrough = StrikeThrough;
+
+MenuConstructors.underline = Underline;
+
+MenuConstructors.undo = Undo;
 
 /*
     菜单集合
