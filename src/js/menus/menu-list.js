@@ -5,13 +5,13 @@
 // 存储菜单的构造函数
 const MenuConstructors = {}
 
-import Bold from './bold.js'
+import Bold from './bold/index.js'
 MenuConstructors.bold = Bold
 
-import Head from './head.js'
+import Head from './head/index.js'
 MenuConstructors.head = Head
 
-import Link from './link.js'
+import Link from './link/index.js'
 MenuConstructors.link = Link
 
 // 吐出所有菜单集合

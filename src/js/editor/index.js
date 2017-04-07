@@ -36,6 +36,7 @@ Editor.prototype = {
     // 初始化 DOM
     _initDom: function () {
         const toolbarSelector = this.toolbarSelector
+        const $toolbarSelector = $(toolbarSelector)
         const textSelector = this.textSelector
 
         // 定义变量
@@ -46,8 +47,11 @@ Editor.prototype = {
             $toolbarElem = $('<div></div>')
             $textContainerElem = $('<div></div>')
 
+            // 将编辑器区域原有的内容，暂存起来
+            $children = $toolbarSelector.children()
+
             // 添加到 DOM 结构中
-            $(toolbarSelector).append($toolbarElem).append($textContainerElem)
+            $toolbarSelector.append($toolbarElem).append($textContainerElem)
 
             // 自行创建的，需要配置默认的样式
             $toolbarElem.css('background-color', '#f1f1f1')
@@ -57,7 +61,7 @@ Editor.prototype = {
                             .css('height', '300px')
         } else {
             // toolbar 和 text 的选择器都有值，记录属性
-            $toolbarElem = $(toolbarSelector)
+            $toolbarElem = $toolbarSelector
             $textContainerElem = $(textSelector)
             // 将编辑器区域原有的内容，暂存起来
             $children = $textContainerElem.children()

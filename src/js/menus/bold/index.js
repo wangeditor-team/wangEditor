@@ -1,7 +1,7 @@
 /*
     bold-menu
 */
-import $ from '../util/dom-core.js'
+import $ from '../../util/dom-core.js'
 
 // 构造函数
 function Bold(editor) {

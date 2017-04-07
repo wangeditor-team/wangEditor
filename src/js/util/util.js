@@ -27,3 +27,8 @@ export function arrForEach(fakeArr, fn) {
         }
     }
 }
+
+// 获取随机数
+export function getRandom(prefix) {
+    return prefix + Math.random().toString().slice(2)
+}

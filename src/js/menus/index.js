@@ -84,9 +84,10 @@ Menus.prototype = {
             }
 
             // 弹框类型，例如 link
-            if (type === 'panel' && panel) {
+            if (type === 'panel' && menu.onClick) {
                 $elem.on('click', e => {
-                    panel.show()
+                    // 在自定义事件中显示 panel
+                    menu.onClick(e)
                 })
             }
         })

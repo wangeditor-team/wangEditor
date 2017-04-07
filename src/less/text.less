@@ -1,10 +1,12 @@
 .w-e-text-container {
-    overflow-y: scroll;
+    position: relative;
+    z-index: 10000;
 }
 .w-e-text {
     padding: 0 10px;
+    overflow-y: scroll;
 
-    p {
+    p,h1,h2,h3,h4,h5 {
         margin: 10px 0;
         line-height: 1.5;
     }

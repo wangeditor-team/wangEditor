@@ -1,7 +1,7 @@
 /*
     droplist
 */
-import $ from '../../util/dom-core.js'
+import $ from '../util/dom-core.js'
 
 const _emptyFn = () => {}
 

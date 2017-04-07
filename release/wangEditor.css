@@ -1,12 +1,12 @@
 .w-e-toolbar,
-.w-e-text,
+.w-e-text-container,
 .w-e-menu-panel {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 .w-e-toolbar *,
-.w-e-text *,
+.w-e-text-container *,
 .w-e-menu-panel * {
   padding: 0;
   margin: 0;
@@ -16,6 +16,32 @@
   content: "";
   display: table;
   clear: both;
+}
+
+.w-e-toolbar .w-e-droplist {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #fff;
+  border: 1px solid #f1f1f1;
+  border-right-color: #ccc;
+  border-bottom-color: #ccc;
+}
+.w-e-toolbar .w-e-droplist .w-e-dp-title {
+  text-align: center;
+  color: #999;
+  line-height: 1.5;
+  border-bottom: 1px solid #f1f1f1;
+}
+.w-e-toolbar .w-e-droplist ul {
+  list-style: none;
+  line-height: 1;
+}
+.w-e-toolbar .w-e-droplist li {
+  padding: 3px 0;
+}
+.w-e-toolbar .w-e-droplist li:hover {
+  background-color: #f1f1f1;
 }
 
 @font-face {
@@ -112,10 +138,10 @@
   display: flex;
   padding: 0 5px;
   /* 单个菜单 */
-  /* droplist */
 }
 .w-e-toolbar .w-e-menu {
   position: relative;
+  z-index: 10001;
   text-align: center;
   padding: 5px 10px;
   cursor: pointer;
@@ -132,36 +158,47 @@
 .w-e-toolbar .w-e-active:hover i {
   color: #1e88e5;
 }
-.w-e-toolbar .w-e-droplist {
+
+.w-e-text-container .w-e-panel-container {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 50%;
+  border: 1px solid #ccc;
+  border-top: 0;
+  box-shadow: 1px 1px 2px #ccc;
+  padding: 5px 10px;
   background-color: #fff;
-  border: 1px solid #f1f1f1;
-  border-right-color: #ccc;
-  border-bottom-color: #ccc;
 }
-.w-e-toolbar .w-e-droplist .w-e-dp-title {
-  text-align: center;
-  color: #999;
-  line-height: 1.5;
-  border-bottom: 1px solid #f1f1f1;
-}
-.w-e-toolbar .w-e-droplist ul {
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-title {
   list-style: none;
-  line-height: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
-.w-e-toolbar .w-e-droplist li:hover {
-  background-color: #f1f1f1;
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-title .w-e-item {
+  padding: 3px 5px;
+}
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-title .w-e-active {
+  border-bottom: 2px solid #333;
+}
+.w-e-text-container .w-e-panel-container input:focus {
+  outline: none;
 }
 
 .w-e-text-container {
-  overflow-y: scroll;
+  position: relative;
+  z-index: 10000;
 }
 .w-e-text {
   padding: 0 10px;
+  overflow-y: scroll;
 }
-.w-e-text p {
+.w-e-text p,
+.w-e-text h1,
+.w-e-text h2,
+.w-e-text h3,
+.w-e-text h4,
+.w-e-text h5 {
   margin: 10px 0;
   line-height: 1.5;
 }

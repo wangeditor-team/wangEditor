@@ -1,0 +1,36 @@
+.w-e-text-container {
+    .w-e-panel-container {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        border: 1px solid #ccc;
+        border-top: 0;
+        box-shadow: 1px 1px 2px #ccc;
+        padding: 5px 10px;
+        background-color: #fff;
+
+        .w-e-panel-tab-title {
+            list-style: none;
+            display: flex;
+
+            .w-e-item {
+                padding: 3px 5px;
+                color: #999;
+                cursor: pointer;
+            }
+
+            .w-e-active {
+                color: #1e88e5
+                border-bottom: 2px solid #1e88e5;
+            }
+        }
+
+        .w-e-panel-tab-content {
+            padding: 5px;
+        }
+
+        input:focus {
+            outline: none;
+        }
+    }
+}

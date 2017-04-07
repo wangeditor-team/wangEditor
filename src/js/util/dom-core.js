@@ -265,6 +265,12 @@ DomElement.prototype = {
     getSizeData: function () {
         const elem = this[0]
         return elem.getBoundingClientRect()  // 可得到 bottom height left right top width 的数据
+    },
+
+    // 封装 nodeName
+    getNodeName: function () {
+        const elem = this[0]
+        return elem.nodeName
     }
 }
 
