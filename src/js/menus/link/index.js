@@ -21,6 +21,31 @@ Link.prototype = {
 
     // 点击事件
     onClick: function (e) {
+        const editor = this.editor
+        let $linkelem
+
+        if (this._active) {
+            // 当前选区在链接里面
+            $linkelem = editor.selection.getSelectionContainerElem()
+            // 将该元素都包含在选取之内，以便后面整体替换
+            editor.selection.createRangeByElem($linkelem)
+            editor.selection.restoreSelection()
+            // 显示 panel
+            this._createPanel($linkelem.text(), $linkelem.attr('href'))
+        } else {
+            // 当前选区不在链接里面
+            if (editor.selection.isSelectionEmpty()) {
+                // 选区是空的，未选中内容
+                this._createPanel('', '')
+            } else {
+                // 选中内容了
+                this._createPanel(editor.selection.getSelectionText(), '')
+            }
+        }
+    },
+
+    // 创建 panel
+    _createPanel: function (text, link) {
         // panel 中需要用到的id
         const inputLinkId = getRandom('input-link')
         const inputTextId = getRandom('input-text')
@@ -41,47 +66,74 @@ Link.prototype = {
                             <table>
                                 <tr>
                                     <td>文字</td>
-                                    <td><input id="${inputTextId}" type="text"/></td>
+                                    <td><input id="${inputTextId}" type="text" value="${text}"/></td>
                                 </tr>
                                 <tr>
                                     <td>链接</td>
-                                    <td><input id="${inputLinkId}" type="text"/></td>
+                                    <td><input id="${inputLinkId}" type="text" value="${link}" placeholder="http://..."/></td>
                                 </tr>
                             </table>
-                            <div>
-                                <button id="${btnOkId}">插入</button>
-                                <button id="${btnDelId}">删除链接</button>
+                            <div class="w-e-button-container w-e-clear-fix">
+                                <button id="${btnOkId}" class="default left">插入</button>
+                                <button id="${btnDelId}" class="red right">删除链接</button>
                             </div>
                         </div>`,
                     // 事件绑定
                     evnts: [
                         // 插入链接
                         {
-                            selector: btnOkId,
+                            selector: '#' + btnOkId,
                             type: 'click',
-                            fn: (e) => {
+                            fn: () => {
+                                // 执行插入链接
+                                const $link = $('#' + inputLinkId)
+                                const $text = $('#' + inputTextId)
+                                const link = $link.val()
+                                const text = $text.val()
+                                this._insertLink(text, link)
 
+                                // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                                return true
                             }
                         },
                         // 删除链接
                         {
-                            selector: btnDelId,
+                            selector: '#' + btnDelId,
                             type: 'click',
-                            fn: (e) => {
-
+                            fn: () => {
+                                // 执行删除链接
+                                this._delLink()
+                                // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                                return true
                             }
                         }
                     ]
-                }, // tab end
-                {
-                    title: 'test',
-                    tpl: `<div>test</div>`
-                }
+                } // tab end
             ] // tabs end
         })
 
         // 显示 panel
         panel.show()
+    },
+
+    // 删除当前链接
+    _delLink: function () {
+        if (!this._active) {
+            return
+        }
+        const editor = this.editor
+        const $selectionELem = editor.selection.getSelectionContainerElem()
+        const selectionText = editor.selection.getSelectionText()
+        editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
+    },
+
+    // 插入链接
+    _insertLink: function (text, link) {
+        if (!text || !link) {
+            return
+        }
+        const editor = this.editor
+        editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
     },
 
     // 试图改变 active 状态

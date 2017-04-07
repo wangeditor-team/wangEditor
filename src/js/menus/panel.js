@@ -3,6 +3,7 @@
 */
 
 import $ from '../util/dom-core.js'
+const emptyFn = () => {}
 
 // 构造函数
 function Panel(menu, opt) {
@@ -48,7 +49,6 @@ Panel.prototype = {
         tabs.forEach((tab, tabIndex) => {
             const title = tab.title || ''
             const tpl = tab.tpl || ''
-            const events = tab.evnts
 
             // 添加到 DOM
             const $title = $(`<li class="w-e-item">${title}</li>`)
@@ -70,7 +70,7 @@ Panel.prototype = {
             }
 
             // 绑定 tab 的事件
-            $title.on('click', (e) => {
+            $title.on('click', e => {
                 if ($title._active) {
                     return
                 }
@@ -88,16 +88,37 @@ Panel.prototype = {
                 $title.addClass('w-e-active')
                 $content.show()
             })
-
-            // 绑定 opt 传来的事件
         })
 
-        // 添加关闭按钮
-
         // 绑定关闭事件
+        $container.on('click', e => {
+            // 点击时阻止冒泡
+            e.stopPropagation()
+        })
+        $textContainerElem.on('click', e => {
+            this.hide()
+        })
 
         // 添加到 DOM
         $textContainerElem.append($container)
+
+        // 绑定 opt 的事件，只有添加到 DOM 之后才能绑定成功
+        tabs.forEach((tab) => {
+            const events = tab.evnts || []
+            events.forEach(event => {
+                const selector = event.selector
+                const type = event.type
+                const fn = event.fn || emptyFn
+                $container.find(selector).on(type, (e) => {
+                    e.stopPropagation()
+                    const needToHide = fn()
+                    // 执行完事件之后，是否要关闭 panel
+                    if (needToHide) {
+                        this.hide()
+                    }
+                })
+            })
+        })
 
         // 添加到属性
         this.$container = $container

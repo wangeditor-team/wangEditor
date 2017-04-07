@@ -1,32 +1,86 @@
 .w-e-text-container {
     .w-e-panel-container {
+        font-size: 100px;
         position: absolute;
         top: 0;
         left: 50%;
         border: 1px solid #ccc;
         border-top: 0;
         box-shadow: 1px 1px 2px #ccc;
-        padding: 5px 10px;
         background-color: #fff;
+        color: #333;
 
         .w-e-panel-tab-title {
             list-style: none;
             display: flex;
+            font-size: 0.16em;
+            background-color: #f1f1f1;
+            border-bottom: 1px solid #ccc;
+            padding: 2px 10px 0 10px;
 
             .w-e-item {
                 padding: 3px 5px;
                 color: #999;
                 cursor: pointer;
+                margin: 0 3px;
+                position: relative;
+                top: 1px;
             }
 
             .w-e-active {
-                color: #1e88e5
-                border-bottom: 2px solid #1e88e5;
+                color: #333;
+                border-bottom: 1px solid #333;
             }
         }
 
         .w-e-panel-tab-content {
-            padding: 5px;
+            padding: 10px 15px 0 15px;
+            font-size: 0.16em;
+
+            table {
+                width: 100%;
+                border: 0;
+
+                td {
+                    input[type=text] {
+                        width: 100%;
+                        border: 0;
+                        border-bottom: 1px solid #ccc;
+                        font-size: 15px;
+
+                        &:focus {
+                            border-bottom-color: #1e88e5;
+                        }
+                    }
+                }
+            }
+
+            .w-e-button-container {
+                margin-top: 10px;
+
+                button {
+                    color: #999;
+                    border: 1px solid #ccc;
+                    font-size: 14px;
+                    background-color: #fff;
+                    padding: 2px 5px;
+                    cursor: pointer;
+                }
+                button.default {
+                    color: #1e88e5;
+                    border-color: #1e88e5;
+                }
+                button.red {
+                    color: red;
+                    border-color: red;
+                }
+                button.left {
+                    float: left;
+                }
+                button.right {
+                    float: right;
+                }
+            }
         }
 
         input:focus {

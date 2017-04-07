@@ -55,7 +55,12 @@ API.prototype = {
 
     // 选中区域的文字
     getSelectionText: function () {
-        return this._currentRange.toString()
+        const range = this._currentRange
+        if (range) {
+            return this._currentRange.toString()
+        } else {
+            return ''
+        }
     },
 
     // 选区的 $Elem
@@ -120,28 +125,27 @@ API.prototype = {
         range.setEnd(range.endContainer, range.endOffset + 1)
         // 存储
         this.saveRange(range)
+    },
+
+    // 根据 $Elem 设置选取
+    createRangeByElem: function ($elem, toStart) {
+        // $elem - 经过封装的 elem
+        // toStart - true 开始位置，false 结束位置
+        if (!$elem.length) {
+            return
+        }
+
+        const elem = $elem[0]
+        const range = document.createRange()
+        range.selectNode(elem)
+
+        if (typeof toStart === 'boolean') {
+            range.collapse(toStart)
+        }
+
+        // 存储 range
+        this.saveRange(range)
     }
-
-    // // 根据 $Elem 设置选取
-    // createRangeByElem: function ($elem, toStart) {
-    //     // $elem - 经过封装的 elem
-    //     // toStart - true 开始位置，false 结束位置（默认）
-    //     if (toStart == null) {
-    //         toStart = false
-    //     }
-
-    //     if (!$elem.length) {
-    //         return
-    //     }
-
-    //     const elem = $elem[0]
-    //     const range = document.createRange()
-    //     range.selectNodeContents(elem)
-    //     range.collapse(false)
-
-    //     // 存储 range
-    //     this.saveRange(range)
-    // }
 }
 
 export default API

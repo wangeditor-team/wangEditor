@@ -119,11 +119,17 @@ DomElement.prototype = {
         })
     },
 
-    // 修改属性
+    // 获取/设置 属性
     attr: function (key, val) {
-        return this.forEach(elem => {
-            elem.setAttribute(key, val)
-        })
+        if (val == null) {
+            // 获取值
+            return this[0].getAttribute(key)
+        } else {
+            // 设置值
+            return this.forEach(elem => {
+                elem.setAttribute(key, val)
+            })
+        }
     },
 
     // 添加 class
@@ -271,6 +277,24 @@ DomElement.prototype = {
     getNodeName: function () {
         const elem = this[0]
         return elem.nodeName
+    },
+
+    // 从当前元素查找
+    find: function (selector) {
+        const elem = this[0]
+        return $(elem.querySelectorAll(selector))
+    },
+
+    // 获取当前元素的 text
+    text: function () {
+        const elem = this[0]
+        return elem.innerHTML.replace(/<.*?>/g, () => '')
+    },
+
+    // 获取 value
+    val: function () {
+        const elem = this[0]
+        return elem.value.trim()
     }
 }
 
