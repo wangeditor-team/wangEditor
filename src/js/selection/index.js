@@ -3,6 +3,7 @@
 */
 
 import $ from '../util/dom-core.js'
+import { UA } from '../util/util.js'
 
 // 构造函数
 function API(editor) {
@@ -110,6 +111,8 @@ API.prototype = {
     createEmptyRange: function () {
         const editor = this.editor
         const range = this.getRange()
+        let $elem
+
         if (!range) {
             // 当前无 range
             return
@@ -119,12 +122,19 @@ API.prototype = {
             return
         }
 
-        // 插入 &#8203
-        editor.cmd.do('insertHTML', '&#8203')
-        // 修改 offset 位置
-        range.setEnd(range.endContainer, range.endOffset + 1)
-        // 存储
-        this.saveRange(range)
+        // 目前只支持 webkit 内核
+        if (UA.isWebkit()) {
+            // 插入 &#8203
+            editor.cmd.do('insertHTML', '&#8203;')
+            // 修改 offset 位置
+            range.setEnd(range.endContainer, range.endOffset + 1)
+            // 存储
+            this.saveRange(range)
+        } else {
+            $elem = $('<strong>&#8203;</strong>')
+            editor.cmd.do('insertElem', $elem)
+            this.createRangeByElem($elem, true)
+        }
     },
 
     // 根据 $Elem 设置选取
@@ -137,6 +147,7 @@ API.prototype = {
 
         const elem = $elem[0]
         const range = document.createRange()
+
         range.selectNode(elem)
 
         if (typeof toStart === 'boolean') {

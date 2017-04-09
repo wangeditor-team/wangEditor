@@ -2,6 +2,9 @@
     命令，封装 document.execCommand
 */
 
+import $ from '../util/dom-core.js'
+import { UA } from '../util/util.js'
+
 // 构造函数
 function Command(editor) {
     this.editor = editor
@@ -30,7 +33,7 @@ Command.prototype = {
             this[_name](value)
         } else {
             // 默认 command
-            this.execCommand(name, value)
+            this._execCommand(name, value)
         }
 
         // 修改菜单状态
@@ -46,17 +49,39 @@ Command.prototype = {
         const editor = this.editor
         const range = editor.selection.getRange()
 
-        if (range.pasteHTML) {
+        // 保证传入的参数是 html 代码
+        const test = /^<.+>$/.test(html)
+        if (!test && !UA.isWebkit()) {
+            // webkit 可以插入非 html 格式的文字
+            throw new Error('执行 insertHTML 命令时传入的参数必须是 html 格式')
+        }
+
+        if (this.queryCommandSupported('insertHTML')) {
+            // W3C
+            this._execCommand('insertHTML', html)
+        } else if (range.insertNode) {
             // IE
+            range.deleteContents()
+            range.insertNode($(html)[0])
+        } else if (range.pasteHTML) {
+            // IE <= 10
             range.pasteHTML(html)
-        } else {
-            // 非 IE
-            this.execCommand('insertHTML', html)
+        } 
+    },
+
+    // 插入 elem
+    _insertElem: function ($elem) {
+        const editor = this.editor
+        const range = editor.selection.getRange()
+
+        if (range.insertNode) {
+            range.deleteContents()
+            range.insertNode($elem[0])
         }
     },
 
     // 封装 execCommand
-    execCommand: function (name, value) {
+    _execCommand: function (name, value) {
         document.execCommand(name, false, value)
     },
 

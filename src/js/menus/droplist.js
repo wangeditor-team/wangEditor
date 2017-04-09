@@ -37,7 +37,7 @@ function DropList(menu, opt) {
                 // 隐藏
                 this.hideTimeoutId = setTimeout(() => {
                     this.hide()
-                }, 200)
+                }, 0)
             })
         }
     })
@@ -46,7 +46,7 @@ function DropList(menu, opt) {
     $container.on('mouseleave', e => {
         this.hideTimeoutId = setTimeout(() => {
             this.hide()
-        }, 200)
+        }, 0)
     })
 
     // 记录属性

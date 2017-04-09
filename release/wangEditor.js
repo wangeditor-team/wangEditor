@@ -156,7 +156,14 @@ DomElement.prototype = {
     // 绑定事件
     on: function on(type, fn) {
         return this.forEach(function (elem) {
-            elem.addEventListener(type, fn.bind(elem));
+            elem.addEventListener(type, fn, false);
+        });
+    },
+
+    // 取消事件绑定
+    off: function off(type, fn) {
+        return this.forEach(function (elem) {
+            elem.removeEventListener(type, fn, false);
         });
     },
 
@@ -359,6 +366,17 @@ var config = {
     工具
 */
 
+// 和 UA 相关的属性
+var UA = {
+    _ua: navigator.userAgent,
+
+    // 是否 webkit
+    isWebkit: function isWebkit() {
+        var reg = /webkit/i;
+        return reg.test(this._ua);
+    }
+};
+
 // 遍历对象
 function objForEach(obj, fn) {
     var key = void 0,
@@ -473,7 +491,7 @@ function DropList(menu, opt) {
                 // 隐藏
                 _this.hideTimeoutId = setTimeout(function () {
                     _this.hide();
-                }, 200);
+                }, 0);
             });
         }
     });
@@ -482,7 +500,7 @@ function DropList(menu, opt) {
     $container.on('mouseleave', function (e) {
         _this.hideTimeoutId = setTimeout(function () {
             _this.hide();
-        }, 200);
+        }, 0);
     });
 
     // 记录属性
@@ -563,7 +581,7 @@ function Head(editor) {
     this.droplist = new DropList(this, {
         width: 100,
         $title: $('<p>设置标题</p>'),
-        list: [{ $elem: $('<li><h1>H1</h1></li>'), value: 'h1' }, { $elem: $('<li><h2>H2</h2></li>'), value: 'h2' }, { $elem: $('<li><h3>H3</h3></li>'), value: 'h3' }, { $elem: $('<li><h4>H4</h4></li>'), value: 'h4' }, { $elem: $('<li><h5>H5</h5></li>'), value: 'h5' }, { $elem: $('<li><p>正文</p></li>'), value: 'p' }],
+        list: [{ $elem: $('<li><h1>H1</h1></li>'), value: '<h1>' }, { $elem: $('<li><h2>H2</h2></li>'), value: '<h2>' }, { $elem: $('<li><h3>H3</h3></li>'), value: '<h3>' }, { $elem: $('<li><h4>H4</h4></li>'), value: '<h4>' }, { $elem: $('<li><h5>H5</h5></li>'), value: '<h5>' }, { $elem: $('<li><p>正文</p></li>'), value: '<p>' }],
         onClick: function onClick(value) {
             // 注意 this 是指向当前的 Head 对象
             _this._command(value);
@@ -1186,7 +1204,7 @@ Menus.prototype = {
                     // 隐藏
                     droplist.hideTimeoutId = setTimeout(function () {
                         droplist.hide();
-                    }, 200);
+                    }, 0);
                 });
             }
 
@@ -1235,21 +1253,24 @@ Text.prototype = {
         var editor = this.editor;
         var $textElem = editor.$textElem;
 
-        // 点击或者按键时触发
-        function onClickAndKeyup(e) {
-
-            // 记录内容用于撤销
-
-            // 触发 onchange 函数
-
+        // 保存当前的选区
+        function saveRange(e) {
             // 随时保存选区
             editor.selection.saveRange();
-
             // 更新按钮 ative 状态
             editor.menus.changeActive();
         }
-        $textElem.on('keyup', onClickAndKeyup);
-        $textElem.on('click', onClickAndKeyup);
+        // 按键后保存
+        $textElem.on('keyup', saveRange);
+        $textElem.on('mousedown', function (e) {
+            // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
+            $textElem.on('mouseleave', saveRange);
+        });
+        $textElem.on('mouseup', function (e) {
+            saveRange();
+            // 在编辑器区域之内完成点击，取消鼠标滑动到编辑区外面的事件
+            $textElem.off('mouseleave', saveRange);
+        });
     }
 };
 
@@ -1285,7 +1306,7 @@ Command.prototype = {
             this[_name](value);
         } else {
             // 默认 command
-            this.execCommand(name, value);
+            this._execCommand(name, value);
         }
 
         // 修改菜单状态
@@ -1301,17 +1322,39 @@ Command.prototype = {
         var editor = this.editor;
         var range = editor.selection.getRange();
 
-        if (range.pasteHTML) {
+        // 保证传入的参数是 html 代码
+        var test = /^<.+>$/.test(html);
+        if (!test && !UA.isWebkit()) {
+            // webkit 可以插入非 html 格式的文字
+            throw new Error('执行 insertHTML 命令时传入的参数必须是 html 格式');
+        }
+
+        if (this.queryCommandSupported('insertHTML')) {
+            // W3C
+            this._execCommand('insertHTML', html);
+        } else if (range.insertNode) {
             // IE
+            range.deleteContents();
+            range.insertNode($(html)[0]);
+        } else if (range.pasteHTML) {
+            // IE <= 10
             range.pasteHTML(html);
-        } else {
-            // 非 IE
-            this.execCommand('insertHTML', html);
+        }
+    },
+
+    // 插入 elem
+    _insertElem: function _insertElem($elem) {
+        var editor = this.editor;
+        var range = editor.selection.getRange();
+
+        if (range.insertNode) {
+            range.deleteContents();
+            range.insertNode($elem[0]);
         }
     },
 
     // 封装 execCommand
-    execCommand: function execCommand(name, value) {
+    _execCommand: function _execCommand(name, value) {
         document.execCommand(name, false, value);
     },
 
@@ -1435,6 +1478,8 @@ API.prototype = {
     createEmptyRange: function createEmptyRange() {
         var editor = this.editor;
         var range = this.getRange();
+        var $elem = void 0;
+
         if (!range) {
             // 当前无 range
             return;
@@ -1444,12 +1489,19 @@ API.prototype = {
             return;
         }
 
-        // 插入 &#8203
-        editor.cmd.do('insertHTML', '&#8203');
-        // 修改 offset 位置
-        range.setEnd(range.endContainer, range.endOffset + 1);
-        // 存储
-        this.saveRange(range);
+        // 目前只支持 webkit 内核
+        if (UA.isWebkit()) {
+            // 插入 &#8203
+            editor.cmd.do('insertHTML', '&#8203;');
+            // 修改 offset 位置
+            range.setEnd(range.endContainer, range.endOffset + 1);
+            // 存储
+            this.saveRange(range);
+        } else {
+            $elem = $('<strong>&#8203;</strong>');
+            editor.cmd.do('insertElem', $elem);
+            this.createRangeByElem($elem, true);
+        }
     },
 
     // 根据 $Elem 设置选取
@@ -1462,6 +1514,7 @@ API.prototype = {
 
         var elem = $elem[0];
         var range = document.createRange();
+
         range.selectNode(elem);
 
         if (typeof toStart === 'boolean') {

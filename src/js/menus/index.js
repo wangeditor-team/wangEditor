@@ -79,7 +79,7 @@ Menus.prototype = {
                     // 隐藏
                     droplist.hideTimeoutId = setTimeout(() => {
                         droplist.hide()
-                    }, 200)
+                    }, 0)
                 })
             }
 

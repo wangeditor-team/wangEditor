@@ -115,7 +115,14 @@ DomElement.prototype = {
     // 绑定事件
     on: function (type, fn) {
         return this.forEach(elem => {
-            elem.addEventListener(type, fn.bind(elem))
+            elem.addEventListener(type, fn, false)
+        })
+    },
+
+    // 取消事件绑定
+    off: function (type, fn) {
+        return this.forEach(elem => {
+            elem.removeEventListener(type, fn, false)
         })
     },
 
