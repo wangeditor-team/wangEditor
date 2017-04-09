@@ -29,5 +29,11 @@ MenuConstructors.underline = Underline
 import Undo from './undo/index.js'
 MenuConstructors.undo = Undo
 
+import List from './list/index.js'
+MenuConstructors.list = List
+
+import Justify from './justify/index.js'
+MenuConstructors.justify = Justify
+
 // 吐出所有菜单集合
 export default MenuConstructors

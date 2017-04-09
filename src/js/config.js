@@ -4,12 +4,14 @@
 
 const config = {
     menus: [
+        'head',
         'bold',
         'italic',
         'underline',
         'strikeThrough',
-        'head',
         'link',
+        'list',
+        'justify',
         'undo',
         'redo'
     ]

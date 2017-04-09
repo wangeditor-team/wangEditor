@@ -74,8 +74,8 @@ Link.prototype = {
                                 </tr>
                             </table>
                             <div class="w-e-button-container w-e-clear-fix">
-                                <button id="${btnOkId}" class="default left">插入</button>
-                                <button id="${btnDelId}" class="red right">删除链接</button>
+                                <button id="${btnOkId}" class="default left"><i class="w-e-icon-link"></i> 插入</button>
+                                <button id="${btnDelId}" class="red right"><i class="w-e-icon-trash-o"></i> 删除链接</button>
                             </div>
                         </div>`,
                     // 事件绑定

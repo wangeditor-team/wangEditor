@@ -302,6 +302,13 @@ DomElement.prototype = {
     val: function () {
         const elem = this[0]
         return elem.value.trim()
+    },
+
+    // focus
+    focus: function () {
+        return this.forEach(elem => {
+            elem.focus()
+        })
     }
 }
 

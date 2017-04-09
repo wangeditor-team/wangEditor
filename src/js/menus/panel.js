@@ -120,6 +120,12 @@ Panel.prototype = {
             })
         })
 
+        // focus 第一个 elem
+        let $inputs = $container.find('input[type=text]')
+        if ($inputs.length) {
+            $inputs.get(0).focus()
+        }
+
         // 添加到属性
         this.$container = $container
         this._show = true
