@@ -3414,6 +3414,14 @@ _e(function (E, $) {
     // 插入代码时，默认的语言
     E.config.codeDefaultLang = 'javascript';
 
+    // 对图片返回结果处理
+    E.config.uploadImgUrlFormat = function (result) {
+        if (result) {
+            return result;
+        }
+        return false;
+    };
+
 });
 // 全局UI
 _e(function (E, $) {
@@ -6547,6 +6555,8 @@ _e(function (E, $) {
             var editor = this;
             var originalName = editor.uploadImgOriginalName || '';  // 上传图片时，已经将图片的名字存在 editor.uploadImgOriginalName
             var img;
+            resultText = editor.config.uploadImgUrlFormat(resultText) || resultText;
+            E.log('格式化处理后的结果为 ' + resultText);
             if (resultText.indexOf('error|') === 0) {
                 // 提示错误
                 E.warn('上传失败：' + resultText.split('|')[1]);
