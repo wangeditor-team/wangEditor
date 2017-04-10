@@ -212,4 +212,12 @@ _e(function (E, $) {
     // 插入代码时，默认的语言
     E.config.codeDefaultLang = 'javascript';
 
+    // 对图片返回结果处理
+    E.config.uploadImgUrlFormat = function (result) {
+        if (result) {
+            return result;
+        }
+        return false;
+    };
+
 });

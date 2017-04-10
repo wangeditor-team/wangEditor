@@ -12,6 +12,8 @@ _e(function (E, $) {
             var editor = this;
             var originalName = editor.uploadImgOriginalName || '';  // 上传图片时，已经将图片的名字存在 editor.uploadImgOriginalName
             var img;
+            resultText = editor.config.uploadImgUrlFormat(resultText) || resultText;
+            E.log('格式化处理后的结果为 ' + resultText);
             if (resultText.indexOf('error|') === 0) {
                 // 提示错误
                 E.warn('上传失败：' + resultText.split('|')[1]);
