@@ -45,6 +45,14 @@
 .w-e-toolbar .w-e-droplist li:hover {
   background-color: #f1f1f1;
 }
+.w-e-toolbar .w-e-droplist li .w-e-inline-block {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  width: 90%;
+  height: 14px;
+  border: 1px solid #f1f1f1;
+}
 
 @font-face {
   font-family: 'icomoon';
@@ -274,4 +282,25 @@
 .w-e-text ul,
 .w-e-text ol {
   margin-left: 20px;
+}
+.w-e-text blockquote {
+  display: block;
+  border-left: 8px solid #d0e5f2;
+  padding: 5px 10px;
+  margin: 10px 0;
+  line-height: 1.4;
+  font-size: 100%;
+  background-color: #f1f1f1;
+}
+.w-e-text code {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  background-color: #f1f1f1;
+  border-radius: 3px;
+  padding: 3px 5px;
+  margin: 0 3px;
+}
+.w-e-text pre code {
+  display: block;
 }

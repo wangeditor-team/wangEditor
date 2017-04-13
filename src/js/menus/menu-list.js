@@ -35,5 +35,17 @@ MenuConstructors.list = List
 import Justify from './justify/index.js'
 MenuConstructors.justify = Justify
 
+import ForeColor from './foreColor/index.js'
+MenuConstructors.foreColor = ForeColor
+
+import BackColor from './backColor/index.js'
+MenuConstructors.backColor = BackColor
+
+import Quote from './quote/index.js'
+MenuConstructors.quote = Quote
+
+import Code from './code/index.js'
+MenuConstructors.code = Code
+
 // 吐出所有菜单集合
 export default MenuConstructors

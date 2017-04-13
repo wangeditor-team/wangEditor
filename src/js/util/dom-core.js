@@ -309,6 +309,34 @@ DomElement.prototype = {
         return this.forEach(elem => {
             elem.focus()
         })
+    },
+
+    // parent
+    parent: function () {
+        const elem = this[0]
+        return $(elem.parentElement)
+    },
+
+    // 判断两个 elem 是否相等
+    equal: function ($elem) {
+        if ($elem.nodeType === 1) {
+            return this[0] === $elem
+        } else {
+            return this[0] === $elem[0]
+        }
+    },
+
+    // 将该元素插入到某个元素前面
+    insertBefore: function (selector) {
+        const $referenceNode = $(selector)
+        const referenceNode = $referenceNode[0]
+        if (!referenceNode) {
+            return this
+        }
+        return this.forEach(elem => {
+            const parent = referenceNode.parentNode
+            parent.insertBefore(elem, referenceNode)
+        })
     }
 }
 

@@ -26,6 +26,20 @@
         <h1>标题1</h1>
         <h2>标题2</h2>
         <p>请输入内容</p>
+        <pre>
+            <code>
+                // 插入 elem
+                _insertElem: function ($elem) {
+                    const editor = this.editor
+                    const range = editor.selection.getRange()
+
+                    if (range.insertNode) {
+                        range.deleteContents()
+                        range.insertNode($elem[0])
+                    }
+                },
+            </code>
+        </pre>
         <p>请输入内容</p>
     </div>
 

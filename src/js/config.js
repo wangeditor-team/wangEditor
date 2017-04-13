@@ -9,9 +9,13 @@ const config = {
         'italic',
         'underline',
         'strikeThrough',
+        'foreColor',
+        'backColor',
         'link',
         'list',
         'justify',
+        'quote',
+        'code',
         'undo',
         'redo'
     ]
