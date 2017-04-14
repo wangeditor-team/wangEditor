@@ -55,7 +55,7 @@ Link.prototype = {
         // 初始化并显示 panel
         const panel = new Panel(this, {
             width: 300,
-            height: 150,
+            height: 160,
             // panel 中可包含多个 tab
             tabs: [
                 {
@@ -79,7 +79,7 @@ Link.prototype = {
                             </div>
                         </div>`,
                     // 事件绑定
-                    evnts: [
+                    events: [
                         // 插入链接
                         {
                             selector: '#' + btnOkId,

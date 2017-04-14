@@ -42,6 +42,8 @@
                 border: 0;
 
                 td {
+                    padding: 5px 0;
+
                     input[type=text] {
                         width: 100%;
                         border: 0;
@@ -52,6 +54,15 @@
                             border-bottom-color: #1e88e5;
                         }
                     }
+                }
+            }
+
+            textarea {
+                width: 100%;
+                border: 1px solid #ccc;
+
+                &:focus {
+                    border-color: #1e88e5;
                 }
             }
 
@@ -83,7 +94,21 @@
             }
         }
 
+        .w-e-emoticon-container {
+            .w-e-item {
+                cursor: pointer;
+                font-size: 18px;
+                padding: 0 3px;
+            }
+        }
+
         input:focus {
+            outline: none;
+        }
+        textarea:focus {
+            outline: none;
+        }
+        button:focus {
             outline: none;
         }
     }

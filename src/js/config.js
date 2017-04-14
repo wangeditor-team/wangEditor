@@ -15,6 +15,7 @@ const config = {
         'list',
         'justify',
         'quote',
+        'emoticon',
         'code',
         'undo',
         'redo'

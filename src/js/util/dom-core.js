@@ -298,6 +298,17 @@ DomElement.prototype = {
         return elem.innerHTML.replace(/<.*?>/g, () => '')
     },
 
+    // 获取 html
+    html: function (value) {
+        const elem = this[0]
+        if (!value) {
+            return elem.innerHTML
+        } else {
+            elem.innerHTML = value
+            return this
+        }
+    },
+
     // 获取 value
     val: function () {
         const elem = this[0]

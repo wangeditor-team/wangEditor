@@ -221,6 +221,9 @@
   width: 100%;
   border: 0;
 }
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table td {
+  padding: 5px 0;
+}
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-content table td input[type=text] {
   width: 100%;
   border: 0;
@@ -229,6 +232,13 @@
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-content table td input[type=text]:focus {
   border-bottom-color: #1e88e5;
+}
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+}
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea:focus {
+  border-color: #1e88e5;
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container {
   margin-top: 10px;
@@ -255,7 +265,18 @@
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.right {
   float: right;
 }
+.w-e-text-container .w-e-panel-container .w-e-emoticon-container .w-e-item {
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0 3px;
+}
 .w-e-text-container .w-e-panel-container input:focus {
+  outline: none;
+}
+.w-e-text-container .w-e-panel-container textarea:focus {
+  outline: none;
+}
+.w-e-text-container .w-e-panel-container button:focus {
   outline: none;
 }
 

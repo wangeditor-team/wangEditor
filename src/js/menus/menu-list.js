@@ -47,5 +47,8 @@ MenuConstructors.quote = Quote
 import Code from './code/index.js'
 MenuConstructors.code = Code
 
+import Emoticon from './emoticon/index.js'
+MenuConstructors.emoticon = Emoticon
+
 // 吐出所有菜单集合
 export default MenuConstructors

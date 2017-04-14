@@ -43,3 +43,11 @@ export function arrForEach(fakeArr, fn) {
 export function getRandom(prefix) {
     return prefix + Math.random().toString().slice(2)
 }
+
+// 替换 html 特殊字符
+export function replaceHtmlSymbol(html) {
+    return html.replace(/</gm, '&lt;')
+                .replace(/>/gm, '&gt;')
+                .replace(/"/gm, '&quot;')
+}
+

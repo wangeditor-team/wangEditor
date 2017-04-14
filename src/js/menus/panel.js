@@ -104,14 +104,14 @@ Panel.prototype = {
 
         // 绑定 opt 的事件，只有添加到 DOM 之后才能绑定成功
         tabs.forEach((tab) => {
-            const events = tab.evnts || []
+            const events = tab.events || []
             events.forEach(event => {
                 const selector = event.selector
                 const type = event.type
                 const fn = event.fn || emptyFn
                 $container.find(selector).on(type, (e) => {
                     e.stopPropagation()
-                    const needToHide = fn()
+                    const needToHide = fn(e)
                     // 执行完事件之后，是否要关闭 panel
                     if (needToHide) {
                         this.hide()
@@ -121,7 +121,7 @@ Panel.prototype = {
         })
 
         // focus 第一个 elem
-        let $inputs = $container.find('input[type=text]')
+        let $inputs = $container.find('input[type=text],textarea')
         if ($inputs.length) {
             $inputs.get(0).focus()
         }

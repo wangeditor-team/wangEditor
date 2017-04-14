@@ -52,6 +52,7 @@ Menus.prototype = {
     // 绑定菜单 click mouseenter 事件
     _bindEvent: function () {
         const menus = this.menus
+        const editor = this.editor
         objForEach(menus, (key, menu) => {
             const type = menu.type
             if (!type) {
@@ -64,6 +65,9 @@ Menus.prototype = {
             // 点击类型，例如 bold
             if (type === 'click' && menu.onClick) {
                 $elem.on('click', e => {
+                    if (editor.selection.getRange() == null) {
+                        return
+                    }
                     menu.onClick(e)
                 })
             }
@@ -71,6 +75,9 @@ Menus.prototype = {
             // 下拉框，例如 head
             if (type === 'droplist' && droplist) {
                 $elem.on('mouseenter', e => {
+                    if (editor.selection.getRange() == null) {
+                        return
+                    }
                     // 显示
                     droplist.showTimeoutId = setTimeout(() => {
                         droplist.show()
@@ -86,6 +93,9 @@ Menus.prototype = {
             // 弹框类型，例如 link
             if (type === 'panel' && menu.onClick) {
                 $elem.on('click', e => {
+                    if (editor.selection.getRange() == null) {
+                        return
+                    }
                     // 在自定义事件中显示 panel
                     menu.onClick(e)
                 })
