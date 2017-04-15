@@ -10,6 +10,19 @@
         background-color: #fff;
         color: #333;
 
+        textarea {
+            width: 100%;
+            border: 1px solid #ccc;
+
+            &:focus {
+                border-color: #1e88e5;
+            }
+        }
+
+        input[type=text]:focus {
+            border: 1px solid #1e88e5;
+        }
+
         .w-e-panel-tab-title {
             list-style: none;
             display: flex;
@@ -37,7 +50,7 @@
             padding: 10px 15px 0 15px;
             font-size: 0.16em;
 
-            table {
+            table.form-table {
                 width: 100%;
                 border: 0;
 
@@ -57,15 +70,6 @@
                 }
             }
 
-            textarea {
-                width: 100%;
-                border: 1px solid #ccc;
-
-                &:focus {
-                    border-color: #1e88e5;
-                }
-            }
-
             .w-e-button-container {
                 margin-top: 10px;
 
@@ -76,6 +80,10 @@
                     background-color: #fff;
                     padding: 2px 5px;
                     cursor: pointer;
+
+                    &:hover {
+                        background-color: #f1f1f1;
+                    }
                 }
                 button.default {
                     color: #1e88e5;

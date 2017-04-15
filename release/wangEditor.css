@@ -191,6 +191,16 @@
   background-color: #fff;
   color: #333;
 }
+.w-e-text-container .w-e-panel-container textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+}
+.w-e-text-container .w-e-panel-container textarea:focus {
+  border-color: #1e88e5;
+}
+.w-e-text-container .w-e-panel-container input[type=text]:focus {
+  border: 1px solid #1e88e5;
+}
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-title {
   list-style: none;
   display: -webkit-box;
@@ -217,28 +227,21 @@
   padding: 10px 15px 0 15px;
   font-size: 0.16em;
 }
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table {
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table {
   width: 100%;
   border: 0;
 }
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table td {
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table td {
   padding: 5px 0;
 }
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table td input[type=text] {
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table td input[type=text] {
   width: 100%;
   border: 0;
   border-bottom: 1px solid #ccc;
   font-size: 15px;
 }
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table td input[type=text]:focus {
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table td input[type=text]:focus {
   border-bottom-color: #1e88e5;
-}
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea {
-  width: 100%;
-  border: 1px solid #ccc;
-}
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea:focus {
-  border-color: #1e88e5;
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container {
   margin-top: 10px;
@@ -250,6 +253,9 @@
   background-color: #fff;
   padding: 2px 5px;
   cursor: pointer;
+}
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button:hover {
+  background-color: #f1f1f1;
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.default {
   color: #1e88e5;
@@ -293,12 +299,11 @@
 .w-e-text h2,
 .w-e-text h3,
 .w-e-text h4,
-.w-e-text h5 {
+.w-e-text h5,
+.w-e-text table,
+.w-e-text pre {
   margin: 10px 0;
   line-height: 1.5;
-}
-.w-e-text:focus {
-  outline: none;
 }
 .w-e-text ul,
 .w-e-text ol {
@@ -324,4 +329,21 @@
 }
 .w-e-text pre code {
   display: block;
+}
+.w-e-text table {
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+.w-e-text table td,
+.w-e-text table th {
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 3px 5px;
+}
+.w-e-text table th {
+  border-bottom: 2px solid #ccc;
+  text-align: center;
+}
+.w-e-text:focus {
+  outline: none;
 }

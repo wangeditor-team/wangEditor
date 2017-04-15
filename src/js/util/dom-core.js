@@ -87,7 +87,10 @@ DomElement.prototype = {
         let i
         for (i = 0; i < this.length; i++) {
             const elem = this[i]
-            fn.call(elem, elem)
+            const result = fn.call(elem, elem, i)
+            if (result === false) {
+                break
+            }
         }
         return this
     },
@@ -328,6 +331,33 @@ DomElement.prototype = {
         return $(elem.parentElement)
     },
 
+    // parentUntil 找到符合 selector 的父节点
+    parentUntil: function (selector, _currentElem) {
+        const results = document.querySelectorAll(selector)
+        const length = results.length
+        if (!length) {
+            // 传入的 selector 无效
+            return null
+        }
+
+        const elem = _currentElem || this[0]
+        if (elem.nodeName === 'BODY') {
+            return null
+        }
+
+        const parent = elem.parentElement
+        let i
+        for (i = 0; i < length; i++) {
+            if (parent === results[i]) {
+                // 找到，并返回
+                return $(parent)
+            }
+        }
+
+        // 继续查找
+        return this.parentUntil(selector, parent)
+    },
+
     // 判断两个 elem 是否相等
     equal: function ($elem) {
         if ($elem.nodeType === 1) {
@@ -347,6 +377,25 @@ DomElement.prototype = {
         return this.forEach(elem => {
             const parent = referenceNode.parentNode
             parent.insertBefore(elem, referenceNode)
+        })
+    },
+
+    // 将该元素插入到某个元素后面
+    insertAfter: function (selector) {
+        const $referenceNode = $(selector)
+        const referenceNode = $referenceNode[0]
+        if (!referenceNode) {
+            return this
+        }
+        return this.forEach(elem => {
+            const parent = referenceNode.parentNode
+            if (parent.lastChild === referenceNode) {
+                // 最后一个元素
+                parent.appendChild(elem)
+            } else {
+                // 不是最后一个元素
+                parent.insertBefore(elem, referenceNode.nextSibling)
+            }
         })
     }
 }

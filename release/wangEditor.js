@@ -128,7 +128,10 @@ DomElement.prototype = {
         var i = void 0;
         for (i = 0; i < this.length; i++) {
             var elem = this[i];
-            fn.call(elem, elem);
+            var result = fn.call(elem, elem, i);
+            if (result === false) {
+                break;
+            }
         }
         return this;
     },
@@ -372,6 +375,33 @@ DomElement.prototype = {
         return $(elem.parentElement);
     },
 
+    // parentUntil 找到符合 selector 的父节点
+    parentUntil: function parentUntil(selector, _currentElem) {
+        var results = document.querySelectorAll(selector);
+        var length = results.length;
+        if (!length) {
+            // 传入的 selector 无效
+            return null;
+        }
+
+        var elem = _currentElem || this[0];
+        if (elem.nodeName === 'BODY') {
+            return null;
+        }
+
+        var parent = elem.parentElement;
+        var i = void 0;
+        for (i = 0; i < length; i++) {
+            if (parent === results[i]) {
+                // 找到，并返回
+                return $(parent);
+            }
+        }
+
+        // 继续查找
+        return this.parentUntil(selector, parent);
+    },
+
     // 判断两个 elem 是否相等
     equal: function equal($elem) {
         if ($elem.nodeType === 1) {
@@ -392,6 +422,25 @@ DomElement.prototype = {
             var parent = referenceNode.parentNode;
             parent.insertBefore(elem, referenceNode);
         });
+    },
+
+    // 将该元素插入到某个元素后面
+    insertAfter: function insertAfter(selector) {
+        var $referenceNode = $(selector);
+        var referenceNode = $referenceNode[0];
+        if (!referenceNode) {
+            return this;
+        }
+        return this.forEach(function (elem) {
+            var parent = referenceNode.parentNode;
+            if (parent.lastChild === referenceNode) {
+                // 最后一个元素
+                parent.appendChild(elem);
+            } else {
+                // 不是最后一个元素
+                parent.insertBefore(elem, referenceNode.nextSibling);
+            }
+        });
     }
 };
 
@@ -405,7 +454,7 @@ function $(selector) {
 */
 
 var config = {
-    menus: ['head', 'bold', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'code', 'undo', 'redo']
+    menus: ['head', 'bold', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'table', 'code', 'undo', 'redo']
 };
 
 /*
@@ -861,6 +910,9 @@ Link.prototype = {
         var btnOkId = getRandom('btn-ok');
         var btnDelId = getRandom('btn-del');
 
+        // 是否显示“删除链接”
+        var delBtnDisplay = this._active ? 'inline-block' : 'none';
+
         // 初始化并显示 panel
         var panel = new Panel(this, {
             width: 300,
@@ -870,7 +922,7 @@ Link.prototype = {
                 // tab 的标题
                 title: '链接',
                 // 模板
-                tpl: '<div>\n                            <table>\n                                <tr>\n                                    <td>\u6587\u5B57</td>\n                                    <td><input id="' + inputTextId + '" type="text" value="' + text + '"/></td>\n                                </tr>\n                                <tr>\n                                    <td>\u94FE\u63A5</td>\n                                    <td><input id="' + inputLinkId + '" type="text" value="' + link + '" placeholder="http://..."/></td>\n                                </tr>\n                            </table>\n                            <div class="w-e-button-container w-e-clear-fix">\n                                <button id="' + btnOkId + '" class="default left"><i class="w-e-icon-link"></i> \u63D2\u5165</button>\n                                <button id="' + btnDelId + '" class="red right"><i class="w-e-icon-trash-o"></i> \u5220\u9664\u94FE\u63A5</button>\n                            </div>\n                        </div>',
+                tpl: '<div>\n                            <table class="form-table">\n                                <tr>\n                                    <td>\u6587\u5B57</td>\n                                    <td><input id="' + inputTextId + '" type="text" value="' + text + '"/></td>\n                                </tr>\n                                <tr>\n                                    <td>\u94FE\u63A5</td>\n                                    <td><input id="' + inputLinkId + '" type="text" value="' + link + '" placeholder="http://..."/></td>\n                                </tr>\n                            </table>\n                            <div class="w-e-button-container w-e-clear-fix">\n                                <button id="' + btnOkId + '" class="default left"><i class="w-e-icon-link"></i> \u63D2\u5165</button>\n                                <button id="' + btnDelId + '" class="red right" style="display:' + delBtnDisplay + '"><i class="w-e-icon-trash-o"></i> \u5220\u9664\u94FE\u63A5</button>\n                            </div>\n                        </div>',
                 // 事件绑定
                 events: [
                 // 插入链接
@@ -896,6 +948,7 @@ Link.prototype = {
                     fn: function fn() {
                         // 执行删除链接
                         _this._delLink();
+
                         // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                         return true;
                     }
@@ -1553,6 +1606,337 @@ Emoticon.prototype = {
 };
 
 /*
+    menu - table
+*/
+// 构造函数
+function Table(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-table2"><i/></div>');
+    this.type = 'panel';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Table.prototype = {
+    constructor: Table,
+
+    onClick: function onClick() {
+        if (this._active) {
+            // 编辑现有表格
+            this._createEditPanel();
+        } else {
+            // 插入新表格
+            this._createInsertPanel();
+        }
+    },
+
+    // 创建插入新表格的 panel
+    _createInsertPanel: function _createInsertPanel() {
+        var _this = this;
+
+        // 用到的 id
+        var btnInsertId = getRandom('btn');
+        var textRowNum = getRandom('row');
+        var textColNum = getRandom('col');
+
+        var panel = new Panel(this, {
+            width: 250,
+            height: 130,
+            // panel 包含多个 tab
+            tabs: [{
+                // 标题
+                title: '插入表格',
+                // 模板
+                tpl: '<div>\n                        <p style="text-align:left; padding:5px 0;">\n                            \u521B\u5EFA\n                            <input id="' + textRowNum + '" type="text" value="5" style="width:40px;text-align:center;"/>\n                            \u884C\n                            <input id="' + textColNum + '" type="text" value="5" style="width:40px;text-align:center;"/>\n                            \u5217\u7684\u8868\u683C\n                        </p>\n                        <div class="w-e-button-container w-e-clear-fix">\n                            <button id="' + btnInsertId + '" class="default left">\u63D2\u5165</button>\n                        </div>\n                    </div>',
+                // 事件绑定
+                events: [{
+                    // 点击按钮，插入表格
+                    selector: '#' + btnInsertId,
+                    type: 'click',
+                    fn: function fn() {
+                        var rowNum = parseInt($('#' + textRowNum).val());
+                        var colNum = parseInt($('#' + textColNum).val());
+
+                        if (rowNum && colNum && rowNum > 0 && colNum > 0) {
+                            // form 数据有效
+                            _this._insert(rowNum, colNum);
+                        }
+
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            } // first tab end
+            ] // tabs end
+        }); // panel end
+
+        // 展示 panel
+        panel.show();
+    },
+
+    // 插入表格
+    _insert: function _insert(rowNum, colNum) {
+        // 拼接 table 模板
+        var r = void 0,
+            c = void 0;
+        var html = '<table border="0" width="100%" cellpadding="0" cellspacing="0">';
+        for (r = 0; r < rowNum; r++) {
+            html += '<tr>';
+            if (r === 0) {
+                for (c = 0; c < colNum; c++) {
+                    html += '<th></th>';
+                }
+            } else {
+                for (c = 0; c < colNum; c++) {
+                    html += '<td></td>';
+                }
+            }
+            html += '</tr>';
+        }
+        html += '</table>';
+
+        // 执行命令
+        var editor = this.editor;
+        editor.cmd.do('insertHTML', html);
+    },
+
+    // 创建编辑表格的 panel
+    _createEditPanel: function _createEditPanel() {
+        var _this2 = this;
+
+        // 可用的 id
+        var addRowBtnId = getRandom('add-row');
+        var addColBtnId = getRandom('add-col');
+        var delRowBtnId = getRandom('del-row');
+        var delColBtnId = getRandom('del-col');
+        var delTableBtnId = getRandom('del-table');
+
+        // 创建 panel 对象
+        var panel = new Panel(this, {
+            width: 270,
+            height: 130,
+            // panel 包含多个 tab
+            tabs: [{
+                // 标题
+                title: '编辑表格',
+                // 模板
+                tpl: '<div>\n                        <div class="w-e-button-container w-e-clear-fix">\n                            <button id="' + addRowBtnId + '" class="default">\u589E\u52A0\u884C</button>\n                            <button id="' + addColBtnId + '" class="default">\u589E\u52A0\u5217</button>\n                            <button id="' + delRowBtnId + '" class="red">\u5220\u9664\u884C</button>\n                            <button id="' + delColBtnId + '" class="red">\u5220\u9664\u5217</button>\n                        </dv>\n                        <div class="w-e-button-container w-e-clear-fix">\n                            <button id="' + delTableBtnId + '"><i class="w-e-icon-trash-o"></i> \u5220\u9664\u8868\u683C</button>\n                        </dv>\n                    </div>',
+                // 事件绑定
+                events: [{
+                    // 增加行
+                    selector: '#' + addRowBtnId,
+                    type: 'click',
+                    fn: function fn() {
+                        _this2._addRow();
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }, {
+                    // 增加列
+                    selector: '#' + addColBtnId,
+                    type: 'click',
+                    fn: function fn() {
+                        _this2._addCol();
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }, {
+                    // 删除行
+                    selector: '#' + delRowBtnId,
+                    type: 'click',
+                    fn: function fn() {
+                        _this2._delRow();
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }, {
+                    // 删除列
+                    selector: '#' + delColBtnId,
+                    type: 'click',
+                    fn: function fn() {
+                        _this2._delCol();
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }, {
+                    // 删除表格
+                    selector: '#' + delTableBtnId,
+                    type: 'click',
+                    fn: function fn() {
+                        _this2._delTable();
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            }]
+        });
+        // 显示 panel
+        panel.show();
+    },
+
+    // 获取选中的单元格的位置信息
+    _getLocationData: function _getLocationData() {
+        var result = {};
+        var editor = this.editor;
+        var $selectionELem = editor.selection.getSelectionContainerElem();
+        var nodeName = $selectionELem.getNodeName();
+        if (nodeName !== 'TD' && nodeName !== 'TH') {
+            return;
+        }
+
+        // 获取 td index
+        var $tr = $selectionELem.parent();
+        var $tds = $tr.children();
+        var tdLength = $tds.length;
+        $tds.forEach(function (td, index) {
+            if (td === $selectionELem[0]) {
+                // 记录并跳出循环
+                result.td = {
+                    index: index,
+                    elem: td,
+                    length: tdLength
+                };
+                return false;
+            }
+        });
+
+        // 获取 tr index
+        var $tbody = $tr.parent();
+        var $trs = $tbody.children();
+        var trLength = $trs.length;
+        $trs.forEach(function (tr, index) {
+            if (tr === $tr[0]) {
+                // 记录并跳出循环
+                result.tr = {
+                    index: index,
+                    elem: tr,
+                    length: trLength
+                };
+                return false;
+            }
+        });
+
+        // 返回结果
+        return result;
+    },
+
+    // 增加行
+    _addRow: function _addRow() {
+        // 获取当前单元格的位置信息
+        var locationData = this._getLocationData();
+        if (!locationData) {
+            return;
+        }
+        var trData = locationData.tr;
+        var $currentTr = $(trData.elem);
+        var tdData = locationData.td;
+        var tdLength = tdData.length;
+
+        // 拼接即将插入的字符串
+        var newTr = document.createElement('tr');
+        var tpl = '',
+            i = void 0;
+        for (i = 0; i < tdLength; i++) {
+            tpl += '<td></td>';
+        }
+        newTr.innerHTML = tpl;
+        // 插入
+        $(newTr).insertAfter($currentTr);
+    },
+
+    // 增加列
+    _addCol: function _addCol() {
+        // 获取当前单元格的位置信息
+        var locationData = this._getLocationData();
+        if (!locationData) {
+            return;
+        }
+        var trData = locationData.tr;
+        var tdData = locationData.td;
+        var tdIndex = tdData.index;
+        var $currentTr = $(trData.elem);
+        var $trParent = $currentTr.parent();
+        var $trs = $trParent.children();
+
+        // 遍历所有行
+        $trs.forEach(function (tr) {
+            var $tr = $(tr);
+            var $tds = $tr.children();
+            var $currentTd = $tds.get(tdIndex);
+            var name = $currentTd.getNodeName().toLowerCase();
+
+            // new 一个 td，并插入
+            var newTd = document.createElement(name);
+            $(newTd).insertAfter($currentTd);
+        });
+    },
+
+    // 删除行
+    _delRow: function _delRow() {
+        // 获取当前单元格的位置信息
+        var locationData = this._getLocationData();
+        if (!locationData) {
+            return;
+        }
+        var trData = locationData.tr;
+        var $currentTr = $(trData.elem);
+        $currentTr.remove();
+    },
+
+    // 删除列
+    _delCol: function _delCol() {
+        // 获取当前单元格的位置信息
+        var locationData = this._getLocationData();
+        if (!locationData) {
+            return;
+        }
+        var trData = locationData.tr;
+        var tdData = locationData.td;
+        var tdIndex = tdData.index;
+        var $currentTr = $(trData.elem);
+        var $trParent = $currentTr.parent();
+        var $trs = $trParent.children();
+
+        // 遍历所有行
+        $trs.forEach(function (tr) {
+            var $tr = $(tr);
+            var $tds = $tr.children();
+            var $currentTd = $tds.get(tdIndex);
+            // 删除
+            $currentTd.remove();
+        });
+    },
+
+    // 删除表格
+    _delTable: function _delTable() {
+        var editor = this.editor;
+        var $selectionELem = editor.selection.getSelectionContainerElem();
+        var $table = $selectionELem.parentUntil('table');
+        if (!$table) {
+            return;
+        }
+        $table.remove();
+    },
+
+    // 试图改变 active 状态
+    tryChangeActive: function tryChangeActive(e) {
+        var editor = this.editor;
+        var $elem = this.$elem;
+        var $selectionELem = editor.selection.getSelectionContainerElem();
+        var nodeName = $selectionELem.getNodeName();
+        if (nodeName === 'TD' || nodeName === 'TH') {
+            this._active = true;
+            $elem.addClass('w-e-active');
+        } else {
+            this._active = false;
+            $elem.removeClass('w-e-active');
+        }
+    }
+};
+
+/*
     所有菜单的汇总
 */
 
@@ -1588,6 +1972,8 @@ MenuConstructors.quote = Quote;
 MenuConstructors.code = Code;
 
 MenuConstructors.emoticon = Emoticon;
+
+MenuConstructors.table = Table;
 
 /*
     菜单集合
@@ -2305,7 +2691,7 @@ polyfill();
 // 将 css 代码添加到 <style> 中
 document.addEventListener('DOMContentLoaded', function (e) {
     // 这里的 `inlinecss` 将被替换成 css 代码的内容，详情可去 ./gulpfile.js 中搜索 `inlinecss` 关键字
-    var inlinecss = '.w-e-toolbar,.w-e-text-container,.w-e-menu-panel {  padding: 0;  margin: 0;  box-sizing: border-box;}.w-e-toolbar *,.w-e-text-container *,.w-e-menu-panel * {  padding: 0;  margin: 0;  box-sizing: border-box;}.w-e-clear-fix:after {  content: "";  display: table;  clear: both;}.w-e-toolbar .w-e-droplist {  position: absolute;  left: 0;  top: 0;  background-color: #fff;  border: 1px solid #f1f1f1;  border-right-color: #ccc;  border-bottom-color: #ccc;}.w-e-toolbar .w-e-droplist .w-e-dp-title {  text-align: center;  color: #999;  line-height: 2;  border-bottom: 1px solid #f1f1f1;  font-size: 13px;}.w-e-toolbar .w-e-droplist ul {  list-style: none;  line-height: 1;}.w-e-toolbar .w-e-droplist li {  color: #333;  padding: 5px 0;}.w-e-toolbar .w-e-droplist li:hover {  background-color: #f1f1f1;}.w-e-toolbar .w-e-droplist li .w-e-inline-block {  display: inline-block;  *display: inline;  *zoom: 1;  width: 90%;  height: 14px;  border: 1px solid #f1f1f1;}@font-face {  font-family: \'icomoon\';  src: url(data:application/x-font-woff;charset=utf-8;base64,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) format(\'truetype\');  font-weight: normal;  font-style: normal;}[class^="w-e-icon-"],[class*=" w-e-icon-"] {  /* use !important to prevent issues with browser extensions that change fonts */  font-family: \'icomoon\' !important;  speak: none;  font-style: normal;  font-weight: normal;  font-variant: normal;  text-transform: none;  line-height: 1;  /* Better Font Rendering =========== */  -webkit-font-smoothing: antialiased;  -moz-osx-font-smoothing: grayscale;}.w-e-icon-upload2:before {  content: "\\e9c6";}.w-e-icon-trash-o:before {  content: "\\f014";}.w-e-icon-header:before {  content: "\\f1dc";}.w-e-icon-pencil2:before {  content: "\\e906";}.w-e-icon-paint-brush:before {  content: "\\f1fc";}.w-e-icon-image:before {  content: "\\e90d";}.w-e-icon-play:before {  content: "\\e912";}.w-e-icon-location:before {  content: "\\e947";}.w-e-icon-undo:before {  content: "\\e965";}.w-e-icon-redo:before {  content: "\\e966";}.w-e-icon-quotes-left:before {  content: "\\e977";}.w-e-icon-list-numbered:before {  content: "\\e9b9";}.w-e-icon-list2:before {  content: "\\e9bb";}.w-e-icon-link:before {  content: "\\e9cb";}.w-e-icon-happy:before {  content: "\\e9df";}.w-e-icon-bold:before {  content: "\\ea62";}.w-e-icon-underline:before {  content: "\\ea63";}.w-e-icon-italic:before {  content: "\\ea64";}.w-e-icon-strikethrough:before {  content: "\\ea65";}.w-e-icon-table2:before {  content: "\\ea71";}.w-e-icon-paragraph-left:before {  content: "\\ea77";}.w-e-icon-paragraph-center:before {  content: "\\ea78";}.w-e-icon-paragraph-right:before {  content: "\\ea79";}.w-e-icon-terminal:before {  content: "\\f120";}.w-e-icon-page-break:before {  content: "\\ea68";}.w-e-icon-cancel-circle:before {  content: "\\ea0d";}.w-e-toolbar {  display: -webkit-box;  display: -ms-flexbox;  display: flex;  padding: 0 5px;  /* 单个菜单 */}.w-e-toolbar .w-e-menu {  position: relative;  z-index: 10001;  text-align: center;  padding: 5px 10px;  cursor: pointer;}.w-e-toolbar .w-e-menu i {  color: #999;}.w-e-toolbar .w-e-menu:hover i {  color: #333;}.w-e-toolbar .w-e-active i {  color: #1e88e5;}.w-e-toolbar .w-e-active:hover i {  color: #1e88e5;}.w-e-text-container .w-e-panel-container {  font-size: 100px;  position: absolute;  top: 0;  left: 50%;  border: 1px solid #ccc;  border-top: 0;  box-shadow: 1px 1px 2px #ccc;  background-color: #fff;  color: #333;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-title {  list-style: none;  display: -webkit-box;  display: -ms-flexbox;  display: flex;  font-size: 0.16em;  background-color: #f1f1f1;  border-bottom: 1px solid #ccc;  padding: 2px 10px 0 10px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-title .w-e-item {  padding: 3px 5px;  color: #999;  cursor: pointer;  margin: 0 3px;  position: relative;  top: 1px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-title .w-e-active {  color: #333;  border-bottom: 1px solid #333;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content {  padding: 10px 15px 0 15px;  font-size: 0.16em;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table {  width: 100%;  border: 0;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table td {  padding: 5px 0;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table td input[type=text] {  width: 100%;  border: 0;  border-bottom: 1px solid #ccc;  font-size: 15px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table td input[type=text]:focus {  border-bottom-color: #1e88e5;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea {  width: 100%;  border: 1px solid #ccc;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea:focus {  border-color: #1e88e5;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container {  margin-top: 10px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button {  color: #999;  border: 1px solid #ccc;  font-size: 14px;  background-color: #fff;  padding: 2px 5px;  cursor: pointer;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.default {  color: #1e88e5;  border-color: #1e88e5;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.red {  color: red;  border-color: red;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.left {  float: left;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.right {  float: right;}.w-e-text-container .w-e-panel-container .w-e-emoticon-container .w-e-item {  cursor: pointer;  font-size: 18px;  padding: 0 3px;}.w-e-text-container .w-e-panel-container input:focus {  outline: none;}.w-e-text-container .w-e-panel-container textarea:focus {  outline: none;}.w-e-text-container .w-e-panel-container button:focus {  outline: none;}.w-e-text-container {  position: relative;  z-index: 10000;}.w-e-text {  padding: 0 10px;  overflow-y: scroll;}.w-e-text p,.w-e-text h1,.w-e-text h2,.w-e-text h3,.w-e-text h4,.w-e-text h5 {  margin: 10px 0;  line-height: 1.5;}.w-e-text:focus {  outline: none;}.w-e-text ul,.w-e-text ol {  margin-left: 20px;}.w-e-text blockquote {  display: block;  border-left: 8px solid #d0e5f2;  padding: 5px 10px;  margin: 10px 0;  line-height: 1.4;  font-size: 100%;  background-color: #f1f1f1;}.w-e-text code {  display: inline-block;  *display: inline;  *zoom: 1;  background-color: #f1f1f1;  border-radius: 3px;  padding: 3px 5px;  margin: 0 3px;}.w-e-text pre code {  display: block;}';
+    var inlinecss = '.w-e-toolbar,.w-e-text-container,.w-e-menu-panel {  padding: 0;  margin: 0;  box-sizing: border-box;}.w-e-toolbar *,.w-e-text-container *,.w-e-menu-panel * {  padding: 0;  margin: 0;  box-sizing: border-box;}.w-e-clear-fix:after {  content: "";  display: table;  clear: both;}.w-e-toolbar .w-e-droplist {  position: absolute;  left: 0;  top: 0;  background-color: #fff;  border: 1px solid #f1f1f1;  border-right-color: #ccc;  border-bottom-color: #ccc;}.w-e-toolbar .w-e-droplist .w-e-dp-title {  text-align: center;  color: #999;  line-height: 2;  border-bottom: 1px solid #f1f1f1;  font-size: 13px;}.w-e-toolbar .w-e-droplist ul {  list-style: none;  line-height: 1;}.w-e-toolbar .w-e-droplist li {  color: #333;  padding: 5px 0;}.w-e-toolbar .w-e-droplist li:hover {  background-color: #f1f1f1;}.w-e-toolbar .w-e-droplist li .w-e-inline-block {  display: inline-block;  *display: inline;  *zoom: 1;  width: 90%;  height: 14px;  border: 1px solid #f1f1f1;}@font-face {  font-family: \'icomoon\';  src: url(data:application/x-font-woff;charset=utf-8;base64,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) format(\'truetype\');  font-weight: normal;  font-style: normal;}[class^="w-e-icon-"],[class*=" w-e-icon-"] {  /* use !important to prevent issues with browser extensions that change fonts */  font-family: \'icomoon\' !important;  speak: none;  font-style: normal;  font-weight: normal;  font-variant: normal;  text-transform: none;  line-height: 1;  /* Better Font Rendering =========== */  -webkit-font-smoothing: antialiased;  -moz-osx-font-smoothing: grayscale;}.w-e-icon-upload2:before {  content: "\\e9c6";}.w-e-icon-trash-o:before {  content: "\\f014";}.w-e-icon-header:before {  content: "\\f1dc";}.w-e-icon-pencil2:before {  content: "\\e906";}.w-e-icon-paint-brush:before {  content: "\\f1fc";}.w-e-icon-image:before {  content: "\\e90d";}.w-e-icon-play:before {  content: "\\e912";}.w-e-icon-location:before {  content: "\\e947";}.w-e-icon-undo:before {  content: "\\e965";}.w-e-icon-redo:before {  content: "\\e966";}.w-e-icon-quotes-left:before {  content: "\\e977";}.w-e-icon-list-numbered:before {  content: "\\e9b9";}.w-e-icon-list2:before {  content: "\\e9bb";}.w-e-icon-link:before {  content: "\\e9cb";}.w-e-icon-happy:before {  content: "\\e9df";}.w-e-icon-bold:before {  content: "\\ea62";}.w-e-icon-underline:before {  content: "\\ea63";}.w-e-icon-italic:before {  content: "\\ea64";}.w-e-icon-strikethrough:before {  content: "\\ea65";}.w-e-icon-table2:before {  content: "\\ea71";}.w-e-icon-paragraph-left:before {  content: "\\ea77";}.w-e-icon-paragraph-center:before {  content: "\\ea78";}.w-e-icon-paragraph-right:before {  content: "\\ea79";}.w-e-icon-terminal:before {  content: "\\f120";}.w-e-icon-page-break:before {  content: "\\ea68";}.w-e-icon-cancel-circle:before {  content: "\\ea0d";}.w-e-toolbar {  display: -webkit-box;  display: -ms-flexbox;  display: flex;  padding: 0 5px;  /* 单个菜单 */}.w-e-toolbar .w-e-menu {  position: relative;  z-index: 10001;  text-align: center;  padding: 5px 10px;  cursor: pointer;}.w-e-toolbar .w-e-menu i {  color: #999;}.w-e-toolbar .w-e-menu:hover i {  color: #333;}.w-e-toolbar .w-e-active i {  color: #1e88e5;}.w-e-toolbar .w-e-active:hover i {  color: #1e88e5;}.w-e-text-container .w-e-panel-container {  font-size: 100px;  position: absolute;  top: 0;  left: 50%;  border: 1px solid #ccc;  border-top: 0;  box-shadow: 1px 1px 2px #ccc;  background-color: #fff;  color: #333;}.w-e-text-container .w-e-panel-container textarea {  width: 100%;  border: 1px solid #ccc;}.w-e-text-container .w-e-panel-container textarea:focus {  border-color: #1e88e5;}.w-e-text-container .w-e-panel-container input[type=text]:focus {  border: 1px solid #1e88e5;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-title {  list-style: none;  display: -webkit-box;  display: -ms-flexbox;  display: flex;  font-size: 0.16em;  background-color: #f1f1f1;  border-bottom: 1px solid #ccc;  padding: 2px 10px 0 10px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-title .w-e-item {  padding: 3px 5px;  color: #999;  cursor: pointer;  margin: 0 3px;  position: relative;  top: 1px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-title .w-e-active {  color: #333;  border-bottom: 1px solid #333;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content {  padding: 10px 15px 0 15px;  font-size: 0.16em;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table {  width: 100%;  border: 0;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table td {  padding: 5px 0;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table td input[type=text] {  width: 100%;  border: 0;  border-bottom: 1px solid #ccc;  font-size: 15px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table td input[type=text]:focus {  border-bottom-color: #1e88e5;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container {  margin-top: 10px;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button {  color: #999;  border: 1px solid #ccc;  font-size: 14px;  background-color: #fff;  padding: 2px 5px;  cursor: pointer;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button:hover {  background-color: #f1f1f1;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.default {  color: #1e88e5;  border-color: #1e88e5;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.red {  color: red;  border-color: red;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.left {  float: left;}.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.right {  float: right;}.w-e-text-container .w-e-panel-container .w-e-emoticon-container .w-e-item {  cursor: pointer;  font-size: 18px;  padding: 0 3px;}.w-e-text-container .w-e-panel-container input:focus {  outline: none;}.w-e-text-container .w-e-panel-container textarea:focus {  outline: none;}.w-e-text-container .w-e-panel-container button:focus {  outline: none;}.w-e-text-container {  position: relative;  z-index: 10000;}.w-e-text {  padding: 0 10px;  overflow-y: scroll;}.w-e-text p,.w-e-text h1,.w-e-text h2,.w-e-text h3,.w-e-text h4,.w-e-text h5,.w-e-text table,.w-e-text pre {  margin: 10px 0;  line-height: 1.5;}.w-e-text ul,.w-e-text ol {  margin-left: 20px;}.w-e-text blockquote {  display: block;  border-left: 8px solid #d0e5f2;  padding: 5px 10px;  margin: 10px 0;  line-height: 1.4;  font-size: 100%;  background-color: #f1f1f1;}.w-e-text code {  display: inline-block;  *display: inline;  *zoom: 1;  background-color: #f1f1f1;  border-radius: 3px;  padding: 3px 5px;  margin: 0 3px;}.w-e-text pre code {  display: block;}.w-e-text table {  border-top: 1px solid #ccc;  border-left: 1px solid #ccc;}.w-e-text table td,.w-e-text table th {  border-bottom: 1px solid #ccc;  border-right: 1px solid #ccc;  padding: 3px 5px;}.w-e-text table th {  border-bottom: 2px solid #ccc;  text-align: center;}.w-e-text:focus {  outline: none;}';
 
     var style = document.createElement('style');
     style.type = 'text/css';

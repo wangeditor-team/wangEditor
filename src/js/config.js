@@ -16,6 +16,7 @@ const config = {
         'justify',
         'quote',
         'emoticon',
+        'table',
         'code',
         'undo',
         'redo'

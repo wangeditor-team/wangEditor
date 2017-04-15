@@ -52,6 +52,9 @@ Link.prototype = {
         const btnOkId = getRandom('btn-ok')
         const btnDelId = getRandom('btn-del')
 
+        // 是否显示“删除链接”
+        const delBtnDisplay = this._active ? 'inline-block' : 'none'
+
         // 初始化并显示 panel
         const panel = new Panel(this, {
             width: 300,
@@ -63,7 +66,7 @@ Link.prototype = {
                     title: '链接',
                     // 模板
                     tpl: `<div>
-                            <table>
+                            <table class="form-table">
                                 <tr>
                                     <td>文字</td>
                                     <td><input id="${inputTextId}" type="text" value="${text}"/></td>
@@ -75,7 +78,7 @@ Link.prototype = {
                             </table>
                             <div class="w-e-button-container w-e-clear-fix">
                                 <button id="${btnOkId}" class="default left"><i class="w-e-icon-link"></i> 插入</button>
-                                <button id="${btnDelId}" class="red right"><i class="w-e-icon-trash-o"></i> 删除链接</button>
+                                <button id="${btnDelId}" class="red right" style="display:${delBtnDisplay}"><i class="w-e-icon-trash-o"></i> 删除链接</button>
                             </div>
                         </div>`,
                     // 事件绑定
@@ -103,6 +106,7 @@ Link.prototype = {
                             fn: () => {
                                 // 执行删除链接
                                 this._delLink()
+
                                 // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                                 return true
                             }

@@ -50,5 +50,8 @@ MenuConstructors.code = Code
 import Emoticon from './emoticon/index.js'
 MenuConstructors.emoticon = Emoticon
 
+import Table from './table/index.js'
+MenuConstructors.table = Table
+
 // 吐出所有菜单集合
 export default MenuConstructors
