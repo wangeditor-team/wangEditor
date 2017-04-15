@@ -46,7 +46,7 @@ Emoticon.prototype = {
 
         const panel = new Panel(this, {
             width: 300,
-            height: 220,
+            height: 200,
             // 一个 Panel 包含多个 tab
             tabs: [
                 {
@@ -89,8 +89,12 @@ Emoticon.prototype = {
                 } // second tab end
             ] // tabs end
         })
+
         // 显示 panel
         panel.show()
+
+        // 记录属性
+        this.panel = panel
     },
 
     // 插入表情

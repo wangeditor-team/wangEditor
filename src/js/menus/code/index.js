@@ -44,7 +44,7 @@ Code.prototype = {
             editor.selection.restoreSelection()
             return
         }
-        
+
         // 选取是空，且没有夸元素选择，则插入 <pre><code></code></prev>
         if (this._active) {
             // 选中状态，将编辑内容
@@ -64,7 +64,6 @@ Code.prototype = {
 
         const panel = new Panel(this, {
             width: 500,
-            height: 240,
             // 一个 Panel 包含多个 tab
             tabs: [
                 {
@@ -72,9 +71,9 @@ Code.prototype = {
                     title: '插入代码',
                     // 模板
                     tpl: `<div>
-                        <textarea id="${textId}" style="height:145px;padding:5px;">${value}</textarea>
-                        <div class="w-e-button-container w-e-clear-fix">
-                            <button id="${btnId}" class="default left">插入</button>
+                        <textarea id="${textId}" style="height:145px;;">${value}</textarea>
+                        <div class="w-e-button-container">
+                            <button id="${btnId}" class="right">插入</button>
                         </div>
                     <div>`,
                     // 事件绑定
@@ -106,6 +105,9 @@ Code.prototype = {
 
         // 显示 panel
         panel.show()
+
+        // 记录属性
+        this.panel = panel
     },
 
     // 插入代码

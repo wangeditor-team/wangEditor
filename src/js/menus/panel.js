@@ -5,13 +5,13 @@
 import $ from '../util/dom-core.js'
 const emptyFn = () => {}
 
+// 记录已经显示 panel 的菜单
+let _isCreatedPanelMenus = []
+
 // 构造函数
 function Panel(menu, opt) {
     this.menu = menu
     this.opt = opt
-
-    // 状态
-    this._show = false
 }
 
 // 原型
@@ -20,11 +20,12 @@ Panel.prototype = {
 
     // 显示（插入DOM）
     show: function () {
-        if (this._show) {
+        const menu = this.menu
+        if (_isCreatedPanelMenus.indexOf(menu) >= 0) {
+            // 该菜单已经创建了 panel 不能再创建
             return
         }
 
-        const menu = this.menu
         const editor = menu.editor
         const $textContainerElem = editor.$textContainerElem
         const opt = this.opt
@@ -32,15 +33,19 @@ Panel.prototype = {
         // panel 的容器
         const $container = $('<div class="w-e-panel-container"></div>')
         const width = opt.width || 300 // 默认 300px
-        const height = opt.height || 150 // 默认 100px
         $container.css('width', width + 'px')
-                .css('height', height + 'px')
                 .css('margin-left', (0 - width)/2 + 'px')
 
         // 准备 tabs 容器
         const $tabTitleContainer = $('<ul class="w-e-panel-tab-title"></ul>')
         const $tabContentContainer = $('<div class="w-e-panel-tab-content"></div>')
         $container.append($tabTitleContainer).append($tabContentContainer)
+
+        // 设置高度
+        const height = opt.height
+        if (height) {
+            $tabContentContainer.css('height', height + 'px').css('overflow-y', 'scroll')
+        }
         
         // tabs
         const tabs = opt.tabs || []
@@ -129,17 +134,42 @@ Panel.prototype = {
 
         // 添加到属性
         this.$container = $container
-        this._show = true
+
+        // 隐藏其他 panel
+        this._hideOtherPanels()
+        // 记录该 menu 已经创建了 panel
+        _isCreatedPanelMenus.push(menu)
     },
 
     // 隐藏（移除DOM）
     hide: function () {
-        if (!this._show) {
+        const menu = this.menu
+        const $container = this.$container
+        if ($container) {
+            $container.remove()
+        }
+
+        // 将该 menu 记录中移除
+        _isCreatedPanelMenus = _isCreatedPanelMenus.filter(item => {
+            if (item === menu) {
+                return false
+            } else {
+                return true
+            }
+        })
+    },
+
+    // 一个 panel 展示时，隐藏其他 panel
+    _hideOtherPanels: function () {
+        if (!_isCreatedPanelMenus.length) {
             return
         }
-        const $container = this.$container
-        $container.remove()
-        this._show = false
+        _isCreatedPanelMenus.forEach(menu => {
+            const panel = menu.panel || {}
+            if (panel.hide) {
+                panel.hide()
+            }
+        })
     }
 }
 

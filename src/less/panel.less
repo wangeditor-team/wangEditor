@@ -1,35 +1,20 @@
 .w-e-text-container {
     .w-e-panel-container {
-        font-size: 100px;
         position: absolute;
         top: 0;
         left: 50%;
         border: 1px solid #ccc;
         border-top: 0;
         box-shadow: 1px 1px 2px #ccc;
-        background-color: #fff;
         color: #333;
-
-        textarea {
-            width: 100%;
-            border: 1px solid #ccc;
-
-            &:focus {
-                border-color: #1e88e5;
-            }
-        }
-
-        input[type=text]:focus {
-            border: 1px solid #1e88e5;
-        }
+        background-color: #fff;
 
         .w-e-panel-tab-title {
             list-style: none;
             display: flex;
-            font-size: 0.16em;
-            background-color: #f1f1f1;
-            border-bottom: 1px solid #ccc;
-            padding: 2px 10px 0 10px;
+            font-size: 14px;
+            margin: 2px 10px 0 10px;
+            border-bottom: 1px solid #f1f1f1;
 
             .w-e-item {
                 padding: 3px 5px;
@@ -43,81 +28,101 @@
             .w-e-active {
                 color: #333;
                 border-bottom: 1px solid #333;
+                cursor: default;
+                font-weight: 700;
             }
         }
 
         .w-e-panel-tab-content {
-            padding: 10px 15px 0 15px;
-            font-size: 0.16em;
+            padding: 10px 15px 10px 15px;
+            font-size: 16px;
 
-            table.form-table {
-                width: 100%;
-                border: 0;
-
-                td {
-                    padding: 5px 0;
-
-                    input[type=text] {
-                        width: 100%;
-                        border: 0;
-                        border-bottom: 1px solid #ccc;
-                        font-size: 15px;
-
-                        &:focus {
-                            border-bottom-color: #1e88e5;
-                        }
-                    }
-                }
+            /* 输入框的样式 */
+            input,textarea,button {
+                &:focus {
+                    outline: none;
+                }   
             }
+            textarea {
+                width: 100%;
+                border: 1px solid #ccc;
+                padding: 5px;
 
-            .w-e-button-container {
-                margin-top: 10px;
-
-                button {
-                    color: #999;
-                    border: 1px solid #ccc;
-                    font-size: 14px;
-                    background-color: #fff;
-                    padding: 2px 5px;
-                    cursor: pointer;
-
-                    &:hover {
-                        background-color: #f1f1f1;
-                    }
-                }
-                button.default {
-                    color: #1e88e5;
+                &:focus {
                     border-color: #1e88e5;
                 }
-                button.red {
-                    color: red;
-                    border-color: red;
+            }
+            input[type=text] {
+                border: none;
+                border-bottom: 1px solid #ccc;
+                font-size: 14px;
+                height: 20px;
+                color: #333;
+                padding: 10px 5px;
+                text-align: left;
+            }
+            input[type=text].small {
+                width: 30px;
+                text-align: center;
+            }
+
+            input[type=text].block {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            input[type=text]:focus {
+                border-bottom: 2px solid #1e88e5;
+            }
+
+            /* 按钮的样式 */
+            .w-e-button-container {
+                button {
+                    font-size: 14px;
+                    color: #1e88e5;
+                    border: none;
+                    padding: 10px;
+                    background-color: #fff;
+                    cursor: pointer;
+                    border-radius: 3px;
                 }
                 button.left {
                     float: left;
+                    margin-right: 10px;
                 }
+
                 button.right {
                     float: right;
+                    margin-left: 10px;
                 }
+
+                button.gray {
+                    color: #999;
+                }
+
+                button.red {
+                    color: rgb(194, 79, 74);
+                }
+
+                button:hover {
+                    background-color: #f1f1f1;
+                }
+            } 
+            .w-e-button-container:after {
+                content: "";
+                display: table;
+                clear: both;
             }
         }
 
+        /* 为 emotion panel 定制的样式 */
         .w-e-emoticon-container {
             .w-e-item {
                 cursor: pointer;
                 font-size: 18px;
                 padding: 0 3px;
             }
-        }
-
-        input:focus {
-            outline: none;
-        }
-        textarea:focus {
-            outline: none;
-        }
-        button:focus {
-            outline: none;
         }
     }
 }

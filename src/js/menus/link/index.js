@@ -58,7 +58,6 @@ Link.prototype = {
         // 初始化并显示 panel
         const panel = new Panel(this, {
             width: 300,
-            height: 160,
             // panel 中可包含多个 tab
             tabs: [
                 {
@@ -66,19 +65,11 @@ Link.prototype = {
                     title: '链接',
                     // 模板
                     tpl: `<div>
-                            <table class="form-table">
-                                <tr>
-                                    <td>文字</td>
-                                    <td><input id="${inputTextId}" type="text" value="${text}"/></td>
-                                </tr>
-                                <tr>
-                                    <td>链接</td>
-                                    <td><input id="${inputLinkId}" type="text" value="${link}" placeholder="http://..."/></td>
-                                </tr>
-                            </table>
-                            <div class="w-e-button-container w-e-clear-fix">
-                                <button id="${btnOkId}" class="default left"><i class="w-e-icon-link"></i> 插入</button>
-                                <button id="${btnDelId}" class="red right" style="display:${delBtnDisplay}"><i class="w-e-icon-trash-o"></i> 删除链接</button>
+                            <input id="${inputTextId}" type="text" class="block" value="${text}" placeholder="链接文字"/></td>
+                            <input id="${inputLinkId}" type="text" class="block" value="${link}" placeholder="http://..."/></td>
+                            <div class="w-e-button-container">
+                                <button id="${btnOkId}" class="right">插入</button>
+                                <button id="${btnDelId}" class="gray right" style="display:${delBtnDisplay}">删除链接</button>
                             </div>
                         </div>`,
                     // 事件绑定
@@ -118,6 +109,9 @@ Link.prototype = {
 
         // 显示 panel
         panel.show()
+
+        // 记录属性
+        this.panel = panel
     },
 
     // 删除当前链接

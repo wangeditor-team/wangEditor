@@ -31,7 +31,6 @@ Video.prototype = {
         // 创建 panel
         const panel = new Panel(this, {
             width: 350,
-            height: 120,
             // 一个 panel 多个 tab
             tabs: [
                 {
@@ -39,11 +38,9 @@ Video.prototype = {
                     title: '插入视频',
                     // 模板
                     tpl: `<div>
-                        <div>
-                            <input id="${textValId}" type="text" style="display:block;width:100%;" placeholder="格式如：<iframe src=... ><\/iframe>"/>
-                        </div>
-                        <div class="w-e-button-container w-e-clear-fix">
-                            <button id="${btnId}" class="default left">插入</button>
+                        <input id="${textValId}" type="text" class="block" placeholder="格式如：<iframe src=... ><\/iframe>"/>
+                        <div class="w-e-button-container">
+                            <button id="${btnId}" class="right">插入</button>
                         </div>
                     </div>`,
                     // 事件绑定
@@ -74,6 +71,9 @@ Video.prototype = {
 
         // 显示 panel
         panel.show()
+
+        // 记录属性
+        this.panel = panel
     },
 
     // 插入视频

@@ -56,5 +56,8 @@ MenuConstructors.table = Table
 import Video from './video/index.js'
 MenuConstructors.video = Video
 
+import Image from './img/index.js'
+MenuConstructors.image = Image
+
 // 吐出所有菜单集合
 export default MenuConstructors

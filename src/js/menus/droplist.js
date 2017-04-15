@@ -21,16 +21,19 @@ function DropList(menu, opt) {
     }
 
     const list = opt.list || []
+    const type = opt.type || 'list'  // 'list' 列表形式（如“标题”菜单） / 'inline-block' 块状形式（如“颜色”菜单）
     const onClick = opt.onClick || _emptyFn
 
     // 加入 DOM 并绑定事件
-    const $list = $('<ul></ul>')
+    const $list = $('<ul class="' + (type === 'list' ? 'w-e-list' : 'w-e-block') + '"></ul>')
     $container.append($list)
     list.forEach(item => {
         const $elem = item.$elem
         const value = item.value
+        const $li = $('<li class="w-e-item"></li>')
         if ($elem) {
-            $list.append($elem)
+            $li.append($elem)
+            $list.append($li)
             $elem.on('click', e => {
                 onClick(value)
 

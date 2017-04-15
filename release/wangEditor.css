@@ -34,24 +34,30 @@
   border-bottom: 1px solid #f1f1f1;
   font-size: 13px;
 }
-.w-e-toolbar .w-e-droplist ul {
+.w-e-toolbar .w-e-droplist ul.w-e-list {
   list-style: none;
   line-height: 1;
 }
-.w-e-toolbar .w-e-droplist li {
+.w-e-toolbar .w-e-droplist ul.w-e-list li.w-e-item {
   color: #333;
   padding: 5px 0;
 }
-.w-e-toolbar .w-e-droplist li:hover {
+.w-e-toolbar .w-e-droplist ul.w-e-list li.w-e-item:hover {
   background-color: #f1f1f1;
 }
-.w-e-toolbar .w-e-droplist li .w-e-inline-block {
+.w-e-toolbar .w-e-droplist ul.w-e-block {
+  list-style: none;
+  text-align: left;
+  padding: 5px;
+}
+.w-e-toolbar .w-e-droplist ul.w-e-block li.w-e-item {
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  width: 90%;
-  height: 14px;
-  border: 1px solid #f1f1f1;
+  padding: 3px 5px;
+}
+.w-e-toolbar .w-e-droplist ul.w-e-block li.w-e-item:hover {
+  background-color: #f1f1f1;
 }
 
 @font-face {
@@ -181,35 +187,24 @@
 }
 
 .w-e-text-container .w-e-panel-container {
-  font-size: 100px;
   position: absolute;
   top: 0;
   left: 50%;
   border: 1px solid #ccc;
   border-top: 0;
   box-shadow: 1px 1px 2px #ccc;
-  background-color: #fff;
   color: #333;
-}
-.w-e-text-container .w-e-panel-container textarea {
-  width: 100%;
-  border: 1px solid #ccc;
-}
-.w-e-text-container .w-e-panel-container textarea:focus {
-  border-color: #1e88e5;
-}
-.w-e-text-container .w-e-panel-container input[type=text]:focus {
-  border: 1px solid #1e88e5;
+  background-color: #fff;
+  /* 为 emotion panel 定制的样式 */
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-title {
   list-style: none;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  font-size: 0.16em;
-  background-color: #f1f1f1;
-  border-bottom: 1px solid #ccc;
-  padding: 2px 10px 0 10px;
+  font-size: 14px;
+  margin: 2px 10px 0 10px;
+  border-bottom: 1px solid #f1f1f1;
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-title .w-e-item {
   padding: 3px 5px;
@@ -222,68 +217,84 @@
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-title .w-e-active {
   color: #333;
   border-bottom: 1px solid #333;
+  cursor: default;
+  font-weight: 700;
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-content {
-  padding: 10px 15px 0 15px;
-  font-size: 0.16em;
+  padding: 10px 15px 10px 15px;
+  font-size: 16px;
+  /* 输入框的样式 */
+  /* 按钮的样式 */
 }
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table {
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content input:focus,
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea:focus,
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content button:focus {
+  outline: none;
+}
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea {
   width: 100%;
-  border: 0;
+  border: 1px solid #ccc;
+  padding: 5px;
 }
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table td {
-  padding: 5px 0;
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content textarea:focus {
+  border-color: #1e88e5;
 }
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table td input[type=text] {
-  width: 100%;
-  border: 0;
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content input[type=text] {
+  border: none;
   border-bottom: 1px solid #ccc;
-  font-size: 15px;
+  font-size: 14px;
+  height: 20px;
+  color: #333;
+  padding: 10px 5px;
+  text-align: left;
 }
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content table.form-table td input[type=text]:focus {
-  border-bottom-color: #1e88e5;
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content input[type=text].small {
+  width: 30px;
+  text-align: center;
 }
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container {
-  margin-top: 10px;
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content input[type=text].block {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+}
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content input[type=text]:focus {
+  border-bottom: 2px solid #1e88e5;
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button {
-  color: #999;
-  border: 1px solid #ccc;
   font-size: 14px;
+  color: #1e88e5;
+  border: none;
+  padding: 10px;
   background-color: #fff;
-  padding: 2px 5px;
   cursor: pointer;
+  border-radius: 3px;
+}
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.left {
+  float: left;
+  margin-right: 10px;
+}
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.right {
+  float: right;
+  margin-left: 10px;
+}
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.gray {
+  color: #999;
+}
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.red {
+  color: #c24f4a;
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button:hover {
   background-color: #f1f1f1;
 }
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.default {
-  color: #1e88e5;
-  border-color: #1e88e5;
-}
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.red {
-  color: red;
-  border-color: red;
-}
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.left {
-  float: left;
-}
-.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container button.right {
-  float: right;
+.w-e-text-container .w-e-panel-container .w-e-panel-tab-content .w-e-button-container:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 .w-e-text-container .w-e-panel-container .w-e-emoticon-container .w-e-item {
   cursor: pointer;
   font-size: 18px;
   padding: 0 3px;
-}
-.w-e-text-container .w-e-panel-container input:focus {
-  outline: none;
-}
-.w-e-text-container .w-e-panel-container textarea:focus {
-  outline: none;
-}
-.w-e-text-container .w-e-panel-container button:focus {
-  outline: none;
 }
 
 .w-e-text-container {

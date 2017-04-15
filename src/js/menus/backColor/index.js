@@ -15,19 +15,20 @@ function ForeColor(editor) {
 
     // 初始化 droplist
     this.droplist = new DropList(this, {
-        width: 100,
+        width: 120,
         $title: $('<p>背景色</p>'),
+        type: 'inline-block', // droplist 内容以 block 形式展示
         list: [
-            { $elem: $('<li><span class="w-e-inline-block" style="background-color:#ffffff;"></span></li>'), value: '#ffffff' },
-            { $elem: $('<li><span class="w-e-inline-block" style="background-color:#000000;"></span></li>'), value: '#000000' },
-            { $elem: $('<li><span class="w-e-inline-block" style="background-color:#eeece0;"></span></li>'), value: '#eeece0' },
-            { $elem: $('<li><span class="w-e-inline-block" style="background-color:#1c487f;"></span></li>'), value: '#1c487f' },
-            { $elem: $('<li><span class="w-e-inline-block" style="background-color:#4d80bf;"></span></li>'), value: '#4d80bf' },
-            { $elem: $('<li><span class="w-e-inline-block" style="background-color:#c24f4a;"></span></li>'), value: '#c24f4a' },
-            { $elem: $('<li><span class="w-e-inline-block" style="background-color:#8baa4a;"></span></li>'), value: '#8baa4a' },
-            { $elem: $('<li><span class="w-e-inline-block" style="background-color:#7b5ba1;"></span></li>'), value: '#7b5ba1' },
-            { $elem: $('<li><span class="w-e-inline-block" style="background-color:#46acc8;"></span></li>'), value: '#46acc8' },
-            { $elem: $('<li><span class="w-e-inline-block" style="background-color:#f9963b;"></span></li>'), value: '#f9963b' }
+            { $elem: $('<i style="color:#000000;" class="w-e-icon-paint-brush"></i>'), value: '#000000' },
+            { $elem: $('<i style="color:#eeece0;" class="w-e-icon-paint-brush"></i>'), value: '#eeece0' },
+            { $elem: $('<i style="color:#1c487f;" class="w-e-icon-paint-brush"></i>'), value: '#1c487f' },
+            { $elem: $('<i style="color:#4d80bf;" class="w-e-icon-paint-brush"></i>'), value: '#4d80bf' },
+            { $elem: $('<i style="color:#c24f4a;" class="w-e-icon-paint-brush"></i>'), value: '#c24f4a' },
+            { $elem: $('<i style="color:#8baa4a;" class="w-e-icon-paint-brush"></i>'), value: '#8baa4a' },
+            { $elem: $('<i style="color:#7b5ba1;" class="w-e-icon-paint-brush"></i>'), value: '#7b5ba1' },
+            { $elem: $('<i style="color:#46acc8;" class="w-e-icon-paint-brush"></i>'), value: '#46acc8' },
+            { $elem: $('<i style="color:#f9963b;" class="w-e-icon-paint-brush"></i>'), value: '#f9963b' },
+            { $elem: $('<i style="color:#ffffff;" class="w-e-icon-paint-brush"></i>'), value: '#ffffff' }
         ],
         onClick: (value) => {
             // 注意 this 是指向当前的 ForeColor 对象

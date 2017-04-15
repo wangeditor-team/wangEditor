@@ -38,7 +38,6 @@ Table.prototype = {
 
         const panel = new Panel(this, {
             width: 250,
-            height: 130,
             // panel 包含多个 tab
             tabs: [
                 {
@@ -53,8 +52,8 @@ Table.prototype = {
                             <input id="${textColNum}" type="text" value="5" style="width:40px;text-align:center;"/>
                             列的表格
                         </p>
-                        <div class="w-e-button-container w-e-clear-fix">
-                            <button id="${btnInsertId}" class="default left">插入</button>
+                        <div class="w-e-button-container">
+                            <button id="${btnInsertId}" class="right">插入</button>
                         </div>
                     </div>`,
                     // 事件绑定
@@ -83,6 +82,9 @@ Table.prototype = {
 
         // 展示 panel
         panel.show()
+
+        // 记录属性
+        this.panel = panel
     },
 
     // 插入表格
@@ -121,8 +123,7 @@ Table.prototype = {
 
         // 创建 panel 对象
         const panel = new Panel(this, {
-            width: 270,
-            height: 130,
+            width: 320,
             // panel 包含多个 tab
             tabs: [
                 {
@@ -130,14 +131,14 @@ Table.prototype = {
                     title: '编辑表格',
                     // 模板
                     tpl: `<div>
-                        <div class="w-e-button-container w-e-clear-fix">
-                            <button id="${addRowBtnId}" class="default">增加行</button>
-                            <button id="${addColBtnId}" class="default">增加列</button>
-                            <button id="${delRowBtnId}" class="red">删除行</button>
-                            <button id="${delColBtnId}" class="red">删除列</button>
-                        </dv>
-                        <div class="w-e-button-container w-e-clear-fix">
-                            <button id="${delTableBtnId}"><i class="w-e-icon-trash-o"></i> 删除表格</button>
+                        <div class="w-e-button-container">
+                            <button id="${addRowBtnId}" class="left">增加行</button>
+                            <button id="${delRowBtnId}" class="red left">删除行</button>
+                            <button id="${addColBtnId}" class="left">增加列</button>
+                            <button id="${delColBtnId}" class="red left">删除列</button>
+                        </div>
+                        <div class="w-e-button-container">
+                            <button id="${delTableBtnId}" class="gray left">删除表格</button>
                         </dv>
                     </div>`,
                     // 事件绑定

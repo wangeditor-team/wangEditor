@@ -17,10 +17,11 @@ function Justify(editor) {
     this.droplist = new DropList(this, {
         width: 100,
         $title: $('<p>对齐方式</p>'),
+        type: 'list', // droplist 以列表形式展示
         list: [
-            { $elem: $('<li><b class="w-e-icon-paragraph-left"></b> 靠左</li>'), value: 'justifyLeft' },
-            { $elem: $('<li><b class="w-e-icon-paragraph-center"></b> 居中</li>'), value: 'justifyCenter' },
-            { $elem: $('<li><b class="w-e-icon-paragraph-right"></b> 靠右</li>'), value: 'justifyRight' }
+            { $elem: $('<span><i class="w-e-icon-paragraph-left"></i> 靠左</span>'), value: 'justifyLeft' },
+            { $elem: $('<span><i class="w-e-icon-paragraph-center"></i> 居中</span>'), value: 'justifyCenter' },
+            { $elem: $('<span><i class="w-e-icon-paragraph-right"></i> 靠右</span>'), value: 'justifyRight' }
         ],
         onClick: (value) => {
             // 注意 this 是指向当前的 List 对象
