@@ -103,13 +103,14 @@ Panel.prototype = {
         $textContainerElem.append($container)
 
         // 绑定 opt 的事件，只有添加到 DOM 之后才能绑定成功
-        tabs.forEach((tab) => {
+        tabs.forEach((tab, index) => {
             const events = tab.events || []
             events.forEach(event => {
                 const selector = event.selector
                 const type = event.type
                 const fn = event.fn || emptyFn
-                $container.find(selector).on(type, (e) => {
+                const $content = tabContentArr[index]
+                $content.find(selector).on(type, (e) => {
                     e.stopPropagation()
                     const needToHide = fn(e)
                     // 执行完事件之后，是否要关闭 panel

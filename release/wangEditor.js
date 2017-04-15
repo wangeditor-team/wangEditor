@@ -454,7 +454,7 @@ function $(selector) {
 */
 
 var config = {
-    menus: ['head', 'bold', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'table', 'code', 'undo', 'redo']
+    menus: ['head', 'bold', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'table', 'video', 'code', 'undo', 'redo']
 };
 
 /*
@@ -819,13 +819,14 @@ Panel.prototype = {
         $textContainerElem.append($container);
 
         // 绑定 opt 的事件，只有添加到 DOM 之后才能绑定成功
-        tabs.forEach(function (tab) {
+        tabs.forEach(function (tab, index) {
             var events = tab.events || [];
             events.forEach(function (event) {
                 var selector = event.selector;
                 var type = event.type;
                 var fn = event.fn || emptyFn;
-                $container.find(selector).on(type, function (e) {
+                var $content = tabContentArr[index];
+                $content.find(selector).on(type, function (e) {
                     e.stopPropagation();
                     var needToHide = fn(e);
                     // 执行完事件之后，是否要关闭 panel
@@ -1565,10 +1566,20 @@ Emoticon.prototype = {
         var _this = this;
 
         // 拼接表情字符串
-        var html = '';
-        var str = '😀 😃 😄 😁 😆 😅 😂  😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁  😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐';
-        str.split(/\s/).forEach(function (item) {
-            html += '<span class="w-e-item">' + item + '</span>';
+        var faceHtml = '';
+        var faceStr = '😀 😃 😄 😁 😆 😅 😂  😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁  😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐';
+        faceStr.split(/\s/).forEach(function (item) {
+            if (item) {
+                faceHtml += '<span class="w-e-item">' + item + '</span>';
+            }
+        });
+
+        var handHtml = '';
+        var handStr = '🙌 👏 👋 👍 👎 👊 ✊ ️👌 ✋ 👐 💪 🙏 ️👆 👇 👈 👉 🖕 🖐 🤘 🖖';
+        handStr.split(/\s/).forEach(function (item) {
+            if (item) {
+                handHtml += '<span class="w-e-item">' + item + '</span>';
+            }
         });
 
         var panel = new Panel(this, {
@@ -1579,7 +1590,7 @@ Emoticon.prototype = {
                 // 标题
                 title: '表情',
                 // 模板
-                tpl: '<div class="w-e-emoticon-container">' + html + '</div>',
+                tpl: '<div class="w-e-emoticon-container">' + faceHtml + '</div>',
                 // 事件绑定
                 events: [{
                     selector: 'span.w-e-item',
@@ -1591,7 +1602,24 @@ Emoticon.prototype = {
                         return true;
                     }
                 }]
-            } // first tab end
+            }, // first tab end
+            {
+                // 标题
+                title: '手势',
+                // 模板
+                tpl: '<div class="w-e-emoticon-container">' + handHtml + '</div>',
+                // 事件绑定
+                events: [{
+                    selector: 'span.w-e-item',
+                    type: 'click',
+                    fn: function fn(e) {
+                        var target = e.target;
+                        _this._insert(target.innerHTML);
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            } // second tab end
             ] // tabs end
         });
         // 显示 panel
@@ -1937,6 +1965,79 @@ Table.prototype = {
 };
 
 /*
+    menu - video
+*/
+// 构造函数
+function Video(editor) {
+    this.editor = editor;
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-play"><i/></div>');
+    this.type = 'panel';
+
+    // 当前是否 active 状态
+    this._active = false;
+}
+
+// 原型
+Video.prototype = {
+    constructor: Video,
+
+    onClick: function onClick() {
+        this._createPanel();
+    },
+
+    _createPanel: function _createPanel() {
+        var _this = this;
+
+        // 创建 id
+        var textValId = getRandom('text-val');
+        var btnId = getRandom('btn');
+
+        // 创建 panel
+        var panel = new Panel(this, {
+            width: 350,
+            height: 120,
+            // 一个 panel 多个 tab
+            tabs: [{
+                // 标题
+                title: '插入视频',
+                // 模板
+                tpl: '<div>\n                        <div>\n                            <input id="' + textValId + '" type="text" style="display:block;width:100%;" placeholder="\u683C\u5F0F\u5982\uFF1A<iframe src=... ></iframe>"/>\n                        </div>\n                        <div class="w-e-button-container w-e-clear-fix">\n                            <button id="' + btnId + '" class="default left">\u63D2\u5165</button>\n                        </div>\n                    </div>',
+                // 事件绑定
+                events: [{
+                    selector: '#' + btnId,
+                    type: 'click',
+                    fn: function fn() {
+                        var $text = $('#' + textValId);
+                        var val = $text.val().trim();
+
+                        // 测试用视频地址
+                        // <iframe height=498 width=510 src='http://player.youku.com/embed/XMjcwMzc3MzM3Mg==' frameborder=0 'allowfullscreen'></iframe>
+
+                        if (val) {
+                            // 插入视频
+                            _this._insert(val);
+                        }
+
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            } // first tab end
+            ] // tabs end
+        }); // panel end
+
+        // 显示 panel
+        panel.show();
+    },
+
+    // 插入视频
+    _insert: function _insert(val) {
+        var editor = this.editor;
+        editor.cmd.do('insertHTML', val);
+    }
+};
+
+/*
     所有菜单的汇总
 */
 
@@ -1974,6 +2075,8 @@ MenuConstructors.code = Code;
 MenuConstructors.emoticon = Emoticon;
 
 MenuConstructors.table = Table;
+
+MenuConstructors.video = Video;
 
 /*
     菜单集合

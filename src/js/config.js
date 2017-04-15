@@ -17,6 +17,7 @@ const config = {
         'quote',
         'emoticon',
         'table',
+        'video',
         'code',
         'undo',
         'redo'

@@ -28,10 +28,20 @@ Emoticon.prototype = {
 
     _createPanel: function () {
         // 拼接表情字符串
-        let html = ''
-        const str = '😀 😃 😄 😁 😆 😅 😂  😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁  😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐'
-        str.split(/\s/).forEach(item => {
-            html += '<span class="w-e-item">' + item + '</span>'
+        let faceHtml = ''
+        const faceStr = '😀 😃 😄 😁 😆 😅 😂  😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁  😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐'
+        faceStr.split(/\s/).forEach(item => {
+            if (item) {
+                faceHtml += '<span class="w-e-item">' + item + '</span>'
+            }
+        })
+
+        let handHtml = ''
+        const handStr = '🙌 👏 👋 👍 👎 👊 ✊ ️👌 ✋ 👐 💪 🙏 ️👆 👇 👈 👉 🖕 🖐 🤘 🖖'
+        handStr.split(/\s/).forEach(item => {
+            if (item) {
+                handHtml += '<span class="w-e-item">' + item + '</span>'
+            }
         })
 
         const panel = new Panel(this, {
@@ -43,7 +53,7 @@ Emoticon.prototype = {
                     // 标题
                     title: '表情',
                     // 模板
-                    tpl: `<div class="w-e-emoticon-container">${html}</div>`,
+                    tpl: `<div class="w-e-emoticon-container">${faceHtml}</div>`,
                     // 事件绑定
                     events: [
                         {
@@ -57,7 +67,26 @@ Emoticon.prototype = {
                             }
                         }
                     ]
-                } // first tab end
+                }, // first tab end
+                {
+                    // 标题
+                    title: '手势',
+                    // 模板
+                    tpl: `<div class="w-e-emoticon-container">${handHtml}</div>`,
+                    // 事件绑定
+                    events: [
+                        {
+                            selector: 'span.w-e-item',
+                            type: 'click',
+                            fn: (e) => {
+                                const target = e.target
+                                this._insert(target.innerHTML)
+                                // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                                return true
+                            }
+                        }
+                    ]
+                } // second tab end
             ] // tabs end
         })
         // 显示 panel

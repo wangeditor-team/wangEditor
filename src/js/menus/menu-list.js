@@ -53,5 +53,8 @@ MenuConstructors.emoticon = Emoticon
 import Table from './table/index.js'
 MenuConstructors.table = Table
 
+import Video from './video/index.js'
+MenuConstructors.video = Video
+
 // 吐出所有菜单集合
 export default MenuConstructors
