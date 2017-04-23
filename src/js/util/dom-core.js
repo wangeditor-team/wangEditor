@@ -296,9 +296,17 @@ DomElement.prototype = {
     },
 
     // 获取当前元素的 text
-    text: function () {
-        const elem = this[0]
-        return elem.innerHTML.replace(/<.*?>/g, () => '')
+    text: function (val) {
+        if (!val) {
+            // 获取 text
+            const elem = this[0]
+            return elem.innerHTML.replace(/<.*?>/g, () => '')
+        } else {
+            // 设置 text
+            return this.forEach(elem => {
+                elem.innerHTML = val
+            })
+        }
     },
 
     // 获取 html

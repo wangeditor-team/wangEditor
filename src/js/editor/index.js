@@ -8,6 +8,8 @@ import Menus from '../menus/index.js'
 import Text from '../text/index.js'
 import Command from '../command/index.js'
 import selectionAPI from '../selection/index.js'
+import UploadImg from './upload/upload-img.js'
+import Bar from './bar/bar.js'
 import { arrForEach } from '../util/util.js'
 
 // id，累加
@@ -123,6 +125,17 @@ Editor.prototype = {
         this.text.init()
     },
 
+    // 添加图片上传
+    _initUploadImg: function () {
+        this.uploadImg = new UploadImg(this)
+    },
+
+    // 添加 bar
+    _addBar: function () {
+        this.bar = new Bar(this)
+        this.bar.init()
+    },
+
     // 创建编辑器
     create: function () {
         // 初始化 DOM
@@ -142,6 +155,12 @@ Editor.prototype = {
 
         // 添加 text
         this._initText()
+
+        // 添加 图片上传
+        this._initUploadImg()
+
+        // 添加 bar
+        this._addBar()
     }
 }
 

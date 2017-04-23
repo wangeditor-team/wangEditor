@@ -2,7 +2,7 @@
     menu - img
 */
 import $ from '../../util/dom-core.js'
-import { getRandom } from '../../util/util.js'
+import { getRandom, arrForEach } from '../../util/util.js'
 import Panel from '../panel.js'
 
 // 构造函数
@@ -24,25 +24,112 @@ Image.prototype = {
     },
 
     _createPanel: function () {
+        const editor = this.editor
+        const uploadImg = editor.uploadImg
+        const config = editor.config
+
+        // id
+        const upTriggerId = getRandom('up-trigger')
+        const upFileId = getRandom('up-file')
+        const linkUrlId = getRandom('link-url')
+        const linkBtnId = getRandom('link-btn')
+
+        // tabs 的配置
+        const tabsConfig = [
+            {
+                title: '上传图片',
+                tpl: `<div class="w-e-up-img-container">
+                    <div id="${upTriggerId}" class="w-e-up-btn">
+                        <i class="w-e-icon-upload2"></i>
+                    </div>
+                    <div style="display:none;">
+                        <input id="${upFileId}" type="file" multiple="multiple" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>
+                    </div>
+                </div>`,
+                events: [
+                    {
+                        // 触发选择图片
+                        selector: '#' + upTriggerId,
+                        type: 'click',
+                        fn: () => {
+                            const $file = $('#' + upFileId)
+                            const fileElem = $file[0]
+                            if (fileElem) {
+                                fileElem.click()
+                            } else {
+                                // 返回 true 可关闭 panel
+                                return true
+                            }
+                        }
+                    },
+                    {
+                        // 选择图片完毕
+                        selector: '#' + upFileId,
+                        type: 'change',
+                        fn: () => {
+                            const $file = $('#' + upFileId)
+                            const fileElem = $file[0]
+                            if (!fileElem) {
+                                // 返回 true 可关闭 panel
+                                return true
+                            }
+
+                            // 获取选中的 file 对象列表
+                            const fileList = fileElem.files
+                            if (fileList.length) {
+                                uploadImg.uploadImg(fileList)
+                            }
+
+                            // 返回 true 可关闭 panel
+                            return true
+                        }
+                    }
+                ]
+            }, // first tab end
+            {
+                title: '网络图片',
+                tpl: `<div>
+                    <input id="${linkUrlId}" type="text" class="block" placeholder="图片链接"/></td>
+                    <div class="w-e-button-container">
+                        <button id="${linkBtnId}" class="right">插入</button>
+                    </div>
+                </div>`,
+                events: [
+                    {
+                        selector: '#' + linkBtnId,
+                        type: 'click',
+                        fn: () => {
+                            const $linkUrl = $('#' + linkUrlId)
+                            const url = $linkUrl.val().trim()
+
+                            if (url) {
+                                uploadImg.insertLinkImg(url)
+                            }
+
+                            // 返回 true 表示函数执行结束之后关闭 panel
+                            return true
+                        }
+                    }
+                ]
+            } // second tab end
+        ] // tabs end
+
+        // 判断 tabs 的显示
+        const tabsConfigResult = []
+        if ((config.uploadImgShowBase64 || config.uploadImgServer) && window.FileReader) {
+            // 显示“上传图片”
+            tabsConfigResult.push(tabsConfig[0])
+        }
+        if (config.showLinkImg) {
+            // 显示“网络图片”
+            tabsConfigResult.push(tabsConfig[1])
+        }
+
+        // 创建 panel 并显示
         const panel = new Panel(this, {
             width: 300,
-            tabs: [
-                {
-                    title: '上传图片',
-                    tpl: `<div>待开发...</div>`,
-                    events: [
-                    ]
-                },
-                {
-                    title: '网络图片',
-                    tpl: `<div>待开发...</div>`,
-                    events: [
-                    ]
-                }
-            ]
+            tabs: tabsConfigResult
         })
-
-        // 展示
         panel.show()
 
         // 记录属性
@@ -51,17 +138,7 @@ Image.prototype = {
 
     // 试图改变 active 状态
     tryChangeActive: function (e) {
-        // const editor = this.editor
-        // const $elem = this.$elem
-        // const $selectionELem = editor.selection.getSelectionContainerElem()
-        // const nodeName = $selectionELem.getNodeName()
-        // if (nodeName === 'TD' || nodeName === 'TH') {
-        //     this._active = true
-        //     $elem.addClass('w-e-active')
-        // } else {
-        //     this._active = false
-        //     $elem.removeClass('w-e-active')
-        // }
+        
     }
 }
 

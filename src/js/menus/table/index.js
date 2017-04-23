@@ -131,7 +131,7 @@ Table.prototype = {
                     title: '编辑表格',
                     // 模板
                     tpl: `<div>
-                        <div class="w-e-button-container">
+                        <div class="w-e-button-container" style="border-bottom:1px solid #f1f1f1;padding-bottom:5px;margin-bottom:5px;">
                             <button id="${addRowBtnId}" class="left">增加行</button>
                             <button id="${delRowBtnId}" class="red left">删除行</button>
                             <button id="${addColBtnId}" class="left">增加列</button>

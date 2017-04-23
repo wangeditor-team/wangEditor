@@ -51,3 +51,9 @@ export function replaceHtmlSymbol(html) {
                 .replace(/"/gm, '&quot;')
 }
 
+// 返回百分比的格式
+export function percentFormat(number) {
+    number = (parseInt(number * 100))
+    return number + '%'
+}
+

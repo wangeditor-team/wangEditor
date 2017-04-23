@@ -52,6 +52,9 @@ Panel.prototype = {
         const tabTitleArr = []
         const tabContentArr = []
         tabs.forEach((tab, tabIndex) => {
+            if (!tab) {
+                return
+            }
             const title = tab.title || ''
             const tpl = tab.tpl || ''
 
@@ -109,6 +112,9 @@ Panel.prototype = {
 
         // 绑定 opt 的事件，只有添加到 DOM 之后才能绑定成功
         tabs.forEach((tab, index) => {
+            if (!tab) {
+                return
+            }
             const events = tab.events || []
             events.forEach(event => {
                 const selector = event.selector

@@ -196,6 +196,7 @@
   color: #333;
   background-color: #fff;
   /* 为 emotion panel 定制的样式 */
+  /* 上传图片的 panel 定制样式 */
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-title {
   list-style: none;
@@ -264,7 +265,7 @@
   font-size: 14px;
   color: #1e88e5;
   border: none;
-  padding: 10px;
+  padding: 5px 10px;
   background-color: #fff;
   cursor: pointer;
   border-radius: 3px;
@@ -296,10 +297,34 @@
   font-size: 18px;
   padding: 0 3px;
 }
+.w-e-text-container .w-e-panel-container .w-e-up-img-container {
+  text-align: center;
+}
+.w-e-text-container .w-e-panel-container .w-e-up-img-container .w-e-up-btn {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  color: #999;
+  cursor: pointer;
+  font-size: 60px;
+  line-height: 1;
+}
+.w-e-text-container .w-e-panel-container .w-e-up-img-container .w-e-up-btn:hover {
+  color: #333;
+}
 
 .w-e-text-container {
   position: relative;
   z-index: 10000;
+}
+.w-e-text-container .w-e-bar {
+  position: absolute;
+  background-color: #f1f1f1;
+  padding: 2px 5px;
+  color: #666;
+  bottom: 0;
+  left: 0;
+  font-size: 12px;
 }
 .w-e-text {
   padding: 0 10px;
