@@ -1,9 +1,6 @@
 
 #忽略
-node_modules/grunt/
-node_modules/grunt*/
-node_modules/jquery/
-issue
+node_modules/*
 npm-debug.log
 
 # Windows image file caches

@@ -1,0 +1,105 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?ddq1c7');
+  src:  url('fonts/icomoon.eot?ddq1c7#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?ddq1c7') format('truetype'),
+    url('fonts/icomoon.woff?ddq1c7') format('woff'),
+    url('fonts/icomoon.svg?ddq1c7#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-trash-o:before {
+  content: "\f014";
+}
+.icon-terminal:before {
+  content: "\f120";
+}
+.icon-header:before {
+  content: "\f1dc";
+}
+.icon-paint-brush:before {
+  content: "\f1fc";
+}
+.icon-pencil2:before {
+  content: "\e906";
+}
+.icon-image:before {
+  content: "\e90d";
+}
+.icon-play:before {
+  content: "\e912";
+}
+.icon-location:before {
+  content: "\e947";
+}
+.icon-undo:before {
+  content: "\e965";
+}
+.icon-redo:before {
+  content: "\e966";
+}
+.icon-quotes-left:before {
+  content: "\e977";
+}
+.icon-list-numbered:before {
+  content: "\e9b9";
+}
+.icon-list2:before {
+  content: "\e9bb";
+}
+.icon-upload2:before {
+  content: "\e9c6";
+}
+.icon-link:before {
+  content: "\e9cb";
+}
+.icon-happy:before {
+  content: "\e9df";
+}
+.icon-cancel-circle:before {
+  content: "\ea0d";
+}
+.icon-bold:before {
+  content: "\ea62";
+}
+.icon-underline:before {
+  content: "\ea63";
+}
+.icon-italic:before {
+  content: "\ea64";
+}
+.icon-strikethrough:before {
+  content: "\ea65";
+}
+.icon-page-break:before {
+  content: "\ea68";
+}
+.icon-table2:before {
+  content: "\ea71";
+}
+.icon-paragraph-left:before {
+  content: "\ea77";
+}
+.icon-paragraph-center:before {
+  content: "\ea78";
+}
+.icon-paragraph-right:before {
+  content: "\ea79";
+}
+
