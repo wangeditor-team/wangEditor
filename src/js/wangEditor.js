@@ -325,7 +325,7 @@ _e(function (E, $) {
             _parentElem = range.commonAncestorContainer;
         } else {
             selection = document.getSelection();
-            if (selection.getRangeAt && selection.rangeCount) {
+            if (selection && selection.getRangeAt && selection.rangeCount) {
                 range = document.getSelection().getRangeAt(0);
                 _parentElem = range.commonAncestorContainer;
             }
