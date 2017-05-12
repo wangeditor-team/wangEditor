@@ -325,7 +325,7 @@ _e(function (E, $) {
             _parentElem = range.commonAncestorContainer;
         } else {
             selection = document.getSelection();
-            if (selection.getRangeAt && selection.rangeCount) {
+            if (selection && selection.getRangeAt && selection.rangeCount) {
                 range = document.getSelection().getRangeAt(0);
                 _parentElem = range.commonAncestorContainer;
             }
@@ -955,7 +955,11 @@ _e(function (E, $) {
         var _plugins = E._plugins;
         if (_plugins && _plugins.length) {
             $.each(_plugins, function (k, val) {
-                val.call(editor);
+                try {
+                    val.call(editor);
+                }catch(e){
+
+                }
             });
         }
     };
@@ -2730,7 +2734,7 @@ _e(function (E, $) {
         var $wrap = $('<div>');
 
         // 需要浏览器支持 max-height，否则不管
-        if (window.getComputedStyle && 'max-height'in window.getComputedStyle($txt.get(0))) {
+        if (window.getComputedStyle && window.getComputedStyle($txt.get(0)) && 'max-height'in window.getComputedStyle($txt.get(0))) {
             // 获取 max-height 并判断是否有值
             var maxHeight = parseInt(editor.$valueContainer.css('max-height'));
             if (isNaN(maxHeight)) {
