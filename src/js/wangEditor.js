@@ -955,7 +955,11 @@ _e(function (E, $) {
         var _plugins = E._plugins;
         if (_plugins && _plugins.length) {
             $.each(_plugins, function (k, val) {
-                val.call(editor);
+                try {
+                    val.call(editor);
+                }catch(e){
+
+                }
             });
         }
     };
