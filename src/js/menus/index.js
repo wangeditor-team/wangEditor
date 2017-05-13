@@ -108,7 +108,9 @@ Menus.prototype = {
         const menus = this.menus
         objForEach(menus, (key, menu) => {
             if (menu.tryChangeActive) {
-                menu.tryChangeActive()
+                setTimeout(() => {
+                    menu.tryChangeActive()
+                }, 100)
             }
         })
     }

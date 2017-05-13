@@ -150,11 +150,11 @@ Editor.prototype = {
         // 封装 selection range API
         this._initSelectionAPI()
 
-        // 初始化菜单
-        this._initMenus()
-
         // 添加 text
         this._initText()
+
+        // 初始化菜单
+        this._initMenus()
 
         // 添加 图片上传
         this._initUploadImg()

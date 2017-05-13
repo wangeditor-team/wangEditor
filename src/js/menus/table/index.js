@@ -206,6 +206,9 @@ Table.prototype = {
         const result = {}
         const editor = this.editor
         const $selectionELem = editor.selection.getSelectionContainerElem()
+        if (!$selectionELem) {
+            return
+        }
         const nodeName = $selectionELem.getNodeName()
         if (nodeName !== 'TD' && nodeName !== 'TH') {
             return
@@ -337,6 +340,9 @@ Table.prototype = {
     _delTable: function () {
         const editor = this.editor
         const $selectionELem = editor.selection.getSelectionContainerElem()
+        if (!$selectionELem) {
+            return
+        }
         const $table = $selectionELem.parentUntil('table')
         if (!$table) {
             return
@@ -349,6 +355,9 @@ Table.prototype = {
         const editor = this.editor
         const $elem = this.$elem
         const $selectionELem = editor.selection.getSelectionContainerElem()
+        if (!$selectionELem) {
+            return
+        }
         const nodeName = $selectionELem.getNodeName()
         if (nodeName === 'TD' || nodeName === 'TH') {
             this._active = true

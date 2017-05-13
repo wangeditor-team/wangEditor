@@ -27,6 +27,9 @@ Link.prototype = {
         if (this._active) {
             // 当前选区在链接里面
             $linkelem = editor.selection.getSelectionContainerElem()
+            if (!$linkelem) {
+                return
+            }
             // 将该元素都包含在选取之内，以便后面整体替换
             editor.selection.createRangeByElem($linkelem)
             editor.selection.restoreSelection()
@@ -121,6 +124,9 @@ Link.prototype = {
         }
         const editor = this.editor
         const $selectionELem = editor.selection.getSelectionContainerElem()
+        if (!$selectionELem) {
+            return
+        }
         const selectionText = editor.selection.getSelectionText()
         editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
     },
@@ -139,6 +145,9 @@ Link.prototype = {
         const editor = this.editor
         const $elem = this.$elem
         const $selectionELem = editor.selection.getSelectionContainerElem()
+        if (!$selectionELem) {
+            return
+        }
         if ($selectionELem.getNodeName() === 'A') {
             this._active = true
             $elem.addClass('w-e-active')

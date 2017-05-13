@@ -120,6 +120,9 @@ Code.prototype = {
     _updateCode: function (value) {
         const editor = this.editor
         const $selectionELem = editor.selection.getSelectionContainerElem()
+        if (!$selectionELem) {
+            return
+        }
         $selectionELem.html(value)
         editor.selection.restoreSelection()
     },
@@ -129,6 +132,9 @@ Code.prototype = {
         const editor = this.editor
         const $elem = this.$elem
         const $selectionELem = editor.selection.getSelectionContainerElem()
+        if (!$selectionELem) {
+            return
+        }
         const $parentElem = $selectionELem.parent()
         if ($selectionELem.getNodeName() === 'CODE' && $parentElem.getNodeName() === 'PRE') {
             this._active = true

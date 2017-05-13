@@ -50,6 +50,9 @@ Text.prototype = {
 
         // tab 特殊处理
         this._tabHandle()
+
+        // img 点击
+        this._imgHandle()
     },
 
     // 实时保存选取
@@ -120,6 +123,9 @@ Text.prototype = {
         // <pre><code></code></pre> 回车时 特殊处理
         function codeHandle(e) {
             const $selectionElem = editor.selection.getSelectionContainerElem()
+            if (!$selectionElem) {
+                return
+            }
             const $parentElem = $selectionElem.parent()
             const selectionNodeName = $selectionElem.getNodeName()
             const parentNodeName = $parentElem.getNodeName()
@@ -189,6 +195,9 @@ Text.prototype = {
                 return
             }
             const $selectionElem = editor.selection.getSelectionContainerElem()
+            if (!$selectionElem) {
+                return
+            }
             const $parentElem = $selectionElem.parent()
             const selectionNodeName = $selectionElem.getNodeName()
             const parentNodeName = $parentElem.getNodeName()
@@ -204,6 +213,40 @@ Text.prototype = {
             e.preventDefault()
         })
 
+    },
+
+    // img 点击
+    _imgHandle: function () {
+        const editor = this.editor
+        const $textElem = editor.$textElem
+        const selectedClass = 'w-e-selected'
+
+        // 为图片增加 selected 样式
+        $textElem.on('click', 'img', function (e) {
+            const img = this
+            const $img = $(img)
+
+            // 去掉所有图片的 selected 样式
+            $textElem.find('img').removeClass(selectedClass)
+
+            // 为点击的图片增加样式，并记录当前图片
+            $img.addClass(selectedClass)
+            editor._selectedImg = $img
+
+            // 修改选取
+            editor.selection.createRangeByElem($img)
+        })
+
+        // 去掉图片的 selected 样式
+        $textElem.on('click', e => {
+            if (e.target.matches('img')) {
+                // 点击的是图片，忽略
+                return
+            }
+            // 取消掉 selected 样式，并删除记录
+            $textElem.find('img').removeClass(selectedClass)
+            editor._selectedImg = null
+        })
     }
 }
 

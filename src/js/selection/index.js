@@ -30,10 +30,16 @@ API.prototype = {
 
         // 获取当前的选取
         const selection = window.getSelection()
+        if (selection.rangeCount === 0) {
+            return
+        }
         const range = selection.getRangeAt(0)
 
         // 判断选取内容是否在编辑内容之内
         const $containerElem = this.getSelectionContainerElem(range)
+        if (!$containerElem) {
+            return
+        }
         const editor = this.editor
         const $textElem = editor.$textElem
         if ($textElem.isContain($containerElem)) {
@@ -67,24 +73,33 @@ API.prototype = {
     // 选区的 $Elem
     getSelectionContainerElem: function (range) {
         range = range || this._currentRange
-        const elem = range.commonAncestorContainer
-        return $(
-            elem.nodeType === 1 ? elem : elem.parentNode
-        )
+        let elem
+        if (range) {
+            elem = range.commonAncestorContainer
+            return $(
+                elem.nodeType === 1 ? elem : elem.parentNode
+            )
+        }
     },
     getSelectionStartElem: function (range) {
         range = range || this._currentRange
-        const elem = range.startContainer
-        return $(
-            elem.nodeType === 1 ? elem : elem.parentNode
-        )
+        let elem
+        if (range) {
+            elem = range.startContainer
+            return $(
+                elem.nodeType === 1 ? elem : elem.parentNode
+            )
+        }
     },
     getSelectionEndElem: function (range) {
         range = range || this._currentRange
-        const elem = range.endContainer
-        return $(
-            elem.nodeType === 1 ? elem : elem.parentNode
-        )
+        let elem
+        if (range) {
+            elem = range.endContainer
+            return $(
+                elem.nodeType === 1 ? elem : elem.parentNode
+            )
+        }
     },
 
     // 选取是否为空

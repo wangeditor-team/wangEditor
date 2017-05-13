@@ -116,9 +116,26 @@ DomElement.prototype = {
     },
 
     // 绑定事件
-    on: function (type, fn) {
+    on: function (type, selector, fn) {
+        // selector 不为空，证明绑定事件要加代理
+        if (!fn) {
+            fn = selector
+            selector = null
+        }
         return this.forEach(elem => {
-            elem.addEventListener(type, fn, false)
+            if (!selector) {
+                // 无代理
+                elem.addEventListener(type, fn, false)
+                return
+            }
+
+            // 有代理
+            elem.addEventListener(type, e => {
+                const target = e.target
+                if (target.matches(selector)) {
+                    fn.call(target, e)
+                }
+            }, false)
         })
     },
 
