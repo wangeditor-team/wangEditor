@@ -3,6 +3,7 @@
 */
 
 import $ from '../util/dom-core.js'
+import { getPasteText, getPasteHtml, getPasteImgs } from '../util/paste-handle.js'
 
 // 构造函数
 function Text(editor) {
@@ -19,19 +20,33 @@ Text.prototype = {
         this._bindEvent()
     },
 
-    // 获取 html
-    getHTML: function () {
-        // 检查所有顶级标签，看是否需要用 p 再包裹一遍（针对 div textNode）
+    // 获取 设置 html
+    html: function (val) {
+        const editor = this.editor
+        const $textElem = editor.$textElem
+        if (val == null) {
+            return $textElem.html()
+        } else {
+            $textElem.html(val)
+        }
     },
 
-    // 获取 text
-    getText: function () {
-
+    // 获取 设置 text
+    text: function (val) {
+        const editor = this.editor
+        const $textElem = editor.$textElem
+        if (val == null) {
+            return $textElem.text()
+        } else {
+            $textElem.text(`<p>${val}</p>`)
+        }
     },
 
-    // 获取 json
-    getJSON: function () {
-        // 先获取 html 再处理成 JSON
+    // 追加内容
+    append: function (html) {
+        const editor = this.editor
+        const $textElem = editor.$textElem
+        $textElem.append($(html))
     },
 
     // 绑定事件
@@ -167,8 +182,35 @@ Text.prototype = {
         const editor = this.editor
         const $textElem = editor.$textElem
 
+        $textElem.on('keydown', e => {
+            if (e.keyCode !== 8) {
+                return
+            }
+            const txtHtml = $textElem.html().toLowerCase().trim()
+            if (txtHtml === '<p><br></p>') {
+                // 最后剩下一个空行，就不再删除了
+                e.preventDefault()
+                return
+            }
+        })
 
+        $textElem.on('keyup', e => {
+            if (e.keyCode !== 8) {
+                return
+            }
+            let $p
+            const txtHtml = $textElem.html().toLowerCase().trim()
 
+            // firefox 时用 txtHtml === '<br>' 判断，其他用 !txtHtml 判断
+            if (!txtHtml || txtHtml === '<br>') {
+                // 内容空了
+                $p = $('<p><br/></p>')
+                $textElem.html('') // 一定要先清空，否则在 firefox 下有问题
+                $textElem.append($p)
+                editor.selection.createRangeByElem($p, false, true)
+                editor.selection.restoreSelection()
+            }
+        })
 
     },
 
@@ -177,8 +219,75 @@ Text.prototype = {
         const editor = this.editor
         const $textElem = editor.$textElem
 
-        // 如果在 <code> 中，要做特殊处理
+        // 粘贴文字
+        $textElem.on('paste', e => {
+            // 阻止默认行为，使用 execCommand 的粘贴命令
+            e.preventDefault()
 
+            // 获取粘贴的文字
+            let pasteText, pasteHtml
+
+            const $selectionElem = editor.selection.getSelectionContainerElem()
+            if (!$selectionElem) {
+                return
+            }
+            const nodeName = $selectionElem.getNodeName()
+
+            // code 中粘贴忽略
+            if (nodeName === 'CODE' || nodeName === 'PRE') {
+                return
+            }
+
+            // 表格中忽略，可能会出现异常问题
+            if (nodeName === 'TD' || nodeName === 'TH') {
+                return
+            }
+
+            if (nodeName === 'DIV' || $textElem.html() === '<p><br></p>') {
+                // 是 div，可粘贴过滤样式的文字和链接
+
+                pasteHtml = getPasteHtml(e)
+                if (!pasteHtml) {
+                    return
+                }
+                editor.cmd.do('insertHTML', pasteHtml)
+            } else {
+                // 不是 div，证明在已有内容的元素中粘贴，只粘贴纯文本
+
+                pasteText = getPasteText(e)
+                if (!pasteText) {
+                    return
+                }
+                editor.cmd.do('insertHTML', `<p>${pasteText}</p>`)
+            }
+        })
+
+        // 粘贴图片
+        $textElem.on('paste', e => {
+            e.preventDefault()
+
+            // 获取粘贴的图片
+            const pasteFiles = getPasteImgs(e)
+            if (!pasteFiles || !pasteFiles.length) {
+                return
+            }
+
+            // 获取当前的元素
+            const $selectionElem = editor.selection.getSelectionContainerElem()
+            if (!$selectionElem) {
+                return
+            }
+            const nodeName = $selectionElem.getNodeName()
+
+            // code 中粘贴忽略
+            if (nodeName === 'CODE' || nodeName === 'PRE') {
+                return
+            }
+
+            // 上传图片
+            const uploadImg = editor.uploadImg
+            uploadImg.uploadImg(pasteFiles)
+        })
     },
 
     // tab 特殊处理
@@ -238,7 +347,7 @@ Text.prototype = {
         })
 
         // 去掉图片的 selected 样式
-        $textElem.on('click', e => {
+        $textElem.on('click  keyup', e => {
             if (e.target.matches('img')) {
                 // 点击的是图片，忽略
                 return

@@ -96,11 +96,11 @@ Table.prototype = {
             html += '<tr>'
             if (r === 0) {
                 for (c = 0; c < colNum; c++) {
-                    html += '<th></th>'
+                    html += '<th>&nbsp;</th>'
                 }
             } else {
                 for (c = 0; c < colNum; c++) {
-                    html += '<td></td>'
+                    html += '<td>&nbsp;</td>'
                 }
             }
             html += '</tr>'
@@ -266,7 +266,7 @@ Table.prototype = {
         const newTr = document.createElement('tr')
         let tpl = '', i
         for (i = 0; i < tdLength; i++) {
-            tpl += '<td></td>'
+            tpl += '<td>&nbsp;</td>'
         }
         newTr.innerHTML = tpl
         // 插入

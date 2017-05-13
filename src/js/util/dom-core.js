@@ -122,20 +122,31 @@ DomElement.prototype = {
             fn = selector
             selector = null
         }
-        return this.forEach(elem => {
-            if (!selector) {
-                // 无代理
-                elem.addEventListener(type, fn, false)
-                return
-            }
 
-            // 有代理
-            elem.addEventListener(type, e => {
-                const target = e.target
-                if (target.matches(selector)) {
-                    fn.call(target, e)
+        // type 是否有多个
+        let types = []
+        types = type.split(/\s+/)
+
+        return this.forEach(elem => {
+            types.forEach(type => {
+                if (!type) {
+                    return
                 }
-            }, false)
+
+                if (!selector) {
+                    // 无代理
+                    elem.addEventListener(type, fn, false)
+                    return
+                }
+
+                // 有代理
+                elem.addEventListener(type, e => {
+                    const target = e.target
+                    if (target.matches(selector)) {
+                        fn.call(target, e)
+                    }
+                }, false)
+            })
         })
     },
 
@@ -329,7 +340,7 @@ DomElement.prototype = {
     // 获取 html
     html: function (value) {
         const elem = this[0]
-        if (!value) {
+        if (value == null) {
             return elem.innerHTML
         } else {
             elem.innerHTML = value

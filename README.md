@@ -1,7 +1,5 @@
 
-# wangEditor
-
-v3 - 正在开发中，放在`v3`分支中
+# wangEditor v3.0.0
 
 支持 IE10 及以上浏览器
 
@@ -12,5 +10,4 @@ v3 - 正在开发中，放在`v3`分支中
 打包源代码 `npm run release` **(注意查看`./gulpfile.js`，打包时，`font`文件会以`base64`编码嵌入到`css`中，然后`css`内容再嵌入`js`中。因此，使用者引用时，只需要引用一个`js`文件即可)**
 
 查看 demo `npm run exapmle` 然后浏览器访问 `localhost:3000/index.html`
-
 

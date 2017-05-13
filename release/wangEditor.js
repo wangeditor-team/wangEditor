@@ -163,20 +163,31 @@ DomElement.prototype = {
             fn = selector;
             selector = null;
         }
-        return this.forEach(function (elem) {
-            if (!selector) {
-                // 无代理
-                elem.addEventListener(type, fn, false);
-                return;
-            }
 
-            // 有代理
-            elem.addEventListener(type, function (e) {
-                var target = e.target;
-                if (target.matches(selector)) {
-                    fn.call(target, e);
+        // type 是否有多个
+        var types = [];
+        types = type.split(/\s+/);
+
+        return this.forEach(function (elem) {
+            types.forEach(function (type) {
+                if (!type) {
+                    return;
                 }
-            }, false);
+
+                if (!selector) {
+                    // 无代理
+                    elem.addEventListener(type, fn, false);
+                    return;
+                }
+
+                // 有代理
+                elem.addEventListener(type, function (e) {
+                    var target = e.target;
+                    if (target.matches(selector)) {
+                        fn.call(target, e);
+                    }
+                }, false);
+            });
         });
     },
 
@@ -373,7 +384,7 @@ DomElement.prototype = {
     // 获取 html
     html: function html(value) {
         var elem = this[0];
-        if (!value) {
+        if (value == null) {
             return elem.innerHTML;
         } else {
             elem.innerHTML = value;
@@ -575,6 +586,9 @@ function getRandom(prefix) {
 
 // 替换 html 特殊字符
 function replaceHtmlSymbol(html) {
+    if (html == null) {
+        return '';
+    }
     return html.replace(/</gm, '&lt;').replace(/>/gm, '&gt;').replace(/"/gm, '&quot;');
 }
 
@@ -1869,11 +1883,11 @@ Table.prototype = {
             html += '<tr>';
             if (r === 0) {
                 for (c = 0; c < colNum; c++) {
-                    html += '<th></th>';
+                    html += '<th>&nbsp;</th>';
                 }
             } else {
                 for (c = 0; c < colNum; c++) {
-                    html += '<td></td>';
+                    html += '<td>&nbsp;</td>';
                 }
             }
             html += '</tr>';
@@ -2024,7 +2038,7 @@ Table.prototype = {
         var tpl = '',
             i = void 0;
         for (i = 0; i < tdLength; i++) {
-            tpl += '<td></td>';
+            tpl += '<td>&nbsp;</td>';
         }
         newTr.innerHTML = tpl;
         // 插入
@@ -2568,6 +2582,81 @@ Menus.prototype = {
 };
 
 /*
+    粘贴信息的处理
+*/
+
+// 获取粘贴的纯文本
+function getPasteText(e) {
+    var clipboardData = e.clipboardData || e.originalEvent.clipboardData;
+    var pasteText = void 0;
+    if (clipboardData == null) {
+        pasteText = window.clipboardData && window.clipboardData.getData('text');
+    } else {
+        pasteText = clipboardData.getData('text/plain');
+    }
+
+    return replaceHtmlSymbol(pasteText);
+}
+
+// 获取粘贴的html
+function getPasteHtml(e) {
+    var clipboardData = e.clipboardData || e.originalEvent.clipboardData;
+    var pasteText = void 0,
+        pasteHtml = void 0;
+    if (clipboardData == null) {
+        pasteText = window.clipboardData && window.clipboardData.getData('text');
+    } else {
+        pasteText = clipboardData.getData('text/plain');
+        pasteHtml = clipboardData.getData('text/html');
+    }
+    if (!pasteHtml && pasteText) {
+        pasteHtml = '<p>' + replaceHtmlSymbol(pasteText) + '</p>';
+    }
+    if (!pasteHtml) {
+        return;
+    }
+
+    // 过滤word中状态过来的无用字符
+    var docSplitHtml = pasteHtml.split('</html>');
+    if (docSplitHtml.length === 2) {
+        pasteHtml = docSplitHtml[0];
+    }
+
+    // 过滤无用标签
+    pasteHtml = pasteHtml.replace(/<(meta|script|link).+?>/igm, '');
+
+    // 过滤样式
+    pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").+?('|")/igm, '');
+
+    return pasteHtml;
+}
+
+// 获取粘贴的图片文件
+function getPasteImgs(e) {
+    var result = [];
+    var txt = getPasteText(e);
+    if (txt) {
+        // 有文字，就忽略图片
+        return result;
+    }
+
+    var clipboardData = e.clipboardData || e.originalEvent.clipboardData || {};
+    var items = clipboardData.items;
+    if (!items) {
+        return result;
+    }
+
+    objForEach(items, function (key, value) {
+        var type = value.type;
+        if (/image/i.test(type)) {
+            result.push(value.getAsFile());
+        }
+    });
+
+    return result;
+}
+
+/*
     编辑区域
 */
 
@@ -2586,17 +2675,33 @@ Text.prototype = {
         this._bindEvent();
     },
 
-    // 获取 html
-    getHTML: function getHTML() {
-        // 检查所有顶级标签，看是否需要用 p 再包裹一遍（针对 div textNode）
+    // 获取 设置 html
+    html: function html(val) {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        if (val == null) {
+            return $textElem.html();
+        } else {
+            $textElem.html(val);
+        }
     },
 
-    // 获取 text
-    getText: function getText() {},
+    // 获取 设置 text
+    text: function text(val) {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        if (val == null) {
+            return $textElem.text();
+        } else {
+            $textElem.text('<p>' + val + '</p>');
+        }
+    },
 
-    // 获取 json
-    getJSON: function getJSON() {
-        // 先获取 html 再处理成 JSON
+    // 追加内容
+    append: function append(html) {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        $textElem.append($(html));
     },
 
     // 绑定事件
@@ -2731,6 +2836,36 @@ Text.prototype = {
     _clearHandle: function _clearHandle() {
         var editor = this.editor;
         var $textElem = editor.$textElem;
+
+        $textElem.on('keydown', function (e) {
+            if (e.keyCode !== 8) {
+                return;
+            }
+            var txtHtml = $textElem.html().toLowerCase().trim();
+            if (txtHtml === '<p><br></p>') {
+                // 最后剩下一个空行，就不再删除了
+                e.preventDefault();
+                return;
+            }
+        });
+
+        $textElem.on('keyup', function (e) {
+            if (e.keyCode !== 8) {
+                return;
+            }
+            var $p = void 0;
+            var txtHtml = $textElem.html().toLowerCase().trim();
+
+            // firefox 时用 txtHtml === '<br>' 判断，其他用 !txtHtml 判断
+            if (!txtHtml || txtHtml === '<br>') {
+                // 内容空了
+                $p = $('<p><br/></p>');
+                $textElem.html(''); // 一定要先清空，否则在 firefox 下有问题
+                $textElem.append($p);
+                editor.selection.createRangeByElem($p, false, true);
+                editor.selection.restoreSelection();
+            }
+        });
     },
 
     // 粘贴事件（粘贴文字 粘贴图片）
@@ -2738,7 +2873,76 @@ Text.prototype = {
         var editor = this.editor;
         var $textElem = editor.$textElem;
 
-        // 如果在 <code> 中，要做特殊处理
+        // 粘贴文字
+        $textElem.on('paste', function (e) {
+            // 阻止默认行为，使用 execCommand 的粘贴命令
+            e.preventDefault();
+
+            // 获取粘贴的文字
+            var pasteText = void 0,
+                pasteHtml = void 0;
+
+            var $selectionElem = editor.selection.getSelectionContainerElem();
+            if (!$selectionElem) {
+                return;
+            }
+            var nodeName = $selectionElem.getNodeName();
+
+            // code 中粘贴忽略
+            if (nodeName === 'CODE' || nodeName === 'PRE') {
+                return;
+            }
+
+            // 表格中忽略，可能会出现异常问题
+            if (nodeName === 'TD' || nodeName === 'TH') {
+                return;
+            }
+
+            if (nodeName === 'DIV' || $textElem.html() === '<p><br></p>') {
+                // 是 div，可粘贴过滤样式的文字和链接
+
+                pasteHtml = getPasteHtml(e);
+                if (!pasteHtml) {
+                    return;
+                }
+                editor.cmd.do('insertHTML', pasteHtml);
+            } else {
+                // 不是 div，证明在已有内容的元素中粘贴，只粘贴纯文本
+
+                pasteText = getPasteText(e);
+                if (!pasteText) {
+                    return;
+                }
+                editor.cmd.do('insertHTML', '<p>' + pasteText + '</p>');
+            }
+        });
+
+        // 粘贴图片
+        $textElem.on('paste', function (e) {
+            e.preventDefault();
+
+            // 获取粘贴的图片
+            var pasteFiles = getPasteImgs(e);
+            if (!pasteFiles || !pasteFiles.length) {
+                return;
+            }
+
+            // 获取当前的元素
+            var $selectionElem = editor.selection.getSelectionContainerElem();
+            if (!$selectionElem) {
+                return;
+            }
+            var nodeName = $selectionElem.getNodeName();
+
+            // code 中粘贴忽略
+            if (nodeName === 'CODE' || nodeName === 'PRE') {
+                return;
+            }
+
+            // 上传图片
+            var uploadImg = editor.uploadImg;
+            uploadImg.uploadImg(pasteFiles);
+        });
     },
 
     // tab 特殊处理
@@ -2797,7 +3001,7 @@ Text.prototype = {
         });
 
         // 去掉图片的 selected 样式
-        $textElem.on('click', function (e) {
+        $textElem.on('click  keyup', function (e) {
             if (e.target.matches('img')) {
                 // 点击的是图片，忽略
                 return;
@@ -2928,22 +3132,22 @@ API.prototype = {
         return this._currentRange;
     },
 
-    // 保存选取
+    // 保存选区
     saveRange: function saveRange(_range) {
         if (_range) {
-            // 保存已有选取
+            // 保存已有选区
             this._currentRange = _range;
             return;
         }
 
-        // 获取当前的选取
+        // 获取当前的选区
         var selection = window.getSelection();
         if (selection.rangeCount === 0) {
             return;
         }
         var range = selection.getRangeAt(0);
 
-        // 判断选取内容是否在编辑内容之内
+        // 判断选区内容是否在编辑内容之内
         var $containerElem = this.getSelectionContainerElem(range);
         if (!$containerElem) {
             return;
@@ -2956,7 +3160,7 @@ API.prototype = {
         }
     },
 
-    // 折叠选取
+    // 折叠选区
     collapseRange: function collapseRange(toStart) {
         if (toStart == null) {
             // 默认为 false
@@ -3004,7 +3208,7 @@ API.prototype = {
         }
     },
 
-    // 选取是否为空
+    // 选区是否为空
     isSelectionEmpty: function isSelectionEmpty() {
         var range = this._currentRange;
         if (range && range.startContainer) {
@@ -3035,7 +3239,7 @@ API.prototype = {
             return;
         }
         if (!this.isSelectionEmpty()) {
-            // 当前选取必须没有内容才可以
+            // 当前选区必须没有内容才可以
             return;
         }
 
@@ -3054,10 +3258,11 @@ API.prototype = {
         }
     },
 
-    // 根据 $Elem 设置选取
-    createRangeByElem: function createRangeByElem($elem, toStart) {
+    // 根据 $Elem 设置选区
+    createRangeByElem: function createRangeByElem($elem, toStart, isContent) {
         // $elem - 经过封装的 elem
         // toStart - true 开始位置，false 结束位置
+        // isContent - 是否选中Elem的内容
         if (!$elem.length) {
             return;
         }
@@ -3065,7 +3270,11 @@ API.prototype = {
         var elem = $elem[0];
         var range = document.createRange();
 
-        range.selectNode(elem);
+        if (isContent) {
+            range.selectNodeContents(elem);
+        } else {
+            range.selectNode(elem);
+        }
 
         if (typeof toStart === 'boolean') {
             range.collapse(toStart);
@@ -3443,6 +3652,11 @@ Editor.prototype = {
         this.selection = new API(this);
     },
 
+    // 添加图片上传
+    _initUploadImg: function _initUploadImg() {
+        this.uploadImg = new UploadImg(this);
+    },
+
     // 初始化菜单
     _initMenus: function _initMenus() {
         this.menus = new Menus(this);
@@ -3451,13 +3665,8 @@ Editor.prototype = {
 
     // 添加 text 区域
     _initText: function _initText() {
-        this.text = new Text(this);
-        this.text.init();
-    },
-
-    // 添加图片上传
-    _initUploadImg: function _initUploadImg() {
-        this.uploadImg = new UploadImg(this);
+        this.txt = new Text(this);
+        this.txt.init();
     },
 
     // 添加 bar

@@ -113,6 +113,11 @@ Editor.prototype = {
         this.selection = new selectionAPI(this)
     },
 
+    // 添加图片上传
+    _initUploadImg: function () {
+        this.uploadImg = new UploadImg(this)
+    },
+
     // 初始化菜单
     _initMenus: function () {
         this.menus = new Menus(this)
@@ -121,13 +126,8 @@ Editor.prototype = {
 
     // 添加 text 区域
     _initText: function () {
-        this.text = new Text(this)
-        this.text.init()
-    },
-
-    // 添加图片上传
-    _initUploadImg: function () {
-        this.uploadImg = new UploadImg(this)
+        this.txt = new Text(this)
+        this.txt.init()
     },
 
     // 添加 bar

@@ -20,22 +20,22 @@ API.prototype = {
         return this._currentRange
     },
 
-    // 保存选取
+    // 保存选区
     saveRange: function (_range) {
         if (_range) {
-            // 保存已有选取
+            // 保存已有选区
             this._currentRange = _range
             return
         }
 
-        // 获取当前的选取
+        // 获取当前的选区
         const selection = window.getSelection()
         if (selection.rangeCount === 0) {
             return
         }
         const range = selection.getRangeAt(0)
 
-        // 判断选取内容是否在编辑内容之内
+        // 判断选区内容是否在编辑内容之内
         const $containerElem = this.getSelectionContainerElem(range)
         if (!$containerElem) {
             return
@@ -48,7 +48,7 @@ API.prototype = {
         }
     },
 
-    // 折叠选取
+    // 折叠选区
     collapseRange: function (toStart) {
         if (toStart == null) {
             // 默认为 false
@@ -102,7 +102,7 @@ API.prototype = {
         }
     },
 
-    // 选取是否为空
+    // 选区是否为空
     isSelectionEmpty: function () {
         const range = this._currentRange
         if (range && range.startContainer) {
@@ -133,7 +133,7 @@ API.prototype = {
             return
         }
         if (!this.isSelectionEmpty()) {
-            // 当前选取必须没有内容才可以
+            // 当前选区必须没有内容才可以
             return
         }
 
@@ -152,10 +152,11 @@ API.prototype = {
         }
     },
 
-    // 根据 $Elem 设置选取
-    createRangeByElem: function ($elem, toStart) {
+    // 根据 $Elem 设置选区
+    createRangeByElem: function ($elem, toStart, isContent) {
         // $elem - 经过封装的 elem
         // toStart - true 开始位置，false 结束位置
+        // isContent - 是否选中Elem的内容
         if (!$elem.length) {
             return
         }
@@ -163,7 +164,11 @@ API.prototype = {
         const elem = $elem[0]
         const range = document.createRange()
 
-        range.selectNode(elem)
+        if (isContent) {
+            range.selectNodeContents(elem)
+        } else {
+            range.selectNode(elem)
+        }
 
         if (typeof toStart === 'boolean') {
             range.collapse(toStart)

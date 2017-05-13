@@ -46,6 +46,9 @@ export function getRandom(prefix) {
 
 // 替换 html 特殊字符
 export function replaceHtmlSymbol(html) {
+    if (html == null) {
+        return ''
+    }
     return html.replace(/</gm, '&lt;')
                 .replace(/>/gm, '&gt;')
                 .replace(/"/gm, '&quot;')
