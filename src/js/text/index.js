@@ -20,6 +20,11 @@ Text.prototype = {
         this._bindEvent()
     },
 
+    // 清空内容
+    clear: function () {
+        this.html('<p><br></p>')
+    },
+
     // 获取 设置 html
     html: function (val) {
         const editor = this.editor

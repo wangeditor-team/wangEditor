@@ -28,7 +28,8 @@
   ],
   "scripts": {
     "release": "gulp",
-    "example": "/bin/rm -rf ./example/upload-files && mkdir ./example/upload-files && node ./example/server/index.js"
+    "win-example": "node ./example/server/index.js",
+    "example": "/bin/rm -rf ./example/upload-files && mkdir ./example/upload-files && npm run win-example"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",

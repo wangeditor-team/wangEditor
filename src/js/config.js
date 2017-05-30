@@ -27,7 +27,7 @@ const config = {
     ],
 
     // 是否开启 debug 模式（debug 模式下错误会 throw error 形式抛出）
-    debug: true,
+    debug: false,
 
     // 是否显示添加网络图片的 tab
     showLinkImg: true,
@@ -36,10 +36,10 @@ const config = {
     uploadImgMaxSize: 5 * 1000 * 1000,
 
     // 上传图片，是否显示 base64 格式
-    uploadImgShowBase64: true,
+    uploadImgShowBase64: false,
 
     // 上传图片，server 地址（如果有值，则 base64 格式的配置则失效）
-    uploadImgServer: '/upload-img',
+    // uploadImgServer: '/upload',
 
     // 上传图片的自定义参数
     uploadImgParams: {
@@ -52,10 +52,10 @@ const config = {
     },
 
     // 配置 XHR withCredentials
-    withCredentials: true,
+    withCredentials: false,
 
     // 自定义上传图片超时时间 ms
-    uploadImgTimeout: 3000,
+    uploadImgTimeout: 5000,
 
     // 上传图片 hook 
     uploadImgHooks: {

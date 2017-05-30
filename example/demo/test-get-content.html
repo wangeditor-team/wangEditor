@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor 获取内容</title>
+</head>
+<body>
+    <p>wangEditor 获取内容</p>
+    <div id="div3">
+        <p>欢迎使用 wangEditor 富文本编辑器</p>
+        <p>欢迎使用 wangEditor 富文本编辑器</p>
+    </div>
+    <div>
+        <button id="btn1">获取html</button>
+        <button id="btn2">获取text</button>
+    </div>
+    
+    <script type="text/javascript" src="/wangEditor.min.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor2 = new E('#div3')
+        editor2.create()
+
+        document.getElementById('btn1').addEventListener('click', function () {
+            alert(editor2.txt.html())
+        }, false)
+
+        document.getElementById('btn2').addEventListener('click', function () {
+            alert(editor2.txt.text())
+        }, false)
+    </script>
+</body>
+</html>

@@ -2,94 +2,48 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>test</title>
+    <title>wangEditor demo list</title>
     <style type="text/css">
-        .toolbar {
-            background-color: #f1f1f1;
-            border: 1px solid #ccc;
-        }
-        .text {
-            border: 1px solid #ccc;
-            /*min-height: 100px;
-            max-height: 200px;*/
-            height: 200px;
+        .body {
+            width: 800px;
+            margin: 0 auto 0 auto;
         }
     </style>
 </head>
 <body>
+    <div class="body">
+        <div id="div3">
+            <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+        </div>
 
-    <p>第一个 demo（菜单和编辑器区域分开）</p>
-    <div id="div1" class="toolbar">
-    </div>
-    <div style="padding: 5px 0; color: #ccc">中间隔离带</div>
-    <div id="div2" class="text">
-        <h1>标题1</h1>
-        <h2>标题2</h2>
-        <p>请输入内容</p>
-        <p><img src="https://b3.hoopchina.com.cn/images/logo2013/v1/hp_logo_nba.png"/></p>
-        <p>请输入内容</p>
-        <pre>
-            <code>
-                // 插入 elem
-                _insertElem: function ($elem) {
-                    const editor = this.editor
-                    const range = editor.selection.getRange()
+        <p>wangEditor demo list（demo页面直接查看网页源代码即可）</p>
+        <div>
+            <ul>
+                <li><a href="demo/test-sperate.html" target="_blank">菜单和编辑器区域分离</a></li>
+                <li><a href="demo/test-mult.html" target="_blank">一个页面多个编辑器</a></li>
+                <li><a href="demo/test-menus.html" target="_blank">自定义菜单</a></li>
+                <li><a href="demo/test-fullscreen.html" target="_blank">全屏</a></li>
+                <li><a href="demo/test-set-content.html" target="_blank">设置内容</a></li>
+                <li><a href="demo/test-get-content.html" target="_blank">获取内容</a></li>
+                <li><a href="demo/test-uploadimg.html" target="_blank">上传图片</a></li>
+                <li><a href="demo/test-amd.html" target="_blank">使用 AMD 加载</a></li>
+            </ul>
+        </div>
 
-                    if (range.insertNode) {
-                        range.deleteContents()
-                        range.insertNode($elem[0])
-                    }
-                },
-            </code>
-        </pre>
-        <p>请输入内容</p>
-    </div>
-
-    <p>第二个 demo（常规）</p>
-    <div id="div3">
-        <p>请输入内容</p>
-        <table border="0" width="100%" cellspacing="0" cellpadding="0">
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-        <p>请输入<a href="https://www.baidu.com/">这是一个连接</a>内容</p>
-        <ul>
-            <li>无序列表项1</li>
-            <li>无序列表项2</li>
-        </ul>
-        <p>请输入内容</p>
-        <ol>
-            <li>有序列表项1</li>
-            <li>有序列表项2</li>
-        </ol>
-        <p>请输入内容</p>
+        <p>其他链接</p>
+        <div>
+            <ul>
+                <li><a href="icomoon/demo.html" target="_blank">菜单图标</li>
+            </ul>
+        </div>
     </div>
 
     <!-- 引用js -->
     <script type="text/javascript" src="/wangEditor.min.js"></script>
     <script type="text/javascript">
         var E = window.wangEditor
-
-        var editor1 = new E('#div1', '#div2')
-        editor1.create()
-
         var editor2 = new E('#div3')
         editor2.create()
-
-
     </script>
 </body>
 </html>
