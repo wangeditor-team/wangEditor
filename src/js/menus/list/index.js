@@ -36,11 +36,28 @@ List.prototype = {
     // 执行命令
     _command: function (value) {
         const editor = this.editor
+        const $textElem = editor.$textElem
         editor.selection.restoreSelection()
         if (editor.cmd.queryCommandState(value)) {
             return
         }
         editor.cmd.do(value)
+
+        // 验证列表是否被包裹在 <p> 之内
+        let $selectionElem = editor.selection.getSelectionContainerElem()
+        if ($selectionElem.getNodeName() === 'LI') {
+            $selectionElem = $selectionElem.parent()
+        }
+        if (/^ol|ul$/i.test($selectionElem.getNodeName()) === false) {
+            return
+        }
+        if ($selectionElem.equal($textElem)) {
+            // 证明是顶级标签，没有被 <p> 包裹
+            return
+        }
+        const $parent = $selectionElem.parent()
+        $selectionElem.insertAfter($parent)
+        $parent.remove()
     },
 
     // 试图改变 active 状态

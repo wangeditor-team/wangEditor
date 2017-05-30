@@ -343,7 +343,7 @@
 }
 .w-e-text ul,
 .w-e-text ol {
-  margin-left: 20px;
+  margin: 10px 0 10px 20px;
 }
 .w-e-text blockquote {
   display: block;

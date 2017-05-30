@@ -113,7 +113,7 @@ Code.prototype = {
     // 插入代码
     _insertCode: function (value) {
         const editor = this.editor
-        editor.cmd.do('insertHTML', `<pre><code>${value}</code></pre>`)
+        editor.cmd.do('insertHTML', `<pre><code>${value}</code></pre><p><br></p>`)
     },
 
     // 更新代码

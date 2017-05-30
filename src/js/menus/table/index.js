@@ -105,7 +105,7 @@ Table.prototype = {
             }
             html += '</tr>'
         }
-        html += '</table>'
+        html += '</table><p><br></p>'
 
         // 执行命令
         const editor = this.editor

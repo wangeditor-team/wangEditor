@@ -43,12 +43,12 @@ const config = {
 
     // 上传图片的自定义参数
     uploadImgParams: {
-        /* token: 'abcdef12345' */
+        // token: 'abcdef12345'
     },
 
     // 上传图片的自定义header
     uploadImgHeaders: {
-        /* 'Accept' : 'text/x-json' */
+        // 'Accept' : 'text/x-json'
     },
 
     // 配置 XHR withCredentials

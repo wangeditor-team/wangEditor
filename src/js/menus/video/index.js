@@ -79,7 +79,7 @@ Video.prototype = {
     // 插入视频
     _insert: function (val) {
         const editor = this.editor
-        editor.cmd.do('insertHTML', val)
+        editor.cmd.do('insertHTML', val + '<p><br></p>')
     }
 }
 

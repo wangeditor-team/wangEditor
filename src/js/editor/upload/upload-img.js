@@ -2,7 +2,7 @@
     上传图片
 */
 
-import { arrForEach, percentFormat } from '../../util/util.js'
+import { objForEach, arrForEach, percentFormat } from '../../util/util.js'
 
 // 构造函数
 function UploadImg(editor) {
@@ -60,10 +60,16 @@ UploadImg.prototype = {
         const config = editor.config
         const maxSize = config.uploadImgMaxSize
         const maxSizeM = maxSize / 1000 / 1000
-        const uploadImgServer = config.uploadImgServer
+        let uploadImgServer = config.uploadImgServer
         const uploadImgShowBase64 = config.uploadImgShowBase64
+        const uploadImgParams = config.uploadImgParams || {}
+        const uploadImgHeaders = config.uploadImgHeaders || {}
         const hooks = config.uploadImgHooks || {}
         const timeout = config.uploadImgTimeout || 3000
+        let withCredentials = config.withCredentials
+        if (withCredentials == null) {
+            withCredentials = false
+        }
 
         // ------------------------------ 验证文件信息 ------------------------------
         const resultFiles = []
@@ -98,6 +104,23 @@ UploadImg.prototype = {
 
         // ------------------------------ 上传图片 ------------------------------
         if (uploadImgServer && typeof uploadImgServer === 'string') {
+            // 添加参数
+            const uploadImgServerArr = uploadImgServer.split('#')
+            uploadImgServer = uploadImgServerArr[0]
+            const uploadImgServerHash = uploadImgServerArr[1] || ''
+            objForEach(uploadImgParams, (key, val) => {
+                if (uploadImgServer.indexOf('?') > 0) {
+                    uploadImgServer += '&'
+                } else {
+                    uploadImgServer += '?'
+                }
+                uploadImgServer += key + '=' + encodeURIComponent(val)
+            })
+            if (uploadImgServerHash) {
+                uploadImgServer += uploadImgServerHash
+            }
+
+            // 定义 xhr
             const xhr = new XMLHttpRequest()
 
             // 设置超时
@@ -183,8 +206,17 @@ UploadImg.prototype = {
                 hooks.before(xhr, editor, resultFiles)
             }
 
-            // 发送请求
             xhr.open('POST', uploadImgServer)
+
+            // 自定义 headers
+            objForEach(uploadImgHeaders, (key, val) => {
+                xhr.setRequestHeader(key, val)
+            })
+
+            // 跨域传 cookie
+            xhr.withCredentials = withCredentials
+
+            // 发送请求
             xhr.send(formdata)
 
             // 注意，要 return 。不去操作接下来的 base64 显示方式
