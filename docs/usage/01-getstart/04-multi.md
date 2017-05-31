@@ -1,28 +1,39 @@
+# 通一个页面创建多个编辑器
+
+wangEditor 支持一个页面创建多个编辑器
+
+## 代码示例
+
+```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>wangEditor 菜单和编辑器区域分离</title>
+    <title>wangEditor 一个页面多个编辑器</title>
     <style type="text/css">
         .toolbar {
+            background-color: #f1f1f1;
             border: 1px solid #ccc;
         }
         .text {
             border: 1px solid #ccc;
-            height: 400px;
+            height: 200px;
         }
     </style>
 </head>
 <body>
-    
-    <p>wangEditor 菜单和编辑器区域分离</p>
     <div id="div1" class="toolbar">
     </div>
-    <div style="padding: 10px 0; color: #ccc">中间隔离带</div>
+    <div style="padding: 5px 0; color: #ccc">中间隔离带</div>
     <div id="div2" class="text">
-        <p>请输入内容</p>
+        <p>第一个 demo（菜单和编辑器区域分开）</p>
     </div>
 
+    <div id="div3">
+        <p>第二个 demo（常规）</p>
+    </div>
+
+    <!-- 引用js -->
     <script type="text/javascript" src="/wangEditor.min.js"></script>
     <script type="text/javascript">
         var E = window.wangEditor
@@ -30,6 +41,10 @@
         var editor1 = new E('#div1', '#div2')
         editor1.create()
 
+        var editor2 = new E('#div3')
+        editor2.create()
     </script>
 </body>
 </html>
+```
+

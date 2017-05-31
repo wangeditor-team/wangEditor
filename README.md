@@ -8,7 +8,7 @@
 **wangEditor** —— 轻量级 web 富文本编辑器，配置方便，使用简单。支持 IE10+ 浏览器。
 
 - 官网：[www.wangEditor.com](http://www.wangeditor.com/)
-- 文档：......
+- 文档：[www.kancloud.cn/wangfupeng/wangeditor3/332599](http://www.kancloud.cn/wangfupeng/wangeditor3/332599)
 
 ![图片](http://images2015.cnblogs.com/blog/138012/201705/138012-20170530202905633-1840158981.png)
 
@@ -18,7 +18,7 @@
 - 直接下载：[https://github.com/wangfupeng1988/wangEditor/releases](https://github.com/wangfupeng1988/wangEditor/releases)
 - 使用`npm`下载：`npm install wangeditor` （注意 `wangeditor` 全部是**小写字母**）
 - 使用`bower`下载：`bower install wangEditor` （前提保证电脑已安装了`bower`）
-- 使用CDN：[http://www.bootcdn.cn/wangeditor/](http://www.bootcdn.cn/wangeditor/)
+- 使用CDN：[www.bootcdn.cn/wangeditor](http://www.bootcdn.cn/wangeditor/)
 
 
 ## 使用
@@ -55,5 +55,12 @@ editor2.create()
 - 去[知乎](https://www.zhihu.com/)提问，并邀请[作者](https://www.zhihu.com/people/wang-fu-peng-54/activities)来回答
 - 去[segmentfault](https://segmentfault.com)提问，并邀请[作者](https://segmentfault.com/u/wangfupeng1988)来回答
 
+## 关于作者
 
+- 关注作者的博客 - 《[深入理解javascript原型和闭包系列](http://www.cnblogs.com/wangfupeng1988/p/4001284.html)》《[深入理解javascript异步系列](https://github.com/wangfupeng1988/js-async-tutorial)》《[CSS知多少](http://www.cnblogs.com/wangfupeng1988/p/4325007.html)》 
+- 学习作者的教程 - 《[React.js模拟大众点评webapp](http://coding.imooc.com/class/99.html)》《[zepto设计与源码分析](http://www.imooc.com/learn/745)》《[用grunt搭建自动化的web前端开发环境](http://study.163.com/course/courseMain.htm?courseId=1103003)》《[json2.js源码解读](http://study.163.com/course/courseMain.htm?courseId=691008)》
+
+如果你感觉有收获，欢迎给我打赏 ———— 以激励我更多输出优质开源内容
+
+![图片](https://camo.githubusercontent.com/e1558b631931e0a1606c769a61f48770cc0ccb56/687474703a2f2f696d61676573323031352e636e626c6f67732e636f6d2f626c6f672f3133383031322f3230313730322f3133383031322d32303137303232383131323233373739382d313530373139363634332e706e67)
 
