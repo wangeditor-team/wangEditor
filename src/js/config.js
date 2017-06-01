@@ -33,7 +33,7 @@ const config = {
     showLinkImg: true,
 
     // 默认上传图片 max size: 5M
-    uploadImgMaxSize: 5 * 1000 * 1000,
+    uploadImgMaxSize: 5 * 1024 * 1024,
 
     // 上传图片，是否显示 base64 格式
     uploadImgShowBase64: false,
@@ -48,7 +48,7 @@ const config = {
 
     // 上传图片的自定义header
     uploadImgHeaders: {
-        // 'Accept' : 'text/x-json'
+        // 'Accept': 'text/x-json'
     },
 
     // 配置 XHR withCredentials
