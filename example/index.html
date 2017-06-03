@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor demo list</title>
+    <style type="text/css">
+        .body {
+            width: 800px;
+            margin: 0 auto 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="body">
+        <p>可访问 <a href="http://www.wangeditor.com/" target="_blank">wangEditor 官网</a> 了解更多内容</p>
+        <div id="div3">
+            <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+        </div>
+
+        <p>wangEditor demo list（demo页面直接查看网页源代码即可）</p>
+        <div>
+            <ul>
+                <li><a href="demo/test-sperate.html" target="_blank">菜单和编辑器区域分离</a></li>
+                <li><a href="demo/test-mult.html" target="_blank">一个页面多个编辑器</a></li>
+                <li><a href="demo/test-menus.html" target="_blank">自定义菜单</a></li>
+                <li><a href="demo/test-fullscreen.html" target="_blank">全屏</a></li>
+                <li><a href="demo/test-set-content.html" target="_blank">设置内容</a></li>
+                <li><a href="demo/test-get-content.html" target="_blank">获取内容</a></li>
+                <li><a href="demo/test-uploadimg.html" target="_blank">上传图片</a></li>
+                <li><a href="demo/test-amd.html" target="_blank">使用 AMD 加载</a></li>
+            </ul>
+        </div>
+
+        <p>其他链接</p>
+        <div>
+            <ul>
+                <li><a href="icomoon/demo.html" target="_blank">菜单图标</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 引用js -->
+    <script type="text/javascript" src="/wangEditor.min.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor2 = new E('#div3')
+        editor2.create()
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor 菜单配置</title>
+</head>
+<body>
+    <p>wangEditor 自定义菜单配置</p>
+    <div id="div3">
+        <p>欢迎使用 wangEditor 富文本编辑器</p>
+    </div>
+
+    <script type="text/javascript" src="/wangEditor.min.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor2 = new E('#div3')
+        editor2.customConfig.menus = [
+            'head',
+            'bold',
+            'italic',
+            'underline'
+        ]
+        editor2.create()
+    </script>
+</body>
+</html>

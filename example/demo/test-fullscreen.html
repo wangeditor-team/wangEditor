@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor 全屏</title>
+    <style type="text/css">
+        #container {
+            width: 800px;
+            margin: 0 auto;
+        }
+        #toolbar-container {
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+        #toolbar-container:after {
+            display: table;
+            content: '';
+            clear: both;
+        }
+        #editor-toolbar {
+            float: left;
+        }
+        #btn-container {
+            float: right;
+            text-align: right;
+        }
+        #editor-text {
+            border: 1px solid #ccc;
+            border-top: 0;
+            height: 300px;
+            background-color: #fff;
+        }
+        #cover {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            top: 50px;
+            left: 50px;
+            right: 50px;
+            height: 500px;
+            padding: 20px;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <p>wangEditor 全屏</p>
+
+    <!--非全屏模式-->
+    <div id="container">
+        <!--菜单栏-->
+        <div id="toolbar-container">
+            <div id="editor-toolbar"></div>
+            <div id="btn-container">
+                <button id="btn1">全屏</button>
+            </div>
+        </div>
+        <!--编辑区域-->
+        <div id="editor-text">
+            <p>wangEditor 本身不包含“全屏”功能，不过可以很简单的开发出来</p>
+            <p>注意，全屏模式与<code>max-height</code>有冲突，尽量避免一起使用</p>
+        </div>
+    </div>
+
+    <!--全屏模式-->
+    <div id="cover"></div>
+
+
+    <script type="text/javascript" src="/wangEditor.min.js"></script>
+    <script type="text/javascript">
+        // 创建编辑器
+        var E = window.wangEditor
+        var editor2 = new E('#editor-toolbar', '#editor-text')
+        editor2.create()
+
+        // 获取使用到的元素
+        var toolbarContaner = document.getElementById('toolbar-container')
+        var editorText = document.getElementById('editor-text')
+        var cover = document.getElementById('cover')
+        var container = document.getElementById('container')
+
+        // 全屏事件
+        function doFullScreen() {
+            cover.style.display = 'block'
+            editorText.style.height = '460px';
+            cover.appendChild(toolbarContaner)
+            cover.appendChild(editorText)
+        }
+
+        // 退出全屏事件
+        function unDoFullScreen() {
+            container.appendChild(toolbarContaner)
+            container.appendChild(editorText)
+            editorText.style.height = '300px';
+            cover.style.display = 'none'
+        }
+
+        // 是否是全屏的标志
+        var isFullScreen = false
+
+        // 点击事件
+        var btn1 = document.getElementById('btn1')
+        btn1.addEventListener('click', function () {
+            if (isFullScreen) {
+                isFullScreen = false
+                unDoFullScreen()
+            } else {
+                isFullScreen = true
+                doFullScreen()
+            }
+        }, false)
+    </script>
+</body>
+</html>

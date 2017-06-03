@@ -1,8 +1,12 @@
 
 #忽略
 node_modules/*
+<<<<<<< HEAD
 issue
+=======
+>>>>>>> v3
 npm-debug.log
+ISSUE.md
 
 # Windows image file caches
 Thumbs.db

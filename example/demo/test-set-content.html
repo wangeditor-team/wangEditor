@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor 设置内容</title>
+</head>
+<body>
+    <p>wangEditor 设置内容</p>
+    <div id="div3">
+        <p>欢迎使用 wangEditor 富文本编辑器</p>
+    </div>
+    <div>
+        <button id="btn1">追加内容</button>
+        <button id="btn2">清空内容</button>
+    </div>
+    
+    <script type="text/javascript" src="/wangEditor.min.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor2 = new E('#div3')
+        editor2.create()
+
+        // 设置内容
+        editor2.txt.html('<p>通过 js 动态设置的内容</p>')
+
+        // 追加内容
+        document.getElementById('btn1').addEventListener('click', function () {
+            editor2.txt.append('<p>追加的内容</p>')
+        }, false)
+        document.getElementById('btn2').addEventListener('click', function () {
+            editor2.txt.clear()
+        }, false)
+    </script>
+</body>
+</html>
