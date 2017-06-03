@@ -56,7 +56,7 @@ editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024
 
 ## 自定义上传参数
 
-上传图片时可自定义传递一些参数，例如传递验证的`token`等
+上传图片时可自定义传递一些参数，例如传递验证的`token`等。这些参数会拼接到 url 的参数中。
 
 ```javascript
 editor.customConfig.uploadImgParams = {

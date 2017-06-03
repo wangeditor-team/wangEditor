@@ -2,6 +2,7 @@
 #忽略
 node_modules/*
 npm-debug.log
+ISSUE.md
 
 # Windows image file caches
 Thumbs.db
