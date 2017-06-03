@@ -3,8 +3,10 @@
 
 **wangEditor**——轻量级web富文本编辑器，配置方便，使用简单</b>。支持IE8+浏览器。
 
-* 软件官网：[wangEditor.github.io](http://wangeditor.github.io/)
-* demo演示：[wangEditor.github.io](http://wangeditor.github.io/)
+**广播：wangEditor已升级到 V3 版本，欢迎关注 [wangEditor.github.io](http://wangeditor.github.io/)**
+
+* 软件官网：[wangEditor.github.io](http://wangeditor.github.io/)（**注意：官网已升级到V3版本**）
+* demo演示：[wangEditor.github.io](http://wangeditor.github.io/)（**注意：官网已升级到V3版本**）
 * 文档：[http://www.kancloud.cn/wangfupeng/wangeditor2/113961](http://www.kancloud.cn/wangfupeng/wangeditor2/113961)
 
 ![](http://images2015.cnblogs.com/blog/138012/201509/138012-20150910004209122-1645253022.png)
@@ -61,4 +63,4 @@
 
 # 5. 交流
 
-交流QQ群：**164999061**
+交流QQ群：**164999061** **281268320**
