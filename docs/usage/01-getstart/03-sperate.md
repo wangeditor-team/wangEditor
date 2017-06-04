@@ -31,7 +31,7 @@
     <script type="text/javascript" src="/wangEditor.min.js"></script>
     <script type="text/javascript">
         var E = window.wangEditor
-        var editor1 = new E('#div1', '#div2')
+        var editor1 = new E('#div1', '#div2')  // 两个参数也可以传入 elem 对象，class 选择器
         editor1.create()
     </script>
 </body>

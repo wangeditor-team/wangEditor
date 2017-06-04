@@ -16,7 +16,7 @@
 
 上线
 
-- 修改`package.json`版本
+- 修改`package.json`版本，修改 unpkg 链接中的版本
 - 提交到github，并创建tag
 - 提交到 npm
 - 同步到官网

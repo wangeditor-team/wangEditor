@@ -18,7 +18,7 @@
 - 直接下载：[https://github.com/wangfupeng1988/wangEditor/releases](https://github.com/wangfupeng1988/wangEditor/releases)
 - 使用`npm`下载：`npm install wangeditor` （注意 `wangeditor` 全部是**小写字母**）
 - 使用`bower`下载：`bower install wangEditor` （前提保证电脑已安装了`bower`）
-- 使用CDN：[www.bootcdn.cn/wangeditor](http://www.bootcdn.cn/wangeditor/)
+- 使用CDN：[//unpkg.com/wangeditor@3.0.0/release/wangEditor.min.js](https://unpkg.com/wangeditor@3.0.0/release/wangEditor.min.js)（其中`@3.0.0`代表了`npm`中发布的版本）
 
 
 ## 使用
@@ -37,6 +37,7 @@ editor2.create()
 - 进入目录，安装依赖包 `cd wangEditor && npm i`
 - 安装包完成之后，windows 用户运行`npm run win-example`，Mac 用户运行`npm run example`
 - 打开浏览器访问[localhost:3000/index.html](http://localhost:3000/index.html)
+- 用于 React 或者 vue 可查阅[文档](http://www.kancloud.cn/wangfupeng/wangeditor3/332599)中“其他”章节中的相关介绍
 
 ## 交流
 
