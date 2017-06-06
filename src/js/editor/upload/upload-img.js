@@ -190,7 +190,7 @@ UploadImg.prototype = {
                     } else {
                         const data = result.data || []
                         data.forEach(link => {
-                            this.insertLinkImg(link)
+                            editor.cmd.do('insertHTML', `<img src="${link}" style="max-width:100%;"/>`)
                         })
 
                         // hook - success

@@ -525,7 +525,7 @@ var config = {
     // 自定义上传图片超时时间 ms
     uploadImgTimeout: 5000,
 
-    // 上传图片 hook 
+    // 上传图片 hook
     uploadImgHooks: {
         before: function before(xhr, editor, files) {},
         success: function success(xhr, editor, result) {},
@@ -3470,7 +3470,7 @@ UploadImg.prototype = {
             // 返回数据
             xhr.onreadystatechange = function () {
                 var result = void 0;
-                if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.readyState === 4) {
                     if (xhr.status !== 200) {
                         // hook - error
                         if (hooks.error && typeof hooks.error === 'function') {
@@ -3507,7 +3507,7 @@ UploadImg.prototype = {
                     } else {
                         var data = result.data || [];
                         data.forEach(function (link) {
-                            _this3.insertLinkImg(link);
+                            editor.cmd.do('insertHTML', `<img src="${link}" style="max-width:100%;"/>`)
                         });
 
                         // hook - success
