@@ -153,7 +153,7 @@ UploadImg.prototype = {
             // 返回数据
             xhr.onreadystatechange = () => {
                 let result
-                if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.readyState === 4) {
                     if (xhr.status !== 200) {
                         // hook - error
                         if (hooks.error && typeof hooks.error === 'function') {
@@ -190,7 +190,7 @@ UploadImg.prototype = {
                     } else {
                         const data = result.data || []
                         data.forEach(link => {
-                            this.insertLinkImg(link)
+                            editor.cmd.do('insertHTML', `<img src="${link}" style="max-width:100%;"/>`)
                         })
 
                         // hook - success
