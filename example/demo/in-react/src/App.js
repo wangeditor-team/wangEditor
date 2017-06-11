@@ -7,6 +7,7 @@ class App extends Component {
   constructor(props, context) {
       super(props, context);
       this.state = {
+        editorContent: ''
       }
   }
   render() {
@@ -19,8 +20,11 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+
+        {/* 将生成编辑器 */}
         <div ref="editorElem" style={{textAlign: 'left'}}>
         </div>
+
         <button onClick={this.clickHandle.bind(this)}>获取内容</button>
       </div>
     );
@@ -28,15 +32,16 @@ class App extends Component {
   componentDidMount() {
     const elem = this.refs.editorElem
     const editor = new E(elem)
+    // 使用 onchange 函数监听内容的变化，并实时更新到 state 中
+    editor.customConfig.onchange = html => {
+      this.setState({
+        editorContent: html
+      })
+    }
     editor.create()
-
-    this.setState({
-        editor: editor
-    })
   }
   clickHandle() {
-      const editor = this.state.editor
-      alert(editor.txt.html())
+      alert(this.state.editorContent)
   }
 }
 

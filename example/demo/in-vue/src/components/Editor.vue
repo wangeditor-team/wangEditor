@@ -12,19 +12,20 @@
       name: 'editor',
       data () {
         return {
+          editorContent: ''
         }
       },
       methods: {
         getContent: function () {
-            var editor = this.editor
-            alert(editor.txt.html())
+            alert(this.editorContent)
         }
       },
       mounted() {
         var editor = new E('#editorElem')
+        editor.customConfig.onchange = (html) => {
+          this.editorContent = html
+        }
         editor.create()
-
-        this.editor = editor
       }
     }
 </script>
