@@ -42,6 +42,9 @@ Command.prototype = {
         // 最后，恢复选取保证光标在原来的位置闪烁
         editor.selection.saveRange()
         editor.selection.restoreSelection()
+
+        // 触发 onchange
+        editor.change && editor.change()
     },
 
     // 自定义 insertHTML 事件

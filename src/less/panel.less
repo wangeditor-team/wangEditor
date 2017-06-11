@@ -9,6 +9,20 @@
         color: #333;
         background-color: #fff;
 
+        .w-e-panel-close {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 5px;
+            margin: 2px 5px 0 0;
+            cursor: pointer;
+            color: #999;
+
+            &:hover {
+                color: #333;
+            }
+        }
+
         .w-e-panel-tab-title {
             list-style: none;
             display: flex;
@@ -58,7 +72,6 @@
                 font-size: 14px;
                 height: 20px;
                 color: #333;
-                padding: 10px 5px;
                 text-align: left;
             }
             input[type=text].small {
@@ -122,6 +135,7 @@
                 cursor: pointer;
                 font-size: 18px;
                 padding: 0 3px;
+                display: inline-block;
             }
         }
 

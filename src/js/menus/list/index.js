@@ -56,6 +56,11 @@ List.prototype = {
             return
         }
         const $parent = $selectionElem.parent()
+        if ($parent.equal($textElem)) {
+            // $parent 是顶级标签，不能删除
+            return
+        }
+
         $selectionElem.insertAfter($parent)
         $parent.remove()
     },

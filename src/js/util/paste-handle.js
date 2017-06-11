@@ -8,7 +8,7 @@ import { objForEach } from './util.js'
 
 // 获取粘贴的纯文本
 export function getPasteText(e) {
-    const clipboardData = e.clipboardData || e.originalEvent.clipboardData
+    const clipboardData = e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)
     let pasteText
     if (clipboardData == null) {
         pasteText = window.clipboardData && window.clipboardData.getData('text')
@@ -21,7 +21,7 @@ export function getPasteText(e) {
 
 // 获取粘贴的html
 export function getPasteHtml(e) {
-    const clipboardData = e.clipboardData || e.originalEvent.clipboardData
+    const clipboardData = e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)
     let pasteText, pasteHtml
     if (clipboardData == null) {
         pasteText = window.clipboardData && window.clipboardData.getData('text')
@@ -60,7 +60,7 @@ export function getPasteImgs(e) {
         return result
     }
 
-    const clipboardData = e.clipboardData || e.originalEvent.clipboardData || {}
+    const clipboardData = e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData) || {}
     const items = clipboardData.items
     if (!items) {
         return result

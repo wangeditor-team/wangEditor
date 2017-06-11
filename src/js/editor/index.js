@@ -9,7 +9,6 @@ import Text from '../text/index.js'
 import Command from '../command/index.js'
 import selectionAPI from '../selection/index.js'
 import UploadImg from './upload/upload-img.js'
-import Bar from './bar/bar.js'
 import { arrForEach } from '../util/util.js'
 
 // id，累加
@@ -94,6 +93,14 @@ Editor.prototype = {
         this.$toolbarElem = $toolbarElem
         this.$textContainerElem = $textContainerElem
         this.$textElem = $textElem
+
+        // 绑定 onchange
+        $textContainerElem.on('click keyup', () => {
+            this.change &&  this.change()
+        })
+        $toolbarElem.on('click', function () {
+            this.change &&  this.change()
+        })
     },
 
     // 初始化配置
@@ -130,10 +137,61 @@ Editor.prototype = {
         this.txt.init()
     },
 
-    // 添加 bar
-    _addBar: function () {
-        this.bar = new Bar(this)
-        this.bar.init()
+    // 初始化选区
+    _initSelection: function () {
+        const $textElem = this.$textElem
+        const $children = $textElem.children()
+        if (!$children.length) {
+            // 如果编辑器区域无内容，添加一个空行，重新设置选区
+            $textElem.append($('<p><br></p>'))
+            this._initSelection()
+            return
+        }
+
+        const $last = $children.last()
+        const html = $last.html().toLowerCase()
+        const nodeName = $last.getNodeName()
+        if ((html !== '<br>' && html !== '<br\/>') || nodeName !== 'P') {
+            // 最后一个元素不是 <p><br></p>，添加一个空行，重新设置选区
+            $textElem.append($('<p><br></p>'))
+            this._initSelection()
+            return
+        }
+
+        this.selection.createRangeByElem($last, true)
+        this.selection.restoreSelection()
+    },
+
+    // 绑定事件
+    _bindEvent: function () {
+        // -------- 绑定 onchange 事件 --------
+        let onChangeTimeoutId = 0
+        let beforeChangeHtml = this.txt.html()
+        const config = this.config
+        const onchange = config.onchange
+        if (onchange && typeof onchange === 'function'){
+            // 触发 change 的有三个场景：
+            // 1. $textContainerElem.on('click keyup')
+            // 2. $toolbarElem.on('click')
+            // 3. editor.cmd.do()
+            this.change = function () {
+                // 判断是否有变化
+                const currentHtml = this.txt.html()
+                if (currentHtml.length === beforeChangeHtml.length) {
+                    return
+                }
+
+                // 执行，使用节流
+                if (onChangeTimeoutId) {
+                    clearTimeout(onChangeTimeoutId)
+                }
+                onChangeTimeoutId = setTimeout(() => {
+                    // 触发配置的 onchange 函数
+                    onchange(currentHtml)
+                    beforeChangeHtml = currentHtml
+                }, 200)
+            }   
+        }
     },
 
     // 创建编辑器
@@ -159,8 +217,11 @@ Editor.prototype = {
         // 添加 图片上传
         this._initUploadImg()
 
-        // 添加 bar
-        this._addBar()
+        // 初始化选区
+        this._initSelection()
+
+        // 绑定事件
+        this._bindEvent()
     }
 }
 

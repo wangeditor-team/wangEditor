@@ -110,6 +110,10 @@ Table.prototype = {
         // 执行命令
         const editor = this.editor
         editor.cmd.do('insertHTML', html)
+
+        // 防止 firefox 下出现 resize 的控制点
+        editor.cmd.do('enableObjectResizing', false)
+        editor.cmd.do('enableInlineTableEditing', false)
     },
 
     // 创建编辑表格的 panel

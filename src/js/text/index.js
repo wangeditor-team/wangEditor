@@ -4,6 +4,7 @@
 
 import $ from '../util/dom-core.js'
 import { getPasteText, getPasteHtml, getPasteImgs } from '../util/paste-handle.js'
+import { UA } from '../util/util.js'
 
 // 构造函数
 function Text(editor) {
@@ -226,11 +227,18 @@ Text.prototype = {
 
         // 粘贴文字
         $textElem.on('paste', e => {
+            if (UA.isIE()) {
+                // IE 下放弃下面的判断
+                return
+            }
+
             // 阻止默认行为，使用 execCommand 的粘贴命令
             e.preventDefault()
 
             // 获取粘贴的文字
-            let pasteText, pasteHtml
+            let pasteHtml = getPasteHtml(e)
+            let pasteText = getPasteText(e)
+            pasteText = pasteText.replace(/\n/gm, '<br>')
 
             const $selectionElem = editor.selection.getSelectionContainerElem()
             if (!$selectionElem) {
@@ -250,16 +258,20 @@ Text.prototype = {
 
             if (nodeName === 'DIV' || $textElem.html() === '<p><br></p>') {
                 // 是 div，可粘贴过滤样式的文字和链接
-
-                pasteHtml = getPasteHtml(e)
                 if (!pasteHtml) {
                     return
                 }
-                editor.cmd.do('insertHTML', pasteHtml)
+                try {
+                    // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
+                    // 因此执行 insertHTML 会报错
+                    editor.cmd.do('insertHTML', pasteHtml)
+                } catch (ex) {
+                    // 此时使用 pasteText 来兼容一下
+                    editor.cmd.do('insertHTML', `<p>${pasteText}</p>`)
+                }
+                
             } else {
                 // 不是 div，证明在已有内容的元素中粘贴，只粘贴纯文本
-
-                pasteText = getPasteText(e)
                 if (!pasteText) {
                     return
                 }

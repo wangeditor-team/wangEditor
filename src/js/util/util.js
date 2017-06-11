@@ -10,6 +10,11 @@ export const UA = {
     isWebkit: function () {
         const reg = /webkit/i
         return reg.test(this._ua)
+    },
+
+    // 是否 IE
+    isIE: function () {
+        return 'ActiveXObject' in window
     }
 }
 

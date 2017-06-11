@@ -93,6 +93,7 @@ Menus.prototype = {
             // 弹框类型，例如 link
             if (type === 'panel' && menu.onClick) {
                 $elem.on('click', e => {
+                    e.stopPropagation()
                     if (editor.selection.getRange() == null) {
                         return
                     }

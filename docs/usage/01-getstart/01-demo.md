@@ -3,7 +3,7 @@
 ## 下载
 
 - 点击 [https://github.com/wangfupeng1988/wangEditor/releases](https://github.com/wangfupeng1988/wangEditor/releases) 下载最新版。进入`release`文件夹下找到`wangEditor.js`或者`wangEditor.min.js`即可
-- 进入 [www.bootcdn.cn/wangeditor](http://www.bootcdn.cn/wangeditor/) 引用最新版本的 JS 文件
+- 使用CDN：[//unpkg.com/wangeditor@3.0.0/release/wangEditor.min.js](https://unpkg.com/wangeditor@3.0.0/release/wangEditor.min.js)（其中`@3.0.0`代表了`npm`中发布的版本）
 - 使用`bower`下载：`bower install wangEditor` （前提保证电脑已安装了`bower`）
 
 *PS：支持`npm`安装，请参见后面的章节*

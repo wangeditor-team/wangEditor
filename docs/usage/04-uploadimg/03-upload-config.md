@@ -54,14 +54,31 @@
 editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024
 ```
 
+## 限制一次最多能传几张图片
+
+默认为 10000 张（即不限制），需要限制可自己配置
+
+```javascript
+// 限制一次最多上传 5 张图片
+editor.customConfig.uploadImgMaxLength = 5
+```
+
 ## 自定义上传参数
 
-上传图片时可自定义传递一些参数，例如传递验证的`token`等。这些参数会拼接到 url 的参数中。
+上传图片时可自定义传递一些参数，例如传递验证的`token`等。这些参数会拼接到 url 的参数中，也会被添加到`formdata`中。
 
 ```javascript
 editor.customConfig.uploadImgParams = {
-    token: 'abcdef12345'
+    token: 'abcdef12345'  // 属性值会自动进行 encode ，此处无需 encode
 }
+```
+
+## 自定义 fileName
+
+上传图片时，可自定义`filename`，即在使用`formdata.append(name, file)`添加图片文件时，自定义第一个参数。
+
+```javascript
+editor.customConfig.uploadFileName = 'yourFileName'
 ```
 
 ## 自定义 header
@@ -98,21 +115,34 @@ editor.customConfig.uploadImgTimeout = 3000
 ```javascript
 editor.customConfig.uploadImgHooks = {
     before: function (xhr, editor, files) {
-        // 请求发送之前
+        // 图片上传之前触发
+        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，files 是选择的图片文件
     },
     success: function (xhr, editor, result) {
-        // 上传成功之后
-        // result 是服务器端返回的结果
+        // 图片上传并返回结果，图片插入成功之后触发
+        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
     },
     fail: function (xhr, editor, result) {
-        // 上传失败之后
-        // result 是服务器端返回的结果
+        // 图片上传并返回结果，但图片插入错误时触发
+        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
     },
     error: function (xhr, editor) {
-        // 请求发生错误
+        // 图片上传出错时触发
+        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
     },
     timeout: function (xhr, editor) {
-        // 请求超时
+        // 图片上传超时时触发
+        // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+    },
+
+    // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+    customInsert: function (insertImg, result, editor) {
+        // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
+        // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
+
+        // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
+        var url = result.url
+        insertImg(url)
     }
 }
 ```

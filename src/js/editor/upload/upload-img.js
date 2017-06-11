@@ -3,6 +3,7 @@
 */
 
 import { objForEach, arrForEach, percentFormat } from '../../util/util.js'
+import Progress from './progress.js'
 
 // 构造函数
 function UploadImg(editor) {
@@ -60,8 +61,10 @@ UploadImg.prototype = {
         const config = editor.config
         const maxSize = config.uploadImgMaxSize
         const maxSizeM = maxSize / 1000 / 1000
+        const maxLength = config.uploadImgMaxLength || 10000
         let uploadImgServer = config.uploadImgServer
         const uploadImgShowBase64 = config.uploadImgShowBase64
+        const uploadFileName = config.uploadFileName || ''
         const uploadImgParams = config.uploadImgParams || {}
         const uploadImgHeaders = config.uploadImgHeaders || {}
         const hooks = config.uploadImgHooks || {}
@@ -96,10 +99,16 @@ UploadImg.prototype = {
             this._alert('图片验证未通过: \n' + errInfo.join('\n'))
             return
         }
+        if (resultFiles.length > maxLength) {
+            this._alert('一次最多上传' + maxLength + '张图片')
+            return
+        }
+
         // 添加图片数据
         const formdata = new FormData()
         arrForEach(resultFiles, file => {
-            formdata.append(file.name, file)
+            const name = uploadFileName || file.name
+            formdata.append(name, file)
         })
 
         // ------------------------------ 上传图片 ------------------------------
@@ -109,19 +118,26 @@ UploadImg.prototype = {
             uploadImgServer = uploadImgServerArr[0]
             const uploadImgServerHash = uploadImgServerArr[1] || ''
             objForEach(uploadImgParams, (key, val) => {
+                val = encodeURIComponent(val)
+
+                // 第一，将参数拼接到 url 中
                 if (uploadImgServer.indexOf('?') > 0) {
                     uploadImgServer += '&'
                 } else {
                     uploadImgServer += '?'
                 }
-                uploadImgServer += key + '=' + encodeURIComponent(val)
+                uploadImgServer = uploadImgServer + key + '=' + val
+
+                // 第二，将参数添加到 formdata 中
+                formdata.append(key, val)
             })
             if (uploadImgServerHash) {
-                uploadImgServer += uploadImgServerHash
+                uploadImgServer += '#' + uploadImgServerHash
             }
 
             // 定义 xhr
             const xhr = new XMLHttpRequest()
+            xhr.open('POST', uploadImgServer)
 
             // 设置超时
             xhr.timeout = timeout
@@ -138,14 +154,11 @@ UploadImg.prototype = {
             if (xhr.upload) {
                 xhr.upload.onprogress = e => {
                     let percent
+                    // 进度条
+                    const progressBar = new Progress(editor)
                     if (e.lengthComputable) {
                         percent = e.loaded / e.total
-                        editor.bar.show( '上传进度: ' + percentFormat(percent) )
-                        if (percent === 1) {
-                            setTimeout(() => {
-                                editor.bar.hide()
-                            }, 1000)
-                        }
+                        progressBar.show(percent)
                     }
                 }
             }
@@ -188,10 +201,16 @@ UploadImg.prototype = {
                         // 数据错误
                         this._alert('上传图片失败', '上传图片返回结果错误，返回结果 errno=' + result.errno)
                     } else {
-                        const data = result.data || []
-                        data.forEach(link => {
-                            this.insertLinkImg(link)
-                        })
+                        if (hooks.customInsert && typeof hooks.customInsert === 'function') {
+                            // 使用者自定义插入方法
+                            hooks.customInsert(this.insertLinkImg.bind(this), result, editor)
+                        } else {
+                            // 将图片插入编辑器
+                            const data = result.data || []
+                            data.forEach(link => {
+                                this.insertLinkImg(link)
+                            })
+                        }
 
                         // hook - success
                         if (hooks.success && typeof hooks.success === 'function') {
@@ -205,8 +224,6 @@ UploadImg.prototype = {
             if (hooks.before && typeof hooks.before === 'function') {
                 hooks.before(xhr, editor, resultFiles)
             }
-
-            xhr.open('POST', uploadImgServer)
 
             // 自定义 headers
             objForEach(uploadImgHeaders, (key, val) => {

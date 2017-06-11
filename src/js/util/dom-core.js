@@ -293,7 +293,7 @@ DomElement.prototype = {
                 elem.remove()
             } else {
                 const parent = elem.parentElement
-                parent.removeChild(elem)
+                parent && parent.removeChild(elem)
             }
         })
     },

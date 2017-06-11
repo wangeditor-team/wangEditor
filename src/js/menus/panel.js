@@ -27,6 +27,7 @@ Panel.prototype = {
         }
 
         const editor = menu.editor
+        const $body = $('body')
         const $textContainerElem = editor.$textContainerElem
         const opt = this.opt
 
@@ -36,6 +37,13 @@ Panel.prototype = {
         $container.css('width', width + 'px')
                 .css('margin-left', (0 - width)/2 + 'px')
 
+        // 添加关闭按钮
+        const $closeBtn = $('<i class="w-e-icon-close w-e-panel-close"></i>')
+        $container.append($closeBtn)
+        $closeBtn.on('click', () => {
+            this.hide()
+        })
+
         // 准备 tabs 容器
         const $tabTitleContainer = $('<ul class="w-e-panel-tab-title"></ul>')
         const $tabContentContainer = $('<div class="w-e-panel-tab-content"></div>')
@@ -44,7 +52,7 @@ Panel.prototype = {
         // 设置高度
         const height = opt.height
         if (height) {
-            $tabContentContainer.css('height', height + 'px').css('overflow-y', 'scroll')
+            $tabContentContainer.css('height', height + 'px').css('overflow-y', 'auto')
         }
         
         // tabs
@@ -103,7 +111,7 @@ Panel.prototype = {
             // 点击时阻止冒泡
             e.stopPropagation()
         })
-        $textContainerElem.on('click', e => {
+        $body.on('click', e => {
             this.hide()
         })
 
