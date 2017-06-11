@@ -16,11 +16,10 @@
 
 上线
 
-- 修改`package.json`版本，修改 unpkg 链接中的版本（文档中有两处）
+- 修改`package.json`版本，修改 unpkg 链接中的版本（文档中有两处）修改`in-react`和`in-vue`中的`wangeditor`版本
 - 提交到github，并创建tag
 - 提交到 npm
 - 同步到官网
-- 同步到 bootcdn
 - 更新文档
 - 文档同步到 kancloud
 - ……

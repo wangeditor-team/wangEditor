@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "vue": "^2.3.3",
-    "wangeditor": "^3.0.0"
+    "wangeditor": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
