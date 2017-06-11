@@ -1,13 +1,8 @@
-# 当前遗留的一些问题
+# 问题记录
 
-- 删除掉`./release`之后，执行`npm run release`会报错，原因是`fonts`文件没拷贝全，就要去替换`css`中的字体文件为`base64`格式，导致找不到文件。
-- 针对编辑区域的`max-height`和`min-height`做一些处理，而且和全屏还不能通用
-- 先点击'B'再输入内容这种形式，前期先支持 webkit 和 IE，火狐的支持后面再加上
-- 公式
-- 图片压缩 canvas https://github.com/think2011/localResizeIMG 
-- github 徽章
+## 版本修复
 
-下次发布解决的问题
+### v3.0.1 
 
 - [done] 如何设置自动增加高度（补充文档）
 - [done] src/js/editor/Bar 改为 Progress，仅供上传图片使用
@@ -26,6 +21,8 @@
 - [done] onchange
 - [done] IE11下面一直报错。并且表格无法正常使用
 
+### 下次版本修复的问题
+
 - 用 onchange 完善 vue react 的 demo
 - React-demo运行在IE11会卡顿，表格加载不出来
 - 插入图片只有，光标移动到图片的前面，然后回车，图片消失，并且不能撤销
@@ -33,6 +30,12 @@
 - IE 中粘贴的问题
 - IE 中无法实现“引用”功能
 
-**IE11下有许多操作和显示的问题，优先解决**
+## 待排期
 
-项目徽章 https://github.com/EyreFree/GitHubBadgeIntroduction
+- 删除掉`./release`之后，执行`npm run release`会报错，原因是`fonts`文件没拷贝全，就要去替换`css`中的字体文件为`base64`格式，导致找不到文件。
+- 针对编辑区域的`max-height`和`min-height`做一些处理，而且和全屏还不能通用
+- 先点击'B'再输入内容这种形式，前期先支持 webkit 和 IE，火狐的支持后面再加上
+- 公式
+- 图片压缩 canvas https://github.com/think2011/localResizeIMG 
+- github 徽章 https://github.com/EyreFree/GitHubBadgeIntroduction
+
