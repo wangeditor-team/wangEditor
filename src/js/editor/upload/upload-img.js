@@ -192,7 +192,7 @@ UploadImg.prototype = {
                             return
                         }
                     }
-                    if (result.errno != '0') {
+                    if (retult.errno && result.errno != '0') {
                         // hook - fail
                         if (hooks.fail && typeof hooks.fail === 'function') {
                             hooks.fail(xhr, editor, result)
