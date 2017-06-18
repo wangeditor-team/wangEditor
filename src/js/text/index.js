@@ -34,6 +34,9 @@ Text.prototype = {
             return $textElem.html()
         } else {
             $textElem.html(val)
+
+            // 初始化选取，将光标定位到内容尾部
+            editor.initSelection()
         }
     },
 
@@ -45,6 +48,9 @@ Text.prototype = {
             return $textElem.text()
         } else {
             $textElem.text(`<p>${val}</p>`)
+
+            // 初始化选取，将光标定位到内容尾部
+            editor.initSelection()
         }
     },
 
@@ -53,6 +59,9 @@ Text.prototype = {
         const editor = this.editor
         const $textElem = editor.$textElem
         $textElem.append($(html))
+
+        // 初始化选取，将光标定位到内容尾部
+        editor.initSelection()
     },
 
     // 绑定事件
@@ -117,6 +126,7 @@ Text.prototype = {
             const nodeName = $selectionElem.getNodeName()
             if (nodeName === 'P') {
                 // 当前的标签是 P ，不用做处理
+                return
             }
 
             if ($selectionElem.text()) {

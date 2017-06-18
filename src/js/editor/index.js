@@ -34,11 +34,21 @@ function Editor(toolbarSelector, textSelector) {
 Editor.prototype = {
     constructor: Editor,
 
+    // 初始化配置
+    _initConfig: function () {
+        // _config 是默认配置，this.customConfig 是用户自定义配置，将它们 merge 之后再赋值
+        let target = {}
+        this.config = Object.assign(target, _config, this.customConfig)
+    },
+
     // 初始化 DOM
     _initDom: function () {
         const toolbarSelector = this.toolbarSelector
         const $toolbarSelector = $(toolbarSelector)
         const textSelector = this.textSelector
+
+        const config = this.config
+        const zIndex = config.zIndex || '10000'
 
         // 定义变量
         let $toolbarElem, $textContainerElem, $textElem, $children
@@ -87,6 +97,7 @@ Editor.prototype = {
         // 设置通用的 class
         $toolbarElem.addClass('w-e-toolbar')
         $textContainerElem.addClass('w-e-text-container')
+        $textContainerElem.css('z-index', zIndex)
         $textElem.addClass('w-e-text')
 
         // 记录属性
@@ -101,13 +112,6 @@ Editor.prototype = {
         $toolbarElem.on('click', function () {
             this.change &&  this.change()
         })
-    },
-
-    // 初始化配置
-    _initConfig: function () {
-        // _config 是默认配置，this.customConfig 是用户自定义配置，将它们 merge 之后再赋值
-        let target = {}
-        this.config = Object.assign(target, _config, this.customConfig)
     },
 
     // 封装 command
@@ -137,14 +141,14 @@ Editor.prototype = {
         this.txt.init()
     },
 
-    // 初始化选区
-    _initSelection: function () {
+    // 初始化选区，将光标定位到内容尾部
+    initSelection: function () {
         const $textElem = this.$textElem
         const $children = $textElem.children()
         if (!$children.length) {
             // 如果编辑器区域无内容，添加一个空行，重新设置选区
             $textElem.append($('<p><br></p>'))
-            this._initSelection()
+            this.initSelection()
             return
         }
 
@@ -154,7 +158,7 @@ Editor.prototype = {
         if ((html !== '<br>' && html !== '<br\/>') || nodeName !== 'P') {
             // 最后一个元素不是 <p><br></p>，添加一个空行，重新设置选区
             $textElem.append($('<p><br></p>'))
-            this._initSelection()
+            this.initSelection()
             return
         }
 
@@ -196,11 +200,11 @@ Editor.prototype = {
 
     // 创建编辑器
     create: function () {
-        // 初始化 DOM
-        this._initDom()
-
         // 初始化配置信息
         this._initConfig()
+
+        // 初始化 DOM
+        this._initDom()
 
         // 封装 command API
         this._initCommand()
@@ -217,8 +221,8 @@ Editor.prototype = {
         // 添加 图片上传
         this._initUploadImg()
 
-        // 初始化选区
-        this._initSelection()
+        // 初始化选区，将光标定位到内容尾部
+        this.initSelection()
 
         // 绑定事件
         this._bindEvent()

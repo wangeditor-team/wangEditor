@@ -26,6 +26,9 @@ const config = {
         'redo'
     ],
 
+    // 编辑区域的 z-index
+    zIndex: 10000,
+
     // 是否开启 debug 模式（debug 模式下错误会 throw error 形式抛出）
     debug: false,
 
@@ -72,8 +75,9 @@ const config = {
     // 上传图片 hook 
     uploadImgHooks: {
         // customInsert: function (insertLinkImg, result, editor) {
+        //     console.log('customInsert')
         //     // 图片上传并返回结果，自定义插入图片的事件，而不是编辑器自动插入图片
-        //     const data = result.data || []
+        //     const data = result.data1 || []
         //     data.forEach(link => {
         //         insertLinkImg(link)
         //     })

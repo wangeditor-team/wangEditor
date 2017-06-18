@@ -21,14 +21,23 @@
 - [done] onchange
 - [done] IE11下面一直报错。并且表格无法正常使用
 
-### 下次版本修复的问题
+### v3.0.2
 
-- 用 onchange 完善 vue react 的 demo
+- [done] 用 onchange 完善 vue react 的 demo
+- [done] 插入图片之后，光标移动到图片的前面，然后回车，图片消失，并且不能撤销
+- [done] 修复上传图片 customInsert 无效的bug
+- [done] 编辑区域 z-index 可配置
+- [done] 上传图片不应该把状态码限制在 200，而是 2xx
+- [done] editor.txt.html() 之后，没有定位光标位置
+
+### 下次发版解决
+
 - React-demo运行在IE11会卡顿，表格加载不出来
-- 插入图片只有，光标移动到图片的前面，然后回车，图片消失，并且不能撤销
+- list undo redo 有问题
 - widows 下 word excel 的粘贴，存在垃圾数据
 - IE 中粘贴的问题
 - IE 中无法实现“引用”功能
+- IE 中输入多行代码有报错
 
 ## 待排期
 

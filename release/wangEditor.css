@@ -332,7 +332,6 @@
 
 .w-e-text-container {
   position: relative;
-  z-index: 10000;
 }
 .w-e-text-container .w-e-progress {
   position: absolute;

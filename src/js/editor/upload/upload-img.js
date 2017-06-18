@@ -166,8 +166,8 @@ UploadImg.prototype = {
             // 返回数据
             xhr.onreadystatechange = () => {
                 let result
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    if (xhr.status !== 200) {
+                if (xhr.readyState === 4) {
+                    if (xhr.status < 200 || xhr.status >= 300) {
                         // hook - error
                         if (hooks.error && typeof hooks.error === 'function') {
                             hooks.error(xhr, editor)
@@ -192,7 +192,7 @@ UploadImg.prototype = {
                             return
                         }
                     }
-                    if (result.errno != '0') {
+                    if (!hooks.customInsert && result.errno != '0') {
                         // hook - fail
                         if (hooks.fail && typeof hooks.fail === 'function') {
                             hooks.fail(xhr, editor, result)
