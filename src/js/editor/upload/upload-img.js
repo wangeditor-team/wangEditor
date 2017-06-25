@@ -80,6 +80,12 @@ UploadImg.prototype = {
         arrForEach(files, file => {
             var name = file.name
             var size = file.size
+
+            // chrome 低版本 name === undefined
+            if (!name || !size) {
+                return
+            }
+
             if (/\.(jpg|jpeg|png|bmp|gif)$/i.test(name) === false) {
                 // 后缀名不合法，不是图片
                 errInfo.push(`【${name}】不是图片`)

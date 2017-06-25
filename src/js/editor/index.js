@@ -48,7 +48,7 @@ Editor.prototype = {
         const textSelector = this.textSelector
 
         const config = this.config
-        const zIndex = config.zIndex || '10000'
+        const zIndex = config.zIndex
 
         // 定义变量
         let $toolbarElem, $textContainerElem, $textElem, $children
@@ -142,7 +142,7 @@ Editor.prototype = {
     },
 
     // 初始化选区，将光标定位到内容尾部
-    initSelection: function () {
+    initSelection: function (newLine) {
         const $textElem = this.$textElem
         const $children = $textElem.children()
         if (!$children.length) {
@@ -153,16 +153,20 @@ Editor.prototype = {
         }
 
         const $last = $children.last()
-        const html = $last.html().toLowerCase()
-        const nodeName = $last.getNodeName()
-        if ((html !== '<br>' && html !== '<br\/>') || nodeName !== 'P') {
-            // 最后一个元素不是 <p><br></p>，添加一个空行，重新设置选区
-            $textElem.append($('<p><br></p>'))
-            this.initSelection()
-            return
+
+        if (newLine) {
+            // 新增一个空行
+            const html = $last.html().toLowerCase()
+            const nodeName = $last.getNodeName()
+            if ((html !== '<br>' && html !== '<br\/>') || nodeName !== 'P') {
+                // 最后一个元素不是 <p><br></p>，添加一个空行，重新设置选区
+                $textElem.append($('<p><br></p>'))
+                this.initSelection()
+                return
+            }
         }
 
-        this.selection.createRangeByElem($last, true)
+        this.selection.createRangeByElem($last, false, true)
         this.selection.restoreSelection()
     },
 
@@ -222,7 +226,7 @@ Editor.prototype = {
         this._initUploadImg()
 
         // 初始化选区，将光标定位到内容尾部
-        this.initSelection()
+        this.initSelection(true)
 
         // 绑定事件
         this._bindEvent()

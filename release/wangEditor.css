@@ -171,7 +171,6 @@
 }
 .w-e-toolbar .w-e-menu {
   position: relative;
-  z-index: 10001;
   text-align: center;
   padding: 5px 10px;
   cursor: pointer;

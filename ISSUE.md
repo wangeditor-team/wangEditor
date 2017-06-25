@@ -30,8 +30,16 @@
 - [done] 上传图片不应该把状态码限制在 200，而是 2xx
 - [done] editor.txt.html() 之后，没有定位光标位置
 
-### 下次发版解决
+### v3.0.3
 
+- [done] 粘贴图片在低版本的谷歌浏览器中无法使用，提示验证图片未通过，undefined不是图片。
+- [done] 动态赋值内容，会自动换行，因为给自动加了`<p><br></p>`
+- [done] 不选中任何内容，点击“加粗”报错：Failed to execute 'setEnd' on 'Range' 
+- [done] toolbar 小图标的 z-index 可配置
+
+### 下次版本解决
+
+- 如何支持七牛云存储？如何让用户自定义上传的事件？
 - React-demo运行在IE11会卡顿，表格加载不出来
 - list undo redo 有问题
 - widows 下 word excel 的粘贴，存在垃圾数据

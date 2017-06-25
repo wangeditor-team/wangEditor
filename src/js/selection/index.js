@@ -137,18 +137,22 @@ API.prototype = {
             return
         }
 
-        // 目前只支持 webkit 内核
-        if (UA.isWebkit()) {
-            // 插入 &#8203
-            editor.cmd.do('insertHTML', '&#8203;')
-            // 修改 offset 位置
-            range.setEnd(range.endContainer, range.endOffset + 1)
-            // 存储
-            this.saveRange(range)
-        } else {
-            $elem = $('<strong>&#8203;</strong>')
-            editor.cmd.do('insertElem', $elem)
-            this.createRangeByElem($elem, true)
+        try {
+            // 目前只支持 webkit 内核
+            if (UA.isWebkit()) {
+                // 插入 &#8203
+                editor.cmd.do('insertHTML', '&#8203;')
+                // 修改 offset 位置
+                range.setEnd(range.endContainer, range.endOffset + 1)
+                // 存储
+                this.saveRange(range)
+            } else {
+                $elem = $('<strong>&#8203;</strong>')
+                editor.cmd.do('insertElem', $elem)
+                this.createRangeByElem($elem, true)
+            }
+        } catch (ex) {
+            // 部分情况下会报错，兼容一下
         }
     },
 
