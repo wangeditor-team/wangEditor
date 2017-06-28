@@ -27,7 +27,7 @@ UploadImg.prototype = {
     },
 
     // 根据链接插入图片
-    insertLinkImg: function (link) {
+    insertLinkImg: function (link, customAttrs) {
         if (!link) {
             return
         }
