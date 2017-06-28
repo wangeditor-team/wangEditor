@@ -31,12 +31,17 @@ UploadImg.prototype = {
         if (!link) {
             return
         }
+        var customAttrStr = ''
+        for(var oneAttr in customAttrs)
+        {
+            customAttrStr += `${oneAttr}="${customAttrs[oneAttr]}" `
+        }
         const editor = this.editor
 
         let img = document.createElement('img')
         img.onload = () => {
             img = null
-            editor.cmd.do('insertHTML', `<img src="${link}" style="max-width:100%;"/>`)
+            editor.cmd.do('insertHTML', `<img src="${link}" style="max-width:100%" ${customAttrStr}/>`)
         }
         img.onerror = () => {
             img = null
