@@ -19,7 +19,6 @@
 - 修改`package.json`版本
 - 提交到github，并创建tag
 - 提交到 npm
-- 同步到官网 min.js
 - 更新 .md 文档
 - 文档同步到 kancloud
 - ……
