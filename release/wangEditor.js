@@ -504,6 +504,16 @@ var config = {
     // 默认菜单配置
     menus: ['head', 'bold', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'video', 'code', 'undo', 'redo'],
 
+    // // 语言配置
+    // lang: {
+    //     '设置标题': 'title',
+    //     '正文': 'p',
+    //     '链接文字': 'link text',
+    //     '链接': 'link',
+    //     '插入': 'insert',
+    //     '创建': 'init'
+    // },
+
     // 编辑区域的 z-index
     zIndex: 10000,
 
@@ -576,6 +586,7 @@ var config = {
             // 图片上传超时时触发
         }
     }
+
 };
 
 /*
@@ -696,6 +707,28 @@ Bold.prototype = {
 };
 
 /*
+    替换多语言
+ */
+
+var replaceLang = function (editor, str) {
+    var langArgs = editor.config.langArgs || [];
+    var result = str;
+
+    langArgs.forEach(function (item) {
+        var reg = item.reg;
+        var val = item.val;
+
+        if (reg.test(result)) {
+            result = result.replace(reg, function () {
+                return val;
+            });
+        }
+    });
+
+    return result;
+};
+
+/*
     droplist
 */
 var _emptyFn = function _emptyFn() {};
@@ -705,6 +738,7 @@ function DropList(menu, opt) {
     var _this = this;
 
     // droplist 所依附的菜单
+    var editor = menu.editor;
     this.menu = menu;
     this.opt = opt;
     // 容器
@@ -712,7 +746,13 @@ function DropList(menu, opt) {
 
     // 标题
     var $title = opt.$title;
+    var titleHtml = void 0;
     if ($title) {
+        // 替换多语言
+        titleHtml = $title.html();
+        titleHtml = replaceLang(editor, titleHtml);
+        $title.html(titleHtml);
+
         $title.addClass('w-e-dp-title');
         $container.append($title);
     }
@@ -726,6 +766,12 @@ function DropList(menu, opt) {
     $container.append($list);
     list.forEach(function (item) {
         var $elem = item.$elem;
+
+        // 替换多语言
+        var elemHtml = $elem.html();
+        elemHtml = replaceLang(editor, elemHtml);
+        $elem.html(elemHtml);
+
         var value = item.value;
         var $li = $('<li class="w-e-item"></li>');
         if ($elem) {
@@ -929,6 +975,10 @@ Panel.prototype = {
             }
             var title = tab.title || '';
             var tpl = tab.tpl || '';
+
+            // 替换多语言
+            title = replaceLang(editor, title);
+            tpl = replaceLang(editor, tpl);
 
             // 添加到 DOM
             var $title = $('<li class="w-e-item">' + title + '</li>');
@@ -2465,7 +2515,7 @@ Image.prototype = {
 
         // 判断 tabs 的显示
         var tabsConfigResult = [];
-        if ((config.uploadImgShowBase64 || config.uploadImgServer) && window.FileReader) {
+        if ((config.uploadImgShowBase64 || config.uploadImgServer || config.customUploadImg) && window.FileReader) {
             // 显示“上传图片”
             tabsConfigResult.push(tabsConfig[0]);
         }
@@ -3487,11 +3537,16 @@ UploadImg.prototype = {
     _alert: function _alert(alertInfo, debugInfo) {
         var editor = this.editor;
         var debug = editor.config.debug;
+        var customAlert = editor.config.customAlert;
 
         if (debug) {
             throw new Error('wangEditor: ' + (debugInfo || alertInfo));
         } else {
-            alert(alertInfo);
+            if (customAlert && typeof customAlert === 'function') {
+                customAlert(alertInfo);
+            } else {
+                alert(alertInfo);
+            }
         }
     },
 
@@ -3546,6 +3601,7 @@ UploadImg.prototype = {
         if (withCredentials == null) {
             withCredentials = false;
         }
+        var customUploadImg = config.customUploadImg;
 
         // ------------------------------ 验证文件信息 ------------------------------
         var resultFiles = [];
@@ -3580,6 +3636,14 @@ UploadImg.prototype = {
         }
         if (resultFiles.length > maxLength) {
             this._alert('一次最多上传' + maxLength + '张图片');
+            return;
+        }
+
+        // ------------------------------ 自定义上传 ------------------------------
+        if (customUploadImg && typeof customUploadImg === 'function') {
+            customUploadImg(resultFiles, this.insertLinkImg.bind(this));
+
+            // 阻止以下代码执行
             return;
         }
 
@@ -3719,7 +3783,7 @@ UploadImg.prototype = {
             return;
         }
 
-        // 显示 base64 格式
+        // ------------------------------ 显示 base64 格式 ------------------------------
         if (uploadImgShowBase64) {
             arrForEach(files, function (file) {
                 var _this = _this3;
@@ -3765,6 +3829,20 @@ Editor.prototype = {
         // _config 是默认配置，this.customConfig 是用户自定义配置，将它们 merge 之后再赋值
         var target = {};
         this.config = Object.assign(target, config, this.customConfig);
+
+        // 将语言配置，生成正则表达式
+        var langConfig = this.config.lang || {};
+        var langArgs = [];
+        objForEach(langConfig, function (key, val) {
+            // key 即需要生成正则表达式的规则，如“插入链接”
+            // val 即需要被替换成的语言，如“insert link”
+            langArgs.push({
+                reg: new RegExp(key, 'img'),
+                val: val
+
+            });
+        });
+        this.config.langArgs = langArgs;
     },
 
     // 初始化 DOM

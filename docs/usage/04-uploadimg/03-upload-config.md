@@ -149,3 +149,28 @@ editor.customConfig.uploadImgHooks = {
     }
 }
 ```
+
+## 自定义提示方法
+
+上传图片的错误提示默认使用`alert`弹出，你也可以自定义用户体验更好的提示方式
+
+```javascript
+editor.customConfig.customAlert = function (info) {
+    // info 是需要提示的内容
+    alert('自定义提示：' + info)
+}
+```
+
+## 自定义上传图片事件
+
+如果想完全自己控制图片上传的过程，可以使用如下代码
+
+```javascript
+editor.customConfig.customUploadImg = function (files, insert) {
+    // files 是 input 中选中的文件列表
+    // insert 是获取图片 url 后，插入到编辑器的方法
+
+    // 上传代码返回结果之后，将图片插入到编辑器中
+    insert(imgUrl)
+}
+```

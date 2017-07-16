@@ -2,12 +2,14 @@
     droplist
 */
 import $ from '../util/dom-core.js'
+import replaceLang from '../util/replace-lang.js'
 
 const _emptyFn = () => {}
 
 // 构造函数
 function DropList(menu, opt) {
     // droplist 所依附的菜单
+    const editor = menu.editor
     this.menu = menu
     this.opt = opt
     // 容器
@@ -15,7 +17,13 @@ function DropList(menu, opt) {
 
     // 标题
     const $title = opt.$title
+    let titleHtml
     if ($title) {
+        // 替换多语言
+        titleHtml = $title.html()
+        titleHtml = replaceLang(editor, titleHtml)
+        $title.html(titleHtml)
+
         $title.addClass('w-e-dp-title')
         $container.append($title)
     }
@@ -29,6 +37,12 @@ function DropList(menu, opt) {
     $container.append($list)
     list.forEach(item => {
         const $elem = item.$elem
+
+        // 替换多语言
+        let elemHtml = $elem.html()
+        elemHtml = replaceLang(editor, elemHtml)
+        $elem.html(elemHtml)
+
         const value = item.value
         const $li = $('<li class="w-e-item"></li>')
         if ($elem) {

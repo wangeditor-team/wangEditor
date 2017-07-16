@@ -9,7 +9,7 @@ import Text from '../text/index.js'
 import Command from '../command/index.js'
 import selectionAPI from '../selection/index.js'
 import UploadImg from './upload/upload-img.js'
-import { arrForEach } from '../util/util.js'
+import { arrForEach, objForEach } from '../util/util.js'
 
 // id，累加
 let editorId = 1
@@ -39,6 +39,20 @@ Editor.prototype = {
         // _config 是默认配置，this.customConfig 是用户自定义配置，将它们 merge 之后再赋值
         let target = {}
         this.config = Object.assign(target, _config, this.customConfig)
+
+        // 将语言配置，生成正则表达式
+        const langConfig = this.config.lang || {}
+        const langArgs = []
+        objForEach(langConfig, (key, val) => {
+            // key 即需要生成正则表达式的规则，如“插入链接”
+            // val 即需要被替换成的语言，如“insert link”
+            langArgs.push({
+                reg: new RegExp(key, 'img'),
+                val: val
+
+            })
+        })
+        this.config.langArgs = langArgs
     },
 
     // 初始化 DOM

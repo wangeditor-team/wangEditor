@@ -26,6 +26,16 @@ const config = {
         'redo'
     ],
 
+    // // 语言配置
+    // lang: {
+    //     '设置标题': 'title',
+    //     '正文': 'p',
+    //     '链接文字': 'link text',
+    //     '链接': 'link',
+    //     '插入': 'insert',
+    //     '创建': 'init'
+    // },
+
     // 编辑区域的 z-index
     zIndex: 10000,
 
@@ -97,7 +107,19 @@ const config = {
         timeout: function (xhr, editor) {
             // 图片上传超时时触发
         }
-    }
+    },
+
+    // 上传图片自定义提示方法
+    // customAlert: function (info) {
+    //     // 自定义上传提示
+    // },
+    
+    // // 自定义上传图片
+    // customUploadImg: function (files, insert) {
+    //     // files 是 input 中选中的文件列表
+    //     // insert 是获取图片 url 后，插入到编辑器的方法
+    //     insert(imgUrl)
+    // }
 }
 
 export default config

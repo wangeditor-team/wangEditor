@@ -3,6 +3,7 @@
 */
 
 import $ from '../util/dom-core.js'
+import replaceLang from '../util/replace-lang.js'
 const emptyFn = () => {}
 
 // 记录已经显示 panel 的菜单
@@ -63,8 +64,12 @@ Panel.prototype = {
             if (!tab) {
                 return
             }
-            const title = tab.title || ''
-            const tpl = tab.tpl || ''
+            let title = tab.title || ''
+            let tpl = tab.tpl || ''
+
+            // 替换多语言
+            title = replaceLang(editor, title)
+            tpl = replaceLang(editor, tpl)
 
             // 添加到 DOM
             const $title = $(`<li class="w-e-item">${title}</li>`)

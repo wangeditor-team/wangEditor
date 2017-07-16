@@ -15,6 +15,11 @@
         <p>欢迎使用 wangEditor 富文本编辑器</p>
     </div>
 
+    <p>wangEditor 自定义上传图片</p>
+    <div id="div5">
+        <p>欢迎使用 wangEditor 富文本编辑器</p>
+    </div>
+
     <script type="text/javascript" src="/wangEditor.js"></script>
     <script type="text/javascript">
         var E = window.wangEditor
@@ -26,6 +31,13 @@
         var editor1 = new E('#div4')
         editor1.customConfig.uploadImgShowBase64 = true
         editor1.create()
+
+        var editor = new E('#div5')
+        editor.customConfig.customUploadImg = function (files, insert) {
+            console.log(files)
+            insert('https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png')
+        }
+        editor.create()
     </script>
 </body>
 </html>

@@ -37,15 +37,23 @@
 - [done] 不选中任何内容，点击“加粗”报错：Failed to execute 'setEnd' on 'Range' 
 - [done] toolbar 小图标的 z-index 可配置
 
+### v3.0.4
+
+- [done] 允许使用者通过`replace`实现多语言
+- [done] `_alert()`，可自定义配置提示框
+- [done] 支持用户自定义上传图片的事件，如用户要上传到七牛云、阿里云
+- 代码块中，最后一行如果是空行，回车要跳出代码块。
+
 ### 下次版本解决
 
-- 如何支持七牛云存储？如何让用户自定义上传的事件？
 - React-demo运行在IE11会卡顿，表格加载不出来
 - list undo redo 有问题
 - widows 下 word excel 的粘贴，存在垃圾数据
 - IE 中粘贴的问题
 - IE 中无法实现“引用”功能
 - IE 中输入多行代码有报错
+- 调研 safari、IE 和ff中粘贴图片  https://github.com/wangfupeng1988/wangEditor/issues/831
+
 
 ## 待排期
 

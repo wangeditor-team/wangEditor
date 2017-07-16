@@ -208,7 +208,7 @@ Image.prototype = {
 
         // 判断 tabs 的显示
         const tabsConfigResult = []
-        if ((config.uploadImgShowBase64 || config.uploadImgServer) && window.FileReader) {
+        if ((config.uploadImgShowBase64 || config.uploadImgServer || config.customUploadImg) && window.FileReader) {
             // 显示“上传图片”
             tabsConfigResult.push(tabsConfig[0])
         }

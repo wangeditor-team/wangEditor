@@ -3,6 +3,7 @@
 **/node_modules/*
 node_modules/*
 npm-debug.log
+example/upload-files
 
 # Windows image file caches
 Thumbs.db

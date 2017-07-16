@@ -18,11 +18,16 @@ UploadImg.prototype = {
     _alert: function (alertInfo, debugInfo) {
         const editor = this.editor
         const debug = editor.config.debug
+        const customAlert = editor.config.customAlert
 
         if (debug) {
             throw new Error('wangEditor: ' + (debugInfo || alertInfo))
         } else {
-            alert(alertInfo)
+            if (customAlert && typeof customAlert === 'function') {
+                customAlert(alertInfo)
+            } else {
+                alert(alertInfo)
+            }
         }
     },
 
@@ -73,6 +78,7 @@ UploadImg.prototype = {
         if (withCredentials == null) {
             withCredentials = false
         }
+        const customUploadImg = config.customUploadImg
 
         // ------------------------------ 验证文件信息 ------------------------------
         const resultFiles = []
@@ -107,6 +113,14 @@ UploadImg.prototype = {
         }
         if (resultFiles.length > maxLength) {
             this._alert('一次最多上传' + maxLength + '张图片')
+            return
+        }
+
+        // ------------------------------ 自定义上传 ------------------------------
+        if (customUploadImg && typeof customUploadImg === 'function') {
+            customUploadImg(resultFiles, this.insertLinkImg.bind(this))
+
+            // 阻止以下代码执行
             return
         }
 
@@ -246,7 +260,7 @@ UploadImg.prototype = {
             return
         }
 
-        // 显示 base64 格式
+        // ------------------------------ 显示 base64 格式 ------------------------------
         if (uploadImgShowBase64) {
             arrForEach(files, file => {
                 const _this = this
