@@ -1,0 +1,6 @@
+/* You can add global styles to this file, and also import other style files */
+
+.w-e-toolbar { display: block !important; }
+.w-e-toolbar .w-e-menu {  display: inline-block !important; }
+
+.w-e-text-container { height: 400px !important; }
