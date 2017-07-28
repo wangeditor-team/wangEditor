@@ -40,6 +40,14 @@ Head.prototype = {
     // 执行命令
     _command: function (value) {
         const editor = this.editor
+
+        const $selectionElem = editor.selection.getSelectionContainerElem()
+        if (editor.$textElem.equal($selectionElem)) {
+            // 不能选中多行来设置标题，否则会出现问题
+            // 例如选中的是 <p>xxx</p><p>yyy</p> 来设置标题，设置之后会成为 <h1>xxx<br>yyy</h1> 不符合预期
+            return
+        }
+
         editor.cmd.do('formatBlock', value)
     },
 

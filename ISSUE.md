@@ -43,20 +43,29 @@
 - [done] `_alert()`，可自定义配置提示框
 - [done] 支持用户自定义上传图片的事件，如用户要上传到七牛云、阿里云
 
+### v3.0.5
+
+- [done] 图片上传中，insertLinkImg 方法中，去掉 img.onload 之后再插入的逻辑吧，这样会打乱多个图片的顺序
+- [done] `<h>` 标签重叠问题，两行文字都是`h2`，然后将第一行选中设置为`h1`，结果是 `<h2><h1>测试1</h1>测试2</h2>`
+- [done] 补充 ng 集成的示例 https://github.com/wangfupeng1988/wangEditor/issues/859
+- [done] 菜单不能折叠的说明，加入到文档中
+- [done] 上传图片 before 函数中，增加一个判断，可以让用户终止图片的上传
+
 ### 下次版本解决
 
 - 代码块中，最后一行如果是空行，回车要跳出代码块。
-- React-demo运行在IE11会卡顿，表格加载不出来
 - list undo redo 有问题
 - widows 下 word excel 的粘贴，存在垃圾数据
 - IE 中粘贴的问题
 - IE 中无法实现“引用”功能
 - IE 中输入多行代码有报错
+- ff 图片粘贴问题：“我从网上黏贴的文字和图片，复制到编辑器里面，发现谷歌浏览器图片可以显示出来，但是火狐浏览器却不能显现”
 - 调研 safari、IE 和ff中粘贴图片  https://github.com/wangfupeng1988/wangEditor/issues/831
 
 
 ## 待排期
 
+- 图片调整大小，表格调整的方式，是否用 toolbar 的方式？
 - 删除掉`./release`之后，执行`npm run release`会报错，原因是`fonts`文件没拷贝全，就要去替换`css`中的字体文件为`base64`格式，导致找不到文件。
 - 针对编辑区域的`max-height`和`min-height`做一些处理，而且和全屏还不能通用
 - 先点击'B'再输入内容这种形式，前期先支持 webkit 和 IE，火狐的支持后面再加上

@@ -37,11 +37,12 @@ UploadImg.prototype = {
             return
         }
         const editor = this.editor
+        editor.cmd.do('insertHTML', `<img src="${link}" style="max-width:100%;"/>`)
 
+        // 验证图片 url 是否有效，无效的话给出提示
         let img = document.createElement('img')
         img.onload = () => {
             img = null
-            editor.cmd.do('insertHTML', `<img src="${link}" style="max-width:100%;"/>`)
         }
         img.onerror = () => {
             img = null
@@ -242,7 +243,14 @@ UploadImg.prototype = {
 
             // hook - before
             if (hooks.before && typeof hooks.before === 'function') {
-                hooks.before(xhr, editor, resultFiles)
+                const beforeResult = hooks.before(xhr, editor, resultFiles)
+                if (beforeResult && typeof beforeResult === 'object') {
+                    if (beforeResult.prevent) {
+                        // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+                        this._alert(beforeResult.msg)
+                        return
+                    }
+                }
             }
 
             // 自定义 headers

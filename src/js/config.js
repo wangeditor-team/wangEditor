@@ -94,6 +94,12 @@ const config = {
         // },
         before: function (xhr, editor, files) {
             // 图片上传之前触发
+
+            // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+            // return {
+            //     prevent: true,
+            //     msg: '放弃上传'
+            // }
         },
         success: function (xhr, editor, result) {
             // 图片上传并返回结果，图片插入成功之后触发

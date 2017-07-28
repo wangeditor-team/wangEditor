@@ -572,6 +572,12 @@ var config = {
         // },
         before: function before(xhr, editor, files) {
             // 图片上传之前触发
+
+            // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+            // return {
+            //     prevent: true,
+            //     msg: '放弃上传'
+            // }
         },
         success: function success(xhr, editor, result) {
             // 图片上传并返回结果，图片插入成功之后触发
@@ -889,6 +895,14 @@ Head.prototype = {
     // 执行命令
     _command: function _command(value) {
         var editor = this.editor;
+
+        var $selectionElem = editor.selection.getSelectionContainerElem();
+        if (editor.$textElem.equal($selectionElem)) {
+            // 不能选中多行来设置标题，否则会出现问题
+            // 例如选中的是 <p>xxx</p><p>yyy</p> 来设置标题，设置之后会成为 <h1>xxx<br>yyy</h1> 不符合预期
+            return;
+        }
+
         editor.cmd.do('formatBlock', value);
     },
 
@@ -3558,11 +3572,12 @@ UploadImg.prototype = {
             return;
         }
         var editor = this.editor;
+        editor.cmd.do('insertHTML', '<img src="' + link + '" style="max-width:100%;"/>');
 
+        // 验证图片 url 是否有效，无效的话给出提示
         var img = document.createElement('img');
         img.onload = function () {
             img = null;
-            editor.cmd.do('insertHTML', '<img src="' + link + '" style="max-width:100%;"/>');
         };
         img.onerror = function () {
             img = null;
@@ -3765,7 +3780,14 @@ UploadImg.prototype = {
 
             // hook - before
             if (hooks.before && typeof hooks.before === 'function') {
-                hooks.before(xhr, editor, resultFiles);
+                var beforeResult = hooks.before(xhr, editor, resultFiles);
+                if (beforeResult && (typeof beforeResult === 'undefined' ? 'undefined' : _typeof(beforeResult)) === 'object') {
+                    if (beforeResult.prevent) {
+                        // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+                        this._alert(beforeResult.msg);
+                        return;
+                    }
+                }
             }
 
             // 自定义 headers
