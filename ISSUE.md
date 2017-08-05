@@ -51,25 +51,30 @@
 - [done] 菜单不能折叠的说明，加入到文档中
 - [done] 上传图片 before 函数中，增加一个判断，可以让用户终止图片的上传
 
-### 下次版本解决
+### v3.0.6
 
-- 代码块中，最后一行如果是空行，回车要跳出代码块。
-- list undo redo 有问题
-- widows 下 word excel 的粘贴，存在垃圾数据
+- [done] src/fonts 中的字体文件名改一下，用 icomoon 容易发生冲突
+- [done] 将禁用编辑器的操作完善到文档中 https://www.kancloud.cn/wangfupeng/wangeditor3/368562
+- [done] 开放表格中的粘贴功能（之前因不明问题而封闭）
+- [done] 代码块中，光标定位到最后位置时，连续两次回车要跳出代码块
+
+### 近期计划解决
+
+- 选中图片和表格时，主动弹出编辑 panel（模拟菜单的click），而不是等着用户点击（这里注意如何让用户选择不再弹出，不重复弹出）
 - IE 中粘贴的问题
 - IE 中无法实现“引用”功能
 - IE 中输入多行代码有报错
-- ff 图片粘贴问题：“我从网上黏贴的文字和图片，复制到编辑器里面，发现谷歌浏览器图片可以显示出来，但是火狐浏览器却不能显现”
+- windows 下 word excel 的粘贴，存在垃圾数据
+- list undo redo 有问题。选中几行，先设置有序列表，再设置无序列表，然后撤销，就能复现问题
 - 调研 safari、IE 和ff中粘贴图片  https://github.com/wangfupeng1988/wangEditor/issues/831
+- 将代码在进行拆分，做到“每个程序只做一件事”，不要出现过长的代码文件。例如 `src/js/command/index.js` 和 `src/js/selection/index.js`
 
 
 ## 待排期
 
 - 图片调整大小，表格调整的方式，是否用 toolbar 的方式？
 - 删除掉`./release`之后，执行`npm run release`会报错，原因是`fonts`文件没拷贝全，就要去替换`css`中的字体文件为`base64`格式，导致找不到文件。
-- 针对编辑区域的`max-height`和`min-height`做一些处理，而且和全屏还不能通用
 - 先点击'B'再输入内容这种形式，前期先支持 webkit 和 IE，火狐的支持后面再加上
-- 公式
 - 图片压缩 canvas https://github.com/think2011/localResizeIMG 
 - github 徽章 https://github.com/EyreFree/GitHubBadgeIntroduction
 

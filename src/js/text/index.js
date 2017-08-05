@@ -171,12 +171,37 @@ Text.prototype = {
                 return
             }
 
+            // 处理：光标定位到代码末尾，联系点击两次回车，即跳出代码块
+            if (editor._willBreakCode === true) {
+                // 此时可以跳出代码块
+                // 插入 <p> ，并将选取定位到 <p>
+                const $p = $('<p><br></p>')
+                $p.insertAfter($parentElem)
+                editor.selection.createRangeByElem($p, true)
+                editor.selection.restoreSelection()
+
+                // 修改状态
+                editor._willBreakCode = false
+
+                e.preventDefault()
+                return
+            }
+
             const _startOffset = editor.selection.getRange().startOffset
+
+            // 处理：回车时，不能插入 <br> 而是插入 \n ，因为是在 pre 标签里面
             editor.cmd.do('insertHTML', '\n')
             editor.selection.saveRange()
             if (editor.selection.getRange().startOffset === _startOffset) {
                 // 没起作用，再来一遍
                 editor.cmd.do('insertHTML', '\n')
+            }
+
+            const codeLength = $selectionElem.html().length
+            if (editor.selection.getRange().startOffset + 1 === codeLength) {
+                // 说明光标在代码最后的位置，执行了回车操作
+                // 记录下来，以便下次回车时候跳出 code
+                editor._willBreakCode = true
             }
 
             // 阻止默认行为
@@ -186,6 +211,8 @@ Text.prototype = {
         $textElem.on('keydown', e => {
             if (e.keyCode !== 13) {
                 // 不是回车键
+                // 取消即将跳转代码块的记录
+                editor._willBreakCode = false
                 return
             }
             // <pre><code></code></pre> 回车时 特殊处理
@@ -261,10 +288,11 @@ Text.prototype = {
                 return
             }
 
-            // 表格中忽略，可能会出现异常问题
-            if (nodeName === 'TD' || nodeName === 'TH') {
-                return
-            }
+            // 先放开注释，有问题再追查 ————
+            // // 表格中忽略，可能会出现异常问题
+            // if (nodeName === 'TD' || nodeName === 'TH') {
+            //     return
+            // }
 
             if (nodeName === 'DIV' || $textElem.html() === '<p><br></p>') {
                 // 是 div，可粘贴过滤样式的文字和链接
