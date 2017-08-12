@@ -42,6 +42,9 @@ const config = {
     // 是否开启 debug 模式（debug 模式下错误会 throw error 形式抛出）
     debug: false,
 
+    // 粘贴过滤样式，默认开启
+    pasteFilterStyle: true,
+
     // onchange 事件
     // onchange: function (html) {
     //     // html 即变化之后的内容

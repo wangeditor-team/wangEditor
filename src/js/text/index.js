@@ -260,20 +260,20 @@ Text.prototype = {
     // 粘贴事件（粘贴文字 粘贴图片）
     _pasteHandle: function () {
         const editor = this.editor
+        const pasteFilterStyle = editor.config.pasteFilterStyle
         const $textElem = editor.$textElem
 
         // 粘贴文字
         $textElem.on('paste', e => {
             if (UA.isIE()) {
-                // IE 下放弃下面的判断
                 return
+            } else {
+                // 阻止默认行为，使用 execCommand 的粘贴命令
+                e.preventDefault()
             }
 
-            // 阻止默认行为，使用 execCommand 的粘贴命令
-            e.preventDefault()
-
             // 获取粘贴的文字
-            let pasteHtml = getPasteHtml(e)
+            let pasteHtml = getPasteHtml(e, pasteFilterStyle)
             let pasteText = getPasteText(e)
             pasteText = pasteText.replace(/\n/gm, '<br>')
 
@@ -294,8 +294,8 @@ Text.prototype = {
             //     return
             // }
 
-            if (nodeName === 'DIV' || $textElem.html() === '<p><br></p>') {
-                // 是 div，可粘贴过滤样式的文字和链接
+            if (nodeName === 'DIV' || $textElem.html() === '<p><br></p>' || !pasteFilterStyle) {
+                // 是 div，可粘贴过滤样式的文字和链接。另外，不过滤粘贴的样式，也可直接插入 HTML
                 if (!pasteHtml) {
                     return
                 }
@@ -319,7 +319,11 @@ Text.prototype = {
 
         // 粘贴图片
         $textElem.on('paste', e => {
-            e.preventDefault()
+            if (UA.isIE()) {
+                return
+            } else {
+                e.preventDefault()
+            }
 
             // 获取粘贴的图片
             const pasteFiles = getPasteImgs(e)

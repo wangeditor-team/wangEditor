@@ -20,7 +20,7 @@ export function getPasteText(e) {
 }
 
 // 获取粘贴的html
-export function getPasteHtml(e) {
+export function getPasteHtml(e, filterStyle) {
     const clipboardData = e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)
     let pasteText, pasteHtml
     if (clipboardData == null) {
@@ -45,8 +45,13 @@ export function getPasteHtml(e) {
     // 过滤无用标签
     pasteHtml = pasteHtml.replace(/<(meta|script|link).+?>/igm, '')
 
-    // 过滤样式
-    pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").+?('|")/igm, '')
+    if (filterStyle) {
+        // 过滤样式
+        pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").+?('|")/igm, '')
+    } else {
+        // 保留样式
+        pasteHtml = pasteHtml.replace(/\s?class=('|").+?('|")/igm, '')
+    }
 
     return pasteHtml
 }

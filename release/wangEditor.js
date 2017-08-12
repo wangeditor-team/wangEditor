@@ -520,6 +520,9 @@ var config = {
     // 是否开启 debug 模式（debug 模式下错误会 throw error 形式抛出）
     debug: false,
 
+    // 粘贴过滤样式，默认开启
+    pasteFilterStyle: true,
+
     // onchange 事件
     // onchange: function (html) {
     //     // html 即变化之后的内容
@@ -1595,10 +1598,10 @@ Justify.prototype = {
 };
 
 /*
-    menu - backcolor
+    menu - Forecolor
 */
 // 构造函数
-function BackColor(editor) {
+function ForeColor(editor) {
     var _this = this;
 
     this.editor = editor;
@@ -1615,15 +1618,15 @@ function BackColor(editor) {
         type: 'inline-block', // droplist 内容以 block 形式展示
         list: [{ $elem: $('<i style="color:#000000;" class="w-e-icon-pencil2"></i>'), value: '#000000' }, { $elem: $('<i style="color:#eeece0;" class="w-e-icon-pencil2"></i>'), value: '#eeece0' }, { $elem: $('<i style="color:#1c487f;" class="w-e-icon-pencil2"></i>'), value: '#1c487f' }, { $elem: $('<i style="color:#4d80bf;" class="w-e-icon-pencil2"></i>'), value: '#4d80bf' }, { $elem: $('<i style="color:#c24f4a;" class="w-e-icon-pencil2"></i>'), value: '#c24f4a' }, { $elem: $('<i style="color:#8baa4a;" class="w-e-icon-pencil2"></i>'), value: '#8baa4a' }, { $elem: $('<i style="color:#7b5ba1;" class="w-e-icon-pencil2"></i>'), value: '#7b5ba1' }, { $elem: $('<i style="color:#46acc8;" class="w-e-icon-pencil2"></i>'), value: '#46acc8' }, { $elem: $('<i style="color:#f9963b;" class="w-e-icon-pencil2"></i>'), value: '#f9963b' }, { $elem: $('<i style="color:#ffffff;" class="w-e-icon-pencil2"></i>'), value: '#ffffff' }],
         onClick: function onClick(value) {
-            // 注意 this 是指向当前的 BackColor 对象
+            // 注意 this 是指向当前的 ForeColor 对象
             _this._command(value);
         }
     });
 }
 
 // 原型
-BackColor.prototype = {
-    constructor: BackColor,
+ForeColor.prototype = {
+    constructor: ForeColor,
 
     // 执行命令
     _command: function _command(value) {
@@ -1633,10 +1636,10 @@ BackColor.prototype = {
 };
 
 /*
-    menu - forecolor
+    menu - BackColor
 */
 // 构造函数
-function ForeColor$1(editor) {
+function BackColor(editor) {
     var _this = this;
 
     this.editor = editor;
@@ -1653,15 +1656,15 @@ function ForeColor$1(editor) {
         type: 'inline-block', // droplist 内容以 block 形式展示
         list: [{ $elem: $('<i style="color:#000000;" class="w-e-icon-paint-brush"></i>'), value: '#000000' }, { $elem: $('<i style="color:#eeece0;" class="w-e-icon-paint-brush"></i>'), value: '#eeece0' }, { $elem: $('<i style="color:#1c487f;" class="w-e-icon-paint-brush"></i>'), value: '#1c487f' }, { $elem: $('<i style="color:#4d80bf;" class="w-e-icon-paint-brush"></i>'), value: '#4d80bf' }, { $elem: $('<i style="color:#c24f4a;" class="w-e-icon-paint-brush"></i>'), value: '#c24f4a' }, { $elem: $('<i style="color:#8baa4a;" class="w-e-icon-paint-brush"></i>'), value: '#8baa4a' }, { $elem: $('<i style="color:#7b5ba1;" class="w-e-icon-paint-brush"></i>'), value: '#7b5ba1' }, { $elem: $('<i style="color:#46acc8;" class="w-e-icon-paint-brush"></i>'), value: '#46acc8' }, { $elem: $('<i style="color:#f9963b;" class="w-e-icon-paint-brush"></i>'), value: '#f9963b' }, { $elem: $('<i style="color:#ffffff;" class="w-e-icon-paint-brush"></i>'), value: '#ffffff' }],
         onClick: function onClick(value) {
-            // 注意 this 是指向当前的 ForeColor 对象
+            // 注意 this 是指向当前的 BackColor 对象
             _this._command(value);
         }
     });
 }
 
 // 原型
-ForeColor$1.prototype = {
-    constructor: ForeColor$1,
+BackColor.prototype = {
+    constructor: BackColor,
 
     // 执行命令
     _command: function _command(value) {
@@ -1689,7 +1692,31 @@ Quote.prototype = {
 
     onClick: function onClick(e) {
         var editor = this.editor;
-        editor.cmd.do('formatBlock', '<BLOCKQUOTE>');
+        if (!UA.isIE()) {
+            editor.cmd.do('formatBlock', '<BLOCKQUOTE>');
+            return;
+        }
+
+        // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
+
+        var $selectionElem = editor.selection.getSelectionContainerElem();
+        var content = void 0,
+            $targetELem = void 0;
+        if ($selectionElem.getNodeName() === 'P') {
+            // 将 P 转换为 quote
+            content = $selectionElem.text();
+            $targetELem = $('<blockquote>' + content + '</blockquote>');
+            $targetELem.insertAfter($selectionElem);
+            $selectionElem.remove();
+            return;
+        }
+        if ($selectionElem.getNodeName() === 'BLOCKQUOTE') {
+            // 撤销 quote
+            content = $selectionElem.text();
+            $targetELem = $('<p>' + content + '</p>');
+            $targetELem.insertAfter($selectionElem);
+            $selectionElem.remove();
+        }
     },
 
     tryChangeActive: function tryChangeActive(e) {
@@ -2590,9 +2617,9 @@ MenuConstructors.list = List;
 
 MenuConstructors.justify = Justify;
 
-MenuConstructors.foreColor = BackColor;
+MenuConstructors.foreColor = ForeColor;
 
-MenuConstructors.backColor = ForeColor$1;
+MenuConstructors.backColor = BackColor;
 
 MenuConstructors.quote = Quote;
 
@@ -2747,7 +2774,7 @@ function getPasteText(e) {
 }
 
 // 获取粘贴的html
-function getPasteHtml(e) {
+function getPasteHtml(e, filterStyle) {
     var clipboardData = e.clipboardData || e.originalEvent && e.originalEvent.clipboardData;
     var pasteText = void 0,
         pasteHtml = void 0;
@@ -2773,8 +2800,13 @@ function getPasteHtml(e) {
     // 过滤无用标签
     pasteHtml = pasteHtml.replace(/<(meta|script|link).+?>/igm, '');
 
-    // 过滤样式
-    pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").+?('|")/igm, '');
+    if (filterStyle) {
+        // 过滤样式
+        pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").+?('|")/igm, '');
+    } else {
+        // 保留样式
+        pasteHtml = pasteHtml.replace(/\s?class=('|").+?('|")/igm, '');
+    }
 
     return pasteHtml;
 }
@@ -3061,20 +3093,20 @@ Text.prototype = {
     // 粘贴事件（粘贴文字 粘贴图片）
     _pasteHandle: function _pasteHandle() {
         var editor = this.editor;
+        var pasteFilterStyle = editor.config.pasteFilterStyle;
         var $textElem = editor.$textElem;
 
         // 粘贴文字
         $textElem.on('paste', function (e) {
             if (UA.isIE()) {
-                // IE 下放弃下面的判断
                 return;
+            } else {
+                // 阻止默认行为，使用 execCommand 的粘贴命令
+                e.preventDefault();
             }
 
-            // 阻止默认行为，使用 execCommand 的粘贴命令
-            e.preventDefault();
-
             // 获取粘贴的文字
-            var pasteHtml = getPasteHtml(e);
+            var pasteHtml = getPasteHtml(e, pasteFilterStyle);
             var pasteText = getPasteText(e);
             pasteText = pasteText.replace(/\n/gm, '<br>');
 
@@ -3095,8 +3127,8 @@ Text.prototype = {
             //     return
             // }
 
-            if (nodeName === 'DIV' || $textElem.html() === '<p><br></p>') {
-                // 是 div，可粘贴过滤样式的文字和链接
+            if (nodeName === 'DIV' || $textElem.html() === '<p><br></p>' || !pasteFilterStyle) {
+                // 是 div，可粘贴过滤样式的文字和链接。另外，不过滤粘贴的样式，也可直接插入 HTML
                 if (!pasteHtml) {
                     return;
                 }
@@ -3119,7 +3151,11 @@ Text.prototype = {
 
         // 粘贴图片
         $textElem.on('paste', function (e) {
-            e.preventDefault();
+            if (UA.isIE()) {
+                return;
+            } else {
+                e.preventDefault();
+            }
 
             // 获取粘贴的图片
             var pasteFiles = getPasteImgs(e);

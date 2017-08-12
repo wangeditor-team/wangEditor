@@ -2,6 +2,7 @@
     menu - quote
 */
 import $ from '../../util/dom-core.js'
+import { UA } from '../../util/util.js'
 
 // 构造函数
 function Quote(editor) {
@@ -23,7 +24,30 @@ Quote.prototype = {
 
     onClick: function (e) {
         const editor = this.editor
-        editor.cmd.do('formatBlock', '<BLOCKQUOTE>')
+        if (!UA.isIE()) {
+            editor.cmd.do('formatBlock', '<BLOCKQUOTE>')
+            return
+        }
+        
+        // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
+
+        const $selectionElem = editor.selection.getSelectionContainerElem()
+        let content, $targetELem
+        if ($selectionElem.getNodeName() === 'P') {
+            // 将 P 转换为 quote
+            content = $selectionElem.text()
+            $targetELem = $(`<blockquote>${content}</blockquote>`)
+            $targetELem.insertAfter($selectionElem)
+            $selectionElem.remove()
+            return
+        }
+        if ($selectionElem.getNodeName() === 'BLOCKQUOTE') {
+            // 撤销 quote
+            content = $selectionElem.text()
+            $targetELem = $(`<p>${content}</p>`)
+            $targetELem.insertAfter($selectionElem)
+            $selectionElem.remove()
+        }
     },
 
     tryChangeActive: function (e) {

@@ -26,8 +26,8 @@
 
 ```javascript
 var E = window.wangEditor
-var editor2 = new E('#div3')
-editor2.create()
+var editor = new E('#div1')
+editor.create()
 ```
 
 

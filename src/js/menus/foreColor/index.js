@@ -1,11 +1,11 @@
 /*
-    menu - backcolor
+    menu - Forecolor
 */
 import $ from '../../util/dom-core.js'
 import DropList from '../droplist.js'
 
 // 构造函数
-function BackColor(editor) {
+function ForeColor(editor) {
     this.editor = editor
     this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-pencil2"><i/></div>')
     this.type = 'droplist'
@@ -31,15 +31,15 @@ function BackColor(editor) {
             { $elem: $('<i style="color:#ffffff;" class="w-e-icon-pencil2"></i>'), value: '#ffffff' }
         ],
         onClick: (value) => {
-            // 注意 this 是指向当前的 BackColor 对象
+            // 注意 this 是指向当前的 ForeColor 对象
             this._command(value)
         }
     })
 }
 
 // 原型
-BackColor.prototype = {
-    constructor: BackColor,
+ForeColor.prototype = {
+    constructor: ForeColor,
 
     // 执行命令
     _command: function (value) {
@@ -48,4 +48,4 @@ BackColor.prototype = {
     }
 }
 
-export default BackColor
+export default ForeColor
