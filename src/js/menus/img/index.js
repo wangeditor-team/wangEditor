@@ -8,7 +8,9 @@ import Panel from '../panel.js'
 // 构造函数
 function Image(editor) {
     this.editor = editor
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-image"><i/></div>')
+    const imgMenuId = getRandom('w-e-img')
+    this.$elem = $('<div class="w-e-menu" id="' + imgMenuId + '"><i class="w-e-icon-image"><i/></div>')
+    editor.imgMenuId = imgMenuId
     this.type = 'panel'
 
     // 当前是否 active 状态
@@ -20,6 +22,11 @@ Image.prototype = {
     constructor: Image,
 
     onClick: function () {
+        const editor = this.editor
+        const config = editor.config
+        if (config.qiniu) {
+            return
+        }
         if (this._active) {
             this._createEditPanel()
         } else {

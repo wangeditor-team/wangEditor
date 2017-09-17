@@ -52,13 +52,6 @@ Command.prototype = {
         const editor = this.editor
         const range = editor.selection.getRange()
 
-        // 保证传入的参数是 html 代码
-        const test = /^<.+>$/.test(html)
-        if (!test && !UA.isWebkit()) {
-            // webkit 可以插入非 html 格式的文字
-            throw new Error('执行 insertHTML 命令时传入的参数必须是 html 格式')
-        }
-
         if (this.queryCommandSupported('insertHTML')) {
             // W3C
             this._execCommand('insertHTML', html)

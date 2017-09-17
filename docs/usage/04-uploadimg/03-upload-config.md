@@ -101,7 +101,7 @@ editor.customConfig.withCredentials = true
 
 ## 自定义 timeout 时间
 
-默认的 timeout 时间是 5 秒钟
+默认的 timeout 时间是 10 秒钟
 
 ```javascript
 // 将 timeout 时间改为 3s

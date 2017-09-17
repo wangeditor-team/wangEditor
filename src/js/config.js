@@ -71,7 +71,7 @@ const config = {
 
     // 上传图片的自定义参数
     uploadImgParams: {
-        token: 'abcdef12345'
+        // token: 'abcdef12345'
     },
 
     // 上传图片的自定义header
@@ -83,7 +83,7 @@ const config = {
     withCredentials: false,
 
     // 自定义上传图片超时时间 ms
-    uploadImgTimeout: 5000,
+    uploadImgTimeout: 10000,
 
     // 上传图片 hook 
     uploadImgHooks: {
@@ -117,6 +117,9 @@ const config = {
             // 图片上传超时时触发
         }
     },
+
+    // 是否上传七牛云，默认为 false
+    qiniu: false,
 
     // 上传图片自定义提示方法
     // customAlert: function (info) {

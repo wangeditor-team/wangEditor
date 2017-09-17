@@ -69,11 +69,24 @@
 - [done] 增加粘贴过滤样式的可配置
 - [done] 修复 IE 粘贴文字的问题
 
+### v3.0.9
+
+- [done] config 中，上传图片的 token 注视掉
+- [done] 将一些常见 API 开放，写到文档中 https://www.kancloud.cn/wangfupeng/wangeditor3/404586
+- [done] IE 火狐 插入多行代码有问题
+- [done] 粘贴时，在`<p>`中，不能只粘贴纯文本，还得要图片 
+- [done] 粘贴内容中，过滤掉`<!--xxx-->`注释
+- [done] **支持上传七牛云存储**
+
 ### 近期计划解决
 
+- 先输入文字，再粘贴 excel 表格，样式丢失 https://github.com/wangfupeng1988/wangEditor/issues/1000#issuecomment-329951881
+- emoji 的浏览器兼容性问题，在 IE 360 中，许多表情都不兼容
+- 拖拽上传
+- 粘贴图片问题排查 https://github.com/wangfupeng1988/wangEditor/issues/938
+- 调研粘贴图片防盗链的兼容方案
 - 选中图片和表格时，主动弹出编辑 panel（模拟菜单的click），而不是等着用户点击（这里注意如何让用户选择不再弹出，不重复弹出）
-- IE 11直接输入文字会空一行在第二行出现内容 https://github.com/wangfupeng1988/wangEditor/issues/919
-- IE 中输入多行代码有报错
+- IE 11 直接输入文字会空一行在第二行出现内容 https://github.com/wangfupeng1988/wangEditor/issues/919
 - windows 下 word excel 的粘贴，存在垃圾数据
 - list undo redo 有问题。选中几行，先设置有序列表，再设置无序列表，然后撤销，就能复现问题
 - 调研 safari、IE 和ff中粘贴图片  https://github.com/wangfupeng1988/wangEditor/issues/831

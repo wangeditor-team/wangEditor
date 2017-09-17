@@ -20,7 +20,7 @@
         '上传图片': 'upload image',
         '上传': 'upload',
         '创建': 'init'
-        // 还可自定添加跟多
+        // 还可自定添加更多
     }
 
     editor.create()

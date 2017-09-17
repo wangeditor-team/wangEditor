@@ -283,8 +283,9 @@ Text.prototype = {
             }
             const nodeName = $selectionElem.getNodeName()
 
-            // code 中粘贴忽略
+            // code 中只能粘贴纯文本
             if (nodeName === 'CODE' || nodeName === 'PRE') {
+                editor.cmd.do('insertHTML', `<p>${pasteText}</p>`)
                 return
             }
 
@@ -294,25 +295,15 @@ Text.prototype = {
             //     return
             // }
 
-            if (nodeName === 'DIV' || $textElem.html() === '<p><br></p>' || !pasteFilterStyle) {
-                // 是 div，可粘贴过滤样式的文字和链接。另外，不过滤粘贴的样式，也可直接插入 HTML
-                if (!pasteHtml) {
-                    return
-                }
-                try {
-                    // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
-                    // 因此执行 insertHTML 会报错
-                    editor.cmd.do('insertHTML', pasteHtml)
-                } catch (ex) {
-                    // 此时使用 pasteText 来兼容一下
-                    editor.cmd.do('insertHTML', `<p>${pasteText}</p>`)
-                }
-                
-            } else {
-                // 不是 div，证明在已有内容的元素中粘贴，只粘贴纯文本
-                if (!pasteText) {
-                    return
-                }
+            if (!pasteHtml) {
+                return
+            }
+            try {
+                // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
+                // 因此执行 insertHTML 会报错
+                editor.cmd.do('insertHTML', pasteHtml)
+            } catch (ex) {
+                // 此时使用 pasteText 来兼容一下
                 editor.cmd.do('insertHTML', `<p>${pasteText}</p>`)
             }
         })

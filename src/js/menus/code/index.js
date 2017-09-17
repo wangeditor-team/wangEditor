@@ -4,6 +4,7 @@
 import $ from '../../util/dom-core.js'
 import { getRandom, replaceHtmlSymbol } from '../../util/util.js'
 import Panel from '../panel.js'
+import { UA } from '../../util/util.js'
 
 // 构造函数
 function Code(editor) {

@@ -10,6 +10,7 @@ import Command from '../command/index.js'
 import selectionAPI from '../selection/index.js'
 import UploadImg from './upload/upload-img.js'
 import { arrForEach, objForEach } from '../util/util.js'
+import { getRandom } from '../util/util.js'
 
 // id，累加
 let editorId = 1
@@ -114,10 +115,18 @@ Editor.prototype = {
         $textContainerElem.css('z-index', zIndex)
         $textElem.addClass('w-e-text')
 
+        // 添加 ID
+        const toolbarElemId = getRandom('toolbar-elem')
+        $toolbarElem.attr('id', toolbarElemId)
+        const textElemId = getRandom('text-elem')
+        $textElem.attr('id', textElemId)
+
         // 记录属性
         this.$toolbarElem = $toolbarElem
         this.$textContainerElem = $textContainerElem
         this.$textElem = $textElem
+        this.toolbarElemId = toolbarElemId
+        this.textElemId = textElemId
 
         // 绑定 onchange
         $textContainerElem.on('click keyup', () => {
