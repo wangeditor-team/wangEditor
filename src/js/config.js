@@ -42,6 +42,14 @@ const config = {
     // 是否开启 debug 模式（debug 模式下错误会 throw error 形式抛出）
     debug: false,
 
+    // 插入链接时候的格式校验
+    linkCheck: function (text, link) {
+        // text 是插入的文字
+        // link 是插入的链接
+        return true // 返回 true 即表示成功
+        // return '校验失败' // 返回字符串即表示失败的提示信息
+    },
+
     // 粘贴过滤样式，默认开启
     pasteFilterStyle: true,
 
@@ -53,6 +61,11 @@ const config = {
 
     // 是否显示添加网络图片的 tab
     showLinkImg: true,
+
+    // 插入网络图片的回调
+    linkImgCallback: function (url) {
+        // console.log(url)  // url 即插入图片的地址
+    },
 
     // 默认上传图片 max size: 5M
     uploadImgMaxSize: 5 * 1024 * 1024,

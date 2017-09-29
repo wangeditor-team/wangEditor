@@ -78,13 +78,19 @@
 - [done] 粘贴内容中，过滤掉`<!--xxx-->`注释
 - [done] **支持上传七牛云存储**
 
+### v3.0.10
+
+- [done] 支持插入网络图片的回调函数
+- [done] 插入链接时候的格式校验
+- [done] 支持拖拽上传
+
 ### 近期计划解决
 
+- 页面中有 input 等输入标签时，undo redo 会误伤 https://github.com/wangfupeng1988/wangEditor/issues/1024
+- 选中一行，点击“引用”按钮，该行成为引用格式。然后再点击“引用”按钮，引用没法取消
+- 两个编辑器 undo 的问题 https://github.com/wangfupeng1988/wangEditor/issues/1010
 - 先输入文字，再粘贴 excel 表格，样式丢失 https://github.com/wangfupeng1988/wangEditor/issues/1000#issuecomment-329951881
 - emoji 的浏览器兼容性问题，在 IE 360 中，许多表情都不兼容
-- 拖拽上传
-- 粘贴图片问题排查 https://github.com/wangfupeng1988/wangEditor/issues/938
-- 调研粘贴图片防盗链的兼容方案
 - 选中图片和表格时，主动弹出编辑 panel（模拟菜单的click），而不是等着用户点击（这里注意如何让用户选择不再弹出，不重复弹出）
 - IE 11 直接输入文字会空一行在第二行出现内容 https://github.com/wangfupeng1988/wangEditor/issues/919
 - windows 下 word excel 的粘贴，存在垃圾数据

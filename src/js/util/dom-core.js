@@ -43,10 +43,14 @@ function DomElement(selector) {
     }
 
     this.selector = selector
+    const nodeType = selector.nodeType
 
     // 根据 selector 得出的结果（如 DOM，DOM List）
     let selectorResult = []
-    if (selector.nodeType === 1) {
+    if (nodeType === 9) {
+        // document 节点
+        selectorResult = [selector]
+    } else if (nodeType === 1) {
         // 单个 DOM 节点
         selectorResult = [selector]
     } else if (isDOMList(selector)) {

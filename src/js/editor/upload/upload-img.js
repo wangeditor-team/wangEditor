@@ -37,11 +37,17 @@ UploadImg.prototype = {
             return
         }
         const editor = this.editor
+        const config = editor.config
         editor.cmd.do('insertHTML', `<img src="${link}" style="max-width:100%;"/>`)
 
         // 验证图片 url 是否有效，无效的话给出提示
         let img = document.createElement('img')
         img.onload = () => {
+            const callback = config.linkImgCallback
+            if (callback && typeof callback === 'function') {
+                callback(link)
+            }
+
             img = null
         }
         img.onerror = () => {
@@ -65,11 +71,15 @@ UploadImg.prototype = {
         // ------------------------------ 获取配置信息 ------------------------------
         const editor = this.editor
         const config = editor.config
+        let uploadImgServer = config.uploadImgServer
+        const uploadImgShowBase64 = config.uploadImgShowBase64
+        if (!uploadImgServer && !uploadImgShowBase64) {
+            return
+        }
+
         const maxSize = config.uploadImgMaxSize
         const maxSizeM = maxSize / 1000 / 1000
         const maxLength = config.uploadImgMaxLength || 10000
-        let uploadImgServer = config.uploadImgServer
-        const uploadImgShowBase64 = config.uploadImgShowBase64
         const uploadFileName = config.uploadFileName || ''
         const uploadImgParams = config.uploadImgParams || {}
         const uploadImgHeaders = config.uploadImgHeaders || {}

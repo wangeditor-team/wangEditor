@@ -137,7 +137,17 @@ Link.prototype = {
             return
         }
         const editor = this.editor
-        editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+        const config = editor.config
+        const linkCheck = config.linkCheck
+        let checkResult = true // 默认为 true
+        if (linkCheck && typeof linkCheck === 'function') {
+            checkResult = linkCheck(text, link)
+        }
+        if (checkResult === true) {
+            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+        } else {
+            alert(checkResult)
+        }
     },
 
     // 试图改变 active 状态
