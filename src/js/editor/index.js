@@ -135,6 +135,15 @@ Editor.prototype = {
         $toolbarElem.on('click', function () {
             this.change &&  this.change()
         })
+
+        //绑定 blur
+        $(document).on('click', function(e){
+            //判断当前点击元素是否在编辑器内
+            let isChild = $toolbarSelector.isContain($(e.target))
+            if(!isChild){
+                this.blur && this.blur()
+            }
+        })
     },
 
     // 封装 command
@@ -222,6 +231,20 @@ Editor.prototype = {
                     beforeChangeHtml = currentHtml
                 }, 200)
             }   
+        }
+
+        // -------- 绑定 blur 事件 --------
+        let beforeBlurHtml = this.txt.html()
+        const blur = this.config.blur
+        if(blur && typeof blur === 'function') {
+            this.blur = function () {
+                const currentHtml = this.txt.html()
+                if (currentHtml === beforeBlurHtml) {
+                    return
+                }
+                blur(currentHtml)
+                beforeBlurHtml = currentHtml
+            }
         }
     },
 
