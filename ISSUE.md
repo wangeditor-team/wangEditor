@@ -84,6 +84,12 @@
 - [done] 插入链接时候的格式校验
 - [done] 支持拖拽上传
 
+### v3.0.11
+
+- [done] 如何用 textarea 创建编辑器，完善到文档中，许多人提问
+- [done] 修复`editor.customConfig.customUploadImg`不触发的 bug
+- [done] 修复有序列表和无序列表切换时 onchange 不触发的 bug
+
 ### 近期计划解决
 
 - 页面中有 input 等输入标签时，undo redo 会误伤 https://github.com/wangfupeng1988/wangEditor/issues/1024

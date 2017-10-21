@@ -73,9 +73,6 @@ UploadImg.prototype = {
         const config = editor.config
         let uploadImgServer = config.uploadImgServer
         const uploadImgShowBase64 = config.uploadImgShowBase64
-        if (!uploadImgServer && !uploadImgShowBase64) {
-            return
-        }
 
         const maxSize = config.uploadImgMaxSize
         const maxSizeM = maxSize / 1000 / 1000
@@ -90,6 +87,13 @@ UploadImg.prototype = {
             withCredentials = false
         }
         const customUploadImg = config.customUploadImg
+
+        if (!customUploadImg) {
+            // 没有 customUploadImg 的情况下，需要如下两个配置才能继续进行图片上传
+            if (!uploadImgServer && !uploadImgShowBase64) {
+                return
+            }
+        }
 
         // ------------------------------ 验证文件信息 ------------------------------
         const resultFiles = []

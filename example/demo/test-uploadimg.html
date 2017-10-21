@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>wangEditor 上传图片</title>
@@ -26,6 +26,12 @@
 
         var editor2 = new E('#div3')
         editor2.customConfig.uploadImgServer = '/upload-img'
+        // editor2.customConfig.uploadImgHooks = {
+        //     customInsert: function (insertImg, result, editor) {
+        //         console.log(JSON.stringify(result))
+        //         insertImg(result.data[0])
+        //     }
+        // }
         editor2.create()
 
         var editor1 = new E('#div4')

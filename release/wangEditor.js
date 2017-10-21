@@ -3350,8 +3350,14 @@ Command.prototype = {
         editor.selection.saveRange();
         editor.selection.restoreSelection();
 
+        // onchange 时候是否需要比较每一个字符
+        var compareEveryChar = false;
+        if (['insertOrderedList', 'insertUnorderedList'].indexOf(name) >= 0) {
+            compareEveryChar = true;
+        }
+
         // 触发 onchange
-        editor.change && editor.change();
+        editor.change && editor.change(compareEveryChar);
     },
 
     // 自定义 insertHTML 事件
@@ -3726,9 +3732,6 @@ UploadImg.prototype = {
         var config = editor.config;
         var uploadImgServer = config.uploadImgServer;
         var uploadImgShowBase64 = config.uploadImgShowBase64;
-        if (!uploadImgServer && !uploadImgShowBase64) {
-            return;
-        }
 
         var maxSize = config.uploadImgMaxSize;
         var maxSizeM = maxSize / 1000 / 1000;
@@ -3743,6 +3746,13 @@ UploadImg.prototype = {
             withCredentials = false;
         }
         var customUploadImg = config.customUploadImg;
+
+        if (!customUploadImg) {
+            // 没有 customUploadImg 的情况下，需要如下两个配置才能继续进行图片上传
+            if (!uploadImgServer && !uploadImgShowBase64) {
+                return;
+            }
+        }
 
         // ------------------------------ 验证文件信息 ------------------------------
         var resultFiles = [];
@@ -4142,11 +4152,20 @@ Editor.prototype = {
             // 1. $textContainerElem.on('click keyup')
             // 2. $toolbarElem.on('click')
             // 3. editor.cmd.do()
-            this.change = function () {
+            this.change = function (compareEveryChar) {
+                // compareEveryChar: true/false 判断是否比较每一个字符，默认 false
+
                 // 判断是否有变化
                 var currentHtml = this.txt.html();
                 if (currentHtml.length === beforeChangeHtml.length) {
-                    return;
+                    if (compareEveryChar) {
+                        // 需要比较每一个字符
+                        if (currentHtml === beforeChangeHtml) {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
                 }
 
                 // 执行，使用节流

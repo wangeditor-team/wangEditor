@@ -205,11 +205,20 @@ Editor.prototype = {
             // 1. $textContainerElem.on('click keyup')
             // 2. $toolbarElem.on('click')
             // 3. editor.cmd.do()
-            this.change = function () {
+            this.change = function (compareEveryChar) {
+                // compareEveryChar: true/false 判断是否比较每一个字符，默认 false
+
                 // 判断是否有变化
                 const currentHtml = this.txt.html()
                 if (currentHtml.length === beforeChangeHtml.length) {
-                    return
+                    if (compareEveryChar) {
+                        // 需要比较每一个字符
+                        if (currentHtml === beforeChangeHtml) {
+                            return
+                        }
+                    } else {
+                        return
+                    }
                 }
 
                 // 执行，使用节流
