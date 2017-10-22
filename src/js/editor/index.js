@@ -136,14 +136,28 @@ Editor.prototype = {
             this.change &&  this.change()
         })
 
-        //绑定 blur
-        $(document).on('click', function(e){
-            //判断当前点击元素是否在编辑器内
-            let isChild = $toolbarSelector.isContain($(e.target))
-            if(!isChild){
-                this.blur && this.blur()
-            }
-        })
+        //绑定 focus 与 blur 事件
+        if(config.focus || config.blur){
+            // 当前编辑器是否是焦点状态
+            this.isFocus = false
+            
+            $(document).on('click', (e) => {
+                //判断当前点击元素是否在编辑器内
+                const isChild = $toolbarSelector.isContain($(e.target))
+                
+                if (!isChild) {
+                    if(this.isFocus){
+                        this.blur && this.blur()
+                    }
+                    this.isFocus = false
+                }else{
+                    if(!this.isFocus){
+                        this.focus && this.focus()
+                    }
+                    this.isFocus = true
+                }
+            })
+        }
 
     },
 
@@ -244,16 +258,19 @@ Editor.prototype = {
         }
 
         // -------- 绑定 blur 事件 --------
-        let beforeBlurHtml = this.txt.html()
-        const blur = this.config.blur
-        if(blur && typeof blur === 'function') {
+        const blur = config.blur
+        if (blur && typeof blur === 'function') {
             this.blur = function () {
                 const currentHtml = this.txt.html()
-                if (currentHtml === beforeBlurHtml) {
-                    return
-                }
                 blur(currentHtml)
-                beforeBlurHtml = currentHtml
+            }
+        }
+
+        // -------- 绑定 focus 事件 --------
+        const focus = config.focus
+        if (focus && typeof focus === 'function') {
+            this.focus = function () {
+                focus()
             }
         }
         
