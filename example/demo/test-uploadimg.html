@@ -26,12 +26,21 @@
 
         var editor2 = new E('#div3')
         editor2.customConfig.uploadImgServer = '/upload-img'
-        // editor2.customConfig.uploadImgHooks = {
-        //     customInsert: function (insertImg, result, editor) {
-        //         console.log(JSON.stringify(result))
-        //         insertImg(result.data[0])
-        //     }
+        editor2.customConfig.uploadImgHooks = {
+            // customInsert: function (insertImg, result, editor) {
+            //     console.log(JSON.stringify(result))
+            //     insertImg(result.data[0])
+            // },
+
+            // customInsert: function (insertImg, result, editor) {
+            //     console.log(result)
+            // }
+        }
+        // editor2.customConfig.uploadImgParams = {
+        //     a: 123,
+        //     b: 'vvv'
         // }
+        // editor2.customConfig.uploadImgParamsWithUrl = true
         editor2.create()
 
         var editor1 = new E('#div4')

@@ -79,6 +79,7 @@ UploadImg.prototype = {
         const maxLength = config.uploadImgMaxLength || 10000
         const uploadFileName = config.uploadFileName || ''
         const uploadImgParams = config.uploadImgParams || {}
+        const uploadImgParamsWithUrl = config.uploadImgParamsWithUrl
         const uploadImgHeaders = config.uploadImgHeaders || {}
         const hooks = config.uploadImgHooks || {}
         const timeout = config.uploadImgTimeout || 3000
@@ -156,12 +157,14 @@ UploadImg.prototype = {
                 val = encodeURIComponent(val)
 
                 // 第一，将参数拼接到 url 中
-                if (uploadImgServer.indexOf('?') > 0) {
-                    uploadImgServer += '&'
-                } else {
-                    uploadImgServer += '?'
+                if (uploadImgParamsWithUrl) {
+                    if (uploadImgServer.indexOf('?') > 0) {
+                        uploadImgServer += '&'
+                    } else {
+                        uploadImgServer += '?'
+                    }
+                    uploadImgServer = uploadImgServer + key + '=' + val
                 }
-                uploadImgServer = uploadImgServer + key + '=' + val
 
                 // 第二，将参数添加到 formdata 中
                 formdata.append(key, val)

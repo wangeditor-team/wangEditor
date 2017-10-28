@@ -3738,6 +3738,7 @@ UploadImg.prototype = {
         var maxLength = config.uploadImgMaxLength || 10000;
         var uploadFileName = config.uploadFileName || '';
         var uploadImgParams = config.uploadImgParams || {};
+        var uploadImgParamsWithUrl = config.uploadImgParamsWithUrl;
         var uploadImgHeaders = config.uploadImgHeaders || {};
         var hooks = config.uploadImgHooks || {};
         var timeout = config.uploadImgTimeout || 3000;
@@ -3815,12 +3816,14 @@ UploadImg.prototype = {
                 val = encodeURIComponent(val);
 
                 // 第一，将参数拼接到 url 中
-                if (uploadImgServer.indexOf('?') > 0) {
-                    uploadImgServer += '&';
-                } else {
-                    uploadImgServer += '?';
+                if (uploadImgParamsWithUrl) {
+                    if (uploadImgServer.indexOf('?') > 0) {
+                        uploadImgServer += '&';
+                    } else {
+                        uploadImgServer += '?';
+                    }
+                    uploadImgServer = uploadImgServer + key + '=' + val;
                 }
-                uploadImgServer = uploadImgServer + key + '=' + val;
 
                 // 第二，将参数添加到 formdata 中
                 formdata.append(key, val);
@@ -4082,6 +4085,29 @@ Editor.prototype = {
         $toolbarElem.on('click', function () {
             this.change && this.change();
         });
+
+        //绑定 onfocus 与 onblur 事件
+        if (config$$1.onfocus || config$$1.onblur) {
+            // 当前编辑器是否是焦点状态
+            this.isFocus = false;
+
+            $(document).on('click', function (e) {
+                //判断当前点击元素是否在编辑器内
+                var isChild = $toolbarSelector.isContain($(e.target));
+
+                if (!isChild) {
+                    if (_this.isFocus) {
+                        _this.onblur && _this.onblur();
+                    }
+                    _this.isFocus = false;
+                } else {
+                    if (!_this.isFocus) {
+                        _this.onfocus && _this.onfocus();
+                    }
+                    _this.isFocus = true;
+                }
+            });
+        }
     },
 
     // 封装 command
@@ -4146,6 +4172,14 @@ Editor.prototype = {
         var onChangeTimeoutId = 0;
         var beforeChangeHtml = this.txt.html();
         var config$$1 = this.config;
+
+        // onchange 触发延迟时间
+        var onchangeTimeout = config$$1.onchangeTimeout;
+        onchangeTimeout = parseInt(onchangeTimeout, 10);
+        if (!onchangeTimeout || onchangeTimeout <= 0) {
+            onchangeTimeout = 200;
+        }
+
         var onchange = config$$1.onchange;
         if (onchange && typeof onchange === 'function') {
             // 触发 change 的有三个场景：
@@ -4176,7 +4210,24 @@ Editor.prototype = {
                     // 触发配置的 onchange 函数
                     onchange(currentHtml);
                     beforeChangeHtml = currentHtml;
-                }, 200);
+                }, onchangeTimeout);
+            };
+        }
+
+        // -------- 绑定 onblur 事件 --------
+        var onblur = config$$1.onblur;
+        if (onblur && typeof onblur === 'function') {
+            this.onblur = function () {
+                var currentHtml = this.txt.html();
+                onblur(currentHtml);
+            };
+        }
+
+        // -------- 绑定 onfocus 事件 --------
+        var onfocus = config$$1.onfocus;
+        if (onfocus && typeof onfocus === 'function') {
+            this.onfocus = function () {
+                onfocus();
             };
         }
     },

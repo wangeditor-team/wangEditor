@@ -65,12 +65,18 @@ editor.customConfig.uploadImgMaxLength = 5
 
 ## 自定义上传参数
 
-上传图片时可自定义传递一些参数，例如传递验证的`token`等。这些参数会拼接到 url 的参数中，也会被添加到`formdata`中。
+上传图片时可自定义传递一些参数，例如传递验证的`token`等。参数会被添加到`formdata`中。
 
 ```javascript
 editor.customConfig.uploadImgParams = {
     token: 'abcdef12345'  // 属性值会自动进行 encode ，此处无需 encode
 }
+```
+
+如果**还需要**将参数拼接到 url 中，可再加上如下配置
+
+```
+editor.customConfig.uploadImgParamsWithUrl = true
 ```
 
 ## 自定义 fileName

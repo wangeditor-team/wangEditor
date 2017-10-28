@@ -30,3 +30,11 @@
 </script>
 ```
 
+-----
+
+另外，如果需要修改 onchange 触发的延迟时间（onchange 会在用户无任何操作的 xxx 毫秒之后被触发），可通过如下配置
+
+```js
+// 自定义 onchange 触发的延迟时间，默认为 200 ms
+editor.customConfig.onchangeTimeout = 1000 // 单位 ms
+```
