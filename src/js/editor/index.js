@@ -136,8 +136,8 @@ Editor.prototype = {
             this.change &&  this.change()
         })
 
-        //绑定 focus 与 blur 事件
-        if(config.focus || config.blur){
+        //绑定 onfocus 与 onblur 事件
+        if(config.onfocus || config.onblur){
             // 当前编辑器是否是焦点状态
             this.isFocus = false
             
@@ -147,12 +147,12 @@ Editor.prototype = {
                 
                 if (!isChild) {
                     if(this.isFocus){
-                        this.blur && this.blur()
+                        this.onblur && this.onblur()
                     }
                     this.isFocus = false
                 }else{
                     if(!this.isFocus){
-                        this.focus && this.focus()
+                        this.onfocus && this.onfocus()
                     }
                     this.isFocus = true
                 }
@@ -223,6 +223,14 @@ Editor.prototype = {
         let onChangeTimeoutId = 0
         let beforeChangeHtml = this.txt.html()
         const config = this.config
+
+        // onchange 触发延迟时间
+        let onchangeTimeout = config.onchangeTimeout
+        onchangeTimeout = parseInt(onchangeTimeout, 10)
+        if (!onchangeTimeout || onchangeTimeout <= 0) {
+            onchangeTimeout = 200
+        }
+
         const onchange = config.onchange
         if (onchange && typeof onchange === 'function'){
             // 触发 change 的有三个场景：
@@ -253,24 +261,24 @@ Editor.prototype = {
                     // 触发配置的 onchange 函数
                     onchange(currentHtml)
                     beforeChangeHtml = currentHtml
-                }, 200)
+                }, onchangeTimeout)
             }   
         }
 
-        // -------- 绑定 blur 事件 --------
-        const blur = config.blur
-        if (blur && typeof blur === 'function') {
-            this.blur = function () {
+        // -------- 绑定 onblur 事件 --------
+        const onblur = config.onblur
+        if (onblur && typeof onblur === 'function') {
+            this.onblur = function () {
                 const currentHtml = this.txt.html()
-                blur(currentHtml)
+                onblur(currentHtml)
             }
         }
 
-        // -------- 绑定 focus 事件 --------
-        const focus = config.focus
-        if (focus && typeof focus === 'function') {
-            this.focus = function () {
-                focus()
+        // -------- 绑定 onfocus 事件 --------
+        const onfocus = config.onfocus
+        if (onfocus && typeof onfocus === 'function') {
+            this.onfocus = function () {
+                onfocus()
             }
         }
         

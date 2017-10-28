@@ -90,13 +90,21 @@
 - [done] 修复`editor.customConfig.customUploadImg`不触发的 bug
 - [done] 修复有序列表和无序列表切换时 onchange 不触发的 bug
 
+### v3.0.12
+
+- [done] 增加 onfocus 和 onblur （感谢 (hold-baby)[https://github.com/hold-baby] 的 (PR)[https://github.com/wangfupeng1988/wangEditor/pull/1076]）
+- [done] 上传的自定义参数`editor.customConfig.uploadImgParams`是否拼接到 url 中，支持可配置
+- [done] onchange 触发的延迟时间，支持可配置
+
 ### 近期计划解决
 
+- 撤销的兼容性问题（会误伤其他编辑器或者 input textarea 等），考虑用 onchange 记录 undo 和 redo 的内容（但是得考虑直接修改 dom 的情况，如 quote 菜单）
+- 支持获取 JSON https://github.com/wangfupeng1988/wangEditor/issues/967#issuecomment-339312117
+- emoji 的浏览器兼容性问题，在 IE 360 中，许多表情都不兼容
 - 页面中有 input 等输入标签时，undo redo 会误伤 https://github.com/wangfupeng1988/wangEditor/issues/1024
 - 选中一行，点击“引用”按钮，该行成为引用格式。然后再点击“引用”按钮，引用没法取消
 - 两个编辑器 undo 的问题 https://github.com/wangfupeng1988/wangEditor/issues/1010
 - 先输入文字，再粘贴 excel 表格，样式丢失 https://github.com/wangfupeng1988/wangEditor/issues/1000#issuecomment-329951881
-- emoji 的浏览器兼容性问题，在 IE 360 中，许多表情都不兼容
 - 选中图片和表格时，主动弹出编辑 panel（模拟菜单的click），而不是等着用户点击（这里注意如何让用户选择不再弹出，不重复弹出）
 - IE 11 直接输入文字会空一行在第二行出现内容 https://github.com/wangfupeng1988/wangEditor/issues/919
 - windows 下 word excel 的粘贴，存在垃圾数据
