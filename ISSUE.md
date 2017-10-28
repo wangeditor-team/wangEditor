@@ -92,7 +92,7 @@
 
 ### v3.0.12
 
-- [done] 增加 onfocus 和 onblur （感谢 (hold-baby)[https://github.com/hold-baby] 的 (PR)[https://github.com/wangfupeng1988/wangEditor/pull/1076]）
+- [done] 增加 onfocus 和 onblur （感谢 [hold-baby](https://github.com/hold-baby) 提交的 [PR](https://github.com/wangfupeng1988/wangEditor/pull/1076)）
 - [done] 上传的自定义参数`editor.customConfig.uploadImgParams`是否拼接到 url 中，支持可配置
 - [done] onchange 触发的延迟时间，支持可配置
 
