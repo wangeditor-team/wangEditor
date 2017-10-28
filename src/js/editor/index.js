@@ -135,6 +135,30 @@ Editor.prototype = {
         $toolbarElem.on('click', function () {
             this.change &&  this.change()
         })
+
+        //绑定 focus 与 blur 事件
+        if(config.focus || config.blur){
+            // 当前编辑器是否是焦点状态
+            this.isFocus = false
+            
+            $(document).on('click', (e) => {
+                //判断当前点击元素是否在编辑器内
+                const isChild = $toolbarSelector.isContain($(e.target))
+                
+                if (!isChild) {
+                    if(this.isFocus){
+                        this.blur && this.blur()
+                    }
+                    this.isFocus = false
+                }else{
+                    if(!this.isFocus){
+                        this.focus && this.focus()
+                    }
+                    this.isFocus = true
+                }
+            })
+        }
+
     },
 
     // 封装 command
@@ -232,6 +256,24 @@ Editor.prototype = {
                 }, 200)
             }   
         }
+
+        // -------- 绑定 blur 事件 --------
+        const blur = config.blur
+        if (blur && typeof blur === 'function') {
+            this.blur = function () {
+                const currentHtml = this.txt.html()
+                blur(currentHtml)
+            }
+        }
+
+        // -------- 绑定 focus 事件 --------
+        const focus = config.focus
+        if (focus && typeof focus === 'function') {
+            this.focus = function () {
+                focus()
+            }
+        }
+        
     },
 
     // 创建编辑器
