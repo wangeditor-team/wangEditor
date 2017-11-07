@@ -2845,6 +2845,7 @@ function getPasteHtml(e, filterStyle) {
     if (filterStyle) {
         // 过滤样式
         pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").+?('|")/igm, '');
+        pasteHtml = pasteHtml.replace(/(<([^>]+)>)/ig, '');
     } else {
         // 保留样式
         pasteHtml = pasteHtml.replace(/\s?class=('|").+?('|")/igm, '');
