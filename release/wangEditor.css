@@ -402,9 +402,3 @@
 .w-e-text img:hover {
   box-shadow: 0 0 5px #333;
 }
-.w-e-text img.w-e-selected {
-  border: 2px solid #1e88e5;
-}
-.w-e-text img.w-e-selected:hover {
-  box-shadow: none;
-}

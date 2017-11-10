@@ -4,6 +4,7 @@
 
 import { objForEach, arrForEach, percentFormat } from '../../util/util.js'
 import Progress from './progress.js'
+import { UA } from '../../util/util.js'
 
 // 构造函数
 function UploadImg(editor) {
@@ -38,6 +39,19 @@ UploadImg.prototype = {
         }
         const editor = this.editor
         const config = editor.config
+
+        // 校验格式
+        const linkImgCheck = config.linkImgCheck
+        let checkResult
+        if (linkImgCheck && typeof linkImgCheck === 'function') {
+            checkResult = linkImgCheck(link)
+            if (typeof checkResult === 'string') {
+                // 校验失败，提示信息
+                alert(checkResult)
+                return
+            }
+        }
+
         editor.cmd.do('insertHTML', `<img src="${link}" style="max-width:100%;"/>`)
 
         // 验证图片 url 是否有效，无效的话给出提示

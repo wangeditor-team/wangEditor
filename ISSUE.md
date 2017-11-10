@@ -96,28 +96,37 @@
 - [done] 上传的自定义参数`editor.customConfig.uploadImgParams`是否拼接到 url 中，支持可配置
 - [done] onchange 触发的延迟时间，支持可配置
 
+### v3.0.13
+
+- [done] 修复图片 选中/取消选中 时，触发 onchange 的问题 https://github.com/wangfupeng1988/wangEditor/issues/1100
+- [done] 修复只通过 length 判断 onchange 是否触发的问题
+- [done] 增加插入网络图片的校验函数 https://github.com/wangfupeng1988/wangEditor/issues/1106
+- [done] 增加自定义处理粘贴文本的事件 https://github.com/wangfupeng1988/wangEditor/issues/1124
+- [done] 修复选中一个图片时点击删除键会误删除其他内容的 bug https://github.com/wangfupeng1988/wangEditor/issues/1111 
+- [done] 修复 window chrome 中“复制图片”然后粘贴图片，会粘贴为两张的 bug https://github.com/wangfupeng1988/wangEditor/issues/1081#issuecomment-340362631
+- [done] 修复无法撤销“引用”的问题
+
 ### 近期计划解决
 
-- 撤销的兼容性问题（会误伤其他编辑器或者 input textarea 等），考虑用 onchange 记录 undo 和 redo 的内容（但是得考虑直接修改 dom 的情况，如 quote 菜单）
-- 支持获取 JSON https://github.com/wangfupeng1988/wangEditor/issues/967#issuecomment-339312117
+- 支持获取 JSON https://github.com/wangfupeng1988/wangEditor/issues/967
+- 撤销的兼容性问题（会误伤其他编辑器或者 input textarea 等），考虑用 onchange 记录 undo 和 redo 的内容（但是得考虑直接修改 dom 的情况，如 quote code img list table 菜单）
+    - 列表撤销会删除一行？https://github.com/wangfupeng1988/wangEditor/issues/1131
+    - 页面中有 input 等输入标签时，undo redo 会误伤 https://github.com/wangfupeng1988/wangEditor/issues/1024
+    - 两个编辑器 undo 的问题 https://github.com/wangfupeng1988/wangEditor/issues/1010
+    - list undo redo 有问题。选中几行，先设置有序列表，再设置无序列表，然后撤销，就能复现问题
 - emoji 的浏览器兼容性问题，在 IE 360 中，许多表情都不兼容
-- 页面中有 input 等输入标签时，undo redo 会误伤 https://github.com/wangfupeng1988/wangEditor/issues/1024
-- 选中一行，点击“引用”按钮，该行成为引用格式。然后再点击“引用”按钮，引用没法取消
-- 两个编辑器 undo 的问题 https://github.com/wangfupeng1988/wangEditor/issues/1010
-- 先输入文字，再粘贴 excel 表格，样式丢失 https://github.com/wangfupeng1988/wangEditor/issues/1000#issuecomment-329951881
-- 选中图片和表格时，主动弹出编辑 panel（模拟菜单的click），而不是等着用户点击（这里注意如何让用户选择不再弹出，不重复弹出）
-- IE 11 直接输入文字会空一行在第二行出现内容 https://github.com/wangfupeng1988/wangEditor/issues/919
-- windows 下 word excel 的粘贴，存在垃圾数据
-- list undo redo 有问题。选中几行，先设置有序列表，再设置无序列表，然后撤销，就能复现问题
-- 调研 safari、IE 和ff中粘贴图片  https://github.com/wangfupeng1988/wangEditor/issues/831
-- 将代码在进行拆分，做到“每个程序只做一件事”，不要出现过长的代码文件。例如 `src/js/command/index.js` 和 `src/js/selection/index.js`
-
+- 粘贴文字的样式问题（可暂时配置 `pasteTextHandle` 自行处理）
+    - 先输入文字，再粘贴 excel 表格，样式丢失 https://github.com/wangfupeng1988/wangEditor/issues/1000
+    - IE 11 直接输入文字会空一行在第二行出现内容 https://github.com/wangfupeng1988/wangEditor/issues/919
+    - windows 下 word excel 的粘贴，存在垃圾数据
 
 ## 待排期
 
+- 调研 safari、IE 和ff中粘贴图片  https://github.com/wangfupeng1988/wangEditor/issues/831
 - 图片调整大小，表格调整的方式，是否用 toolbar 的方式？
 - 删除掉`./release`之后，执行`npm run release`会报错，原因是`fonts`文件没拷贝全，就要去替换`css`中的字体文件为`base64`格式，导致找不到文件。
 - 先点击'B'再输入内容这种形式，前期先支持 webkit 和 IE，火狐的支持后面再加上
 - 图片压缩 canvas https://github.com/think2011/localResizeIMG 
 - github 徽章 https://github.com/EyreFree/GitHubBadgeIntroduction
+- 将代码在进行拆分，做到“每个程序只做一件事”，不要出现过长的代码文件。例如 `src/js/command/index.js` 和 `src/js/selection/index.js`
 

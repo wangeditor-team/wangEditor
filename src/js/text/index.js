@@ -263,8 +263,24 @@ Text.prototype = {
     // 粘贴事件（粘贴文字 粘贴图片）
     _pasteHandle: function () {
         const editor = this.editor
-        const pasteFilterStyle = editor.config.pasteFilterStyle
+        const config = editor.config
+        const pasteFilterStyle = config.pasteFilterStyle
+        const pasteTextHandle = config.pasteTextHandle
         const $textElem = editor.$textElem
+
+        // 粘贴图片、文本的事件，每次只能执行一个
+        // 判断该次粘贴事件是否可以执行
+        let pasteTime = 0
+        function canDo() {
+            var now = Date.now()
+            var flag = false
+            if (now - pasteTime >= 500) {
+                // 间隔大于 500 ms ，可以执行
+                flag = true
+            }
+            pasteTime = now
+            return flag
+        }
 
         // 粘贴文字
         $textElem.on('paste', e => {
@@ -275,10 +291,21 @@ Text.prototype = {
                 e.preventDefault()
             }
 
+            // 粘贴图片和文本，只能同时使用一个
+            if (!canDo()) {
+                return
+            }
+
             // 获取粘贴的文字
             let pasteHtml = getPasteHtml(e, pasteFilterStyle)
             let pasteText = getPasteText(e)
             pasteText = pasteText.replace(/\n/gm, '<br>')
+
+            // 自定义处理粘贴的内容
+            if (pasteTextHandle && typeof pasteTextHandle === 'function') {
+                pasteHtml = '' + (pasteTextHandle(pasteHtml) || '')
+                pasteText = '' + (pasteTextHandle(pasteText) || '')
+            }
 
             const $selectionElem = editor.selection.getSelectionContainerElem()
             if (!$selectionElem) {
@@ -317,6 +344,11 @@ Text.prototype = {
                 return
             } else {
                 e.preventDefault()
+            }
+
+            // 粘贴图片和文本，只能同时使用一个
+            if (!canDo()) {
+                return
             }
 
             // 获取粘贴的图片
@@ -381,22 +413,18 @@ Text.prototype = {
     _imgHandle: function () {
         const editor = this.editor
         const $textElem = editor.$textElem
-        const selectedClass = 'w-e-selected'
 
         // 为图片增加 selected 样式
         $textElem.on('click', 'img', function (e) {
             const img = this
             const $img = $(img)
 
-            // 去掉所有图片的 selected 样式
-            $textElem.find('img').removeClass(selectedClass)
-
-            // 为点击的图片增加样式，并记录当前图片
-            $img.addClass(selectedClass)
+            // 记录当前点击过的图片
             editor._selectedImg = $img
 
-            // 修改选取
+            // 修改选区并 restore ，防止用户此时点击退格键，会删除其他内容
             editor.selection.createRangeByElem($img)
+            editor.selection.restoreSelection()
         })
 
         // 去掉图片的 selected 样式
@@ -405,8 +433,7 @@ Text.prototype = {
                 // 点击的是图片，忽略
                 return
             }
-            // 取消掉 selected 样式，并删除记录
-            $textElem.find('img').removeClass(selectedClass)
+            // 删除记录
             editor._selectedImg = null
         })
     },
