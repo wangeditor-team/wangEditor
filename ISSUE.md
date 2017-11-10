@@ -98,12 +98,12 @@
 
 ### v3.0.13
 
-- [done] 修复图片 选中/取消选中 时，触发 onchange 的问题 https://github.com/wangfupeng1988/wangEditor/issues/1100
+- [done] 修复图片 选中/取消选中 时，触发 onchange 的问题
 - [done] 修复只通过 length 判断 onchange 是否触发的问题
-- [done] 增加插入网络图片的校验函数 https://github.com/wangfupeng1988/wangEditor/issues/1106
-- [done] 增加自定义处理粘贴文本的事件 https://github.com/wangfupeng1988/wangEditor/issues/1124
-- [done] 修复选中一个图片时点击删除键会误删除其他内容的 bug https://github.com/wangfupeng1988/wangEditor/issues/1111 
-- [done] 修复 window chrome 中“复制图片”然后粘贴图片，会粘贴为两张的 bug https://github.com/wangfupeng1988/wangEditor/issues/1081#issuecomment-340362631
+- [done] 增加插入网络图片的校验函数
+- [done] 增加自定义处理粘贴文本的事件
+- [done] 修复选中一个图片时点击删除键会误删除其他内容的 bug 
+- [done] 修复 window chrome 中“复制图片”然后粘贴图片，会粘贴为两张的 bug 
 - [done] 修复无法撤销“引用”的问题
 
 ### 近期计划解决
