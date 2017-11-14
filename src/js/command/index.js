@@ -43,14 +43,8 @@ Command.prototype = {
         editor.selection.saveRange()
         editor.selection.restoreSelection()
 
-        // onchange 时候是否需要比较每一个字符
-        let compareEveryChar = false
-        if (['insertOrderedList', 'insertUnorderedList'].indexOf(name) >= 0) {
-            compareEveryChar = true
-        }
-
         // 触发 onchange
-        editor.change && editor.change(compareEveryChar)
+        editor.change && editor.change()
     },
 
     // 自定义 insertHTML 事件

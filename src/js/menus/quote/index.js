@@ -24,16 +24,23 @@ Quote.prototype = {
 
     onClick: function (e) {
         const editor = this.editor
+        const $selectionElem = editor.selection.getSelectionContainerElem()
+        const nodeName = $selectionElem.getNodeName()
+
         if (!UA.isIE()) {
-            editor.cmd.do('formatBlock', '<BLOCKQUOTE>')
+            if (nodeName === 'BLOCKQUOTE') {
+                // 撤销 quote
+                editor.cmd.do('formatBlock', '<P>')
+            } else {
+                // 转换为 quote
+                editor.cmd.do('formatBlock', '<BLOCKQUOTE>')
+            }
             return
         }
         
         // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
-
-        const $selectionElem = editor.selection.getSelectionContainerElem()
         let content, $targetELem
-        if ($selectionElem.getNodeName() === 'P') {
+        if (nodeName === 'P') {
             // 将 P 转换为 quote
             content = $selectionElem.text()
             $targetELem = $(`<blockquote>${content}</blockquote>`)
@@ -41,7 +48,7 @@ Quote.prototype = {
             $selectionElem.remove()
             return
         }
-        if ($selectionElem.getNodeName() === 'BLOCKQUOTE') {
+        if (nodeName === 'BLOCKQUOTE') {
             // 撤销 quote
             content = $selectionElem.text()
             $targetELem = $(`<p>${content}</p>`)
