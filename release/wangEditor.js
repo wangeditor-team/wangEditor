@@ -82,6 +82,9 @@ function querySelectorAll(selector) {
     }
 }
 
+// 记录所有的事件绑定
+var eventList = [];
+
 // 创建构造函数
 function DomElement(selector) {
     if (!selector) {
@@ -104,8 +107,8 @@ function DomElement(selector) {
     } else if (nodeType === 1) {
         // 单个 DOM 节点
         selectorResult = [selector];
-    } else if (isDOMList(selector)) {
-        // DOM List
+    } else if (isDOMList(selector) || selector instanceof Array) {
+        // DOM List 或者数组
         selectorResult = selector;
     } else if (typeof selector === 'string') {
         // 字符串
@@ -150,6 +153,15 @@ DomElement.prototype = {
         return this;
     },
 
+    // clone
+    clone: function clone(deep) {
+        var cloneList = [];
+        this.forEach(function (elem) {
+            cloneList.push(elem.cloneNode(!!deep));
+        });
+        return $(cloneList);
+    },
+
     // 获取第几个元素
     get: function get(index) {
         var length = this.length;
@@ -188,9 +200,16 @@ DomElement.prototype = {
                     return;
                 }
 
+                // 记录下，方便后面解绑
+                eventList.push({
+                    elem: elem,
+                    type: type,
+                    fn: fn
+                });
+
                 if (!selector) {
                     // 无代理
-                    elem.addEventListener(type, fn, false);
+                    elem.addEventListener(type, fn);
                     return;
                 }
 
@@ -200,7 +219,7 @@ DomElement.prototype = {
                     if (target.matches(selector)) {
                         fn.call(target, e);
                     }
-                }, false);
+                });
             });
         });
     },
@@ -208,7 +227,7 @@ DomElement.prototype = {
     // 取消事件绑定
     off: function off(type, fn) {
         return this.forEach(function (elem) {
-            elem.removeEventListener(type, fn, false);
+            elem.removeEventListener(type, fn);
         });
     },
 
@@ -331,6 +350,16 @@ DomElement.prototype = {
         }
 
         return $(elem.children);
+    },
+
+    // 获取子节点（包括文本节点）
+    childNodes: function childNodes() {
+        var elem = this[0];
+        if (!elem) {
+            return null;
+        }
+
+        return $(elem.childNodes);
     },
 
     // 增加子节点
@@ -499,6 +528,17 @@ function $(selector) {
     return new DomElement(selector);
 }
 
+// 解绑所有事件，用于销毁编辑器
+$.offAll = function () {
+    eventList.forEach(function (item) {
+        var elem = item.elem;
+        var type = item.type;
+        var fn = item.fn;
+        // 解绑
+        elem.removeEventListener(type, fn);
+    });
+};
+
 /*
     配置信息
 */
@@ -507,6 +547,8 @@ var config = {
 
     // 默认菜单配置
     menus: ['head', 'bold', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'video', 'code', 'undo', 'redo'],
+
+    colors: ['#000000', '#eeece0', '#1c487f', '#4d80bf', '#c24f4a', '#8baa4a', '#7b5ba1', '#46acc8', '#f9963b', '#ffffff'],
 
     // // 语言配置
     // lang: {
@@ -1652,6 +1694,10 @@ function ForeColor(editor) {
     this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-pencil2"><i/></div>');
     this.type = 'droplist';
 
+    // 获取配置的颜色
+    var config = editor.config;
+    var colors = config.colors || [];
+
     // 当前是否 active 状态
     this._active = false;
 
@@ -1660,7 +1706,9 @@ function ForeColor(editor) {
         width: 120,
         $title: $('<p>文字颜色</p>'),
         type: 'inline-block', // droplist 内容以 block 形式展示
-        list: [{ $elem: $('<i style="color:#000000;" class="w-e-icon-pencil2"></i>'), value: '#000000' }, { $elem: $('<i style="color:#eeece0;" class="w-e-icon-pencil2"></i>'), value: '#eeece0' }, { $elem: $('<i style="color:#1c487f;" class="w-e-icon-pencil2"></i>'), value: '#1c487f' }, { $elem: $('<i style="color:#4d80bf;" class="w-e-icon-pencil2"></i>'), value: '#4d80bf' }, { $elem: $('<i style="color:#c24f4a;" class="w-e-icon-pencil2"></i>'), value: '#c24f4a' }, { $elem: $('<i style="color:#8baa4a;" class="w-e-icon-pencil2"></i>'), value: '#8baa4a' }, { $elem: $('<i style="color:#7b5ba1;" class="w-e-icon-pencil2"></i>'), value: '#7b5ba1' }, { $elem: $('<i style="color:#46acc8;" class="w-e-icon-pencil2"></i>'), value: '#46acc8' }, { $elem: $('<i style="color:#f9963b;" class="w-e-icon-pencil2"></i>'), value: '#f9963b' }, { $elem: $('<i style="color:#ffffff;" class="w-e-icon-pencil2"></i>'), value: '#ffffff' }],
+        list: colors.map(function (color) {
+            return { $elem: $('<i style="color:' + color + ';" class="w-e-icon-pencil2"></i>'), value: color };
+        }),
         onClick: function onClick(value) {
             // 注意 this 是指向当前的 ForeColor 对象
             _this._command(value);
@@ -1690,6 +1738,10 @@ function BackColor(editor) {
     this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paint-brush"><i/></div>');
     this.type = 'droplist';
 
+    // 获取配置的颜色
+    var config = editor.config;
+    var colors = config.colors || [];
+
     // 当前是否 active 状态
     this._active = false;
 
@@ -1698,7 +1750,9 @@ function BackColor(editor) {
         width: 120,
         $title: $('<p>背景色</p>'),
         type: 'inline-block', // droplist 内容以 block 形式展示
-        list: [{ $elem: $('<i style="color:#000000;" class="w-e-icon-paint-brush"></i>'), value: '#000000' }, { $elem: $('<i style="color:#eeece0;" class="w-e-icon-paint-brush"></i>'), value: '#eeece0' }, { $elem: $('<i style="color:#1c487f;" class="w-e-icon-paint-brush"></i>'), value: '#1c487f' }, { $elem: $('<i style="color:#4d80bf;" class="w-e-icon-paint-brush"></i>'), value: '#4d80bf' }, { $elem: $('<i style="color:#c24f4a;" class="w-e-icon-paint-brush"></i>'), value: '#c24f4a' }, { $elem: $('<i style="color:#8baa4a;" class="w-e-icon-paint-brush"></i>'), value: '#8baa4a' }, { $elem: $('<i style="color:#7b5ba1;" class="w-e-icon-paint-brush"></i>'), value: '#7b5ba1' }, { $elem: $('<i style="color:#46acc8;" class="w-e-icon-paint-brush"></i>'), value: '#46acc8' }, { $elem: $('<i style="color:#f9963b;" class="w-e-icon-paint-brush"></i>'), value: '#f9963b' }, { $elem: $('<i style="color:#ffffff;" class="w-e-icon-paint-brush"></i>'), value: '#ffffff' }],
+        list: colors.map(function (color) {
+            return { $elem: $('<i style="color:' + color + ';" class="w-e-icon-paint-brush"></i>'), value: color };
+        }),
         onClick: function onClick(value) {
             // 注意 this 是指向当前的 BackColor 对象
             _this._command(value);
@@ -2900,6 +2954,46 @@ function getPasteImgs(e) {
     编辑区域
 */
 
+// 获取一个 elem.childNodes 的 JSON 数据
+function getChildrenJSON($elem) {
+    var result = [];
+    var $children = $elem.childNodes() || []; // 注意 childNodes() 可以获取文本节点
+    $children.forEach(function (curElem) {
+        var elemResult = void 0;
+        var nodeType = curElem.nodeType;
+
+        // 文本节点
+        if (nodeType === 3) {
+            elemResult = curElem.textContent;
+        }
+
+        // 普通 DOM 节点
+        if (nodeType === 1) {
+            elemResult = {};
+
+            // tag
+            elemResult.tag = curElem.nodeName.toLowerCase();
+            // attr
+            var attrData = [];
+            var attrList = curElem.attributes || {};
+            var attrListLength = attrList.length || 0;
+            for (var i = 0; i < attrListLength; i++) {
+                var attr = attrList[i];
+                attrData.push({
+                    name: attr.name,
+                    value: attr.value
+                });
+            }
+            elemResult.attrs = attrData;
+            // children（递归）
+            elemResult.children = getChildrenJSON($(curElem));
+        }
+
+        result.push(elemResult);
+    });
+    return result;
+}
+
 // 构造函数
 function Text(editor) {
     this.editor = editor;
@@ -2932,6 +3026,13 @@ Text.prototype = {
             // 初始化选取，将光标定位到内容尾部
             editor.initSelection();
         }
+    },
+
+    // 获取 JSON
+    getJSON: function getJSON() {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        return getChildrenJSON($textElem);
     },
 
     // 获取 设置 text
@@ -3012,14 +3113,31 @@ Text.prototype = {
         var editor = this.editor;
         var $textElem = editor.$textElem;
 
+        function insertEmptyP($selectionElem) {
+            var $p = $('<p><br></p>');
+            $p.insertBefore($selectionElem);
+            editor.selection.createRangeByElem($p, true);
+            editor.selection.restoreSelection();
+            $selectionElem.remove();
+        }
+
         // 将回车之后生成的非 <p> 的顶级标签，改为 <p>
         function pHandle(e) {
             var $selectionElem = editor.selection.getSelectionContainerElem();
             var $parentElem = $selectionElem.parent();
+
+            if ($parentElem.html() === '<code><br></code>') {
+                // 回车之前光标所在一个 <p><code>.....</code></p> ，忽然回车生成一个空的 <p><code><br></code></p>
+                // 而且继续回车跳不出去，因此只能特殊处理
+                insertEmptyP($selectionElem);
+                return;
+            }
+
             if (!$parentElem.equal($textElem)) {
                 // 不是顶级标签
                 return;
             }
+
             var nodeName = $selectionElem.getNodeName();
             if (nodeName === 'P') {
                 // 当前的标签是 P ，不用做处理
@@ -3032,11 +3150,7 @@ Text.prototype = {
             }
 
             // 插入 <p> ，并将选取定位到 <p>，删除当前标签
-            var $p = $('<p><br></p>');
-            $p.insertBefore($selectionElem);
-            editor.selection.createRangeByElem($p, true);
-            editor.selection.restoreSelection();
-            $selectionElem.remove();
+            insertEmptyP($selectionElem);
         }
 
         $textElem.on('keyup', function (e) {
@@ -4310,6 +4424,11 @@ Editor.prototype = {
 
         // 绑定事件
         this._bindEvent();
+    },
+
+    // 解绑所有事件（暂时不对外开放）
+    _offAllEvent: function _offAllEvent() {
+        $.offAll();
     }
 };
 

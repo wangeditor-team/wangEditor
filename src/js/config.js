@@ -26,6 +26,19 @@ const config = {
         'redo'
     ],
 
+    colors: [
+        '#000000',
+        '#eeece0',
+        '#1c487f',
+        '#4d80bf',
+        '#c24f4a',
+        '#8baa4a',
+        '#7b5ba1',
+        '#46acc8',
+        '#f9963b',
+        '#ffffff'
+    ],
+
     // // 语言配置
     // lang: {
     //     '设置标题': 'title',
