@@ -560,6 +560,159 @@ var config = {
     //     '创建': 'init'
     // },
 
+    // 表情
+    emotions: [{
+        // tab 的标题
+        title: '默认',
+        // type -> 'emoji' / 'image'
+        type: 'image',
+        // content -> 数组
+        content: [{
+            alt: '[坏笑]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png'
+        }, {
+            alt: '[舔屏]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/40/pcmoren_tian_org.png'
+        }, {
+            alt: '[污]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/3c/pcmoren_wu_org.png'
+        }, {
+            alt: '[允悲]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/2c/moren_yunbei_org.png'
+        }, {
+            alt: '[笑而不语]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/3a/moren_xiaoerbuyu_org.png'
+        }, {
+            alt: '[费解]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/3c/moren_feijie_org.png'
+        }, {
+            alt: '[憧憬]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/37/moren_chongjing_org.png'
+        }, {
+            alt: '[并不简单]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/fc/moren_bbjdnew_org.png'
+        }, {
+            alt: '[微笑]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/5c/huanglianwx_org.gif'
+        }, {
+            alt: '[酷]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/8a/pcmoren_cool2017_org.png'
+        }, {
+            alt: '[嘻嘻]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/0b/tootha_org.gif'
+        }, {
+            alt: '[哈哈]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/6a/laugh.gif'
+        }, {
+            alt: '[可爱]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/14/tza_org.gif'
+        }, {
+            alt: '[可怜]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/af/kl_org.gif'
+        }, {
+            alt: '[挖鼻]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/0b/wabi_org.gif'
+        }, {
+            alt: '[吃惊]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/f4/cj_org.gif'
+        }, {
+            alt: '[害羞]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/6e/shamea_org.gif'
+        }, {
+            alt: '[挤眼]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/c3/zy_org.gif'
+        }, {
+            alt: '[闭嘴]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/29/bz_org.gif'
+        }, {
+            alt: '[鄙视]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/71/bs2_org.gif'
+        }, {
+            alt: '[爱你]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/6d/lovea_org.gif'
+        }, {
+            alt: '[泪]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/9d/sada_org.gif'
+        }, {
+            alt: '[偷笑]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/19/heia_org.gif'
+        }, {
+            alt: '[亲亲]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/8f/qq_org.gif'
+        }, {
+            alt: '[生病]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/b6/sb_org.gif'
+        }, {
+            alt: '[太开心]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/58/mb_org.gif'
+        }, {
+            alt: '[白眼]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/d9/landeln_org.gif'
+        }, {
+            alt: '[右哼哼]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/98/yhh_org.gif'
+        }, {
+            alt: '[左哼哼]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/6d/zhh_org.gif'
+        }, {
+            alt: '[嘘]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/a6/x_org.gif'
+        }, {
+            alt: '[衰]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/af/cry.gif'
+        }]
+    }, {
+        // tab 的标题
+        title: '新浪',
+        // type -> 'emoji' / 'image'
+        type: 'image',
+        // content -> 数组
+        content: [{
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/7a/shenshou_thumb.gif',
+            alt: '[草泥马]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/60/horse2_thumb.gif',
+            alt: '[神马]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/bc/fuyun_thumb.gif',
+            alt: '[浮云]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/c9/geili_thumb.gif',
+            alt: '[给力]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/f2/wg_thumb.gif',
+            alt: '[围观]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/70/vw_thumb.gif',
+            alt: '[威武]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/6e/panda_thumb.gif',
+            alt: '[熊猫]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/81/rabbit_thumb.gif',
+            alt: '[兔子]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/bc/otm_thumb.gif',
+            alt: '[奥特曼]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/15/j_thumb.gif',
+            alt: '[囧]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/89/hufen_thumb.gif',
+            alt: '[互粉]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/c4/liwu_thumb.gif',
+            alt: '[礼物]'
+        }]
+    }, {
+        // tab 的标题
+        title: 'emoji',
+        // type -> 'emoji' / 'image'
+        type: 'emoji',
+        // content -> 数组
+        content: '😀 😃 😄 😁 😆 😅 😂 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁  😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐'.split(/\s/)
+    }],
+
     // 编辑区域的 z-index
     zIndex: 10000,
 
@@ -1998,62 +2151,73 @@ Emoticon.prototype = {
     _createPanel: function _createPanel() {
         var _this = this;
 
-        // 拼接表情字符串
-        var faceHtml = '';
-        var faceStr = '😀 😃 😄 😁 😆 😅 😂  😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁  😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐';
-        faceStr.split(/\s/).forEach(function (item) {
-            if (item) {
-                faceHtml += '<span class="w-e-item">' + item + '</span>';
-            }
-        });
+        var editor = this.editor;
+        var config = editor.config;
+        // 获取表情配置
+        var emotions = config.emotions || [];
 
-        var handHtml = '';
-        var handStr = '🙌 👏 👋 👍 👎 👊 ✊ ️👌 ✋ 👐 💪 🙏 ️👆 👇 👈 👉 🖕 🖐 🤘 🖖';
-        handStr.split(/\s/).forEach(function (item) {
-            if (item) {
-                handHtml += '<span class="w-e-item">' + item + '</span>';
+        // 创建表情 dropPanel 的配置
+        var tabConfig = [];
+        emotions.forEach(function (emotData) {
+            var emotType = emotData.type;
+            var content = emotData.content || [];
+
+            // 这一组表情最终拼接出来的 html
+            var faceHtml = '';
+
+            // emoji 表情
+            if (emotType === 'emoji') {
+                content.forEach(function (item) {
+                    if (item) {
+                        faceHtml += '<span class="w-e-item">' + item + '</span>';
+                    }
+                });
             }
+            // 图片表情
+            if (emotType === 'image') {
+                content.forEach(function (item) {
+                    var src = item.src;
+                    var alt = item.alt;
+                    if (src) {
+                        // 加一个 data-w-e 属性，点击图片的时候不再提示编辑图片
+                        faceHtml += '<span class="w-e-item"><img src="' + src + '" alt="' + alt + '" data-w-e="1"/></span>';
+                    }
+                });
+            }
+
+            tabConfig.push({
+                title: emotData.title,
+                tpl: '<div class="w-e-emoticon-container">' + faceHtml + '</div>',
+                events: [{
+                    selector: 'span.w-e-item',
+                    type: 'click',
+                    fn: function fn(e) {
+                        var target = e.target;
+                        var $target = $(target);
+                        var nodeName = $target.getNodeName();
+
+                        var insertHtml = void 0;
+                        if (nodeName === 'IMG') {
+                            // 插入图片
+                            insertHtml = $target.parent().html();
+                        } else {
+                            // 插入 emoji
+                            insertHtml = '<span>' + $target.html() + '</span>';
+                        }
+
+                        _this._insert(insertHtml);
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            });
         });
 
         var panel = new Panel(this, {
             width: 300,
             height: 200,
             // 一个 Panel 包含多个 tab
-            tabs: [{
-                // 标题
-                title: '表情',
-                // 模板
-                tpl: '<div class="w-e-emoticon-container">' + faceHtml + '</div>',
-                // 事件绑定
-                events: [{
-                    selector: 'span.w-e-item',
-                    type: 'click',
-                    fn: function fn(e) {
-                        var target = e.target;
-                        _this._insert(target.innerHTML);
-                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
-                        return true;
-                    }
-                }]
-            }, // first tab end
-            {
-                // 标题
-                title: '手势',
-                // 模板
-                tpl: '<div class="w-e-emoticon-container">' + handHtml + '</div>',
-                // 事件绑定
-                events: [{
-                    selector: 'span.w-e-item',
-                    type: 'click',
-                    fn: function fn(e) {
-                        var target = e.target;
-                        _this._insert(target.innerHTML);
-                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
-                        return true;
-                    }
-                }]
-            } // second tab end
-            ] // tabs end
+            tabs: tabConfig
         });
 
         // 显示 panel
@@ -2064,9 +2228,9 @@ Emoticon.prototype = {
     },
 
     // 插入表情
-    _insert: function _insert(emoji) {
+    _insert: function _insert(emotHtml) {
         var editor = this.editor;
-        editor.cmd.do('insertHTML', '<span>' + emoji + '</span>');
+        editor.cmd.do('insertHTML', emotHtml);
     }
 };
 
@@ -3424,6 +3588,11 @@ Text.prototype = {
         $textElem.on('click', 'img', function (e) {
             var img = this;
             var $img = $(img);
+
+            if ($img.attr('data-w-e') === '1') {
+                // 是表情图片，忽略
+                return;
+            }
 
             // 记录当前点击过的图片
             editor._selectedImg = $img;

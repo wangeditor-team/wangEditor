@@ -109,12 +109,15 @@
 ### v3.0.14
 
 - [done] 可以配置前景色、背景色
-- [done] 回车时无法从`<p><code>....</code></p>`中跳出 https://github.com/wangfupeng1988/wangEditor/issues/1141
-- [done] 增加获取 JSON 格式内容的 API https://github.com/wangfupeng1988/wangEditor/issues/967
+- [done] 回车时无法从`<p><code>....</code></p>`中跳出
+- [done] 增加获取 JSON 格式内容的 API
+
+### v3.0.15
+
+- [done] 表情兼容图片和 emoji ，都可自定义配置
 
 ### 近期计划解决
 
-- emoji 的浏览器兼容性问题，在 IE 360 中，许多表情都不兼容
 - 撤销的兼容性问题（会误伤其他编辑器或者 input textarea 等），考虑用 onchange 记录 undo 和 redo 的内容（但是得考虑直接修改 dom 的情况，如 quote code img list table 菜单）
     - 列表撤销会删除一行？https://github.com/wangfupeng1988/wangEditor/issues/1131
     - 页面中有 input 等输入标签时，undo redo 会误伤 https://github.com/wangfupeng1988/wangEditor/issues/1024

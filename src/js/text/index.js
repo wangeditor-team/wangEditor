@@ -479,6 +479,11 @@ Text.prototype = {
             const img = this
             const $img = $(img)
 
+            if ($img.attr('data-w-e') === '1') {
+                // 是表情图片，忽略
+                return
+            }
+
             // 记录当前点击过的图片
             editor._selectedImg = $img
 
