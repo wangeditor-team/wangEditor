@@ -45,7 +45,7 @@ export function getPasteHtml(e, filterStyle) {
     // 过滤无用标签
     pasteHtml = pasteHtml.replace(/<(meta|script|link).+?>/igm, '')
     // 去掉注释
-    pasteHtml = pasteHtml.replace(/<!--.*?-->/mg, '')
+    pasteHtml = pasteHtml.replace(/<!--[\s\S]*?-->/mg, '')
 
     if (filterStyle) {
         // 过滤样式
