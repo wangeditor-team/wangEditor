@@ -6,6 +6,46 @@ import $ from '../util/dom-core.js'
 import { getPasteText, getPasteHtml, getPasteImgs } from '../util/paste-handle.js'
 import { UA } from '../util/util.js'
 
+// 获取一个 elem.childNodes 的 JSON 数据
+function getChildrenJSON($elem) {
+    const result = []
+    const $children = $elem.childNodes() || [] // 注意 childNodes() 可以获取文本节点
+    $children.forEach(curElem => {
+        let elemResult
+        const nodeType = curElem.nodeType
+
+        // 文本节点
+        if (nodeType === 3) {
+            elemResult = curElem.textContent
+        }
+
+        // 普通 DOM 节点
+        if (nodeType === 1) {
+            elemResult = {}
+
+            // tag
+            elemResult.tag = curElem.nodeName.toLowerCase()
+            // attr
+            const attrData = []
+            const attrList = curElem.attributes || {}
+            const attrListLength = attrList.length || 0
+            for (let i = 0; i < attrListLength; i++) {
+                const attr = attrList[i]
+                attrData.push({
+                    name: attr.name,
+                    value: attr.value
+                })
+            }
+            elemResult.attrs = attrData
+            // children（递归）
+            elemResult.children = getChildrenJSON($(curElem))
+        }
+
+        result.push(elemResult)
+    })
+    return result
+}
+
 // 构造函数
 function Text(editor) {
     this.editor = editor
@@ -38,6 +78,13 @@ Text.prototype = {
             // 初始化选取，将光标定位到内容尾部
             editor.initSelection()
         }
+    },
+
+    // 获取 JSON
+    getJSON: function () {
+        const editor = this.editor
+        const $textElem = editor.$textElem
+        return getChildrenJSON($textElem)
     },
 
     // 获取 设置 text
@@ -118,14 +165,31 @@ Text.prototype = {
         const editor = this.editor
         const $textElem = editor.$textElem
 
+        function insertEmptyP ($selectionElem) {
+            const $p = $('<p><br></p>')
+            $p.insertBefore($selectionElem)
+            editor.selection.createRangeByElem($p, true)
+            editor.selection.restoreSelection()
+            $selectionElem.remove()
+        }
+
         // 将回车之后生成的非 <p> 的顶级标签，改为 <p>
         function pHandle(e) {
             const $selectionElem = editor.selection.getSelectionContainerElem()
             const $parentElem = $selectionElem.parent()
+
+            if ($parentElem.html() === '<code><br></code>') {
+                // 回车之前光标所在一个 <p><code>.....</code></p> ，忽然回车生成一个空的 <p><code><br></code></p>
+                // 而且继续回车跳不出去，因此只能特殊处理
+                insertEmptyP($selectionElem)
+                return
+            }
+
             if (!$parentElem.equal($textElem)) {
                 // 不是顶级标签
                 return
             }
+
             const nodeName = $selectionElem.getNodeName()
             if (nodeName === 'P') {
                 // 当前的标签是 P ，不用做处理
@@ -138,11 +202,7 @@ Text.prototype = {
             }
 
             // 插入 <p> ，并将选取定位到 <p>，删除当前标签
-            const $p = $('<p><br></p>')
-            $p.insertBefore($selectionElem)
-            editor.selection.createRangeByElem($p, true)
-            editor.selection.restoreSelection()
-            $selectionElem.remove()
+            insertEmptyP($selectionElem)
         }
 
         $textElem.on('keyup', e => {
@@ -418,6 +478,11 @@ Text.prototype = {
         $textElem.on('click', 'img', function (e) {
             const img = this
             const $img = $(img)
+
+            if ($img.attr('data-w-e') === '1') {
+                // 是表情图片，忽略
+                return
+            }
 
             // 记录当前点击过的图片
             editor._selectedImg = $img

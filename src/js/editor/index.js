@@ -307,6 +307,11 @@ Editor.prototype = {
 
         // 绑定事件
         this._bindEvent()
+    },
+
+    // 解绑所有事件（暂时不对外开放）
+    _offAllEvent: function () {
+        $.offAll()
     }
 }
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor demo getJSON</title>
+</head>
+<body>
+    <p>获取 JSON</p>
+    <div id="div1">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+        <img src="https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png" style="max-width:100%;"/>
+    </div>
+    <button id="btn1">getJSON</button>
+
+    <script type="text/javascript" src="/wangEditor.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor = new E('#div1')
+        editor.create()
+
+        document.getElementById('btn1').addEventListener('click', function () {
+            var json = editor.txt.getJSON()
+            var jsonStr = JSON.stringify(json)
+            console.log(json)
+            console.log(jsonStr)
+            alert(jsonStr)
+        })
+    </script>
+</body>
+</html>

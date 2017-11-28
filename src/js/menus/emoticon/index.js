@@ -27,67 +27,75 @@ Emoticon.prototype = {
     },
 
     _createPanel: function () {
-        // 拼接表情字符串
-        let faceHtml = ''
-        const faceStr = '😀 😃 😄 😁 😆 😅 😂  😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁  😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐'
-        faceStr.split(/\s/).forEach(item => {
-            if (item) {
-                faceHtml += '<span class="w-e-item">' + item + '</span>'
-            }
-        })
+        const editor = this.editor
+        const config = editor.config
+        // 获取表情配置
+        const emotions = config.emotions || []
 
-        let handHtml = ''
-        const handStr = '🙌 👏 👋 👍 👎 👊 ✊ ️👌 ✋ 👐 💪 🙏 ️👆 👇 👈 👉 🖕 🖐 🤘 🖖'
-        handStr.split(/\s/).forEach(item => {
-            if (item) {
-                handHtml += '<span class="w-e-item">' + item + '</span>'
+        // 创建表情 dropPanel 的配置
+        const tabConfig = []
+        emotions.forEach(emotData => {
+            const emotType = emotData.type
+            const content = emotData.content || []
+
+            // 这一组表情最终拼接出来的 html
+            let faceHtml = ''
+
+            // emoji 表情
+            if (emotType === 'emoji') {
+                content.forEach(item => {
+                    if (item) {
+                        faceHtml += '<span class="w-e-item">' + item + '</span>'
+                    }
+                })
             }
+            // 图片表情
+            if (emotType === 'image') {
+                content.forEach(item => {
+                    const src = item.src
+                    const alt = item.alt
+                    if (src) {
+                        // 加一个 data-w-e 属性，点击图片的时候不再提示编辑图片
+                        faceHtml += '<span class="w-e-item"><img src="' + src + '" alt="' + alt + '" data-w-e="1"/></span>'
+                    }
+                })
+            }
+
+            tabConfig.push({
+                title: emotData.title,
+                tpl: `<div class="w-e-emoticon-container">${faceHtml}</div>`,
+                events: [
+                    {
+                        selector: 'span.w-e-item',
+                        type: 'click',
+                        fn: (e) => {
+                            const target = e.target
+                            const $target = $(target)
+                            const nodeName = $target.getNodeName()
+
+                            let insertHtml
+                            if (nodeName === 'IMG') {
+                                // 插入图片
+                                insertHtml = $target.parent().html()
+                            } else {
+                                // 插入 emoji
+                                insertHtml = '<span>' + $target.html() + '</span>'
+                            }
+
+                            this._insert(insertHtml)
+                            // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                            return true
+                        }
+                    }
+                ]
+            })
         })
 
         const panel = new Panel(this, {
             width: 300,
             height: 200,
             // 一个 Panel 包含多个 tab
-            tabs: [
-                {
-                    // 标题
-                    title: '表情',
-                    // 模板
-                    tpl: `<div class="w-e-emoticon-container">${faceHtml}</div>`,
-                    // 事件绑定
-                    events: [
-                        {
-                            selector: 'span.w-e-item',
-                            type: 'click',
-                            fn: (e) => {
-                                const target = e.target
-                                this._insert(target.innerHTML)
-                                // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
-                                return true
-                            }
-                        }
-                    ]
-                }, // first tab end
-                {
-                    // 标题
-                    title: '手势',
-                    // 模板
-                    tpl: `<div class="w-e-emoticon-container">${handHtml}</div>`,
-                    // 事件绑定
-                    events: [
-                        {
-                            selector: 'span.w-e-item',
-                            type: 'click',
-                            fn: (e) => {
-                                const target = e.target
-                                this._insert(target.innerHTML)
-                                // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
-                                return true
-                            }
-                        }
-                    ]
-                } // second tab end
-            ] // tabs end
+            tabs: tabConfig
         })
 
         // 显示 panel
@@ -98,9 +106,9 @@ Emoticon.prototype = {
     },
 
     // 插入表情
-    _insert: function (emoji) {
+    _insert: function (emotHtml) {
         const editor = this.editor
-        editor.cmd.do('insertHTML', '<span>' + emoji + '</span>')
+        editor.cmd.do('insertHTML', emotHtml)
     }
 }
 

@@ -82,6 +82,9 @@ function querySelectorAll(selector) {
     }
 }
 
+// 记录所有的事件绑定
+var eventList = [];
+
 // 创建构造函数
 function DomElement(selector) {
     if (!selector) {
@@ -104,8 +107,8 @@ function DomElement(selector) {
     } else if (nodeType === 1) {
         // 单个 DOM 节点
         selectorResult = [selector];
-    } else if (isDOMList(selector)) {
-        // DOM List
+    } else if (isDOMList(selector) || selector instanceof Array) {
+        // DOM List 或者数组
         selectorResult = selector;
     } else if (typeof selector === 'string') {
         // 字符串
@@ -150,6 +153,15 @@ DomElement.prototype = {
         return this;
     },
 
+    // clone
+    clone: function clone(deep) {
+        var cloneList = [];
+        this.forEach(function (elem) {
+            cloneList.push(elem.cloneNode(!!deep));
+        });
+        return $(cloneList);
+    },
+
     // 获取第几个元素
     get: function get(index) {
         var length = this.length;
@@ -188,9 +200,16 @@ DomElement.prototype = {
                     return;
                 }
 
+                // 记录下，方便后面解绑
+                eventList.push({
+                    elem: elem,
+                    type: type,
+                    fn: fn
+                });
+
                 if (!selector) {
                     // 无代理
-                    elem.addEventListener(type, fn, false);
+                    elem.addEventListener(type, fn);
                     return;
                 }
 
@@ -200,7 +219,7 @@ DomElement.prototype = {
                     if (target.matches(selector)) {
                         fn.call(target, e);
                     }
-                }, false);
+                });
             });
         });
     },
@@ -208,7 +227,7 @@ DomElement.prototype = {
     // 取消事件绑定
     off: function off(type, fn) {
         return this.forEach(function (elem) {
-            elem.removeEventListener(type, fn, false);
+            elem.removeEventListener(type, fn);
         });
     },
 
@@ -331,6 +350,16 @@ DomElement.prototype = {
         }
 
         return $(elem.children);
+    },
+
+    // 获取子节点（包括文本节点）
+    childNodes: function childNodes() {
+        var elem = this[0];
+        if (!elem) {
+            return null;
+        }
+
+        return $(elem.childNodes);
     },
 
     // 增加子节点
@@ -499,6 +528,17 @@ function $(selector) {
     return new DomElement(selector);
 }
 
+// 解绑所有事件，用于销毁编辑器
+$.offAll = function () {
+    eventList.forEach(function (item) {
+        var elem = item.elem;
+        var type = item.type;
+        var fn = item.fn;
+        // 解绑
+        elem.removeEventListener(type, fn);
+    });
+};
+
 /*
     配置信息
 */
@@ -507,6 +547,8 @@ var config = {
 
     // 默认菜单配置
     menus: ['head', 'bold', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'video', 'code', 'undo', 'redo'],
+
+    colors: ['#000000', '#eeece0', '#1c487f', '#4d80bf', '#c24f4a', '#8baa4a', '#7b5ba1', '#46acc8', '#f9963b', '#ffffff'],
 
     // // 语言配置
     // lang: {
@@ -517,6 +559,159 @@ var config = {
     //     '插入': 'insert',
     //     '创建': 'init'
     // },
+
+    // 表情
+    emotions: [{
+        // tab 的标题
+        title: '默认',
+        // type -> 'emoji' / 'image'
+        type: 'image',
+        // content -> 数组
+        content: [{
+            alt: '[坏笑]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png'
+        }, {
+            alt: '[舔屏]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/40/pcmoren_tian_org.png'
+        }, {
+            alt: '[污]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/3c/pcmoren_wu_org.png'
+        }, {
+            alt: '[允悲]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/2c/moren_yunbei_org.png'
+        }, {
+            alt: '[笑而不语]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/3a/moren_xiaoerbuyu_org.png'
+        }, {
+            alt: '[费解]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/3c/moren_feijie_org.png'
+        }, {
+            alt: '[憧憬]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/37/moren_chongjing_org.png'
+        }, {
+            alt: '[并不简单]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/fc/moren_bbjdnew_org.png'
+        }, {
+            alt: '[微笑]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/5c/huanglianwx_org.gif'
+        }, {
+            alt: '[酷]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/8a/pcmoren_cool2017_org.png'
+        }, {
+            alt: '[嘻嘻]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/0b/tootha_org.gif'
+        }, {
+            alt: '[哈哈]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/6a/laugh.gif'
+        }, {
+            alt: '[可爱]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/14/tza_org.gif'
+        }, {
+            alt: '[可怜]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/af/kl_org.gif'
+        }, {
+            alt: '[挖鼻]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/0b/wabi_org.gif'
+        }, {
+            alt: '[吃惊]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/f4/cj_org.gif'
+        }, {
+            alt: '[害羞]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/6e/shamea_org.gif'
+        }, {
+            alt: '[挤眼]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/c3/zy_org.gif'
+        }, {
+            alt: '[闭嘴]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/29/bz_org.gif'
+        }, {
+            alt: '[鄙视]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/71/bs2_org.gif'
+        }, {
+            alt: '[爱你]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/6d/lovea_org.gif'
+        }, {
+            alt: '[泪]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/9d/sada_org.gif'
+        }, {
+            alt: '[偷笑]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/19/heia_org.gif'
+        }, {
+            alt: '[亲亲]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/8f/qq_org.gif'
+        }, {
+            alt: '[生病]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/b6/sb_org.gif'
+        }, {
+            alt: '[太开心]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/58/mb_org.gif'
+        }, {
+            alt: '[白眼]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/d9/landeln_org.gif'
+        }, {
+            alt: '[右哼哼]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/98/yhh_org.gif'
+        }, {
+            alt: '[左哼哼]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/6d/zhh_org.gif'
+        }, {
+            alt: '[嘘]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/a6/x_org.gif'
+        }, {
+            alt: '[衰]',
+            src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/af/cry.gif'
+        }]
+    }, {
+        // tab 的标题
+        title: '新浪',
+        // type -> 'emoji' / 'image'
+        type: 'image',
+        // content -> 数组
+        content: [{
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/7a/shenshou_thumb.gif',
+            alt: '[草泥马]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/60/horse2_thumb.gif',
+            alt: '[神马]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/bc/fuyun_thumb.gif',
+            alt: '[浮云]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/c9/geili_thumb.gif',
+            alt: '[给力]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/f2/wg_thumb.gif',
+            alt: '[围观]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/70/vw_thumb.gif',
+            alt: '[威武]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/6e/panda_thumb.gif',
+            alt: '[熊猫]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/81/rabbit_thumb.gif',
+            alt: '[兔子]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/bc/otm_thumb.gif',
+            alt: '[奥特曼]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/15/j_thumb.gif',
+            alt: '[囧]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/89/hufen_thumb.gif',
+            alt: '[互粉]'
+        }, {
+            src: 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/c4/liwu_thumb.gif',
+            alt: '[礼物]'
+        }]
+    }, {
+        // tab 的标题
+        title: 'emoji',
+        // type -> 'emoji' / 'image'
+        type: 'emoji',
+        // content -> 数组
+        content: '😀 😃 😄 😁 😆 😅 😂 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁  😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐'.split(/\s/)
+    }],
 
     // 编辑区域的 z-index
     zIndex: 10000,
@@ -1652,6 +1847,10 @@ function ForeColor(editor) {
     this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-pencil2"><i/></div>');
     this.type = 'droplist';
 
+    // 获取配置的颜色
+    var config = editor.config;
+    var colors = config.colors || [];
+
     // 当前是否 active 状态
     this._active = false;
 
@@ -1660,7 +1859,9 @@ function ForeColor(editor) {
         width: 120,
         $title: $('<p>文字颜色</p>'),
         type: 'inline-block', // droplist 内容以 block 形式展示
-        list: [{ $elem: $('<i style="color:#000000;" class="w-e-icon-pencil2"></i>'), value: '#000000' }, { $elem: $('<i style="color:#eeece0;" class="w-e-icon-pencil2"></i>'), value: '#eeece0' }, { $elem: $('<i style="color:#1c487f;" class="w-e-icon-pencil2"></i>'), value: '#1c487f' }, { $elem: $('<i style="color:#4d80bf;" class="w-e-icon-pencil2"></i>'), value: '#4d80bf' }, { $elem: $('<i style="color:#c24f4a;" class="w-e-icon-pencil2"></i>'), value: '#c24f4a' }, { $elem: $('<i style="color:#8baa4a;" class="w-e-icon-pencil2"></i>'), value: '#8baa4a' }, { $elem: $('<i style="color:#7b5ba1;" class="w-e-icon-pencil2"></i>'), value: '#7b5ba1' }, { $elem: $('<i style="color:#46acc8;" class="w-e-icon-pencil2"></i>'), value: '#46acc8' }, { $elem: $('<i style="color:#f9963b;" class="w-e-icon-pencil2"></i>'), value: '#f9963b' }, { $elem: $('<i style="color:#ffffff;" class="w-e-icon-pencil2"></i>'), value: '#ffffff' }],
+        list: colors.map(function (color) {
+            return { $elem: $('<i style="color:' + color + ';" class="w-e-icon-pencil2"></i>'), value: color };
+        }),
         onClick: function onClick(value) {
             // 注意 this 是指向当前的 ForeColor 对象
             _this._command(value);
@@ -1690,6 +1891,10 @@ function BackColor(editor) {
     this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paint-brush"><i/></div>');
     this.type = 'droplist';
 
+    // 获取配置的颜色
+    var config = editor.config;
+    var colors = config.colors || [];
+
     // 当前是否 active 状态
     this._active = false;
 
@@ -1698,7 +1903,9 @@ function BackColor(editor) {
         width: 120,
         $title: $('<p>背景色</p>'),
         type: 'inline-block', // droplist 内容以 block 形式展示
-        list: [{ $elem: $('<i style="color:#000000;" class="w-e-icon-paint-brush"></i>'), value: '#000000' }, { $elem: $('<i style="color:#eeece0;" class="w-e-icon-paint-brush"></i>'), value: '#eeece0' }, { $elem: $('<i style="color:#1c487f;" class="w-e-icon-paint-brush"></i>'), value: '#1c487f' }, { $elem: $('<i style="color:#4d80bf;" class="w-e-icon-paint-brush"></i>'), value: '#4d80bf' }, { $elem: $('<i style="color:#c24f4a;" class="w-e-icon-paint-brush"></i>'), value: '#c24f4a' }, { $elem: $('<i style="color:#8baa4a;" class="w-e-icon-paint-brush"></i>'), value: '#8baa4a' }, { $elem: $('<i style="color:#7b5ba1;" class="w-e-icon-paint-brush"></i>'), value: '#7b5ba1' }, { $elem: $('<i style="color:#46acc8;" class="w-e-icon-paint-brush"></i>'), value: '#46acc8' }, { $elem: $('<i style="color:#f9963b;" class="w-e-icon-paint-brush"></i>'), value: '#f9963b' }, { $elem: $('<i style="color:#ffffff;" class="w-e-icon-paint-brush"></i>'), value: '#ffffff' }],
+        list: colors.map(function (color) {
+            return { $elem: $('<i style="color:' + color + ';" class="w-e-icon-paint-brush"></i>'), value: color };
+        }),
         onClick: function onClick(value) {
             // 注意 this 是指向当前的 BackColor 对象
             _this._command(value);
@@ -1944,62 +2151,73 @@ Emoticon.prototype = {
     _createPanel: function _createPanel() {
         var _this = this;
 
-        // 拼接表情字符串
-        var faceHtml = '';
-        var faceStr = '😀 😃 😄 😁 😆 😅 😂  😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 😏 😒 😞 😔 😟 😕 🙁  😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 😭 😓 😪 😴 🙄 🤔 😬 🤐';
-        faceStr.split(/\s/).forEach(function (item) {
-            if (item) {
-                faceHtml += '<span class="w-e-item">' + item + '</span>';
-            }
-        });
+        var editor = this.editor;
+        var config = editor.config;
+        // 获取表情配置
+        var emotions = config.emotions || [];
 
-        var handHtml = '';
-        var handStr = '🙌 👏 👋 👍 👎 👊 ✊ ️👌 ✋ 👐 💪 🙏 ️👆 👇 👈 👉 🖕 🖐 🤘 🖖';
-        handStr.split(/\s/).forEach(function (item) {
-            if (item) {
-                handHtml += '<span class="w-e-item">' + item + '</span>';
+        // 创建表情 dropPanel 的配置
+        var tabConfig = [];
+        emotions.forEach(function (emotData) {
+            var emotType = emotData.type;
+            var content = emotData.content || [];
+
+            // 这一组表情最终拼接出来的 html
+            var faceHtml = '';
+
+            // emoji 表情
+            if (emotType === 'emoji') {
+                content.forEach(function (item) {
+                    if (item) {
+                        faceHtml += '<span class="w-e-item">' + item + '</span>';
+                    }
+                });
             }
+            // 图片表情
+            if (emotType === 'image') {
+                content.forEach(function (item) {
+                    var src = item.src;
+                    var alt = item.alt;
+                    if (src) {
+                        // 加一个 data-w-e 属性，点击图片的时候不再提示编辑图片
+                        faceHtml += '<span class="w-e-item"><img src="' + src + '" alt="' + alt + '" data-w-e="1"/></span>';
+                    }
+                });
+            }
+
+            tabConfig.push({
+                title: emotData.title,
+                tpl: '<div class="w-e-emoticon-container">' + faceHtml + '</div>',
+                events: [{
+                    selector: 'span.w-e-item',
+                    type: 'click',
+                    fn: function fn(e) {
+                        var target = e.target;
+                        var $target = $(target);
+                        var nodeName = $target.getNodeName();
+
+                        var insertHtml = void 0;
+                        if (nodeName === 'IMG') {
+                            // 插入图片
+                            insertHtml = $target.parent().html();
+                        } else {
+                            // 插入 emoji
+                            insertHtml = '<span>' + $target.html() + '</span>';
+                        }
+
+                        _this._insert(insertHtml);
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                }]
+            });
         });
 
         var panel = new Panel(this, {
             width: 300,
             height: 200,
             // 一个 Panel 包含多个 tab
-            tabs: [{
-                // 标题
-                title: '表情',
-                // 模板
-                tpl: '<div class="w-e-emoticon-container">' + faceHtml + '</div>',
-                // 事件绑定
-                events: [{
-                    selector: 'span.w-e-item',
-                    type: 'click',
-                    fn: function fn(e) {
-                        var target = e.target;
-                        _this._insert(target.innerHTML);
-                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
-                        return true;
-                    }
-                }]
-            }, // first tab end
-            {
-                // 标题
-                title: '手势',
-                // 模板
-                tpl: '<div class="w-e-emoticon-container">' + handHtml + '</div>',
-                // 事件绑定
-                events: [{
-                    selector: 'span.w-e-item',
-                    type: 'click',
-                    fn: function fn(e) {
-                        var target = e.target;
-                        _this._insert(target.innerHTML);
-                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
-                        return true;
-                    }
-                }]
-            } // second tab end
-            ] // tabs end
+            tabs: tabConfig
         });
 
         // 显示 panel
@@ -2010,9 +2228,9 @@ Emoticon.prototype = {
     },
 
     // 插入表情
-    _insert: function _insert(emoji) {
+    _insert: function _insert(emotHtml) {
         var editor = this.editor;
-        editor.cmd.do('insertHTML', '<span>' + emoji + '</span>');
+        editor.cmd.do('insertHTML', emotHtml);
     }
 };
 
@@ -2900,6 +3118,46 @@ function getPasteImgs(e) {
     编辑区域
 */
 
+// 获取一个 elem.childNodes 的 JSON 数据
+function getChildrenJSON($elem) {
+    var result = [];
+    var $children = $elem.childNodes() || []; // 注意 childNodes() 可以获取文本节点
+    $children.forEach(function (curElem) {
+        var elemResult = void 0;
+        var nodeType = curElem.nodeType;
+
+        // 文本节点
+        if (nodeType === 3) {
+            elemResult = curElem.textContent;
+        }
+
+        // 普通 DOM 节点
+        if (nodeType === 1) {
+            elemResult = {};
+
+            // tag
+            elemResult.tag = curElem.nodeName.toLowerCase();
+            // attr
+            var attrData = [];
+            var attrList = curElem.attributes || {};
+            var attrListLength = attrList.length || 0;
+            for (var i = 0; i < attrListLength; i++) {
+                var attr = attrList[i];
+                attrData.push({
+                    name: attr.name,
+                    value: attr.value
+                });
+            }
+            elemResult.attrs = attrData;
+            // children（递归）
+            elemResult.children = getChildrenJSON($(curElem));
+        }
+
+        result.push(elemResult);
+    });
+    return result;
+}
+
 // 构造函数
 function Text(editor) {
     this.editor = editor;
@@ -2932,6 +3190,13 @@ Text.prototype = {
             // 初始化选取，将光标定位到内容尾部
             editor.initSelection();
         }
+    },
+
+    // 获取 JSON
+    getJSON: function getJSON() {
+        var editor = this.editor;
+        var $textElem = editor.$textElem;
+        return getChildrenJSON($textElem);
     },
 
     // 获取 设置 text
@@ -3012,14 +3277,31 @@ Text.prototype = {
         var editor = this.editor;
         var $textElem = editor.$textElem;
 
+        function insertEmptyP($selectionElem) {
+            var $p = $('<p><br></p>');
+            $p.insertBefore($selectionElem);
+            editor.selection.createRangeByElem($p, true);
+            editor.selection.restoreSelection();
+            $selectionElem.remove();
+        }
+
         // 将回车之后生成的非 <p> 的顶级标签，改为 <p>
         function pHandle(e) {
             var $selectionElem = editor.selection.getSelectionContainerElem();
             var $parentElem = $selectionElem.parent();
+
+            if ($parentElem.html() === '<code><br></code>') {
+                // 回车之前光标所在一个 <p><code>.....</code></p> ，忽然回车生成一个空的 <p><code><br></code></p>
+                // 而且继续回车跳不出去，因此只能特殊处理
+                insertEmptyP($selectionElem);
+                return;
+            }
+
             if (!$parentElem.equal($textElem)) {
                 // 不是顶级标签
                 return;
             }
+
             var nodeName = $selectionElem.getNodeName();
             if (nodeName === 'P') {
                 // 当前的标签是 P ，不用做处理
@@ -3032,11 +3314,7 @@ Text.prototype = {
             }
 
             // 插入 <p> ，并将选取定位到 <p>，删除当前标签
-            var $p = $('<p><br></p>');
-            $p.insertBefore($selectionElem);
-            editor.selection.createRangeByElem($p, true);
-            editor.selection.restoreSelection();
-            $selectionElem.remove();
+            insertEmptyP($selectionElem);
         }
 
         $textElem.on('keyup', function (e) {
@@ -3310,6 +3588,11 @@ Text.prototype = {
         $textElem.on('click', 'img', function (e) {
             var img = this;
             var $img = $(img);
+
+            if ($img.attr('data-w-e') === '1') {
+                // 是表情图片，忽略
+                return;
+            }
 
             // 记录当前点击过的图片
             editor._selectedImg = $img;
@@ -4310,6 +4593,11 @@ Editor.prototype = {
 
         // 绑定事件
         this._bindEvent();
+    },
+
+    // 解绑所有事件（暂时不对外开放）
+    _offAllEvent: function _offAllEvent() {
+        $.offAll();
     }
 };
 
