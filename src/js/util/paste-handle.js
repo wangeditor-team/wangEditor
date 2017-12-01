@@ -49,8 +49,14 @@ export function getPasteHtml(e, filterStyle) {
 
     if (filterStyle) {
         // 过滤样式
-        pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").+?('|")/igm, '')
-        pasteHtml = pasteHtml.replace(/(<([^>]+)>)/ig, '')
+        var row = pasteText.split('\n')
+        var html = []
+        for(var i=0; i<row.length; ++i){
+            html.push('<p>')
+            html.push(row[i])
+            html.push('</p>')
+        }
+        pasteHtml = html.join('')
     } else {
         // 保留样式
         pasteHtml = pasteHtml.replace(/\s?class=('|").+?('|")/igm, '')
