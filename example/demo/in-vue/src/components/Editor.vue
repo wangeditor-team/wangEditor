@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="editorElem" style="text-align:left"></div>
+        <div ref="editor" style="text-align:left"></div>
         <button v-on:click="getContent">查看内容</button>
     </div>
 </template>
@@ -21,7 +21,7 @@
         }
       },
       mounted() {
-        var editor = new E('#editorElem')
+        var editor = new E(this.$refs.editor)
         editor.customConfig.onchange = (html) => {
           this.editorContent = html
         }
