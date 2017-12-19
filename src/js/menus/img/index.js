@@ -38,6 +38,9 @@ Image.prototype = {
         const editor = this.editor
 
         // id
+        const float_none = getRandom('float_none')
+        const float_left = getRandom('float_left')
+        const float_right = getRandom('float_right')
         const width30 = getRandom('width-30')
         const width50 = getRandom('width-50')
         const width100 = getRandom('width-100')
@@ -49,6 +52,12 @@ Image.prototype = {
                 title: '编辑图片',
                 tpl: `<div>
                     <div class="w-e-button-container" style="border-bottom:1px solid #f1f1f1;padding-bottom:5px;margin-bottom:5px;">
+                        <span style="float:left;font-size:14px;margin:4px 5px 0 5px;color:#333;">浮动：</span>
+                        <button id="${float_none}" class="left">无</button>
+                        <button id="${float_left}" class="left">左</button>
+                        <button id="${float_right}" class="left">右</button>
+                    </div>
+                    <div class="w-e-button-container" style="border-bottom:1px solid #f1f1f1;padding-bottom:5px;margin-bottom:5px;">
                         <span style="float:left;font-size:14px;margin:4px 5px 0 5px;color:#333;">最大宽度：</span>
                         <button id="${width30}" class="left">30%</button>
                         <button id="${width50}" class="left">50%</button>
@@ -59,6 +68,42 @@ Image.prototype = {
                     </dv>
                 </div>`,
                 events: [
+                    {
+                        selector: '#' + float_none,
+                        type: 'click',
+                        fn: () => {
+                            const $img = editor._selectedImg
+                            if ($img) {
+                                $img.css('float', 'none')
+                            }
+                            // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                            return true
+                        }
+                    },
+                    {
+                        selector: '#' + float_left,
+                        type: 'click',
+                        fn: () => {
+                            const $img = editor._selectedImg
+                            if ($img) {
+                                $img.css('float', 'left')
+                            }
+                            // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                            return true
+                        }
+                    },
+                    {
+                        selector: '#' + float_right,
+                        type: 'click',
+                        fn: () => {
+                            const $img = editor._selectedImg
+                            if ($img) {
+                                $img.css('float', 'right')
+                            }
+                            // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                            return true
+                        }
+                    },
                     {
                         selector: '#' + width30,
                         type: 'click',
