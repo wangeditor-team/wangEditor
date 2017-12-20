@@ -128,9 +128,22 @@ Editor.prototype = {
         this.toolbarElemId = toolbarElemId
         this.textElemId = textElemId
 
+        // 记录输入法是否已输入结束
+        let compositionEnd = true
+
+        // 输入法开始输入
+        $textContainerElem.on('compositionstart', () => {
+            compositionEnd = false
+        })
+
+        // 输入法结束输入
+        $textContainerElem.on('compositionend', () => {
+            compositionEnd = true
+        })
+
         // 绑定 onchange
         $textContainerElem.on('click keyup', () => {
-            this.change &&  this.change()
+            compositionEnd && this.change &&  this.change()
         })
         $toolbarElem.on('click', function () {
             this.change &&  this.change()
