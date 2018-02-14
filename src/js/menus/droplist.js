@@ -48,7 +48,7 @@ function DropList(menu, opt) {
         if ($elem) {
             $li.append($elem)
             $list.append($li)
-            $elem.on('click', e => {
+            $li.on('click', e => {
                 onClick(value)
 
                 // 隐藏

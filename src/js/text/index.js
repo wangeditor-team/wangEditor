@@ -4,7 +4,7 @@
 
 import $ from '../util/dom-core.js'
 import { getPasteText, getPasteHtml, getPasteImgs } from '../util/paste-handle.js'
-import { UA } from '../util/util.js'
+import { UA, isFunction } from '../util/util.js'
 
 // 获取一个 elem.childNodes 的 JSON 数据
 function getChildrenJSON($elem) {
@@ -70,8 +70,12 @@ Text.prototype = {
     html: function (val) {
         const editor = this.editor
         const $textElem = editor.$textElem
+        let html
         if (val == null) {
-            return $textElem.html()
+            html = $textElem.html()
+            // 未选中任何内容的时候点击“加粗”或者“斜体”等按钮，就得需要一个空的占位符 &#8203 ，这里替换掉
+            html = html.replace(/\u200b/gm, '')
+            return html
         } else {
             $textElem.html(val)
 
@@ -91,8 +95,12 @@ Text.prototype = {
     text: function (val) {
         const editor = this.editor
         const $textElem = editor.$textElem
+        let text
         if (val == null) {
-            return $textElem.text()
+            text = $textElem.text()
+            // 未选中任何内容的时候点击“加粗”或者“斜体”等按钮，就得需要一个空的占位符 &#8203 ，这里替换掉
+            text = text.replace(/\u200b/gm, '')
+            return text
         } else {
             $textElem.text(`<p>${val}</p>`)
 
@@ -341,6 +349,9 @@ Text.prototype = {
             pasteTime = now
             return flag
         }
+        function resetTime() {
+            pasteTime = 0
+        }
 
         // 粘贴文字
         $textElem.on('paste', e => {
@@ -361,12 +372,6 @@ Text.prototype = {
             let pasteText = getPasteText(e)
             pasteText = pasteText.replace(/\n/gm, '<br>')
 
-            // 自定义处理粘贴的内容
-            if (pasteTextHandle && typeof pasteTextHandle === 'function') {
-                pasteHtml = '' + (pasteTextHandle(pasteHtml) || '')
-                pasteText = '' + (pasteTextHandle(pasteText) || '')
-            }
-
             const $selectionElem = editor.selection.getSelectionContainerElem()
             if (!$selectionElem) {
                 return
@@ -375,6 +380,10 @@ Text.prototype = {
 
             // code 中只能粘贴纯文本
             if (nodeName === 'CODE' || nodeName === 'PRE') {
+                if (pasteTextHandle && isFunction(pasteTextHandle)) {
+                    // 用户自定义过滤处理粘贴内容
+                    pasteText = '' + (pasteTextHandle(pasteText) || '')
+                }
                 editor.cmd.do('insertHTML', `<p>${pasteText}</p>`)
                 return
             }
@@ -386,14 +395,24 @@ Text.prototype = {
             // }
 
             if (!pasteHtml) {
+                // 没有内容，可继续执行下面的图片粘贴
+                resetTime()
                 return
             }
             try {
                 // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
                 // 因此执行 insertHTML 会报错
+                if (pasteTextHandle && isFunction(pasteTextHandle)) {
+                    // 用户自定义过滤处理粘贴内容
+                    pasteHtml = '' + (pasteTextHandle(pasteHtml) || '')
+                }
                 editor.cmd.do('insertHTML', pasteHtml)
             } catch (ex) {
                 // 此时使用 pasteText 来兼容一下
+                if (pasteTextHandle && isFunction(pasteTextHandle)) {
+                    // 用户自定义过滤处理粘贴内容
+                    pasteText = '' + (pasteTextHandle(pasteText) || '')
+                }
                 editor.cmd.do('insertHTML', `<p>${pasteText}</p>`)
             }
         })

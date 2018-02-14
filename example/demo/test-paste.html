@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor paste test</title>
+</head>
+<body>
+    <p>wangEditor paste test</p>
+    <div id="div1">
+        <p>欢迎使用 wangEditor 富文本编辑器</p>
+    </div>
+
+    <script type="text/javascript" src="/wangEditor.min.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor = new E('#div1')
+        // editor.customConfig.pasteFilterStyle = false
+        editor.customConfig.pasteTextHandle = function (content) {
+            console.log(content)
+            return content
+        }
+        editor.create()
+    </script>
+</body>
+</html>

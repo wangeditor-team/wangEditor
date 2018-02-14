@@ -65,3 +65,7 @@ export function percentFormat(number) {
     return number + '%'
 }
 
+// 判断是不是 function
+export function isFunction(fn) {
+    return typeof fn === 'function'
+}

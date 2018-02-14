@@ -116,8 +116,20 @@
 
 - [done] 表情兼容图片和 emoji ，都可自定义配置
 
+### v3.0.16
+
+- [done] 修复粘贴图片的 bug
+- [done] 修复`pasteTextHandle`执行两次的问题
+- [done] 修复插入链接时，文字和链接为空时，`linkCheck`不执行的 bug
+- [done] 粘贴 html 时，过滤掉其中的`data-xxx`属性
+- [done] 修复中文输入法输入过程中出发 onchange 的问题，感谢 [github.com/CongAn](https://github.com/CongAn) PR
+- [done] `editor.txt.html`和`editor.txt.text`中，替换`&#8203`字符为空字符串
+- [done] 精确图片大小计算，将`maxSize / 1000 / 1000`改为`maxSize / 1024 / 1024`
+- [done] 修复 droplist 类型菜单（颜色、背景色等）点击不准确的问题
+
 ### 近期计划解决
 
+- 合并 pr https://github.com/wangfupeng1988/wangEditor/pulls
 - 撤销的兼容性问题（会误伤其他编辑器或者 input textarea 等），考虑用 onchange 记录 undo 和 redo 的内容（但是得考虑直接修改 dom 的情况，如 quote code img list table 菜单）
     - 列表撤销会删除一行？https://github.com/wangfupeng1988/wangEditor/issues/1131
     - 页面中有 input 等输入标签时，undo redo 会误伤 https://github.com/wangfupeng1988/wangEditor/issues/1024
