@@ -133,9 +133,6 @@ Link.prototype = {
 
     // 插入链接
     _insertLink: function (text, link) {
-        if (!text || !link) {
-            return
-        }
         const editor = this.editor
         const config = editor.config
         const linkCheck = config.linkCheck

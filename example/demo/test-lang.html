@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>wangEditor lang test</title>
+</head>
+<body>
+    <p>多语言测试</p>
+    <div id="div1">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+    </div>
+
+    <script type="text/javascript" src="/wangEditor.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor = new E('#div1')
+
+        editor.customConfig.lang = {
+            '设置标题': 'title',
+            '正文': 'p',
+            '链接文字': 'link text',
+            '链接': 'link',
+            '上传图片': 'upload image',
+            '上传': 'upload',
+            '创建': 'init'
+        }
+
+        editor.create()
+    </script>
+</body>
+</html>

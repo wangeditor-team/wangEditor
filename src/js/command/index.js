@@ -18,6 +18,12 @@ Command.prototype = {
     do: function (name, value) {
         const editor = this.editor
 
+        // 使用 styleWithCSS
+        if (!editor._useStyleWithCSS) {
+            document.execCommand('styleWithCSS', null, true)
+            editor._useStyleWithCSS = true
+        }
+
         // 如果无选区，忽略
         if (!editor.selection.getRange()) {
             return

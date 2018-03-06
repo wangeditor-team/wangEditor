@@ -167,6 +167,7 @@
   display: -ms-flexbox;
   display: flex;
   padding: 0 5px;
+  /* flex-wrap: wrap; */
   /* 单个菜单 */
 }
 .w-e-toolbar .w-e-menu {

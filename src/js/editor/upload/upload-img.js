@@ -89,7 +89,7 @@ UploadImg.prototype = {
         const uploadImgShowBase64 = config.uploadImgShowBase64
 
         const maxSize = config.uploadImgMaxSize
-        const maxSizeM = maxSize / 1000 / 1000
+        const maxSizeM = maxSize / 1024 / 1024
         const maxLength = config.uploadImgMaxLength || 10000
         const uploadFileName = config.uploadFileName || ''
         const uploadImgParams = config.uploadImgParams || {}
