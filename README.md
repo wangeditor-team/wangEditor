@@ -12,6 +12,7 @@
 ![图片](http://images2015.cnblogs.com/blog/138012/201705/138012-20170530202905633-1840158981.png)
 
 *查看 v2 版本的代码和文档点击[这里](https://github.com/wangfupeng1988/wangEditor/tree/v2)*
+*修改wangEditor并实现图片上传至阿里云对象存储OSS [查看](./oss.md)*
 
 
 ## 下载

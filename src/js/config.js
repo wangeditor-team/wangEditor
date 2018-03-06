@@ -382,6 +382,18 @@ const config = {
     //     // insert 是获取图片 url 后，插入到编辑器的方法
     //     insert(imgUrl)
     // }
+
+    // 如果是多张图片是否一次上传所有还是一次一张, 默认 true
+    allImgTransfer: true,
+
+    // 图片的formData键名(仅当allImgTransfer为false时有效), 默认为 file
+    formDataImgKey: 'file',
+
+    // 是否对参数进行编码, 默认为 true
+    isEncodeParam: true,
+
+    // 显示formdata数据 便以调试, 默认为 false
+    debugFormData: false,
 }
 
 export default config

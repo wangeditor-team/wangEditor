@@ -6,9 +6,10 @@ import { objForEach, arrForEach, percentFormat } from '../../util/util.js'
 import Progress from './progress.js'
 import { UA } from '../../util/util.js'
 
-// 构造函数
-function UploadImg(editor) {
-    this.editor = editor
+class UploadImg {
+    constructor(editor) {
+        this.editor = editor;
+    }
 }
 
 // 原型
@@ -154,12 +155,8 @@ UploadImg.prototype = {
             return
         }
 
-        // 添加图片数据
+        // 定义图片的表单数据
         const formdata = new FormData()
-        arrForEach(resultFiles, file => {
-            const name = uploadFileName || file.name
-            formdata.append(name, file)
-        })
 
         // ------------------------------ 上传图片 ------------------------------
         if (uploadImgServer && typeof uploadImgServer === 'string') {
@@ -168,7 +165,8 @@ UploadImg.prototype = {
             uploadImgServer = uploadImgServerArr[0]
             const uploadImgServerHash = uploadImgServerArr[1] || ''
             objForEach(uploadImgParams, (key, val) => {
-                val = encodeURIComponent(val)
+                // 是否进行编码
+                if(config.isEncodeParam) val = encodeURIComponent(val);
 
                 // 第一，将参数拼接到 url 中
                 if (uploadImgParamsWithUrl) {
@@ -181,12 +179,100 @@ UploadImg.prototype = {
                 }
 
                 // 第二，将参数添加到 formdata 中
-                formdata.append(key, val)
+                // formdata.append(key, val)
             })
             if (uploadImgServerHash) {
                 uploadImgServer += '#' + uploadImgServerHash
             }
 
+            // hook - before
+            if (hooks.before && typeof hooks.before === 'function') {
+                // 修改返回参数 (原: xhr, editor, resultFiles)
+                const beforeResult = hooks.before(editor, resultFiles)
+                if (beforeResult && typeof beforeResult === 'object') {
+                    if (beforeResult.prevent) {
+                        // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+                        this._alert(beforeResult.msg)
+                        return
+                    }
+                }
+            }
+
+            // 添加图片参数(原本在hooks.before的已注释, 现改到hooks.before之后)
+            objForEach(uploadImgParams, (key, val) => {
+                // 是否进行编码
+                if(config.isEncodeParam) val = encodeURIComponent(val);
+                formdata.append(key, val);
+            });
+
+            // 添加图片的表单数据
+            arrForEach(resultFiles, file => {
+                const name = uploadFileName || file.name
+                formdata.append(name, file)
+            })
+
+            // 一张张进行发送图片
+            let eachNumber = 0;
+            arrForEach(resultFiles, file => {
+                // 是否单次发送多张图片
+                if(config.allImgTransfer) {
+                    let name = uploadFileName || file.name;
+                    formdata.append(name, file);
+                }else {
+                    if(formdata.has(config.formDataImgKey)) {
+                        formdata.set(config.formDataImgKey, file);
+                    }else {
+                        formdata.append(config.formDataImgKey, file);
+                    }
+                    // 请求 XMLHttpRequest
+                    this.sendImgXhrRequest(uploadImgServer, formdata, eachNumber);
+                    eachNumber++;
+                }
+            });
+            // 一次性必发送所有图片
+            if(config.allImgTransfer) {
+                // 请求 XMLHttpRequest
+                this.sendImgXhrRequest(uploadImgServer, formdata);
+            }
+
+            // 注意，要 return 。不去操作接下来的 base64 显示方式
+            return
+        }
+
+        // ------------------------------ 显示 base64 格式 ------------------------------
+        if (uploadImgShowBase64) {
+            arrForEach(files, file => {
+                const _this = this
+                const reader = new FileReader()
+                reader.readAsDataURL(file)
+                reader.onload = function () {
+                    _this.insertLinkImg(this.result)
+                }
+            })
+        }
+    },
+
+    /**
+     | XMLHttpRequest API
+     | 原来的XMLHttpRequest在UploadImg.uploadImg里执行
+     | 现在把XMLHttpRequest请求单独独立出来, 供多次调用
+     | 
+     | @param  String  url       请求地址
+     | @param  Object  formdata  请求参数
+     | @param  Int     number    单次的第几张图片(默认为0, 当config.allImgTransfer = false时有效)
+     | @return Void
+     */
+    sendImgXhrRequest: function (url, formdata, number = 0) {
+        // ------------------------------ 配置信息 ------------------------------
+        const editor = this.editor;
+        const config = editor.config;
+        const uploadImgHeaders = config.uploadImgHeaders || {};
+        const hooks = config.uploadImgHooks || {};
+        const timeout = config.uploadImgTimeout || 3000;
+        const withCredentials = config.withCredentials;
+
+        // ------------------------------ 上传图片 ------------------------------
+        if (url && typeof url === 'string') {
             // 定义 xhr
             const xhr = new XMLHttpRequest()
             xhr.open('POST', uploadImgServer)
@@ -272,18 +358,6 @@ UploadImg.prototype = {
                 }
             }
 
-            // hook - before
-            if (hooks.before && typeof hooks.before === 'function') {
-                const beforeResult = hooks.before(xhr, editor, resultFiles)
-                if (beforeResult && typeof beforeResult === 'object') {
-                    if (beforeResult.prevent) {
-                        // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
-                        this._alert(beforeResult.msg)
-                        return
-                    }
-                }
-            }
-
             // 自定义 headers
             objForEach(uploadImgHeaders, (key, val) => {
                 xhr.setRequestHeader(key, val)
@@ -292,23 +366,17 @@ UploadImg.prototype = {
             // 跨域传 cookie
             xhr.withCredentials = withCredentials
 
+            // 是否打印formdata数据
+            if(config.debugFormData) {
+                var debug_obj = {};
+                for (var key of formdata.keys()) {
+                    debug_obj[key] = formdata.getAll(key).length > 1 ? formdata.getAll(key) : formdata.get(key);
+                }
+                console.log('formdata数据: ', debug_obj);
+            }
+
             // 发送请求
             xhr.send(formdata)
-
-            // 注意，要 return 。不去操作接下来的 base64 显示方式
-            return
-        }
-
-        // ------------------------------ 显示 base64 格式 ------------------------------
-        if (uploadImgShowBase64) {
-            arrForEach(files, file => {
-                const _this = this
-                const reader = new FileReader()
-                reader.readAsDataURL(file)
-                reader.onload = function () {
-                    _this.insertLinkImg(this.result)
-                }
-            })
         }
     }
 }
