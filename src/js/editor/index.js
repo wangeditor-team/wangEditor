@@ -155,9 +155,18 @@ Editor.prototype = {
             
             $(document).on('click', (e) => {
                 //判断当前点击元素是否在编辑器内
-                const isChild = $toolbarSelector.isContain($(e.target))
+                const isChild = $textElem.isContain($(e.target))
                 
+                //判断当前点击元素是否为工具栏
+                const isToolbar = $toolbarElem.isContain($(e.target))
+                const isMenu = $toolbarElem[0] == e.target ? true : false
+
                 if (!isChild) {
+                    //若为选择工具栏中的功能，则不视为成blur操作
+                    if(isToolbar && !isMenu){
+                        return
+                    }
+
                     if(this.isFocus){
                         this.onblur && this.onblur()
                     }
