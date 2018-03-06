@@ -129,6 +129,8 @@
 
 ### 近期计划解决
 
+- https://github.com/wangfupeng1988/wangEditor/issues/1343 `document.execCommand("styleWithCSS", null, true);`
+- https://github.com/wangfupeng1988/wangEditor/issues/1334
 - 合并 pr https://github.com/wangfupeng1988/wangEditor/pulls
 - 撤销的兼容性问题（会误伤其他编辑器或者 input textarea 等），考虑用 onchange 记录 undo 和 redo 的内容（但是得考虑直接修改 dom 的情况，如 quote code img list table 菜单）
     - 列表撤销会删除一行？https://github.com/wangfupeng1988/wangEditor/issues/1131

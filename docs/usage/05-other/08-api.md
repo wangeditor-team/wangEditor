@@ -23,5 +23,5 @@
 
 ### 编辑内容操作
 
-- 插入 HTML `editor.do.cmd('insertHTML', '<p>...</p>')`
-- 可通过`editor.do.cmd(name, value)`来执行`document.execCommand(name, false, value)`的操作
+- 插入 HTML `editor.cmd.do('insertHTML', '<p>...</p>')`
+- 可通过`editor.cmd.do(name, value)`来执行`document.execCommand(name, false, value)`的操作
