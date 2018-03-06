@@ -3680,6 +3680,12 @@ Command.prototype = {
     do: function _do(name, value) {
         var editor = this.editor;
 
+        // 使用 styleWithCSS
+        if (!editor._useStyleWithCSS) {
+            document.execCommand('styleWithCSS', null, true);
+            editor._useStyleWithCSS = true;
+        }
+
         // 如果无选区，忽略
         if (!editor.selection.getRange()) {
             return;
@@ -4467,9 +4473,18 @@ Editor.prototype = {
 
             $(document).on('click', function (e) {
                 //判断当前点击元素是否在编辑器内
-                var isChild = $toolbarSelector.isContain($(e.target));
+                var isChild = $textElem.isContain($(e.target));
+
+                //判断当前点击元素是否为工具栏
+                var isToolbar = $toolbarElem.isContain($(e.target));
+                var isMenu = $toolbarElem[0] == e.target ? true : false;
 
                 if (!isChild) {
+                    //若为选择工具栏中的功能，则不视为成blur操作
+                    if (isToolbar && !isMenu) {
+                        return;
+                    }
+
                     if (_this.isFocus) {
                         _this.onblur && _this.onblur();
                     }

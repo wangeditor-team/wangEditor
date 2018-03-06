@@ -127,11 +127,14 @@
 - [done] 精确图片大小计算，将`maxSize / 1000 / 1000`改为`maxSize / 1024 / 1024`
 - [done] 修复 droplist 类型菜单（颜色、背景色等）点击不准确的问题
 
+### v3.0.17
+
+- [done] 合并 pr [菜单和编辑区域分离 onfocus onblur 失效bug](https://github.com/wangfupeng1988/wangEditor/pull/1174) ，感谢 [hold-baby](https://github.com/hold-baby) 提供 pr
+- [done] 使用`document.execCommand("styleWithCSS", null, true)`，这样设置字体颜色就会用 css 而不是用`<font color=xxx>`
+
+
 ### 近期计划解决
 
-- https://github.com/wangfupeng1988/wangEditor/issues/1343 `document.execCommand("styleWithCSS", null, true);`
-- https://github.com/wangfupeng1988/wangEditor/issues/1334
-- 合并 pr https://github.com/wangfupeng1988/wangEditor/pulls
 - 撤销的兼容性问题（会误伤其他编辑器或者 input textarea 等），考虑用 onchange 记录 undo 和 redo 的内容（但是得考虑直接修改 dom 的情况，如 quote code img list table 菜单）
     - 列表撤销会删除一行？https://github.com/wangfupeng1988/wangEditor/issues/1131
     - 页面中有 input 等输入标签时，undo redo 会误伤 https://github.com/wangfupeng1988/wangEditor/issues/1024
