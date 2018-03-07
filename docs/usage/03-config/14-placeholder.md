@@ -1,6 +1,6 @@
 # 配置 placeholder
 
-配置`placeholder`后，如需修改样式请覆盖`.w-e-text-placeholder`的样式。
+配置`placeholder`后，如需修改样式请覆盖`.w-e-text-placeholder p`的样式。
 
 ```html
 <div id="div1">
