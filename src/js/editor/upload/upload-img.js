@@ -8,7 +8,7 @@ import { UA } from '../../util/util.js'
 
 class UploadImg {
     constructor(editor) {
-        this.editor = editor;
+        this.editor = editor
     }
 }
 
@@ -166,7 +166,7 @@ UploadImg.prototype = {
             const uploadImgServerHash = uploadImgServerArr[1] || ''
             objForEach(uploadImgParams, (key, val) => {
                 // 是否进行编码
-                if(config.isEncodeParam) val = encodeURIComponent(val);
+                if(config.isEncodeParam) val = encodeURIComponent(val)
 
                 // 第一，将参数拼接到 url 中
                 if (uploadImgParamsWithUrl) {
@@ -201,38 +201,36 @@ UploadImg.prototype = {
             // 添加图片参数(原本在hooks.before的已注释, 现改到hooks.before之后)
             objForEach(uploadImgParams, (key, val) => {
                 // 是否进行编码
-                if(config.isEncodeParam) val = encodeURIComponent(val);
-                formdata.append(key, val);
-            });
-
-            // 添加图片的表单数据
-            arrForEach(resultFiles, file => {
-                const name = uploadFileName || file.name
-                formdata.append(name, file)
+                if(config.isEncodeParam) val = encodeURIComponent(val)
+                formdata.append(key, val)
             })
 
             // 一张张进行发送图片
-            let eachNumber = 0;
+            let eachNumber = 0
             arrForEach(resultFiles, file => {
-                // 是否单次发送多张图片
+                let name = uploadFileName || file.name
+                // 是否单次发送所有图片
                 if(config.allImgTransfer) {
-                    let name = uploadFileName || file.name;
-                    formdata.append(name, file);
+                    formdata.append(name, file)
                 }else {
-                    if(formdata.has(config.formDataImgKey)) {
-                        formdata.set(config.formDataImgKey, file);
-                    }else {
-                        formdata.append(config.formDataImgKey, file);
-                    }
+                    // 避免重复图片数据重复, 每次进行重新赋值
+                    let aImgFormData = new FormData()
+                    objForEach(uploadImgParams, (key, val) => {
+                        // 是否进行编码
+                        if(config.isEncodeParam) val = encodeURIComponent(val)
+                        aImgFormData.append(key, val)
+                    })
+                    // 阿里云的参数必须是以'file'为键名的图片, 并排在参数最后
+                    aImgFormData.append(name, file)
                     // 请求 XMLHttpRequest
-                    this.sendImgXhrRequest(uploadImgServer, formdata, eachNumber);
-                    eachNumber++;
+                    this.sendImgXhrRequest(uploadImgServer, aImgFormData, eachNumber)
+                    eachNumber++
                 }
-            });
+            })
             // 一次性必发送所有图片
             if(config.allImgTransfer) {
                 // 请求 XMLHttpRequest
-                this.sendImgXhrRequest(uploadImgServer, formdata);
+                this.sendImgXhrRequest(uploadImgServer, formdata)
             }
 
             // 注意，要 return 。不去操作接下来的 base64 显示方式
@@ -259,23 +257,23 @@ UploadImg.prototype = {
      | 
      | @param  String  url       请求地址
      | @param  Object  formdata  请求参数
-     | @param  Int     number    单次的第几张图片(默认为0, 当config.allImgTransfer = false时有效)
+     | @param  Int     number    单次的第几张图片(暂未使用, 默认为0, 当config.allImgTransfer = false时有效)
      | @return Void
      */
     sendImgXhrRequest: function (url, formdata, number = 0) {
         // ------------------------------ 配置信息 ------------------------------
-        const editor = this.editor;
-        const config = editor.config;
-        const uploadImgHeaders = config.uploadImgHeaders || {};
-        const hooks = config.uploadImgHooks || {};
-        const timeout = config.uploadImgTimeout || 3000;
-        const withCredentials = config.withCredentials;
+        const editor = this.editor
+        const config = editor.config
+        const uploadImgHeaders = config.uploadImgHeaders || {}
+        const hooks = config.uploadImgHooks || {}
+        const timeout = config.uploadImgTimeout || 3000
+        const withCredentials = config.withCredentials
 
         // ------------------------------ 上传图片 ------------------------------
         if (url && typeof url === 'string') {
             // 定义 xhr
             const xhr = new XMLHttpRequest()
-            xhr.open('POST', uploadImgServer)
+            xhr.open('POST', url)
 
             // 设置超时
             xhr.timeout = timeout
@@ -368,11 +366,11 @@ UploadImg.prototype = {
 
             // 是否打印formdata数据
             if(config.debugFormData) {
-                var debug_obj = {};
+                var debug_obj = {}
                 for (var key of formdata.keys()) {
-                    debug_obj[key] = formdata.getAll(key).length > 1 ? formdata.getAll(key) : formdata.get(key);
+                    debug_obj[key] = formdata.getAll(key).length > 1 ? formdata.getAll(key) : formdata.get(key)
                 }
-                console.log('formdata数据: ', debug_obj);
+                console.log('formdata数据: ', debug_obj)
             }
 
             // 发送请求

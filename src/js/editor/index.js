@@ -321,10 +321,10 @@ Editor.prototype = {
         this._bindEvent()
     },
 
-    // 提供修改图片上传附带参数的方法
+    // 修改图片上传附带参数的方法
     setUploadImgParams: function (obj) {
         if(obj instanceof Object) {
-            this.config.uploadImgParams = Object.assign(this.config.uploadImgParams || {} , obj);
+            this.config.uploadImgParams = Object.assign(this.config.uploadImgParams || {} , obj)
         }
     },
 

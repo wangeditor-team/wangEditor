@@ -386,9 +386,6 @@ const config = {
     // 如果是多张图片是否一次上传所有还是一次一张, 默认 true
     allImgTransfer: true,
 
-    // 图片的formData键名(仅当allImgTransfer为false时有效), 默认为 file
-    formDataImgKey: 'file',
-
     // 是否对参数进行编码, 默认为 true
     isEncodeParam: true,
 
