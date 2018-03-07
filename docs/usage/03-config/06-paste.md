@@ -6,6 +6,10 @@
 
 当从其他网页复制文本内容粘贴到编辑器中，编辑器会默认过滤掉复制文本中自带的样式，目的是让粘贴后的文本变得更加简洁和轻量。用户可通过`editor.customConfig.pasteFilterStyle = false`手动关闭掉粘贴样式的过滤。
 
+## 忽略粘贴内容中的图片
+
+从其他页面复制过来的内容，除了包含文字还可能包含图片，这些图片一般都是外域的（可能会有盗链）。此时如果想要忽略图片，即只粘贴文字不粘贴图片，可以使用`editor.customConfig.pasteIgnoreImg = true`来控制。默认是可以粘贴图片的。
+
 ## 自定义处理粘贴的文本内容
 
 使用者可通过`editor.customConfig.pasteTextHandle`对粘贴的文本内容进行自定义的过滤、处理等操作，然后返回处理之后的文本内容。编辑器最终会粘贴用户处理之后并且返回的的内容。
@@ -23,6 +27,8 @@
     var editor = new E('#div1')
     // 关闭粘贴样式的过滤
     editor.customConfig.pasteFilterStyle = false
+    // 忽略粘贴内容中的图片
+    editor.customConfig.pasteIgnoreImg = true
     // 自定义处理粘贴的文本内容
     editor.customConfig.pasteTextHandle = function (content) {
         // content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回

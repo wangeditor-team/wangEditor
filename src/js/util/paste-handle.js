@@ -20,7 +20,7 @@ export function getPasteText(e) {
 }
 
 // 获取粘贴的html
-export function getPasteHtml(e, filterStyle) {
+export function getPasteHtml(e, filterStyle, ignoreImg) {
     const clipboardData = e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)
     let pasteText, pasteHtml
     if (clipboardData == null) {
@@ -48,6 +48,11 @@ export function getPasteHtml(e, filterStyle) {
     pasteHtml = pasteHtml.replace(/<!--.*?-->/mg, '')
     // 过滤 data-xxx 属性
     pasteHtml = pasteHtml.replace(/\s?data-.+?=('|").+?('|")/igm, '')
+
+    if (ignoreImg) {
+        // 忽略图片
+        pasteHtml = pasteHtml.replace(/<img.+?>/igm, '')
+    }
 
     if (filterStyle) {
         // 过滤样式

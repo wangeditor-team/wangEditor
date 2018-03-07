@@ -628,6 +628,9 @@ var config = {
     // 粘贴过滤样式，默认开启
     pasteFilterStyle: true,
 
+    // 粘贴内容时，忽略图片。默认关闭
+    pasteIgnoreImg: false,
+
     // 对粘贴的文字进行自定义处理，返回处理后的结果。编辑器会将处理后的结果粘贴到编辑区域中。
     // IE 暂时不支持
     pasteTextHandle: function pasteTextHandle(content) {
@@ -3031,7 +3034,7 @@ function getPasteText(e) {
 }
 
 // 获取粘贴的html
-function getPasteHtml(e, filterStyle) {
+function getPasteHtml(e, filterStyle, ignoreImg) {
     var clipboardData = e.clipboardData || e.originalEvent && e.originalEvent.clipboardData;
     var pasteText = void 0,
         pasteHtml = void 0;
@@ -3060,6 +3063,11 @@ function getPasteHtml(e, filterStyle) {
     pasteHtml = pasteHtml.replace(/<!--.*?-->/mg, '');
     // 过滤 data-xxx 属性
     pasteHtml = pasteHtml.replace(/\s?data-.+?=('|").+?('|")/igm, '');
+
+    if (ignoreImg) {
+        // 忽略图片
+        pasteHtml = pasteHtml.replace(/<img.+?>/igm, '');
+    }
 
     if (filterStyle) {
         // 过滤样式
@@ -3428,6 +3436,7 @@ Text.prototype = {
         var config = editor.config;
         var pasteFilterStyle = config.pasteFilterStyle;
         var pasteTextHandle = config.pasteTextHandle;
+        var ignoreImg = config.pasteIgnoreImg;
         var $textElem = editor.$textElem;
 
         // 粘贴图片、文本的事件，每次只能执行一个
@@ -3462,7 +3471,7 @@ Text.prototype = {
             }
 
             // 获取粘贴的文字
-            var pasteHtml = getPasteHtml(e, pasteFilterStyle);
+            var pasteHtml = getPasteHtml(e, pasteFilterStyle, ignoreImg);
             var pasteText = getPasteText(e);
             pasteText = pasteText.replace(/\n/gm, '<br>');
 

@@ -334,6 +334,7 @@ Text.prototype = {
         const config = editor.config
         const pasteFilterStyle = config.pasteFilterStyle
         const pasteTextHandle = config.pasteTextHandle
+        const ignoreImg = config.pasteIgnoreImg
         const $textElem = editor.$textElem
 
         // 粘贴图片、文本的事件，每次只能执行一个
@@ -368,7 +369,7 @@ Text.prototype = {
             }
 
             // 获取粘贴的文字
-            let pasteHtml = getPasteHtml(e, pasteFilterStyle)
+            let pasteHtml = getPasteHtml(e, pasteFilterStyle, ignoreImg)
             let pasteText = getPasteText(e)
             pasteText = pasteText.replace(/\n/gm, '<br>')
 

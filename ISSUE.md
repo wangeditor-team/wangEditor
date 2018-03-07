@@ -135,11 +135,12 @@
 ### v3.1.0
 
 - [done] 视图增加 “字体” “字号”（字体需要文档说明）
-- 外露的修改图片大小的按钮
-- https://github.com/wangfupeng1988/wangEditor/issues/512
+- [done] 支持粘贴内容时忽略图片
 
 ### 近期计划解决
 
+- 外露的修改图片大小的按钮
+- **处理粘贴数据时，要把 pasteHtml 先转换成 vnode 之类的结构化对象，然后再递归处理**
 - 撤销的兼容性问题（会误伤其他编辑器或者 input textarea 等），考虑用 onchange 记录 undo 和 redo 的内容（但是得考虑直接修改 dom 的情况，如 quote code img list table 菜单）
     - 列表撤销会删除一行？https://github.com/wangfupeng1988/wangEditor/issues/1131
     - 页面中有 input 等输入标签时，undo redo 会误伤 https://github.com/wangfupeng1988/wangEditor/issues/1024
