@@ -79,6 +79,9 @@ Text.prototype = {
         } else {
             $textElem.html(val)
 
+            // 判断是否显示placeholder
+            this._checkPlaceholder()
+
             // 初始化选取，将光标定位到内容尾部
             editor.initSelection()
         }
@@ -103,6 +106,9 @@ Text.prototype = {
             return text
         } else {
             $textElem.text(`<p>${val}</p>`)
+
+            // 判断是否显示placeholder
+            this._checkPlaceholder()
 
             // 初始化选取，将光标定位到内容尾部
             editor.initSelection()
@@ -545,6 +551,20 @@ Text.prototype = {
             const uploadImg = editor.uploadImg
             uploadImg.uploadImg(files)
         })
+    },
+
+    // js修改值同样判断placeholder是否显示
+    _checkPlaceholder: function () {
+        const editor = this.editor
+        const $textElem = editor.$textElem
+        const $placeElem  = editor.$placeElem
+
+        // 获取编辑器的文本内容
+        if ($textElem.text()) {
+            $placeElem.hide()
+        } else {
+            $placeElem.show()
+        }
     }
 }
 

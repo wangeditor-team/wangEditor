@@ -66,7 +66,7 @@ Editor.prototype = {
         const zIndex = config.zIndex
 
         // 定义变量
-        let $toolbarElem, $textContainerElem, $textElem, $children
+        let $toolbarElem, $textContainerElem, $textElem, $placeElem, $children
 
         if (textSelector == null) {
             // 只传入一个参数，即是容器的选择器或元素，toolbar 和 text 的元素自行创建
@@ -98,6 +98,7 @@ Editor.prototype = {
         $textElem.attr('contenteditable', 'true')
                 .css('width', '100%')
                 .css('height', '100%')
+                .css('position', 'relative')
 
         // 初始化编辑区域内容
         if ($children && $children.length) {
@@ -106,6 +107,28 @@ Editor.prototype = {
             $textElem.append($('<p><br></p>'))
         }
 
+        // placeholder容器
+        $placeElem = $('<div></div>')
+        $placeElem.css('position', 'absolute')
+                    .css('top', '0')
+                    .css('left', '0')
+                    .css('right', '0')
+                    .css('bottom', '0')
+
+        if (config.placeholder && typeof config.placeholder == 'string'){
+            // 判断是否有初始内容
+            if ($textElem.text()) {
+                $placeElem.hide()
+            }
+            $placeElem.append($('<p>' + config.placeholder + '</p>'))
+
+        } else {
+            $placeElem.append($('<p><br></p>'))
+            $placeElem.hide()
+        }
+
+        // placeholder容器加入DOM
+        $textContainerElem.append($placeElem)
         // 编辑区域加入DOM
         $textContainerElem.append($textElem)
 
@@ -114,6 +137,7 @@ Editor.prototype = {
         $textContainerElem.addClass('w-e-text-container')
         $textContainerElem.css('z-index', zIndex)
         $textElem.addClass('w-e-text')
+        $placeElem.addClass('w-e-text-placeholder')
 
         // 添加 ID
         const toolbarElemId = getRandom('toolbar-elem')
@@ -125,6 +149,7 @@ Editor.prototype = {
         this.$toolbarElem = $toolbarElem
         this.$textContainerElem = $textContainerElem
         this.$textElem = $textElem
+        this.$placeElem = $placeElem
         this.toolbarElemId = toolbarElemId
         this.textElemId = textElemId
 
@@ -139,17 +164,30 @@ Editor.prototype = {
             compositionEnd = true
         })
 
+         // 判断placeholder是否显示
+        const checkPlaceholder = () => {
+            if (this.txt.text()) {
+                $placeElem.hide()
+            } else {
+                $placeElem.show()
+            }
+        }
+
         // 绑定 onchange
         $textContainerElem.on('click keyup', () => {
             // 输入法结束才出发 onchange
             compositionEnd && this.change &&  this.change()
+
+            checkPlaceholder()
         })
         $toolbarElem.on('click', function () {
             this.change &&  this.change()
+            
+            checkPlaceholder()
         })
 
         //绑定 onfocus 与 onblur 事件
-        if(config.onfocus || config.onblur){
+        if(config.onfocus || config.onblur || config.placeholder){
             // 当前编辑器是否是焦点状态
             this.isFocus = false
             
