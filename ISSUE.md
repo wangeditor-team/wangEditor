@@ -132,6 +132,11 @@
 - [done] 合并 pr [菜单和编辑区域分离 onfocus onblur 失效bug](https://github.com/wangfupeng1988/wangEditor/pull/1174) ，感谢 [hold-baby](https://github.com/hold-baby) 提供 pr
 - [done] 使用`document.execCommand("styleWithCSS", null, true)`，这样设置字体颜色就会用 css 而不是用`<font color=xxx>`
 
+### v3.1.0
+
+- 视图增加 “字体” “字号”
+- 外露的修改图片大小的按钮
+- https://github.com/wangfupeng1988/wangEditor/issues/512
 
 ### 近期计划解决
 
