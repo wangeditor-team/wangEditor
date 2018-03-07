@@ -40,6 +40,12 @@ API.prototype = {
         if (!$containerElem) {
             return
         }
+
+        // 判断选区内容是否在不可编辑区域之内
+        if ($containerElem.attr('contenteditable') === 'false' || $containerElem.parentUntil('[contenteditable=false]')) {
+            return
+        }
+
         const editor = this.editor
         const $textElem = editor.$textElem
         if ($textElem.isContain($containerElem)) {
