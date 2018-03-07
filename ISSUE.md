@@ -134,7 +134,7 @@
 
 ### v3.1.0
 
-- 视图增加 “字体” “字号”
+- [done] 视图增加 “字体” “字号”（字体需要文档说明）
 - 外露的修改图片大小的按钮
 - https://github.com/wangfupeng1988/wangEditor/issues/512
 

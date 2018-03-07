@@ -8,6 +8,8 @@ const config = {
     menus: [
         'head',
         'bold',
+        'fontSize',
+        'fontName',
         'italic',
         'underline',
         'strikeThrough',
@@ -24,6 +26,14 @@ const config = {
         'code',
         'undo',
         'redo'
+    ],
+
+    fontNames: [
+        '宋体',
+        '微软雅黑',
+        'Arial',
+        'Tahoma',
+        'Verdana'
     ],
 
     colors: [

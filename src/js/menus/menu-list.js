@@ -11,6 +11,12 @@ MenuConstructors.bold = Bold
 import Head from './head/index.js'
 MenuConstructors.head = Head
 
+import FontSize from './fontSize/index.js'
+MenuConstructors.fontSize = FontSize
+
+import FontName from './fontName/index.js'
+MenuConstructors.fontName = FontName
+
 import Link from './link/index.js'
 MenuConstructors.link = Link
 
