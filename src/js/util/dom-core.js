@@ -453,17 +453,16 @@ DomElement.prototype = {
     insertAfter: function (selector) {
         const $referenceNode = $(selector)
         const referenceNode = $referenceNode[0]
+        const anchorNode = referenceNode && referenceNode.nextSibling
         if (!referenceNode) {
             return this
         }
         return this.forEach(elem => {
             const parent = referenceNode.parentNode
-            if (parent.lastChild === referenceNode) {
-                // 最后一个元素
-                parent.appendChild(elem)
+            if (anchorNode) {
+                parent.insertBefore(elem, anchorNode)
             } else {
-                // 不是最后一个元素
-                parent.insertBefore(elem, referenceNode.nextSibling)
+                parent.appendChild(elem)
             }
         })
     }
