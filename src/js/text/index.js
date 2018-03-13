@@ -119,7 +119,16 @@ Text.prototype = {
     append: function (html) {
         const editor = this.editor
         const $textElem = editor.$textElem
+
+        // 判断当使用追加内容时，若内容为空则先清楚标签再追加
+        // 避免追加的内容在第二行出现
+        if ($textElem.html() == '<p><br></p>') {
+            $textElem.html('')
+        }
         $textElem.append($(html))
+
+        // 判断是否显示placeholder
+        this._checkPlaceholder()
 
         // 初始化选取，将光标定位到内容尾部
         editor.initSelection()
