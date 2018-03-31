@@ -4,6 +4,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  margin-top:-4px
 }
 .w-e-toolbar *,
 .w-e-text-container *,
@@ -169,10 +170,9 @@
 }
 
 .w-e-toolbar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: inline-table;
   padding: 0 5px;
+  width : 100%;
   /* flex-wrap: wrap; */
   /* 单个菜单 */
 }
@@ -181,6 +181,7 @@
   text-align: center;
   padding: 5px 10px;
   cursor: pointer;
+  float: left;
 }
 .w-e-toolbar .w-e-menu i {
   color: #999;
