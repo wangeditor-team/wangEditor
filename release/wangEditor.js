@@ -542,11 +542,11 @@ $.offAll = function () {
 /*
     配置信息
 */
-
+var menus=['head', 'bold', 'fontSize', 'fontName', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'video', 'code', 'undo', 'redo']
 var config = {
 
     // 默认菜单配置
-    menus: ['head', 'bold', 'fontSize', 'fontName', 'italic', 'underline', 'strikeThrough', 'foreColor', 'backColor', 'link', 'list', 'justify', 'quote', 'emoticon', 'image', 'table', 'video', 'code', 'undo', 'redo'],
+    menus: menus,
 
     fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
 
@@ -605,7 +605,7 @@ var config = {
     }],
 
     // 编辑区域的 z-index
-    zIndex: 10000,
+    zIndex: menus.length+1000,
 
     // 是否开启 debug 模式（debug 模式下错误会 throw error 形式抛出）
     debug: false,
@@ -2922,7 +2922,6 @@ Menus.prototype = {
                 _this.menus[menuKey] = new MenuConstructor(editor);
             }
         });
-
         // 添加到菜单栏
         this._addToToolbar();
 
@@ -2933,19 +2932,22 @@ Menus.prototype = {
     // 添加到菜单栏
     _addToToolbar: function _addToToolbar() {
         var editor = this.editor;
+        
         var $toolbarElem = editor.$toolbarElem;
         var menus = this.menus;
         var config = editor.config;
         // config.zIndex 是配置的编辑区域的 z-index，菜单的 z-index 得在其基础上 +1
-        var zIndex = config.zIndex + 1;
         objForEach(menus, function (key, menu) {
+            var zIndex = config.zIndex - 1;
             var $elem = menu.$elem;
             if ($elem) {
                 // 设置 z-index
                 $elem.css('z-index', zIndex);
                 $toolbarElem.append($elem);
             }
+            config.zIndex=zIndex
         });
+        
     },
 
     // 绑定菜单 click mouseenter 事件
@@ -4423,7 +4425,7 @@ Editor.prototype = {
         // 设置通用的 class
         $toolbarElem.addClass('w-e-toolbar');
         $textContainerElem.addClass('w-e-text-container');
-        $textContainerElem.css('z-index', zIndex);
+        $textContainerElem.css('z-index', zIndex-menus.length);
         $textElem.addClass('w-e-text');
 
         // 添加 ID
