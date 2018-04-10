@@ -8,7 +8,7 @@ function StrikeThrough(editor) {
     this.editor = editor
     this.$elem = $(
         `<div class="w-e-menu">
-            <i class="w-e-icon-strikethrough"><i/>
+            <i class="w-e-icon-strikethrough"></i>
         </div>`
     )
     this.type = 'click'

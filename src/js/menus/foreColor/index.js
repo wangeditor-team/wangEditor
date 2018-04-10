@@ -7,7 +7,7 @@ import DropList from '../droplist.js'
 // 构造函数
 function ForeColor(editor) {
     this.editor = editor
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-pencil2"><i/></div>')
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-pencil2"></i></div>')
     this.type = 'droplist'
 
     // 获取配置的颜色

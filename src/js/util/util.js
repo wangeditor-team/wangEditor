@@ -57,6 +57,7 @@ export function replaceHtmlSymbol(html) {
     return html.replace(/</gm, '&lt;')
                 .replace(/>/gm, '&gt;')
                 .replace(/"/gm, '&quot;')
+                .replace(/(\r\n|\r|\n)/g, '<br/>')
 }
 
 // 返回百分比的格式

@@ -137,10 +137,26 @@
 - [done] 视图增加 “字体” “字号”（字体需要文档说明）
 - [done] 支持粘贴内容时忽略图片
 
+### v3.1.1
+
+- [done] 支持 webp 格式上传
+- [done] 增加粘贴时换行的处理，即`.replace(/(\r\n|\r|\n)/g, '<br/>')`
+- [done] 解决连续粘贴卡顿的问题（将节流间隔由`500ms`改为`100ms`）
+- [done] **上传时配置的自定义参数`uploadImgParams`，去掉自动 encode 的功能，重要！！！**
+- [done] 对于`editor.txt.getJSON()`中的特殊字符进行替换
+
+
 ### 近期计划解决
 
-- 外露的修改图片大小的按钮
+- 合并 pr
+- https://github.com/wangfupeng1988/wangEditor/issues/1445
+- https://github.com/wangfupeng1988/wangEditor/issues/1410
+- https://github.com/wangfupeng1988/wangEditor/issues/1396
+- https://github.com/wangfupeng1988/wangEditor/issues/1358
+- https://github.com/wangfupeng1988/wangEditor/issues/1367
+- 销毁的 API ，以及各个生命周期的 hook
 - **处理粘贴数据时，要把 pasteHtml 先转换成 vnode 之类的结构化对象，然后再递归处理**
+- 外露的修改图片大小的按钮
 - 撤销的兼容性问题（会误伤其他编辑器或者 input textarea 等），考虑用 onchange 记录 undo 和 redo 的内容（但是得考虑直接修改 dom 的情况，如 quote code img list table 菜单）
     - 列表撤销会删除一行？https://github.com/wangfupeng1988/wangEditor/issues/1131
     - 页面中有 input 等输入标签时，undo redo 会误伤 https://github.com/wangfupeng1988/wangEditor/issues/1024

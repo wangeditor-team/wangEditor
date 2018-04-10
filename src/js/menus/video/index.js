@@ -8,7 +8,7 @@ import Panel from '../panel.js'
 // 构造函数
 function Video(editor) {
     this.editor = editor
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-play"><i/></div>')
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-play"></i></div>')
     this.type = 'panel'
 
     // 当前是否 active 状态

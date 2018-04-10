@@ -7,7 +7,7 @@ import DropList from '../droplist.js'
 // 构造函数
 function BackColor(editor) {
     this.editor = editor
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paint-brush"><i/></div>')
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paint-brush"></i></div>')
     this.type = 'droplist'
 
     // 获取配置的颜色

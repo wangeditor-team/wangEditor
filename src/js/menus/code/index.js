@@ -11,7 +11,7 @@ function Code(editor) {
     this.editor = editor
     this.$elem = $(
         `<div class="w-e-menu">
-            <i class="w-e-icon-terminal"><i/>
+            <i class="w-e-icon-terminal"></i>
         </div>`
     )
     this.type = 'panel'

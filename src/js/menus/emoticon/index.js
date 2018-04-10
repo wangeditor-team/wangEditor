@@ -9,7 +9,7 @@ function Emoticon(editor) {
     this.editor = editor
     this.$elem = $(
         `<div class="w-e-menu">
-            <i class="w-e-icon-happy"><i/>
+            <i class="w-e-icon-happy"></i>
         </div>`
     )
     this.type = 'panel'

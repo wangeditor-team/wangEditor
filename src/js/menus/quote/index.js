@@ -9,7 +9,7 @@ function Quote(editor) {
     this.editor = editor
     this.$elem = $(
         `<div class="w-e-menu">
-            <i class="w-e-icon-quotes-left"><i/>
+            <i class="w-e-icon-quotes-left"></i>
         </div>`
     )
     this.type = 'click'

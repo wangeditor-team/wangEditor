@@ -7,7 +7,7 @@ import DropList from '../droplist.js'
 // 构造函数
 function Justify(editor) {
     this.editor = editor
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paragraph-left"><i/></div>')
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paragraph-left"></i></div>')
     this.type = 'droplist'
 
     // 当前是否 active 状态

@@ -122,7 +122,7 @@ UploadImg.prototype = {
                 return
             }
 
-            if (/\.(jpg|jpeg|png|bmp|gif)$/i.test(name) === false) {
+            if (/\.(jpg|jpeg|png|bmp|gif|webp)$/i.test(name) === false) {
                 // 后缀名不合法，不是图片
                 errInfo.push(`【${name}】不是图片`)
                 return
@@ -168,7 +168,8 @@ UploadImg.prototype = {
             uploadImgServer = uploadImgServerArr[0]
             const uploadImgServerHash = uploadImgServerArr[1] || ''
             objForEach(uploadImgParams, (key, val) => {
-                val = encodeURIComponent(val)
+                // 因使用者反应，自定义参数不能默认 encode ，由 v3.1.1 版本开始注释掉
+                // val = encodeURIComponent(val)
 
                 // 第一，将参数拼接到 url 中
                 if (uploadImgParamsWithUrl) {

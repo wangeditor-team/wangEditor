@@ -780,7 +780,7 @@ function replaceHtmlSymbol(html) {
     if (html == null) {
         return '';
     }
-    return html.replace(/</gm, '&lt;').replace(/>/gm, '&gt;').replace(/"/gm, '&quot;');
+    return html.replace(/</gm, '&lt;').replace(/>/gm, '&gt;').replace(/"/gm, '&quot;').replace(/(\r\n|\r|\n)/g, '<br/>');
 }
 
 // 返回百分比的格式
@@ -797,7 +797,7 @@ function isFunction(fn) {
 // 构造函数
 function Bold(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-bold"><i/>\n        </div>');
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-bold"></i>\n        </div>');
     this.type = 'click';
 
     // 当前是否 active 状态
@@ -1001,7 +1001,7 @@ function Head(editor) {
     var _this = this;
 
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-header"><i/></div>');
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-header"></i></div>');
     this.type = 'droplist';
 
     // 当前是否 active 状态
@@ -1063,7 +1063,7 @@ function FontSize(editor) {
     var _this = this;
 
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-text-heigh"><i/></div>');
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-text-heigh"></i></div>');
     this.type = 'droplist';
 
     // 当前是否 active 状态
@@ -1102,7 +1102,7 @@ function FontName(editor) {
     var _this = this;
 
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-font"><i/></div>');
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-font"></i></div>');
     this.type = 'droplist';
 
     // 当前是否 active 状态
@@ -1336,7 +1336,7 @@ Panel.prototype = {
 // 构造函数
 function Link(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-link"><i/></div>');
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-link"></i></div>');
     this.type = 'panel';
 
     // 当前是否 active 状态
@@ -1492,7 +1492,7 @@ Link.prototype = {
 // 构造函数
 function Italic(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-italic"><i/>\n        </div>');
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-italic"></i>\n        </div>');
     this.type = 'click';
 
     // 当前是否 active 状态
@@ -1545,7 +1545,7 @@ Italic.prototype = {
 // 构造函数
 function Redo(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-redo"><i/>\n        </div>');
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-redo"></i>\n        </div>');
     this.type = 'click';
 
     // 当前是否 active 状态
@@ -1573,7 +1573,7 @@ Redo.prototype = {
 // 构造函数
 function StrikeThrough(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-strikethrough"><i/>\n        </div>');
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-strikethrough"></i>\n        </div>');
     this.type = 'click';
 
     // 当前是否 active 状态
@@ -1626,7 +1626,7 @@ StrikeThrough.prototype = {
 // 构造函数
 function Underline(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-underline"><i/>\n        </div>');
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-underline"></i>\n        </div>');
     this.type = 'click';
 
     // 当前是否 active 状态
@@ -1679,7 +1679,7 @@ Underline.prototype = {
 // 构造函数
 function Undo(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-undo"><i/>\n        </div>');
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-undo"></i>\n        </div>');
     this.type = 'click';
 
     // 当前是否 active 状态
@@ -1709,7 +1709,7 @@ function List(editor) {
     var _this = this;
 
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-list2"><i/></div>');
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-list2"></i></div>');
     this.type = 'droplist';
 
     // 当前是否 active 状态
@@ -1786,7 +1786,7 @@ function Justify(editor) {
     var _this = this;
 
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paragraph-left"><i/></div>');
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paragraph-left"></i></div>');
     this.type = 'droplist';
 
     // 当前是否 active 状态
@@ -1824,7 +1824,7 @@ function ForeColor(editor) {
     var _this = this;
 
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-pencil2"><i/></div>');
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-pencil2"></i></div>');
     this.type = 'droplist';
 
     // 获取配置的颜色
@@ -1868,7 +1868,7 @@ function BackColor(editor) {
     var _this = this;
 
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paint-brush"><i/></div>');
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-paint-brush"></i></div>');
     this.type = 'droplist';
 
     // 获取配置的颜色
@@ -1910,7 +1910,7 @@ BackColor.prototype = {
 // 构造函数
 function Quote(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-quotes-left"><i/>\n        </div>');
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-quotes-left"></i>\n        </div>');
     this.type = 'click';
 
     // 当前是否 active 状态
@@ -1978,7 +1978,7 @@ Quote.prototype = {
 // 构造函数
 function Code(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-terminal"><i/>\n        </div>');
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-terminal"></i>\n        </div>');
     this.type = 'panel';
 
     // 当前是否 active 状态
@@ -2113,7 +2113,7 @@ Code.prototype = {
 // 构造函数
 function Emoticon(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-happy"><i/>\n        </div>');
+    this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-happy"></i>\n        </div>');
     this.type = 'panel';
 
     // 当前是否 active 状态
@@ -2220,7 +2220,7 @@ Emoticon.prototype = {
 // 构造函数
 function Table(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-table2"><i/></div>');
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-table2"></i></div>');
     this.type = 'panel';
 
     // 当前是否 active 状态
@@ -2565,7 +2565,7 @@ Table.prototype = {
 // 构造函数
 function Video(editor) {
     this.editor = editor;
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-play"><i/></div>');
+    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-play"></i></div>');
     this.type = 'panel';
 
     // 当前是否 active 状态
@@ -2641,7 +2641,7 @@ Video.prototype = {
 function Image(editor) {
     this.editor = editor;
     var imgMenuId = getRandom('w-e-img');
-    this.$elem = $('<div class="w-e-menu" id="' + imgMenuId + '"><i class="w-e-icon-image"><i/></div>');
+    this.$elem = $('<div class="w-e-menu" id="' + imgMenuId + '"><i class="w-e-icon-image"></i></div>');
     editor.imgMenuId = imgMenuId;
     this.type = 'panel';
 
@@ -3071,10 +3071,10 @@ function getPasteHtml(e, filterStyle, ignoreImg) {
 
     if (filterStyle) {
         // 过滤样式
-        pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").+?('|")/igm, '');
+        pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").*?('|")/igm, '');
     } else {
         // 保留样式
-        pasteHtml = pasteHtml.replace(/\s?class=('|").+?('|")/igm, '');
+        pasteHtml = pasteHtml.replace(/\s?class=('|").*?('|")/igm, '');
     }
 
     return pasteHtml;
@@ -3120,6 +3120,7 @@ function getChildrenJSON($elem) {
         // 文本节点
         if (nodeType === 3) {
             elemResult = curElem.textContent;
+            elemResult = replaceHtmlSymbol(elemResult);
         }
 
         // 普通 DOM 节点
@@ -3445,8 +3446,8 @@ Text.prototype = {
         function canDo() {
             var now = Date.now();
             var flag = false;
-            if (now - pasteTime >= 500) {
-                // 间隔大于 500 ms ，可以执行
+            if (now - pasteTime >= 100) {
+                // 间隔大于 100 ms ，可以执行
                 flag = true;
             }
             pasteTime = now;
@@ -4128,7 +4129,7 @@ UploadImg.prototype = {
                 return;
             }
 
-            if (/\.(jpg|jpeg|png|bmp|gif)$/i.test(name) === false) {
+            if (/\.(jpg|jpeg|png|bmp|gif|webp)$/i.test(name) === false) {
                 // 后缀名不合法，不是图片
                 errInfo.push('\u3010' + name + '\u3011\u4E0D\u662F\u56FE\u7247');
                 return;
@@ -4174,7 +4175,8 @@ UploadImg.prototype = {
             uploadImgServer = uploadImgServerArr[0];
             var uploadImgServerHash = uploadImgServerArr[1] || '';
             objForEach(uploadImgParams, function (key, val) {
-                val = encodeURIComponent(val);
+                // 因使用者反应，自定义参数不能默认 encode ，由 v3.1.1 版本开始注释掉
+                // val = encodeURIComponent(val)
 
                 // 第一，将参数拼接到 url 中
                 if (uploadImgParamsWithUrl) {

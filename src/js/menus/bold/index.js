@@ -8,7 +8,7 @@ function Bold(editor) {
     this.editor = editor
     this.$elem = $(
         `<div class="w-e-menu">
-            <i class="w-e-icon-bold"><i/>
+            <i class="w-e-icon-bold"></i>
         </div>`
     )
     this.type = 'click'

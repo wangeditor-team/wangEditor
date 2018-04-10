@@ -8,7 +8,7 @@ function Undo(editor) {
     this.editor = editor
     this.$elem = $(
         `<div class="w-e-menu">
-            <i class="w-e-icon-undo"><i/>
+            <i class="w-e-icon-undo"></i>
         </div>`
     )
     this.type = 'click'

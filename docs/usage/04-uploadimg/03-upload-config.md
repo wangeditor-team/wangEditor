@@ -69,7 +69,9 @@ editor.customConfig.uploadImgMaxLength = 5
 
 ```javascript
 editor.customConfig.uploadImgParams = {
-    token: 'abcdef12345'  // 属性值会自动进行 encode ，此处无需 encode
+    // 如果版本 <=v3.1.0 ，属性值会自动进行 encode ，此处无需 encode
+    // 如果版本 >=v3.1.1 ，属性值不会自动 encode ，如有需要自己手动 encode
+    token: 'abcdef12345'
 }
 ```
 

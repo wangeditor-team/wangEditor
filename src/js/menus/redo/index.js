@@ -8,7 +8,7 @@ function Redo(editor) {
     this.editor = editor
     this.$elem = $(
         `<div class="w-e-menu">
-            <i class="w-e-icon-redo"><i/>
+            <i class="w-e-icon-redo"></i>
         </div>`
     )
     this.type = 'click'

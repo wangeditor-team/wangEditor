@@ -56,10 +56,10 @@ export function getPasteHtml(e, filterStyle, ignoreImg) {
 
     if (filterStyle) {
         // 过滤样式
-        pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").+?('|")/igm, '')
+        pasteHtml = pasteHtml.replace(/\s?(class|style)=('|").*?('|")/igm, '')
     } else {
         // 保留样式
-        pasteHtml = pasteHtml.replace(/\s?class=('|").+?('|")/igm, '')
+        pasteHtml = pasteHtml.replace(/\s?class=('|").*?('|")/igm, '')
     }
 
     return pasteHtml
