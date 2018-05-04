@@ -3,7 +3,7 @@
 */
 
 import $ from '../util/dom-core.js'
-import { getPasteText, getPasteHtml, getPasteImgs } from '../util/paste-handle.js'
+import { getPasteText, getPasteHtml, getPasteImgs, getPasteRtfImgs } from '../util/paste-handle.js'
 import { UA, isFunction, replaceHtmlSymbol } from '../util/util.js'
 
 // 获取一个 elem.childNodes 的 JSON 数据
@@ -402,13 +402,37 @@ Text.prototype = {
                 return
             }
             try {
-                // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
-                // 因此执行 insertHTML 会报错
-                if (pasteTextHandle && isFunction(pasteTextHandle)) {
-                    // 用户自定义过滤处理粘贴内容
-                    pasteHtml = '' + (pasteTextHandle(pasteHtml) || '')
-                }
-                editor.cmd.do('insertHTML', pasteHtml)
+                //尝试从word rtf 格式中获取图片base64数据 add by outman 2018-05-04 10:45:13
+                getPasteRtfImgs(e, function (imgLst) {
+                    if (imgLst && imgLst.length > 0 && pasteHtml.indexOf('img') > -1) {
+                        var index = 0
+                        //console.log('rtf imgLst.length:', imgLst.length)
+                        //正则匹配word粘贴板里的本地图片
+                        pasteHtml = pasteHtml.replace(/<img[^<>]*?src=["']?file:[^<>]*?>/igm, function (img) {
+                            if (index > imgLst.length) {
+                                return img
+                            }
+                            //console.log('rtf index:', index);
+                            var newsrc = imgLst[index]
+                            index++
+                            if(newsrc){
+                                if (img.indexOf('id=') < 0) {
+                                    //根据word粘贴过来的shapes id 分配一个img id
+                                    img = img.replace(/v:shapes=/, 'id=')
+                                }
+                                img = img.replace(/src=["'?]file:.*["'?]/i, 'src="' + newsrc + '"')
+                            }
+                            return img
+                        })
+                    }
+                    // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
+                    // 因此执行 insertHTML 会报错
+                    if (pasteTextHandle && isFunction(pasteTextHandle)) {
+                        // 用户自定义过滤处理粘贴内容
+                        pasteHtml = '' + (pasteTextHandle(pasteHtml) || '')
+                    }
+                    editor.cmd.do('insertHTML', pasteHtml)
+                })
             } catch (ex) {
                 // 此时使用 pasteText 来兼容一下
                 if (pasteTextHandle && isFunction(pasteTextHandle)) {

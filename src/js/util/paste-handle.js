@@ -3,8 +3,7 @@
 */
 
 import $ from './dom-core.js'
-import { replaceHtmlSymbol } from './util.js'
-import { objForEach } from './util.js'
+import { replaceHtmlSymbol,objForEach,Base64} from './util.js'
 
 // 获取粘贴的纯文本
 export function getPasteText(e) {
@@ -88,4 +87,62 @@ export function getPasteImgs(e) {
     })
 
     return result
+}
+
+
+/**
+ *
+ * 获取从word粘贴的图片文件
+ * @param e
+ * @param callback  回调
+ */
+export function getPasteRtfImgs(e, callback) {
+    var result = []
+    var clipboardData = e.clipboardData || e.originalEvent && e.originalEvent.clipboardData || {}
+    var items = clipboardData.items
+    var isFind = false
+    if (items && items.length > 0) {
+        objForEach(items, function (key, value) {
+            var type = value.type
+            if (callback && type === 'text/rtf') {
+                isFind = true
+                value.getAsString(function (s) {
+                    // console.log('rtf s:',s)
+                    var arrayImg = s.match(/bliptag[-]?\d{1,}(\{[^\}]*\})?[^\}\\]*\}/ig)
+                    if(arrayImg && arrayImg.length>0) {
+                        console.log('rtf arrayImg:', arrayImg.length)
+                        for(var i in arrayImg){
+                            var imgOne = getRtfImg(arrayImg[i])
+                            if (imgOne && imgOne.length > 0) {
+                                result.push('data:image/png;base64,' + imgOne)
+                            }
+                        }
+                    }
+                    callback(result)
+                })
+                return
+            }
+        })
+    }
+    if (!isFind && callback) {
+        callback(result)
+    }
+}
+
+function getRtfImg(s) {
+    if (s.startsWith('bliptag') && s.endsWith('}')) {
+        var newStr = s.substring(0, s.length-1)
+        newStr = newStr.replace(/bliptag[-]?\d{1,}(\{[^\}]*\})?[\s\S]/g, '') //去掉头部的 bliptag标记
+        if (newStr.indexOf('\\') > -1) {
+            //MetaFile类型的16进制数据,不进行处理
+            //console.log('rtf return null:');
+            return null
+        }
+        newStr = newStr.replace(/\r/g, '\n')
+        newStr = newStr.replace(/\n/g, '')
+        newStr = newStr.replace(/\s/g, '')
+        var arrHex = Base64.str2Bytes(newStr)
+        return Base64.encode(arrHex)
+    }
+    return null
 }
