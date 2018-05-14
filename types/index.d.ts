@@ -4,20 +4,96 @@ export default class WangEditor {
   readonly $toolbarElem: DomElement
   readonly $textContainerElem: DomElement
   readonly $textElem: DomElement
-  toolbarElemId: string
-  textElemId: string
 
+  readonly toolbarElemId: string
+  readonly textElemId: string
+
+  /**
+   * 自定义配置
+   */
   customConfig: {
+    /**
+     * 菜单配置
+     */
     menus: string[]
+
+    /**
+     * 字体配置
+     */
     fontNames: string[]
+
+    /**
+     * 颜色配置
+     */
     colors: string[]
+
+    /**
+     * 表情
+     */
+    emotions: Array<
+      | {
+          /**
+           * tab 的标题
+           */
+          title: string
+          /**
+           * 表情类型
+           */
+          type: 'emoji'
+          /**
+           * emoji 数组
+           */
+          content: string[]
+        }
+      | {
+          /**
+           * tab 的标题
+           */
+          title: string
+          /**
+           * 表情类型
+           */
+          type: 'image'
+          /**
+           * 图片对象 数组
+           */
+          content: Array<{
+            /**
+             * 图片地址
+             */
+            src: string
+            /**
+             * 图片缺省名称，例：[哈哈]
+             */
+            alt: string
+          }>
+        }
+    >
+
+    /**
+     * 是否开启 debug 模式（debug 模式下错误会 throw error 形式抛出）
+     */
     debug: boolean
+
+    /**
+     * 编辑区域的 z-index
+     */
     zIndex: number
     lang: { [key: string]: string }
     pasteFilterStyle: boolean
     pasteIgnoreImg: boolean
     showLinkImg: boolean
     uploadImgMaxSize: number
+    uploadImgShowBase64: boolean
+    uploadFileName: boolean
+    uploadImgParams: { [key: string]: string }
+    withCredentials: boolean
+    uploadImgTimeout: number
+
+    /**
+     * 是否上传七牛云，默认为 false
+     */
+    qiniu: boolean
 
     pasteTextHandle(content: string): string
     linkCheck(text: string, link: string): boolean | string
@@ -43,7 +119,9 @@ export default class WangEditor {
   initSelection(newLine: boolean): void
 }
 
-interface DomElement {
+class DomElement {
+  constructor(selector: DomElement | Element | string)
+
   forEach(fn: (elem: Element, index: number) => void): DomElement
   clone(deep: boolean): DomElement
   get(index: number): DomElement
@@ -76,7 +154,8 @@ interface DomElement {
   equal(val: DomElement): boolean
   insertBefore(selector: Selector): DomElement
   insertAfter(selector: Selector): DomElement
-  offAll(): void
+
+  static offAll(): void
 }
 
 type Selector = string | Element | DomElement
