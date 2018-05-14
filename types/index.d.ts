@@ -28,79 +28,119 @@ export default class WangEditor {
     colors: string[]
 
     /**
-     * 表情
+     * 多语言
      */
-    emotions: Array<
-      | {
-          /**
-           * tab 的标题
-           */
-          title: string
-          /**
-           * 表情类型
-           */
-          type: 'emoji'
-          /**
-           * emoji 数组
-           */
-          content: string[]
-        }
-      | {
-          /**
-           * tab 的标题
-           */
-          title: string
-          /**
-           * 表情类型
-           */
-          type: 'image'
-          /**
-           * 图片对象 数组
-           */
-          content: Array<{
-            /**
-             * 图片地址
-             */
-            src: string
-            /**
-             * 图片缺省名称，例：[哈哈]
-             */
-            alt: string
-          }>
-        }
-    >
+    lang: { [key: string]: string }
 
     /**
-     * 是否开启 debug 模式（debug 模式下错误会 throw error 形式抛出）
+     * 表情
+     */
+    emotions: Array<EmojiEmotions | ImageEmotions>
+
+    /**
+     * 是否开启 debug 模式（debug 模式下错误会 throw error 形式抛出），默认为 `false`
      */
     debug: boolean
 
     /**
-     * 编辑区域的 z-index
+     * 编辑区域的 z-index，默认为 `10000`
      */
     zIndex: number
-    lang: { [key: string]: string }
+
+    /**
+     * 粘贴过滤样式，默认为 `true`
+     */
     pasteFilterStyle: boolean
+
+    /**
+     * 粘贴内容时，忽略图片，默认为 `false`
+     */
     pasteIgnoreImg: boolean
+
+    /**
+     * 是否显示添加网络图片的 tab，默认为 `true`
+     */
     showLinkImg: boolean
+
+    /**
+     * 默认上传图片 max size，默认为 `5*1024*1024` 字节
+     */
     uploadImgMaxSize: number
+
+    /**
+     * 上传图片，是否显示 base64 格式，默认为 `false`
+     */
     uploadImgShowBase64: boolean
+
+    /**
+     * 自定义配置 filename
+     */
     uploadFileName: boolean
+
+    /**
+     * 上传图片的自定义header
+     */
     uploadImgParams: { [key: string]: string }
+
+    /**
+     * 配置 XHR withCredentials，默认为 `false`
+     */
     withCredentials: boolean
+
+    /**
+     * 自定义上传图片超时时间 ms，默认为 `10000`
+     */
     uploadImgTimeout: number
 
     /**
-     * 是否上传七牛云，默认为 false
+     * 是否上传七牛云，默认为 `false`
      */
     qiniu: boolean
 
+    /**
+     * 对粘贴的文字进行自定义处理，返回处理后的结果。编辑器会将处理后的结果粘贴到编辑区域中。
+     * IE 暂时不支持
+     * @param content 即粘贴过来的内容（html 或 纯文本），可进行自定义处理然后返回
+     * @returns 处理后的结果
+     */
     pasteTextHandle(content: string): string
+
+    /**
+     * 插入链接时候的格式校验
+     * @param text 插入的文字
+     * @param link 插入的链接
+     * @returns 返回 `true` 即表示成功，返回 `'校验失败'` 表示失败的提示信息
+     */
     linkCheck(text: string, link: string): boolean | string
+
+    /**
+     * 插入网络图片的校验
+     * @param src 图片的地址
+     * @returns 返回 `true` 即表示成功，返回 `'校验失败'` 表示失败的提示信息
+     */
     linkImgCheck(src: string): boolean | string
 
+    /**
+     * 插入网络图片的回调
+     * @param url 插入图片的地址
+     */
+    linkImgCallback(url: string): void
+
+    /**
+     * 用户操作（鼠标点击、键盘打字等）导致的内容变化之后触发
+     * @param html 变化之后的内容
+     */
     onchange(html: string): void
-    onfocus(html: string): void
+
+    /**
+     * 用户点击富文本区域后触发
+     */
+    onfocus(): void
+
+    /**
+     * 富文本在焦点状态并且鼠标点击富文本以外的区域后触发
+     * @param html 编辑器中的内容
+     */
     onblur(html: string): void
   }
 
@@ -160,3 +200,42 @@ class DomElement {
 
 type Selector = string | Element | DomElement
 type AttrVal = string | boolean | number
+
+interface EmojiEmotions {
+  /**
+   * tab 的标题
+   */
+  title: string
+  /**
+   * 表情类型
+   */
+  type: 'emoji'
+  /**
+   * emoji 数组
+   */
+  content: string[]
+}
+
+interface ImageEmotions {
+  /**
+   * tab 的标题
+   */
+  title: string
+  /**
+   * 表情类型
+   */
+  type: 'image'
+  /**
+   * 图片对象 数组
+   */
+  content: Array<{
+    /**
+     * 图片地址
+     */
+    src: string
+    /**
+     * 图片缺省名称，例：[哈哈]
+     */
+    alt: string
+  }>
+}

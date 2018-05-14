@@ -13,6 +13,7 @@
     "web 富文本编辑器"
   ],
   "main": "release/wangEditor.js",
+  "typings": "types/index.d.ts",
   "maintainers": [
     {
       "name": "wangfupeng1988",
