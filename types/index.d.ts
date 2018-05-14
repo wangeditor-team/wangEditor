@@ -184,7 +184,7 @@ class DomElement {
   isContain(child: DomElement): boolean
   getSizeData(): DOMRect
   getNodeName(): string
-  find(selector: string): DOMRect
+  find(selector: string): DomElement
   text(val: string): DomElement
   text(): string
   html(val: string): DomElement
