@@ -24,7 +24,13 @@ function FontName(editor) {
         $title: $('<p>字体</p>'),
         type: 'list', // droplist 以列表形式展示
         list: fontNames.map(fontName => {
-            return { $elem: $(`<span style="font-family: ${fontName};">${fontName}</span>`), value: fontName }
+            // 如果是对象{'label':'字体','value':'font'}
+            if (typeof fontName == 'object') {
+                return { $elem: $(`<span style="font-family: ${fontName.value};">${fontName.label}</span>`), value: fontName.value }                
+            }else{
+                //如果是字符串
+                return { $elem: $(`<span style="font-family: ${fontName};">${fontName}</span>`), value: fontName }
+            }
         }),
         onClick: (value) => {
             // 注意 this 是指向当前的 FontName 对象
