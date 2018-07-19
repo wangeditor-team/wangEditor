@@ -357,6 +357,8 @@ Text.prototype = {
 
         // 粘贴文字
         $textElem.on('paste', e => {
+            // 粘贴前先更新选区
+            editor.selection.saveRange()
             if (UA.isIE()) {
                 return
             } else {
