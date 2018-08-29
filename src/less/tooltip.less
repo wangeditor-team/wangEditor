@@ -1,0 +1,25 @@
+.w-e-toolbar {
+    .w-e-tooltip {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        padding:2px;
+        background-color: #303133;
+        font-size: 12px;
+        color: #ffffff;
+        min-width: 30px;
+        text-align: center;
+        border-radius: 2px;
+        &:before{
+            content: "";
+            display: block;
+            width: 0px;
+            height: 0px;
+            border: 5px solid transparent;
+            border-bottom-color: #303133;
+            position: absolute;
+            top: -10px;
+            left: 4px;
+        }
+    }
+}

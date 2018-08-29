@@ -169,7 +169,6 @@
 }
 
 .w-e-toolbar {
-  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   padding: 0 5px;
@@ -221,7 +220,6 @@
 }
 .w-e-text-container .w-e-panel-container .w-e-panel-tab-title {
   list-style: none;
-  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   font-size: 14px;
@@ -408,4 +406,27 @@
 }
 .w-e-text img:hover {
   box-shadow: 0 0 5px #333;
+}
+
+.w-e-toolbar .w-e-tooltip {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  padding: 2px;
+  background-color: #303133;
+  font-size: 12px;
+  color: #ffffff;
+  min-width: 30px;
+  text-align: center;
+  border-radius: 2px;
+}
+.w-e-toolbar .w-e-tooltip:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  border: 5px solid transparent;
+  border-bottom-color: #303133;
+  position: absolute;
+  top: -10px;
+  left: 4px;
 }

@@ -2,7 +2,7 @@
     bold-menu
 */
 import $ from '../../util/dom-core.js'
-
+import Tooltip from '../tooltip.js'
 // 构造函数
 function Bold(editor) {
     this.editor = editor
@@ -12,6 +12,10 @@ function Bold(editor) {
         </div>`
     )
     this.type = 'click'
+    // 初始化 toolTip
+    this.tooltip = new Tooltip(this, {
+      $content:$('<p>粗体</p>'),
+    })
 
     // 当前是否 active 状态
     this._active = false

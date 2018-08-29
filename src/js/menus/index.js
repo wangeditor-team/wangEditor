@@ -65,16 +65,33 @@ Menus.prototype = {
             }
             const $elem = menu.$elem
             const droplist = menu.droplist
+            const tooltip = menu.tooltip
             const panel = menu.panel
 
             // 点击类型，例如 bold
-            if (type === 'click' && menu.onClick) {
+            if ((type === 'click') && menu.onClick) {
                 $elem.on('click', e => {
                     if (editor.selection.getRange() == null) {
                         return
                     }
                     menu.onClick(e)
                 })
+                if(tooltip){
+                  $elem.on('mouseenter', e => {
+                    if (editor.selection.getRange() == null) {
+                      return
+                    }
+                    // 显示
+                    tooltip.showTimeoutId = setTimeout(() => {
+                      tooltip.show()
+                    }, 200)
+                  }).on('mouseleave', e => {
+                    // 隐藏
+                    tooltip.hideTimeoutId = setTimeout(() => {
+                      tooltip.hide()
+                    }, 0)
+                  })
+                }
             }
 
             // 下拉框，例如 head
