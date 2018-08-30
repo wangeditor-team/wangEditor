@@ -4,7 +4,7 @@
 import $ from '../../util/dom-core.js'
 import { getRandom, replaceHtmlSymbol } from '../../util/util.js'
 import Panel from '../panel.js'
-import { UA } from '../../util/util.js'
+import Tooltip from '../tooltip'
 
 // 构造函数
 function Code(editor) {
@@ -15,7 +15,10 @@ function Code(editor) {
         </div>`
     )
     this.type = 'panel'
-
+    // 初始化 toolTip
+    this.tooltip = new Tooltip(this, {
+      $content:$('<p>插入代码</p>'),
+    })
     // 当前是否 active 状态
     this._active = false
 }

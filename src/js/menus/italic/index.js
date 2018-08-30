@@ -2,6 +2,7 @@
     italic-menu
 */
 import $ from '../../util/dom-core.js'
+import Tooltip from '../tooltip'
 
 // 构造函数
 function Italic(editor) {
@@ -12,7 +13,9 @@ function Italic(editor) {
         </div>`
     )
     this.type = 'click'
-
+    this.tooltip = new Tooltip(this, {
+        $content:$('<p>斜体</p>'),
+    })
     // 当前是否 active 状态
     this._active = false
 }

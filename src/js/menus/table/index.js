@@ -4,13 +4,17 @@
 import $ from '../../util/dom-core.js'
 import { getRandom } from '../../util/util.js'
 import Panel from '../panel.js'
+import Tooltip from '../tooltip'
 
 // 构造函数
 function Table(editor) {
     this.editor = editor
     this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-table2"></i></div>')
     this.type = 'panel'
-
+    // 初始化 toolTip
+    this.tooltip = new Tooltip(this, {
+        $content:$('<p>表格</p>'),
+    })
     // 当前是否 active 状态
     this._active = false
 }

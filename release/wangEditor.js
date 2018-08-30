@@ -716,7 +716,10 @@ var config = {
     },
 
     // 是否上传七牛云，默认为 false
-    qiniu: false
+    qiniu: false,
+
+    // 是否开启tooltip
+    tooltip: true
 
     // 上传图片自定义提示方法
     // customAlert: function (info) {
@@ -831,6 +834,12 @@ function tooltip(menu, opt) {
 
     // tooltip 所依附的菜单
     var editor = menu.editor;
+    var config = editor.config;
+
+    if (!config.tooltip) {
+        return;
+    }
+
     this.menu = menu;
     this.opt = opt;
     // 容器
@@ -1443,14 +1452,13 @@ function Link(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-link"></i></div>');
     this.type = 'panel';
-
-    // 当前是否 active 状态
-    this._active = false;
-
     // 初始化 toolTip
     this.tooltip = new tooltip(this, {
         $content: $('<p>链接</p>')
     });
+
+    // 当前是否 active 状态
+    this._active = false;
 }
 
 // 原型
@@ -1603,7 +1611,9 @@ function Italic(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-italic"></i>\n        </div>');
     this.type = 'click';
-
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>斜体</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -1656,7 +1666,10 @@ function Redo(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-redo"></i>\n        </div>');
     this.type = 'click';
-
+    // 初始化 toolTip
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>重复</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -1684,7 +1697,10 @@ function StrikeThrough(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-strikethrough"></i>\n        </div>');
     this.type = 'click';
-
+    // 初始化 toolTip
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>删除线</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -1737,7 +1753,10 @@ function Underline(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-underline"></i>\n        </div>');
     this.type = 'click';
-
+    // 初始化 toolTip
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>下划线</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -1790,7 +1809,10 @@ function Undo(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-undo"></i>\n        </div>');
     this.type = 'click';
-
+    // 初始化 toolTip
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>撤销</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -2021,7 +2043,10 @@ function Quote(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-quotes-left"></i>\n        </div>');
     this.type = 'click';
-
+    // 初始化 toolTip
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>引用</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -2089,7 +2114,10 @@ function Code(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-terminal"></i>\n        </div>');
     this.type = 'panel';
-
+    // 初始化 toolTip
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>插入代码</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -2223,7 +2251,9 @@ function Emoticon(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu">\n            <i class="w-e-icon-happy"></i>\n        </div>');
     this.type = 'panel';
-
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>表情</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -2330,7 +2360,10 @@ function Table(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-table2"></i></div>');
     this.type = 'panel';
-
+    // 初始化 toolTip
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>表格</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -2674,7 +2707,10 @@ function Video(editor) {
     this.editor = editor;
     this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-play"></i></div>');
     this.type = 'panel';
-
+    // 初始化 toolTip
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>插入视频</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -2750,7 +2786,9 @@ function Image(editor) {
     this.$elem = $('<div class="w-e-menu" id="' + imgMenuId + '"><i class="w-e-icon-image"></i></div>');
     editor.imgMenuId = imgMenuId;
     this.type = 'panel';
-
+    this.tooltip = new tooltip(this, {
+        $content: $('<p>插入图片</p>')
+    });
     // 当前是否 active 状态
     this._active = false;
 }
@@ -3016,8 +3054,8 @@ Menus.prototype = {
         var _this = this;
 
         var editor = this.editor;
-        var config = editor.config || {};
-        var configMenus = config.menus || []; // 获取配置中的菜单
+        var config$$1 = editor.config || {};
+        var configMenus = config$$1.menus || []; // 获取配置中的菜单
 
         // 根据配置信息，创建菜单
         configMenus.forEach(function (menuKey) {
@@ -3040,9 +3078,9 @@ Menus.prototype = {
         var editor = this.editor;
         var $toolbarElem = editor.$toolbarElem;
         var menus = this.menus;
-        var config = editor.config;
+        var config$$1 = editor.config;
         // config.zIndex 是配置的编辑区域的 z-index，菜单的 z-index 得在其基础上 +1
-        var zIndex = config.zIndex + 1;
+        var zIndex = config$$1.zIndex + 1;
         objForEach(menus, function (key, menu) {
             var $elem = menu.$elem;
             if ($elem) {
@@ -3057,6 +3095,7 @@ Menus.prototype = {
     _bindEvent: function _bindEvent() {
         var menus = this.menus;
         var editor = this.editor;
+        var config$$1 = editor.config;
         objForEach(menus, function (key, menu) {
             var type = menu.type;
             if (!type) {
@@ -3078,7 +3117,7 @@ Menus.prototype = {
             }
 
             // 下拉框，例如 head
-            if (type === 'droplist' && droplist || tooltip) {
+            if (type === 'droplist' && droplist || tooltip && config$$1.tooltip) {
                 var hoverDiv = droplist ? droplist : tooltip;
                 $elem.on('mouseenter', function (e) {
                     if (editor.selection.getRange() === null) {

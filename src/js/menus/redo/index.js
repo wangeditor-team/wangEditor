@@ -2,6 +2,7 @@
     redo-menu
 */
 import $ from '../../util/dom-core.js'
+import Tooltip from '../tooltip'
 
 // 构造函数
 function Redo(editor) {
@@ -12,7 +13,10 @@ function Redo(editor) {
         </div>`
     )
     this.type = 'click'
-
+    // 初始化 toolTip
+    this.tooltip = new Tooltip(this, {
+        $content:$('<p>重复</p>'),
+    })
     // 当前是否 active 状态
     this._active = false
 }

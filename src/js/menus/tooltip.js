@@ -8,6 +8,12 @@ import replaceLang from '../util/replace-lang.js'
 function tooltip(menu, opt) {
     // tooltip 所依附的菜单
     const editor = menu.editor
+    const config = editor.config
+
+    if(!config.tooltip){
+        return;
+    }
+
     this.menu = menu
     this.opt = opt
     // 容器

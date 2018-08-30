@@ -4,6 +4,7 @@
 import $ from '../../util/dom-core.js'
 import { getRandom, arrForEach } from '../../util/util.js'
 import Panel from '../panel.js'
+import Tooltip from '../tooltip'
 
 // 构造函数
 function Image(editor) {
@@ -12,7 +13,9 @@ function Image(editor) {
     this.$elem = $('<div class="w-e-menu" id="' + imgMenuId + '"><i class="w-e-icon-image"></i></div>')
     editor.imgMenuId = imgMenuId
     this.type = 'panel'
-
+    this.tooltip = new Tooltip(this, {
+        $content:$('<p>插入图片</p>'),
+    })
     // 当前是否 active 状态
     this._active = false
 }

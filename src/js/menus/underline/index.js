@@ -2,6 +2,7 @@
     underline-menu
 */
 import $ from '../../util/dom-core.js'
+import Tooltip from '../tooltip'
 
 // 构造函数
 function Underline(editor) {
@@ -12,7 +13,10 @@ function Underline(editor) {
         </div>`
     )
     this.type = 'click'
-
+    // 初始化 toolTip
+    this.tooltip = new Tooltip(this, {
+        $content:$('<p>下划线</p>'),
+    })
     // 当前是否 active 状态
     this._active = false
 }

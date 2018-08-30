@@ -3,6 +3,7 @@
 */
 import { objForEach } from '../util/util.js'
 import MenuConstructors from './menu-list.js'
+import config from "../config";
 
 // 构造函数
 function Menus(editor) {
@@ -58,6 +59,7 @@ Menus.prototype = {
     _bindEvent: function () {
         const menus = this.menus
         const editor = this.editor
+        const config = editor.config
         objForEach(menus, (key, menu) => {
             const type = menu.type
             if (!type) {
@@ -79,7 +81,7 @@ Menus.prototype = {
             }
 
             // 下拉框，例如 head
-            if ((type === 'droplist' && droplist) || tooltip) {
+            if ((type === 'droplist' && droplist) || (tooltip && config.tooltip)) {
                 const hoverDiv = droplist ? droplist : tooltip;
                 $elem.on('mouseenter', e => {
                     if (editor.selection.getRange() === null) {

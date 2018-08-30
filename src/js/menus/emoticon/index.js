@@ -3,6 +3,7 @@
 */
 import $ from '../../util/dom-core.js'
 import Panel from '../panel.js'
+import Tooltip from '../tooltip'
 
 // 构造函数
 function Emoticon(editor) {
@@ -13,7 +14,9 @@ function Emoticon(editor) {
         </div>`
     )
     this.type = 'panel'
-
+    this.tooltip = new Tooltip(this, {
+      $content:$('<p>表情</p>'),
+    })
     // 当前是否 active 状态
     this._active = false
 }
