@@ -419,11 +419,12 @@
   min-width: 30px;
   text-align: center;
   border-radius: 2px;
+  white-space: nowrap;
 }
 .w-e-toolbar .w-e-tooltip:before {
   content: "";
-  width: 0px;
-  height: 0px;
+  width: 0;
+  height: 0;
   border: 5px solid transparent;
   border-bottom-color: #303133;
   position: absolute;

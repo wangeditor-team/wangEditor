@@ -71,43 +71,28 @@ Menus.prototype = {
             // 点击类型，例如 bold
             if ((type === 'click') && menu.onClick) {
                 $elem.on('click', e => {
-                    if (editor.selection.getRange() == null) {
+                    if (editor.selection.getRange() === null) {
                         return
                     }
                     menu.onClick(e)
                 })
-                if(tooltip){
-                  $elem.on('mouseenter', e => {
-                    if (editor.selection.getRange() == null) {
-                      return
-                    }
-                    // 显示
-                    tooltip.showTimeoutId = setTimeout(() => {
-                      tooltip.show()
-                    }, 200)
-                  }).on('mouseleave', e => {
-                    // 隐藏
-                    tooltip.hideTimeoutId = setTimeout(() => {
-                      tooltip.hide()
-                    }, 0)
-                  })
-                }
             }
 
             // 下拉框，例如 head
-            if (type === 'droplist' && droplist) {
+            if ((type === 'droplist' && droplist) || tooltip) {
+                const hoverDiv = droplist ? droplist : tooltip;
                 $elem.on('mouseenter', e => {
-                    if (editor.selection.getRange() == null) {
+                    if (editor.selection.getRange() === null) {
                         return
                     }
                     // 显示
-                    droplist.showTimeoutId = setTimeout(() => {
-                        droplist.show()
+                    hoverDiv.showTimeoutId = setTimeout(() => {
+                      hoverDiv.show()
                     }, 200)
                 }).on('mouseleave', e => {
                     // 隐藏
-                    droplist.hideTimeoutId = setTimeout(() => {
-                        droplist.hide()
+                    hoverDiv.hideTimeoutId = setTimeout(() => {
+                      hoverDiv.hide()
                     }, 0)
                 })
             }

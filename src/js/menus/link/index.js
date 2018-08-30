@@ -4,6 +4,7 @@
 import $ from '../../util/dom-core.js'
 import { getRandom } from '../../util/util.js'
 import Panel from '../panel.js'
+import Tooltip from '../tooltip.js'
 
 // 构造函数
 function Link(editor) {
@@ -13,6 +14,11 @@ function Link(editor) {
 
     // 当前是否 active 状态
     this._active = false
+
+    // 初始化 toolTip
+    this.tooltip = new Tooltip(this, {
+    $content:$('<p>链接</p>'),
+    })
 }
 
 // 原型
