@@ -10,6 +10,7 @@ function tooltip(menu, opt) {
     const editor = menu.editor
     const config = editor.config
 
+    // 优化
     if(!config.tooltip){
         return;
     }

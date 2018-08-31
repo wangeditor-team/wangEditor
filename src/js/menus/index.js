@@ -80,9 +80,10 @@ Menus.prototype = {
                 })
             }
 
-            // 下拉框，例如 head
-            if ((type === 'droplist' && droplist) || (tooltip && config.tooltip)) {
-                const hoverDiv = droplist ? droplist : tooltip;
+            // 下拉框和tooltip绑定事件，例如 head
+            if ((type === 'droplist' && droplist) || (config.tooltip && tooltip)) {
+                //总是以droplist优先
+                const hoverDiv = droplist ? droplist : tooltip
                 $elem.on('mouseenter', e => {
                     if (editor.selection.getRange() === null) {
                         return
