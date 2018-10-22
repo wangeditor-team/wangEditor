@@ -5,6 +5,10 @@ node_modules/*
 npm-debug.log
 example/upload-files
 
+# IDE & editor generated files
+.idea/
+.vscode/
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
