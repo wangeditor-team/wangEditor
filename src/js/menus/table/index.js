@@ -63,8 +63,8 @@ Table.prototype = {
                             selector: '#' + btnInsertId,
                             type: 'click',
                             fn: () => {
-                                const rowNum = parseInt($('#' + textRowNum).val())
-                                const colNum = parseInt($('#' + textColNum).val())
+                                const rowNum = parseInt($('#' + textRowNum, this.editor.$textContainerElem).val())
+                                const colNum = parseInt($('#' + textColNum, this.editor.$textContainerElem).val())
 
                                 if (rowNum && colNum && rowNum > 0 && colNum > 0) {
                                     // form 数据有效

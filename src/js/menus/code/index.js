@@ -84,7 +84,7 @@ Code.prototype = {
                             selector: '#' + btnId,
                             type: 'click',
                             fn: () => {
-                                const $text = $('#' + textId)
+                                const $text = $('#' + textId, this.editor.$textContainerElem)
                                 let text = $text.val() || $text.html()
                                 text = replaceHtmlSymbol(text)
                                 if (type === 'new') {

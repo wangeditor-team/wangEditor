@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>wangEditor 获取内容</title>
+	</head>
+	<body>
+		<p>wangEditor 获取内容</p>
+		<div id="div3"></div>
+		<div>
+			<button id="btn1">获取html</button>
+			<button id="btn2">获取text</button>
+		</div>
+		<script type="text/javascript" src="/wangEditor.js"></script>
+		<script type="text/javascript">
+            var div3 = document.querySelector('#div3');
+
+            if ('attachShadow' in HTMLElement.prototype) {
+                var shadowDom = div3.attachShadow({mode: 'open'});
+                var target = document.createElement('div');
+
+                shadowDom.appendChild(target);
+
+
+                var E = window.wangEditor;
+                var editor2 = new E(target);
+                editor2.create();
+
+                document.getElementById('btn1').addEventListener('click', function () {
+                    console.log(editor2.txt.html());
+                    alert(editor2.txt.html());
+                }, false);
+
+                document.getElementById('btn2').addEventListener('click', function () {
+                    alert(editor2.txt.text());
+                }, false);
+
+            } else {
+                div3.innerHTML = '当前浏览器不支持 ShadowDOM';
+            }
+		</script>
+	</body>
+</html>

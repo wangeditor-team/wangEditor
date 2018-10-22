@@ -49,7 +49,7 @@ Video.prototype = {
                             selector: '#' + btnId,
                             type: 'click',
                             fn: () => {
-                                const $text = $('#' + textValId)
+                                const $text = $('#' + textValId, this.editor.$textContainerElem)
                                 const val = $text.val().trim()
 
                                 // 测试用视频地址

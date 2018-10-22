@@ -9,6 +9,9 @@ import { UA } from '../util/util.js'
 function API(editor) {
     this.editor = editor
     this._currentRange = null
+
+    // 如果在 ShadowDOM 中，window.getSelection() 返回的结果是无法使用的，应该使用当前shadowRoot来获取 selection。
+    this.selectionTarget = editor.isInShadowDom ? editor.targetShadowRoot : window
 }
 
 // 修改原型
@@ -29,7 +32,7 @@ API.prototype = {
         }
 
         // 获取当前的选区
-        const selection = window.getSelection()
+        const selection = this.selectionTarget.getSelection()
         if (selection.rangeCount === 0) {
             return
         }
@@ -123,7 +126,7 @@ API.prototype = {
 
     // 恢复选区
     restoreSelection: function () {
-        const selection = window.getSelection()
+        const selection = this.selectionTarget.getSelection()
         selection.removeAllRanges()
         selection.addRange(this._currentRange)
     },

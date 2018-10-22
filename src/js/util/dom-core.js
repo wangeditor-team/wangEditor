@@ -21,9 +21,23 @@ function isDOMList(selector) {
     return false
 }
 
-// 封装 document.querySelectorAll
-function querySelectorAll(selector) {
-    const result = document.querySelectorAll(selector)
+/**
+ * 封装 document.querySelectorAll
+ * @param selector 选择器
+ * @param context 当前查询上下文，为了提高 DOM 查询性能，或者使得可以在 ShadowDOM 中使用
+ * @returns {HTMLCollection|NodeList|[]}
+ */
+function querySelectorAll(selector, context) {
+    let queryContext = context
+
+    if (context instanceof DomElement) {
+        queryContext = context[0]
+    }
+
+    queryContext = queryContext || document
+
+    const result = queryContext.querySelectorAll(selector)
+
     if (isDOMList(result)) {
         return result
     } else {
@@ -35,7 +49,7 @@ function querySelectorAll(selector) {
 const eventList = []
 
 // 创建构造函数
-function DomElement(selector) {
+function DomElement(selector, context) {
     if (!selector) {
         return
     }
@@ -67,7 +81,7 @@ function DomElement(selector) {
             selectorResult = createElemByHTML(selector)
         } else {
             // 如 #id .class
-            selectorResult = querySelectorAll(selector)
+            selectorResult = querySelectorAll(selector, context)
         }
     }
 
@@ -470,8 +484,8 @@ DomElement.prototype = {
 }
 
 // new 一个对象
-function $(selector) {
-    return new DomElement(selector)
+function $(selector, context) {
+    return new DomElement(selector, context)
 }
 
 // 解绑所有事件，用于销毁编辑器

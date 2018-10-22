@@ -83,8 +83,8 @@ Link.prototype = {
                             type: 'click',
                             fn: () => {
                                 // 执行插入链接
-                                const $link = $('#' + inputLinkId)
-                                const $text = $('#' + inputTextId)
+                                const $link = $('#' + inputLinkId, this.editor.$textContainerElem)
+                                const $text = $('#' + inputTextId, this.editor.$textContainerElem)
                                 const link = $link.val()
                                 const text = $text.val()
                                 this._insertLink(text, link)

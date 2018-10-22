@@ -198,7 +198,7 @@ Image.prototype = {
                         selector: '#' + linkBtnId,
                         type: 'click',
                         fn: () => {
-                            const $linkUrl = $('#' + linkUrlId)
+                            const $linkUrl = $('#' + linkUrlId, this.editor.$textContainerElem)
                             const url = $linkUrl.val().trim()
 
                             if (url) {

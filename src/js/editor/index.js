@@ -9,11 +9,13 @@ import Text from '../text/index.js'
 import Command from '../command/index.js'
 import selectionAPI from '../selection/index.js'
 import UploadImg from './upload/upload-img.js'
-import { arrForEach, objForEach } from '../util/util.js'
-import { getRandom } from '../util/util.js'
+import {arrForEach, objForEach} from '../util/util.js'
+import {getRandom} from '../util/util.js'
 
 // id，累加
 let editorId = 1
+
+const isSupportShadowDom = ('attachShadow' in HTMLElement.prototype)
 
 // 构造函数
 function Editor(toolbarSelector, textSelector) {
@@ -24,8 +26,33 @@ function Editor(toolbarSelector, textSelector) {
     // id，用以区分单个页面不同的编辑器对象
     this.id = 'wangEditor-' + editorId++
 
-    this.toolbarSelector = toolbarSelector
-    this.textSelector = textSelector
+    if (textSelector) {
+        this.toolbarSelector = toolbarSelector
+        this.textSelector = textSelector
+    } else {
+        this.textSelector = toolbarSelector
+        this.toolbarSelector = undefined
+    }
+
+    this.isInShadowDom = false
+
+    if (isSupportShadowDom) {
+        let currentNode = $(this.textSelector)[0]
+
+        while (currentNode && currentNode.localName !== 'body') {
+            if (currentNode.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
+                this.isInShadowDom = true
+                this.targetShadowRoot = currentNode
+                break
+            }
+
+            if (currentNode === currentNode.parentNode) {
+                break
+            }
+
+            currentNode = currentNode.parentNode
+        }
+    }
 
     // 自定义配置
     this.customConfig = {}
@@ -56,11 +83,23 @@ Editor.prototype = {
         this.config.langArgs = langArgs
     },
 
+    _initShadyCss: function () {
+        if (isSupportShadowDom) {
+            const $textSelector = $(this.textSelector)
+            const globalStyle = document.querySelector('style#wang-editor-style')
+            const styleNode = document.createElement('style')
+
+            styleNode.textContent = globalStyle.textContent
+            $textSelector[0].appendChild(styleNode)
+        }
+    },
+
     // 初始化 DOM
     _initDom: function () {
         const toolbarSelector = this.toolbarSelector
-        const $toolbarSelector = $(toolbarSelector)
         const textSelector = this.textSelector
+        const $textSelector = $(textSelector)
+
 
         const config = this.config
         const zIndex = config.zIndex
@@ -68,36 +107,36 @@ Editor.prototype = {
         // 定义变量
         let $toolbarElem, $textContainerElem, $textElem, $children
 
-        if (textSelector == null) {
+        if (toolbarSelector) {
+            // toolbar 和 text 的选择器都有值，记录属性
+            $toolbarElem = $(toolbarSelector)
+            $textContainerElem = $(textSelector)
+            // 将编辑器区域原有的内容，暂存起来
+            $children = $textContainerElem.children()
+        } else {
             // 只传入一个参数，即是容器的选择器或元素，toolbar 和 text 的元素自行创建
             $toolbarElem = $('<div></div>')
             $textContainerElem = $('<div></div>')
 
             // 将编辑器区域原有的内容，暂存起来
-            $children = $toolbarSelector.children()
+            $children = $textSelector.children()
 
             // 添加到 DOM 结构中
-            $toolbarSelector.append($toolbarElem).append($textContainerElem)
+            $textSelector.append($toolbarElem).append($textContainerElem)
 
             // 自行创建的，需要配置默认的样式
             $toolbarElem.css('background-color', '#f1f1f1')
-                            .css('border', '1px solid #ccc')
+                .css('border', '1px solid #ccc')
             $textContainerElem.css('border', '1px solid #ccc')
-                            .css('border-top', 'none')
-                            .css('height', '300px')
-        } else {
-            // toolbar 和 text 的选择器都有值，记录属性
-            $toolbarElem = $toolbarSelector
-            $textContainerElem = $(textSelector)
-            // 将编辑器区域原有的内容，暂存起来
-            $children = $textContainerElem.children()
+                .css('border-top', 'none')
+                .css('height', '300px')
         }
 
         // 编辑区域
         $textElem = $('<div></div>')
         $textElem.attr('contenteditable', 'true')
-                .css('width', '100%')
-                .css('height', '100%')
+            .css('width', '100%')
+            .css('height', '100%')
 
         // 初始化编辑区域内容
         if ($children && $children.length) {
@@ -142,37 +181,37 @@ Editor.prototype = {
         // 绑定 onchange
         $textContainerElem.on('click keyup', () => {
             // 输入法结束才出发 onchange
-            compositionEnd && this.change &&  this.change()
+            compositionEnd && this.change && this.change()
         })
         $toolbarElem.on('click', function () {
-            this.change &&  this.change()
+            this.change && this.change()
         })
 
         //绑定 onfocus 与 onblur 事件
-        if(config.onfocus || config.onblur){
+        if (config.onfocus || config.onblur) {
             // 当前编辑器是否是焦点状态
             this.isFocus = false
-            
+
             $(document).on('click', (e) => {
                 //判断当前点击元素是否在编辑器内
                 const isChild = $textElem.isContain($(e.target))
-                
+
                 //判断当前点击元素是否为工具栏
                 const isToolbar = $toolbarElem.isContain($(e.target))
                 const isMenu = $toolbarElem[0] == e.target ? true : false
 
                 if (!isChild) {
                     //若为选择工具栏中的功能，则不视为成blur操作
-                    if(isToolbar && !isMenu){
+                    if (isToolbar && !isMenu) {
                         return
                     }
 
-                    if(this.isFocus){
+                    if (this.isFocus) {
                         this.onblur && this.onblur()
                     }
                     this.isFocus = false
-                }else{
-                    if(!this.isFocus){
+                } else {
+                    if (!this.isFocus) {
                         this.onfocus && this.onfocus()
                     }
                     this.isFocus = true
@@ -253,7 +292,7 @@ Editor.prototype = {
         }
 
         const onchange = config.onchange
-        if (onchange && typeof onchange === 'function'){
+        if (onchange && typeof onchange === 'function') {
             // 触发 change 的有三个场景：
             // 1. $textContainerElem.on('click keyup')
             // 2. $toolbarElem.on('click')
@@ -278,7 +317,7 @@ Editor.prototype = {
                     onchange(currentHtml)
                     beforeChangeHtml = currentHtml
                 }, onchangeTimeout)
-            }   
+            }
         }
 
         // -------- 绑定 onblur 事件 --------
@@ -297,13 +336,18 @@ Editor.prototype = {
                 onfocus()
             }
         }
-        
+
     },
 
     // 创建编辑器
     create: function () {
         // 初始化配置信息
         this._initConfig()
+
+        if (this.isInShadowDom) {
+            // 初始化 ShadyCss (如果当前工作在 ShadowDOM 中)
+            this._initShadyCss()
+        }
 
         // 初始化 DOM
         this._initDom()
