@@ -15,7 +15,27 @@ import {getRandom} from '../util/util.js'
 // id，累加
 let editorId = 1
 
-const isSupportShadowDom = ('attachShadow' in HTMLElement.prototype)
+const isNativeShadowDom = (function () {
+    if ('attachShadow' in HTMLElement.prototype) {
+        const testId = `w_e_${new Date().valueOf()}`
+        const testHost = $('<div></div>')[0]
+        const testElem = $(`<div id="${testId}"></div>`)[0]
+        const testStyle = $(`<style>#${testId} { display: table!important; }</style>`)[0]
+        const shadowRoot = testHost.attachShadow({mode: 'open'})
+
+        shadowRoot.appendChild(testElem)
+        document.head.appendChild(testStyle)
+        document.body.appendChild(testHost)
+
+        let isNativeShadowDom = window.getComputedStyle(testElem).display !== 'table'
+
+        testHost.remove()
+        testStyle.remove()
+
+        return isNativeShadowDom
+    }
+    return false
+})()
 
 // 构造函数
 function Editor(toolbarSelector, textSelector) {
@@ -36,7 +56,7 @@ function Editor(toolbarSelector, textSelector) {
 
     this.isInShadowDom = false
 
-    if (isSupportShadowDom) {
+    if (isNativeShadowDom) {
         let currentNode = $(this.textSelector)[0]
 
         while (currentNode && currentNode.localName !== 'body') {
@@ -84,7 +104,7 @@ Editor.prototype = {
     },
 
     _initShadyCss: function () {
-        if (isSupportShadowDom) {
+        if (isNativeShadowDom) {
             const $textSelector = $(this.textSelector)
             const globalStyle = document.querySelector('style#wang-editor-style')
             const styleNode = document.createElement('style')

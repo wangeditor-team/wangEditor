@@ -18,6 +18,9 @@ function isDOMList(selector) {
     if (selector instanceof HTMLCollection || selector instanceof NodeList) {
         return true
     }
+    if (selector instanceof Array) {
+        return true
+    }
     return false
 }
 
