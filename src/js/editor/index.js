@@ -364,13 +364,13 @@ Editor.prototype = {
         // 初始化配置信息
         this._initConfig()
 
+        // 初始化 DOM
+        this._initDom()
+
         if (this.isInShadowDom) {
             // 初始化 ShadyCss (如果当前工作在 ShadowDOM 中)
             this._initShadyCss()
         }
-
-        // 初始化 DOM
-        this._initDom()
 
         // 封装 command API
         this._initCommand()
