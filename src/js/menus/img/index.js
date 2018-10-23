@@ -151,7 +151,7 @@ Image.prototype = {
                         selector: '#' + upTriggerId,
                         type: 'click',
                         fn: () => {
-                            const $file = $('#' + upFileId)
+                            const $file = $('#' + upFileId, this.editor.$textContainerElem)
                             const fileElem = $file[0]
                             if (fileElem) {
                                 fileElem.click()
@@ -166,7 +166,7 @@ Image.prototype = {
                         selector: '#' + upFileId,
                         type: 'change',
                         fn: () => {
-                            const $file = $('#' + upFileId)
+                            const $file = $('#' + upFileId, this.editor.$textContainerElem)
                             const fileElem = $file[0]
                             if (!fileElem) {
                                 // 返回 true 可关闭 panel
