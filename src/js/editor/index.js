@@ -137,6 +137,7 @@ Editor.prototype = {
         $textContainerElem.on('compositionend', () => {
             // 输入法结束输入
             compositionEnd = true
+            this.change &&  this.change()
         })
 
         // 绑定 onchange
