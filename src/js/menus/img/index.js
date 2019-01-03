@@ -68,6 +68,8 @@ Image.prototype = {
                                 $img.css('max-width', '30%')
                             }
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                            // 在改变图片后如果不聚焦到文本框是不会触发change事件，导致图片内容还获取原来的属性
+                            editor.change && editor.change()
                             return true
                         }
                     },
@@ -80,6 +82,8 @@ Image.prototype = {
                                 $img.css('max-width', '50%')
                             }
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                            // 在改变图片后如果不聚焦到文本框是不会触发change事件，导致图片内容还获取原来的属性
+                            editor.change && editor.change()
                             return true
                         }
                     },
@@ -92,6 +96,8 @@ Image.prototype = {
                                 $img.css('max-width', '100%')
                             }
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                            // 在改变图片后如果不聚焦到文本框是不会触发change事件，导致图片内容还获取原来的属性
+                            editor.change && editor.change()
                             return true
                         }
                     },
@@ -102,6 +108,8 @@ Image.prototype = {
                             const $img = editor._selectedImg
                             if ($img) {
                                 $img.remove()
+                                // 在删除图片后如果不聚焦到文本框是不会触发change事件，导致图片内容还能获取
+                                editor.change && editor.change()
                             }
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                             return true
