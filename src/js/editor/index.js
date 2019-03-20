@@ -242,7 +242,7 @@ Editor.prototype = {
     _bindEvent: function () {
         // -------- 绑定 onchange 事件 --------
         let onChangeTimeoutId = 0
-        let beforeChangeHtml = this.txt.html()
+//         let beforeChangeHtml = this.txt.html()
         const config = this.config
 
         // onchange 触发延迟时间
@@ -261,7 +261,7 @@ Editor.prototype = {
             this.change = function () {
                 // 判断是否有变化
                 let currentHtml = this.txt.html()
-
+                let beforeChangeHtml = this.txt.beforeChangeHtml
                 if (currentHtml.length === beforeChangeHtml.length) {
                     // 需要比较每一个字符
                     if (currentHtml === beforeChangeHtml) {
@@ -276,7 +276,7 @@ Editor.prototype = {
                 onChangeTimeoutId = setTimeout(() => {
                     // 触发配置的 onchange 函数
                     onchange(currentHtml)
-                    beforeChangeHtml = currentHtml
+                    this.txt.beforeChangeHtml = currentHtml
                 }, onchangeTimeout)
             }   
         }
