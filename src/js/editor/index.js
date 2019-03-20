@@ -242,7 +242,6 @@ Editor.prototype = {
     _bindEvent: function () {
         // -------- 绑定 onchange 事件 --------
         let onChangeTimeoutId = 0
-//         let beforeChangeHtml = this.txt.html()
         const config = this.config
 
         // onchange 触发延迟时间
