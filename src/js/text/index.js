@@ -103,8 +103,10 @@ Text.prototype = {
             text = text.replace(/\u200b/gm, '')
             return text
         } else {
-            $textElem.text(`<p>${val}</p>`)
-
+            let html = `<p>${val}</p>`
+            $textElem.text(html)
+            // 设置text，应该更新beforeChangeHtml
+            this.beforeChangeHtml = html
             // 初始化选取，将光标定位到内容尾部
             editor.initSelection()
         }
