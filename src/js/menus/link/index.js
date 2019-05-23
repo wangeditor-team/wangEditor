@@ -142,7 +142,7 @@ Link.prototype = {
         }
         if (checkResult === true) {
             editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
-        } else {
+        } else if (checkResult) {
             alert(checkResult)
         }
     },
