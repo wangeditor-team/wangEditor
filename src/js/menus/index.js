@@ -21,11 +21,12 @@ Menus.prototype = {
         const configMenus = config.menus || []  // 获取配置中的菜单
 
         // 根据配置信息，创建菜单
-        configMenus.forEach(menuKey => {
+        configMenus.forEach((menuKey, index) => {
             const MenuConstructor = MenuConstructors[menuKey]
             if (MenuConstructor && typeof MenuConstructor === 'function') {
                 // 创建单个菜单
                 this.menus[menuKey] = new MenuConstructor(editor)
+                this.menus[menuKey].zIndex = config.zIndex + configMenus.length - index
             }
         })
 
@@ -43,12 +44,13 @@ Menus.prototype = {
         const menus = this.menus
         const config = editor.config
         // config.zIndex 是配置的编辑区域的 z-index，菜单的 z-index 得在其基础上 +1
-        const zIndex = config.zIndex + 1
+        // const zIndex = config.zIndex + 1
         objForEach(menus, (key, menu) => {
             const $elem = menu.$elem
             if ($elem) {
                 // 设置 z-index
-                $elem.css('z-index', zIndex)
+                $elem.css('z-index', menu.zIndex)
+                // $elem.css('z-index', zIndex)
                 $toolbarElem.append($elem)
             }
         })
