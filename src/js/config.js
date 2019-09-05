@@ -243,7 +243,7 @@ const config = {
     qiniu: {
         // 自定义函数，从服务端获取token和key
         keygen: function () {
-            return { "key": "", "token": "" }
+            return { 'key': '', 'token': '' }
         },
         handle: Object
     },
