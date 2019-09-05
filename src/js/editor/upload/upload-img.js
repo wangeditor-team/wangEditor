@@ -300,11 +300,15 @@ UploadImg.prototype = {
                 },
                 complete(result) {
                         // 将图片插入编辑器
-                    if (result.errno == '0') {
-                        const data = result.data || []
-                        data.forEach(link => {
-                            this.insertLinkImg(link)
-                        })
+                    if (config.qiniu.customResult &&  typeof config.qiniu.customResult === 'function'){
+                        this.insertLinkImg(config.qiniu.customResult(result))
+                    } else {
+                        if (result.errno == '0') {
+                            const data = result.data || []
+                            data.forEach(link => {
+                                this.insertLinkImg(link)
+                            })
+                        }
                     }
                 }
             }

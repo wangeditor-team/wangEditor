@@ -245,7 +245,12 @@ const config = {
         keygen: function () {
             return { 'key': '', 'token': '' }
         },
-        handle: Object
+        handle: Object,
+        // customResult: function(res){
+        //     if(res.code == 200){
+        //         return res.data.url
+        //     }
+        // }
     },
 
     // 阿里云配置及对象
