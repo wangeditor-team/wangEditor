@@ -289,6 +289,7 @@ UploadImg.prototype = {
             }
             break
         case 'qiniu':{
+            const _this = this
             const progressBar = new Progress(editor)
             let keygen
             let observer = {
@@ -301,12 +302,12 @@ UploadImg.prototype = {
                 complete(result) {
                         // 将图片插入编辑器
                     if (config.qiniu.customResult &&  typeof config.qiniu.customResult === 'function'){
-                        this.insertLinkImg(config.qiniu.customResult(result))
+                        _this.insertLinkImg(config.qiniu.customResult(result))
                     } else {
                         if (result.errno == '0') {
                             const data = result.data || []
                             data.forEach(link => {
-                                this.insertLinkImg(link)
+                                _this.insertLinkImg(link)
                             })
                         }
                     }
