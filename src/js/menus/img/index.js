@@ -22,11 +22,6 @@ Image.prototype = {
     constructor: Image,
 
     onClick: function () {
-        const editor = this.editor
-        const config = editor.config
-        if (config.qiniu) {
-            return
-        }
         if (this._active) {
             this._createEditPanel()
         } else {

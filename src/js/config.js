@@ -169,6 +169,9 @@ const config = {
         // console.log(url)  // url 即插入图片的地址
     },
 
+    // 上传图片方式（server:上传的服务器，alioss:上传到阿里云，qiniu:上传到七牛，空:自定义上传或者base64嵌入）
+    uploadImgChannel: '',
+
     // 默认上传图片 max size: 5M
     uploadImgMaxSize: 5 * 1024 * 1024,
 
@@ -176,7 +179,8 @@ const config = {
     // uploadImgMaxLength: 5,
 
     // 上传图片，是否显示 base64 格式
-    uploadImgShowBase64: false,
+    // 改为默认开启，优先级放最后，即使没有配置上传服务也可以使用图片 - changed by Hench 2019-09-06 15:11
+    uploadImgShowBase64: true,
 
     // 上传图片，server 地址（如果有值，则 base64 格式的配置则失效）
     // uploadImgServer: '/upload',
@@ -233,14 +237,27 @@ const config = {
         }
     },
 
-    // 是否上传七牛云，默认为 false
-    qiniu: false,
+    // 七牛和阿里的上传插件用户自行引入，这边只接收对象，减小包体。
+    //
+    // 七牛云配置及对象
+    qiniu: {
+        // 自定义函数，从服务端获取token和key
+        keygen: function () {
+            return { "key": "", "token": "" }
+        },
+        handle: Object
+    },
+
+    // 阿里云配置及对象
+    alioss: {
+
+    },
 
     // 上传图片自定义提示方法
     // customAlert: function (info) {
     //     // 自定义上传提示
     // },
-    
+
     // // 自定义上传图片
     // customUploadImg: function (files, insert) {
     //     // files 是 input 中选中的文件列表

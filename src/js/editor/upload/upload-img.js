@@ -85,8 +85,10 @@ UploadImg.prototype = {
         // ------------------------------ 获取配置信息 ------------------------------
         const editor = this.editor
         const config = editor.config
+        let uploadImgChannel = config.uploadImgChannel
         let uploadImgServer = config.uploadImgServer
         const uploadImgShowBase64 = config.uploadImgShowBase64
+        const customUploadImg = config.customUploadImg
 
         const maxSize = config.uploadImgMaxSize
         const maxSizeM = maxSize / 1024 / 1024
@@ -100,14 +102,6 @@ UploadImg.prototype = {
         let withCredentials = config.withCredentials
         if (withCredentials == null) {
             withCredentials = false
-        }
-        const customUploadImg = config.customUploadImg
-
-        if (!customUploadImg) {
-            // 没有 customUploadImg 的情况下，需要如下两个配置才能继续进行图片上传
-            if (!uploadImgServer && !uploadImgShowBase64) {
-                return
-            }
         }
 
         // ------------------------------ 验证文件信息 ------------------------------
@@ -146,14 +140,6 @@ UploadImg.prototype = {
             return
         }
 
-        // ------------------------------ 自定义上传 ------------------------------
-        if (customUploadImg && typeof customUploadImg === 'function') {
-            customUploadImg(resultFiles, this.insertLinkImg.bind(this))
-
-            // 阻止以下代码执行
-            return
-        }
-
         // 添加图片数据
         const formdata = new FormData()
         arrForEach(resultFiles, file => {
@@ -162,154 +148,209 @@ UploadImg.prototype = {
         })
 
         // ------------------------------ 上传图片 ------------------------------
-        if (uploadImgServer && typeof uploadImgServer === 'string') {
-            // 添加参数
-            const uploadImgServerArr = uploadImgServer.split('#')
-            uploadImgServer = uploadImgServerArr[0]
-            const uploadImgServerHash = uploadImgServerArr[1] || ''
-            objForEach(uploadImgParams, (key, val) => {
-                // 因使用者反应，自定义参数不能默认 encode ，由 v3.1.1 版本开始注释掉
-                // val = encodeURIComponent(val)
+        switch (uploadImgChannel) {
+            case 'server':
+                // ------------------------------ 上传图片 ------------------------------
+                if (uploadImgServer && typeof uploadImgServer === 'string') {
+                    // 添加参数
+                    const uploadImgServerArr = uploadImgServer.split('#')
+                    uploadImgServer = uploadImgServerArr[0]
+                    const uploadImgServerHash = uploadImgServerArr[1] || ''
+                    objForEach(uploadImgParams, (key, val) => {
+                        // 因使用者反应，自定义参数不能默认 encode ，由 v3.1.1 版本开始注释掉
+                        // val = encodeURIComponent(val)
 
-                // 第一，将参数拼接到 url 中
-                if (uploadImgParamsWithUrl) {
-                    if (uploadImgServer.indexOf('?') > 0) {
-                        uploadImgServer += '&'
-                    } else {
-                        uploadImgServer += '?'
-                    }
-                    uploadImgServer = uploadImgServer + key + '=' + val
-                }
-
-                // 第二，将参数添加到 formdata 中
-                formdata.append(key, val)
-            })
-            if (uploadImgServerHash) {
-                uploadImgServer += '#' + uploadImgServerHash
-            }
-
-            // 定义 xhr
-            const xhr = new XMLHttpRequest()
-            xhr.open('POST', uploadImgServer)
-
-            // 设置超时
-            xhr.timeout = timeout
-            xhr.ontimeout = () => {
-                // hook - timeout
-                if (hooks.timeout && typeof hooks.timeout === 'function') {
-                    hooks.timeout(xhr, editor)
-                }
-
-                this._alert('上传图片超时')
-            }
-
-            // 监控 progress
-            if (xhr.upload) {
-                xhr.upload.onprogress = e => {
-                    let percent
-                    // 进度条
-                    const progressBar = new Progress(editor)
-                    if (e.lengthComputable) {
-                        percent = e.loaded / e.total
-                        progressBar.show(percent)
-                    }
-                }
-            }
-
-            // 返回数据
-            xhr.onreadystatechange = () => {
-                let result
-                if (xhr.readyState === 4) {
-                    if (xhr.status < 200 || xhr.status >= 300) {
-                        // hook - error
-                        if (hooks.error && typeof hooks.error === 'function') {
-                            hooks.error(xhr, editor)
+                        // 第一，将参数拼接到 url 中
+                        if (uploadImgParamsWithUrl) {
+                            if (uploadImgServer.indexOf('?') > 0) {
+                                uploadImgServer += '&'
+                            } else {
+                                uploadImgServer += '?'
+                            }
+                            uploadImgServer = uploadImgServer + key + '=' + val
                         }
 
-                        // xhr 返回状态错误
-                        this._alert('上传图片发生错误', `上传图片发生错误，服务器返回状态是 ${xhr.status}`)
-                        return
+                        // 第二，将参数添加到 formdata 中
+                        formdata.append(key, val)
+                    })
+                    if (uploadImgServerHash) {
+                        uploadImgServer += '#' + uploadImgServerHash
                     }
 
-                    result = xhr.responseText
-                    if (typeof result !== 'object') {
-                        try {
-                            result = JSON.parse(result)
-                        } catch (ex) {
-                            // hook - fail
-                            if (hooks.fail && typeof hooks.fail === 'function') {
-                                hooks.fail(xhr, editor, result)
+                    // 定义 xhr
+                    const xhr = new XMLHttpRequest()
+                    xhr.open('POST', uploadImgServer)
+
+                    // 设置超时
+                    xhr.timeout = timeout
+                    xhr.ontimeout = () => {
+                        // hook - timeout
+                        if (hooks.timeout && typeof hooks.timeout === 'function') {
+                            hooks.timeout(xhr, editor)
+                        }
+
+                        this._alert('上传图片超时')
+                    }
+
+                    // 监控 progress
+                    if (xhr.upload) {
+                        xhr.upload.onprogress = e => {
+                            let percent
+                            // 进度条
+                            const progressBar = new Progress(editor)
+                            if (e.lengthComputable) {
+                                percent = e.loaded / e.total
+                                progressBar.show(percent)
+                            }
+                        }
+                    }
+
+                    // 返回数据
+                    xhr.onreadystatechange = () => {
+                        let result
+                        if (xhr.readyState === 4) {
+                            if (xhr.status < 200 || xhr.status >= 300) {
+                                // hook - error
+                                if (hooks.error && typeof hooks.error === 'function') {
+                                    hooks.error(xhr, editor)
+                                }
+
+                                // xhr 返回状态错误
+                                this._alert('上传图片发生错误', `上传图片发生错误，服务器返回状态是 ${xhr.status}`)
+                                return
                             }
 
-                            this._alert('上传图片失败', '上传图片返回结果错误，返回结果是: ' + result)
-                            return
+                            result = xhr.responseText
+                            if (typeof result !== 'object') {
+                                try {
+                                    result = JSON.parse(result)
+                                } catch (ex) {
+                                    // hook - fail
+                                    if (hooks.fail && typeof hooks.fail === 'function') {
+                                        hooks.fail(xhr, editor, result)
+                                    }
+
+                                    this._alert('上传图片失败', '上传图片返回结果错误，返回结果是: ' + result)
+                                    return
+                                }
+                            }
+                            if (!hooks.customInsert && result.errno != '0') {
+                                // hook - fail
+                                if (hooks.fail && typeof hooks.fail === 'function') {
+                                    hooks.fail(xhr, editor, result)
+                                }
+
+                                // 数据错误
+                                this._alert('上传图片失败', '上传图片返回结果错误，返回结果 errno=' + result.errno)
+                            } else {
+                                if (hooks.customInsert && typeof hooks.customInsert === 'function') {
+                                    // 使用者自定义插入方法
+                                    hooks.customInsert(this.insertLinkImg.bind(this), result, editor)
+                                } else {
+                                    // 将图片插入编辑器
+                                    const data = result.data || []
+                                    data.forEach(link => {
+                                        this.insertLinkImg(link)
+                                    })
+                                }
+
+                                // hook - success
+                                if (hooks.success && typeof hooks.success === 'function') {
+                                    hooks.success(xhr, editor, result)
+                                }
+                            }
                         }
                     }
-                    if (!hooks.customInsert && result.errno != '0') {
-                        // hook - fail
-                        if (hooks.fail && typeof hooks.fail === 'function') {
-                            hooks.fail(xhr, editor, result)
-                        }
 
-                        // 数据错误
-                        this._alert('上传图片失败', '上传图片返回结果错误，返回结果 errno=' + result.errno)
-                    } else {
-                        if (hooks.customInsert && typeof hooks.customInsert === 'function') {
-                            // 使用者自定义插入方法
-                            hooks.customInsert(this.insertLinkImg.bind(this), result, editor)
-                        } else {
-                            // 将图片插入编辑器
+                    // hook - before
+                    if (hooks.before && typeof hooks.before === 'function') {
+                        const beforeResult = hooks.before(xhr, editor, resultFiles)
+                        if (beforeResult && typeof beforeResult === 'object') {
+                            if (beforeResult.prevent) {
+                                // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
+                                this._alert(beforeResult.msg)
+                                return
+                            }
+                        }
+                    }
+
+                    // 自定义 headers
+                    objForEach(uploadImgHeaders, (key, val) => {
+                        xhr.setRequestHeader(key, val)
+                    })
+
+                    // 跨域传 cookie
+                    xhr.withCredentials = withCredentials
+
+                    // 发送请求
+                    xhr.send(formdata)
+                } else {
+                    this._alert('请配置上传服务地址')
+                }
+                break;
+            case 'qiniu':
+                const progressBar = new Progress(editor)
+                let keygen
+                let observer = {
+                    next(res) {
+                        progressBar.show(res.total.percent)
+                    },
+                    error(err) {
+                        this._alert('上传图片失败')
+                    },
+                    complete(result) {
+                        // 将图片插入编辑器
+                        if (result.errno == '0') {
                             const data = result.data || []
                             data.forEach(link => {
                                 this.insertLinkImg(link)
                             })
                         }
+                    }
+                };
 
-                        // hook - success
-                        if (hooks.success && typeof hooks.success === 'function') {
-                            hooks.success(xhr, editor, result)
+                if (config.qiniu.keygen && typeof config.qiniu.keygen === 'function') {
+                    keygen = config.qiniu.keygen()
+                    if (!keygen.key || !keygen.token) {
+                        this._alert('未获取到七牛key或token')
+                        break
+                    }
+                } else {
+                    this._alert('请配置七牛keygen函数')
+                    break
+                }
+
+                arrForEach(files, file => {
+                    let fname = keygen.key + file.name
+                    let putExtra = {
+                        fname: fname,
+                        params: {},
+                        mimeType: ["image/jpg", "image/jpeg", "image/png", "image/bmp", "image/gif", "image/jwebppeg"]
+                    };
+
+                    var observable = config.qiniu.handle.upload(file, fname, keygen.token, putExtra);
+                    observable.subscribe(observer);
+                })
+                break;
+            case 'alioss':
+                break;
+            default:
+                // ------------------------------ 自定义上传 ------------------------------
+                if (customUploadImg && typeof customUploadImg === 'function') {
+                    customUploadImg(resultFiles, this.insertLinkImg.bind(this))
+                    return
+                }
+                // ------------------------------ 显示 base64 格式 ------------------------------
+                if (uploadImgShowBase64) {
+                    arrForEach(files, file => {
+                        const _this = this
+                        const reader = new FileReader()
+                        reader.readAsDataURL(file)
+                        reader.onload = function () {
+                            _this.insertLinkImg(this.result)
                         }
-                    }
+                    })
                 }
-            }
-
-            // hook - before
-            if (hooks.before && typeof hooks.before === 'function') {
-                const beforeResult = hooks.before(xhr, editor, resultFiles)
-                if (beforeResult && typeof beforeResult === 'object') {
-                    if (beforeResult.prevent) {
-                        // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
-                        this._alert(beforeResult.msg)
-                        return
-                    }
-                }
-            }
-
-            // 自定义 headers
-            objForEach(uploadImgHeaders, (key, val) => {
-                xhr.setRequestHeader(key, val)
-            })
-
-            // 跨域传 cookie
-            xhr.withCredentials = withCredentials
-
-            // 发送请求
-            xhr.send(formdata)
-
-            // 注意，要 return 。不去操作接下来的 base64 显示方式
-            return
-        }
-
-        // ------------------------------ 显示 base64 格式 ------------------------------
-        if (uploadImgShowBase64) {
-            arrForEach(files, file => {
-                const _this = this
-                const reader = new FileReader()
-                reader.readAsDataURL(file)
-                reader.onload = function () {
-                    _this.insertLinkImg(this.result)
-                }
-            })
         }
     }
 }

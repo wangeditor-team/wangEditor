@@ -42,6 +42,7 @@
     "gulp-cssmin": "^0.1.7",
     "gulp-less": "^3.3.0",
     "gulp-postcss": "^6.4.0",
+    "gulp-release": "^1.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-sourcemaps": "^2.5.0",
