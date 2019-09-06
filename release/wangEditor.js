@@ -728,6 +728,11 @@ var config = {
             return { 'key': '', 'token': '' };
         },
         handle: Object
+        // customResult: function(res){
+        //     if(res.code == 200){
+        //         return res.data.url
+        //     }
+        // }
     },
 
     // 阿里云配置及对象
@@ -3956,7 +3961,6 @@ API.prototype = {
 function Progress(editor) {
     this.editor = editor;
     this._time = 0;
-    this._isShow = false;
     this._isRender = false;
     this._timeoutId = 0;
     this.$textContainer = editor.$textContainerElem;
@@ -3969,20 +3973,14 @@ Progress.prototype = {
     show: function show(progress) {
         var _this = this;
 
-        // 状态处理
-        if (this._isShow) {
-            return;
-        }
-        this._isShow = true;
-
         // 渲染
         var $bar = this.$bar;
         if (!this._isRender) {
             var $textContainer = this.$textContainer;
             $textContainer.append($bar);
-        } else {
-            this._isRender = true;
         }
+
+        this._isRender = true;
 
         // 改变进度（节流，100ms 渲染一次）
         if (Date.now() - this._time > 100) {
@@ -4008,7 +4006,6 @@ Progress.prototype = {
 
         // 修改状态
         this._time = 0;
-        this._isShow = false;
         this._isRender = false;
     }
 };
@@ -4311,24 +4308,28 @@ UploadImg.prototype = {
                 break;
             case 'qiniu':
                 {
+                    var _this = this;
                     var progressBar = new Progress(editor);
                     var keygen = void 0;
                     var observer = {
                         next: function next(res) {
-                            progressBar.show(res.total.percent);
+                            console.log(res.total.percent);
+                            progressBar.show(res.total.percent / 100);
                         },
                         error: function error(err) {
                             this._alert('上传图片失败');
                         },
                         complete: function complete(result) {
-                            var _this4 = this;
-
                             // 将图片插入编辑器
-                            if (result.errno == '0') {
-                                var data = result.data || [];
-                                data.forEach(function (link) {
-                                    _this4.insertLinkImg(link);
-                                });
+                            if (config.qiniu.customResult && typeof config.qiniu.customResult === 'function') {
+                                _this.insertLinkImg(config.qiniu.customResult(result));
+                            } else {
+                                if (result.errno == '0') {
+                                    var data = result.data || [];
+                                    data.forEach(function (link) {
+                                        _this.insertLinkImg(link);
+                                    });
+                                }
                             }
                         }
                     };
