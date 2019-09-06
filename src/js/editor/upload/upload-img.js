@@ -294,7 +294,8 @@ UploadImg.prototype = {
             let keygen
             let observer = {
                 next(res) {
-                    progressBar.show(res.total.percent)
+                    console.log(res.total.percent)
+                    progressBar.show(res.total.percent/100)
                 },
                 error(err) {
                     this._alert('上传图片失败')

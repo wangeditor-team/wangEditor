@@ -17,6 +17,7 @@
     var editor = new E('#div1')
 
     // 配置服务器端地址
+    editor.customConfig.uploadImgChannel = 'server'
     editor.customConfig.uploadImgServer = '/upload'
 
     // 进行下文提到的其他配置

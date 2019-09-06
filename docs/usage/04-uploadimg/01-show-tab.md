@@ -18,9 +18,8 @@
     var E = window.wangEditor
     var editor = new E('#div1')
 
-    // 下面两个配置，使用其中一个即可显示“上传图片”的tab。但是两者不要同时使用！！！
-    // editor.customConfig.uploadImgShowBase64 = true   // 使用 base64 保存图片
-    // editor.customConfig.uploadImgServer = '/upload'  // 上传图片到服务器
+    // editor.customConfig.uploadImgChannel = '' // 可选值：'server'传到服务器,'qiniu'传到七牛云,'alioss'传到阿里云,''空则自定义上传，若无自定义则base64嵌入
+    // editor.customConfig.uploadImgServer = '/upload'  // 服务器上传地址
 
     editor.create()
 </script>
