@@ -1836,7 +1836,7 @@ function ForeColor(editor) {
 
     // 初始化 droplist
     this.droplist = new DropList(this, {
-        width: 120,
+        width: 300,
         $title: $('<p>文字颜色</p>'),
         type: 'inline-block', // droplist 内容以 block 形式展示
         list: colors.map(function (color) {
@@ -1880,7 +1880,7 @@ function BackColor(editor) {
 
     // 初始化 droplist
     this.droplist = new DropList(this, {
-        width: 120,
+        width: 300,
         $title: $('<p>背景色</p>'),
         type: 'inline-block', // droplist 内容以 block 形式展示
         list: colors.map(function (color) {
@@ -2670,16 +2670,30 @@ Image.prototype = {
         var editor = this.editor;
 
         // id
+        var width10 = getRandom('width-30');
         var width30 = getRandom('width-30');
         var width50 = getRandom('width-50');
         var width100 = getRandom('width-100');
-        var delBtn = getRandom('del-btn');
-
+        var widthPercent =getRandom('width-percent');
+        var percentBtn = getRandom('percent-btn');
         // tab 配置
         var tabsConfig = [{
             title: '编辑图片',
-            tpl: '<div>\n                    <div class="w-e-button-container" style="border-bottom:1px solid #f1f1f1;padding-bottom:5px;margin-bottom:5px;">\n                        <span style="float:left;font-size:14px;margin:4px 5px 0 5px;color:#333;">\u6700\u5927\u5BBD\u5EA6\uFF1A</span>\n                        <button id="' + width30 + '" class="left">30%</button>\n                        <button id="' + width50 + '" class="left">50%</button>\n                        <button id="' + width100 + '" class="left">100%</button>\n                    </div>\n                    <div class="w-e-button-container">\n                        <button id="' + delBtn + '" class="gray left">\u5220\u9664\u56FE\u7247</button>\n                    </dv>\n                </div>',
-            events: [{
+            tpl: '<div>\n<div class="w-e-button-container" style="border-bottom:1px solid #f1f1f1;padding-bottom:5px;margin-bottom:5px;">\n<span style="float:left;font-size:14px;margin:4px 5px 0 5px;color:#333;">\u6700\u5927\u5BBD\u5EA6\uFF1A</span>\n         <button id="' + width10 + '" class="left">10%</button>\n               <button id="' + width30 + '" class="left">30%</button>\n                        <button id="' + width50 + '" class="left">50%</button>\n                        <button id="' + width100 + '" class="left">100%</button>\n     <input type="number" id ="' + widthPercent + '" type="text" style="width:40%;margin:5px" placeholder="自定义大小(单位：px)"/><button id="' + percentBtn + '" class="gray">\u786E\u5B9A</button>\n               </div>\n  </div>',
+            events: [
+                {
+                    selector: '#' + width10,
+                    type: 'click',
+                    fn: function fn() {
+                        var $img = editor._selectedImg;
+                        if ($img) {
+                            $img.css('max-width', '10%');
+                        }
+                        // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
+                        return true;
+                    }
+                },    
+            {
                 selector: '#' + width30,
                 type: 'click',
                 fn: function fn() {
@@ -2712,18 +2726,24 @@ Image.prototype = {
                     // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                     return true;
                 }
-            }, {
-                selector: '#' + delBtn,
+            },
+            {
+                selector: '#' + percentBtn,
                 type: 'click',
                 fn: function fn() {
                     var $img = editor._selectedImg;
                     if ($img) {
-                        $img.remove();
+                        var $widthPercent = $('#' + widthPercent);
+                        var percentval = $widthPercent.val().trim();
+                        if(percentval){
+                            $img.css('max-width', percentval+'px');
+                        }
                     }
                     // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                     return true;
                 }
-            }]
+            }
+        ]
         }];
 
         // 创建 panel 并显示
@@ -2747,7 +2767,6 @@ Image.prototype = {
         var upFileId = getRandom('up-file');
         var linkUrlId = getRandom('link-url');
         var linkBtnId = getRandom('link-btn');
-
         // tabs 的配置
         var tabsConfig = [{
             title: '上传图片',
