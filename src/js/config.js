@@ -36,6 +36,15 @@ const config = {
         'Verdana'
     ],
 
+    fontSizes: [
+        'x-small',
+        'small',
+        'medium',
+        'large',
+        'x-large',
+        'xx-large'
+    ],
+
     colors: [
         '#000000',
         '#eeece0',
@@ -240,7 +249,7 @@ const config = {
     // customAlert: function (info) {
     //     // 自定义上传提示
     // },
-    
+
     // // 自定义上传图片
     // customUploadImg: function (files, insert) {
     //     // files 是 input 中选中的文件列表
