@@ -19,6 +19,15 @@
         'Tahoma',
         'Verdana'
     ]
+
+    //自定义字体大小
+    editor.customConfig.fontSizes = [
+        '10px',
+        '30px',
+        '50px',
+        '80px',
+        '110px'
+    ]
     editor.create()
 </script>
 ```
