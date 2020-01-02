@@ -39,7 +39,7 @@ export function getPasteHtml(e, filterStyle, ignoreImg) {
     // 过滤word中状态过来的无用字符
     const docSplitHtml = pasteHtml.split('</html>')
     if (docSplitHtml.length === 2) {
-        pasteHtml = docSplitHtml[0]
+        pasteHtml = docSplitHtml[0] + '</html>'
     }
 
     // 过滤无用标签
@@ -47,7 +47,11 @@ export function getPasteHtml(e, filterStyle, ignoreImg) {
     // 去掉注释
     pasteHtml = pasteHtml.replace(/<!--.*?-->/mg, '')
     // 过滤 data-xxx 属性
-    pasteHtml = pasteHtml.replace(/\s?data-.+?=('|").+?('|")/igm, '')
+    pasteHtml = pasteHtml.replace(/\s+data[^ ><]+=("|')+[^<>"']*("|')+(\s|>)+/g, '$3')
+    // 过滤 v-data[xxx] 属性
+    pasteHtml = pasteHtml.replace(/\s+v-data[^ ><]+=("|')+[^<>"']*("|')+(\s|>)+/g, '$3')
+    // 过滤多余的 html，body 标签
+    pasteHtml = pasteHtml.replace(/<\/?(html|body)+( )?[^<>]*>/g, '')
 
     if (ignoreImg) {
         // 忽略图片
