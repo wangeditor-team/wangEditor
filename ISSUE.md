@@ -148,6 +148,10 @@
 
 ### 近期计划解决
 
+- https://github.com/wangfupeng1988/wangEditor/issues/1506
+- 加配置项，控制是否自动 focus
+- https://github.com/wangfupeng1988/wangEditor/issues/1475
+- https://github.com/wangfupeng1988/wangEditor/issues/1453
 - 合并 pr
 - https://github.com/wangfupeng1988/wangEditor/issues/1445
 - https://github.com/wangfupeng1988/wangEditor/issues/1410
