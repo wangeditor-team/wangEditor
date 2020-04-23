@@ -69,10 +69,10 @@ LineHeight.prototype = {
         console.log($parent);
         //1.1 如果选区只有一行
         if (isDOMList($parent) === false && $parent.nodeType === 1 && isContentditor($parent) == false) {
-            while ($parent.nodeName != 'P') {
-                //提升节点至外层p段落
-                $parent = $parent.parentNode;
-            }
+            // while ($parent.nodeName != 'P') {
+            //     //提升节点至外层p段落
+            //     $parent = $parent.parentNode;
+            // }
             $parent.style.lineHeight = value;
             //1.1.1 一行的选区也可能有嵌套元素
             var nodeArray = new Array();
