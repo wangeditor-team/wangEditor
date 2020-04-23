@@ -14,6 +14,9 @@ MenuConstructors.head = Head
 import FontSize from './fontSize/index.js'
 MenuConstructors.fontSize = FontSize
 
+import LineHeight from './lineHeight/index.js'
+MenuConstructors.lineHeight = LineHeight
+
 import FontName from './fontName/index.js'
 MenuConstructors.fontName = FontName
 

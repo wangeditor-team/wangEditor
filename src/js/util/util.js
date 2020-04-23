@@ -70,3 +70,31 @@ export function percentFormat(number) {
 export function isFunction(fn) {
     return typeof fn === 'function'
 }
+
+//递归获取所有子节点
+export function getNodeToArray(node, sum) {
+    if (node.nodeType === 1) {
+        sum.push(node);
+    }
+    var children = node.childNodes;
+    for (var i = 0; i < children.length; i++) {
+        getNodeToArray(children[i], sum)
+    }
+}
+
+export function isContentditor(node) {
+    console.log(node.getAttribute('contenteditable'))
+    if (node.getAttribute('contenteditable') == 'true') {
+        return true;
+    }
+    return false;
+}
+export function isDOMList(selector) {
+    if (!selector) {
+        return false
+    }
+    if (selector instanceof HTMLCollection || selector instanceof NodeList) {
+        return true
+    }
+    return false
+}
