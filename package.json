@@ -6,7 +6,8 @@
   "types": "dist/wangEditor.d.ts",
   "module": "src/wangEditor.ts",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack --config build/webpack.dev.js && http-server -p 8881",
+    "dev": "cross-env NODE_ENV=development webpack --watch --config build/webpack.dev.js",
+    "example": "http-server -p 8881",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
     "lint": "eslint 'src/**/*.{js,ts}'",
     "lint-fix": "eslint --fix 'src/**/*.{js,ts}'",

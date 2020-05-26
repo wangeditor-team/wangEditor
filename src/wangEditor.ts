@@ -3,7 +3,18 @@
  * @author wangfupeng
  */
 
-import './assets/style/a.less'
+import './assets/style/common.less'
 import './assets/style/icon.less'
 
-console.log('hello we')
+import Editor from './editor/index'
+
+// 检验是否浏览器环境
+try {
+    document
+} catch (ex) {
+    throw new Error('请在浏览器环境下运行')
+}
+
+console.log('hello we 10')
+
+export default Editor

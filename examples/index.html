@@ -10,10 +10,17 @@
         wangEditor demo
         <i class="w-e-icon-close" style="color: #333;"></i>
     </p>
+    <div>
+        <div id="toolbar-container"></div>
+        <div id="text-container"></div>
+    </div>
 
     <script src="../dist/wangEditor.js"></script>
     <script>
-
+        const E = window.wangEditor
+        const editor = new E('#toolbar-container', '#text-container')
+        console.log('editor', editor)
+        editor.create()
     </script>
 </body>
 </html>

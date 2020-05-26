@@ -15,5 +15,6 @@ module.exports = smart(CommonConf, {
         path: distPath,
         library: 'wangEditor',
         libraryTarget: 'umd',
+        libraryExport: 'default',
     },
 })
