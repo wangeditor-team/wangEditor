@@ -9,6 +9,8 @@ import { getRandom } from '../utils/util'
 import SelectionAndRangeAPI from './selection'
 import CommandAPI from './command'
 import Text from '../text/index'
+import Mnues from '../menus/index'
+import Menus from '../menus/index'
 
 let EDITOR_ID = 1
 
@@ -28,6 +30,7 @@ class Editor {
     cmd: CommandAPI
     change: Function | undefined
     text: Text
+    menus: Menus
 
     /**
      * 构造函数
@@ -58,6 +61,7 @@ class Editor {
         this.selection = new SelectionAndRangeAPI(this)
         this.cmd = new CommandAPI(this)
         this.text = new Text(this)
+        this.menus = new Menus(this)
     }
 
     /**
@@ -230,7 +234,8 @@ class Editor {
         // 初始化 text
         this.text.init()
 
-        console.log('初始化菜单') // 原来的 _initMenus
+        // 初始化菜单
+        this.menus.init()
 
         console.log('初始化图片上传') // 原来的 _initUploadImg
 

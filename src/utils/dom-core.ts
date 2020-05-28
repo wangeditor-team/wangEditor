@@ -327,7 +327,7 @@ export class DomElement {
      * @param key css key
      * @param val css value
      */
-    css(key: string, val: string): DomElement {
+    css(key: string, val: string | number): DomElement {
         const currentStyle = `${key}:${val};`
         return this.forEach(function (elem: HTMLElement) {
             const style = (elem.getAttribute('style') || '').trim()

@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>wangEditor example</title>
+    <style>
+        .toolbar {
+            border: 1px solid #ccc;
+            border-bottom: none;
+        }
+        .text {
+            border: 1px solid #ccc;
+            min-height: 300px;
+        }
+    </style>
 </head>
 <body>
     <p>
         wangEditor demo
-        <i class="w-e-icon-close" style="color: #333;"></i>
     </p>
     <div>
-        <div id="toolbar-container"></div>
-        <div id="text-container"></div>
+        <div id="toolbar-container" class="toolbar"></div>
+        <div id="text-container" class="text"></div>
     </div>
 
     <script src="../dist/wangEditor.js"></script>

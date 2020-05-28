@@ -1,0 +1,55 @@
+/**
+ * @description 加粗
+ * @author wangfupeng
+ */
+
+import BtnMenu from '../Menu/BtnMenu'
+import $ from '../../utils/dom-core'
+import Editor from '../../editor/index'
+
+class Bold extends BtnMenu {
+    constructor(editor: Editor) {
+        const $elem = $(
+            `<div class="w-e-menu">
+                <i class="w-e-icon-bold"></i>
+            </div>`
+        )
+        super($elem, editor)
+    }
+
+    /**
+     * 点击事件
+     */
+    clickHandler(): void {
+        const editor = this.editor
+        const isSeleEmpty = editor.selection.isSelectionEmpty()
+
+        if (isSeleEmpty) {
+            // 选区范围是空的，插入并选中一个“空白”
+            editor.selection.createEmptyRange()
+        }
+
+        // 执行 bold 命令
+        editor.cmd.do('bold')
+
+        if (isSeleEmpty) {
+            // 需要将选区范围折叠起来
+            editor.selection.collapseRange()
+            editor.selection.restoreSelection()
+        }
+    }
+
+    /**
+     * 尝试修改菜单激活状态
+     */
+    tryChangeActive(): void {
+        const editor = this.editor
+        if (editor.cmd.queryCommandState('bold')) {
+            this.active()
+        } else {
+            this.unActive()
+        }
+    }
+}
+
+export default Bold

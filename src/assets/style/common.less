@@ -1,7 +1,19 @@
-body {
-    background-color: #f1f1f1;
+.w-e-toolbar,
+.w-e-text-container,
+.w-e-menu-panel {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
 }
 
-.some-p-class-style {
-    color: red;
+.w-e-clear-fix:after {
+    content: "";
+    display: table;
+    clear: both;
 }
