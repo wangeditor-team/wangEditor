@@ -4,7 +4,9 @@
  */
 
 import Bold from './bold/index'
+import Head from './head/index'
 
 export default {
     bold: Bold,
+    head: Head,
 }

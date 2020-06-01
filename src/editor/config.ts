@@ -16,7 +16,7 @@ const EMPTY_FN = () => {}
 
 const defaultConfig = {
     // 默认菜单配置
-    menus: ['bold'],
+    menus: ['bold', 'head'],
 
     fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
 
