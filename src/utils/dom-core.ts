@@ -4,7 +4,7 @@
  */
 
 // 记录所有的事件绑定
-interface EventItem {
+type EventItem = {
     elem: HTMLElement
     type: string
     fn: Function

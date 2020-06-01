@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-export interface ConfigType {
+export type ConfigType = {
     menus: string[]
     fontNames: string[]
     colors: string[]

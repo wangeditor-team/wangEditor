@@ -9,7 +9,7 @@ import initEventHooks from './event-hooks'
 import { UA } from '../utils/util'
 
 // 各个事件钩子函数
-interface TextEventHooks {
+type TextEventHooks = {
     dropEvents: Function[]
     keyupEvents: Function[]
     enterUpEvents: Function[] // enter 键（keyCode === 13）up 时
