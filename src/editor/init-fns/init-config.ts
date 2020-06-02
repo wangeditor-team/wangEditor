@@ -4,7 +4,7 @@
  */
 
 import Editor from '../index'
-import defaultConfig from '../config'
+import defaultConfig from '../../config'
 
 export default function (editor: Editor): void {
     // 自定义配置和默认配置，合并

@@ -5,7 +5,7 @@
 
 import $, { DomElement } from '../utils/dom-core'
 import { EMPTY_FN } from '../utils/const'
-import defaultConfig, { ConfigType } from './config'
+import defaultConfig, { ConfigType } from '../config'
 import SelectionAndRangeAPI from './selection'
 import CommandAPI from './command'
 import Text from '../text/index'
