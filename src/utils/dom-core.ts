@@ -59,6 +59,7 @@ export class DomElement {
     selector: string
     length: number
     elems: HTMLElement[]
+    dataSource: Map<string, any>
 
     /**
      * 构造函数
@@ -76,12 +77,13 @@ export class DomElement {
         this.selector = ''
         this.elems = []
         this.length = this.elems.length
+        this.dataSource = new Map()
 
         if (!selector) {
             return
         }
 
-        // 原本就是 DomElment 实例，则直接返回
+        // 原本就是 DomElement 实例，则直接返回
         if (selector instanceof DomElement) {
             return selector
         }
@@ -502,13 +504,13 @@ export class DomElement {
         }
     }
 
-    // /**
-    //  * 获取元素 value
-    //  */
-    // val(): string {
-    //     const elem = this.elems[0]
-    //     return elem.value.trim()
-    // }
+    /**
+     * 获取元素 value
+     */
+    val(): string {
+        const elem = this.elems[0]
+        return (elem as any).value.trim()
+    }
 
     /**
      * focus 到当前元素
@@ -612,6 +614,21 @@ export class DomElement {
                 parent.insertBefore(elem, referenceNode.nextSibling)
             }
         })
+    }
+
+    /**
+     * 设置/获取 数据
+     * @param key key
+     * @param value value
+     */
+    data<T>(key: string, value?: T): T | undefined {
+        if (value != null) {
+            // 设置数据
+            this.dataSource.set(key, value)
+        } else {
+            // 获取数据
+            return this.dataSource.get(key)
+        }
     }
 }
 

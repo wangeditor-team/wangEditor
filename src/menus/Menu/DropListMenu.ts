@@ -9,14 +9,14 @@ import Menu from './Menu'
 import DropList, { DropListConf } from './DropList'
 
 class DropListMenu extends Menu {
-    droplist: DropList
+    dropList: DropList
 
     constructor($elem: DomElement, editor: Editor, conf: DropListConf) {
         super($elem, editor)
 
-        // 初始化 droplist
-        const droplist = new DropList(this, conf)
-        this.droplist = droplist
+        // 初始化 dropList
+        const dropList = new DropList(this, conf)
+        this.dropList = dropList
 
         // 绑定事件
         $elem
@@ -25,14 +25,14 @@ class DropListMenu extends Menu {
                     return
                 }
                 // 显示
-                droplist.showTimeoutId = window.setTimeout(() => {
-                    droplist.show()
+                dropList.showTimeoutId = window.setTimeout(() => {
+                    dropList.show()
                 }, 200)
             })
             .on('mouseleave', () => {
                 // 隐藏
-                droplist.hideTimeoutId = window.setTimeout(() => {
-                    droplist.hide()
+                dropList.hideTimeoutId = window.setTimeout(() => {
+                    dropList.hide()
                 })
             })
     }
