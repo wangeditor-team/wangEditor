@@ -3,14 +3,15 @@
  * @author wangfupeng
  */
 
-import PanelMenu from '../Menu/PanelMenu'
+import PanelMenu from '../menu-constructors/PanelMenu'
 import Editor from '../../editor/index'
 import $ from '../../utils/dom-core'
 import createPanelConf from './create-panel-conf'
 import isActive from './is-active'
-import Panel from '../Menu/Panel'
+import Panel from '../menu-constructors/Panel'
+import { MenuActive } from '../menu-constructors/Menu'
 
-class Link extends PanelMenu {
+class Link extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-link"></i></div>')
         super($elem, editor)

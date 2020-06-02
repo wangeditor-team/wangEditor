@@ -3,11 +3,12 @@
  * @author wangfupeng
  */
 
-import BtnMenu from '../Menu/BtnMenu'
+import BtnMenu from '../menu-constructors/BtnMenu'
 import $ from '../../utils/dom-core'
 import Editor from '../../editor/index'
+import { MenuActive } from '../menu-constructors/Menu'
 
-class Bold extends BtnMenu {
+class Bold extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
             `<div class="w-e-menu">

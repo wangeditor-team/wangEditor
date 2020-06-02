@@ -56,7 +56,7 @@ class Command {
         }
 
         // 修改菜单状态
-        // editor.menus.changeActive()
+        editor.menus.changeActive()
 
         // 最后，恢复选取保证光标在原来的位置闪烁
         selection.saveRange()

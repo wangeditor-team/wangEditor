@@ -4,7 +4,7 @@
  */
 
 import editor from '../../editor/index'
-import { PanelConf } from '../Menu/Panel'
+import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
 import isActive from './is-active'

@@ -126,8 +126,8 @@ class Text {
         function saveRange() {
             // 随时保存选区
             editor.selection.saveRange()
-            // 更新按钮 ative 状态
-            // editor.menus.changeActive()
+            // 更新按钮 active 状态
+            editor.menus.changeActive()
         }
 
         // 按键后保存

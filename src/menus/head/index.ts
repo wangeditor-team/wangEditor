@@ -3,11 +3,12 @@
  * @author wangfupeng
  */
 
-import DropListMenu from '../Menu/DropListMenu'
+import DropListMenu from '../menu-constructors/DropListMenu'
 import $ from '../../utils/dom-core'
 import Editor from '../../editor/index'
+import { MenuActive } from '../menu-constructors/Menu'
 
-class Head extends DropListMenu {
+class Head extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-header"></i></div>')
         const dropListConf = {

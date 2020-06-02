@@ -6,6 +6,13 @@
 import { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 
+export interface MenuActive {
+    /**
+     * 修改菜单激活状态，菜单是否高亮
+     */
+    tryChangeActive(): void
+}
+
 class Menu {
     $elem: DomElement
     editor: Editor
@@ -15,12 +22,22 @@ class Menu {
         this.$elem = $elem
         this.editor = editor
         this._active = false
+
+        // 绑定菜单点击事件
+        $elem.on('click', (e: Event) => {
+            e.stopPropagation()
+            if (editor.selection.getRange() == null) {
+                return
+            }
+            this.clickHandler(e)
+        })
     }
 
     /**
-     * 尝试修改菜单的激活状态，各个 menu 自己去实现
+     * 菜单点击事件，子类可重写
+     * @param e event
      */
-    public tryChangeActive(): void {}
+    protected clickHandler(e: Event): void {}
 
     /**
      * 激活菜单，高亮显示

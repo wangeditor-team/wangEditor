@@ -1,11 +1,12 @@
 /**
- * @description Menus 入口文件
+ * @description Menus 菜单栏 入口文件
  * @author wangfupeng
  */
 
 import Editor from '../editor/index'
-import Menu from './Menu/Menu'
+import Menu from './menu-constructors/Menu'
 import MenuConstructorList from './menu-list'
+import { MenuActive } from './menu-constructors/Menu'
 
 class Menus {
     editor: Editor
@@ -21,7 +22,7 @@ class Menus {
         // 从用户配置的 menus 入手，看需要初始化哪些菜单
         const config = this.editor.config
         config.menus.forEach(menuKey => {
-            const MenuConstructor = (MenuConstructorList as any)[menuKey]
+            const MenuConstructor = (MenuConstructorList as any)[menuKey] // 暂用 any ，后面再替换
             if (MenuConstructor == null) {
                 return
             }
@@ -58,7 +59,7 @@ class Menus {
      */
     public changeActive(): void {
         this.menuList.forEach(menu => {
-            setTimeout(menu.tryChangeActive, 100)
+            setTimeout((menu as any).tryChangeActive.bind(menu), 100) // 暂用 any ，后面再替换
         })
     }
 }
