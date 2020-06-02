@@ -5,8 +5,7 @@
 
 import $, { DomElement } from '../../utils/dom-core'
 import PanelMenu from './PanelMenu'
-
-function EMPTY_FN() {}
+import { EMPTY_FN } from '../../utils/const'
 
 // 记录已经创建过的 panel
 const CREATED_MENUS = new Set()

@@ -19,6 +19,4 @@ try {
     throw new Error('请在浏览器环境下运行')
 }
 
-console.log('hello we 10')
-
 export default Editor

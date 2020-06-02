@@ -1,6 +1,9 @@
 {
     "editor.formatOnSave": true,
     "cSpell.words": [
+        "compositionend",
+        "compositionstart",
+        "contenteditable",
         "elems",
         "wangfupeng"
     ]

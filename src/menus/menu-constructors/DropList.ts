@@ -4,8 +4,7 @@
 
 import $, { DomElement } from '../../utils/dom-core'
 import DropListMenu from './DropListMenu'
-
-function EMPTY_FN() {}
+import { EMPTY_FN } from '../../utils/const'
 
 export type DroListItem = {
     $elem: DomElement

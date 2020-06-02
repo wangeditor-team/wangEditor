@@ -509,7 +509,7 @@ export class DomElement {
      */
     val(): string {
         const elem = this.elems[0]
-        return (elem as any).value.trim()
+        return (elem as any).value.trim() // 暂用 any
     }
 
     /**

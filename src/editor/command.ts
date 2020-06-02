@@ -63,7 +63,7 @@ class Command {
         selection.restoreSelection()
 
         // 触发 onchange
-        editor.change && editor.change()
+        editor.change()
     }
 
     /**

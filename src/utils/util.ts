@@ -55,3 +55,39 @@ export function forEach(obj: Object | [], fn: Function): void {
         }
     }
 }
+
+/**
+ * 节流
+ * @param fn 函数
+ * @param interval 间隔时间，毫秒
+ */
+export function throttle(fn: Function, interval: number = 200): Function {
+    let flag = false
+    return function (...args: any): void {
+        if (!flag) {
+            flag = true
+            setTimeout(() => {
+                flag = false
+                fn.call(null, ...args) // this 报语法错误，先用 null
+            }, interval)
+        }
+    }
+}
+
+/**
+ * 防抖
+ * @param fn 函数
+ * @param delay 间隔时间，毫秒
+ */
+export function debounce(fn: Function, delay: number = 200): Function {
+    let lastFn = 0
+    return function (...args: any) {
+        if (lastFn) {
+            window.clearTimeout(lastFn)
+        }
+        lastFn = window.setTimeout(() => {
+            lastFn = 0
+            fn.call(null, ...args) // this 报语法错误，先用 null
+        }, delay)
+    }
+}

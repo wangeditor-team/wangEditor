@@ -28,7 +28,17 @@
     <script>
         const E = window.wangEditor
         const editor = new E('#toolbar-container', '#text-container')
-        console.log('editor', editor)
+
+        // editor.customConfig.onchange = function (newHtml) {
+        //     console.log('onchange', newHtml)
+        // }
+        // editor.customConfig.onblur = function (newHtml) {
+        //     console.log('onblur', newHtml)
+        // }
+        // editor.customConfig.onfocus = function (newHtml) {
+        //     console.log('onfocus', newHtml)
+        // }
+
         editor.create()
     </script>
 </body>

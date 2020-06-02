@@ -3,16 +3,18 @@
  * @author wangfupeng
  */
 
+import { EMPTY_FN } from '../utils/const'
+
 export type ConfigType = {
     menus: string[]
     fontNames: string[]
     colors: string[]
     zIndex: number
+    onchange: Function
     onfocus: Function
     onblur: Function
+    onchangeTimeout: number
 }
-
-const EMPTY_FN = () => {}
 
 const defaultConfig = {
     // 默认菜单配置
@@ -35,6 +37,9 @@ const defaultConfig = {
 
     zIndex: 10000,
 
+    onchangeTimeout: 200,
+
+    onchange: EMPTY_FN,
     onfocus: EMPTY_FN,
     onblur: EMPTY_FN,
 }
