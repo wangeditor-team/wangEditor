@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+        .toolbar {
+            border: 1px solid #ccc;
+        }
+        .text {
+            border: 1px solid #ccc;
+            min-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        container 和 toolbar 分开
+    </p>
+    <div>
+        <div id="toolbar-container" class="toolbar"></div>
+        <p>------ 我是分割线 ------</p>
+        <div id="text-container" class="text"></div>
+    </div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        const E = window.wangEditor
+        const editor = new E('#toolbar-container', '#text-container')
+        editor.create()
+    </script>
+</body>
+</html>

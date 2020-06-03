@@ -23,9 +23,9 @@ class Bold extends BtnMenu implements MenuActive {
      */
     clickHandler(): void {
         const editor = this.editor
-        const isSeleEmpty = editor.selection.isSelectionEmpty()
+        const isSelectEmpty = editor.selection.isSelectionEmpty()
 
-        if (isSeleEmpty) {
+        if (isSelectEmpty) {
             // 选区范围是空的，插入并选中一个“空白”
             editor.selection.createEmptyRange()
         }
@@ -33,7 +33,7 @@ class Bold extends BtnMenu implements MenuActive {
         // 执行 bold 命令
         editor.cmd.do('bold')
 
-        if (isSeleEmpty) {
+        if (isSelectEmpty) {
             // 需要将选区范围折叠起来
             editor.selection.collapseRange()
             editor.selection.restoreSelection()

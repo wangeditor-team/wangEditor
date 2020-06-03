@@ -12,7 +12,7 @@
     "lint": "eslint 'src/**/*.{js,ts}'",
     "lint-fix": "eslint --fix 'src/**/*.{js,ts}'",
     "prettier": "prettier --write --config .prettierrc.js 'src/**/*.{js,ts}'",
-    "test": "cross-env NODE_ENV=test jest --passWithNoTests",
+    "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
     "test-c": "cross-env NODE_ENV=test jest --coverage"
   },
   "jest": {
@@ -30,6 +30,7 @@
   "homepage": "https://github.com/wangeditor-team/we-next#readme",
   "devDependencies": {
     "@types/jest": "^25.2.1",
+    "@types/jquery": "^3.3.38",
     "@types/lodash": "^4.14.150",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
@@ -43,6 +44,7 @@
     "http-server": "^0.12.3",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
+    "jquery": "^3.5.1",
     "less": "^3.11.1",
     "less-loader": "^6.0.0",
     "lint-staged": "^10.2.2",

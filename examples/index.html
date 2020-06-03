@@ -5,29 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>wangEditor example</title>
     <style>
-        .toolbar {
-            border: 1px solid #ccc;
-            border-bottom: none;
-        }
-        .text {
-            border: 1px solid #ccc;
-            min-height: 300px;
-        }
     </style>
 </head>
 <body>
     <p>
         wangEditor demo
     </p>
-    <div>
-        <div id="toolbar-container" class="toolbar"></div>
-        <div id="text-container" class="text"></div>
-    </div>
+    <div id="div1"></div>
 
     <script src="../dist/wangEditor.js"></script>
     <script>
         const E = window.wangEditor
-        const editor = new E('#toolbar-container', '#text-container')
+        const editor = new E('#div1')
 
         // editor.customConfig.onchange = function (newHtml) {
         //     console.log('onchange', newHtml)
