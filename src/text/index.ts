@@ -5,7 +5,7 @@
 
 import $ from '../utils/dom-core'
 import Editor from '../editor/index'
-import initEventHooks from './event-hooks'
+import initEventHooks from './event-hooks/index'
 import { UA } from '../utils/util'
 
 // 各个事件钩子函数
