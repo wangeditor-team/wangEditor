@@ -23,14 +23,15 @@ test('初始化 selection 实例', () => {
     expect(selection).not.toBeNull()
 })
 
-test('通过元素创建选区', () => {
-    SELECTION_INSTANCE.createRangeByElem($SPAN) // 选中 span
+test('保存选区', () => {
+    SELECTION_INSTANCE.saveRange()
     RANGE = SELECTION_INSTANCE.getRange()
     expect(RANGE).not.toBeNull()
 })
 
-test('保存选区', () => {
-    SELECTION_INSTANCE.saveRange()
+// 注意，如果创建选区，然后再执行“保存选区”，会出错，所以顺序不要乱：先测试保存选区，再测试创建选区
+test('通过元素创建选区', () => {
+    SELECTION_INSTANCE.createRangeByElem($SPAN) // 选中 span
     RANGE = SELECTION_INSTANCE.getRange()
     expect(RANGE).not.toBeNull()
 })
@@ -45,10 +46,12 @@ test('获取选区文字', () => {
     const rangeText = SELECTION_INSTANCE.getSelectionText()
     expect(rangeText).toBe(TEXT)
 })
+
 test('选区是否为空', () => {
     const isEmpty = SELECTION_INSTANCE.isSelectionEmpty()
     expect(isEmpty).toBe(false)
 })
+
 test('获取选区 DOM', () => {
     const $container = SELECTION_INSTANCE.getSelectionContainerElem() as DomElement // p 标签
     expect($container.text()).toBe(TEXT)

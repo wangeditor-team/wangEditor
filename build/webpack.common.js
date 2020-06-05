@@ -4,6 +4,7 @@
  */
 
 const path = require('path')
+const webpack = require('webpack')
 const { srcPath } = require('./myPath')
 
 module.exports = {
@@ -43,4 +44,10 @@ module.exports = {
             // style: path.join(srcPath, 'assets', 'style'),
         },
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            ENV: JSON.stringify('dev1'),
+            ENV1: JSON.stringify(process.env.NODE_ENV),
+        }),
+    ],
 }
