@@ -24,6 +24,7 @@ function createEditor(document: Document, toolbarId: string, textId?: string): E
     }
 
     const editor = new Editor(`#${toolbarId}`)
+    editor.create()
     return editor
 }
 

@@ -18,7 +18,7 @@ let RANGE: Range | null
 test('初始化 selection 实例', () => {
     const editor = createEditor(document, 'div1')
     editor.$textElem.append($P)
-    const selection = new Selection(editor)
+    const selection = editor.selection
     SELECTION_INSTANCE = selection // 赋值给全局变量
     expect(selection).not.toBeNull()
 })

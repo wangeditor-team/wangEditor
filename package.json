@@ -69,6 +69,7 @@
     "*.{ts,js}": [
       "npm run prettier",
       "npm run lint-fix",
+      "npm run test",
       "git add ."
     ]
   }
