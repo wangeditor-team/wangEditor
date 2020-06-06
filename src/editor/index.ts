@@ -32,7 +32,7 @@ class Editor {
     isFocus: boolean
     selection: SelectionAndRangeAPI
     cmd: CommandAPI
-    text: Text
+    txt: Text
     menus: Menus
     change: Function
 
@@ -65,7 +65,7 @@ class Editor {
 
         this.selection = new SelectionAndRangeAPI(this)
         this.cmd = new CommandAPI(this)
-        this.text = new Text(this)
+        this.txt = new Text(this)
         this.menus = new Menus(this)
     }
 
@@ -88,7 +88,7 @@ class Editor {
         initDom(this)
 
         // 初始化 text
-        this.text.init()
+        this.txt.init()
 
         // 初始化菜单
         this.menus.init()

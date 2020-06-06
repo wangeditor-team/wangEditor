@@ -24,7 +24,7 @@ function bindEvent(editor: Editor): void {
  */
 function _bindChange(editor: Editor): void {
     // 记录当前内容
-    CURRENT_HTML = editor.text.html() || ''
+    CURRENT_HTML = editor.txt.html() || ''
 
     // 获取必要的 dom 节点
     const $textContainerElem = editor.$textContainerElem
@@ -98,7 +98,7 @@ export function changeHandler(editor: Editor): void {
     const onchange = config.onchange
 
     // 判断内容是否有变化
-    let html = editor.text.html() || ''
+    let html = editor.txt.html() || ''
     // 先比较前后内容的长度
     if (html.length === CURRENT_HTML.length) {
         // 再比较每一个字符
@@ -122,7 +122,7 @@ export function changeHandler(editor: Editor): void {
 function _blurHandler(editor: Editor) {
     const config = editor.config
     const onblur = config.onblur
-    const currentHtml = editor.text.html() || ''
+    const currentHtml = editor.txt.html() || ''
     onblur(currentHtml)
 }
 
@@ -133,7 +133,7 @@ function _blurHandler(editor: Editor) {
 function _focusHandler(editor: Editor) {
     const config = editor.config
     const onfocus = config.onfocus
-    const currentHtml = editor.text.html() || ''
+    const currentHtml = editor.txt.html() || ''
     onfocus(currentHtml)
 }
 
