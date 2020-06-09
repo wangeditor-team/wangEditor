@@ -1,5 +1,5 @@
 {
-  "name": "we-next",
+  "name": "@wangeditor-team/we-next",
   "version": "0.0.5",
   "description": "wangEditor next",
   "main": "dist/wangEditor.js",
