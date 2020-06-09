@@ -1,6 +1,6 @@
 {
   "name": "we-next",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "wangEditor next",
   "main": "dist/wangEditor.js",
   "types": "dist/wangEditor.d.ts",
