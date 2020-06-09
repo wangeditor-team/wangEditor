@@ -1,6 +1,6 @@
 # we-next
 
-!()[https://github.com/wangeditor-team/we-next/workflows/dev-master-CI/badge.svg]
+![](https://github.com/wangeditor-team/we-next/workflows/dev-master-CI/badge.svg)
 
 wangEditor next
 
