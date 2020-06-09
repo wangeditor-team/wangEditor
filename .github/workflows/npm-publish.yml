@@ -4,8 +4,9 @@
 name: npm-publish
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build:
