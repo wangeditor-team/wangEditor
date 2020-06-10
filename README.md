@@ -2,6 +2,14 @@
 
 ![](https://github.com/wangeditor-team/we-next/workflows/dev-master-CI/badge.svg)
 
-wangEditor next
+wangEditor next, WIP
 
-运行 `npm run dev` 和 `npm run example` ，然后访问 `http://127.0.0.1:8881/examples/`
+## 使用文档
+
+待编写
+
+## 开发文档
+
+[开发文档](./docs/README.md)
+
+想加入开发小组，请联系作者 QQ 642009075
