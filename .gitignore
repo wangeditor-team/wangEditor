@@ -103,8 +103,4 @@ dist
 # TernJS port file
 .tern-port
 
-TODO.md
-
-ISSUE.md
-
 examples/test-page/
