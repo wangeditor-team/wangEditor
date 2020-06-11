@@ -34,4 +34,4 @@ git push origin --tags # 提交 tag 到 github
 
 ## 回归测试
 
-在本地安装最新版本的 npm 包，测试有没有问题。
+下载测试 demo `git clone git@github.com:wangeditor-team/we-demo.git` ，安装刚刚发布的 npm 包，然后运行测试。

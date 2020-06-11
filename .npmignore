@@ -1,4 +1,8 @@
+.github/
+.vscode
+build/
 doc/
 docs/
-TODO.md
 examples/
+test/
+TODO.md

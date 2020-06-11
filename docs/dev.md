@@ -99,3 +99,9 @@ git config user.email xxx@xxx.com
 如果合并出现冲突，开发者需要重新修改代码，重新提交 Pull Request 。
 
 成功合并了 dev 分支之后，确保 [actions](https://github.com/wangeditor-team/we-next/actions) 的任务能执行通过。如果 actions 任务有问题，要查看日志，解决问题。
+
+## 回归测试 dev 分支
+
+本地下载最新的 dev 代码，然后运行 `npm link` ，会得到一个本地的 npm 包地址，如 `/Users/xxx/.nvm/versions/node/v14.3.0/lib/node_modules/@wangeditor-team/we-next` ，将其拷贝下来。
+
+下载测试 demo `git clone git@github.com:wangeditor-team/we-demo.git` ，进入目录，运行 `npm install <刚刚拷贝的地址>` ，然后运行 demo 进行测试。

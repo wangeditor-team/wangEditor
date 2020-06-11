@@ -2,9 +2,9 @@
   "name": "@wangeditor-team/we-next",
   "version": "0.0.6",
   "description": "wangEditor next",
-  "main": "dist/wangEditor.js",
+  "main": "dist/wangEditor.min.js",
   "types": "dist/wangEditor.d.ts",
-  "module": "src/wangEditor.ts",
+  "module": "dist/wangEditor.min.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --watch --config build/webpack.dev.js",
     "example": "http-server -p 8881",
