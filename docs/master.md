@@ -15,16 +15,16 @@
 ```sh
 git pull origin master # 确保本地是最新的 master 分支代码
 
-npm version major|minor|patch # 升级 npm 版本并自动生成 git tag 。【注意】major|minor|patch 三选一
+npm version patch|minor|major # 升级 npm 版本并自动生成 git tag 。【注意】patch|minor|major 三选一
 
 git push origin --tags # 提交 tag 到 github
 ```
 
-解释一下 `major|minor|patch` 的区别。例如当前版本是 `1.2.3`
+解释一下 `patch|minor|major` 的区别。例如当前版本是 `1.2.3`
 
-- `major` 将版本升级到 `2.2.3` ，即重构大版本的升级
-- `minor` 将版本升级到 `1.3.3` ，当前版本的主要功能升级
 - `patch` 将版本升级到 `1.2.4` ，小版本升级，bug 修复，增加非重要功能
+- `minor` 将版本升级到 `1.3.3` ，当前版本的主要功能升级
+- `major` 将版本升级到 `2.2.3` ，即重构大版本的升级
 
 ## 发布到 npm
 
