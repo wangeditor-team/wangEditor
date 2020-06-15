@@ -9,7 +9,7 @@ import Menu from './Menu'
 import Panel from './Panel'
 
 class PanelMenu extends Menu {
-    panel: Panel | undefined
+    public panel: Panel | undefined
 
     constructor($elem: DomElement, editor: Editor) {
         super($elem, editor)

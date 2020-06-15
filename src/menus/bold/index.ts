@@ -21,7 +21,7 @@ class Bold extends BtnMenu implements MenuActive {
     /**
      * 点击事件
      */
-    clickHandler(): void {
+    public clickHandler(): void {
         const editor = this.editor
         const isSelectEmpty = editor.selection.isSelectionEmpty()
 
@@ -43,7 +43,7 @@ class Bold extends BtnMenu implements MenuActive {
     /**
      * 尝试修改菜单激活状态
      */
-    tryChangeActive(): void {
+    public tryChangeActive(): void {
         const editor = this.editor
         if (editor.cmd.queryCommandState('bold')) {
             this.active()

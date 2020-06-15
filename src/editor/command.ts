@@ -8,7 +8,7 @@ import { UA } from '../utils/util'
 import Editor from './index'
 
 class Command {
-    editor: Editor
+    public editor: Editor
 
     constructor(editor: Editor) {
         this.editor = editor
@@ -19,10 +19,10 @@ class Command {
      * @param name name
      * @param value value
      */
-    do(name: string): void
-    do(name: string, value: string): void
-    do(name: string, value: DomElement): void
-    do(name: string, value?: string | DomElement): void {
+    public do(name: string): void
+    public do(name: string, value: string): void
+    public do(name: string, value: DomElement): void
+    public do(name: string, value?: string | DomElement): void {
         const editor = this.editor
 
         // // 使用 styleWithCSS —— 暂不使用
@@ -44,14 +44,14 @@ class Command {
         // 执行
         switch (name) {
             case 'insertHTML':
-                this._insertHTML(value as string)
+                this.insertHTML(value as string)
                 break
             case 'insertElem':
-                this._insertElem(value as DomElement)
+                this.insertElem(value as DomElement)
                 break
             default:
                 // 默认 command
-                this._execCommand(name, value as string)
+                this.execCommand(name, value as string)
                 break
         }
 
@@ -70,14 +70,14 @@ class Command {
      * 插入 html
      * @param html html 字符串
      */
-    _insertHTML(html: string): void {
+    private insertHTML(html: string): void {
         const editor = this.editor
         const range = editor.selection.getRange()
         if (range == null) return
 
         if (this.queryCommandSupported('insertHTML')) {
             // W3C
-            this._execCommand('insertHTML', html)
+            this.execCommand('insertHTML', html)
         } else if (range.insertNode) {
             // IE
             range.deleteContents()
@@ -93,7 +93,7 @@ class Command {
      * 插入 DOM 元素
      * @param $elem DOM 元素
      */
-    _insertElem($elem: DomElement): void {
+    private insertElem($elem: DomElement): void {
         const editor = this.editor
         const range = editor.selection.getRange()
         if (range == null) return
@@ -109,7 +109,7 @@ class Command {
      * @param name name
      * @param value value
      */
-    _execCommand(name: string, value: string): void {
+    private execCommand(name: string, value: string): void {
         document.execCommand(name, false, value)
     }
 
@@ -117,7 +117,7 @@ class Command {
      * 执行 document.queryCommandValue
      * @param name name
      */
-    queryCommandValue(name: string): string {
+    public queryCommandValue(name: string): string {
         return document.queryCommandValue(name)
     }
 
@@ -125,7 +125,7 @@ class Command {
      * 执行 document.queryCommandState
      * @param name name
      */
-    queryCommandState(name: string): boolean {
+    public queryCommandState(name: string): boolean {
         return document.queryCommandState(name)
     }
 
@@ -133,7 +133,7 @@ class Command {
      * 执行 document.queryCommandSupported
      * @param name name
      */
-    queryCommandSupported(name: string): boolean {
+    public queryCommandSupported(name: string): boolean {
         return document.queryCommandSupported(name)
     }
 }

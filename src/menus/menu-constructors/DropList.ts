@@ -21,13 +21,14 @@ export type DropListConf = {
 }
 
 class DropList {
-    menu: DropListMenu
-    conf: DropListConf
-    hideTimeoutId: number
-    showTimeoutId: number
-    $container: DomElement
-    _rendered: boolean
-    _show: boolean
+    private menu: DropListMenu
+    private conf: DropListConf
+    private $container: DomElement
+    private rendered: boolean
+    private _show: boolean
+
+    public hideTimeoutId: number
+    public showTimeoutId: number
 
     constructor(menu: DropListMenu, conf: DropListConf) {
         this.hideTimeoutId = 0
@@ -80,14 +81,14 @@ class DropList {
 
         // 记录属性
         this.$container = $container
-        this._rendered = false
+        this.rendered = false
         this._show = false
     }
 
     /**
      * 显示 DropList
      */
-    show() {
+    public show() {
         if (this.hideTimeoutId) {
             // 清除之前的定时隐藏
             clearTimeout(this.hideTimeoutId)
@@ -99,7 +100,7 @@ class DropList {
         if (this._show) {
             return
         }
-        if (this._rendered) {
+        if (this.rendered) {
             // 显示
             $container.show()
         } else {
@@ -110,7 +111,7 @@ class DropList {
 
             // 加入到 DOM
             $menuELem.append($container)
-            this._rendered = true
+            this.rendered = true
         }
 
         // 修改属性
@@ -120,7 +121,7 @@ class DropList {
     /**
      * 隐藏 DropList
      */
-    hide() {
+    public hide() {
         if (this.showTimeoutId) {
             // 清除之前的定时显示
             clearTimeout(this.showTimeoutId)
