@@ -135,6 +135,10 @@ class DropList {
         $container.hide()
         this._show = false
     }
+
+    public get isShow() {
+        return this._show
+    }
 }
 
 export default DropList

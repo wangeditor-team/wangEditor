@@ -17,9 +17,9 @@ test('head 菜单：dropList', () => {
     headMenu = getMenuInstance(editor, Head) as Head // 赋值给全局变量
     expect(headMenu.dropList).not.toBeNull()
     headMenu.dropList.show()
-    expect(headMenu.dropList._show).toBe(true)
+    expect(headMenu.dropList.isShow).toBe(true)
     headMenu.dropList.hide()
-    expect(headMenu.dropList._show).toBe(false)
+    expect(headMenu.dropList.isShow).toBe(false)
 })
 
 test('head 菜单：设置标题', () => {

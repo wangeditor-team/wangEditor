@@ -30,7 +30,7 @@ export type PanelConf = {
 class Panel {
     private menu: PanelMenu
     private conf: PanelConf
-    private $container: DomElement
+    public $container: DomElement
 
     constructor(menu: PanelMenu, conf: PanelConf) {
         this.menu = menu
