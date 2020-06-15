@@ -6,11 +6,11 @@
 import Editor from '../editor/index'
 import Menu from './menu-constructors/Menu'
 import MenuConstructorList from './menu-list'
-import { MenuActive } from './menu-constructors/Menu'
+// import { MenuActive } from './menu-constructors/Menu'
 
 class Menus {
-    editor: Editor
-    menuList: Menu[]
+    public editor: Editor
+    public menuList: Menu[]
 
     constructor(editor: Editor) {
         this.editor = editor

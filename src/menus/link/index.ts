@@ -20,11 +20,11 @@ class Link extends PanelMenu implements MenuActive {
     /**
      * 菜单点击事件
      */
-    clickHandler(): void {
+    public clickHandler(): void {
         const editor = this.editor
         let $linkElem
 
-        if (this._active) {
+        if (this.isActive) {
             // 菜单被激活，说明选区在链接里
             $linkElem = editor.selection.getSelectionContainerElem()
             if (!$linkElem) {
@@ -50,7 +50,7 @@ class Link extends PanelMenu implements MenuActive {
      * @param text 文本
      * @param link 链接
      */
-    createPanel(text: string, link: string): void {
+    private createPanel(text: string, link: string): void {
         const conf = createPanelConf(this.editor, text, link)
         const panel = new Panel(this, conf)
         panel.create()
@@ -61,7 +61,7 @@ class Link extends PanelMenu implements MenuActive {
     /**
      * 尝试修改菜单 active 状态
      */
-    tryChangeActive() {
+    public tryChangeActive() {
         const editor = this.editor
         if (isActive(editor)) {
             this.active()

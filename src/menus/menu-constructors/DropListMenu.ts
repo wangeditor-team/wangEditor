@@ -9,7 +9,7 @@ import Menu from './Menu'
 import DropList, { DropListConf } from './DropList'
 
 class DropListMenu extends Menu {
-    dropList: DropList
+    public dropList: DropList
 
     constructor($elem: DomElement, editor: Editor, conf: DropListConf) {
         super($elem, editor)

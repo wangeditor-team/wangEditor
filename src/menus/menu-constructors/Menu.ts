@@ -14,9 +14,9 @@ export interface MenuActive {
 }
 
 class Menu {
-    $elem: DomElement
-    editor: Editor
-    _active: boolean // 菜单是否处于激活状态，如选中一段加粗文字时，bold 菜单要被激活（即高亮显示）
+    public $elem: DomElement
+    public editor: Editor
+    private _active: boolean // 菜单是否处于激活状态，如选中一段加粗文字时，bold 菜单要被激活（即高亮显示）
 
     constructor($elem: DomElement, editor: Editor) {
         this.$elem = $elem
@@ -53,6 +53,13 @@ class Menu {
     protected unActive(): void {
         this._active = false
         this.$elem.removeClass('w-e-active')
+    }
+
+    /**
+     * 是否处于激活状态
+     */
+    public get isActive() {
+        return this._active
     }
 }
 

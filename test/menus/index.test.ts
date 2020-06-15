@@ -16,5 +16,5 @@ test('初始化 menus', () => {
 test('修改菜单激活状态', () => {
     const menus = editor.menus
     menus.changeActive()
-    expect(menus.menuList[0]._active).toBeFalsy()
+    expect(menus.menuList[0].isActive).toBeFalsy()
 })

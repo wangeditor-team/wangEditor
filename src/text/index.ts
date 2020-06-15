@@ -19,8 +19,8 @@ type TextEventHooks = {
 }
 
 class Text {
-    editor: Editor
-    eventHooks: TextEventHooks // Text 各个事件的钩子函数，如 keyup 时要执行哪些函数
+    public editor: Editor
+    public eventHooks: TextEventHooks // Text 各个事件的钩子函数，如 keyup 时要执行哪些函数
 
     constructor(editor: Editor) {
         this.editor = editor
@@ -38,7 +38,7 @@ class Text {
     /**
      * 初始化
      */
-    init(): void {
+    public init(): void {
         // 实时保存选取范围
         this._saveRange()
 
@@ -52,7 +52,7 @@ class Text {
     /**
      * 清空内容
      */
-    clear(): void {
+    public clear(): void {
         this.html('<p><br></p>')
     }
 
@@ -60,7 +60,7 @@ class Text {
      * 设置/获取 html
      * @param val html 字符串
      */
-    html(val?: string): void | string {
+    public html(val?: string): void | string {
         const editor = this.editor
         const $textElem = editor.$textElem
 
@@ -84,7 +84,7 @@ class Text {
      * 获取/设置 字符串内容
      * @param val text 字符串
      */
-    text(val?: string): void | string {
+    public text(val?: string): void | string {
         const editor = this.editor
         const $textElem = editor.$textElem
 
@@ -106,7 +106,7 @@ class Text {
      * 追加 html 内容
      * @param html html 字符串
      */
-    append(html: string): void {
+    public append(html: string): void {
         const editor = this.editor
         const $textElem = editor.$textElem
         $textElem.append($(html))
@@ -118,7 +118,7 @@ class Text {
     /**
      * 每一步操作，都实时保存选区范围
      */
-    _saveRange(): void {
+    private _saveRange(): void {
         const editor = this.editor
         const $textElem = editor.$textElem
 
@@ -146,7 +146,7 @@ class Text {
     /**
      * 绑定事件，事件会触发钩子函数
      */
-    _bindEvent(): void {
+    private _bindEvent(): void {
         const $textElem = this.editor.$textElem
         const eventHooks = this.eventHooks
 
