@@ -6,9 +6,11 @@
 import Bold from './bold/index'
 import Head from './head/index'
 import Link from './link/index'
+import Strikethrough from './strikethrough/index'
 
 export default {
     bold: Bold,
     head: Head,
     link: Link,
+    strikethrough: Strikethrough,
 }
