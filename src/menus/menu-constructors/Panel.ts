@@ -28,9 +28,9 @@ export type PanelConf = {
 }
 
 class Panel {
-    menu: PanelMenu
-    conf: PanelConf
-    $container: DomElement
+    private menu: PanelMenu
+    private conf: PanelConf
+    public $container: DomElement
 
     constructor(menu: PanelMenu, conf: PanelConf) {
         this.menu = menu
@@ -41,7 +41,7 @@ class Panel {
     /**
      * 创建并展示 panel
      */
-    create(): void {
+    public create(): void {
         const menu = this.menu
         if (CREATED_MENUS.has(menu)) {
             // 创建过了
@@ -177,7 +177,7 @@ class Panel {
     /**
      * 移除 penal
      */
-    remove(): void {
+    public remove(): void {
         const menu = this.menu
         const $container = this.$container
         if ($container) {

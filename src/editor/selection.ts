@@ -8,8 +8,8 @@ import { UA } from '../utils/util'
 import Editor from './index'
 
 class SelectionAndRange {
-    editor: Editor
-    _currentRange: Range | null
+    public editor: Editor
+    private _currentRange: Range | null
 
     constructor(editor: Editor) {
         this.editor = editor
@@ -19,7 +19,7 @@ class SelectionAndRange {
     /**
      * 获取当前 range
      */
-    getRange(): Range | null {
+    public getRange(): Range | null {
         return this._currentRange
     }
 
@@ -27,7 +27,7 @@ class SelectionAndRange {
      * 保存选区范围
      * @param _range 选区范围
      */
-    saveRange(_range?: Range): void {
+    public saveRange(_range?: Range): void {
         if (_range) {
             // 保存已有选区
             this._currentRange = _range
@@ -65,7 +65,7 @@ class SelectionAndRange {
      * 折叠选区范围
      * @param toStart true 开始位置，false 结束位置
      */
-    collapseRange(toStart: boolean = false): void {
+    public collapseRange(toStart: boolean = false): void {
         const range = this._currentRange
         if (range) {
             range.collapse(toStart)
@@ -75,7 +75,7 @@ class SelectionAndRange {
     /**
      * 获取选区范围内的文字
      */
-    getSelectionText(): string {
+    public getSelectionText(): string {
         const range = this._currentRange
         if (range) {
             return range.toString()
@@ -88,7 +88,7 @@ class SelectionAndRange {
      * 获取选区范围的 DOM 元素
      * @param range 选区范围
      */
-    getSelectionContainerElem(range?: Range): DomElement | undefined {
+    public getSelectionContainerElem(range?: Range): DomElement | undefined {
         let r: Range | null | undefined
         r = range || this._currentRange
         let elem: Node
@@ -102,7 +102,7 @@ class SelectionAndRange {
      * 选区范围开始的 DOM 元素
      * @param range 选区范围
      */
-    getSelectionStartElem(range?: Range): DomElement | undefined {
+    public getSelectionStartElem(range?: Range): DomElement | undefined {
         let r: Range | null | undefined
         r = range || this._currentRange
         let elem: Node
@@ -116,7 +116,7 @@ class SelectionAndRange {
      * 选区范围结束的 DOM 元素
      * @param range 选区范围
      */
-    getSelectionEndElem(range?: Range): DomElement | undefined {
+    public getSelectionEndElem(range?: Range): DomElement | undefined {
         let r: Range | null | undefined
         r = range || this._currentRange
         let elem: Node
@@ -129,7 +129,7 @@ class SelectionAndRange {
     /**
      * 选区是否为空（没有选择文字）
      */
-    isSelectionEmpty(): boolean {
+    public isSelectionEmpty(): boolean {
         const range = this._currentRange
         if (range && range.startContainer) {
             if (range.startContainer === range.endContainer) {
@@ -144,7 +144,7 @@ class SelectionAndRange {
     /**
      * 恢复选区范围
      */
-    restoreSelection(): void {
+    public restoreSelection(): void {
         const selection = window.getSelection()
         const r = this._currentRange
         if (selection && r) {
@@ -156,7 +156,7 @@ class SelectionAndRange {
     /**
      * 创建一个空白（即 &#8203 字符）选区
      */
-    createEmptyRange(): void {
+    public createEmptyRange(): void {
         const editor = this.editor
         const range = this.getRange()
         let $elem: DomElement
@@ -195,7 +195,7 @@ class SelectionAndRange {
      * @param toStart true 开始位置，false 结束位置
      * @param isContent 是否选中 $elem 的内容
      */
-    createRangeByElem($elem: DomElement, toStart?: boolean, isContent?: boolean): void {
+    public createRangeByElem($elem: DomElement, toStart?: boolean, isContent?: boolean): void {
         if (!$elem.length) {
             return
         }

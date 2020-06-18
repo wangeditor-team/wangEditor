@@ -35,7 +35,7 @@ class Head extends DropListMenu implements MenuActive {
      * 执行命令
      * @param value value
      */
-    command(value: string): void {
+    public command(value: string): void {
         const editor = this.editor
         const $selectionElem = editor.selection.getSelectionContainerElem()
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
@@ -50,7 +50,7 @@ class Head extends DropListMenu implements MenuActive {
     /**
      * 尝试改变菜单激活（高亮）状态
      */
-    tryChangeActive() {
+    public tryChangeActive() {
         const editor = this.editor
         const reg = /^h/i
         const cmdValue = editor.cmd.queryCommandValue('formatBlock')

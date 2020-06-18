@@ -19,22 +19,22 @@ import initConfig from './init-fns/init-config'
 let EDITOR_ID = 1
 
 class Editor {
-    id: string
-    toolbarSelector: string
-    textSelector: string | undefined
-    customConfig: ConfigType
-    config: ConfigType
-    $toolbarElem: DomElement
-    $textContainerElem: DomElement
-    $textElem: DomElement
-    toolbarElemId: string
-    textElemId: string
-    isFocus: boolean
-    selection: SelectionAndRangeAPI
-    cmd: CommandAPI
-    txt: Text
-    menus: Menus
-    change: Function
+    public id: string
+    public toolbarSelector: string
+    public textSelector: string | undefined
+    public customConfig: ConfigType
+    public config: ConfigType
+    public $toolbarElem: DomElement
+    public $textContainerElem: DomElement
+    public $textElem: DomElement
+    public toolbarElemId: string
+    public textElemId: string
+    public isFocus: boolean
+    public selection: SelectionAndRangeAPI
+    public cmd: CommandAPI
+    public txt: Text
+    public menus: Menus
+    public change: Function
 
     /**
      * 构造函数
@@ -73,14 +73,14 @@ class Editor {
      * 初始化选区
      * @param newLine 新建一行
      */
-    initSelection(newLine?: boolean): void {
+    public initSelection(newLine?: boolean): void {
         initSelection(this, newLine)
     }
 
     /**
      * 创建编辑器实例
      */
-    create(): void {
+    public create(): void {
         // 初始化配置
         initConfig(this)
 
