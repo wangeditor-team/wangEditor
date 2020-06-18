@@ -7,6 +7,7 @@ import $ from '../utils/dom-core'
 import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
 import { UA } from '../utils/util'
+import getChildrenJSON, { NodeListType } from './getChildrenJSON'
 
 // 各个事件钩子函数
 type TextEventHooks = {
@@ -78,7 +79,14 @@ class Text {
         editor.initSelection()
     }
 
-    // 获取 JSON
+    /**
+     * 获取 json 格式的数据
+     */
+    public getJSON(): NodeListType {
+        const editor = this.editor
+        const $textElem = editor.$textElem
+        return getChildrenJSON($textElem)
+    }
 
     /**
      * 获取/设置 字符串内容
