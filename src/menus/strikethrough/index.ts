@@ -1,12 +1,12 @@
 /**
  * @description 删除线
- * @author wangfupeng
+ * @author lkw
  */
 
 import BtnMenu from '../menu-constructors/BtnMenu'
 import $ from '../../utils/dom-core'
 import Editor from '../../editor/index'
-import {MenuActive} from '../menu-constructors/Menu'
+import { MenuActive } from '../menu-constructors/Menu'
 
 class Strikethrough extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -30,7 +30,7 @@ class Strikethrough extends BtnMenu implements MenuActive {
             editor.selection.createEmptyRange()
         }
 
-        // 执行 bold 命令
+        // 执行 strikeThrough 命令
         editor.cmd.do('strikeThrough')
 
         if (isSelectEmpty) {
@@ -45,7 +45,7 @@ class Strikethrough extends BtnMenu implements MenuActive {
      */
     public tryChangeActive(): void {
         const editor = this.editor
-        if (editor.cmd.queryCommandState('bold')) {
+        if (editor.cmd.queryCommandState('strikeThrough')) {
             this.active()
         } else {
             this.unActive()
