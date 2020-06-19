@@ -106,3 +106,5 @@ dist
 examples/test-page/
 
 .DS_Store
+
+ISSUE1.md
