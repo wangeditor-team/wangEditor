@@ -7,11 +7,14 @@ import $ from '../utils/dom-core'
 import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
 import { UA } from '../utils/util'
+import getChildrenJSON, { NodeListType } from './getChildrenJSON'
 
 // 各个事件钩子函数
 type TextEventHooks = {
     dropEvents: Function[]
     keyupEvents: Function[]
+    tabUpEvents: Function[] // tab 键（keyCode === ）Up 时
+    tabDownEvents: Function[] // tab 键（keyCode === 9）Down 时
     enterUpEvents: Function[] // enter 键（keyCode === 13）up 时
     deleteUpEvents: Function[] // 删除键（keyCode === 8）up 时
     deleteDownEvents: Function[] // 删除键（keyCode === 8）down 时
@@ -28,6 +31,8 @@ class Text {
         this.eventHooks = {
             dropEvents: [],
             keyupEvents: [],
+            tabUpEvents: [],
+            tabDownEvents: [],
             enterUpEvents: [],
             deleteUpEvents: [],
             deleteDownEvents: [],
@@ -42,11 +47,11 @@ class Text {
         // 实时保存选取范围
         this._saveRange()
 
+        // 绑定事件
+        this._bindEventHooks()
+
         // 初始化 text 事件钩子函数
         initEventHooks(this)
-
-        // 绑定事件
-        this._bindEvent()
     }
 
     /**
@@ -78,7 +83,14 @@ class Text {
         editor.initSelection()
     }
 
-    // 获取 JSON
+    /**
+     * 获取 json 格式的数据
+     */
+    public getJSON(): NodeListType {
+        const editor = this.editor
+        const $textElem = editor.$textElem
+        return getChildrenJSON($textElem)
+    }
 
     /**
      * 获取/设置 字符串内容
@@ -146,50 +158,56 @@ class Text {
     /**
      * 绑定事件，事件会触发钩子函数
      */
-    private _bindEvent(): void {
+    private _bindEventHooks(): void {
         const $textElem = this.editor.$textElem
         const eventHooks = this.eventHooks
 
         // enter 键 up 时的 hooks
-        const enterUpEvents = eventHooks.enterUpEvents
         $textElem.on('keyup', (e: KeyboardEvent) => {
-            if (e.keyCode !== 13) {
-                // 不是回车键
-                return
-            }
+            if (e.keyCode !== 13) return
+            const enterUpEvents = eventHooks.enterUpEvents
             enterUpEvents.forEach(fn => fn(e))
         })
 
         // delete 键 up 时 hooks
-        const deleteUpEvents = eventHooks.deleteUpEvents
         $textElem.on('keyup', (e: KeyboardEvent) => {
-            if (e.keyCode !== 8) {
-                // 不是删除键
-                return
-            }
+            if (e.keyCode !== 8) return
+            const deleteUpEvents = eventHooks.deleteUpEvents
             deleteUpEvents.forEach(fn => fn(e))
         })
 
         // delete 键 down 时 hooks
-        const deleteDownEvents = eventHooks.deleteDownEvents
         $textElem.on('keydown', (e: KeyboardEvent) => {
-            if (e.keyCode !== 8) {
-                // 不是删除键
-                return
-            }
+            if (e.keyCode !== 8) return
+            const deleteDownEvents = eventHooks.deleteDownEvents
             deleteDownEvents.forEach(fn => fn(e))
         })
 
         // 粘贴
-        const pasteEvents = eventHooks.pasteEvents
         $textElem.on('paste', (e: Event) => {
-            if (UA.isIE()) {
-                return
-            } else {
-                // 阻止默认行为，使用 execCommand 的粘贴命令
-                e.preventDefault()
-            }
+            if (UA.isIE()) return // IE 不支持
+
+            // 阻止默认行为，使用 execCommand 的粘贴命令
+            e.preventDefault()
+
+            const pasteEvents = eventHooks.pasteEvents
             pasteEvents.forEach(fn => fn(e))
+        })
+
+        // tab up
+        $textElem.on('keyup', (e: KeyboardEvent) => {
+            if (e.keyCode !== 9) return
+            e.preventDefault()
+            const tabUpEvents = eventHooks.tabUpEvents
+            tabUpEvents.forEach(fn => fn(e))
+        })
+
+        // tab down
+        $textElem.on('keydown', (e: KeyboardEvent) => {
+            if (e.keyCode !== 9) return
+            e.preventDefault()
+            const tabDownEvents = eventHooks.tabDownEvents
+            tabDownEvents.forEach(fn => fn(e))
         })
     }
 }
