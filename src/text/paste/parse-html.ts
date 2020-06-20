@@ -4,7 +4,7 @@
  */
 
 import { EMPTY_TAGS, IGNORE_TAGS, NECESSARY_ATTRS } from './tags'
-const HtmlParser = require('../../lib/simplehtmlparser.js').default
+import HtmlParser from '../../lib/simplehtmlparser.js'
 
 type AttrType = {
     name: string

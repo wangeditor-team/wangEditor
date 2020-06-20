@@ -34,7 +34,7 @@ test('追加内容', () => {
 })
 
 test('获取 JSON', () => {
-    const html = `<p>我是一行文字</p><p>我是一行<b>这里加粗</b>文字</p><p>我是一行<a href="123" target="_blank">链接</a>文字</p>`
+    const html = `<p>我是一行文字</p><p>我是一行<b>这里加粗</b>文字</p><p>我是一行<a href="123" target="_blank">链接</a>文字</p>` // 不要换行
 
     editor.txt.html(html)
 
@@ -66,9 +66,17 @@ test('获取 JSON', () => {
     expect(attr2.value).toBe('_blank')
 })
 
+test('format html', () => {
+    const html = '<p>AAA<br>BBB<br/>CCC</p><div>CCC</div><p></p>'
+    editor.txt.html(html) // 赋值一个不规范的 html
+    editor.txt.formatHtml() // 格式化
+    const newHtml1 = editor.txt.html() // 使用 API 获取的 html（没有最后的 <p><br></p>）
+    expect(newHtml1).toBe('<p>AAABBBCCC</p><p>CCC</p>')
+})
+
 // 最后测
 test('清空内容', () => {
     editor.txt.clear()
-    expect(editor.txt.html()).toBe('<p><br></p>')
+    expect(editor.txt.html()).toBe('')
     expect(editor.txt.text()).toBe('')
 })

@@ -164,4 +164,5 @@ SimpleHtmlParser.prototype = {
     },
 }
 
-export default SimpleHtmlParser
+// export default SimpleHtmlParser
+module.exports = SimpleHtmlParser
