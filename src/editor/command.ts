@@ -25,11 +25,9 @@ class Command {
     public do(name: string, value?: string | DomElement): void {
         const editor = this.editor
 
-        // // 使用 styleWithCSS —— 暂不使用
-        // if (!editor._useStyleWithCSS) {
-        //     document.execCommand('styleWithCSS', null, true)
-        //     editor._useStyleWithCSS = true
-        // }
+        if (editor.config.styleWithCSS) {
+            document.execCommand('styleWithCSS', false, 'true')
+        }
 
         const selection = editor.selection
 
