@@ -18,7 +18,7 @@ test('加删除线', () => {
     // 找到 strikeThrough 菜单
     strikethroughMenu = getMenuInstance(editor, Strikethrough) as Strikethrough
 
-    // 执行点击事件，模拟加粗
+    // 执行点击事件，模拟加删除线
     mockCmdFn(document)
     ;(strikethroughMenu as Strikethrough).clickHandler()
     expect(document.execCommand).toBeCalledWith('strikeThrough', false, undefined) // mock fn 被调用
