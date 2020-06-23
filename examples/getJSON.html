@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+    </style>
+</head>
+<body>
+    <p>
+        wangEditor getJSON
+    </p>
+    <div id="div1">
+        <p>我是一行文字</p>
+        <p>我是一行<b>这里加粗</b>文字</p>
+        <p>我是一行<a href="123" target="_blank">链接</a>文字</p>
+        <p><img src="https://www.tslang.cn/assets/images/fork_me_ribbon.svg" style="width: 200px;"/></p>
+    </div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        const E = window.wangEditor
+        const editor = new E('#div1')
+        editor.create()
+
+        console.log( editor.txt.getJSON() )
+    </script>
+</body>
+</html>

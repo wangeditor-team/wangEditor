@@ -1,10 +1,6 @@
 # 问题记录
 
-webpack 配置路径别名
-
-统一整理 public protected private
-
-`command.ts` 中暂时不使用 `styleWithCSS` —— 或者做到 config 中
+统一整理 public protected private   
 
 `text/index.ts` 代码角度，需要拆分
 - 获取 json 还没做

@@ -6,6 +6,7 @@
 import Text from '../index'
 import enterToCreateP from './enter-to-create-p'
 import deleteToKeepP from './del-to-keep-p'
+import tabToSpan from './tab-to-space'
 
 /**
  * 初始化 text 事件钩子函数
@@ -20,6 +21,9 @@ function initTextHooks(text: Text): void {
 
     // 删除时，保留 <p><br></p>
     deleteToKeepP(editor, eventHooks.deleteUpEvents, eventHooks.deleteDownEvents)
+
+    // tab 转换为空格
+    tabToSpan(editor, eventHooks.tabDownEvents)
 }
 
 export default initTextHooks
