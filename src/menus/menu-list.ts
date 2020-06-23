@@ -16,5 +16,5 @@ export default {
     link: Link,
     underline: Underline,
     strikethrough: Strikethrough,
-    fontStyle: FontStyle
+    fontStyle: FontStyle,
 }

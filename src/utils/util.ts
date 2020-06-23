@@ -91,3 +91,11 @@ export function debounce(fn: Function, delay: number = 200): Function {
         }, delay)
     }
 }
+
+/**
+ * isFunction 是否是函数
+ * @param fn 函数
+ */
+export function isFunction(fn: any) {
+    return typeof fn === 'function'
+}

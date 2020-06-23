@@ -70,6 +70,7 @@
     "node_modules",
     "dist",
     "test",
-    "examples"
+    "examples",
+    "lib"
   ]
 }

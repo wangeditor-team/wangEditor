@@ -21,12 +21,10 @@ class FontStyleList {
     constructor(list: string[]) {
         this.itemList = []
         list.forEach(fontValue => {
-            this.itemList.push(
-                {
-                    $elem: $(`<p style="font-family:'${fontValue}'">${fontValue}</p>`),
-                    value: fontValue
-                }
-            )
+            this.itemList.push({
+                $elem: $(`<p style="font-family:'${fontValue}'">${fontValue}</p>`),
+                value: fontValue,
+            })
         })
     }
 
