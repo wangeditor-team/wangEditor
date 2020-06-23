@@ -7,6 +7,7 @@ import Text from '../index'
 import enterToCreateP from './enter-to-create-p'
 import deleteToKeepP from './del-to-keep-p'
 import tabToSpan from './tab-to-space'
+import pasteTextHtml from './paste-text-html'
 
 /**
  * 初始化 text 事件钩子函数
@@ -24,6 +25,9 @@ function initTextHooks(text: Text): void {
 
     // tab 转换为空格
     tabToSpan(editor, eventHooks.tabDownEvents)
+
+    // 粘贴 text html
+    pasteTextHtml(editor, eventHooks.pasteEvents)
 }
 
 export default initTextHooks

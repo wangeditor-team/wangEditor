@@ -3,7 +3,8 @@
  * @author wangfupeng
  */
 
-import { replaceHtmlSymbol, forEach } from './util'
+import { replaceHtmlSymbol, forEach } from '../../utils/util'
+import parseHtml from './parse-html'
 
 /**
  * 获取粘贴的纯文本
@@ -11,8 +12,8 @@ import { replaceHtmlSymbol, forEach } from './util'
  */
 export function getPasteText(e: ClipboardEvent): string {
     // const clipboardData = e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData)
-    const clipboardData = e.clipboardData // 咱不考虑 originalEvent 的情况
-    let pasteText
+    const clipboardData = e.clipboardData // 暂不考虑 originalEvent 的情况
+    let pasteText = ''
     if (clipboardData == null) {
         pasteText = (window as any).clipboardData && (window as any).clipboardData.getData('text')
     } else {
@@ -29,35 +30,52 @@ export function getPasteText(e: ClipboardEvent): string {
  */
 export function getPasteHtml(
     e: ClipboardEvent,
-    filterStyle: boolean = false,
+    filterStyle: boolean = true,
     ignoreImg: boolean = false
 ): string {
-    console.log(e, filterStyle, ignoreImg)
-    return ''
+    const clipboardData = e.clipboardData // 暂不考虑 originalEvent 的情况
+    let pasteHtml = ''
+    if (clipboardData) {
+        pasteHtml = clipboardData.getData('text/html')
+    }
+
+    // 无法通过 'text/html' 格式获取 html，则尝试获取 text
+    if (!pasteHtml) {
+        const text = getPasteText(e)
+        if (!text) {
+            return '' // 没有找到任何文字，则返回
+        }
+        pasteHtml = `<p>${text}</p>`
+    }
+
+    // 剔除多余的标签、属性
+    pasteHtml = parseHtml(pasteHtml, filterStyle, ignoreImg)
+
+    return pasteHtml
 }
 
 /**
  * 获取粘贴的图片文件
  * @param e Event 参数
  */
-export function getPasteImgs(e: ClipboardEvent): any[] {
-    const result = []
+export function getPasteImgs(e: ClipboardEvent): File[] {
+    const result: File[] = []
     const txt = getPasteText(e)
     if (txt) {
         // 有文字，就忽略图片
         return result
     }
 
-    const clipboardData = e.clipboardData
+    const clipboardData = e.clipboardData as any
     const items = clipboardData.items
     if (!items) {
         return result
     }
 
-    forEach(items, (key, value) => {
+    forEach(items, (key: any, value: DataTransferItem) => {
         const type = value.type
         if (/image/i.test(type)) {
-            result.push(value.getAsFile())
+            result.push(value.getAsFile() as File)
         }
     })
 
