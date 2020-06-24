@@ -30,9 +30,9 @@ class Link extends PanelMenu implements MenuActive {
             if (!$linkElem) {
                 return
             }
-            // 将该元素都包含在选取之内，以便后面整体替换
-            editor.selection.createRangeByElem($linkElem)
-            editor.selection.restoreSelection()
+
+            // 弹出 panel
+            this.createPanel($linkElem.text(), $linkElem.attr('href'))
         } else {
             // 菜单未被激活，说明选区不在链接里
             if (editor.selection.isSelectionEmpty()) {

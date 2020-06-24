@@ -45,7 +45,7 @@ function _bindChange(editor: Editor): void {
         compositionEnd && change(editor)
     })
     $toolbarElem.on('click', () => {
-        change()
+        change(editor)
     })
 }
 
