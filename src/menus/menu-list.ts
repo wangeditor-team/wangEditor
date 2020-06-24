@@ -7,7 +7,7 @@ import Bold from './bold/index'
 import Head from './head/index'
 import Link from './link/index'
 import Underline from './underline/index'
-import Strikethrough from './strikethrough/index'
+import StrikeThrough from './strike-through/index'
 import FontStyle from './font-style/index'
 
 export default {
@@ -15,6 +15,6 @@ export default {
     head: Head,
     link: Link,
     underline: Underline,
-    strikethrough: Strikethrough,
+    strikeThrough: StrikeThrough,
     fontStyle: FontStyle,
 }

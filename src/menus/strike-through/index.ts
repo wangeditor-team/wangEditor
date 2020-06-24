@@ -8,7 +8,7 @@ import $ from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 
-class Strikethrough extends BtnMenu implements MenuActive {
+class StrikeThrough extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
             `<div class="w-e-menu">
@@ -53,4 +53,4 @@ class Strikethrough extends BtnMenu implements MenuActive {
     }
 }
 
-export default Strikethrough
+export default StrikeThrough
