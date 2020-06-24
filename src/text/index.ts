@@ -3,15 +3,16 @@
  * @author wangfupeng
  */
 
-import $ from '../utils/dom-core'
+import $, { DomElement } from '../utils/dom-core'
 import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
-import { UA } from '../utils/util'
+import { UA, throttle } from '../utils/util'
 import getChildrenJSON, { NodeListType } from './getChildrenJSON'
 
 // 各个事件钩子函数
 type TextEventHooks = {
     dropEvents: Function[]
+    clickEvents: Function[]
     keyupEvents: Function[]
     tabUpEvents: Function[] // tab 键（keyCode === ）Up 时
     tabDownEvents: Function[] // tab 键（keyCode === 9）Down 时
@@ -19,6 +20,9 @@ type TextEventHooks = {
     deleteUpEvents: Function[] // 删除键（keyCode === 8）up 时
     deleteDownEvents: Function[] // 删除键（keyCode === 8）down 时
     pasteEvents: Function[] // 粘贴事件
+    linkClickEvents: Function[] // 点击链接事件
+    textScrollEvents: Function[] // 编辑区域滑动事件
+    toolbarClickEvents: Function[] // 菜单栏被点击
 }
 
 class Text {
@@ -30,6 +34,7 @@ class Text {
 
         this.eventHooks = {
             dropEvents: [],
+            clickEvents: [],
             keyupEvents: [],
             tabUpEvents: [],
             tabDownEvents: [],
@@ -37,6 +42,9 @@ class Text {
             deleteUpEvents: [],
             deleteDownEvents: [],
             pasteEvents: [],
+            linkClickEvents: [],
+            textScrollEvents: [],
+            toolbarClickEvents: [],
         }
     }
 
@@ -180,8 +188,15 @@ class Text {
      * 绑定事件，事件会触发钩子函数
      */
     private _bindEventHooks(): void {
-        const $textElem = this.editor.$textElem
+        const editor = this.editor
+        const $textElem = editor.$textElem
         const eventHooks = this.eventHooks
+
+        // click hooks
+        $textElem.on('click', (e: Event) => {
+            const clickEvents = eventHooks.clickEvents
+            clickEvents.forEach(fn => fn(e))
+        })
 
         // enter 键 up 时的 hooks
         $textElem.on('keyup', (e: KeyboardEvent) => {
@@ -229,6 +244,50 @@ class Text {
             e.preventDefault()
             const tabDownEvents = eventHooks.tabDownEvents
             tabDownEvents.forEach(fn => fn(e))
+        })
+
+        // 文本编辑区域 滚动时触发
+        $textElem.on(
+            'scroll',
+            // 使用节流
+            throttle((e: Event) => {
+                const textScrollEvents = eventHooks.textScrollEvents
+                textScrollEvents.forEach(fn => fn(e))
+            }, 100)
+        )
+
+        // link click
+        $textElem.on('click', (e: Event) => {
+            e.preventDefault()
+            e.stopPropagation() // 阻止冒泡，重要！！！
+
+            // 存储链接元素
+            let $link: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+            if ($target.getNodeName() === 'A') {
+                // 当前点击的就是一个链接
+                $link = $target
+            } else {
+                // 否则，向父节点中寻找链接
+                const $parent = $target.parentUntil('a')
+                if ($parent != null) {
+                    // 找到了
+                    $link = $parent
+                }
+            }
+
+            if ($link == null) return // 没有点击链接，则返回
+
+            const linkClickEvents = eventHooks.linkClickEvents
+            linkClickEvents.forEach(fn => fn($link))
+        })
+
+        // 菜单栏被点击
+        editor.$toolbarElem.on('click', (e: Event) => {
+            const toolbarClickEvents = eventHooks.toolbarClickEvents
+            toolbarClickEvents.forEach(fn => fn(e))
         })
     }
 }

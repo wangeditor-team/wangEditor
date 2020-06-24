@@ -10,11 +10,15 @@ import createPanelConf from './create-panel-conf'
 import isActive from './is-active'
 import Panel from '../menu-constructors/Panel'
 import { MenuActive } from '../menu-constructors/Menu'
+import bindEvent from './bind-event/index'
 
 class Link extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-link"></i></div>')
         super($elem, editor)
+
+        // 绑定事件，如点击链接时，可以查看链接
+        bindEvent(editor)
     }
 
     /**
