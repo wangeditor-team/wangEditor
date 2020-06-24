@@ -4,7 +4,7 @@
  */
 
 export default {
-    menus: ['bold', 'head', 'link', 'underline', 'strikethrough'],
+    menus: ['bold', 'head', 'link', 'underline', 'strikeThrough'],
 
     fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
 
