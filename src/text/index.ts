@@ -74,6 +74,8 @@ class Text {
             let html = $textElem.html()
             // 未选中任何内容的时候点击“加粗”或者“斜体”等按钮，就得需要一个空的占位符 &#8203 ，这里替换掉
             html = html.replace(/\u200b/gm, '')
+            html = html.replace(/<p><\/p>/gim, '') // 去掉空行
+            html = html.replace(/<p><br\/?><\/p>$/gim, '') // 去掉最后的 <p><br><p>
             return html
         }
 
@@ -125,6 +127,25 @@ class Text {
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
+    }
+
+    /**
+     * 格式化 html 内容，让最外层的标签符合规范
+     */
+    public formatHtml(): void {
+        let curHtml = this.html() || ''
+
+        // 忽略 <br> 换行
+        curHtml = curHtml.replace(/<br>|<br\/>/gim, '')
+
+        // div 全部替换为 p 标签
+        curHtml = curHtml.replace(/<div>/gim, '<p>').replace(/<\/div>/gim, '</p>')
+
+        // 不允许空行，放在最后
+        curHtml = curHtml.replace(/<p><\/p>/gim, '<p><br></p>')
+
+        // 重置 html
+        this.html(curHtml)
     }
 
     /**

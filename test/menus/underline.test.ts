@@ -20,6 +20,6 @@ test('下划线', () => {
 
     // 执行点击事件，模拟下划线功能
     mockCmdFn(document)
-        ; (underlineMenu as Underline).clickHandler()
+    ;(underlineMenu as Underline).clickHandler()
     expect(document.execCommand).toBeCalledWith('underline', false, undefined) // mock fn 被调用
 })
