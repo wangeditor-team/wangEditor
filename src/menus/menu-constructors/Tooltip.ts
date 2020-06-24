@@ -38,6 +38,8 @@ class Tooltip {
      * 获取 tooltip 定位
      */
     private getPositionData(): PositionDataType {
+        const $container = this.$container
+
         let top = 0
         let left = 0
 
@@ -53,13 +55,16 @@ class Tooltip {
         // 计算 top
         if (targetElemRect.top < tooltipHeight) {
             // 说明目标元素的顶部，因滑动隐藏在浏览器上方。tooltip 要放在目标元素下面
-            top = targetElemRect.bottom + pageScrollTop
+            top = targetElemRect.bottom + pageScrollTop + 5 // 5px 间距
+            $container.addClass('w-e-tooltip-down')
         } else if (targetElemRect.top - textElemRect.top < tooltipHeight) {
             // 说明目标元素的顶部，因滑动隐藏在编辑区域上方。tooltip 要放在目标元素下面
-            top = targetElemRect.bottom + pageScrollTop
+            top = targetElemRect.bottom + pageScrollTop + 5 // 5px 间距
+            $container.addClass('w-e-tooltip-down')
         } else {
             // 其他情况，tooltip 放在目标元素上方
-            top = targetElemRect.top + pageScrollTop - tooltipHeight - 10 // 减去 toolbar 的高度，还有间距
+            top = targetElemRect.top + pageScrollTop - tooltipHeight - 15 // 减去 toolbar 的高度，还有 15px 间距
+            $container.addClass('w-e-tooltip-up')
         }
 
         // 计算 left
