@@ -13,6 +13,7 @@ import cmdConfig from './cmd'
 export type ConfigType = {
     menus: string[]
     fontNames: string[]
+    fontSizes: Object[]
     colors: string[]
     zIndex: number
     onchange: Function
