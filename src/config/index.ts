@@ -8,13 +8,13 @@ import eventsConfig from './events'
 import styleConfig from './style'
 import pasteConfig from './paste'
 import cmdConfig from './cmd'
-import DropListItem from '../menus/font-size'
+import { DroListItem } from '../menus/font-size/FontSizeList'
 
 // 定义配置项的类型规范
 export type ConfigType = {
     menus: string[]
     fontNames: string[]
-    fontSizes: DropListItem[]
+    fontSizes: DroListItem[]
     colors: string[]
     zIndex: number
     onchange: Function

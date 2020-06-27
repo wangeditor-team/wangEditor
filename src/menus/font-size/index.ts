@@ -17,8 +17,6 @@ class FontSize extends DropListMenu implements MenuActive {
                 <i class="w-e-icon-text-heigh"></i>
             </div>`
         )
-        console.log(editor.customConfig.fontNames)
-        console.log(editor.customConfig.fontSizes)
         let fontStyleList = new FontSizeList(editor.customConfig.fontSizes)
         const fontListConf = {
             width: 160,
