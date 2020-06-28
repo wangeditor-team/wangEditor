@@ -2,12 +2,8 @@
  * @description 字体 class
  * @author dyl
  */
-import $, { DomElement } from '../../utils/dom-core'
-
-export type DropListItem = {
-    $elem: DomElement
-    value: string
-}
+import $ from '../../utils/dom-core'
+import { DropListItem } from '../menu-constructors/DropList'
 
 /**
  * 封装的一个字体菜单列表数据的组装对象,
