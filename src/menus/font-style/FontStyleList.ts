@@ -4,7 +4,7 @@
  */
 import $, { DomElement } from '../../utils/dom-core'
 
-export type DroListItem = {
+export type DropListItem = {
     $elem: DomElement
     value: string
 }
@@ -16,7 +16,7 @@ export type DroListItem = {
  * 因此,想着顺便研究实践下ts,遍创建了这样一个类
  */
 class FontStyleList {
-    private itemList: DroListItem[]
+    private itemList: DropListItem[]
 
     constructor(list: string[]) {
         this.itemList = []
@@ -28,7 +28,7 @@ class FontStyleList {
         })
     }
 
-    public getItemList(): DroListItem[] {
+    public getItemList(): DropListItem[] {
         return this.itemList
     }
 }
