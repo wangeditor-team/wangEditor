@@ -22,11 +22,13 @@ class Tooltip {
     private $targetElem: DomElement
     private editor: Editor
     private conf: TooltipConfType
+    private _show: boolean
 
     constructor(editor: Editor, $elem: DomElement, conf: TooltipConfType) {
         this.editor = editor
         this.$targetElem = $elem
         this.conf = conf
+        this._show = false
 
         // 定义 container
         const $container = $('<div></div>')
@@ -125,6 +127,8 @@ class Tooltip {
 
         // 添加到 DOM
         $('body').append($container)
+
+        this._show = true
     }
 
     /**
@@ -132,6 +136,14 @@ class Tooltip {
      */
     public remove(): void {
         this.$container.remove()
+        this._show = false
+    }
+
+    /**
+     * 是否显示
+     */
+    public get isShow(): boolean {
+        return this._show
     }
 }
 
