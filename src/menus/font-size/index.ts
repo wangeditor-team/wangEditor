@@ -37,7 +37,7 @@ class FontSize extends DropListMenu implements MenuActive {
      */
     public command(value: string): void {
         const editor = this.editor
-        editor.cmd.do('FontSize', value)
+        editor.cmd.do('fontSize', value)
     }
 
     /**
