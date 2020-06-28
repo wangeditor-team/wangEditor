@@ -259,7 +259,6 @@ class Text {
         // link click
         $textElem.on('click', (e: Event) => {
             e.preventDefault()
-            e.stopPropagation() // 阻止冒泡，重要！！！
 
             // 存储链接元素
             let $link: DomElement | null = null
