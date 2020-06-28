@@ -8,14 +8,14 @@ export default {
 
     fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
 
-    fontSizes: [
-        { $elem: 'x-small', value: 1 },
-        { $elem: 'small', value: 2 },
-        { $elem: 'normal', value: 3 },
-        { $elem: 'large', value: 4 },
-        { $elem: 'x-large', value: 5 },
-        { $elem: 'xx-large', value: 6 },
-    ],
+    fontSizes: {
+        'x-small': '1',
+        'small': '2',
+        'normal': '3',
+        'large': '4',
+        'x-large': '5',
+        'xx-large': '6',
+    },
 
     colors: [
         '#000000',

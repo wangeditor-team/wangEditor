@@ -3,32 +3,25 @@
  * @author lkw
  */
 import $, { DomElement } from '../../utils/dom-core'
-
-export type DroListItem = {
-    $elem: DomElement
-    value: string
-}
+import { DropListItem } from '../menu-constructors/DropList'
 
 /**
- * 封装的一个字号菜单列表数据的组装对象,
- * 原因是因为在constructor函数中,直接执行此流程,会让代码量看起来较多,
- * 如果要在constructor调用外部函数,个人目前发现会有错误提示,
- * 因此,想着顺便研究实践下ts,遍创建了这样一个类
+ * FontSizeList 字号配置列表
  */
 class FontSizeList {
-    private itemList: DroListItem[]
+    private itemList: DropListItem[]
 
-    constructor(list: DroListItem[]) {
+    constructor(list: any) {
         this.itemList = []
-        list.forEach(fontValue => {
+        for (let key in list) {
             this.itemList.push({
-                $elem: $(`<p style="font-size:${fontValue.$elem}">${fontValue.$elem}</p>`),
-                value: fontValue.value,
+                $elem: $(`<p style="font-size:${key}">${key}</p>`),
+                value: list[key],
             })
-        })
+        }
     }
 
-    public getItemList(): DroListItem[] {
+    public getItemList(): DropListItem[] {
         return this.itemList
     }
 }
