@@ -26,5 +26,5 @@ test('FontStyle 菜单：设置字号', () => {
     mockCmdFn(document)
     const cmdVal = '1'
     fontSizeMenu.command(cmdVal)
-    expect(document.execCommand).toBeCalledWith('FontSize', false, cmdVal)
+    expect(document.execCommand).toBeCalledWith('fontSize', false, cmdVal)
 })
