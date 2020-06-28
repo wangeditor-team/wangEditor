@@ -2,12 +2,8 @@
  * @description 字体 class
  * @author dyl
  */
-import $, { DomElement } from '../../utils/dom-core'
-
-export type DroListItem = {
-    $elem: DomElement
-    value: string
-}
+import $ from '../../utils/dom-core'
+import { DropListItem } from '../menu-constructors/DropList'
 
 /**
  * 封装的一个字体菜单列表数据的组装对象,
@@ -16,7 +12,7 @@ export type DroListItem = {
  * 因此,想着顺便研究实践下ts,遍创建了这样一个类
  */
 class FontStyleList {
-    private itemList: DroListItem[]
+    private itemList: DropListItem[]
 
     constructor(list: string[]) {
         this.itemList = []
@@ -28,7 +24,7 @@ class FontStyleList {
         })
     }
 
-    public getItemList(): DroListItem[] {
+    public getItemList(): DropListItem[] {
         return this.itemList
     }
 }
