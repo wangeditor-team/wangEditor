@@ -71,6 +71,7 @@
     "dist",
     "test",
     "examples",
-    "lib"
+    "lib",
+    "server"
   ]
 }
