@@ -13,7 +13,7 @@ import cmdConfig from './cmd'
 export type ConfigType = {
     menus: string[]
     fontNames: string[]
-    fontSizes: any
+    fontSizes: FontSizeType
     colors: string[]
     zIndex: number
     onchange: Function
@@ -24,6 +24,11 @@ export type ConfigType = {
     pasteIgnoreImg: boolean
     pasteTextHandle: Function
     styleWithCSS: boolean
+}
+
+// 生成字号配置类型
+export type FontSizeType = {
+    [key: string]: string;
 }
 
 // 合并所有的配置信息

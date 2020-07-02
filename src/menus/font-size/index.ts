@@ -15,7 +15,7 @@ class FontSize extends DropListMenu implements MenuActive {
         const $elem = $(
             `<div class="w-e-menu">
                 <i class="w-e-icon-text-heigh"></i>
-            </div>`
+            </div>`,
         )
         let fontStyleList = new FontSizeList(editor.customConfig.fontSizes)
         const fontListConf = {
@@ -45,13 +45,6 @@ class FontSize extends DropListMenu implements MenuActive {
      * ?字号是否需要有激活状态这个操作?
      */
     public tryChangeActive(): void {
-        // const editor = this.editor
-        // const cmdValue = editor.cmd.queryCommandValue('fontName')
-        // if (menusCongfig.fontNames.indexOf(cmdValue) >= 0) {
-        //     this.active()
-        // } else {
-        //     this.unActive()
-        // }
     }
 }
 
