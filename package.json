@@ -60,6 +60,11 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "*.{ts,js}": [
       "npm run prettier",
