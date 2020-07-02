@@ -368,6 +368,14 @@ export class DomElement {
     }
 
     /**
+     * 封装 getBoundingClientRect
+     */
+    getBoundingClientRect(): DOMRect {
+        const elem = this.elems[0]
+        return elem.getBoundingClientRect()
+    }
+
+    /**
      * 显示
      */
     show(): DomElement {
@@ -530,20 +538,13 @@ export class DomElement {
     }
 
     /**
-     * 查找父元素，知道满足 seletor 条件
+     * 查找父元素，知道满足 selector 条件
      * @param selector css 选择器
      * @param curElem 从哪个元素开始查找，默认为当前元素
      */
     parentUntil(selector: string): DomElement | null
     parentUntil(selector: string, curElem: HTMLElement): DomElement | null
     parentUntil(selector: string, curElem?: HTMLElement): DomElement | null {
-        const results = document.querySelectorAll(selector)
-        const length = results.length
-        if (!length) {
-            // 未找到
-            return null
-        }
-
         const elem = curElem || this.elems[0]
         if (elem.nodeName === 'BODY') {
             return null
@@ -553,11 +554,10 @@ export class DomElement {
         if (parent == null) {
             return null
         }
-        for (let i = 0; i < length; i++) {
-            if (parent === results[i]) {
-                // 找到，并返回
-                return $(parent)
-            }
+
+        if (parent.matches(selector)) {
+            // 找到，并返回
+            return $(parent)
         }
 
         // 继续查找，递归

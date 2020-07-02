@@ -38,7 +38,7 @@ const defaultConfig = Object.assign(
     eventsConfig,
     styleConfig,
     cmdConfig,
-    pasteConfig
+    pasteConfig,
 )
 
 export default defaultConfig

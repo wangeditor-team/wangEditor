@@ -9,18 +9,18 @@ on:
       - 'v*.*.*'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - run: npm ci
-      - run: npm test
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 12
+  #     - run: npm ci
+  #     - run: npm test
 
   publish-npm:
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,6 +29,8 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: npm ci
+      - run: npm test
+      - run: npm run build --if-present
       - run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
