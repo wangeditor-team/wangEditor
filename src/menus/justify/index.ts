@@ -18,30 +18,41 @@ class Justify extends DropListMenu implements MenuActive {
             list: [
                 {
                     $elem: $(
-                        '<span><i class="w-e-icon-paragraph-left" style="color:#999"></i>靠左 </span>'
+                        '<span><i class="w-e-icon-paragraph-left" style="color:#999"></i>靠左</span>'
                     ),
                     value: 'justifyLeft',
                 },
                 {
                     $elem: $(
-                        '<span><i class="w-e-icon-paragraph-center" style="color:#999"></i> 居中 </span>'
+                        '<span><i class="w-e-icon-paragraph-center" style="color:#999"></i>居中</span>'
                     ),
                     value: 'justifyCenter',
                 },
                 {
                     $elem: $(
-                        '<span><i class="w-e-icon-paragraph-right" style="color:#999"></i> 靠右</span>'
+                        '<span><i class="w-e-icon-paragraph-right" style="color:#999"></i>靠右</span>'
                     ),
                     value: 'justifyRight',
                 },
             ],
             clickHandler: (value: string) => {
-                const editor = this.editor
                 // 执行对应的value操作
-                editor.cmd.do(value)
+                this.command(value)
             },
         }
         super($elem, editor, dropListConf)
+    }
+    /**
+     * 执行命令
+     * @param value value
+     */
+    public command(value: string): void {
+        const editor = this.editor
+        const $selectionElem = editor.selection.getSelectionContainerElem()
+        if ($selectionElem && editor.$textElem.equal($selectionElem)) {
+            return
+        }
+        editor.cmd.do(value, value)
     }
 
     /**

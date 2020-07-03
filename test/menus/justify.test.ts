@@ -21,3 +21,12 @@ test('justify 菜单：dropList', () => {
     justifyMenu.dropList.hide()
     expect(justifyMenu.dropList.isShow).toBe(false)
 })
+
+test('justify 菜单：设置对齐方式', () => {
+    mockCmdFn(document)
+    const cmdVal = ['justifyCenter', 'justifyRight', 'justifyLeft']
+    cmdVal.forEach(val => {
+        justifyMenu.command(val)
+        expect(document.execCommand).toBeCalledWith(val, false, val)
+    })
+})
