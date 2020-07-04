@@ -8,7 +8,7 @@ import Head from './head/index'
 import Link from './link/index'
 import Italic from './italic/index'
 import Underline from './underline/index'
-import Strikethrough from './strikethrough/index'
+import StrikeThrough from './strike-through/index'
 import FontStyle from './font-style/index'
 import Justify from './justify/index'
 
@@ -18,7 +18,7 @@ export default {
     italic: Italic,
     link: Link,
     underline: Underline,
-    strikethrough: Strikethrough,
+    strikeThrough: StrikeThrough,
     fontStyle: FontStyle,
     justify: Justify,
 }
