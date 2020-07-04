@@ -61,13 +61,13 @@ class Justify extends DropListMenu implements MenuActive {
      * ?考虑优化的话 是否可以对具体选中的进行高亮
      */
     public tryChangeActive() {
-        const editor = this.editor
-        let isjustify = ['justifyCenter', 'justifyRight'].some(e => editor.cmd.queryCommandState(e))
-        if (isjustify) {
-            this.active()
-        } else {
-            this.unActive()
-        }
+        // const editor = this.editor
+        // let isjustify = ['justifyCenter', 'justifyRight'].some(e => editor.cmd.queryCommandState(e))
+        // if (isjustify) {
+        //     this.active()
+        // } else {
+        //     this.unActive()
+        // }
     }
 }
 
