@@ -8,6 +8,12 @@ import eventsConfig from './events'
 import styleConfig from './style'
 import pasteConfig from './paste'
 import cmdConfig from './cmd'
+import imageConfig, { UploadImageHooksType } from './image'
+
+// 字典类型
+export type DicType = {
+    [key: string]: string
+}
 
 // 定义配置项的类型规范
 export type ConfigType = {
@@ -23,6 +29,20 @@ export type ConfigType = {
     pasteIgnoreImg: boolean
     pasteTextHandle: Function
     styleWithCSS: boolean
+    linkImgCallback: Function
+
+    uploadImgServer: string
+    uploadImgShowBase64: boolean
+    uploadImgMaxSize: number
+    uploadImgMaxLength: number
+    uploadFileName: string
+    uploadImgParams: DicType
+    uploadImgParamsWithUrl: boolean
+    uploadImgHeaders: DicType
+    uploadImgHooks: UploadImageHooksType
+    uploadImgTimeout: number
+    withCredentials: boolean
+    customUploadImg: Function | null
 }
 
 // 合并所有的配置信息
@@ -32,7 +52,8 @@ const defaultConfig = Object.assign(
     eventsConfig,
     styleConfig,
     cmdConfig,
-    pasteConfig
+    pasteConfig,
+    imageConfig
 )
 
 export default defaultConfig

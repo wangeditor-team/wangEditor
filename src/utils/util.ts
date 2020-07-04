@@ -57,6 +57,23 @@ export function forEach(obj: Object | [], fn: Function): void {
 }
 
 /**
+ * 遍历类数组
+ * @param fakeArr 类数组
+ * @param fn 回调函数
+ */
+export function arrForEach(fakeArr: any, fn: Function): void {
+    let i, item, result
+    const length = fakeArr.length || 0
+    for (i = 0; i < length; i++) {
+        item = fakeArr[i]
+        result = fn.call(fakeArr, item, i)
+        if (result === false) {
+            break
+        }
+    }
+}
+
+/**
  * 节流
  * @param fn 函数
  * @param interval 间隔时间，毫秒
