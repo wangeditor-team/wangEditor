@@ -11,6 +11,7 @@ import Underline from './underline/index'
 import StrikeThrough from './strike-through/index'
 import FontStyle from './font-style/index'
 import FontSize from './font-size'
+import Justify from './justify/index'
 
 export default {
     bold: Bold,
@@ -21,4 +22,5 @@ export default {
     strikeThrough: StrikeThrough,
     fontStyle: FontStyle,
     fontSize: FontSize,
+    justify: Justify,
 }
