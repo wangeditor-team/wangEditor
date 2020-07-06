@@ -6,7 +6,7 @@ import $, { DomElement } from '../../utils/dom-core'
 import DropListMenu from './DropListMenu'
 import { EMPTY_FN } from '../../utils/const'
 
-export type DroListItem = {
+export type DropListItem = {
     $elem: DomElement
     value: string
 }
@@ -14,7 +14,7 @@ export type DroListItem = {
 // droplist 的配置数据
 export type DropListConf = {
     title: string
-    list: DroListItem[]
+    list: DropListItem[]
     type: string // 'list' 列表形式（如“标题”菜单）； 'inline-block' 块状形式（如“颜色”菜单）
     clickHandler: Function
     width: number | 100

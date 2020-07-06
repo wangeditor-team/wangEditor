@@ -40,6 +40,7 @@ test('link 菜单：插入链接', () => {
     $inputLink.val(link)
     $btnInsert.click()
 
+    // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
     expect(
         editor.$textElem.html().indexOf(`<a href="${link}" target="_blank">${text}</a>`)
     ).toBeGreaterThan(0)

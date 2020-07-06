@@ -6,7 +6,7 @@
 import editor from '../../editor/index'
 import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
-import $ from '../../utils/dom-core'
+import $, { DomElement } from '../../utils/dom-core'
 import isActive from './is-active'
 
 export default function (editor: editor, text: string, link: string): PanelConf {
@@ -19,13 +19,36 @@ export default function (editor: editor, text: string, link: string): PanelConf 
     // 是否显示“删除链接”
     const delBtnDisplay = isActive(editor) ? 'inline-block' : 'none'
 
+    let $selectedLink: DomElement
+
+    /**
+     * 选中整个链接元素
+     */
+    function selectLinkElem(): void {
+        if (!isActive(editor)) return
+
+        const $linkElem = editor.selection.getSelectionContainerElem()
+        if (!$linkElem) return
+        editor.selection.createRangeByElem($linkElem)
+        editor.selection.restoreSelection()
+
+        $selectedLink = $linkElem // 赋值给函数内全局变量
+    }
+
     /**
      * 插入链接
      * @param text 文字
      * @param link 链接
      */
     function insertLink(text: string, link: string): void {
-        editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+        if (isActive(editor)) {
+            // 选区处于链接中，则选中整个菜单，再执行 insertHTML
+            selectLinkElem()
+            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+        } else {
+            // 选区未处于链接中，直接插入即可
+            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+        }
     }
 
     /**
@@ -35,11 +58,10 @@ export default function (editor: editor, text: string, link: string): PanelConf 
         if (!isActive(editor)) {
             return
         }
-        const $selectionELem = editor.selection.getSelectionContainerElem()
-        if (!$selectionELem) {
-            return
-        }
-        const selectionText = editor.selection.getSelectionText()
+        // 选中整个链接
+        selectLinkElem()
+        // 用文本替换链接
+        const selectionText = $selectedLink.text()
         editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
     }
 
@@ -71,8 +93,14 @@ export default function (editor: editor, text: string, link: string): PanelConf 
                             // 执行插入链接
                             const $link = $('#' + inputLinkId)
                             const $text = $('#' + inputTextId)
-                            const link = $link.val()
-                            const text = $text.val()
+                            let link = $link.val().trim()
+                            let text = $text.val().trim()
+
+                            // 链接为空，则不插入
+                            if (!link) return
+                            // 文本为空，则用链接代替
+                            if (!text) text = link
+
                             insertLink(text, link)
 
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭

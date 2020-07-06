@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <p>
+        wangEditor demo
+    </p>
+    <div id="div1">
+        <p><br/></p>
+        <p><br/></p>
+        <p>我是一行文字<a href="https://www.baidu.com/" target="_blank">我是一行文字</a>我是一行文字</p>
+        <p>我是一行文字<a href="https://www.baidu.com/" target="_blank">我<span>是<b>一行</b>文</span>字</a>我是一行文字</p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+        <p><br/></p>
+    </div>
+    <div style="height: 1000px;"></div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        const E = window.wangEditor
+        const editor = new E('#div1')
+
+        editor.create()
+    </script>
+</body>
+
+</html>
