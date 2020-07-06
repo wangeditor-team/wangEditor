@@ -10,8 +10,8 @@
     "example": "cross-env PORT=8881 node server/www.js",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
     "lint": "eslint 'src/**/*.{js,ts}'",
-    "lint-fix": "eslint --fix 'src/**/*.{js,ts}'",
-    "prettier": "prettier --write --config .prettierrc.js 'src/**/*.{js,ts}'",
+    "lint-fix": "eslint --fix \"src/**/*.{js,ts}\"",
+    "prettier": "prettier --write --config .prettierrc.js \"src/**/*.{js,ts}\"",
     "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
     "test-c": "cross-env NODE_ENV=test jest --coverage"
   },
