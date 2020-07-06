@@ -10,11 +10,15 @@ import createPanelConf from './create-panel-conf'
 import isActive from './is-active'
 import Panel from '../menu-constructors/Panel'
 import { MenuActive } from '../menu-constructors/Menu'
+import bindEvent from './bind-event/index'
 
 class Link extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-link"></i></div>')
         super($elem, editor)
+
+        // 绑定事件，如点击链接时，可以查看链接
+        bindEvent(editor)
     }
 
     /**
@@ -30,9 +34,9 @@ class Link extends PanelMenu implements MenuActive {
             if (!$linkElem) {
                 return
             }
-            // 将该元素都包含在选取之内，以便后面整体替换
-            editor.selection.createRangeByElem($linkElem)
-            editor.selection.restoreSelection()
+
+            // 弹出 panel
+            this.createPanel($linkElem.text(), $linkElem.attr('href'))
         } else {
             // 菜单未被激活，说明选区不在链接里
             if (editor.selection.isSelectionEmpty()) {

@@ -105,6 +105,8 @@ dist
 
 examples/test-page/
 
+upload-files/
+
 .DS_Store
 
 ISSUE1.md
