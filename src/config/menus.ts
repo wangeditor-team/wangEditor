@@ -4,15 +4,25 @@
  */
 
 export default {
-    menus: ['bold', 'head', 'link', 'italic', 'underline', 'strikeThrough', 'fontStyle', 'justify', 'fontSize'],
+    menus: [
+        'bold',
+        'head',
+        'link',
+        'italic',
+        'underline',
+        'strikeThrough',
+        'fontStyle',
+        'justify',
+        'fontSize',
+    ],
 
     fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
 
     fontSizes: {
         'x-small': '1',
-        'small': '2',
-        'normal': '3',
-        'large': '4',
+        small: '2',
+        normal: '3',
+        large: '4',
         'x-large': '5',
         'xx-large': '6',
     },

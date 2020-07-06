@@ -48,7 +48,7 @@ export type ConfigType = {
 
 // 生成字号配置类型
 export type FontSizeType = {
-    [key: string]: string;
+    [key: string]: string
 }
 
 // 合并所有的配置信息
