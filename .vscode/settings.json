@@ -1,12 +1,14 @@
 {
     "editor.formatOnSave": true,
     "cSpell.words": [
+        "bodyparser",
         "compositionend",
         "compositionstart",
         "config",
         "contenteditable",
         "elems",
         "js",
+        "middlewares",
         "next",
         "prettier",
         "prettierrc",
