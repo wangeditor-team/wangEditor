@@ -110,3 +110,5 @@ upload-files/
 .DS_Store
 
 ISSUE1.md
+
+.idea/
