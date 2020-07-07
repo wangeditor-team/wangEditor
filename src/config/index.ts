@@ -19,6 +19,7 @@ export type DicType = {
 export type ConfigType = {
     menus: string[]
     fontNames: string[]
+    fontSizes: FontSizeType
     colors: string[]
     zIndex: number
     onchange: Function
@@ -43,6 +44,11 @@ export type ConfigType = {
     uploadImgTimeout: number
     withCredentials: boolean
     customUploadImg: Function | null
+}
+
+// 生成字号配置类型
+export type FontSizeType = {
+    [key: string]: string
 }
 
 // 合并所有的配置信息
