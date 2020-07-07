@@ -14,7 +14,6 @@ import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
 import initUpload from './init-fns/init-upload'
-import initConfig from './init-fns/init-config'
 
 let EDITOR_ID = 1
 
@@ -22,7 +21,6 @@ class Editor {
     public id: string
     public toolbarSelector: string
     public textSelector: string | undefined
-    public customConfig: ConfigType
     public config: ConfigType
     public $toolbarElem: DomElement
     public $textContainerElem: DomElement
@@ -53,7 +51,6 @@ class Editor {
         }
 
         // 属性的默认值，后面可能会再修改
-        this.customConfig = defaultConfig // 自定义配置，先赋值为默认配置
         this.config = defaultConfig // 默认配置
         this.$toolbarElem = $('<div></div>')
         this.$textContainerElem = $('<div></div>')
@@ -81,9 +78,6 @@ class Editor {
      * 创建编辑器实例
      */
     public create(): void {
-        // 初始化配置
-        initConfig(this)
-
         // 初始化 DOM
         initDom(this)
 
