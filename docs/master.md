@@ -12,19 +12,23 @@
 
 ## 升级版本并提交 tag
 
-```sh
-git pull origin master # 确保本地是最新的 master 分支代码
+### 升级三级版本
 
-npm version patch|minor|major # 升级 npm 版本并自动生成 git tag 。【注意】patch|minor|major 三选一
+如将 `1.1.1` 升级为 `1.1.2`。一般用于 bug 修复，功能补全，小改动。
 
-git push origin --tags # 提交 tag 到 github
-```
+运行 `sh ./build/up-version.sh`，即可升级版本并提交 tag
 
-解释一下 `patch|minor|major` 的区别。例如当前版本是 `1.2.3`
+### 升级二级版本
 
-- `patch` 将版本升级到 `1.2.4` ，小版本升级，bug 修复，增加非重要功能
-- `minor` 将版本升级到 `1.3.3` ，当前版本的主要功能升级
-- `major` 将版本升级到 `2.2.3` ，即重构大版本的升级
+如将 `1.1.1` 升级为 `1.2.1`。一般用于增加新功能，新模块。
+
+运行 `sh ./build/up-version.sh minor`，即可升级版本并提交 tag
+
+### 升级一级版本
+
+如将 `1.1.1` 升级为 `2.1.1`。一般用于项目全面升级、重构，大改动。
+
+运行 `sh ./build/up-version.sh major`，即可升级版本并提交 tag
 
 ## 发布到 npm
 
