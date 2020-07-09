@@ -1,0 +1,35 @@
+# 代码走查 合并代码
+
+代码管理者，拿到提交的 PR 之后，做代码走查，最后合并代码到 dev 分支。
+
+## 检查 PR
+
+- 是否要往 `dev` 分支合并，而不是其他的分支
+- commits 描述是否符合开发规范
+- github actions 检查是否成功
+
+## 代码走查
+
+打开 PR 的 Files Changed ，详细做代码走查，重点关注：
+
+- 代码逻辑是否合理
+- 代码注释是否规范且合理
+- 单元测试，用例是否完整
+- 开发文档，使用文档，是否齐全
+
+代码走查如果有问题，会在 Pull Request 上回复评论意见，并通知开发者。
+开发者根据评论意见，继续修改，然后重新提交，重新代码走查。
+
+## 合并代码
+
+代码走查没有问题，则通过检查，并 Merge Pull Request 合并到 dev 分支。
+
+如果合并出现冲突，开发者需要重新修改代码，重新提交 Pull Request 。
+
+成功合并了 dev 分支之后，确保 github actions 的任务能执行通过。如果 actions 任务有问题，要查看日志，解决问题。
+
+## 回归测试 dev 分支
+
+本地下载最新的 dev 代码，然后运行 `npm link` ，会得到一个本地的 npm 包地址，如 `/Users/xxx/.nvm/versions/node/v14.3.0/lib/node_modules/@wangeditor-team/we-next` ，将其拷贝下来。
+
+下载测试 demo `git clone git@github.com:wangeditor-team/we-demo.git` ，进入目录，运行 `npm install <刚刚拷贝的地址>` ，然后运行 demo 进行测试。
