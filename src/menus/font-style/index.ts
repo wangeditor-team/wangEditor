@@ -17,7 +17,7 @@ class FontStyle extends DropListMenu implements MenuActive {
                 <i class="w-e-icon-font"></i>
             </div>`
         )
-        let fontStyleList = new FontStyleList(editor.customConfig.fontNames)
+        let fontStyleList = new FontStyleList(editor.config.fontNames)
         const fontListConf = {
             width: 100,
             title: '设置字体',
@@ -47,7 +47,7 @@ class FontStyle extends DropListMenu implements MenuActive {
     public tryChangeActive(): void {
         // const editor = this.editor
         // const cmdValue = editor.cmd.queryCommandValue('fontName')
-        // if (menusCongfig.fontNames.indexOf(cmdValue) >= 0) {
+        // if (menusConfig.fontNames.indexOf(cmdValue) >= 0) {
         //     this.active()
         // } else {
         //     this.unActive()
