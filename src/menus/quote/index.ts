@@ -45,8 +45,9 @@ class Quote extends BtnMenu implements MenuActive {
      */
     public tryChangeActive(): void {
         const editor = this.editor
-        const range = editor.selection.getRange()
-        if (range?.commonAncestorContainer.parentElement?.nodeName === 'BLOCKQUOTE') {
+        const $selectionElem = editor.selection.getSelectionContainerElem()
+        const nodeName = $selectionElem?.getNodeName()
+        if (nodeName === 'BLOCKQUOTE') {
             this.active()
         } else {
             this.unActive()
