@@ -30,7 +30,7 @@ class Quote extends BtnMenu implements MenuActive {
             editor.selection.createEmptyRange()
         }
 
-        // 执行 bold 命令
+        // 执行 formatBlock 命令
         editor.cmd.do('formatBlock', '<blockquote>')
 
         if (isSelectEmpty) {
