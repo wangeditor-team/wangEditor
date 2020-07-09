@@ -4,15 +4,22 @@
 
 这个文档没有一句废话，请各位开发人员详细阅读，并确定完全理解。如有疑问请一定联系作者。
 
-## 加入项目研发小组
+## 前言
 
-请联系作者，提供自己的 github 账号，加入项目开发小组。否则接下来的步骤无法正常进行。
+该项目用 github 管理代码。如果你对 git 和 github 了解不多，请务必先去学习并熟悉。否则会给你接下来的工作带来很大阻碍。
+
+可以通过以下问题来确定自己是否熟悉，确定熟悉了再继续往下看。
+
+- git 常见命令有哪些？
+- git 如何通过分支多人协作开发？
+- github 的 ssh key 有何作用？
+- github Pull Request 是什么，自己是否亲自操作过？
 
 ## 下载代码
 
 `git clone` 下载本项目代码，`master` 分支即可
 
-进入项目目录，修改 git 配置，写上自己 github 的账号和邮箱。这一步很重要，否则 commit 不知道谁提交的。
+进入项目目录，修改 git 配置，写上自己 github 的账号和邮箱。这一步很重要！！！否则 commit 不知道谁提交的。
 
 ```sh
 git config user.name xxx
@@ -48,11 +55,11 @@ git config user.email xxx@xxx.com
 写完代码之后，一定要进行自测：
 
 - 运行 `npm run test` 进行单元测试
-- 功能测试
+- 运行 `npm run dev` 和 `npm run example` 打开页面，进行功能测试
     - 自己的功能正常
     - 其他功能不影响
 
-## 提交代码到自己的分支
+## 提交自己的分支
 
 请按照一下步骤提交代码，不要怕麻烦
 
@@ -77,31 +84,15 @@ git config user.email xxx@xxx.com
 
 最后再 push 分支到 github 。
 
-## 代码走查
+## 创建 PR（Pull Request）
 
-登录 github ，进入该项目。创建 Pull Request ，将当前分支合并到 dev 分支。**【注意】先不要着急 Merge Pull Request** ！！！
+> 【注意】如果自己不了解或者没用过 github Pull Request ，可以去网上搜一下“github Pull Request”，学习一下，并且在自己的 github 项目上亲自操作一遍。**不要怕麻烦，这是为以后节省时间，否则以后自己麻烦，你导师也得跟着麻烦！！**
 
-把 Pull Request 的链接，贴到任务卡片（参考 [任务管理](./task.md)）的备注或者评论中，并通知作者进行代码走查。
+登录 github ，进入该项目。创建 Pull Request ，将当前分支合并到 **dev** 分支（不是 master 分支）。此时先不要着急 Merge ，重要！！
 
-代码走查会重点关注：
+然后，一定要自己先看一看 PR 的 **Files Changed** ，看是否符合自己的预期，重要！！如果不符合预期，则把这个 PR 关掉，再重新修改代码，重新提交 PR 。
 
-- 代码逻辑是否合理
-- 代码注释是否规范且合理
-- 单元测试，用例是否完整
-- 开发文档，使用文档，是否齐全
+拿到 Pull Request 的链接，然后
 
-代码走查如果有问题，会在 Pull Request 上回复评论意见。开发者根据评论意见，继续修改，然后重新提交，重新代码走查。
-
-## 合并代码到 dev 分支
-
-代码走查没有问题，可以进行 Merge Pull Request 合并到 dev 分支。
-
-如果合并出现冲突，开发者需要重新修改代码，重新提交 Pull Request 。
-
-成功合并了 dev 分支之后，确保 [actions](https://github.com/wangeditor-team/we-next/actions) 的任务能执行通过。如果 actions 任务有问题，要查看日志，解决问题。
-
-## 回归测试 dev 分支
-
-本地下载最新的 dev 代码，然后运行 `npm link` ，会得到一个本地的 npm 包地址，如 `/Users/xxx/.nvm/versions/node/v14.3.0/lib/node_modules/@wangeditor-team/we-next` ，将其拷贝下来。
-
-下载测试 demo `git clone git@github.com:wangeditor-team/we-demo.git` ，进入目录，运行 `npm install <刚刚拷贝的地址>` ，然后运行 demo 进行测试。
+- 如果你是开发小组成员，将 PR 链接粘贴到任务卡片中，并通知导师来代码走查
+- 如果你不是开发小组成员，可在 QQ 群 @ 通知群主，并给出 PR 链接
