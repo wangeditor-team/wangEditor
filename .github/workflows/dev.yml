@@ -38,6 +38,7 @@ jobs:
 
         ## 将 dist examples 移到刚创建的文件夹之内
         mv dist/ $currentBranchName/dist/
+        cp $currentBranchName/dist/wangEditor.min.js $currentBranchName/dist/wangEditor.js
         mv examples/ $currentBranchName/examples/
 
         ## 将该文件夹，及其所有文件，上传到服务器
