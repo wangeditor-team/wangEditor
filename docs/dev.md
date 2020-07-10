@@ -85,6 +85,16 @@ git config user.email xxx@xxx.com
 
 最后再 push 分支到 github 。
 
+## 自动部署远程测试页
+
+说明：只有以 `feature-` 和 `fox-` 开头的分支，才具有这个功能。
+
+当提交完自己的分支之后，github actions 会自动触发部署到腾讯云测试机。
+查看 [actions 列表](https://github.com/wangeditor-team/we-next/actions)，待所有任务运行完成之后。
+打开浏览器访问 `http://106.55.153.217:8881/<你的分支名>/examples/index.html` ，这就是你本次分支代码的远程测试环境。
+
+要保证这一步成功，再进行下一步。
+
 ## 创建 PR（Pull Request）
 
 > 【注意】如果自己不了解或者没用过 github Pull Request ，可以去网上搜一下“github Pull Request”，学习一下，并且在自己的 github 项目上亲自操作一遍。**不要怕麻烦，这是为以后节省时间，否则以后自己麻烦，你导师也得跟着麻烦！！**
