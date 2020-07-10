@@ -24,20 +24,19 @@ jobs:
         npm ci ## 安装 npm 依赖
         npm test
         npm run build --if-present
-    - name: create test page folder # 用当前分支名字，作为测试页面的文件夹，多人开发不会冲突
-      run: |
-        currentBranchName=`git branch | awk '$1 == "*"{print $2}'`
-        mkdir $currentBranchName
-        mv dist/ $currentBranchName/dist/
-        mv examples/ $currentBranchName/examples/
-        echo current branch name is: $currentBranchName
     - name: set ssh key # 设置 ssh key
       run: |
         mkdir -p ~/.ssh/
         echo "${{secrets.WFP_ID_RSA}}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan ${{secrets.TECENT_SERVER}} >> ~/.ssh/known_hosts
-    - name: scp # 拷贝到远程服务器
+    - name: scp test files
       run: |
-        scp -r $currentBranchName/ root@${{secrets.TECENT_SERVER}}:/root/we-next/$currentBranchName/
-        rm -rf ~/.ssh/id_rsa
+        currentBranchName=`git branch | awk '$1 == "*"{print $2}'`
+        mkdir $currentBranchName
+        mv dist/ $currentBranchName/dist/
+        mv examples/ $currentBranchName/examples/
+        echo current branch name is: $currentBranchName
+        scp -r ./$currentBranchName/ root@${{secrets.TECENT_SERVER}}:/root/we-next/$currentBranchName/
+    - name: delete ssh key
+      run: rm -rf ~/.ssh/id_rsa
