@@ -7,11 +7,10 @@ name: deploy to tecent server for dev test
 on:
   push:
     branches:
+      - 'master'
       - 'dev'
       - 'feature-*'
       - 'fix-*'
-  pull_request:
-    branches: [ dev, master ]
 
 jobs:
   build:
