@@ -42,6 +42,7 @@ jobs:
 
         ## 将该文件夹，及其所有文件，上传到服务器
         echo current branch name is: $currentBranchName
-        scp -r ./$currentBranchName/ root@${{secrets.TECENT_SERVER}}:/root/we-next/$currentBranchName/
+        ssh root@${{secrets.TECENT_SERVER}} "rm -rf /root/we-next/$currentBranchName"
+        scp -r ./$currentBranchName root@${{secrets.TECENT_SERVER}}:/root/we-next/$currentBranchName
     - name: delete ssh key # 删除 ssh key
       run: rm -rf ~/.ssh/id_rsa
