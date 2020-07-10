@@ -38,6 +38,7 @@ git config user.email xxx@xxx.com
 - `dev` 开发分支，当前正在开发、但尚未发布的代码。**不可**直接往 `dev` 提交代码，但可以合并其他分支。
 - `feature-xxx` 开发新功能
 - `fix-xxx` bug 修复
+- `doc-xxx` 仅修改文档，不修改代码
 
 例如你要开发一个图片上传的功能，可以根据 master 分支拉一个新的分支 `git checkout -b feature-upload-img`
 
