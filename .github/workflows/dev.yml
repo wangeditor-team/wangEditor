@@ -10,6 +10,8 @@ on:
       - 'dev'
       - 'feature-*'
       - 'fix-*'
+  pull_request:
+    branches: [ dev, master ]
 
 jobs:
   build:
