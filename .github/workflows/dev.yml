@@ -1,29 +1,42 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# github actions 中文文档 https://docs.github.com/cn/actions/getting-started-with-github-actions
 
-name: dev-master-CI
+name: dev test page
 
 on:
   push:
-    branches: [ dev, master ]
-  pull_request:
-    branches: [ dev, master ]
+    branches:
+      - 'dev'
+      - 'feature-*'
+      - 'fix-*'
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x]
-
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci ## 安装 npm 依赖
-    - run: npm test
-    - run: npm run build --if-present
+        node-version: 12
+    - name: build
+      run: |
+        npm ci ## 安装 npm 依赖
+        npm test
+        npm run build --if-present
+    - name: create test page folder # 用当前分支名字，作为测试页面的文件夹，多人开发不会冲突
+      run: |
+        currentBranchName=`git branch | awk '$1 == "*"{print $2}'`
+        echo current branch name is: $currentBranchName
+        mkdir $currentBranchName
+        mv dist/ $currentBranchName/dist/
+        mv examples/ $currentBranchName/examples/
+    - name: set ssh key # 设置 ssh key
+      run: |
+        mkdir -p ~/.ssh/
+        echo ${{secrets.WFP_ID_RSA}} > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+    - name: scp # 拷贝到远程服务器
+      run: |
+        scp -r $currentBranchName/ root@${{secrets.TECENT_SERVER}}:/root/we-next/$currentBranchName/
+        rm -rf ~/.ssh/id_rsa
