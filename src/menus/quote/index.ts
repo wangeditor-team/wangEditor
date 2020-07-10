@@ -25,13 +25,20 @@ class Quote extends BtnMenu implements MenuActive {
         const editor = this.editor
         const isSelectEmpty = editor.selection.isSelectionEmpty()
 
+        const $selectionElem = editor.selection.getSelectionContainerElem()
+        const nodeName = $selectionElem?.getNodeName()
+
         if (isSelectEmpty) {
             // 选区范围是空的，插入并选中一个“空白”
             editor.selection.createEmptyRange()
         }
 
         // 执行 formatBlock 命令
-        editor.cmd.do('formatBlock', '<blockquote>')
+        if (nodeName === 'BLOCKQUOTE') {
+            editor.cmd.do('formatBlock', '<p>')
+        } else {
+            editor.cmd.do('formatBlock', '<blockquote>')
+        }
 
         if (isSelectEmpty) {
             // 需要将选区范围折叠起来
@@ -44,10 +51,10 @@ class Quote extends BtnMenu implements MenuActive {
      * 尝试修改菜单激活状态
      */
     public tryChangeActive(): void {
+        const reg = /^BLOCKQUOTE$/i
         const editor = this.editor
-        const $selectionElem = editor.selection.getSelectionContainerElem()
-        const nodeName = $selectionElem?.getNodeName()
-        if (nodeName === 'BLOCKQUOTE') {
+        const cmdValue = editor.cmd.queryCommandValue('formatBlock')
+        if (reg.test(cmdValue)) {
             this.active()
         } else {
             this.unActive()
