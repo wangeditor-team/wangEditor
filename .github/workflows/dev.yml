@@ -2,7 +2,7 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 # github actions 中文文档 https://docs.github.com/cn/actions/getting-started-with-github-actions
 
-name: dev test page
+name: deploy to tecent server for dev test
 
 on:
   push:
@@ -27,15 +27,16 @@ jobs:
     - name: create test page folder # 用当前分支名字，作为测试页面的文件夹，多人开发不会冲突
       run: |
         currentBranchName=`git branch | awk '$1 == "*"{print $2}'`
-        echo current branch name is: $currentBranchName
         mkdir $currentBranchName
         mv dist/ $currentBranchName/dist/
         mv examples/ $currentBranchName/examples/
+        echo current branch name is: $currentBranchName
     - name: set ssh key # 设置 ssh key
       run: |
         mkdir -p ~/.ssh/
-        echo ${{secrets.WFP_ID_RSA}} > ~/.ssh/id_rsa
+        echo "${{secrets.WFP_ID_RSA}}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan ${{secrets.TECENT_SERVER}} >> ~/.ssh/known_hosts
     - name: scp # 拷贝到远程服务器
       run: |
         scp -r $currentBranchName/ root@${{secrets.TECENT_SERVER}}:/root/we-next/$currentBranchName/

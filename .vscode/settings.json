@@ -9,6 +9,7 @@
         "contenteditable",
         "elems",
         "js",
+        "keyscan",
         "middlewares",
         "mkdir",
         "next",
