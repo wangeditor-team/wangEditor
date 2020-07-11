@@ -30,6 +30,4 @@
 
 ## 回归测试 dev 分支
 
-本地下载最新的 dev 代码，然后运行 `npm link` ，会得到一个本地的 npm 包地址，如 `/Users/xxx/.nvm/versions/node/v14.3.0/lib/node_modules/@wangeditor-team/we-next` ，将其拷贝下来。
-
-下载测试 demo `git clone git@github.com:wangeditor-team/we-demo.git` ，进入目录，运行 `npm install <刚刚拷贝的地址>` ，然后运行 demo 进行测试。
+打开浏览器访问 `http://106.55.153.217:8881/dev/examples/index.html` ，测试功能。

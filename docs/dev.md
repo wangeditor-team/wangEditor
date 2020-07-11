@@ -38,6 +38,7 @@ git config user.email xxx@xxx.com
 - `dev` 开发分支，当前正在开发、但尚未发布的代码。**不可**直接往 `dev` 提交代码，但可以合并其他分支。
 - `feature-xxx` 开发新功能
 - `fix-xxx` bug 修复
+- `doc-xxx` 仅修改文档，不修改代码
 
 例如你要开发一个图片上传的功能，可以根据 master 分支拉一个新的分支 `git checkout -b feature-upload-img`
 
@@ -83,6 +84,16 @@ git config user.email xxx@xxx.com
 （PS：有一些工具可以帮助你规范自己的 commit ，如 `commitizen` ）
 
 最后再 push 分支到 github 。
+
+## 自动部署远程测试页
+
+说明：只有以 `feature-` 和 `fox-` 开头的分支，才具有这个功能。
+
+当提交完自己的分支之后，github actions 会自动触发部署到腾讯云测试机。
+查看 [actions 列表](https://github.com/wangeditor-team/we-next/actions)，待所有任务运行完成之后。
+打开浏览器访问 `http://106.55.153.217:8881/<你的分支名>/examples/index.html` ，这就是你本次分支代码的远程测试环境。
+
+要保证这一步成功，再进行下一步。
 
 ## 创建 PR（Pull Request）
 

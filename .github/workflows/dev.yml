@@ -1,29 +1,50 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# github actions 中文文档 https://docs.github.com/cn/actions/getting-started-with-github-actions
 
-name: dev-master-CI
+name: deploy to tecent server for dev test
 
 on:
   push:
-    branches: [ dev, master ]
-  pull_request:
-    branches: [ dev, master ]
+    branches:
+      - 'master'
+      - 'dev'
+      - 'feature-*'
+      - 'fix-*'
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x]
-
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci ## 安装 npm 依赖
-    - run: npm test
-    - run: npm run build --if-present
+        node-version: 12
+    - name: build
+      run: |
+        npm ci ## 安装 npm 依赖
+        npm test
+        npm run build --if-present
+    - name: set ssh key # 临时设置 ssh key
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{secrets.WFP_ID_RSA}}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan ${{secrets.TECENT_SERVER}} >> ~/.ssh/known_hosts
+    - name: scp test files # 拷贝测试页面，到远程服务器
+      run: |
+        ## 获取当前分支名称，并创建一个同名的文件夹
+        currentBranchName=`git branch | awk '$1 == "*"{print $2}'`
+        mkdir $currentBranchName
+
+        ## 将 dist examples 移到刚创建的文件夹之内
+        mv dist/ $currentBranchName/dist/
+        cp $currentBranchName/dist/wangEditor.min.js $currentBranchName/dist/wangEditor.js
+        mv examples/ $currentBranchName/examples/
+
+        ## 将该文件夹，及其所有文件，上传到服务器
+        echo current branch name is: $currentBranchName
+        ssh root@${{secrets.TECENT_SERVER}} "rm -rf /root/we-next/$currentBranchName"
+        scp -r ./$currentBranchName root@${{secrets.TECENT_SERVER}}:/root/we-next/$currentBranchName
+    - name: delete ssh key # 删除 ssh key
+      run: rm -rf ~/.ssh/id_rsa
