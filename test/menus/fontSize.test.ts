@@ -22,7 +22,7 @@ test('FontStyle 菜单：dropList', () => {
     expect(fontSizeMenu.dropList.isShow).toBe(false)
 })
 
-test('FontStyle 菜单：设置字号', () => {
+test('FontSize 菜单：设置字号', () => {
     mockCmdFn(document)
     const cmdVal = '1'
     fontSizeMenu.command(cmdVal)

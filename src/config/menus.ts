@@ -14,6 +14,8 @@ export default {
         'fontStyle',
         'justify',
         'fontSize',
+        'backColor',
+        'fontColor',
     ],
 
     fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],

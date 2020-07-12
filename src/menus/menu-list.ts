@@ -12,6 +12,8 @@ import StrikeThrough from './strike-through/index'
 import FontStyle from './font-style/index'
 import FontSize from './font-size'
 import Justify from './justify/index'
+import backColor from './back-color/index'
+import fontColor from './font-color/index'
 
 export default {
     bold: Bold,
@@ -23,4 +25,6 @@ export default {
     fontStyle: FontStyle,
     fontSize: FontSize,
     justify: Justify,
+    backColor: backColor,
+    fontColor: fontColor,
 }
