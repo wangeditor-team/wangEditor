@@ -12,6 +12,7 @@ import StrikeThrough from './strike-through/index'
 import FontStyle from './font-style/index'
 import FontSize from './font-size'
 import Justify from './justify/index'
+import Quote from './quote/index'
 
 export default {
     bold: Bold,
@@ -23,4 +24,5 @@ export default {
     fontStyle: FontStyle,
     fontSize: FontSize,
     justify: Justify,
+    quote: Quote,
 }
