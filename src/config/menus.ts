@@ -14,6 +14,7 @@ export default {
         'fontStyle',
         'justify',
         'fontSize',
+        'quote',
         'backColor',
         'fontColor',
     ],
