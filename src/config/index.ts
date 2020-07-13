@@ -32,6 +32,7 @@ export type ConfigType = {
     styleWithCSS: boolean
     linkImgCallback: Function
 
+    showLinkImg: boolean
     uploadImgServer: string
     uploadImgShowBase64: boolean
     uploadImgMaxSize: number

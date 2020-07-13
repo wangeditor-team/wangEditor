@@ -33,7 +33,7 @@ class UploadImg {
      * 往编辑区域插入图片
      * @param src 图片地址
      */
-    private insertImg(src: string): void {
+    public insertImg(src: string): void {
         const editor = this.editor
         const config = editor.config
 
