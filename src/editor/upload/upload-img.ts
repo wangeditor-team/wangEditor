@@ -38,7 +38,7 @@ class UploadImg {
         const config = editor.config
 
         // 加载图片
-        let img = document.createElement('img')
+        let img: any = document.createElement('img')
         img.onload = () => {
             // 插入到编辑器区域
             editor.cmd.do('insertHTML', `<img src="${src}" style="max-width:100%;"/>`)
@@ -258,6 +258,7 @@ class UploadImg {
                 const reader = new FileReader()
                 reader.readAsDataURL(file)
                 reader.onload = function () {
+                    if (!this.result) return
                     _this.insertImg(this.result.toString())
                 }
             })
