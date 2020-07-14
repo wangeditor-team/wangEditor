@@ -17,6 +17,7 @@ export default {
         'quote',
         'backColor',
         'fontColor',
+        'video',
     ],
 
     fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
