@@ -6,7 +6,7 @@
 import editor from '../../editor/index'
 import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
-import $, { DomElement } from '../../utils/dom-core'
+import $ from '../../utils/dom-core'
 
 export default function (editor: editor, video: string): PanelConf {
     // panel 中需要用到的id
