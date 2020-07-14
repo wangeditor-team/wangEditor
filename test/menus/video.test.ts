@@ -38,6 +38,5 @@ test('video 菜单：插入', () => {
     $btnInsert.click()
 
     // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
-    console.log('xxxx:', expect(editor.$textElem.html().indexOf(video + '<p><br></p>')))
     expect(editor.$textElem.html().indexOf(video)).toBeGreaterThan(0)
 })
