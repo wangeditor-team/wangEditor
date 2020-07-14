@@ -13,7 +13,6 @@ import Menus from '../menus/index'
 import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
-import UploadImg from './upload/upload-img'
 
 let EDITOR_ID = 1
 
@@ -33,7 +32,6 @@ class Editor {
     public txt: Text
     public menus: Menus
     public change: Function
-    public uploadImg: UploadImg
 
     /**
      * 构造函数
@@ -65,8 +63,6 @@ class Editor {
         this.cmd = new CommandAPI(this)
         this.txt = new Text(this)
         this.menus = new Menus(this)
-
-        this.uploadImg = new UploadImg(this)
     }
 
     /**

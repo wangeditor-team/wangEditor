@@ -7,10 +7,11 @@ import editor from '../../editor/index'
 import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
+import UploadImg from './upload-img'
 
 export default function (editor: editor): PanelConf {
     const config = editor.config
-    const uploadImg = editor.uploadImg
+    const uploadImg = new UploadImg(editor)
 
     // panel 中需要用到的id
     const upTriggerId = getRandom('up-trigger-id')

@@ -5,8 +5,8 @@
 
 import Editor from '../../editor/index'
 import { arrForEach, forEach } from '../../utils/util'
-import post from './upload-core'
-import Progress from './progress'
+import post from '../../editor/upload/upload-core'
+import Progress from '../../editor/upload/progress'
 
 type ResType = {
     errno: number | string
