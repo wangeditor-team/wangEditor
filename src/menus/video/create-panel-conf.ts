@@ -29,7 +29,7 @@ export default function (editor: editor, video: string): PanelConf {
         tabs: [
             {
                 // tab 的标题
-                title: '链接',
+                title: '插入视频',
                 // 模板
                 tpl: `<div>
                         <input id="${inputIFrameId}" type="text" class="block" placeholder="格式如：<iframe src=... ></iframe>"/></td>
