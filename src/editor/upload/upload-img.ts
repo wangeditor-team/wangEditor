@@ -26,7 +26,16 @@ class UploadImg {
      * @param debugInfo debug info
      */
     private alert(alertInfo: string, debugInfo?: string): void {
-        console.log('alert', alertInfo, debugInfo)
+        const customAlert = this.editor.config.customAlert
+        if (customAlert) {
+            customAlert(alertInfo)
+        } else {
+            window.alert(alertInfo)
+        }
+
+        if (debugInfo) {
+            console.error('wangEditor: ' + debugInfo)
+        }
     }
 
     /**
@@ -155,8 +164,12 @@ class UploadImg {
 
         // 添加图片数据
         const formData = new FormData()
-        resultFiles.forEach((file: File) => {
-            const name = uploadFileName || file.name
+        resultFiles.forEach((file: File, index: number) => {
+            let name = uploadFileName || file.name
+            if (resultFiles.length > 1) {
+                // 多个文件时，filename 不能重复
+                name = name + (index + 1)
+            }
             formData.append(name, file)
         })
         if (uploadImgServer) {
