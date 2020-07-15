@@ -32,6 +32,7 @@ export type ConfigType = {
     styleWithCSS: boolean
     linkImgCallback: Function
 
+    showLinkImg: boolean
     uploadImgServer: string
     uploadImgShowBase64: boolean
     uploadImgMaxSize: number
@@ -44,6 +45,7 @@ export type ConfigType = {
     uploadImgTimeout: number
     withCredentials: boolean
     customUploadImg: Function | null
+    customAlert: Function | null
 }
 
 // 生成字号配置类型

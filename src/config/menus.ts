@@ -17,6 +17,7 @@ export default {
         'quote',
         'backColor',
         'fontColor',
+        'image',
         'video',
     ],
 

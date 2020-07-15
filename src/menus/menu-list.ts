@@ -13,9 +13,10 @@ import FontStyle from './font-style/index'
 import FontSize from './font-size'
 import Justify from './justify/index'
 import Quote from './quote/index'
-import backColor from './back-color/index'
-import fontColor from './font-color/index'
+import BackColor from './back-color/index'
+import FontColor from './font-color/index'
 import Video from './video/index'
+import Image from './img/index'
 
 export default {
     bold: Bold,
@@ -28,7 +29,8 @@ export default {
     fontSize: FontSize,
     justify: Justify,
     quote: Quote,
-    backColor: backColor,
-    fontColor: fontColor,
+    backColor: BackColor,
+    fontColor: FontColor,
     video: Video,
+    image: Image,
 }
