@@ -46,15 +46,14 @@ class UploadImg {
         const editor = this.editor
         const config = editor.config
 
+        // 先插入图片，无论是否能成功
+        editor.cmd.do('insertHTML', `<img src="${src}" style="max-width:100%;"/>`)
+        // 执行回调函数
+        config.linkImgCallback(src)
+
         // 加载图片
         let img: any = document.createElement('img')
         img.onload = () => {
-            // 插入到编辑器区域
-            editor.cmd.do('insertHTML', `<img src="${src}" style="max-width:100%;"/>`)
-
-            // 回调函数
-            config.linkImgCallback(src)
-
             img = null
         }
         img.onerror = () => {
