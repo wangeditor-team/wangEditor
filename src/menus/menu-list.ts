@@ -15,6 +15,7 @@ import Justify from './justify/index'
 import Quote from './quote/index'
 import BackColor from './back-color/index'
 import FontColor from './font-color/index'
+import Video from './video/index'
 import Image from './img/index'
 
 export default {
@@ -30,5 +31,6 @@ export default {
     quote: Quote,
     backColor: BackColor,
     fontColor: FontColor,
+    video: Video,
     image: Image,
 }
