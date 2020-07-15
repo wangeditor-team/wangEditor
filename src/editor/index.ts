@@ -13,7 +13,6 @@ import Menus from '../menus/index'
 import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
-import initUpload from './init-fns/init-upload'
 
 let EDITOR_ID = 1
 
@@ -86,9 +85,6 @@ class Editor {
 
         // 初始化菜单
         this.menus.init()
-
-        // 初始化上传功能
-        initUpload(this)
 
         // 初始化选区，将光标定位到内容尾部
         this.initSelection(true)

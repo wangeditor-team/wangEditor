@@ -15,7 +15,7 @@ router.get('/test', async function (ctx, next) {
 
 // 上传图片
 router.post('/upload-img', async function (ctx, next) {
-    const data = await saveFiles(ctx.request)
+    const data = await saveFiles(ctx.req)
     ctx.body = data
 })
 
