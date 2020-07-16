@@ -71,6 +71,13 @@ export default function (editor: Editor): void {
     const textElemId = getRandom('text-elem')
     $textElem.attr('id', textElemId)
 
+    // 判断编辑区与容器高度是否一致
+    const textContainerCliheight = $textContainerElem.elems[0].clientHeight
+    const textElemclientHeight = $textElem.elems[0].clientHeight
+    if (textContainerCliheight !== textElemclientHeight) {
+        $textElem.css('min-height', textContainerCliheight + 'px')
+    }
+
     // 记录属性
     editor.$toolbarElem = $toolbarElem
     editor.$textContainerElem = $textContainerElem
