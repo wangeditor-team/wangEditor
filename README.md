@@ -47,7 +47,7 @@ editor.create()
 以下 QQ 群欢迎加入交流问题（可能有些群已经满员）
 
 - 164999061
-- 281268320
+- 710646022
 
 ### 提问
 
@@ -62,7 +62,6 @@ editor.create()
 ## 关于作者
 
 - 关注作者的博客 - 《[深入理解javascript原型和闭包系列](http://www.cnblogs.com/wangfupeng1988/p/4001284.html)》《[深入理解javascript异步系列](https://github.com/wangfupeng1988/js-async-tutorial)》《[换个思路学习nodejs](https://github.com/wangfupeng1988/node-tutorial)》《[CSS知多少](http://www.cnblogs.com/wangfupeng1988/p/4325007.html)》 
-- 学习作者的教程 - 《[前端JS高级面试](https://coding.imooc.com/class/190.html)》《[前端JS基础面试题](http://coding.imooc.com/class/115.html)》《[React.js模拟大众点评webapp](http://coding.imooc.com/class/99.html)》《[zepto设计与源码分析](http://www.imooc.com/learn/745)》《[json2.js源码解读](http://study.163.com/course/courseMain.htm?courseId=691008)》
 
 如果你感觉有收获，欢迎给我打赏 ———— 以激励我更多输出优质开源内容
 

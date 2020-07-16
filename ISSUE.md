@@ -152,8 +152,6 @@
 - https://github.com/wangfupeng1988/wangEditor/issues/1445
 - https://github.com/wangfupeng1988/wangEditor/issues/1410
 - https://github.com/wangfupeng1988/wangEditor/issues/1396
-- https://github.com/wangfupeng1988/wangEditor/issues/1358
-- https://github.com/wangfupeng1988/wangEditor/issues/1367
 - 销毁的 API ，以及各个生命周期的 hook
 - **处理粘贴数据时，要把 pasteHtml 先转换成 vnode 之类的结构化对象，然后再递归处理**
 - 外露的修改图片大小的按钮
