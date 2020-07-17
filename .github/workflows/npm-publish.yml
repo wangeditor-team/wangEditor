@@ -10,18 +10,7 @@ on:
       - 'v*.*.*'
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: 12
-  #     - run: npm ci
-  #     - run: npm test
-
   publish-npm:
-    # needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -35,21 +24,6 @@ jobs:
       - run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
-  # publish-gpr:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: 12
-  #         registry-url: https://npm.pkg.github.com/
-  #     - run: npm ci
-  #     - run: npm publish --access=public
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
   publish-test:
     needs: publish-npm
     runs-on: ubuntu-latest
@@ -75,7 +49,7 @@ jobs:
           npm run prod
           echo "--------------- rebuild done ---------------"
 
-          ## 将 dist 文件夹，重命名为 npm ，并上传到服务器
-          mv dist npm
-          ssh root@${{secrets.TECENT_SERVER}} "rm -rf /root/we-next/npm"
-          scp -r ./npm root@${{secrets.TECENT_SERVER}}:/root/we-next/npm
+          ## 将 dist 文件夹，重命名为 publish-npm-test ，并上传到服务器
+          mv dist publish-npm-test
+          ssh root@${{secrets.TECENT_SERVER}} "rm -rf /root/we-next/publish-npm-test"
+          scp -r ./publish-npm-test root@${{secrets.TECENT_SERVER}}:/root/we-next/publish-npm-test
