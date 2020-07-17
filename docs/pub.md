@@ -34,4 +34,12 @@
 
 ## 回归测试
 
-下载测试 demo `git clone git@github.com:wangeditor-team/we-demo.git` ，安装刚刚发布的 npm 包，然后运行测试。
+### 自动流程
+
+github actions 在发布完 npm 之后，会自动安装最新版，并打包出一个测试页 http://106.55.153.217:8881/publish-npm-test/ 用于回归测试。
+
+PS：配置代码见 `.github/workflows/npm-publish.yml`
+
+### 手动测试
+
+可下载测试 demo `git clone git@github.com:wangeditor-team/we-demo.git` ，安装最新的包，本地运行。
