@@ -18,6 +18,7 @@ export default {
         'backColor',
         'fontColor',
         'image',
+        'video',
     ],
 
     fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
