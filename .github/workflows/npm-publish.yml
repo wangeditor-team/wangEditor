@@ -72,7 +72,7 @@ jobs:
           npm install
           echo "--------------- npm i done ---------------"
           npm install @wangeditor-team/we-next@latest --save
-          npm run build
+          npm run prod
           echo "--------------- rebuild done ---------------"
 
           ## 将 dist 文件夹，重命名为 npm ，并上传到服务器
