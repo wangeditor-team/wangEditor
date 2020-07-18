@@ -72,9 +72,9 @@ export default function (editor: Editor): void {
     $textElem.attr('id', textElemId)
 
     // 判断编辑区与容器高度是否一致
-    const textContainerCliheight = $textContainerElem.elems[0].clientHeight
-    const textElemclientHeight = $textElem.elems[0].clientHeight
-    if (textContainerCliheight !== textElemclientHeight) {
+    const textContainerCliheight = $textContainerElem.getClientHeight()
+    const textElemClientHeight = $textElem.getClientHeight()
+    if (textContainerCliheight !== textElemClientHeight) {
         $textElem.css('min-height', textContainerCliheight + 'px')
     }
 

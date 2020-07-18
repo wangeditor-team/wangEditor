@@ -467,6 +467,14 @@ export class DomElement {
     }
 
     /**
+     * 获取当前元素可视高度
+     */
+    getClientHeight(): DomElement | number {
+        const elem = this.elems[0]
+        return elem.clientHeight
+    }
+
+    /**
      * 查询
      * @param selector css 选择器
      */
