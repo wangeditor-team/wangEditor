@@ -469,7 +469,7 @@ export class DomElement {
     /**
      * 获取当前元素可视高度
      */
-    getClientHeight(): DomElement | number {
+    getClientHeight(): number {
         const elem = this.elems[0]
         return elem.clientHeight
     }
