@@ -14,7 +14,7 @@ class Indent extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
             `<div class="w-e-menu">
-                <i class="w-e-icon--increase-indent"></i>
+                <i class="w-e-icon-indent-increase"></i>
             </div>`
         )
         const dropListConf = {
@@ -23,12 +23,12 @@ class Indent extends DropListMenu implements MenuActive {
             type: 'list',
             list: [
                 {
-                    $elem: $(`<p><i class="w-e-icon-increase-indent"></i>增加缩进<p>`),
+                    $elem: $(`<p><i class="w-e-icon-indent-increase"></i>增加缩进<p>`),
                     value: 'increase',
                 },
 
                 {
-                    $elem: $(`<p><i class="w-e-icon-reduce-indent"></i>减少缩进<p>`),
+                    $elem: $(`<p><i class="w-e-icon-indent-reduce"></i>减少缩进<p>`),
                     value: 'reduce',
                 },
             ],
