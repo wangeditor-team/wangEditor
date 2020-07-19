@@ -5,6 +5,7 @@
 
 import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
+import getParagraph from './get-paragraph'
 
 // 构造函数
 class GetParagraphs {
@@ -22,8 +23,8 @@ class GetParagraphs {
         // 初始化属性
         this.editor = editor
         this.$nodeList = []
-        this.$startElem = editor.selection.getSelectionStartElem()
-        this.$endElem = editor.selection.getSelectionEndElem()
+        this.$startElem = getParagraph($(editor.selection.getSelectionStartElem()), this.editor)
+        this.$endElem = getParagraph($(editor.selection.getSelectionEndElem()), this.editor)
     }
 
     /**
@@ -62,9 +63,10 @@ class GetParagraphs {
      * @param $node 节点
      */
     recordSelectionNodes($node: DomElement) {
-        this.addNodeList($node)
-        if (!this.isEndElem($node)) {
-            this.recordSelectionNodes(this.getNextSibling($node))
+        const $elem = getParagraph($node, this.editor)
+        this.addNodeList($elem)
+        if (!this.isEndElem($elem)) {
+            this.recordSelectionNodes(this.getNextSibling($elem))
         }
     }
 
