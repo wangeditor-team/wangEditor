@@ -16,6 +16,7 @@ import Quote from './quote/index'
 import backColor from './back-color/index'
 import fontColor from './font-color/index'
 import Video from './video/index'
+import Indent from './indent/index'
 
 export default {
     bold: Bold,
@@ -31,4 +32,5 @@ export default {
     backColor: backColor,
     fontColor: fontColor,
     video: Video,
+    indent: Indent,
 }
