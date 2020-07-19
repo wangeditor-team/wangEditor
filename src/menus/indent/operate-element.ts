@@ -13,8 +13,12 @@ import reduceIndentStyle from './reduce-indent-style'
 
 function operateElement($node: DomElement, type: String, editor: Editor) {
     const $elem = getParagraph($node, editor)
-    if (type === 'increase') increaseIndentStyle($elem)
-    else if (type === 'reduce') reduceIndentStyle($elem)
+    const reg = /^P$/i
+
+    if (reg.test($elem.getNodeName())) {
+        if (type === 'increase') increaseIndentStyle($elem)
+        else if (type === 'reduce') reduceIndentStyle($elem)
+    }
 }
 
 export default operateElement
