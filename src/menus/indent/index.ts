@@ -28,7 +28,7 @@ class Indent extends DropListMenu implements MenuActive {
                 },
 
                 {
-                    $elem: $(`<p><i class="w-e-icon-indent-reduce"></i>减少缩进<p>`),
+                    $elem: $(`<p><i class="w-e-icon-indent-decrease"></i>减少缩进<p>`),
                     value: 'reduce',
                 },
             ],
