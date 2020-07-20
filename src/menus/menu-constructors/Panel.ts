@@ -16,7 +16,7 @@ type _TabEventConf = {
     type: string
     fn: Function
 }
-type _PanelTabConf = {
+export type PanelTabConf = {
     title: string
     tpl: string
     events: _TabEventConf[]
@@ -24,7 +24,7 @@ type _PanelTabConf = {
 export type PanelConf = {
     width: number | 0
     height: number | 0
-    tabs: _PanelTabConf[]
+    tabs: PanelTabConf[]
 }
 
 class Panel {
@@ -81,7 +81,7 @@ class Panel {
         const tabTitleArr: DomElement[] = []
         const tabContentArr: DomElement[] = []
 
-        tabs.forEach((tab: _PanelTabConf, tabIndex: number) => {
+        tabs.forEach((tab: PanelTabConf, tabIndex: number) => {
             if (!tab) {
                 return
             }
@@ -140,7 +140,7 @@ class Panel {
         $textContainerElem.append($container)
 
         // 绑定 conf events 的事件，只有添加到 DOM 之后才能绑定成功
-        tabs.forEach((tab: _PanelTabConf, index: number) => {
+        tabs.forEach((tab: PanelTabConf, index: number) => {
             if (!tab) {
                 return
             }

@@ -66,6 +66,7 @@ function post(url: string, option: PostOptionType): XMLHttpRequest | string {
 
     // 服务端返回之后
     xhr.onreadystatechange = () => {
+        if (xhr.readyState !== 4) return
         const status = xhr.status
         if (status < 200) return // 请求发送过程中，尚未返回
         if (status >= 300 && status < 400) return // 重定向

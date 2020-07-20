@@ -5,8 +5,8 @@
 
 import Editor from '../../editor/index'
 import { arrForEach, forEach } from '../../utils/util'
-import post from './upload-core'
-import Progress from './progress'
+import post from '../../editor/upload/upload-core'
+import Progress from '../../editor/upload/progress'
 
 type ResType = {
     errno: number | string
@@ -26,26 +26,34 @@ class UploadImg {
      * @param debugInfo debug info
      */
     private alert(alertInfo: string, debugInfo?: string): void {
-        console.log('alert', alertInfo, debugInfo)
+        const customAlert = this.editor.config.customAlert
+        if (customAlert) {
+            customAlert(alertInfo)
+        } else {
+            window.alert(alertInfo)
+        }
+
+        if (debugInfo) {
+            console.error('wangEditor: ' + debugInfo)
+        }
     }
 
     /**
      * 往编辑区域插入图片
      * @param src 图片地址
      */
-    private insertImg(src: string): void {
+    public insertImg(src: string): void {
         const editor = this.editor
         const config = editor.config
 
+        // 先插入图片，无论是否能成功
+        editor.cmd.do('insertHTML', `<img src="${src}" style="max-width:100%;"/>`)
+        // 执行回调函数
+        config.linkImgCallback(src)
+
         // 加载图片
-        let img = document.createElement('img')
+        let img: any = document.createElement('img')
         img.onload = () => {
-            // 插入到编辑器区域
-            editor.cmd.do('insertHTML', `<img src="${src}" style="max-width:100%;"/>`)
-
-            // 回调函数
-            config.linkImgCallback(src)
-
             img = null
         }
         img.onerror = () => {
@@ -155,8 +163,12 @@ class UploadImg {
 
         // 添加图片数据
         const formData = new FormData()
-        resultFiles.forEach((file: File) => {
-            const name = uploadFileName || file.name
+        resultFiles.forEach((file: File, index: number) => {
+            let name = uploadFileName || file.name
+            if (resultFiles.length > 1) {
+                // 多个文件时，filename 不能重复
+                name = name + (index + 1)
+            }
             formData.append(name, file)
         })
         if (uploadImgServer) {
@@ -258,6 +270,7 @@ class UploadImg {
                 const reader = new FileReader()
                 reader.readAsDataURL(file)
                 reader.onload = function () {
+                    if (!this.result) return
                     _this.insertImg(this.result.toString())
                 }
             })
