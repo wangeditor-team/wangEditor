@@ -11,10 +11,10 @@ function decreaseIndentStyle($node: DomElement) {
         const oldPL = $elem.style['paddingLeft']
         const oldVal = oldPL.slice(0, oldPL.length - 2)
         const newVal = Number(oldVal) - 2
-        if (newVal >= 0) {
-            $elem.style['paddingLeft'] = `${newVal}em`
+        if (newVal > 0) {
+            $node.css('padding-left', `${newVal}em`)
         } else {
-            $elem.style['paddingLeft'] = ''
+            $node.css('padding-left', '')
         }
     }
 }
