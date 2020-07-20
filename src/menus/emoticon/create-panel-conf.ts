@@ -6,28 +6,32 @@
 import editor from '../../editor/index'
 import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import $ from '../../utils/dom-core'
-import menus, { EmotionsType, EmotionsContentType } from '../../config/menus'
+import { EmotionsType, EmotionsContentType } from '../../config/menus'
 
 export default function (editor: editor): PanelConf {
     // 声明emotions数据结构
-    const emotions: Array<EmotionsType> = menus.emotions
+    const emotions: Array<EmotionsType> = editor.config.emotions
+
     /* tabs配置项 ==================================================================*/
 
     // 生成表情结构 TODO jele type类型待优化
-    function GeneratExpressionStructure(ele: any) {
+    function GenerateExpressionStructure(ele: EmotionsType) {
         // 返回为一个数组对象
         let res: string[] = []
 
         // 如果type是image类型则生成一个img标签
         if (ele.type == 'image') {
-            res = ele.content.map((con: EmotionsContentType) => {
+            res = ele.content.map((con: EmotionsContentType | string) => {
+                if (typeof con == 'string') return ''
                 return `<span style="cursor: pointer;" title="${con.alt}">
-             <img class="eleImg" src="${con.src}" alt="[${con.alt}]"></span>`
+                    <img class="eleImg" src="${con.src}" alt="[${con.alt}]">
+                </span>`
             })
+            res = res.filter((s: string) => s !== '')
         }
         //否则直接当内容处理
         else {
-            res = ele.content.map((con: string) => {
+            res = ele.content.map((con: EmotionsContentType | string) => {
                 return `<span class="eleImg" style="cursor: pointer;" title="${con}">${con}</span>`
             })
         }
@@ -40,7 +44,7 @@ export default function (editor: editor): PanelConf {
             title: ele.title,
 
             // 判断type类型如果是image则以img的形式插入否则以内容
-            tpl: `<div>${GeneratExpressionStructure(ele)}</div>`.replace(/,/g, ''),
+            tpl: `<div>${GenerateExpressionStructure(ele)}</div>`.replace(/,/g, ''),
 
             events: [
                 {

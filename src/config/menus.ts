@@ -14,8 +14,7 @@ export type EmotionsContentType = {
 export type EmotionsType = {
     title: string
     type: string
-    content: { alt: string; src: string }[] | string[]
-    events?: { selector: string; type: string; fn: (e: Event) => boolean }[]
+    content: Array<EmotionsContentType | string>
 }
 
 /*表情菜单数据结构类型END*/
