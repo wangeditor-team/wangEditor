@@ -6,26 +6,34 @@
 import editor from '../../editor/index'
 import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import $ from '../../utils/dom-core'
-import menus, { EmotionsType, EmotionsContentType, EventsFnType } from '../../config/menus'
+import menus, { EmotionsType, EmotionsFirtstContentType } from '../../config/menus'
 
 export default function (editor: editor): PanelConf {
-    const { emotions: emotions } = menus
+    // 声明emotions数据结构
+    const emotions: Array<EmotionsType> = menus.emotions
     /* tabs配置项 ==================================================================*/
 
-    // 生成表情结构
-    function GeneratExpressionStructure(ele: EmotionsType) {
+    // 生成表情结构 TODO jele type类型待优化
+    function GeneratExpressionStructure(ele: any) {
+        // 返回为一个数组对象
+        let res: string[] = []
+
         // 如果type是image类型则生成一个img标签
         if (ele.type == 'image') {
-            return ele.content.map((con: EmotionsContentType) => {
+            res = ele.content.map((con: EmotionsFirtstContentType) => {
                 return `<span style="cursor: pointer;" title="${con.alt}">
              <img class="eleImg" src="${con.src}" alt="[${con.alt}]"></span>`
             })
         }
-
         //否则直接当内容处理
-        return ele.content.map((con: EmotionsContentType) => {
-            return `<span class="eleImg" style="cursor: pointer;" title="${con}">${con}</span>`
-        })
+        else {
+            res = ele.content.map((con: string) => {
+                return `<span class="eleImg" style="cursor: pointer;" title="${con}">${con}</span>`
+            })
+        }
+        console.log('res', res)
+
+        return res
     }
 
     const tabsConf: PanelTabConf[] = emotions.map((ele: EmotionsType) => {
@@ -37,7 +45,7 @@ export default function (editor: editor): PanelConf {
                 {
                     selector: '.eleImg',
                     type: 'click',
-                    fn: (e: EventsFnType) => {
+                    fn: (e: Event) => {
                         // e为事件对象
                         const $target = $(e.target)
                         const nodeName = $target.getNodeName()

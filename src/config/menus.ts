@@ -3,30 +3,22 @@
  * @author wangfupeng
  */
 
-import { type } from 'jquery'
-
 /*表情菜单数据结构类型*/
 /**
- * emotions 数组结构
+ *
  */
+
+export type EmotionsFirtstContentType = {
+    alt: string
+    src: string
+}
 export type EmotionsType = {
     title: string
     type: string
-    content: Array<{}>
+    content: string[]
+    events?: { selector: string; type: string; fn: (e: Event) => boolean }[]
 }
-/**
- * type为image数组结构
- */
-export type EmotionsContentType = {
-    alt?: string
-    src?: ''
-}
-/**
- * click事件事件对象
- */
-export type EventsFnType = {
-    target?: object
-}
+
 /*表情菜单数据结构类型END*/
 
 export default {
@@ -73,10 +65,9 @@ export default {
     ],
     /**
      * 表情配置菜单
-     * 数据结构{title:'',type::'',content:[{alt:'',src:''}]}
      * 如果为emoji表情直接作为元素插入
+     * emoticon:Array<EmotionsType>
      */
-
     emotions: [
         {
             // tab 的标题
