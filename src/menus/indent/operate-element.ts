@@ -9,7 +9,7 @@ import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import getParagraph from './get-paragraph'
 import increaseIndentStyle from './increase-indent-style'
-import reduceIndentStyle from './reduce-indent-style'
+import decreaseIndentStyle from './decrease-indent-style'
 
 function operateElement($node: DomElement, type: String, editor: Editor) {
     const $elem = getParagraph($node, editor)
@@ -17,7 +17,7 @@ function operateElement($node: DomElement, type: String, editor: Editor) {
 
     if (reg.test($elem.getNodeName())) {
         if (type === 'increase') increaseIndentStyle($elem)
-        else if (type === 'reduce') reduceIndentStyle($elem)
+        else if (type === 'decrease') decreaseIndentStyle($elem)
     }
 }
 

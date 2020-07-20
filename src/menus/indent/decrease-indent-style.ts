@@ -5,7 +5,7 @@
 
 import $, { DomElement } from '../../utils/dom-core'
 
-function reduceIndentStyle($node: DomElement) {
+function decreaseIndentStyle($node: DomElement) {
     const $elem = $node.elems[0]
     if ($elem.style['paddingLeft'] !== '') {
         const oldPL = $elem.style['paddingLeft']
@@ -19,4 +19,4 @@ function reduceIndentStyle($node: DomElement) {
     }
 }
 
-export default reduceIndentStyle
+export default decreaseIndentStyle
