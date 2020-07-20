@@ -7,20 +7,18 @@
 /**
  *
  */
-
-export type EmotionsFirtstContentType = {
+export type EmotionsContentType = {
     alt: string
     src: string
 }
 export type EmotionsType = {
     title: string
     type: string
-    content: string[]
+    content: { alt: string; src: string }[] | string[]
     events?: { selector: string; type: string; fn: (e: Event) => boolean }[]
 }
 
 /*表情菜单数据结构类型END*/
-
 export default {
     menus: [
         'bold',

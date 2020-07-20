@@ -6,7 +6,7 @@
 import editor from '../../editor/index'
 import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import $ from '../../utils/dom-core'
-import menus, { EmotionsType, EmotionsFirtstContentType } from '../../config/menus'
+import menus, { EmotionsType, EmotionsContentType } from '../../config/menus'
 
 export default function (editor: editor): PanelConf {
     // 声明emotions数据结构
@@ -20,7 +20,7 @@ export default function (editor: editor): PanelConf {
 
         // 如果type是image类型则生成一个img标签
         if (ele.type == 'image') {
-            res = ele.content.map((con: EmotionsFirtstContentType) => {
+            res = ele.content.map((con: EmotionsContentType) => {
                 return `<span style="cursor: pointer;" title="${con.alt}">
              <img class="eleImg" src="${con.src}" alt="[${con.alt}]"></span>`
             })
@@ -31,7 +31,6 @@ export default function (editor: editor): PanelConf {
                 return `<span class="eleImg" style="cursor: pointer;" title="${con}">${con}</span>`
             })
         }
-        console.log('res', res)
 
         return res
     }
@@ -39,8 +38,10 @@ export default function (editor: editor): PanelConf {
     const tabsConf: PanelTabConf[] = emotions.map((ele: EmotionsType) => {
         return {
             title: ele.title,
+
             // 判断type类型如果是image则以img的形式插入否则以内容
             tpl: `<div>${GeneratExpressionStructure(ele)}</div>`.replace(/,/g, ''),
+
             events: [
                 {
                     selector: '.eleImg',
