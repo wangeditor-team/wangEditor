@@ -40,16 +40,11 @@ test('indent 菜单：增加缩进', () => {
 
 test('indent 菜单：减少缩进', () => {
     editor.selection.createRangeByElem($p, false, true)
-    const start = editor.selection.getSelectionStartElem()
-    const end = editor.selection.getSelectionEndElem()
     indentMenu.command('decrease')
     expect($p.elems[0].style['paddingLeft']).toBe('')
 })
 
 test('indent 菜单：叠加缩进', () => {
-    editor.$textElem.append($h)
-    editor.$textElem.append($p)
-
     editor.selection.createRangeByElem($p, true, true)
     indentMenu.command('increase')
     indentMenu.command('increase')
