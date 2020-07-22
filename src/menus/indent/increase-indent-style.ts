@@ -5,7 +5,7 @@
 
 import $, { DomElement } from '../../utils/dom-core'
 
-function increaseIndentStyle($node: DomElement) {
+function increaseIndentStyle($node: DomElement): void {
     const $elem = $node.elems[0]
     if ($elem.style['paddingLeft'] === '') {
         $node.css('padding-left', `2em`)

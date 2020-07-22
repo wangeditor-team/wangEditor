@@ -81,7 +81,7 @@ class GetParagraphs {
 /**
  * 直接返回 选中节点列表
  */
-export default function getParagraphs(editor: Editor) {
+export default function getParagraphs(editor: Editor): DomElement[] {
     const getParagraphs = new GetParagraphs(editor)
     getParagraphs.init()
     return getParagraphs.getSelectionNodes()

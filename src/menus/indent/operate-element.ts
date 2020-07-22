@@ -11,7 +11,7 @@ import getParagraph from './get-paragraph'
 import increaseIndentStyle from './increase-indent-style'
 import decreaseIndentStyle from './decrease-indent-style'
 
-function operateElement($node: DomElement, type: String, editor: Editor) {
+function operateElement($node: DomElement, type: String, editor: Editor): void {
     const $elem = getParagraph($node, editor)
     const reg = /^P$/i
 
