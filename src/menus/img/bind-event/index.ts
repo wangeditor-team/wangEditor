@@ -5,6 +5,7 @@
 
 import Editor from '../../../editor/index'
 import bindPasteImg from './paste-img'
+import bindDropImg from './drop-img'
 
 /**
  * 绑定事件
@@ -13,6 +14,9 @@ import bindPasteImg from './paste-img'
 function bindEvent(editor: Editor): void {
     // 粘贴图片
     bindPasteImg(editor)
+
+    // 拖拽图片
+    bindDropImg(editor)
 
     // 可再扩展其他事件...如图片 tooltip 等
 }
