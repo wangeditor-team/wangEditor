@@ -71,7 +71,7 @@ class UploadImg {
      * 上传图片
      * @param files 文件列表
      */
-    public uploadImg(files: FileList): void {
+    public uploadImg(files: FileList | File[]): void {
         if (!files.length) {
             return
         }
