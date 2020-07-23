@@ -66,5 +66,6 @@ editor.create()
 
 如果你感觉有收获，欢迎给我打赏 ———— 以激励我更多输出优质开源内容
 
-![图片](https://camo.githubusercontent.com/e1558b631931e0a1606c769a61f48770cc0ccb56/687474703a2f2f696d61676573323031352e636e626c6f67732e636f6d2f626c6f672f3133383031322f3230313730322f3133383031322d32303137303232383131323233373739382d313530373139363634332e706e67)
+![微信打赏](https://what-is-fe.gitee.io/images/wechat-pay.jpeg)
+![支付宝打赏](https://what-is-fe.gitee.io/images/ali-pay.jpeg)
 
