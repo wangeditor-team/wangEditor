@@ -7,6 +7,7 @@ import $ from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import DropListMenu from '../menu-constructors/DropListMenu'
 import { MenuActive } from '../menu-constructors/Menu'
+import getParagraph from './get-paragraph'
 import getParagraphs from './get-paragraphs'
 import operateElement from './operate-element'
 
@@ -23,12 +24,16 @@ class Indent extends DropListMenu implements MenuActive {
             type: 'list',
             list: [
                 {
-                    $elem: $(`<p><i class="w-e-icon-indent-increase"></i>增加缩进<p>`),
+                    $elem: $(
+                        `<p><i class="w-e-icon-indent-increase" style="padding-right:7px;position: relative;top:1px; color: #999"></i>增加缩进<p>`
+                    ),
                     value: 'increase',
                 },
 
                 {
-                    $elem: $(`<p><i class="w-e-icon-indent-decrease"></i>减少缩进<p>`),
+                    $elem: $(
+                        `<p><i class="w-e-icon-indent-decrease" style="padding-right:7px;position: relative;top:1px; color: #999"></i>减少缩进<p>`
+                    ),
                     value: 'decrease',
                 },
             ],
@@ -68,12 +73,26 @@ class Indent extends DropListMenu implements MenuActive {
                 })
             }
         }
+
+        // 恢复选区
+        editor.selection.restoreSelection()
+        this.tryChangeActive()
     }
 
     /**
      * 尝试改变菜单激活（高亮）状态
      */
-    public tryChangeActive() {}
+    public tryChangeActive() {
+        const editor = this.editor
+        const $selectionElem = editor.selection.getSelectionStartElem()
+        const $selectionStartElem = getParagraph($($selectionElem), editor)
+
+        if ($selectionStartElem.elems[0].style['paddingLeft'] != '') {
+            this.active()
+        } else {
+            this.unActive()
+        }
+    }
 }
 
 export default Indent
