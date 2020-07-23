@@ -53,6 +53,33 @@ function _querySelectorAll(selector: string): HTMLElement[] {
     return _toArray(elems)
 }
 
+/**
+ * 封装 _styleArrTrim
+ * @param styleArr css
+ */
+function _styleArrTrim(style: string | string[]): string[] {
+    let styleArr: string[] = []
+    let resultArr: string[] = []
+
+    if (!Array.isArray(style)) {
+        // 有 style，将 style 按照 `;` 拆分为数组
+        styleArr = style.split(';')
+    } else {
+        styleArr = style
+    }
+
+    styleArr.forEach(item => {
+        // 对每项样式，按照 : 拆分为 key 和 value
+        let arr = item.split(':').map(i => {
+            return i.trim()
+        })
+        if (arr.length === 2) {
+            resultArr.push(arr[0] + ':' + arr[1])
+        }
+    })
+    return resultArr
+}
+
 // 构造函数
 export class DomElement {
     // 定义属性
@@ -253,8 +280,8 @@ export class DomElement {
      * @param key key
      * @param val value
      */
-    attr(key: string, val: string): DomElement
     attr(key: string): string
+    attr(key: string, val: string): DomElement
     attr(key: string, val?: string): DomElement | string {
         if (val == null) {
             // 获取数据
@@ -329,23 +356,21 @@ export class DomElement {
      * @param key css key
      * @param val css value
      */
-    css(key: string, val: string | number): DomElement {
-        const currentStyle = `${key}:${val};`
+    // css(key: string): string
+    css(key: string, val: string | number): DomElement
+    css(key: string, val?: string | number): DomElement | string {
+        let currentStyle: string
+        if (val == '') {
+            currentStyle = ''
+        } else {
+            currentStyle = `${key}:${val};`
+        }
         return this.forEach(function (elem: HTMLElement) {
             const style = (elem.getAttribute('style') || '').trim()
             if (style) {
                 // 有 style，将 style 按照 `;` 拆分为数组
-                const styleArr: string[] = style.split(';')
-                let resultArr: string[] = []
-                styleArr.forEach(item => {
-                    // 对每项样式，按照 : 拆分为 key 和 value
-                    let arr = item.split(':').map(i => {
-                        return i.trim()
-                    })
-                    if (arr.length === 2) {
-                        resultArr.push(arr[0] + ':' + arr[1])
-                    }
-                })
+                let resultArr: string[] = _styleArrTrim(style)
+
                 // 替换现有的 style
                 resultArr = resultArr.map(item => {
                     if (item.indexOf(key) === 0) {
@@ -355,9 +380,15 @@ export class DomElement {
                     }
                 })
                 // 新增 style
-                if (resultArr.indexOf(currentStyle) < 0) {
+                if (currentStyle != '' && resultArr.indexOf(currentStyle) < 0) {
                     resultArr.push(currentStyle)
                 }
+
+                // 去掉 空白
+                if (currentStyle == '') {
+                    resultArr = _styleArrTrim(resultArr)
+                }
+
                 // 重新设置 style
                 elem.setAttribute('style', resultArr.join('; '))
             } else {

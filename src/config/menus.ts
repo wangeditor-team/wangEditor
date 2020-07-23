@@ -35,6 +35,7 @@ export default {
         'emoticon',
         'image',
         'video',
+        'indent',
     ],
 
     fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],

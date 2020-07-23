@@ -17,6 +17,7 @@ import BackColor from './back-color/index'
 import FontColor from './font-color/index'
 import Video from './video/index'
 import Image from './img/index'
+import Indent from './indent/index'
 import Emoticon from './emoticon/index'
 
 export default {
@@ -34,5 +35,6 @@ export default {
     fontColor: FontColor,
     video: Video,
     image: Image,
+    indent: Indent,
     emoticon: Emoticon,
 }
