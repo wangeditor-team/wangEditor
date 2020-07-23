@@ -19,7 +19,7 @@ class Indent extends DropListMenu implements MenuActive {
             </div>`
         )
         const dropListConf = {
-            width: 100,
+            width: 130,
             title: '设置缩进',
             type: 'list',
             list: [
