@@ -82,7 +82,7 @@ class Indent extends DropListMenu implements MenuActive {
     /**
      * 尝试改变菜单激活（高亮）状态
      */
-    public tryChangeActive() {
+    public tryChangeActive(): void {
         const editor = this.editor
         const $selectionElem = editor.selection.getSelectionStartElem()
         const $selectionStartElem = getParagraph($($selectionElem), editor)
