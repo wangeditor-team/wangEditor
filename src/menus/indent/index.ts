@@ -25,14 +25,14 @@ class Indent extends DropListMenu implements MenuActive {
             list: [
                 {
                     $elem: $(
-                        `<p><i class="w-e-icon-indent-increase" style="padding-right:7px;position: relative;top:1px; color: #999"></i>增加缩进<p>`
+                        `<p><i class="w-e-icon-indent-increase" style="padding-right:7px;position: relative;top:1px; color: #333"></i>增加缩进<p>`
                     ),
                     value: 'increase',
                 },
 
                 {
                     $elem: $(
-                        `<p><i class="w-e-icon-indent-decrease" style="padding-right:7px;position: relative;top:1px; color: #999"></i>减少缩进<p>`
+                        `<p><i class="w-e-icon-indent-decrease" style="padding-right:7px;position: relative;top:1px; color: #333"></i>减少缩进<p>`
                     ),
                     value: 'decrease',
                 },
