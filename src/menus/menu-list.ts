@@ -18,6 +18,10 @@ import FontColor from './font-color/index'
 import Video from './video/index'
 import Image from './img/index'
 
+export type MenuListType = {
+    [key: string]: any
+}
+
 export default {
     bold: Bold,
     head: Head,
