@@ -20,6 +20,10 @@ import Image from './img/index'
 import Indent from './indent/index'
 import Emoticon from './emoticon/index'
 
+export type MenuListType = {
+    [key: string]: any
+}
+
 export default {
     bold: Bold,
     head: Head,

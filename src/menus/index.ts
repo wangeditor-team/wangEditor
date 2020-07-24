@@ -5,16 +5,28 @@
 
 import Editor from '../editor/index'
 import Menu from './menu-constructors/Menu'
-import MenuConstructorList from './menu-list'
+import MenuConstructorList, { MenuListType } from './menu-list'
 // import { MenuActive } from './menu-constructors/Menu'
 
 class Menus {
     public editor: Editor
     public menuList: Menu[]
+    public constructorList: MenuListType
 
     constructor(editor: Editor) {
         this.editor = editor
         this.menuList = []
+        this.constructorList = MenuConstructorList // 所有菜单构造函数的列表
+    }
+
+    /**
+     * 自定义添加菜单
+     * @param key 菜单 key ，和 editor.config.menus 对应
+     * @param Menu 菜单构造函数
+     */
+    public extend(key: string, Menu: any) {
+        if (!Menu || typeof Menu !== 'function') return
+        this.constructorList[key] = Menu
     }
 
     // 初始化菜单
@@ -22,8 +34,9 @@ class Menus {
         // 从用户配置的 menus 入手，看需要初始化哪些菜单
         const config = this.editor.config
         config.menus.forEach(menuKey => {
-            const MenuConstructor = (MenuConstructorList as any)[menuKey] // 暂用 any ，后面再替换
-            if (MenuConstructor == null) {
+            const MenuConstructor = this.constructorList[menuKey] // 暂用 any ，后面再替换
+            if (MenuConstructor == null || typeof MenuConstructor !== 'function') {
+                // 必须是 class
                 return
             }
             // 创建 menu 实例，并放到 menuList 中

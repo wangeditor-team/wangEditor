@@ -14,9 +14,25 @@ import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
 
+// 创建菜单的 class
+import BtnMenu from '../menus/menu-constructors/BtnMenu'
+import DropList from '../menus/menu-constructors/DropList'
+import DropListMenu from '../menus/menu-constructors/DropListMenu'
+import Panel from '../menus/menu-constructors/Panel'
+import PanelMenu from '../menus/menu-constructors/PanelMenu'
+import Tooltip from '../menus/menu-constructors/Tooltip'
+
 let EDITOR_ID = 1
 
 class Editor {
+    // 存储自定义菜单的构造函数
+    static menuConstructors: {
+        [key: string]: Function
+    } = {}
+
+    // 暴露 $
+    static $: Function = $
+
     public id: string
     public toolbarSelector: string
     public textSelector: string | undefined
@@ -93,6 +109,16 @@ class Editor {
         bindEvent(this)
         this.change = changeHandler
     }
+}
+
+// 暴露创建菜单的 class
+Editor.menuConstructors = {
+    BtnMenu,
+    DropList,
+    DropListMenu,
+    Panel,
+    PanelMenu,
+    Tooltip,
 }
 
 export default Editor
