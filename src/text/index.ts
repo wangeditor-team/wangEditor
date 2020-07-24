@@ -256,6 +256,17 @@ class Text {
             }, 100)
         )
 
+        // 拖拽相关的事件
+        $(document).on('dragleave drop dragenter dragover', function (e: Event) {
+            // 禁用 document 拖拽事件
+            e.preventDefault()
+        })
+        $textElem.on('drop', (e: Event) => {
+            e.preventDefault()
+            const events = eventHooks.dropEvents
+            events.forEach(fn => fn(e))
+        })
+
         // link click
         $textElem.on('click', (e: Event) => {
             e.preventDefault()
