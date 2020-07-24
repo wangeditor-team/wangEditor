@@ -60,7 +60,7 @@ class Justify extends DropListMenu implements MenuActive {
      * 默认左对齐,若选择其他对其方式对active进行高亮否则unActive
      * ?考虑优化的话 是否可以对具体选中的进行高亮
      */
-    public tryChangeActive() {
+    public tryChangeActive(): void {
         // const editor = this.editor
         // let isjustify = ['justifyCenter', 'justifyRight'].some(e => editor.cmd.queryCommandState(e))
         // if (isjustify) {

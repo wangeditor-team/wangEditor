@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import menusConfig from './menus'
+import menusConfig, { EmotionsType } from './menus'
 import eventsConfig from './events'
 import styleConfig from './style'
 import pasteConfig from './paste'
@@ -21,6 +21,7 @@ export type ConfigType = {
     fontNames: string[]
     fontSizes: FontSizeType
     colors: string[]
+    emotions: EmotionsType[]
     zIndex: number
     onchange: Function
     onfocus: Function

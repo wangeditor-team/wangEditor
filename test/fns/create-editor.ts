@@ -17,16 +17,17 @@ function createEditor(document: Document, toolbarId: string, textId?: string): E
     toolbarElem.id = toolbarId
     $('body').append($(toolbarElem))
 
+    let editor: Editor
+
     if (textId) {
         const textElem = document.createElement('div')
         textElem.id = textId
         $('body').append($(textElem))
-
-        const editor = new Editor(`#${toolbarId}`, `#${textId}`)
-        return editor
+        editor = new Editor(`#${toolbarId}`, `#${textId}`)
     }
 
-    const editor = new Editor(`#${toolbarId}`)
+    editor = new Editor(`#${toolbarId}`)
+
     editor.create()
     return editor
 }

@@ -9,11 +9,15 @@ import $ from '../../utils/dom-core'
 import createPanelConf from './create-panel-conf'
 import Panel from '../menu-constructors/Panel'
 import { MenuActive } from '../menu-constructors/Menu'
+import bindEvent from './bind-event/index'
 
 class Image extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-image"></i></div>')
         super($elem, editor)
+
+        // 绑定事件，如粘贴图片
+        bindEvent(editor)
     }
 
     /**

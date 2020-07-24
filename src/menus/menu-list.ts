@@ -17,6 +17,12 @@ import BackColor from './back-color/index'
 import FontColor from './font-color/index'
 import Video from './video/index'
 import Image from './img/index'
+import Indent from './indent/index'
+import Emoticon from './emoticon/index'
+
+export type MenuListType = {
+    [key: string]: any
+}
 
 export default {
     bold: Bold,
@@ -33,4 +39,6 @@ export default {
     fontColor: FontColor,
     video: Video,
     image: Image,
+    indent: Indent,
+    emoticon: Emoticon,
 }
