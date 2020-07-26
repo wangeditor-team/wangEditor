@@ -41,15 +41,18 @@ class SelectionAndRange {
         }
         const range = selection.getRangeAt(0)
 
-        // 保证选区的 DOM ，是在编辑区域之内
+        // 获取选区范围的 DOM 元素
         const $containerElem = this.getSelectionContainerElem(range)
         if (!$containerElem) {
+            // 当 选区范围内没有 DOM元素 则抛出
             return
         }
         if (
             $containerElem.attr('contenteditable') === 'false' ||
             $containerElem.parentUntil('[contenteditable=false]')
         ) {
+            // 这里大体意义上就是个保险
+            // 确保 编辑区域 的 contenteditable属性 的值为 true
             return
         }
 
