@@ -36,6 +36,7 @@ export default {
         'image',
         'video',
         'indent',
+        'lineHeight',
     ],
 
     fontNames: [
