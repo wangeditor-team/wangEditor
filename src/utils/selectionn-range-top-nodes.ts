@@ -30,7 +30,7 @@ class SelectionRangeTopNodes {
     /**
      * 初始化
      */
-    init(): void {
+    public init(): void {
         this.recordSelectionNodes($(this.$startElem))
     }
 
@@ -38,7 +38,7 @@ class SelectionRangeTopNodes {
      * 添加 节点 到nodeList
      * @param $node 节点
      */
-    addNodeList($node: DomElement | HTMLElement): void {
+    private addNodeList($node: DomElement | HTMLElement): void {
         this.$nodeList.push($($node))
     }
 
@@ -46,7 +46,7 @@ class SelectionRangeTopNodes {
      * 是否是 选区结束 节点
      * @param $node 节点
      */
-    isEndElem($node: DomElement): boolean | undefined {
+    private isEndElem($node: DomElement): boolean | undefined {
         return this.$endElem?.equal($node)
     }
 
@@ -54,7 +54,7 @@ class SelectionRangeTopNodes {
      * 获取当前节点的下一个兄弟节点
      * @param $node 节点
      */
-    getNextSibling($node: DomElement): DomElement {
+    private getNextSibling($node: DomElement): DomElement {
         return $($node.elems[0].nextSibling)
     }
 
@@ -62,7 +62,7 @@ class SelectionRangeTopNodes {
      * 记录节点 - 从选区开始节点开始 一直到匹配到选区结束节点为止
      * @param $node 节点
      */
-    recordSelectionNodes($node: DomElement): void {
+    private recordSelectionNodes($node: DomElement): void {
         const $elem = getNodeTop($node, this.editor)
         this.addNodeList($elem)
         if (!this.isEndElem($elem)) {
@@ -73,7 +73,7 @@ class SelectionRangeTopNodes {
     /**
      * 获取 选中节点列表
      */
-    getSelectionNodes(): DomElement[] {
+    public getSelectionNodes(): DomElement[] {
         return this.$nodeList
     }
 }
