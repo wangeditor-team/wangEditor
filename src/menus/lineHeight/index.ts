@@ -1,5 +1,5 @@
 /**
- * @description 段落行高 RowHeight
+ * @description 段落行高 LineHeight
  * @author lichunlin
  *
  */
@@ -9,7 +9,7 @@ import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 
-class RowHeight extends DropListMenu implements MenuActive {
+class LineHeight extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
             `<div class="w-e-menu">
@@ -52,10 +52,12 @@ class RowHeight extends DropListMenu implements MenuActive {
         let st: string = ''
         //恢复焦点
         editor.selection.restoreSelection()
-        const $selectionElem = editor.selection.getSelectionContainerElem()
-        let dom: any = $selectionElem?.elems[0]
+        const $selectionElem = $(editor.selection.getSelectionContainerElem())
+        const $selectionAll = $(editor.selection.getSelectionContainerElem())
+        // let dom:HTMLElement= $selectionElem.elems[0]
+        let dom: HTMLElement = $(editor.selection.getSelectionStartElem()).elems[0]
         //获取元素的style
-        let style: string = ''
+        let style: string | null = ''
         let styleList: string[] = []
         //点击默认的时候删除line-height属性 并重新设置 style
         let styleStr: string = ''
@@ -64,28 +66,29 @@ class RowHeight extends DropListMenu implements MenuActive {
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
             //获取range 开头结束的dom在 祖父元素的下标
             let indexStore: Array<number> = []
-            let arrayDom_a: any[] = []
-            let arrayDom_b: any[] = []
+            let arrayDom_a: Array<HTMLElement> = []
+            let arrayDom_b: Array<HTMLElement> = []
             //获取range 开头结束的dom
-            const StartElem: any = editor.selection.getSelectionStartElem()
-            const EndElem: any = editor.selection.getSelectionEndElem()
+            const StartElem: DomElement = $(editor.selection.getSelectionStartElem())
+            const EndElem: DomElement = $(editor.selection.getSelectionEndElem())
             const childList: NodeListOf<ChildNode> | undefined = editor.selection.getRange()
                 ?.commonAncestorContainer.childNodes
             arrayDom_a.push(this.getDom(StartElem.elems[0]))
             childList?.forEach((item, index) => {
-                if (item === StartElem.elems[0]) {
+                if (item === this.getDom(StartElem.elems[0])) {
                     indexStore.push(index)
                 }
-                if (item === EndElem.elems[0]) {
+                if (item === this.getDom(EndElem.elems[0])) {
                     indexStore.push(index)
                 }
             })
             //遍历 获取头尾之间的dom元素
             let i = 0
-            let d = ''
+            let d: HTMLElement
             arrayDom_b.push(this.getDom(StartElem.elems[0]))
             while (arrayDom_a[i] !== this.getDom(EndElem.elems[0])) {
-                d = arrayDom_a[i].nextElementSibling
+                d = $(arrayDom_a[i].nextElementSibling).elems[0]
+                console.log(d)
                 if (allowArray.indexOf($(d).getNodeName()) !== -1) {
                     arrayDom_b.push(d)
                     arrayDom_a.push(d)
@@ -144,16 +147,16 @@ class RowHeight extends DropListMenu implements MenuActive {
             this.action(st, editor)
 
             //恢复已选择的选区
+            dom = $selectionAll.elems[0]
             this.setRange(dom.children[indexStore[0]], dom.children[indexStore[1]])
             return
         }
 
         //遍历dom 获取祖父元素 直到contenteditable属性的div标签
-        while (!dom.parentNode.getAttribute('contenteditable')) {
-            dom = dom.parentNode
-        }
+        dom = this.getDom(dom)
 
         //校验允许lineheight设置标签
+        console.log(dom)
         if (allowArray.indexOf($(dom).getNodeName()) === -1) {
             return
         }
@@ -203,14 +206,21 @@ class RowHeight extends DropListMenu implements MenuActive {
      * 遍历dom 获取祖父元素 直到contenteditable属性的div标签
      *
      */
-    public getDom(dom: Document): Document {
-        let DOM: any = dom
+    public getDom(dom: HTMLElement): HTMLElement {
+        let DOM: HTMLElement = $(dom).elems[0]
         if (!DOM.parentNode) {
             return DOM
         }
-        while (!DOM.parentNode.getAttribute('contenteditable')) {
-            DOM = DOM.parentNode
+        function getParentNode($node: HTMLElement, editor: Editor): HTMLElement {
+            const $parent = $($node.parentNode)
+            if (editor.$textElem.equal($parent)) {
+                return $node
+            } else {
+                return getParentNode($parent.elems[0], editor)
+            }
         }
+        DOM = getParentNode(DOM, this.editor)
+
         return DOM
     }
 
@@ -240,19 +250,19 @@ class RowHeight extends DropListMenu implements MenuActive {
      */
     public setRange(startDom: Node, endDom: Node): void {
         const editor = this.editor
-        let selection: any = window.getSelection ? window.getSelection() : document.getSelection()
+        let selection = window.getSelection ? window.getSelection() : document.getSelection()
         //清除所有的选区
-        selection.removeAllRanges()
+        selection?.removeAllRanges()
         const range = document.createRange()
         let star = startDom
         let end = endDom
         range.setStart(star, 0)
         range.setEnd(end, 1)
-        selection.addRange(range)
+        selection?.addRange(range)
         //保存设置好的选区
         editor.selection.saveRange()
         //清除所有的选区
-        selection.removeAllRanges()
+        selection?.removeAllRanges()
         //恢复选区
         editor.selection.restoreSelection()
     }
@@ -267,15 +277,12 @@ class RowHeight extends DropListMenu implements MenuActive {
             //避免选中多行设置
             return
         }
-        let dom: any = $selectionElem?.elems[0]
-        //遍历dom 直到contenteditable属性的div标签
-        while (!dom.parentNode.getAttribute('contenteditable')) {
-            dom = dom.parentNode
-        }
-        let style: string = dom.getAttribute('style') ? dom.getAttribute('style') : ''
+        let dom: DomElement | HTMLElement = $(editor.selection.getSelectionStartElem())
+        dom = this.getDom(dom.elems[0])
+        let style: string | null = dom.getAttribute('style') ? dom.getAttribute('style') : ''
 
         //判断当前标签是否具有line-height属性
-        if (style.indexOf('line-height') !== -1) {
+        if (style && style.indexOf('line-height') !== -1) {
             this.active()
         } else {
             this.unActive()
@@ -283,4 +290,4 @@ class RowHeight extends DropListMenu implements MenuActive {
     }
 }
 
-export default RowHeight
+export default LineHeight
