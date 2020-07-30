@@ -19,6 +19,7 @@ import Video from './video/index'
 import Image from './img/index'
 import Indent from './indent/index'
 import Emoticon from './emoticon/index'
+import List from './list/index'
 
 export type MenuListType = {
     [key: string]: any
@@ -41,4 +42,5 @@ export default {
     image: Image,
     indent: Indent,
     emoticon: Emoticon,
+    list: List,
 }
