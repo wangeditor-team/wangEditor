@@ -36,6 +36,7 @@ export default {
         'image',
         'video',
         'indent',
+        'lineHeight',
     ],
 
     fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
