@@ -88,7 +88,6 @@ class LineHeight extends DropListMenu implements MenuActive {
             arrayDom_b.push(this.getDom(StartElem.elems[0]))
             while (arrayDom_a[i] !== this.getDom(EndElem.elems[0])) {
                 d = $(arrayDom_a[i].nextElementSibling).elems[0]
-                console.log(d)
                 if (allowArray.indexOf($(d).getNodeName()) !== -1) {
                     arrayDom_b.push(d)
                     arrayDom_a.push(d)
@@ -156,7 +155,6 @@ class LineHeight extends DropListMenu implements MenuActive {
         dom = this.getDom(dom)
 
         //校验允许lineheight设置标签
-        console.log(dom)
         if (allowArray.indexOf($(dom).getNodeName()) === -1) {
             return
         }
