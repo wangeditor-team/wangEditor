@@ -637,7 +637,7 @@ export class DomElement {
      * 将该元素插入到某个元素后面
      * @param selector css 选择器
      */
-    insertAfter(selector: string): DomElement {
+    insertAfter(selector: string | DomElement): DomElement {
         const $referenceNode = $(selector)
         const referenceNode = $referenceNode.elems[0]
         if (!referenceNode) {

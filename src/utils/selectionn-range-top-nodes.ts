@@ -64,9 +64,11 @@ class SelectionRangeTopNodes {
      */
     private recordSelectionNodes($node: DomElement): void {
         const $elem = getNodeTop($node, this.editor)
-        this.addNodeList($elem)
-        if (!this.isEndElem($elem)) {
-            this.recordSelectionNodes(this.getNextSibling($elem))
+        if ($elem.length > 0) {
+            this.addNodeList($elem)
+            if (!this.isEndElem($elem)) {
+                this.recordSelectionNodes(this.getNextSibling($elem))
+            }
         }
     }
 

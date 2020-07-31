@@ -127,6 +127,11 @@ export function isFunction(fn: any) {
  * @param editor 富文本实例
  */
 export function getNodeTop($node: DomElement, editor: Editor): DomElement {
+    if ($node.length < 1) {
+        console.log($node)
+        return $node
+    }
+
     const $parent = $node.parent()
     if (editor.$textElem.equal($parent)) {
         return $node

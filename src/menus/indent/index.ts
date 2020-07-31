@@ -86,6 +86,8 @@ class Indent extends DropListMenu implements MenuActive {
         const $selectionElem = editor.selection.getSelectionStartElem()
         const $selectionStartElem = getNodeTop($($selectionElem), editor)
 
+        if ($selectionStartElem.length <= 0) return
+
         if ($selectionStartElem.elems[0].style['paddingLeft'] != '') {
             this.active()
         } else {
