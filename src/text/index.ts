@@ -311,17 +311,16 @@ class Text {
 
             const target = e.target as HTMLElement
             const $target = $(target)
-            //处理图片点击
-            if ($target.getNodeName() === 'IMG') {
+
+            //处理图片点击 判断是否是表情 根据 不存在class或者className!==eleImg、没有alt属性
+            if (
+                $target.getNodeName() === 'IMG' &&
+                (!$target.elems[0].getAttribute('class') ||
+                    $target.elems[0].getAttribute('class') !== 'eleImg') &&
+                !$target.elems[0].getAttribute('alt')
+            ) {
                 // 当前点击的就是img
                 $img = $target
-            } else {
-                // 否则，向父节点中寻找img
-                const $parent = $target.parentUntil('img')
-                if ($parent != null) {
-                    // 找到了
-                    $img = $parent
-                }
             }
 
             if ($img == null) return // 没有点击链接，则返回
