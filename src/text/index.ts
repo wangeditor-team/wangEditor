@@ -23,6 +23,7 @@ type TextEventHooks = {
     linkClickEvents: Function[] // 点击链接事件
     textScrollEvents: Function[] // 编辑区域滑动事件
     toolbarClickEvents: Function[] // 菜单栏被点击
+    imgClickEvents: Function[] // 图片被点击事件
 }
 
 class Text {
@@ -45,6 +46,7 @@ class Text {
             linkClickEvents: [],
             textScrollEvents: [],
             toolbarClickEvents: [],
+            imgClickEvents: [],
         }
     }
 
@@ -205,6 +207,12 @@ class Text {
             enterUpEvents.forEach(fn => fn(e))
         })
 
+        // 键盘 up 时的 hooks
+        $textElem.on('keyup', (e: KeyboardEvent) => {
+            const keyupEvents = eventHooks.keyupEvents
+            keyupEvents.forEach(fn => fn(e))
+        })
+
         // delete 键 up 时 hooks
         $textElem.on('keyup', (e: KeyboardEvent) => {
             if (e.keyCode !== 8) return
@@ -292,6 +300,33 @@ class Text {
 
             const linkClickEvents = eventHooks.linkClickEvents
             linkClickEvents.forEach(fn => fn($link))
+        })
+
+        // img click
+        $textElem.on('click', (e: Event) => {
+            e.preventDefault()
+
+            // 存储链接元素
+            let $img: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+
+            //处理图片点击 判断是否是表情 根据 不存在class或者className!==eleImg、没有alt属性
+            if (
+                $target.getNodeName() === 'IMG' &&
+                (!$target.elems[0].getAttribute('class') ||
+                    $target.elems[0].getAttribute('class') !== 'eleImg') &&
+                !$target.elems[0].getAttribute('alt')
+            ) {
+                // 当前点击的就是img
+                $img = $target
+            }
+
+            if ($img == null) return // 没有点击链接，则返回
+
+            const imgClickEvents = eventHooks.imgClickEvents
+            imgClickEvents.forEach(fn => fn($img))
         })
 
         // 菜单栏被点击

@@ -37,9 +37,24 @@ export default {
         'video',
         'indent',
         'list',
+        'lineHeight',
     ],
 
-    fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
+    fontNames: [
+        '黑体',
+        '仿宋',
+        '楷体',
+        '标楷体',
+        '华文仿宋',
+        '华文楷体',
+        '宋体',
+        '微软雅黑',
+        'Arial',
+        'Tahoma',
+        'Verdana',
+        'Times New Roman',
+        'Courier New',
+    ],
 
     fontSizes: {
         'x-small': '1',

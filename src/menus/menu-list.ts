@@ -20,6 +20,7 @@ import Image from './img/index'
 import Indent from './indent/index'
 import Emoticon from './emoticon/index'
 import List from './list/index'
+import LineHeight from './lineHeight/index'
 
 export type MenuListType = {
     [key: string]: any
@@ -43,4 +44,5 @@ export default {
     indent: Indent,
     emoticon: Emoticon,
     list: List,
+    lineHeight: LineHeight,
 }
