@@ -62,6 +62,8 @@ export default {
         '#f9963b',
         '#ffffff',
     ],
+
+    languageType: ['Java', 'JavaScript', 'C#', 'Html'],
     /**
      * 表情配置菜单
      * 如果为emoji表情直接作为元素插入
