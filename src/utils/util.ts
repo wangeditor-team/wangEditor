@@ -128,7 +128,6 @@ export function isFunction(fn: any) {
  */
 export function getNodeTop($node: DomElement, editor: Editor): DomElement {
     if ($node.length < 1) {
-        console.log($node)
         return $node
     }
 
