@@ -11,7 +11,6 @@ import Panel from '../menu-constructors/Panel'
 import Editor from '../../editor/index'
 import PanelMenu from '../menu-constructors/PanelMenu'
 import { MenuActive } from '../menu-constructors/Menu'
-import DropListMenu from '../menu-constructors/DropListMenu'
 
 class Code extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
