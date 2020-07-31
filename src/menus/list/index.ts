@@ -73,7 +73,24 @@ class List extends DropListMenu implements MenuActive {
         this.tryChangeActive()
     }
 
-    public tryChangeActive(): void {}
+    public tryChangeActive(): void {
+        const editor = this.editor
+        const $selectionElem = editor.selection.getSelectionStartElem()
+        const $selectionStartElem = getNodeTop($($selectionElem), editor)
+        const regUl = /^UL$/i
+        const regOl = /^OL$/i
+
+        if ($selectionStartElem.length <= 0) return
+
+        if (
+            regOl.test($selectionStartElem.getNodeName()) ||
+            regUl.test($selectionStartElem.getNodeName())
+        ) {
+            this.active()
+        } else {
+            this.unActive()
+        }
+    }
 }
 
 export default List
