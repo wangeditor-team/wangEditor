@@ -71,6 +71,7 @@ function bindTooltipEvent(editor: Editor) {
 
     // 点击其他地方，或者滚动时，隐藏 tooltip
     editor.txt.eventHooks.clickEvents.push(hideLinkTooltip)
+    editor.txt.eventHooks.keyupEvents.push(hideLinkTooltip)
     editor.txt.eventHooks.toolbarClickEvents.push(hideLinkTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideLinkTooltip)
 }
