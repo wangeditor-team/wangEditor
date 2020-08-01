@@ -1,3 +1,8 @@
+/**
+ * @description 图片拖拽事件绑定
+ * @author xiaokyo
+ */
+
 import Editor from '../../../editor'
 import $, { DomElement } from '../../../utils/dom-core'
 import './drag-size.less'
@@ -150,6 +155,9 @@ const bindDragImgSize = (editor: Editor) => {
     $textContainerElem.on('click', 'img', function (e: MouseEvent) {
         e = e || event
         e.stopPropagation()
+
+        // 禁止表情图片拖拽
+        if ($(e.target).attr('class').includes('eleImg')) return
 
         if (e.target) {
             imgTarget = <Node>e.target
