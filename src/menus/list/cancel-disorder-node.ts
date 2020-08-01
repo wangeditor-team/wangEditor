@@ -8,16 +8,21 @@ import Editor from '../../editor'
 import updateRange from './update-range'
 
 function cancelDisOrderNode($node: DomElement, editor: Editor): void {
-    const html = $(
-        $node
-            .html()
-            .replace(/<li>/gim, '<p>')
-            .replace(/<\/li>/gim, '</p>')
-    )
+    let html: DomElement
+    const $children = $($node.children())
 
-    html.insertAfter($node)
-    $node.remove()
-    updateRange(html, editor)
+    if ($children.length <= 0) {
+        html = $(
+            $node
+                .html()
+                .replace(/<li>/gim, '<p>')
+                .replace(/<\/li>/gim, '</p>')
+        )
+
+        html.insertAfter($node)
+        $node.remove()
+        updateRange(html, editor)
+    }
 }
 
 export default cancelDisOrderNode
