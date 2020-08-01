@@ -1,7 +1,5 @@
 import Editor from '../../../editor'
 import $, { DomElement } from '../../../utils/dom-core'
-
-// style
 import './drag-size.less'
 
 let imgTarget: Node | undefined
