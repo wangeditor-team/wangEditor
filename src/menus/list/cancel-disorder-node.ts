@@ -11,7 +11,7 @@ function cancelDisOrderNode($node: DomElement, editor: Editor): void {
     let html: DomElement
     const $children = $($node.children())
 
-    if ($children.length <= 0) {
+    if ($children.length <= 1) {
         html = $(
             $node
                 .html()
