@@ -3,7 +3,7 @@
  * @author tonghan
  */
 
-import $ from '../../utils/dom-core'
+import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import DropListMenu from '../menu-constructors/DropListMenu'
 import { MenuActive } from '../menu-constructors/Menu'
@@ -54,7 +54,7 @@ class List extends DropListMenu implements MenuActive {
             // 代表 当前选区 可能是一个选择了一个完整的段落或者多个段落
             const $elems = getSelectionRangeTopNodes(editor)
             if ($elems.length > 0) {
-                $elems.forEach(item => {
+                $elems.forEach((item: DomElement) => {
                     operateElement($(item), value, editor)
                 })
             }
@@ -62,7 +62,7 @@ class List extends DropListMenu implements MenuActive {
             // 当 当前选区 不等于 textElem 时
             // 代表 当前选区要么是一个段落，要么是段落中的一部分
             if ($selectionElem && $selectionElem.length > 0) {
-                $selectionElem.forEach((item: any) => {
+                $selectionElem.forEach((item: DomElement) => {
                     operateElement($(item), value, editor)
                 })
             }
