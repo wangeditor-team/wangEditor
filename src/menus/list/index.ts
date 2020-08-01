@@ -25,14 +25,14 @@ class List extends DropListMenu implements MenuActive {
             list: [
                 {
                     $elem: $(`<p><i class="w-e-icon-list2 w-e-drop-list-item"></i>无序列表<p>`),
-                    value: 'disorder',
+                    value: 'insertUnorderedList',
                 },
 
                 {
                     $elem: $(
                         `<p><i class="w-e-icon-list-numbered w-e-drop-list-item"></i>有序列表<p>`
                     ),
-                    value: 'order',
+                    value: 'insertOrderedList',
                 },
             ],
             clickHandler: (value: string) => {
