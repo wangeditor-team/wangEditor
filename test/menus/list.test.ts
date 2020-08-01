@@ -33,19 +33,3 @@ test('list 菜单：无序', () => {
     listMenu.command('insertUnorderedList')
     expect(document.execCommand).toBeCalledWith('insertUnorderedList', false, undefined)
 })
-
-// test('list 菜单：设置序列 转换序列', () => {
-//     editor.$textElem.append($p)
-//     editor.selection.createRangeByElem($p, false, true)
-//     listMenu.command('disorder')
-//     expect($(editor.selection.getSelectionStartElem()).getNodeName()).toBe('UL')
-//     listMenu.command('order')
-//     expect($(editor.selection.getSelectionStartElem()).getNodeName()).toBe('OL')
-// })
-
-// test('list 菜单：取消序列', () => {
-//     listMenu.command('disorder')
-//     expect($(editor.selection.getSelectionStartElem()).getNodeName()).toBe('UL')
-//     listMenu.command('disorder')
-//     expect($(editor.selection.getSelectionStartElem()).getNodeName()).toBe('P')
-// })
