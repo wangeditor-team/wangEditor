@@ -10,6 +10,14 @@ import './drag-size.less'
 let imgTarget: Node | undefined
 
 /**
+ * 隐藏拖拽框
+ */
+const hideDragBox = ($textContainerElem: DomElement) => {
+    const $drag = $textContainerElem.find('.w-e-img-drag-mask')
+    $drag.hide()
+}
+
+/**
  * 设置拖拽框的rect
  * @param $drag drag Dom
  * @param width 要设置的宽度
@@ -166,11 +174,16 @@ const bindDragImgSize = (editor: Editor) => {
     })
 
     $textContainerElem.find('.w-e-text').on('scroll', function () {
-        $textContainerElem.find('.w-e-img-drag-mask').hide()
+        hideDragBox($textContainerElem)
+    })
+
+    $textContainerElem.on('keyup', function (e: MouseEvent) {
+        e = e || event
+        hideDragBox($textContainerElem)
     })
 
     document.onclick = function (e: Event) {
-        $textContainerElem.find('.w-e-img-drag-mask').hide()
+        hideDragBox($textContainerElem)
     }
 }
 
