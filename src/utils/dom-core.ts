@@ -569,6 +569,22 @@ export class DomElement {
     }
 
     /**
+     * 当前元素前一个兄弟节点
+     */
+    prev(): DomElement {
+        const elem = this.elems[0]
+        return $(elem.previousElementSibling)
+    }
+
+    /**
+     * 当前元素后一个兄弟节点
+     */
+    next(): DomElement {
+        const elem = this.elems[0]
+        return $(elem.nextElementSibling)
+    }
+
+    /**
      * 获取父元素
      */
     parent(): DomElement {
