@@ -57,4 +57,11 @@ test('img 菜单：显示上传图片的按钮', () => {
     expect($inputLink.length).toBe(1)
 })
 
+test('img 拖拽:是否成功生成拖拽框', () => {
+    const editor3 = createEditor(document, 'div3')
+    const $drag = editor3.$textContainerElem.find('.w-e-img-drag-mask')
+
+    expect($drag).not.toBeUndefined()
+})
+
 // PS: 上传接口，暂不测试，后面再补充吧
