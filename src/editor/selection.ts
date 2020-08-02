@@ -140,6 +140,11 @@ class SelectionAndRange {
         }
     }
 
+    /**
+     * 获取到指定的祖先元素
+     * @param elem
+     * @param nodeName
+     */
     // @ts-ignore
     public getPreNode(elem: (Node & ParentNode) | null, nodeName: string) {
         // @ts-ignore

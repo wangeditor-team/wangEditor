@@ -63,7 +63,10 @@ export default {
         '#ffffff',
     ],
 
+    //插入代码语言配置
     languageType: ['Java', 'JavaScript', 'C#', 'Html'],
+
+    languageTab: '    ',
     /**
      * 表情配置菜单
      * 如果为emoji表情直接作为元素插入

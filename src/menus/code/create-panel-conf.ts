@@ -96,17 +96,6 @@ export default function (editor: editor, text: string, link: string): PanelConf 
                     </div>`,
                 // 事件绑定
                 events: [
-                    {
-                        selector: 'inputIFrameId',
-                        type: 'keydooen',
-                        fn: e => {
-                            if (e.keyCode != 9) return
-                            //清除默认行为
-                            e.stopPropagation()
-                            //
-                            editor.cmd.do('insertHTML', '    ')
-                        },
-                    },
                     // 插入链接
                     {
                         selector: '#' + btnOkId,
