@@ -1,3 +1,5 @@
+import Editor from '../editor/index'
+
 /**
  * @description 封装 DOM 操作
  * @wangfupeng
@@ -684,6 +686,23 @@ export class DomElement {
             // 获取数据
             return this.dataSource.get(key)
         }
+    }
+
+    /**
+     * getNodeTop 获取当前节点的顶级(段落)
+     * @param editor 富文本实例
+     */
+    getNodeTop(editor: Editor): DomElement {
+        if (this.length < 1) {
+            return this
+        }
+
+        const $parent = this.parent()
+        if (editor.$textElem.equal($parent)) {
+            return this
+        }
+
+        return $parent.getNodeTop(editor)
     }
 }
 

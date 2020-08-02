@@ -7,12 +7,11 @@
 
 import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
-import { getNodeTop } from '../../utils/util'
 import increaseIndentStyle from './increase-indent-style'
 import decreaseIndentStyle from './decrease-indent-style'
 
 function operateElement($node: DomElement, type: String, editor: Editor): void {
-    const $elem = getNodeTop($node, editor)
+    const $elem = $node.getNodeTop(editor)
     const reg = /^P$/i
 
     if (reg.test($elem.getNodeName())) {

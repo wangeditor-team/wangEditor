@@ -7,7 +7,6 @@ import $ from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import DropListMenu from '../menu-constructors/DropListMenu'
 import { MenuActive } from '../menu-constructors/Menu'
-import { getNodeTop } from '../../utils/util'
 
 class List extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -87,7 +86,7 @@ class List extends DropListMenu implements MenuActive {
     public tryChangeActive(): void {
         const editor = this.editor
         const $selectionElem = editor.selection.getSelectionStartElem()
-        const $selectionStartElem = getNodeTop($($selectionElem), editor)
+        const $selectionStartElem = $($selectionElem).getNodeTop(editor)
         const regUl = /^UL$/i
         const regOl = /^OL$/i
 

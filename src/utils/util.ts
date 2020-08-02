@@ -5,7 +5,7 @@
 
 import { DomElement } from './dom-core'
 import Editor from '../editor'
-import SelectionRangeTopNodes from './selectionn-range-top-nodes'
+import SelectionRangeTopNodes from '../editor/selection-range-top-nodes'
 
 // 和 UA 相关的属性
 export const UA = {
@@ -119,32 +119,4 @@ export function debounce(fn: Function, delay: number = 200): Function {
  */
 export function isFunction(fn: any) {
     return typeof fn === 'function'
-}
-
-/**
- * getNodeTop 获取当前节点的顶级(段落)
- * @param $node DomElement 元素
- * @param editor 富文本实例
- */
-export function getNodeTop($node: DomElement, editor: Editor): DomElement {
-    if ($node.length < 1) {
-        return $node
-    }
-
-    const $parent = $node.parent()
-    if (editor.$textElem.equal($parent)) {
-        return $node
-    }
-
-    return getNodeTop($parent, editor)
-}
-
-/**
- * getNodeTop 获取当前选取范围的所有顶级(段落)元素
- * @param editor 富文本实例
- */
-export function getSelectionRangeTopNodes(editor: Editor): DomElement[] {
-    const item = new SelectionRangeTopNodes(editor)
-    item.init()
-    return item.getSelectionNodes()
 }

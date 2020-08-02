@@ -6,6 +6,7 @@
 import $, { DomElement } from '../utils/dom-core'
 import { UA } from '../utils/util'
 import Editor from './index'
+import SelectionRangeTopNodes from './selection-range-top-nodes/index'
 
 class SelectionAndRange {
     public editor: Editor
@@ -220,6 +221,16 @@ class SelectionAndRange {
 
         // 存储 range
         this.saveRange(range)
+    }
+
+    /**
+     * 获取 当前 选取范围的 顶级(段落) 元素
+     * @param $editor
+     */
+    public getSelectionRangeTopNodes(editor: Editor): DomElement[] {
+        const item = new SelectionRangeTopNodes(editor)
+        item.init()
+        return item.getSelectionNodes()
     }
 }
 

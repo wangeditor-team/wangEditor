@@ -7,7 +7,6 @@ import $ from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import DropListMenu from '../menu-constructors/DropListMenu'
 import { MenuActive } from '../menu-constructors/Menu'
-import { getNodeTop, getSelectionRangeTopNodes } from '../../utils/util'
 import operateElement from './operate-element'
 
 class Indent extends DropListMenu implements MenuActive {
@@ -57,7 +56,7 @@ class Indent extends DropListMenu implements MenuActive {
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
             // 当 当前选区 等于 textElem 时
             // 代表 当前选区 可能是一个选择了一个完整的段落或者多个段落
-            const $elems = getSelectionRangeTopNodes(editor)
+            const $elems = editor.selection.getSelectionRangeTopNodes(editor)
             if ($elems.length > 0) {
                 $elems.forEach((item: any) => {
                     operateElement($(item), value, editor)
@@ -84,7 +83,7 @@ class Indent extends DropListMenu implements MenuActive {
     public tryChangeActive(): void {
         const editor = this.editor
         const $selectionElem = editor.selection.getSelectionStartElem()
-        const $selectionStartElem = getNodeTop($($selectionElem), editor)
+        const $selectionStartElem = $($selectionElem).getNodeTop(editor)
 
         if ($selectionStartElem.length <= 0) return
 

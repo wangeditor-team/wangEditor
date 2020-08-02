@@ -3,9 +3,8 @@
  * @author tonghan
  */
 
-import $, { DomElement } from './dom-core'
-import Editor from '../editor/index'
-import { getNodeTop } from './util'
+import $, { DomElement } from '../../utils/dom-core'
+import Editor from '../index'
 
 // 构造函数
 class SelectionRangeTopNodes {
@@ -23,8 +22,8 @@ class SelectionRangeTopNodes {
         // 初始化属性
         this.editor = editor
         this.$nodeList = []
-        this.$startElem = getNodeTop($(editor.selection.getSelectionStartElem()), this.editor)
-        this.$endElem = getNodeTop($(editor.selection.getSelectionEndElem()), this.editor)
+        this.$startElem = $(editor.selection.getSelectionStartElem()).getNodeTop(this.editor)
+        this.$endElem = $(editor.selection.getSelectionEndElem()).getNodeTop(this.editor)
     }
 
     /**
@@ -63,7 +62,7 @@ class SelectionRangeTopNodes {
      * @param $node 节点
      */
     private recordSelectionNodes($node: DomElement): void {
-        const $elem = getNodeTop($node, this.editor)
+        const $elem = $node.getNodeTop(this.editor)
         if ($elem.length > 0) {
             this.addNodeList($elem)
             if (!this.isEndElem($elem)) {
