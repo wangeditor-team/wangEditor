@@ -1,6 +1,6 @@
 /**
- * @description link 菜单 panel tab 配置
- * @author wangfupeng
+ * @description code 菜单 panel tab 配置
+ * @author lkw
  */
 
 import editor from '../../editor/index'
@@ -8,9 +8,11 @@ import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $, { DomElement } from '../../utils/dom-core'
 import isActive from './is-active'
+import hljs from 'highlight.js'
+// import 'highlight.js/styles/monokai-sublime.css'
+import 'highlight.js/styles/default.css'
 
 export default function (editor: editor, text: string, link: string): PanelConf {
-    // panel 中需要用到的id
     // panel 中需要用到的id
     const inputIFrameId = getRandom('input-iframe')
     const languageId = getRandom('select')
@@ -30,11 +32,11 @@ export default function (editor: editor, text: string, link: string): PanelConf 
     function selectLinkElem(): void {
         if (!isActive(editor)) return
 
-        const $linkElem = editor.selection.getSelectionContainerElem()
+        const $linkElem = editor.selection.getSelectionTopContainerElem('CODE')
         if (!$linkElem) return
+        console.log($linkElem)
         editor.selection.createRangeByElem($linkElem)
         editor.selection.restoreSelection()
-
         $selectedLink = $linkElem // 赋值给函数内全局变量
     }
 
@@ -43,15 +45,15 @@ export default function (editor: editor, text: string, link: string): PanelConf 
      * @param text 文字
      * @param link 链接
      */
-    function insertLink(text: string, link: string): void {
+    function insertCode(text: string, link: string): void {
+        // 选区处于链接中，则选中整个菜单，再执行 insertHTML
         if (isActive(editor)) {
-            // 选区处于链接中，则选中整个菜单，再执行 insertHTML
             selectLinkElem()
-            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
-        } else {
-            // 选区未处于链接中，直接插入即可
-            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
         }
+
+        // editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+
+        editor.cmd.do('insertHTML', text)
     }
 
     /**
@@ -69,42 +71,73 @@ export default function (editor: editor, text: string, link: string): PanelConf 
     }
 
     const conf = {
-        width: 300,
+        width: 400,
         height: 0,
 
         // panel 中可包含多个 tab
         tabs: [
             {
                 // tab 的标题
-                title: '链接',
+                title: '插入代码',
                 // 模板
                 tpl: `<div>
-                        <input id="${inputTextId}" type="text" class="block" value="${text}" placeholder="链接文字"/></td>
-                        <input id="${inputLinkId}" type="text" class="block" value="${link}" placeholder="如 https://..."/></td>
+                        <select name="" id="${languageId}">
+                            ${editor.config.languageType.map(language => {
+                                return '<option value ="' + language + '">' + language + '</option>'
+                            })}
+                        </select>
+                        <br><br>
+                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 200px">${text}</textarea>
                         <div class="w-e-button-container">
-                            <button id="${btnOkId}" class="right">插入</button>
-                            <button id="${btnDelId}" class="gray right" style="display:${delBtnDisplay}">删除链接</button>
+                            <button id="${btnOkId}" class="right">${
+                    isActive(editor) ? '修改' : '插入'
+                }</button>
                         </div>
                     </div>`,
                 // 事件绑定
                 events: [
+                    {
+                        selector: 'inputIFrameId',
+                        type: 'keydooen',
+                        fn: e => {
+                            if (e.keyCode != 9) return
+                            //清除默认行为
+                            e.stopPropagation()
+                            //
+                            editor.cmd.do('insertHTML', '    ')
+                        },
+                    },
                     // 插入链接
                     {
                         selector: '#' + btnOkId,
                         type: 'click',
                         fn: () => {
-                            // 执行插入链接
-                            const $link = $('#' + inputLinkId)
-                            const $text = $('#' + inputTextId)
-                            let link = $link.val().trim()
-                            let text = $text.val().trim()
+                            let code
+                            // 执行插入视频
+                            const $code = $('#' + inputIFrameId)
+                            const $select = $('#' + languageId)
 
-                            // 链接为空，则不插入
-                            if (!link) return
-                            // 文本为空，则用链接代替
-                            if (!text) text = link
+                            let languageType = $select.val()
 
-                            insertLink(text, link)
+                            try {
+                                code = hljs.highlightAuto($code.val()).value
+                            } catch (e) {
+                                code = $code.val()
+                            }
+
+                            // 代码为空，则不插入
+                            if (!code) return
+
+                            //增加标签
+                            if (!isActive(editor)) {
+                                //增加pre标签
+                                code = `<pre><code class="${languageType}">${code}</code></pre>`
+
+                                //增加换行符 隔离代码块
+                                code += '<p><br></p>'
+                            }
+
+                            insertCode(code)
 
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                             return true

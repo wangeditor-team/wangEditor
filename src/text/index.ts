@@ -21,6 +21,7 @@ type TextEventHooks = {
     deleteDownEvents: Function[] // 删除键（keyCode === 8）down 时
     pasteEvents: Function[] // 粘贴事件
     linkClickEvents: Function[] // 点击链接事件
+    codeClickEvents: Function[] // 点击代码事件
     textScrollEvents: Function[] // 编辑区域滑动事件
     toolbarClickEvents: Function[] // 菜单栏被点击
 }
@@ -43,6 +44,7 @@ class Text {
             deleteDownEvents: [],
             pasteEvents: [],
             linkClickEvents: [],
+            codeClickEvents: [],
             textScrollEvents: [],
             toolbarClickEvents: [],
         }
@@ -292,6 +294,33 @@ class Text {
 
             const linkClickEvents = eventHooks.linkClickEvents
             linkClickEvents.forEach(fn => fn($link))
+        })
+
+        // code click
+        $textElem.on('click', (e: Event) => {
+            e.preventDefault()
+
+            // 存储代码元素
+            let $code: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+            if ($target.getNodeName() === 'PRE') {
+                // 当前点击的就是一个链接
+                $code = $target
+            } else {
+                // 否则，向父节点中寻找链接
+                const $parent = $target.parentUntil('pre')
+                if ($parent != null) {
+                    // 找到了
+                    $code = $parent
+                }
+            }
+
+            if ($code == null) return // 没有点击链接，则返回
+
+            const codeClickEvents = eventHooks.codeClickEvents
+            codeClickEvents.forEach(fn => fn($code))
         })
 
         // 菜单栏被点击

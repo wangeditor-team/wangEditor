@@ -11,12 +11,15 @@ function isActive(editor: Editor): boolean {
         return false
     }
     if (
-        $selectionELem.getNodeName() === 'CODE' ||
+        $selectionELem.getNodeName() == 'CODE' ||
+        $selectionELem.getNodeName() == 'PRE' ||
+        $selectionELem.parent().getNodeName() == 'CODE' ||
+        $selectionELem.parent().getNodeName() == 'PRE' ||
+        $selectionELem.parent().attr('class') == 'hljs-tag' ||
         $selectionELem.attr('class') == 'hljs-attribute'
     ) {
         return true
     } else {
-        window.dom = $selectionELem
         return false
     }
 }

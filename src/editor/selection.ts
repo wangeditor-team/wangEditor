@@ -127,6 +127,31 @@ class SelectionAndRange {
     }
 
     /**
+     * 获取选区范围的 DOM 元素
+     * @param range 选区范围
+     */
+    public getSelectionTopContainerElem(nodeName: string, range?: Range): DomElement | undefined {
+        let r: Range | null | undefined
+        r = range || this._currentRange
+        let elem: Node
+        if (r) {
+            elem = r.commonAncestorContainer
+            return $(elem.nodeType === 1 ? elem : this.getPreNode(elem.parentNode, nodeName))
+        }
+    }
+
+    // @ts-ignore
+    public getPreNode(elem: (Node & ParentNode) | null, nodeName: string) {
+        // @ts-ignore
+        if (elem.nodeName == nodeName) {
+            return elem
+        } else {
+            // @ts-ignore
+            return this.getPreNode(elem.parentNode, nodeName)
+        }
+    }
+
+    /**
      * 选区是否为空（没有选择文字）
      */
     public isSelectionEmpty(): boolean {
