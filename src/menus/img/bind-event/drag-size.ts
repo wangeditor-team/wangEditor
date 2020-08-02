@@ -48,11 +48,7 @@ const setDragStyle = (
  * @param $drag 拖拽框的domElement
  * @param $textContainerElem 编辑器实例
  */
-const addDragListen = (
-    // editor: Editor,
-    $drag: DomElement,
-    $textContainerElem: DomElement
-) => {
+const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
     $drag.on('click', function (e: Event) {
         e.stopPropagation()
     })
@@ -121,9 +117,9 @@ const addDragListen = (
 
 /**
  * 生成一个图片指定大小的拖拽框
- * @param target 图片的对象
+ * @param $textContainerElem 编辑框对象
  */
-const setDragMask = (editor: Editor, $textContainerElem: DomElement): DomElement => {
+const setDragMask = ($textContainerElem: DomElement): DomElement => {
     const $drag = $(
         `<div class="w-e-img-drag-mask">
             <div class="w-e-img-drag-rb"></div>
@@ -157,7 +153,7 @@ const showDarg = ($textContainerElem: DomElement, $drag: DomElement) => {
 const bindDragImgSize = (editor: Editor) => {
     const $textContainerElem = editor.$textContainerElem
 
-    const $drag = setDragMask(editor, $textContainerElem)
+    const $drag = setDragMask($textContainerElem)
 
     // 图片点击事件
     $textContainerElem.on('click', 'img', function (e: MouseEvent) {
@@ -173,18 +169,12 @@ const bindDragImgSize = (editor: Editor) => {
         }
     })
 
-    $textContainerElem.find('.w-e-text').on('scroll', function () {
-        hideDragBox($textContainerElem)
-    })
-
-    $textContainerElem.on('keyup', function (e: MouseEvent) {
-        e = e || event
-        hideDragBox($textContainerElem)
-    })
-
-    document.onclick = function (e: Event) {
+    const hideDrag = function () {
         hideDragBox($textContainerElem)
     }
+    editor.txt.eventHooks.textScrollEvents.push(hideDrag)
+    editor.txt.eventHooks.keyupEvents.push(hideDrag)
+    document.onclick = hideDrag
 }
 
 export default bindDragImgSize
