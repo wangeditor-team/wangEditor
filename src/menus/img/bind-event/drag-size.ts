@@ -7,7 +7,7 @@ import Editor from '../../../editor'
 import $, { DomElement } from '../../../utils/dom-core'
 import './drag-size.less'
 
-let imgTarget: Node | undefined
+let $imgTarget: DomElement
 
 /**
  * 隐藏拖拽框
@@ -57,12 +57,12 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
         e.stopPropagation()
         e.preventDefault()
 
-        if (!imgTarget) return
+        if (!$imgTarget) return
 
         const firstX = e.clientX
         const firstY = e.clientY
         const boxRect = $textContainerElem.getBoundingClientRect()
-        const imgRect = $(imgTarget).getBoundingClientRect()
+        const imgRect = $imgTarget.getBoundingClientRect()
         const width = imgRect.width
         const height = imgRect.height
         const left = imgRect.left - boxRect.left
@@ -95,9 +95,9 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
         }
 
         document.onmouseup = function () {
-            $(imgTarget).attr('width', setW + '')
-            $(imgTarget).attr('height', setH + '')
-            const newImgRect = $(imgTarget).getBoundingClientRect()
+            $imgTarget.attr('width', setW + '')
+            $imgTarget.attr('height', setH + '')
+            const newImgRect = $imgTarget.getBoundingClientRect()
             setDragStyle(
                 $drag,
                 setW,
@@ -140,7 +140,7 @@ const setDragMask = ($textContainerElem: DomElement): DomElement => {
  */
 const showDarg = ($textContainerElem: DomElement, $drag: DomElement) => {
     const boxRect = $textContainerElem.getBoundingClientRect()
-    const rect = $(imgTarget).getBoundingClientRect()
+    const rect = $imgTarget.getBoundingClientRect()
     $drag.find('.w-e-img-drag-show-size').text(`${rect.width}px * ${rect.height}px`)
     setDragStyle($drag, rect.width, rect.height, rect.left - boxRect.left, rect.top - boxRect.top)
     $drag.show()
@@ -156,19 +156,17 @@ const bindDragImgSize = (editor: Editor) => {
     const $drag = setDragMask($textContainerElem)
 
     // 图片点击事件
-    $textContainerElem.on('click', 'img', function (e: MouseEvent) {
-        e = e || event
-        e.stopPropagation()
-
-        // 禁止表情图片拖拽
-        if ($(e.target).attr('class').includes('eleImg')) return
-
-        if (e.target) {
-            imgTarget = <Node>e.target
+    const imgClickHooks = ($target: DomElement) => {
+        if ($target) {
+            $imgTarget = $target
             showDarg($textContainerElem, $drag)
         }
-    })
+    }
+    editor.txt.eventHooks.imgClickEvents.push(imgClickHooks)
 
+    /**
+     * 隐藏拖拽框
+     */
     const hideDrag = function () {
         hideDragBox($textContainerElem)
     }

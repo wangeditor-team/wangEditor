@@ -320,6 +320,7 @@ class Text {
                 !$target.elems[0].getAttribute('alt')
             ) {
                 // 当前点击的就是img
+                e.stopPropagation()
                 $img = $target
             }
 
