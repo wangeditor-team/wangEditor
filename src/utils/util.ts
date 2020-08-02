@@ -3,10 +3,6 @@
  * @author wangfupeng
  */
 
-import { DomElement } from './dom-core'
-import Editor from '../editor'
-import SelectionRangeTopNodes from '../editor/selection-range-top-nodes'
-
 // 和 UA 相关的属性
 export const UA = {
     _ua: navigator.userAgent,
