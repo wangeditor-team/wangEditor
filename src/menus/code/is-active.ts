@@ -15,8 +15,7 @@ function isActive(editor: Editor): boolean {
         $selectionELem.getNodeName() == 'PRE' ||
         $selectionELem.parent().getNodeName() == 'CODE' ||
         $selectionELem.parent().getNodeName() == 'PRE' ||
-        $selectionELem.parent().attr('class') == 'hljs-tag' ||
-        $selectionELem.attr('class') == 'hljs-attribute'
+        /hljs/.test($selectionELem.parent().attr('class'))
     ) {
         return true
     } else {
