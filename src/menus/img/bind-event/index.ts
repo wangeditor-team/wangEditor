@@ -6,6 +6,8 @@
 import Editor from '../../../editor/index'
 import bindPasteImg from './paste-img'
 import bindDropImg from './drop-img'
+import bindDragImgSize from './drag-size'
+import bindTooltipImg from './tooltip-event'
 
 /**
  * 绑定事件
@@ -19,6 +21,11 @@ function bindEvent(editor: Editor): void {
     bindDropImg(editor)
 
     // 可再扩展其他事件...如图片 tooltip 等
+    // 拖拽图片尺寸
+    bindDragImgSize(editor)
+
+    //Tooltip
+    bindTooltipImg(editor)
 }
 
 export default bindEvent
