@@ -111,6 +111,13 @@ export function changeHandler(editor: Editor): void {
     // 执行 change 事件
     onchange(html)
 
+    // placeholder 隐藏和展示事件
+    if (html) {
+        editor.$textContainerElem.find('.placeholder').hide()
+    } else {
+        editor.$textContainerElem.find('.placeholder').show()
+    }
+
     // 重新赋值
     CURRENT_HTML = html
 }
