@@ -8,7 +8,6 @@ import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
 import { UA, throttle } from '../utils/util'
 import getChildrenJSON, { NodeListType } from './getChildrenJSON'
-import { IgnorePlugin } from 'webpack'
 
 // 各个事件钩子函数
 type TextEventHooks = {
@@ -25,7 +24,7 @@ type TextEventHooks = {
     textScrollEvents: Function[] // 编辑区域滑动事件
     toolbarClickEvents: Function[] // 菜单栏被点击
     imgClickEvents: Function[] // 图片被点击事件
-    mouseDragEvents: Function[] //图片拖拽
+    imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
 }
 
 class Text {
@@ -49,7 +48,7 @@ class Text {
             textScrollEvents: [],
             toolbarClickEvents: [],
             imgClickEvents: [],
-            mouseDragEvents: [],
+            imgDragBarMouseDownEvents: [],
         }
     }
 
@@ -346,8 +345,8 @@ class Text {
 
             const $target = e.target as HTMLElement
             if ($target.getAttribute('class') === 'w-e-img-drag-rb') {
-                const mouseDragEvents = eventHooks.mouseDragEvents
-                mouseDragEvents.forEach(fn => fn())
+                const imgDragBarMouseDownEvents = eventHooks.imgDragBarMouseDownEvents
+                imgDragBarMouseDownEvents.forEach(fn => fn())
             }
         })
     }
