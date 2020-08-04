@@ -12,61 +12,61 @@ import hljs from 'highlight.js'
 // import 'highlight.js/styles/monokai-sublime.css'
 import 'highlight.js/styles/default.css'
 
-export default function (editor: editor, text: string, link: string): PanelConf {
+export default function (editor: editor, text: string, code: string): PanelConf {
     // panel 中需要用到的id
     const inputIFrameId = getRandom('input-iframe')
     const languageId = getRandom('select')
-    const inputLinkId = getRandom('input-link')
+    const inputCodeId = getRandom('input-code')
     const inputTextId = getRandom('input-text')
     const btnOkId = getRandom('btn-ok')
     const btnDelId = getRandom('btn-del')
 
-    // 是否显示“删除链接”
+    // 是否显示“删除代码”
     const delBtnDisplay = isActive(editor) ? 'inline-block' : 'none'
 
-    let $selectedLink: DomElement
+    let $selectedCode: DomElement
 
     /**
-     * 选中整个链接元素
+     * 选中整个代码元素
      */
-    function selectLinkElem(): void {
+    function selectCodeElem(): void {
         if (!isActive(editor)) return
 
-        const $linkElem = editor.selection.getSelectionTopContainerElem('CODE')
-        if (!$linkElem) return
-        console.log($linkElem)
-        editor.selection.createRangeByElem($linkElem)
+        const $codeElem = editor.selection.getSelectionTopContainerElem('CODE')
+        if (!$codeElem) return
+        console.log($codeElem)
+        editor.selection.createRangeByElem($codeElem)
         editor.selection.restoreSelection()
-        $selectedLink = $linkElem // 赋值给函数内全局变量
+        $selectedCode = $codeElem // 赋值给函数内全局变量
     }
 
     /**
-     * 插入链接
+     * 插入代码
      * @param text 文字
-     * @param link 链接
+     * @param code 代码
      */
-    function insertCode(text: string, link: string): void {
-        // 选区处于链接中，则选中整个菜单，再执行 insertHTML
+    function insertCode(text: string, code: string): void {
+        // 选区处于代码中，则选中整个菜单，再执行 insertHTML
         if (isActive(editor)) {
-            selectLinkElem()
+            selectCodeElem()
         }
 
-        // editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+        // editor.cmd.do('insertHTML', `<a href="${code}" target="_blank">${text}</a>`)
 
         editor.cmd.do('insertHTML', text)
     }
 
     /**
-     * 删除链接
+     * 删除代码
      */
-    function delLink(): void {
+    function delCode(): void {
         if (!isActive(editor)) {
             return
         }
-        // 选中整个链接
-        selectLinkElem()
-        // 用文本替换链接
-        const selectionText = $selectedLink.text()
+        // 选中整个代码
+        selectCodeElem()
+        // 用文本替换代码
+        const selectionText = $selectedCode.text()
         editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
     }
 
@@ -96,7 +96,7 @@ export default function (editor: editor, text: string, link: string): PanelConf 
                     </div>`,
                 // 事件绑定
                 events: [
-                    // 插入链接
+                    // 插入代码
                     {
                         selector: '#' + btnOkId,
                         type: 'click',
@@ -126,19 +126,20 @@ export default function (editor: editor, text: string, link: string): PanelConf 
                                 code += '<p><br></p>'
                             }
 
+                            // @ts-ignore
                             insertCode(code)
 
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                             return true
                         },
                     },
-                    // 删除链接
+                    // 删除代码
                     {
                         selector: '#' + btnDelId,
                         type: 'click',
                         fn: () => {
-                            // 执行删除链接
-                            delLink()
+                            // 执行删除代码
+                            delCode()
 
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                             return true

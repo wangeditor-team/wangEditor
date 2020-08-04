@@ -17,7 +17,7 @@ class Code extends PanelMenu implements MenuActive {
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-terminal"></i></div>')
         super($elem, editor)
 
-        // 绑定事件，如点击链接时，可以查看链接
+        // 绑定事件，如点击代码时，可以查看代码
         bindEvent(editor)
     }
 
@@ -29,16 +29,17 @@ class Code extends PanelMenu implements MenuActive {
         let $codeElem
 
         if (this.isActive) {
-            // 菜单被激活，说明选区在链接里
+            // 菜单被激活，说明选区在代码里
             $codeElem = editor.selection.getSelectionTopContainerElem('CODE')
             if (!$codeElem) {
                 return
             }
 
             // 弹出 panel
+            // @ts-ignore
             this.createPanel($codeElem.text())
         } else {
-            // 菜单未被激活，说明选区不在链接里
+            // 菜单未被激活，说明选区不在代码里
             if (editor.selection.isSelectionEmpty()) {
                 // 选区是空的，未选中内容
                 this.createPanel('', '')
