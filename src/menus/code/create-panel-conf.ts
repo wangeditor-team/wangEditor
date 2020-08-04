@@ -10,12 +10,12 @@ import $, { DomElement } from '../../utils/dom-core'
 import isActive from './is-active'
 import hljs from 'highlight.js'
 // import 'highlight.js/styles/monokai-sublime.css'
-import 'highlight.js/styles/default.css'
+// import 'highlight.js/styles/default.css'
 
 export default function (editor: editor, text: string, code: string): PanelConf {
     // panel 中需要用到的id
-    const inputIFrameId = getRandom('input-iframe')
-    const languageId = getRandom('select')
+    const codeId = getRandom('textarea-code')
+    const languageId = getRandom('select-language')
     const inputCodeId = getRandom('input-code')
     const inputTextId = getRandom('input-text')
     const btnOkId = getRandom('btn-ok')
@@ -87,7 +87,7 @@ export default function (editor: editor, text: string, code: string): PanelConf 
                             })}
                         </select>
                         <br><br>
-                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 200px">${text}</textarea>
+                        <textarea value="" id="${codeId}" type="text" class="block" placeholder="" style="height: 200px">${text}</textarea>
                         <div class="w-e-button-container">
                             <button id="${btnOkId}" class="right">${
                     isActive(editor) ? '修改' : '插入'
@@ -103,7 +103,7 @@ export default function (editor: editor, text: string, code: string): PanelConf 
                         fn: () => {
                             let code
                             // 执行插入视频
-                            const $code = $('#' + inputIFrameId)
+                            const $code = $('#' + codeId)
                             const $select = $('#' + languageId)
 
                             let languageType = $select.val()

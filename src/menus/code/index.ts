@@ -55,7 +55,7 @@ class Code extends PanelMenu implements MenuActive {
      * @param text 代码文本
      * @param languageType 代码类型
      */
-    public createPanel(text: string, languageType: string): void {
+    public createPanel(text: string, languageType: string = ''): void {
         const conf = createPanelConf(this.editor, text, languageType)
         const panel = new Panel(this, conf)
         panel.create()
