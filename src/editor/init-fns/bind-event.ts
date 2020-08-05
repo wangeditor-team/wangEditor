@@ -112,11 +112,7 @@ export function changeHandler(editor: Editor): void {
     onchange(html)
 
     // placeholder 隐藏和展示事件
-    if (html) {
-        editor.$textContainerElem.find('.placeholder').hide()
-    } else {
-        editor.$textContainerElem.find('.placeholder').show()
-    }
+    editor.txt.togglePlaceholder()
 
     // 重新赋值
     CURRENT_HTML = html
