@@ -5,7 +5,7 @@
 
 import Editor from '../../../editor'
 import $, { DomElement } from '../../../utils/dom-core'
-import './drag-size.less'
+import '../../../assets/style/drag-size.less'
 
 let $imgTarget: DomElement
 
