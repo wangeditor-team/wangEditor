@@ -21,7 +21,7 @@ class Head extends DropListMenu implements MenuActive {
                 { $elem: $('<h3>H3</h3>'), value: '<h3>' },
                 { $elem: $('<h4>H4</h4>'), value: '<h4>' },
                 { $elem: $('<h5>H5</h5>'), value: '<h5>' },
-                { $elem: $('<p>正文</p>'), value: '<p>' },
+                { $elem: $(`<p>${editor.i18next.t(`menus.正文`)}</p>`), value: '<p>' },
             ],
             clickHandler: (value: string) => {
                 // 注意 this 是指向当前的 Head 对象

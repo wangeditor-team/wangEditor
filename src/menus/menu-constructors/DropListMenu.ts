@@ -14,6 +14,8 @@ class DropListMenu extends Menu {
     constructor($elem: DomElement, editor: Editor, conf: DropListConf) {
         super($elem, editor)
 
+        conf.title = editor.i18next.t(`menus.${conf.title}`)
+
         // 初始化 dropList
         const dropList = new DropList(this, conf)
         this.dropList = dropList
