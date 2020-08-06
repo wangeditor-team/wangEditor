@@ -5,7 +5,7 @@
 
 import Editor from '../../../editor'
 import $, { DomElement } from '../../../utils/dom-core'
-import './drag-size.less'
+import '../../../assets/style/drag-size.less'
 
 let $imgTarget: DomElement
 
@@ -53,8 +53,7 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
         e.stopPropagation()
     })
     $drag.on('mousedown', '.w-e-img-drag-rb', (e: MouseEvent) => {
-        e = e || event
-        e.stopPropagation()
+        // e.stopPropagation()
         e.preventDefault()
 
         if (!$imgTarget) return

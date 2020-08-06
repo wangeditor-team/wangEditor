@@ -24,6 +24,7 @@ type TextEventHooks = {
     textScrollEvents: Function[] // 编辑区域滑动事件
     toolbarClickEvents: Function[] // 菜单栏被点击
     imgClickEvents: Function[] // 图片被点击事件
+    imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
 }
 
 class Text {
@@ -47,6 +48,7 @@ class Text {
             textScrollEvents: [],
             toolbarClickEvents: [],
             imgClickEvents: [],
+            imgDragBarMouseDownEvents: [],
         }
     }
 
@@ -326,7 +328,7 @@ class Text {
         $textElem.on('click', (e: Event) => {
             e.preventDefault()
 
-            // 存储链接元素
+            // 存储图片元素
             let $img: DomElement | null = null
 
             const target = e.target as HTMLElement
@@ -343,8 +345,7 @@ class Text {
                 e.stopPropagation()
                 $img = $target
             }
-
-            if ($img == null) return // 没有点击链接，则返回
+            if ($img == null) return // 没有点击图片，则返回
 
             const imgClickEvents = eventHooks.imgClickEvents
             imgClickEvents.forEach(fn => fn($img))
@@ -354,6 +355,19 @@ class Text {
         editor.$toolbarElem.on('click', (e: Event) => {
             const toolbarClickEvents = eventHooks.toolbarClickEvents
             toolbarClickEvents.forEach(fn => fn(e))
+        })
+
+        //mousedown事件
+        $(document).on('mousedown', (e: Event) => {
+            e.stopPropagation()
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+            if ($target.hasClass('w-e-img-drag-rb')) {
+                // 点击的元素，是图片拖拽调整大小的 bar
+                const imgDragBarMouseDownEvents = eventHooks.imgDragBarMouseDownEvents
+                imgDragBarMouseDownEvents.forEach(fn => fn())
+            }
         })
     }
 }

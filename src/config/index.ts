@@ -21,6 +21,7 @@ export type ConfigType = {
     menus: string[]
     fontNames: string[]
     fontSizes: FontSizeType
+    customFontSize: customFontSizeType
     colors: string[]
     emotions: EmotionsType[]
     zIndex: number
@@ -56,6 +57,7 @@ export type FontSizeType = {
     [key: string]: string
 }
 
+export type customFontSizeType = Array<{ value: string; text: string }>
 // 合并所有的配置信息
 const defaultConfig = Object.assign(
     {},
