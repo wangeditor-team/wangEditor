@@ -10,6 +10,7 @@
 
 - `.github/workflows` github actions（持续集成）的配置文件 
 - `.vscode` vscode 编辑器配置（推荐大家使用 vscode）
+- `attachment` 附件，和程序运行无关，但不可删除
 - `build` webpack 配置
 - `dist` 打包产出的目录。刚下载时没有该目录，本地运行 `npm run build` 即可生成
 - `docs` 开发文档

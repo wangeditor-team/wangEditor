@@ -47,7 +47,6 @@ class Editor {
     public cmd: CommandAPI
     public txt: Text
     public menus: Menus
-    public change: Function
 
     /**
      * 构造函数
@@ -73,7 +72,6 @@ class Editor {
         this.toolbarElemId = ''
         this.textElemId = ''
         this.isFocus = false
-        this.change = EMPTY_FN
 
         this.selection = new SelectionAndRangeAPI(this)
         this.cmd = new CommandAPI(this)
@@ -107,7 +105,10 @@ class Editor {
 
         // 绑定事件
         bindEvent(this)
-        this.change = changeHandler
+    }
+
+    public change(): void {
+        changeHandler(this)
     }
 }
 

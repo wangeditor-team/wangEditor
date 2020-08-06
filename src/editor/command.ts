@@ -61,7 +61,7 @@ class Command {
         selection.restoreSelection()
 
         // 触发 onchange
-        editor.change(this.editor)
+        editor.change()
     }
 
     /**
