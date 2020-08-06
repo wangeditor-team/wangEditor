@@ -63,9 +63,12 @@ class customFontSize extends DropListMenu implements MenuActive {
         let html = `<span style="font-size:${value}">${text}</span>`
 
         // Todo 待优化 insertHTML 导致dom重绘选区丢失问题 insertElem无法撤回
-        editor.cmd.do(`insertElem`, $(html))
 
-        editor.selection.restoreSelection()
+        if (!selection.isSelectionEmpty()) {
+            editor.cmd.do(`insertElem`, $(html))
+        }
+
+        // editor.selection.restoreSelection()
     }
 
     /**
