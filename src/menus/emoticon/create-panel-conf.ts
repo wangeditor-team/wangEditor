@@ -63,7 +63,6 @@ export default function (editor: editor): PanelConf {
                             // 插入 emoji
                             insertHtml = '<span>' + $target.html() + '</span>'
                         }
-                        console.log(insertHtml)
 
                         editor.cmd.do('insertHTML', insertHtml)
                         // 示函数执行结束之后关闭 panel
