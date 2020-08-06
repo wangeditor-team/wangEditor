@@ -354,6 +354,23 @@ export class DomElement {
     }
 
     /**
+     * 是否有传入的 css class
+     * @param className css class
+     */
+    hasClass(className: string = ''): boolean {
+        if (!className) {
+            return false
+        }
+        const elem = this.elems[0]
+        if (!elem.className) {
+            // 当前无 class
+            return false
+        }
+        let arr: string[] = elem.className.split(/\s/)
+        return arr.includes(className) // 是否包含
+    }
+
+    /**
      * 修改 css
      * @param key css key
      * @param val css value
