@@ -81,9 +81,7 @@ class Text {
      */
     public clear(): void {
         this.html('<p><br></p>')
-
-        // 切换placeholder
-        this.togglePlaceholder()
+        this.editor.change()
     }
 
     /**
@@ -107,8 +105,7 @@ class Text {
         // 有 val ，则是设置 html
         $textElem.html(val)
 
-        // 切换placeholder
-        this.togglePlaceholder()
+        this.editor.change()
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
@@ -143,8 +140,7 @@ class Text {
         // 有 val ，则是设置 text
         $textElem.text(`<p>${val}</p>`)
 
-        // 切换placeholder
-        this.togglePlaceholder()
+        this.editor.change()
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
