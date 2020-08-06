@@ -38,7 +38,6 @@ export default {
         'indent',
         'list',
         'lineHeight',
-        'table',
     ],
 
     fontNames: [

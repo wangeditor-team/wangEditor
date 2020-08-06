@@ -25,7 +25,6 @@ type TextEventHooks = {
     toolbarClickEvents: Function[] // 菜单栏被点击
     imgClickEvents: Function[] // 图片被点击事件
     imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
-    formClickEvents: Function[] //表格点击
 }
 
 class Text {
@@ -50,7 +49,6 @@ class Text {
             toolbarClickEvents: [],
             imgClickEvents: [],
             imgDragBarMouseDownEvents: [],
-            formClickEvents: [],
         }
     }
 
@@ -350,37 +348,6 @@ class Text {
                 const imgDragBarMouseDownEvents = eventHooks.imgDragBarMouseDownEvents
                 imgDragBarMouseDownEvents.forEach(fn => fn())
             }
-        })
-
-        //table cilik
-        $textElem.on('click', (e: Event) => {
-            e.preventDefault()
-
-            // 存储元素
-            let $dom: DomElement | null = null
-
-            const target = e.target as HTMLElement
-            const $target = $(target)
-
-            //点击获取的元素 是td th
-            if ($target.getNodeName() === 'TD' || $target.getNodeName() === 'TH') {
-                $dom = $(getParentNode($target.elems[0], editor))
-            }
-
-            //获取当前table的元素
-            function getParentNode($node: HTMLElement, editor: Editor): HTMLElement {
-                const $parent = $($node.parentNode)
-                if (editor.$textElem.equal($parent)) {
-                    return $node
-                } else {
-                    return getParentNode($parent.elems[0], editor)
-                }
-            }
-
-            if ($dom == null) return // 没有table范围内，则返回
-
-            const formClickEvents = eventHooks.formClickEvents
-            formClickEvents.forEach(fn => fn($dom))
         })
     }
 }
