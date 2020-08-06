@@ -71,11 +71,9 @@ class Text {
      */
     public togglePlaceholder(): void {
         const html = this.html()
-        if (!html || html === '<p><br></p>') {
-            this.editor.$textContainerElem.find('.placeholder').show()
-        } else {
-            this.editor.$textContainerElem.find('.placeholder').hide()
-        }
+        const $placeholder = this.editor.$textContainerElem.find('.placeholder')
+        $placeholder.hide()
+        if (!html || html === '<p><br></p>') $placeholder.show()
     }
 
     /**
