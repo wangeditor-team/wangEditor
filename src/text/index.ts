@@ -340,7 +340,6 @@ class Text {
         //mousedown事件
         $(document).on('mousedown', (e: Event) => {
             e.stopPropagation()
-            e.preventDefault()
 
             const target = e.target as HTMLElement
             const $target = $(target)
