@@ -24,7 +24,7 @@ export default function (editor: editor): PanelConf {
             res = ele.content.map((con: EmotionsContentType | string) => {
                 if (typeof con == 'string') return ''
                 return `<span  title="${con.alt}">
-                    <img class="eleImg" src="${con.src}" alt="[${con.alt}]">
+                    <img class="eleImg" style src="${con.src}" alt="[${con.alt}]">
                 </span>`
             })
             res = res.filter((s: string) => s !== '')
@@ -32,7 +32,7 @@ export default function (editor: editor): PanelConf {
         //否则直接当内容处理
         else {
             res = ele.content.map((con: EmotionsContentType | string) => {
-                return `<span class="eleImg"  title="${con}">${con}</span>`
+                return `<span class="eleImg" title="${con}">${con}</span>`
             })
         }
 
@@ -58,11 +58,12 @@ export default function (editor: editor): PanelConf {
 
                         if (nodeName === 'IMG') {
                             // 插入图片
-                            insertHtml = $target.parent().html()
+                            insertHtml = $target.parent().html().trim()
                         } else {
                             // 插入 emoji
                             insertHtml = '<span>' + $target.html() + '</span>'
                         }
+                        console.log(insertHtml)
 
                         editor.cmd.do('insertHTML', insertHtml)
                         // 示函数执行结束之后关闭 panel
