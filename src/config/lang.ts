@@ -66,11 +66,11 @@ export default {
                 menus: {
                     dropListMenu: {
                         设置标题: 'title',
-                        背景颜色: 'background color',
+                        背景颜色: 'background',
                         文字颜色: 'font color',
-                        设置字号: 'set font size',
-                        设置字体: 'set font',
-                        设置缩进: 'set indent',
+                        设置字号: 'font size',
+                        设置字体: 'font family',
+                        设置缩进: 'indent',
                         对齐方式: 'align',
                         设置行高: 'line heihgt',
                         序列: 'list',
@@ -78,8 +78,8 @@ export default {
                             正文: 'text',
                         },
                         indent: {
-                            增加缩进: 'increase',
-                            减少缩进: 'decrease',
+                            增加缩进: 'indent',
+                            减少缩进: 'outdent',
                         },
                         justify: {
                             靠左: 'left',
@@ -106,7 +106,7 @@ export default {
                         link: {
                             链接: 'link',
                             链接文字: 'link text',
-                            删除链接: 'delete link',
+                            删除链接: 'delete',
                         },
                         video: {
                             插入视频: 'insert video',

@@ -13,7 +13,7 @@ import Menus from '../menus/index'
 import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
-import i18nextInit from './i18next-init'
+import i18nextInit from './init-fns/i18next-init'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
