@@ -22,13 +22,20 @@ class List extends DropListMenu implements MenuActive {
             type: 'list',
             list: [
                 {
-                    $elem: $(`<p><i class="w-e-icon-list2 w-e-drop-list-item"></i>无序列表<p>`),
+                    $elem: $(`
+                        <p>
+                            <i class="w-e-icon-list2 w-e-drop-list-item"></i>
+                            ${editor.i18next.t('menus.dropListMenu.list.无序列表')}
+                        <p>`),
                     value: 'insertUnorderedList',
                 },
 
                 {
                     $elem: $(
-                        `<p><i class="w-e-icon-list-numbered w-e-drop-list-item"></i>有序列表<p>`
+                        `<p>
+                            <i class="w-e-icon-list-numbered w-e-drop-list-item"></i>
+                            ${editor.i18next.t('menus.dropListMenu.list.有序列表')}
+                        <p>`
                     ),
                     value: 'insertOrderedList',
                 },
