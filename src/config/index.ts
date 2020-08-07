@@ -54,11 +54,11 @@ export type ConfigType = {
     languages: Resource
 }
 
-export interface Resource {
+export type Resource = {
     [language: string]: ResourceLanguage
 }
 
-export interface ResourceLanguage {
+export type ResourceLanguage = {
     [namespace: string]: ResourceKey
 }
 

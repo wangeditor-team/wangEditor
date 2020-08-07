@@ -83,7 +83,7 @@ export default {
                         },
                         justify: {
                             靠左: 'left',
-                            居中: 'centen',
+                            居中: 'center',
                             靠右: 'right',
                         },
                         list: {
