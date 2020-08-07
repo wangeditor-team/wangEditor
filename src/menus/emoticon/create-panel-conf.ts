@@ -23,8 +23,8 @@ export default function (editor: editor): PanelConf {
         if (ele.type == 'image') {
             res = ele.content.map((con: EmotionsContentType | string) => {
                 if (typeof con == 'string') return ''
-                return `<span style="cursor: pointer;" title="${con.alt}">
-                    <img class="eleImg" src="${con.src}" alt="[${con.alt}]">
+                return `<span  title="${con.alt}">
+                    <img class="eleImg" style src="${con.src}" alt="[${con.alt}]">
                 </span>`
             })
             res = res.filter((s: string) => s !== '')
@@ -32,11 +32,11 @@ export default function (editor: editor): PanelConf {
         //否则直接当内容处理
         else {
             res = ele.content.map((con: EmotionsContentType | string) => {
-                return `<span class="eleImg" style="cursor: pointer;" title="${con}">${con}</span>`
+                return `<span class="eleImg" title="${con}">${con}</span>`
             })
         }
 
-        return res
+        return res.join('').replace(/&nbsp;/g, '')
     }
 
     const tabsConf: PanelTabConf[] = emotions.map((ele: EmotionsType) => {
@@ -44,7 +44,7 @@ export default function (editor: editor): PanelConf {
             title: editor.i18next.t(`menus.panelMenus.emoticon.${ele.title}`),
 
             // 判断type类型如果是image则以img的形式插入否则以内容
-            tpl: `<div>${GenerateExpressionStructure(ele)}</div>`.replace(/,/g, ''),
+            tpl: `<div>${GenerateExpressionStructure(ele)}</div>`,
 
             events: [
                 {
@@ -58,7 +58,7 @@ export default function (editor: editor): PanelConf {
 
                         if (nodeName === 'IMG') {
                             // 插入图片
-                            insertHtml = $target.parent().html()
+                            insertHtml = $target.parent().html().trim()
                         } else {
                             // 插入 emoji
                             insertHtml = '<span>' + $target.html() + '</span>'
