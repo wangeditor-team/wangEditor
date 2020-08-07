@@ -9,7 +9,7 @@ import styleConfig from './style'
 import pasteConfig from './paste'
 import cmdConfig from './cmd'
 import imageConfig, { UploadImageHooksType } from './image'
-import constConfig from './const'
+import constConfig from './text'
 import langConfig from './lang'
 
 // 字典类型
