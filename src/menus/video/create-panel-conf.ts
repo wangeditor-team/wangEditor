@@ -29,12 +29,19 @@ export default function (editor: editor, video: string): PanelConf {
         tabs: [
             {
                 // tab 的标题
-                title: '插入视频',
+                title: editor.i18next.t('menus.panelMenus.video.插入视频'),
                 // 模板
                 tpl: `<div>
-                        <input id="${inputIFrameId}" type="text" class="block" placeholder="格式如：<iframe src=... ></iframe>"/></td>
+                        <input 
+                            id="${inputIFrameId}" 
+                            type="text" 
+                            class="block" 
+                            placeholder="${editor.i18next.t('如')}：<iframe src=... ></iframe>"/>
+                        </td>
                         <div class="w-e-button-container">
-                            <button id="${btnOkId}" class="right">插入</button>
+                            <button id="${btnOkId}" class="right">
+                                ${editor.i18next.t('插入')}
+                            </button>
                         </div>
                     </div>`,
                 // 事件绑定

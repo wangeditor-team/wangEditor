@@ -16,12 +16,13 @@
     <div id="div1"></div>
 
     <script src="../dist/wangEditor.js"></script>
+    <script src="../node_modules/i18next/i18next.js"></script>
     <script>
         const E = window.wangEditor
         const editor = new E('#div1')
 
-        // editor.i18next = i18next
-        // editor.config.lang = 'en'
+        editor.i18next = window.i18next
+        editor.config.lang = 'en'
         // editor.config.languages['en'] = {
         //     wangEditor: {
         //         welcome: 'Welcome to wangeditor rich text editor',
