@@ -22,7 +22,7 @@ class LineHeight extends DropListMenu implements MenuActive {
             title: '设置行高',
             type: 'list', // droplist 以列表形式展示
             list: [
-                { $elem: $('<span>默认</span>'), value: '' },
+                { $elem: $(`<span>${editor.i18next.t('默认')}</span>`), value: '' },
                 { $elem: $('<span>1</span>'), value: '1' },
                 { $elem: $('<span>1.15</span>'), value: '1.15' },
                 { $elem: $('<span>1.6</span>'), value: '1.6' },

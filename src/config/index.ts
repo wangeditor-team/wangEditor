@@ -10,6 +10,7 @@ import pasteConfig from './paste'
 import cmdConfig from './cmd'
 import imageConfig, { UploadImageHooksType } from './image'
 import constConfig from './const'
+import langConfig from './lang'
 
 // 字典类型
 export type DicType = {
@@ -50,7 +51,24 @@ export type ConfigType = {
     withCredentials: boolean
     customUploadImg: Function | null
     customAlert: Function | null
+
+    lang: string
+    languages: Resource
 }
+
+export type Resource = {
+    [language: string]: ResourceLanguage
+}
+
+export type ResourceLanguage = {
+    [namespace: string]: ResourceKey
+}
+
+export type ResourceKey =
+    | string
+    | {
+          [key: string]: any
+      }
 
 // 生成字号配置类型
 export type FontSizeType = {
@@ -67,7 +85,8 @@ const defaultConfig = Object.assign(
     cmdConfig,
     pasteConfig,
     imageConfig,
-    constConfig
+    constConfig,
+    langConfig
 )
 
 export default defaultConfig
