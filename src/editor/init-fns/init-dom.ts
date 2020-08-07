@@ -71,6 +71,11 @@ export default function (editor: Editor): void {
     const textElemId = getRandom('text-elem')
     $textElem.attr('id', textElemId)
 
+    // 添加 placeholder
+    const $placeholder = $(`<div>${editor.config.placeholder}</div>`)
+    $placeholder.addClass('placeholder')
+    $textContainerElem.append($placeholder)
+
     // 判断编辑区与容器高度是否一致
     const textContainerCliheight = $textContainerElem.getClientHeight()
     const textElemClientHeight = $textElem.getClientHeight()

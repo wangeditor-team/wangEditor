@@ -9,6 +9,7 @@ import styleConfig from './style'
 import pasteConfig from './paste'
 import cmdConfig from './cmd'
 import imageConfig, { UploadImageHooksType } from './image'
+import constConfig from './text'
 import langConfig from './lang'
 
 // 字典类型
@@ -35,6 +36,7 @@ export type ConfigType = {
     styleWithCSS: boolean
     linkImgCallback: Function
 
+    placeholder: string
     showLinkImg: boolean
     uploadImgServer: string
     uploadImgShowBase64: boolean
@@ -83,6 +85,7 @@ const defaultConfig = Object.assign(
     cmdConfig,
     pasteConfig,
     imageConfig,
+    constConfig,
     langConfig
 )
 
