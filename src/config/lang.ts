@@ -108,6 +108,7 @@ export default {
                             链接: 'link',
                             链接文字: 'link text',
                             删除链接: 'delete',
+                            查看链接: 'see',
                         },
                         video: {
                             插入视频: 'insert video',
