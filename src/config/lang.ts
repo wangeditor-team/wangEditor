@@ -62,7 +62,7 @@ export default {
             wangEditor: {
                 插入: 'insert',
                 默认: 'default',
-                如: 'as',
+                如: 'like',
                 menus: {
                     dropListMenu: {
                         设置标题: 'title',
