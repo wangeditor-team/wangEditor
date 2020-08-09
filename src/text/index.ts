@@ -8,6 +8,7 @@ import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
 import { UA, throttle } from '../utils/util'
 import getChildrenJSON, { NodeListType } from './getChildrenJSON'
+import { formatCodeHtml } from '../menus/code/index'
 
 // 各个事件钩子函数
 type TextEventHooks = {
@@ -81,11 +82,16 @@ class Text {
 
         // 没有 val ，则是获取 html
         if (val == null) {
+            editor.$textElem.elems[0].querySelectorAll('pre')
             let html = $textElem.html()
             // 未选中任何内容的时候点击“加粗”或者“斜体”等按钮，就得需要一个空的占位符 &#8203 ，这里替换掉
             html = html.replace(/\u200b/gm, '')
             html = html.replace(/<p><\/p>/gim, '') // 去掉空行
             html = html.replace(/<p><br\/?><\/p>$/gim, '') // 去掉最后的 <p><br><p>
+
+            // pre标签格式化
+            html = formatCodeHtml(editor, html)
+
             return html
         }
 

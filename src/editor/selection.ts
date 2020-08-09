@@ -147,6 +147,7 @@ class SelectionAndRange {
      */
     // @ts-ignore
     public getPreNode(elem: (Node & ParentNode) | null, nodeName: string) {
+        if (elem == null) return false
         // @ts-ignore
         if (elem.nodeName == nodeName) {
             return elem

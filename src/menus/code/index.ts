@@ -12,6 +12,18 @@ import Panel from '../menu-constructors/Panel'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event/index'
 
+export function formatCodeHtml(editor: Editor, html: string) {
+    let codeArr = editor.$textElem.elems[0].querySelectorAll('pre')
+    for (let i = 0; i < codeArr.length; i++) {
+        html = html.replace(
+            codeArr[i].outerHTML,
+            `<pre><code>${codeArr[i].getAttribute('text')}</code></pre>`
+        )
+    }
+
+    return html
+}
+
 class Code extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-terminal"></i></div>')
@@ -27,16 +39,29 @@ class Code extends PanelMenu implements MenuActive {
     public clickHandler(): void {
         const editor = this.editor
         let $codeElem
+        const selectionText = editor.selection.getSelectionText()
 
         if (this.isActive) {
             // 菜单被激活，说明选区在链接里
-            $codeElem = editor.selection.getSelectionTopContainerElem('CODE')
+            $codeElem = editor.selection.getSelectionTopContainerElem('PRE')
             if (!$codeElem) {
+                if (editor.selection.isSelectionEmpty()) {
+                    return
+                }
+
+                if (editor.selection.getSelectionTopContainerElem('CODE')) {
+                    // editor.cmd.do('formatBlock', '<p>')
+                    return
+                } else {
+                    editor.cmd.do('insertHTML', `<code>${selectionText}</code>`)
+                }
+
                 return
             }
 
             // 弹出 panel
-            this.createPanel($codeElem.text())
+            // @ts-ignore
+            this.createPanel($codeElem.attr('text'))
         } else {
             // 菜单未被激活，说明选区不在链接里
             if (editor.selection.isSelectionEmpty()) {
@@ -44,7 +69,8 @@ class Code extends PanelMenu implements MenuActive {
                 this.createPanel('', '')
             } else {
                 // 选中内容了
-                this.createPanel(editor.selection.getSelectionText(), '')
+                editor.cmd.do('insertHTML', `<code>${selectionText}</code>`)
+                editor.cmd.do('insertHTML', `<p><br></p>`)
             }
         }
     }

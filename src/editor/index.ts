@@ -48,6 +48,7 @@ class Editor {
     public txt: Text
     public menus: Menus
     public change: Function
+    public hljs: any
 
     /**
      * 构造函数

@@ -7,9 +7,18 @@ import $, { DomElement } from '../../../utils/dom-core'
 import Tooltip, { TooltipConfType } from '../../menu-constructors/Tooltip'
 import Editor from '../../../editor/index'
 import Code from '../index'
+import isActive from '../is-active'
+import Menu from '../../menu-constructors/Menu'
 
 let tooltip: Tooltip | null
 let _editor: Editor
+
+function menuFind(arr: Menu[], key: string) {
+    for (let i = 0, l = arr.length; i < l; i++) {
+        if (arr[i].key === 'Code') return i
+    }
+    return -1
+}
 
 /**
  * 显示 tooltip
@@ -20,11 +29,12 @@ function showCodeTooltip($code: DomElement) {
         {
             $elem: $('<span>修改代码</span>'),
             onClick: (editor: Editor, $code: DomElement) => {
-                let code = new Code(editor)
+                let code = editor.menus.menuFind('code')
 
                 setTimeout(() => {
-                    code.createPanel($code.text())
-                }, 100)
+                    // @ts-ignore
+                    code.clickHandler()
+                }, 0)
 
                 // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                 return true
@@ -33,8 +43,11 @@ function showCodeTooltip($code: DomElement) {
         {
             $elem: $('<span>删除代码</span>'),
             onClick: (editor: Editor, $code: DomElement) => {
+                editor.selection.createRangeByElem($code)
+                editor.selection.restoreSelection()
                 // 选中链接元素
-                $code.remove()
+                editor.cmd.do('delete')
+                editor.cmd.do('delete')
 
                 // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                 return true
@@ -58,6 +71,8 @@ function hideCodeTooltip() {
     }
 }
 
+function removePreKeyDown() {}
+
 /**
  * 绑定 tooltip 事件
  * @param editor 编辑器实例
@@ -72,6 +87,16 @@ function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.clickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.toolbarClickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideCodeTooltip)
+
+    editor.$textElem.on('keydown', (e: KeyboardEvent) => {
+        if (isActive(editor)) {
+            const $code = editor.selection.getSelectionTopContainerElem('PRE')
+
+            if (!$code || !$code.length) return
+
+            e.preventDefault()
+        }
+    })
 }
 
 export default bindTooltipEvent
