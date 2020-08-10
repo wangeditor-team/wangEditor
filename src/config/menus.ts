@@ -38,6 +38,7 @@ export default {
         'indent',
         'list',
         'lineHeight',
+        'customFontSize',
     ],
 
     fontNames: [
@@ -64,6 +65,17 @@ export default {
         'x-large': '5',
         'xx-large': '6',
     },
+
+    customFontSize: [
+        { value: '9px', text: '9' },
+        { value: '10px', text: '10' },
+        { value: '12px', text: '12' },
+        { value: '14px', text: '14' },
+        { value: '16px', text: '16' },
+        { value: '20px', text: '20' },
+        { value: '42px', text: '42' },
+        { value: '72px', text: '72' },
+    ],
 
     colors: [
         '#000000',
