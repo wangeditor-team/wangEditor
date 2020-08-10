@@ -9,7 +9,7 @@ import styleConfig from './style'
 import pasteConfig from './paste'
 import cmdConfig from './cmd'
 import imageConfig, { UploadImageHooksType } from './image'
-import constConfig from './text'
+import textConfig from './text'
 import langConfig from './lang'
 
 // 字典类型
@@ -23,7 +23,7 @@ export type ConfigType = {
     languageTab: string
     menus: string[]
     fontNames: string[]
-    fontSizes: FontSizeType
+    fontSizes: DicType
     customFontSize: customFontSizeType
     colors: string[]
     emotions: EmotionsType[]
@@ -72,11 +72,6 @@ export type ResourceKey =
           [key: string]: any
       }
 
-// 生成字号配置类型
-export type FontSizeType = {
-    [key: string]: string
-}
-
 export type customFontSizeType = Array<{ value: string; text: string }>
 // 合并所有的配置信息
 const defaultConfig = Object.assign(
@@ -87,7 +82,7 @@ const defaultConfig = Object.assign(
     cmdConfig,
     pasteConfig,
     imageConfig,
-    constConfig,
+    textConfig,
     langConfig
 )
 
