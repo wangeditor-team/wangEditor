@@ -25,6 +25,8 @@ type TextEventHooks = {
     codeClickEvents: Function[] // 点击代码事件
     textScrollEvents: Function[] // 编辑区域滑动事件
     toolbarClickEvents: Function[] // 菜单栏被点击
+    imgClickEvents: Function[] // 图片被点击事件
+    imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
 }
 
 class Text {
@@ -48,6 +50,8 @@ class Text {
             codeClickEvents: [],
             textScrollEvents: [],
             toolbarClickEvents: [],
+            imgClickEvents: [],
+            imgDragBarMouseDownEvents: [],
         }
     }
 
@@ -66,10 +70,21 @@ class Text {
     }
 
     /**
+     * 切换placeholder
+     */
+    public togglePlaceholder(): void {
+        const html = this.html()
+        const $placeholder = this.editor.$textContainerElem.find('.placeholder')
+        $placeholder.hide()
+        if (!html || html === '<p><br></p>') $placeholder.show()
+    }
+
+    /**
      * 清空内容
      */
     public clear(): void {
         this.html('<p><br></p>')
+        this.editor.change()
     }
 
     /**
@@ -82,7 +97,6 @@ class Text {
 
         // 没有 val ，则是获取 html
         if (val == null) {
-            editor.$textElem.elems[0].querySelectorAll('pre')
             let html = $textElem.html()
             // 未选中任何内容的时候点击“加粗”或者“斜体”等按钮，就得需要一个空的占位符 &#8203 ，这里替换掉
             html = html.replace(/\u200b/gm, '')
@@ -97,6 +111,9 @@ class Text {
 
         // 有 val ，则是设置 html
         $textElem.html(val)
+
+        this.editor.change()
+
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
     }
@@ -117,6 +134,7 @@ class Text {
     public text(val?: string): void | string {
         const editor = this.editor
         const $textElem = editor.$textElem
+        const $textContainerElem = editor.$textContainerElem
 
         // 没有 val ，是获取 text
         if (val == null) {
@@ -128,6 +146,9 @@ class Text {
 
         // 有 val ，则是设置 text
         $textElem.text(`<p>${val}</p>`)
+
+        this.editor.change()
+
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
     }
@@ -211,6 +232,12 @@ class Text {
             if (e.keyCode !== 13) return
             const enterUpEvents = eventHooks.enterUpEvents
             enterUpEvents.forEach(fn => fn(e))
+        })
+
+        // 键盘 up 时的 hooks
+        $textElem.on('keyup', (e: KeyboardEvent) => {
+            const keyupEvents = eventHooks.keyupEvents
+            keyupEvents.forEach(fn => fn(e))
         })
 
         // delete 键 up 时 hooks
@@ -302,6 +329,33 @@ class Text {
             linkClickEvents.forEach(fn => fn($link))
         })
 
+        // img click
+        $textElem.on('click', (e: Event) => {
+            e.preventDefault()
+
+            // 存储图片元素
+            let $img: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+
+            //处理图片点击 判断是否是表情 根据 不存在class或者className!==eleImg、没有alt属性
+            if (
+                $target.getNodeName() === 'IMG' &&
+                (!$target.elems[0].getAttribute('class') ||
+                    $target.elems[0].getAttribute('class') !== 'eleImg') &&
+                !$target.elems[0].getAttribute('alt')
+            ) {
+                // 当前点击的就是img
+                e.stopPropagation()
+                $img = $target
+            }
+            if ($img == null) return // 没有点击图片，则返回
+
+            const imgClickEvents = eventHooks.imgClickEvents
+            imgClickEvents.forEach(fn => fn($img))
+        })
+
         // code click
         $textElem.on('click', (e: Event) => {
             e.preventDefault()
@@ -333,6 +387,19 @@ class Text {
         editor.$toolbarElem.on('click', (e: Event) => {
             const toolbarClickEvents = eventHooks.toolbarClickEvents
             toolbarClickEvents.forEach(fn => fn(e))
+        })
+
+        //mousedown事件
+        $(document).on('mousedown', (e: Event) => {
+            e.stopPropagation()
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+            if ($target.hasClass('w-e-img-drag-rb')) {
+                // 点击的元素，是图片拖拽调整大小的 bar
+                const imgDragBarMouseDownEvents = eventHooks.imgDragBarMouseDownEvents
+                imgDragBarMouseDownEvents.forEach(fn => fn())
+            }
         })
     }
 }

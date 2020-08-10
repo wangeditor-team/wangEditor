@@ -13,6 +13,7 @@ import Menus from '../menus/index'
 import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
+import i18nextInit from './init-fns/i18next-init'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -47,7 +48,7 @@ class Editor {
     public cmd: CommandAPI
     public txt: Text
     public menus: Menus
-    public change: Function
+    public i18next: any
     public highlight: any
 
     /**
@@ -74,7 +75,6 @@ class Editor {
         this.toolbarElemId = ''
         this.textElemId = ''
         this.isFocus = false
-        this.change = EMPTY_FN
 
         this.selection = new SelectionAndRangeAPI(this)
         this.cmd = new CommandAPI(this)
@@ -94,6 +94,9 @@ class Editor {
      * 创建编辑器实例
      */
     public create(): void {
+        // 国际化 因为要在创建菜单前使用 所以要最先 初始化
+        i18nextInit(this)
+
         // 初始化 DOM
         initDom(this)
 
@@ -108,7 +111,10 @@ class Editor {
 
         // 绑定事件
         bindEvent(this)
-        this.change = changeHandler
+    }
+
+    public change(): void {
+        changeHandler(this)
     }
 }
 

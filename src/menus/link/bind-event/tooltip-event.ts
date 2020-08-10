@@ -17,7 +17,7 @@ let _editor: Editor
 function showLinkTooltip($link: DomElement) {
     const conf: TooltipConfType = [
         {
-            $elem: $('<span>查看链接</span>'),
+            $elem: $(`<span>${_editor.i18next.t('menus.panelMenus.link.查看链接')}</span>`),
             onClick: (editor: Editor, $link: DomElement) => {
                 const link = $link.attr('href')
                 window.open(link, '_target')
@@ -27,7 +27,7 @@ function showLinkTooltip($link: DomElement) {
             },
         },
         {
-            $elem: $('<span>删除链接</span>'),
+            $elem: $(`<span>${_editor.i18next.t('menus.panelMenus.link.删除链接')}</span>`),
             onClick: (editor: Editor, $link: DomElement) => {
                 // 选中链接元素
                 editor.selection.createRangeByElem($link)
@@ -71,6 +71,7 @@ function bindTooltipEvent(editor: Editor) {
 
     // 点击其他地方，或者滚动时，隐藏 tooltip
     editor.txt.eventHooks.clickEvents.push(hideLinkTooltip)
+    editor.txt.eventHooks.keyupEvents.push(hideLinkTooltip)
     editor.txt.eventHooks.toolbarClickEvents.push(hideLinkTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideLinkTooltip)
 }

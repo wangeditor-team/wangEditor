@@ -1,3 +1,5 @@
+import Editor from '../editor/index'
+
 /**
  * @description 封装 DOM 操作
  * @wangfupeng
@@ -352,6 +354,23 @@ export class DomElement {
     }
 
     /**
+     * 是否有传入的 css class
+     * @param className css class
+     */
+    hasClass(className: string = ''): boolean {
+        if (!className) {
+            return false
+        }
+        const elem = this.elems[0]
+        if (!elem.className) {
+            // 当前无 class
+            return false
+        }
+        let arr: string[] = elem.className.split(/\s/)
+        return arr.includes(className) // 是否包含
+    }
+
+    /**
      * 修改 css
      * @param key css key
      * @param val css value
@@ -569,6 +588,22 @@ export class DomElement {
     }
 
     /**
+     * 当前元素前一个兄弟节点
+     */
+    prev(): DomElement {
+        const elem = this.elems[0]
+        return $(elem.previousElementSibling)
+    }
+
+    /**
+     * 当前元素后一个兄弟节点
+     */
+    next(): DomElement {
+        const elem = this.elems[0]
+        return $(elem.nextElementSibling)
+    }
+
+    /**
      * 获取父元素
      */
     parent(): DomElement {
@@ -637,7 +672,7 @@ export class DomElement {
      * 将该元素插入到某个元素后面
      * @param selector css 选择器
      */
-    insertAfter(selector: string): DomElement {
+    insertAfter(selector: string | DomElement): DomElement {
         const $referenceNode = $(selector)
         const referenceNode = $referenceNode.elems[0]
         if (!referenceNode) {
@@ -668,6 +703,23 @@ export class DomElement {
             // 获取数据
             return this.dataSource.get(key)
         }
+    }
+
+    /**
+     * getNodeTop 获取当前节点的顶级(段落)
+     * @param editor 富文本实例
+     */
+    getNodeTop(editor: Editor): DomElement {
+        if (this.length < 1) {
+            return this
+        }
+
+        const $parent = this.parent()
+        if (editor.$textElem.equal($parent)) {
+            return this
+        }
+
+        return $parent.getNodeTop(editor)
     }
 }
 

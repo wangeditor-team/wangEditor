@@ -7,8 +7,6 @@ import $ from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import DropListMenu from '../menu-constructors/DropListMenu'
 import { MenuActive } from '../menu-constructors/Menu'
-import getParagraph from './get-paragraph'
-import getParagraphs from './get-paragraphs'
 import operateElement from './operate-element'
 
 class Indent extends DropListMenu implements MenuActive {
@@ -25,14 +23,20 @@ class Indent extends DropListMenu implements MenuActive {
             list: [
                 {
                     $elem: $(
-                        `<p><i class="w-e-icon-indent-increase" style="padding-right:7px;position: relative;top:1px; color: #333"></i>增加缩进<p>`
+                        `<p>
+                            <i class="w-e-icon-indent-increase w-e-drop-list-item"></i>
+                            ${editor.i18next.t('menus.dropListMenu.indent.增加缩进')}
+                        <p>`
                     ),
                     value: 'increase',
                 },
 
                 {
                     $elem: $(
-                        `<p><i class="w-e-icon-indent-decrease" style="padding-right:7px;position: relative;top:1px; color: #333"></i>减少缩进<p>`
+                        `<p>
+                            <i class="w-e-icon-indent-decrease w-e-drop-list-item"></i>
+                            ${editor.i18next.t('menus.dropListMenu.indent.减少缩进')}
+                        <p>`
                     ),
                     value: 'decrease',
                 },
@@ -58,9 +62,9 @@ class Indent extends DropListMenu implements MenuActive {
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
             // 当 当前选区 等于 textElem 时
             // 代表 当前选区 可能是一个选择了一个完整的段落或者多个段落
-            const $elems = getParagraphs(editor)
+            const $elems = editor.selection.getSelectionRangeTopNodes(editor)
             if ($elems.length > 0) {
-                $elems.forEach(item => {
+                $elems.forEach((item: any) => {
                     operateElement($(item), value, editor)
                 })
             }
@@ -85,7 +89,9 @@ class Indent extends DropListMenu implements MenuActive {
     public tryChangeActive(): void {
         const editor = this.editor
         const $selectionElem = editor.selection.getSelectionStartElem()
-        const $selectionStartElem = getParagraph($($selectionElem), editor)
+        const $selectionStartElem = $($selectionElem).getNodeTop(editor)
+
+        if ($selectionStartElem.length <= 0) return
 
         if ($selectionStartElem.elems[0].style['paddingLeft'] != '') {
             this.active()

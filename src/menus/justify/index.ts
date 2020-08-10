@@ -18,19 +18,28 @@ class Justify extends DropListMenu implements MenuActive {
             list: [
                 {
                     $elem: $(
-                        '<span><i class="w-e-icon-paragraph-left" style="padding-right:7px;position: relative;top:1px"></i>靠左</span>'
+                        `<span>
+                            <i class="w-e-icon-paragraph-left w-e-drop-list-item"></i>
+                            ${editor.i18next.t('menus.dropListMenu.justify.靠左')}
+                        </span>`
                     ),
                     value: 'justifyLeft',
                 },
                 {
                     $elem: $(
-                        '<span><i class="w-e-icon-paragraph-center" style="padding-right:7px;position: relative;top:1px"></i>居中</span>'
+                        `<span>
+                            <i class="w-e-icon-paragraph-center w-e-drop-list-item"></i>
+                            ${editor.i18next.t('menus.dropListMenu.justify.居中')}
+                        </span>`
                     ),
                     value: 'justifyCenter',
                 },
                 {
                     $elem: $(
-                        '<span><i class="w-e-icon-paragraph-right" style="padding-right:7px;position: relative;top:1.5px"></i>靠右</span>'
+                        `<span>
+                            <i class="w-e-icon-paragraph-right w-e-drop-list-item"></i>
+                            ${editor.i18next.t('menus.dropListMenu.justify.靠右')}
+                        </span>`
                     ),
                     value: 'justifyRight',
                 },

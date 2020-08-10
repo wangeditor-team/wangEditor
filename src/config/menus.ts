@@ -36,10 +36,27 @@ export default {
         'image',
         'video',
         'indent',
+        'list',
+        'lineHeight',
+        'customFontSize',
         'code',
     ],
 
-    fontNames: ['宋体', '微软雅黑', 'Arial', 'Tahoma', 'Verdana'],
+    fontNames: [
+        '黑体',
+        '仿宋',
+        '楷体',
+        '标楷体',
+        '华文仿宋',
+        '华文楷体',
+        '宋体',
+        '微软雅黑',
+        'Arial',
+        'Tahoma',
+        'Verdana',
+        'Times New Roman',
+        'Courier New',
+    ],
 
     fontSizes: {
         'x-small': '1',
@@ -49,6 +66,17 @@ export default {
         'x-large': '5',
         'xx-large': '6',
     },
+
+    customFontSize: [
+        { value: '9px', text: '9' },
+        { value: '10px', text: '10' },
+        { value: '12px', text: '12' },
+        { value: '14px', text: '14' },
+        { value: '16px', text: '16' },
+        { value: '20px', text: '20' },
+        { value: '42px', text: '42' },
+        { value: '72px', text: '72' },
+    ],
 
     colors: [
         '#000000',

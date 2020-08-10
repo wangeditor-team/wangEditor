@@ -19,6 +19,9 @@ import Video from './video/index'
 import Image from './img/index'
 import Indent from './indent/index'
 import Emoticon from './emoticon/index'
+import List from './list/index'
+import LineHeight from './lineHeight/index'
+import CustomFontSize from './custom-font-size/index'
 import Code from './code'
 
 export type MenuListType = {
@@ -42,5 +45,8 @@ export default {
     image: Image,
     indent: Indent,
     emoticon: Emoticon,
+    list: List,
+    lineHeight: LineHeight,
+    customFontSize: CustomFontSize,
     code: Code,
 }
