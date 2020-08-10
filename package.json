@@ -68,8 +68,6 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "highlight": "^0.2.4",
-    "highlight.js": "^10.1.2",
     "vue": "^2.6.11"
   },
   "husky": {
