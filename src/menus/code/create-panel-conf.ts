@@ -36,9 +36,9 @@ export default function (editor: editor, text: string, link: string): PanelConf 
         if (isActive(editor)) {
             selectLinkElem()
 
-            //删除代码
-            editor.cmd.do('delete')
-            editor.cmd.do('delete')
+            //删除代码 document.command命令
+            // editor.cmd.do('delete')
+            // editor.cmd.do('delete')
         }
 
         // editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
@@ -104,8 +104,8 @@ export default function (editor: editor, text: string, link: string): PanelConf 
                             let code = $code.val()
 
                             // 高亮渲染
-                            if (editor.hljs) {
-                                formatCode = editor.hljs.highlightAuto($code.val()).value
+                            if (editor.highlight) {
+                                formatCode = editor.highlight.highlightAuto($code.val()).value
                             } else {
                                 formatCode = $code.val()
                             }
@@ -114,11 +114,24 @@ export default function (editor: editor, text: string, link: string): PanelConf 
                             if (!code) return
 
                             //增加标签
-                            //增加pre标签
-                            codeDom = `<pre id="${codeId}" text="${code}" type="${languageType}"><code>${formatCode}</code></pre>`
+                            if (isActive(editor)) {
+                                let $codeElem = editor.selection.getSelectionTopContainerElem('PRE')
 
-                            //增加换行符 隔离代码块
-                            codeDom += '<p><br></p>'
+                                codeDom = formatCode
+
+                                // @ts-ignore
+                                $codeElem.attr('id', codeId)
+                                // @ts-ignore
+                                $codeElem.attr('text', code)
+                                // @ts-ignore
+                                $codeElem.attr('type', languageType)
+                            } else {
+                                //增加pre标签
+                                codeDom = `<pre id="${codeId}" text="${code}" type="${languageType}"><code>${formatCode}</code></pre>`
+
+                                //增加换行符 隔离代码块
+                                codeDom += '<p><br></p>'
+                            }
 
                             // 添加进内存
                             // @ts-ignore

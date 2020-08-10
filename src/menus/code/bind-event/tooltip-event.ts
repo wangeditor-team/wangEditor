@@ -43,11 +43,16 @@ function showCodeTooltip($code: DomElement) {
         {
             $elem: $('<span>删除代码</span>'),
             onClick: (editor: Editor, $code: DomElement) => {
+                //dom操作删除
+                $code.remove()
+
+                /*command命令删除
                 editor.selection.createRangeByElem($code)
                 editor.selection.restoreSelection()
                 // 选中链接元素
                 editor.cmd.do('delete')
                 editor.cmd.do('delete')
+                */
 
                 // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                 return true
