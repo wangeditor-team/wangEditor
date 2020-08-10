@@ -4,7 +4,7 @@
  */
 import $, { DomElement } from '../../utils/dom-core'
 import { DropListItem } from '../menu-constructors/DropList'
-import { FontSizeType } from '../../config/index'
+import { DicType } from '../../config/index'
 
 /**
  * FontSizeList 字号配置列表
@@ -12,7 +12,7 @@ import { FontSizeType } from '../../config/index'
 class FontSizeList {
     private itemList: DropListItem[]
 
-    constructor(list: FontSizeType) {
+    constructor(list: DicType) {
         this.itemList = []
         for (let key in list) {
             this.itemList.push({
