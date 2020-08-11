@@ -25,6 +25,7 @@ type TextEventHooks = {
     toolbarClickEvents: Function[] // 菜单栏被点击
     imgClickEvents: Function[] // 图片被点击事件
     imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
+    formClickEvents: Function[] //表格点击
 }
 
 class Text {
@@ -49,6 +50,7 @@ class Text {
             toolbarClickEvents: [],
             imgClickEvents: [],
             imgDragBarMouseDownEvents: [],
+            formClickEvents: [],
         }
     }
 
@@ -366,6 +368,24 @@ class Text {
                 const imgDragBarMouseDownEvents = eventHooks.imgDragBarMouseDownEvents
                 imgDragBarMouseDownEvents.forEach(fn => fn())
             }
+        })
+
+        //table cilik
+        $textElem.on('click', (e: Event) => {
+            e.preventDefault()
+
+            // 存储元素
+            let $dom: DomElement | null = null
+
+            const target = e.target as HTMLElement
+
+            //获取最祖父元素
+            $dom = $(target).parentUntil('TABLE', target)
+
+            if ($dom == null) return // 没有table范围内，则返回
+
+            const formClickEvents = eventHooks.formClickEvents
+            formClickEvents.forEach(fn => fn($dom))
         })
     }
 }

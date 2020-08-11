@@ -39,6 +39,10 @@ export default {
         'emoticon',
         'image',
         'video',
+        'indent',
+        'list',
+        'lineHeight',
+        'table',
     ],
 
     fontNames: [
