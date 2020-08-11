@@ -30,7 +30,7 @@ function showTableTooltip($node: DomElement) {
                 // 选中img元素
                 editor.selection.createRangeByElem($node)
                 editor.selection.restoreSelection()
-                editor.cmd.do('delete')
+                editor.cmd.do('insertHTML', '<p><br></p>')
                 // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                 return true
             },

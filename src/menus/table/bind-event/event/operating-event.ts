@@ -1,6 +1,4 @@
-import Editor from '../../../../editor/index'
 import $, { DomElement } from '../../../../utils/dom-core'
-import getNode from './getNode'
 
 /**
  * 处理新添加行
