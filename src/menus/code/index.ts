@@ -34,6 +34,20 @@ class Code extends PanelMenu implements MenuActive {
     }
 
     /**
+     * 插入行内代码
+     * @param text
+     * @return null
+     */
+    private insertLineCode(text: string) {
+        let editor = this.editor
+        // 行内代码处理
+        let $code = $(`<code>${text}</code>`)
+        editor.cmd.do('insertElem', $code)
+        editor.selection.createRangeByElem($code, false)
+        editor.selection.restoreSelection()
+    }
+
+    /**
      * 菜单点击事件
      */
     public clickHandler(): void {
@@ -53,7 +67,8 @@ class Code extends PanelMenu implements MenuActive {
                     // editor.cmd.do('formatBlock', '<p>')
                     return
                 } else {
-                    editor.cmd.do('insertHTML', `<code>${selectionText}</code>`)
+                    // 行内代码处理
+                    this.insertLineCode(selectionText)
                 }
 
                 return
@@ -61,16 +76,15 @@ class Code extends PanelMenu implements MenuActive {
 
             // 弹出 panel
             // @ts-ignore
-            this.createPanel($codeElem.attr('text'))
+            this.createPanel($codeElem.attr('text'), $codeElem.attr('type'))
         } else {
             // 菜单未被激活，说明选区不在链接里
             if (editor.selection.isSelectionEmpty()) {
                 // 选区是空的，未选中内容
                 this.createPanel('', '')
             } else {
-                // 选中内容了
-                editor.cmd.do('insertHTML', `<code>${selectionText}</code>`)
-                editor.cmd.do('insertHTML', `<p><br></p>`)
+                // 行内代码处理 选中了非代码内容
+                this.insertLineCode(selectionText)
             }
         }
     }

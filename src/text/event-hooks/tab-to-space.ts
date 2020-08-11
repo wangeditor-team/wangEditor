@@ -25,7 +25,12 @@ function tabHandler(editor: Editor, tabDownEvents: Function[]) {
         const selectionNodeName = $selectionElem.getNodeName()
         const parentNodeName = $parentElem.getNodeName()
 
-        if (parentNodeName === 'CODE' || parentNodeName === 'PRE' || /hljs/.test(parentNodeName)) {
+        if (
+            selectionNodeName == 'CODE' ||
+            parentNodeName === 'CODE' ||
+            parentNodeName === 'PRE' ||
+            /hljs/.test(parentNodeName)
+        ) {
             // <pre><code> 里面
             editor.cmd.do('insertHTML', editor.config.languageTab)
         } else {
