@@ -15,37 +15,37 @@ class CreateTable {
 
     /**
      * 执行创建
-     * @param lineValue 行数
-     * @param rowValue 列数
+     * @param rowValue 行数
+     * @param colValue 列数
      */
-    public createAction(lineValue: number, rowValue: number) {
+    public createAction(rowValue: number, colValue: number) {
         const editor = this.editor
-        const tableDom: string = this.createRange(lineValue, rowValue)
+        const tableDom: string = this.createTableHtml(rowValue, colValue)
         editor.cmd.do('insertHTML', tableDom)
     }
 
     /**
      * 创建table、行、列
-     * @param lineValue 行数
-     * @param rowValue 列数
+     * @param rowValue 行数
+     * @param colValue 列数
      */
-    public createRange(lineValue: number, rowValue: number): string {
-        let lineStr: string = ''
+    public createTableHtml(rowValue: number, colValue: number): string {
         let rowStr: string = ''
-        for (let i = 0; i < lineValue; i++) {
-            rowStr = ''
-            for (let j = 0; j < rowValue; j++) {
+        let colStr: string = ''
+        for (let i = 0; i < rowValue; i++) {
+            colStr = ''
+            for (let j = 0; j < colValue; j++) {
                 if (i === 0) {
-                    rowStr = rowStr + '<th></th>'
+                    colStr = colStr + '<th></th>'
                 } else {
-                    rowStr = rowStr + '<td></td>'
+                    colStr = colStr + '<td></td>'
                 }
             }
-            lineStr = lineStr + '<tr>' + rowStr + '</tr>'
+            rowStr = rowStr + '<tr>' + colStr + '</tr>'
         }
         const tableDom =
             `<table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>` +
-            lineStr +
+            rowStr +
             '</tbody></table>'
         return tableDom
     }

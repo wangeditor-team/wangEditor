@@ -7,7 +7,7 @@ import editor from '../../editor/index'
 import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
-import './create-panel-conf.less'
+import '../../assets/style/create-panel-conf.less'
 import CreateTable from './create-table'
 
 export default function (editor: editor): PanelConf {

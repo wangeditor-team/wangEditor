@@ -5,18 +5,15 @@ import $, { DomElement } from '../../../../utils/dom-core'
  * @param $node 整个table
  * @param _index 行的inde
  */
-function ProcessingLine($node: DomElement, _index: number): DomElement {
+function ProcessingRow($node: DomElement, _index: number): DomElement {
     let $dom = $node.elems[0].childNodes[0]
     //取出所有的行
-    let domArray: Node[] = []
-    $dom.childNodes.forEach(item => {
-        domArray.push(item)
-    })
+    let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //列的数量
     const childNodesLenght = domArray[0].childNodes.length
     //创建新tr
     let tr = document.createElement('tr')
-    for (var i = 0; i < childNodesLenght; i++) {
+    for (let i = 0; i < childNodesLenght; i++) {
         const td = document.createElement('td')
         tr.appendChild(td)
     }
@@ -27,7 +24,7 @@ function ProcessingLine($node: DomElement, _index: number): DomElement {
         $dom.removeChild($dom.childNodes[0])
     }
     //插入新的子节点
-    for (var i = 0; i < domArray.length; i++) {
+    for (let i = 0; i < domArray.length; i++) {
         $dom.appendChild(domArray[i])
     }
     return $($dom.parentNode)
@@ -38,15 +35,12 @@ function ProcessingLine($node: DomElement, _index: number): DomElement {
  * @param $node 整个table
  * @param _index 列的inde
  */
-function ProcessingRow($node: DomElement, _index: number): DomElement {
+function ProcessingCol($node: DomElement, _index: number): DomElement {
     let $dom = $node.elems[0].childNodes[0]
     //取出所有的行
-    let domArray: Node[] = []
-    $dom.childNodes.forEach(item => {
-        domArray.push(item)
-    })
+    let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //创建td
-    for (var i = 0; i < domArray.length; i++) {
+    for (let i = 0; i < domArray.length; i++) {
         let cArray: Node[] = []
         //取出所有的列
         domArray[i].childNodes.forEach(item => {
@@ -64,7 +58,7 @@ function ProcessingRow($node: DomElement, _index: number): DomElement {
         // let td = document.createElement('td')
         cArray.splice(_index + 1, 0, td)
         //插入新的子节点
-        for (var j = 0; j < cArray.length; j++) {
+        for (let j = 0; j < cArray.length; j++) {
             domArray[i].appendChild(cArray[j])
         }
     }
@@ -73,7 +67,7 @@ function ProcessingRow($node: DomElement, _index: number): DomElement {
         $dom.removeChild($dom.childNodes[0])
     }
     //插入新的子节点
-    for (var i = 0; i < domArray.length; i++) {
+    for (let i = 0; i < domArray.length; i++) {
         $dom.appendChild(domArray[i])
     }
     return $($dom.parentNode)
@@ -84,13 +78,10 @@ function ProcessingRow($node: DomElement, _index: number): DomElement {
  * @param $node  整个table
  * @param _index  行的inde
  */
-function DeleteLine($node: DomElement, _index: number): DomElement {
+function DeleteRow($node: DomElement, _index: number): DomElement {
     let $dom = $node.elems[0].childNodes[0]
     //取出所有的行
-    let domArray: Node[] = []
-    $dom.childNodes.forEach(item => {
-        domArray.push(item)
-    })
+    let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //删除行
     domArray.splice(_index, 1)
     //移除所有的旧的子节点
@@ -98,7 +89,7 @@ function DeleteLine($node: DomElement, _index: number): DomElement {
         $dom.removeChild($dom.childNodes[0])
     }
     //插入新的子节点
-    for (var i = 0; i < domArray.length; i++) {
+    for (let i = 0; i < domArray.length; i++) {
         $dom.appendChild(domArray[i])
     }
     return $($dom.parentNode)
@@ -109,15 +100,12 @@ function DeleteLine($node: DomElement, _index: number): DomElement {
  * @param $node
  * @param _index
  */
-function DeleteRow($node: DomElement, _index: number): DomElement {
+function DeleteCol($node: DomElement, _index: number): DomElement {
     let $dom = $node.elems[0].childNodes[0]
     //取出所有的行
-    let domArray: Node[] = []
-    $dom.childNodes.forEach(item => {
-        domArray.push(item)
-    })
+    let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //创建td
-    for (var i = 0; i < domArray.length; i++) {
+    for (let i = 0; i < domArray.length; i++) {
         let cArray: Node[] = []
         //取出所有的列
         domArray[i].childNodes.forEach(item => {
@@ -129,7 +117,7 @@ function DeleteRow($node: DomElement, _index: number): DomElement {
         }
         cArray.splice(_index, 1)
         //插入新的子节点
-        for (var j = 0; j < cArray.length; j++) {
+        for (let j = 0; j < cArray.length; j++) {
             domArray[i].appendChild(cArray[j])
         }
     }
@@ -138,7 +126,7 @@ function DeleteRow($node: DomElement, _index: number): DomElement {
         $dom.removeChild($dom.childNodes[0])
     }
     //插入新的子节点
-    for (var i = 0; i < domArray.length; i++) {
+    for (let i = 0; i < domArray.length; i++) {
         $dom.appendChild(domArray[i])
     }
     return $($dom.parentNode)
@@ -148,19 +136,17 @@ function DeleteRow($node: DomElement, _index: number): DomElement {
  * 处理设置/取消表头
  * @param $node
  * @param _index
+ * @type 替换的列 th 还是td
  */
 function setTheHeader($node: DomElement, _index: number, type: string): DomElement {
     let $dom = $node.elems[0].childNodes[0]
     //取出所有的行
-    let domArray: Node[] = []
-    $dom.childNodes.forEach(item => {
-        domArray.push(item)
-    })
+    let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //列的数量
     const childNodesLenght = domArray[_index].childNodes
     //创建新tr
     let tr = document.createElement('tr')
-    for (var i = 0; i < childNodesLenght.length; i++) {
+    for (let i = 0; i < childNodesLenght.length; i++) {
         //替换td为th
         const th = document.createElement(type)
         childNodesLenght[i].childNodes.forEach(item => {
@@ -175,16 +161,16 @@ function setTheHeader($node: DomElement, _index: number, type: string): DomEleme
         $dom.removeChild($dom.childNodes[0])
     }
     //插入新的子节点
-    for (var i = 0; i < domArray.length; i++) {
+    for (let i = 0; i < domArray.length; i++) {
         $dom.appendChild(domArray[i])
     }
     return $($dom.parentNode)
 }
 
 export default {
-    ProcessingLine,
     ProcessingRow,
-    DeleteLine,
+    ProcessingCol,
     DeleteRow,
+    DeleteCol,
     setTheHeader,
 }

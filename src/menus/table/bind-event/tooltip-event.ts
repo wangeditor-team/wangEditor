@@ -41,63 +41,12 @@ function showTableTooltip($node: DomElement) {
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
                 //当前行
-                let $currentLine = getnode.getLineNode(selectDom.elems[0])
-                //获取当前行的index
-                const index = Number(getnode.getCurrentLineIndex($node.elems[0], $currentLine))
-                //生成要替换的html
-                let htmlStr = getnode.getNodeHtml($node.elems[0])
-                //生成新的table
-                let newdom: string = getnode.getNodeHtml(
-                    operatingEvent.ProcessingLine($(htmlStr), index).elems[0]
-                )
-                // 选中table
-                editor.selection.createRangeByElem($node)
-                editor.selection.restoreSelection()
-
-                editor.cmd.do('insertHTML', newdom)
-
-                return true
-            },
-        },
-        {
-            $elem: $('<span>删除行</span>'),
-            onClick: (editor: Editor, $node: DomElement) => {
-                //当前元素
-                let selectDom = $(editor.selection.getSelectionStartElem())
-                //当前行
-                let $currentLine = getnode.getLineNode(selectDom.elems[0])
-                //获取当前行的index
-                const index = Number(getnode.getCurrentLineIndex($node.elems[0], $currentLine))
-                //生成要替换的html
-                let htmlStr = getnode.getNodeHtml($node.elems[0])
-                //获取新生成的table 判断是否是最后一行被删除 是 删除整个table
-                const trLength: number = operatingEvent.DeleteLine($(htmlStr), index).elems[0]
-                    .childNodes[0].childNodes.length
-                //生成新的table
-                let newdom: string = ''
-                // 选中table
-                editor.selection.createRangeByElem($node)
-                editor.selection.restoreSelection()
-
-                if (trLength === 0) {
-                    newdom = '<p><br></p>'
-                } else {
-                    newdom = getnode.getNodeHtml(
-                        operatingEvent.DeleteLine($(htmlStr), index).elems[0]
-                    )
+                let $currentRow = getnode.getRowNode(selectDom.elems[0])
+                if (!$currentRow) {
+                    return true
                 }
-                editor.cmd.do('insertHTML', newdom)
-
-                return true
-            },
-        },
-        {
-            $elem: $('<span>添加列</span>'),
-            onClick: (editor: Editor, $node: DomElement) => {
-                //当前元素
-                let selectDom = $(editor.selection.getSelectionStartElem())
-                //当前列的index
-                const index = getnode.getCurrentRowIndex(selectDom.elems[0])
+                //获取当前行的index
+                const index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
                 //生成要替换的html
                 let htmlStr = getnode.getNodeHtml($node.elems[0])
                 //生成新的table
@@ -114,16 +63,73 @@ function showTableTooltip($node: DomElement) {
             },
         },
         {
+            $elem: $('<span>删除行</span>'),
+            onClick: (editor: Editor, $node: DomElement) => {
+                //当前元素
+                let selectDom = $(editor.selection.getSelectionStartElem())
+                //当前行
+                let $currentRow = getnode.getRowNode(selectDom.elems[0])
+                if (!$currentRow) {
+                    return true
+                }
+                //获取当前行的index
+                const index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
+                //生成要替换的html
+                let htmlStr = getnode.getNodeHtml($node.elems[0])
+                //获取新生成的table 判断是否是最后一行被删除 是 删除整个table
+                const trLength: number = operatingEvent.DeleteRow($(htmlStr), index).elems[0]
+                    .childNodes[0].childNodes.length
+                //生成新的table
+                let newdom: string = ''
+                // 选中table
+                editor.selection.createRangeByElem($node)
+                editor.selection.restoreSelection()
+
+                if (trLength === 0) {
+                    newdom = '<p><br></p>'
+                } else {
+                    newdom = getnode.getNodeHtml(
+                        operatingEvent.DeleteRow($(htmlStr), index).elems[0]
+                    )
+                }
+                editor.cmd.do('insertHTML', newdom)
+
+                return true
+            },
+        },
+        {
+            $elem: $('<span>添加列</span>'),
+            onClick: (editor: Editor, $node: DomElement) => {
+                //当前元素
+                let selectDom = $(editor.selection.getSelectionStartElem())
+                //当前列的index
+                const index = getnode.getCurrentColIndex(selectDom.elems[0])
+                //生成要替换的html
+                let htmlStr = getnode.getNodeHtml($node.elems[0])
+                //生成新的table
+                let newdom: string = getnode.getNodeHtml(
+                    operatingEvent.ProcessingCol($(htmlStr), index).elems[0]
+                )
+                // 选中table
+                editor.selection.createRangeByElem($node)
+                editor.selection.restoreSelection()
+
+                editor.cmd.do('insertHTML', newdom)
+
+                return true
+            },
+        },
+        {
             $elem: $('<span>删除列</span>'),
             onClick: (editor: Editor, $node: DomElement) => {
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
                 //当前列的index
-                const index = getnode.getCurrentRowIndex(selectDom.elems[0])
+                const index = getnode.getCurrentColIndex(selectDom.elems[0])
                 //生成要替换的html
                 let htmlStr = getnode.getNodeHtml($node.elems[0])
                 //获取新生成的table 判断是否是最后一列被删除 是 删除整个table
-                const tdLength: number = operatingEvent.DeleteLine($(htmlStr), index).elems[0]
+                const tdLength: number = operatingEvent.DeleteCol($(htmlStr), index).elems[0]
                     .childNodes[0].childNodes[0].childNodes.length
                 //生成新的table
                 let newdom: string = ''
@@ -135,7 +141,7 @@ function showTableTooltip($node: DomElement) {
                     newdom = '<p><br></p>'
                 } else {
                     newdom = getnode.getNodeHtml(
-                        operatingEvent.DeleteRow($(htmlStr), index).elems[0]
+                        operatingEvent.DeleteCol($(htmlStr), index).elems[0]
                     )
                 }
 
@@ -150,9 +156,12 @@ function showTableTooltip($node: DomElement) {
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
                 //当前行
-                let $currentLine = getnode.getLineNode(selectDom.elems[0])
+                let $currentRow = getnode.getRowNode(selectDom.elems[0])
+                if (!$currentRow) {
+                    return true
+                }
                 //获取当前行的index
-                const index = Number(getnode.getCurrentLineIndex($node.elems[0], $currentLine))
+                const index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
                 //生成要替换的html
                 let htmlStr = getnode.getNodeHtml($node.elems[0])
                 //生成新的table
@@ -174,9 +183,12 @@ function showTableTooltip($node: DomElement) {
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
                 //当前行
-                let $currentLine = getnode.getLineNode(selectDom.elems[0])
+                let $currentRow = getnode.getRowNode(selectDom.elems[0])
+                if (!$currentRow) {
+                    return true
+                }
                 //获取当前行的index
-                const index = Number(getnode.getCurrentLineIndex($node.elems[0], $currentLine))
+                const index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
                 //生成要替换的html
                 let htmlStr = getnode.getNodeHtml($node.elems[0])
                 //生成新的table
@@ -217,7 +229,7 @@ function bindTooltipEvent(editor: Editor) {
     _editor = editor
 
     // 点击table元素是，显示 tooltip
-    editor.txt.eventHooks.formClickEvents.push(showTableTooltip)
+    editor.txt.eventHooks.tableClickEvents.push(showTableTooltip)
 
     // 点击其他地方，或者滚动时，隐藏 tooltip
     editor.txt.eventHooks.clickEvents.push(hideTableTooltip)

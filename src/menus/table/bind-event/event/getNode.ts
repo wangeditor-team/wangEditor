@@ -16,21 +16,12 @@ class getNode {
      * 获取焦点所在行
      * @param $node 当前table
      */
-    public getLineNode($node: HTMLElement): HTMLElement {
-        let DOM: HTMLElement = $($node).elems[0]
+    public getRowNode($node: HTMLElement): HTMLElement | null | undefined {
+        let DOM: HTMLElement | null | undefined = $($node).elems[0]
         if (!DOM.parentNode) {
             return DOM
         }
-        function getParentNode($node: HTMLElement, editor: Editor): HTMLElement {
-            const $parent = $($node.parentNode)
-            if ($($parent.elems[0]).getNodeName() === 'TR') {
-                return $parent.elems[0]
-            } else {
-                return getParentNode($parent.elems[0], editor)
-            }
-        }
-        DOM = getParentNode(DOM, this.editor)
-
+        DOM = $(DOM).parentUntil('TR', DOM)?.elems[0]
         return DOM
     }
 
@@ -39,7 +30,7 @@ class getNode {
      * @param $node 当前table
      * @param $dmo 当前行节点
      */
-    public getCurrentLineIndex($node: HTMLElement, $dom: HTMLElement): Number {
+    public getCurrentRowIndex($node: HTMLElement, $dom: HTMLElement): Number {
         let _index: number = 0
         $node.childNodes[0].childNodes.forEach((item, index) => {
             item === $dom ? (_index = index) : ''
@@ -51,7 +42,7 @@ class getNode {
      * 获取当前列的下标
      * @param $node 当前点击元素
      */
-    public getCurrentRowIndex($node: HTMLElement): number {
+    public getCurrentColIndex($node: HTMLElement): number {
         //当前行
         let _index: number = 0
         //获取当前列 td或th
@@ -76,8 +67,6 @@ class getNode {
         const htmlStr = div.innerHTML
         return htmlStr
     }
-
-    public getDesignatedNode() {}
 }
 
 export default getNode

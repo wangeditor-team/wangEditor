@@ -25,7 +25,7 @@ type TextEventHooks = {
     toolbarClickEvents: Function[] // 菜单栏被点击
     imgClickEvents: Function[] // 图片被点击事件
     imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
-    formClickEvents: Function[] //表格点击
+    tableClickEvents: Function[] //表格点击
 }
 
 class Text {
@@ -50,7 +50,7 @@ class Text {
             toolbarClickEvents: [],
             imgClickEvents: [],
             imgDragBarMouseDownEvents: [],
-            formClickEvents: [],
+            tableClickEvents: [],
         }
     }
 
@@ -384,8 +384,8 @@ class Text {
 
             if ($dom == null) return // 没有table范围内，则返回
 
-            const formClickEvents = eventHooks.formClickEvents
-            formClickEvents.forEach(fn => fn($dom))
+            const tableClickEvents = eventHooks.tableClickEvents
+            tableClickEvents.forEach(fn => fn($dom))
         })
     }
 }
