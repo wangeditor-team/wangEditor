@@ -14,8 +14,8 @@ export default function (editor: editor): PanelConf {
     const createTable = new CreateTable(editor)
 
     // panel 中需要用到的id
+    const colId = getRandom('w-col-id')
     const rowId = getRandom('w-row-id')
-    const lineId = getRandom('w-line-id')
     const insertBtnId = getRandom('btn-link')
 
     // tabs 配置 -----------------------------------------
@@ -25,9 +25,9 @@ export default function (editor: editor): PanelConf {
             tpl: `<div>
                     <div class="w-e-table">
                         <span>创建</span>
-                        <input id="${lineId}"  type="text" class="w-e-table-input" value="5"/></td>
+                        <input id="${rowId}"  type="text" class="w-e-table-input" value="5"/></td>
                         <span>行</span>
-                        <input id="${rowId}" type="text" class="w-e-table-input" value="5"/></td>
+                        <input id="${colId}" type="text" class="w-e-table-input" value="5"/></td>
                         <span>列的表格</span>
                     </div>
                     <div class="w-e-button-container">
@@ -39,11 +39,11 @@ export default function (editor: editor): PanelConf {
                     selector: '#' + insertBtnId,
                     type: 'click',
                     fn: () => {
+                        const colValue = Number($('#' + colId).val())
                         const rowValue = Number($('#' + rowId).val())
-                        const lineValue = Number($('#' + lineId).val())
                         //校验是否传值
-                        if (rowValue && lineValue) {
-                            createTable.createAction(lineValue, rowValue)
+                        if (colValue && rowValue) {
+                            createTable.createAction(rowValue, colValue)
                         }
                         // 返回 true 表示函数执行结束之后关闭 panel
                         return true

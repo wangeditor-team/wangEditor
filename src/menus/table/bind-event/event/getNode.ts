@@ -50,8 +50,8 @@ class getNode {
             $($node).getNodeName() === 'TD' || $($node).getNodeName() === 'TH'
                 ? $node
                 : $($node).parentUntil('TD', $node)?.elems[0]
-        let lineDom = $(rowDom).parent()
-        lineDom.elems[0].childNodes.forEach((item, index) => {
+        let colDom = $(rowDom).parent()
+        colDom.elems[0].childNodes.forEach((item, index) => {
             item === rowDom ? (_index = index) : ''
         })
         return _index
@@ -61,10 +61,10 @@ class getNode {
      * 返回元素html字符串
      * @param $node
      */
-    public getNodeHtml($node: HTMLElement): string {
-        let div = document.createElement('div')
-        div.appendChild($node.cloneNode(true))
-        const htmlStr = div.innerHTML
+    public getTableHtml($node: HTMLElement): string {
+        const htmlStr = `<table border="0" width="100%" cellpadding="0" cellspacing="0">${$(
+            $node
+        ).html()}</table>`
         return htmlStr
     }
 }

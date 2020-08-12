@@ -48,9 +48,9 @@ function showTableTooltip($node: DomElement) {
                 //获取当前行的index
                 const index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
                 //生成要替换的html
-                let htmlStr = getnode.getNodeHtml($node.elems[0])
+                let htmlStr = getnode.getTableHtml($node.elems[0])
                 //生成新的table
-                let newdom: string = getnode.getNodeHtml(
+                let newdom: string = getnode.getTableHtml(
                     operatingEvent.ProcessingRow($(htmlStr), index).elems[0]
                 )
                 // 选中table
@@ -75,7 +75,7 @@ function showTableTooltip($node: DomElement) {
                 //获取当前行的index
                 const index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
                 //生成要替换的html
-                let htmlStr = getnode.getNodeHtml($node.elems[0])
+                let htmlStr = getnode.getTableHtml($node.elems[0])
                 //获取新生成的table 判断是否是最后一行被删除 是 删除整个table
                 const trLength: number = operatingEvent.DeleteRow($(htmlStr), index).elems[0]
                     .childNodes[0].childNodes.length
@@ -88,7 +88,7 @@ function showTableTooltip($node: DomElement) {
                 if (trLength === 0) {
                     newdom = '<p><br></p>'
                 } else {
-                    newdom = getnode.getNodeHtml(
+                    newdom = getnode.getTableHtml(
                         operatingEvent.DeleteRow($(htmlStr), index).elems[0]
                     )
                 }
@@ -105,9 +105,9 @@ function showTableTooltip($node: DomElement) {
                 //当前列的index
                 const index = getnode.getCurrentColIndex(selectDom.elems[0])
                 //生成要替换的html
-                let htmlStr = getnode.getNodeHtml($node.elems[0])
+                let htmlStr = getnode.getTableHtml($node.elems[0])
                 //生成新的table
-                let newdom: string = getnode.getNodeHtml(
+                let newdom: string = getnode.getTableHtml(
                     operatingEvent.ProcessingCol($(htmlStr), index).elems[0]
                 )
                 // 选中table
@@ -127,7 +127,7 @@ function showTableTooltip($node: DomElement) {
                 //当前列的index
                 const index = getnode.getCurrentColIndex(selectDom.elems[0])
                 //生成要替换的html
-                let htmlStr = getnode.getNodeHtml($node.elems[0])
+                let htmlStr = getnode.getTableHtml($node.elems[0])
                 //获取新生成的table 判断是否是最后一列被删除 是 删除整个table
                 const tdLength: number = operatingEvent.DeleteCol($(htmlStr), index).elems[0]
                     .childNodes[0].childNodes[0].childNodes.length
@@ -140,7 +140,7 @@ function showTableTooltip($node: DomElement) {
                 if (tdLength === 1) {
                     newdom = '<p><br></p>'
                 } else {
-                    newdom = getnode.getNodeHtml(
+                    newdom = getnode.getTableHtml(
                         operatingEvent.DeleteCol($(htmlStr), index).elems[0]
                     )
                 }
@@ -163,9 +163,9 @@ function showTableTooltip($node: DomElement) {
                 //获取当前行的index
                 const index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
                 //生成要替换的html
-                let htmlStr = getnode.getNodeHtml($node.elems[0])
+                let htmlStr = getnode.getTableHtml($node.elems[0])
                 //生成新的table
-                let newdom: string = getnode.getNodeHtml(
+                let newdom: string = getnode.getTableHtml(
                     operatingEvent.setTheHeader($(htmlStr), index, 'th').elems[0]
                 )
                 // 选中table
@@ -190,9 +190,9 @@ function showTableTooltip($node: DomElement) {
                 //获取当前行的index
                 const index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
                 //生成要替换的html
-                let htmlStr = getnode.getNodeHtml($node.elems[0])
+                let htmlStr = getnode.getTableHtml($node.elems[0])
                 //生成新的table
-                let newdom: string = getnode.getNodeHtml(
+                let newdom: string = getnode.getTableHtml(
                     operatingEvent.setTheHeader($(htmlStr), index, 'td').elems[0]
                 )
                 // 选中table
