@@ -22,6 +22,8 @@ import Emoticon from './emoticon/index'
 import List from './list/index'
 import LineHeight from './lineHeight/index'
 import CustomFontSize from './custom-font-size/index'
+import Undo from './undo/index'
+import Redo from './redo/index'
 
 export type MenuListType = {
     [key: string]: any
@@ -47,4 +49,6 @@ export default {
     list: List,
     lineHeight: LineHeight,
     customFontSize: CustomFontSize,
+    undo: Undo,
+    redo: Redo,
 }

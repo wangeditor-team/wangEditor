@@ -39,6 +39,8 @@ export default {
         'emoticon',
         'image',
         'video',
+        'undo',
+        'redo',
     ],
 
     fontNames: [
