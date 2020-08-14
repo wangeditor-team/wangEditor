@@ -20,6 +20,15 @@ class CreateTable {
      */
     public createAction(rowValue: number, colValue: number) {
         const editor = this.editor
+
+        //不允许在有序列表中添加table
+        let $selectionElem = $(editor.selection.getSelectionContainerElem())
+        const $ul = $($selectionElem.elems[0]).parentUntil('UL', $selectionElem.elems[0])
+        const $ol = $($selectionElem.elems[0]).parentUntil('OL', $selectionElem.elems[0])
+        if ($ul || $ol) {
+            return
+        }
+
         const tableDom: string = this.createTableHtml(rowValue, colValue)
         editor.cmd.do('insertHTML', tableDom)
     }
@@ -46,7 +55,7 @@ class CreateTable {
         const tableDom =
             `<table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>` +
             rowStr +
-            '</tbody></table>'
+            '</tbody></table><p><br></p>'
         return tableDom
     }
 }
