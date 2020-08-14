@@ -285,10 +285,15 @@ class Text {
         )
 
         // 拖拽相关的事件
-        $(document).on('dragleave drop dragenter dragover', function (e: Event) {
+        function preventDefault(e: Event) {
             // 禁用 document 拖拽事件
             e.preventDefault()
-        })
+        }
+        $(document)
+            .on('dragleave', preventDefault)
+            .on('drop', preventDefault)
+            .on('dragenter', preventDefault)
+            .on('dragover', preventDefault)
         $textElem.on('drop', (e: Event) => {
             e.preventDefault()
             const events = eventHooks.dropEvents

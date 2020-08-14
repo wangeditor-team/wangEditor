@@ -40,10 +40,15 @@ function _bindChange(editor: Editor): void {
     // 绑定 onchange
     const onchangeTimeout = editor.config.onchangeTimeout
     const change = debounce(changeHandler, onchangeTimeout)
-    $textContainerElem.on('click keyup', () => {
-        // 输入法结束才出发 onchange
-        compositionEnd && change(editor)
-    })
+    $textContainerElem
+        .on('click', () => {
+            // 输入法结束才出发 onchange
+            compositionEnd && change(editor)
+        })
+        .on('keyup', () => {
+            // 输入法结束才出发 onchange
+            compositionEnd && change(editor)
+        })
     $toolbarElem.on('click', () => {
         change(editor)
     })
