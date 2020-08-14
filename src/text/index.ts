@@ -294,6 +294,15 @@ class Text {
             .on('drop', preventDefault)
             .on('dragenter', preventDefault)
             .on('dragover', preventDefault)
+        // 全局事件在编辑器实例销毁的时候进行解绑
+        editor.beforeDestroy(function () {
+            $(document)
+                .off('dragleave', preventDefault)
+                .off('drop', preventDefault)
+                .off('dragenter', preventDefault)
+                .off('dragover', preventDefault)
+        })
+
         $textElem.on('drop', (e: Event) => {
             e.preventDefault()
             const events = eventHooks.dropEvents
