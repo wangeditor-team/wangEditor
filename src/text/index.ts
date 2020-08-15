@@ -25,6 +25,7 @@ type TextEventHooks = {
     toolbarClickEvents: Function[] // 菜单栏被点击
     imgClickEvents: Function[] // 图片被点击事件
     imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
+    tableClickEvents: Function[] //表格点击
 }
 
 class Text {
@@ -49,6 +50,7 @@ class Text {
             toolbarClickEvents: [],
             imgClickEvents: [],
             imgDragBarMouseDownEvents: [],
+            tableClickEvents: [],
         }
     }
 
@@ -379,6 +381,34 @@ class Text {
                 // 点击的元素，是图片拖拽调整大小的 bar
                 const imgDragBarMouseDownEvents = eventHooks.imgDragBarMouseDownEvents
                 imgDragBarMouseDownEvents.forEach(fn => fn())
+            }
+        })
+
+        //table cilik
+        $textElem.on('click', (e: Event) => {
+            e.preventDefault()
+
+            // 存储元素
+            let $dom: DomElement | null = null
+
+            const target = e.target as HTMLElement
+
+            //获取最祖父元素
+            $dom = $(target).parentUntil('TABLE', target)
+
+            if ($dom == null) return // 没有table范围内，则返回
+
+            const tableClickEvents = eventHooks.tableClickEvents
+            tableClickEvents.forEach(fn => fn($dom))
+        })
+
+        //table外边最右或最左 防止回车后在回车焦点无法换行
+        $textElem.on('keydown', (e: Event) => {
+            const $selectElem = editor.selection.getSelectionContainerElem()
+            if ($($selectElem?.elems[0]).hasClass('w-e-text')) {
+                e.preventDefault()
+                editor.cmd.do('insertHTML', '<p><br></p>')
+                editor.selection.createEmptyRange()
             }
         })
     }
