@@ -8,8 +8,9 @@ import Editor from '../editor/index'
 // 记录代理事件绑定
 type listener = (e: Event) => void
 type EventItem = {
+    elem: HTMLElement
     selector: string
-    curFn: listener
+    fn: listener
     agentFn: listener
 }
 const AGENT_EVENTS: EventItem[] = []
@@ -231,30 +232,28 @@ export class DomElement {
             selector = ''
         }
 
-        const curFn = fn as listener
-
         return this.forEach(function (elem: HTMLElement) {
             // 没有事件代理
             if (!selector) {
                 // 无代理
-                elem.addEventListener(type, curFn)
+                elem.addEventListener(type, fn as listener)
                 return
             }
 
             // 有事件代理
-            const sel = selector as string
             const agentFn: listener = function (e) {
                 const target = e.target as HTMLElement
-                if (target.matches(sel)) {
-                    curFn.call(target, e)
+                if (target.matches(selector as string)) {
+                    ;(fn as listener).call(target, e)
                 }
             }
             elem.addEventListener(type, agentFn)
 
             // 缓存代理事件
             AGENT_EVENTS.push({
-                selector: sel,
-                curFn,
+                elem: elem,
+                selector: selector as string,
+                fn: fn as listener,
                 agentFn,
             })
         })
@@ -277,20 +276,23 @@ export class DomElement {
             selector = ''
         }
 
-        const curFn = fn as listener
-
         return this.forEach(function (elem: HTMLElement) {
             // 解绑事件代理
             if (selector) {
-                let idx = AGENT_EVENTS.findIndex(function (item) {
-                    return item.selector === selector && item.curFn === curFn
-                })
+                let idx = -1
+                for (let i = 0; i < AGENT_EVENTS.length; i++) {
+                    let item = AGENT_EVENTS[i]
+                    if (item.selector === selector && item.fn === fn && item.elem === elem) {
+                        idx = i
+                        break
+                    }
+                }
                 if (idx !== -1) {
                     const { agentFn } = AGENT_EVENTS.splice(idx, 1)[0]
                     elem.removeEventListener(type, agentFn)
                 }
             } else {
-                elem.removeEventListener(type, curFn)
+                elem.removeEventListener(type, fn as listener)
             }
         })
     }

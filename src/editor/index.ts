@@ -124,7 +124,7 @@ class Editor {
      * @param fn 钩子函数
      */
     public beforeDestroy(fn: Function): Editor {
-        this.beforeDestroyHooks.unshift(fn)
+        this.beforeDestroyHooks.push(fn)
         return this
     }
 
