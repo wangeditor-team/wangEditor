@@ -13,13 +13,6 @@ import Menu from '../../menu-constructors/Menu'
 let tooltip: Tooltip | null
 let _editor: Editor
 
-function menuFind(arr: Menu[], key: string) {
-    for (let i = 0, l = arr.length; i < l; i++) {
-        if (arr[i].key === 'Code') return i
-    }
-    return -1
-}
-
 /**
  * 显示 tooltip
  * @param $code 链接元素
@@ -45,14 +38,6 @@ function showCodeTooltip($code: DomElement) {
             onClick: (editor: Editor, $code: DomElement) => {
                 //dom操作删除
                 $code.remove()
-
-                /*command命令删除
-                editor.selection.createRangeByElem($code)
-                editor.selection.restoreSelection()
-                // 选中链接元素
-                editor.cmd.do('delete')
-                editor.cmd.do('delete')
-                */
 
                 // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                 return true
