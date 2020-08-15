@@ -49,7 +49,8 @@ export default function (editor: editor, text: string, languageType: string): Pa
 
         let $selectedCode: DomElement
 
-        const $codeElem = editor.selection.getSelectionTopContainerElem('PRE')
+        const $code = editor.selection.getSelectionStartElem()
+        const $codeElem = $code?.getNodeTop(editor)
         if (!$codeElem) return
 
         editor.selection.createRangeByElem($codeElem)
@@ -120,7 +121,8 @@ export default function (editor: editor, text: string, languageType: string): Pa
 
                             //增加标签
                             if (isActive(editor)) {
-                                let $codeElem = editor.selection.getSelectionTopContainerElem('PRE')
+                                const $code = editor.selection.getSelectionStartElem()
+                                const $codeElem = $code?.getNodeTop(editor)
 
                                 codeDom = formatCode
 

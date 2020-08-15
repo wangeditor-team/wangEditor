@@ -57,23 +57,19 @@ class Code extends PanelMenu implements MenuActive {
 
         if (this.isActive) {
             // 菜单被激活，说明选区在链接里
-            $codeElem = editor.selection.getSelectionTopContainerElem('PRE')
-            if (!$codeElem) {
+            const $code = editor.selection.getSelectionStartElem()
+            const $codeElem = $code?.getNodeTop(editor)
+            // @ts-ignore
+            if (!($codeElem.getNodeName() == 'PRE')) {
                 if (editor.selection.isSelectionEmpty()) {
                     return
                 }
 
-                if (editor.selection.getSelectionTopContainerElem('CODE')) {
-                    // editor.cmd.do('formatBlock', '<p>')
-                    return
-                } else {
-                    // 行内代码处理
-                    this.insertLineCode(selectionText)
-                }
+                // 行内代码处理
+                this.insertLineCode(selectionText)
 
                 return
             }
-
             // 弹出 panel
             // @ts-ignore
             this.createPanel($codeElem.attr('text'), $codeElem.attr('type'))

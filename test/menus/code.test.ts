@@ -34,12 +34,17 @@ test('code 菜单：插入代码', () => {
 
     // 插入代码
     mockCmdFn(document)
-    const type = 'java'
-    const code = '代码'
+    const type = 'javaScript'
+    const code = 'let a = 0;'
     $inputText.val(code)
     $language.val(type)
     $btnInsert.click()
 
     // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
-    expect(editor.$textElem.html().indexOf(`<code>${code}</code>`)).toBeGreaterThan(0)
+    if (editor.highlight) {
+        expect(editor.$textElem.html().indexOf(`<code>${code}</code>`)).toBeGreaterThan(0)
+    } else {
+        expect(editor.$textElem.html().indexOf(`<code>${code}</code>`)).toBeGreaterThan(0)
+    }
+
 })
