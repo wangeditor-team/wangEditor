@@ -24,6 +24,7 @@ import LineHeight from './lineHeight/index'
 import CustomFontSize from './custom-font-size/index'
 import Undo from './undo/index'
 import Redo from './redo/index'
+import Table from './table/index'
 
 export type MenuListType = {
     [key: string]: any
@@ -51,4 +52,5 @@ export default {
     customFontSize: CustomFontSize,
     undo: Undo,
     redo: Redo,
+    table: Table,
 }

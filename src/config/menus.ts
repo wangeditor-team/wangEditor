@@ -41,6 +41,7 @@ export default {
         'video',
         'undo',
         'redo',
+        'table',
     ],
 
     fontNames: [
