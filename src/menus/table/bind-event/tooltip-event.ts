@@ -161,10 +161,10 @@ function showTableTooltip($node: DomElement) {
                     return true
                 }
                 //获取当前行的index
-                const index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
+                let index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
                 if (index !== 0) {
                     //控制在table的第一行
-                    return true
+                    index = 0
                 }
                 //生成要替换的html
                 let htmlStr = getnode.getTableHtml($node.elems[0])
@@ -192,10 +192,10 @@ function showTableTooltip($node: DomElement) {
                     return true
                 }
                 //获取当前行的index
-                const index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
+                let index = Number(getnode.getCurrentRowIndex($node.elems[0], $currentRow))
                 if (index !== 0) {
                     //控制在table的第一行
-                    return true
+                    index = 0
                 }
                 //生成要替换的html
                 let htmlStr = getnode.getTableHtml($node.elems[0])
