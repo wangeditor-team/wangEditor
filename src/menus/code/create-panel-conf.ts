@@ -100,17 +100,19 @@ export default function (editor: editor, text: string, languageType: string): Pa
                         fn: () => {
                             let formatCode, codeDom
                             // 执行插入视频
-                            const $code = $('#' + inputIFrameId)
+                            // const $code = $('#' + inputIFrameId)
+                            const $code = document.getElementById(inputIFrameId)
                             const $select = $('#' + languageId)
 
                             let languageType = $select.val()
-                            let code = $code.val()
+                            // @ts-ignore
+                            let code = $code.value
 
                             // 高亮渲染
                             if (editor.highlight) {
-                                formatCode = editor.highlight.highlightAuto($code.val()).value
+                                formatCode = editor.highlight.highlightAuto(code).value
                             } else {
-                                formatCode = $code.val()
+                                formatCode = code
                             }
 
                             // 代码为空，则不插入

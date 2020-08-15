@@ -74,13 +74,13 @@ class Menus {
      * @param 菜单名称 小写
      * @return Menus 菜单对象
      */
-    public menuFind(key: string) {
+    public menuFind(key: string): Menu {
         const menuList = this.menuList
         for (let i = 0, l = menuList.length; i < l; i++) {
             if (menuList[i].key === key) return menuList[i]
         }
 
-        return false
+        return menuList[0]
     }
 
     /**
