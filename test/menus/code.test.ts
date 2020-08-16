@@ -45,5 +45,5 @@ test('code 菜单：插入代码', () => {
     editor.highlight = hljs
 
     // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
-    editor.$textElem.html().indexOf(`<code>${code}</code>`)
+    expect(editor.$textElem.html().indexOf(`<code>${code}</code>`)).toBeGreaterThan(0)
 })
