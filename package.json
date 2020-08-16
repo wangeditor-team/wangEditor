@@ -44,6 +44,7 @@
     "formidable": "^1.2.2",
     "husky": "^4.2.5",
     "i18next": "^19.6.3",
+    "highlight.js": "^10.1.2",
     "jest": "^26.0.1",
     "jquery": "^3.5.1",
     "koa": "^2.13.0",
@@ -67,9 +68,7 @@
     "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2"
   },
-  "dependencies": {
-    "highlight.js": "^10.1.2"
-  },
+  "dependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
