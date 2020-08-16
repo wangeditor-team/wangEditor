@@ -93,7 +93,7 @@ class Text {
      * 设置/获取 html
      * @param val html 字符串
      */
-    public html(val?: string): string {
+    public html(val?: string): void | string {
         const editor = this.editor
         const $textElem = editor.$textElem
 
@@ -118,8 +118,6 @@ class Text {
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
-
-        return ''
     }
 
     /**
