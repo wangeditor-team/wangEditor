@@ -18,9 +18,6 @@ export default function (editor: editor, text: string, languageType: string): Pa
     const inputTextId = getRandom('input-text')
     const btnOkId = getRandom('btn-ok')
 
-    // 是否显示“删除链接”
-    const delBtnDisplay = isActive(editor) ? 'inline-block' : 'none'
-
     /**
      * 插入链接
      * @param text 文字
