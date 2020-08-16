@@ -10,6 +10,7 @@ import mockCmdFn from '../fns/command-mock'
 import Code from '../../src/menus/code/index'
 import { getMenuInstance } from '../fns/menus'
 import Panel from '../../src/menus/menu-constructors/Panel'
+import hljs from 'highlight.js'
 
 let editor: Editor
 let codeMenu: Code
@@ -40,11 +41,9 @@ test('code 菜单：插入代码', () => {
     $language.val(type)
     $btnInsert.click()
 
-    // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
-    if (editor.highlight) {
-        expect(editor.$textElem.html().indexOf(`<code>${code}</code>`)).toBeGreaterThan(0)
-    } else {
-        expect(editor.$textElem.html().indexOf(`<code>${code}</code>`)).toBeGreaterThan(0)
-    }
+    // 挂载hljs
+    editor.highlight = hljs
 
+    // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+    expect(editor.$textElem.html().indexOf(`<code>${code}</code>`)).toBeGreaterThan(0)
 })

@@ -563,7 +563,8 @@ export class DomElement {
         if (!val) {
             // 获取 text
             const elem = this.elems[0]
-            return elem.innerHTML.replace(/<.*?>/g, () => '')
+
+            return elem.innerHTML.replace(/<[^>]+>/g, () => '')
         } else {
             // 设置 text
             return this.forEach(function (elem: HTMLElement) {
