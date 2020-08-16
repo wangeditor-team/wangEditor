@@ -41,7 +41,7 @@ export default {
         'video',
         'undo',
         'redo',
-        'list',
+        'table',
         'code',
     ],
 

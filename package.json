@@ -67,7 +67,9 @@
     "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "highlight.js": "^10.1.2"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

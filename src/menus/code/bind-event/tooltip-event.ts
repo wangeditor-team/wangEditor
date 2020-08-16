@@ -24,7 +24,7 @@ function showCodeTooltip($code: DomElement) {
             onClick: (editor: Editor, $code: DomElement) => {
                 let code = editor.menus.menuFind('code')
 
-                setTimeout(() => {
+                window.setTimeout(() => {
                     // @ts-ignore
                     code.clickHandler()
                 }, 0)
