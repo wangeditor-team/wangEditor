@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+    </style>
+    <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
+</head>
+
+<body>
+<p>
+    wangEditor demo
+</p>
+<div id="div1"></div>
+
+<script src="../dist/wangEditor.js"></script>
+<script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script>
+    const E = window.wangEditor
+    const editor = new E('#div1')
+
+    // 挂载highlight插件
+    editor.highlight = hljs
+
+    editor.create()
+</script>
+</body>
+
+</html>

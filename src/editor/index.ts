@@ -49,6 +49,7 @@ class Editor {
     public txt: Text
     public menus: Menus
     public i18next: any
+    public highlight: any
 
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []

@@ -6,6 +6,7 @@
 import Editor from '../editor/index'
 import Menu from './menu-constructors/Menu'
 import MenuConstructorList, { MenuListType } from './menu-list'
+
 // import { MenuActive } from './menu-constructors/Menu'
 
 class Menus {
@@ -41,6 +42,7 @@ class Menus {
             }
             // 创建 menu 实例，并放到 menuList 中
             const m = new MenuConstructor(this.editor)
+            m.key = menuKey
             this.menuList.push(m)
         })
 
@@ -65,6 +67,20 @@ class Menus {
                 $toolbarElem.append($elem)
             }
         })
+    }
+
+    /**
+     * 获取菜单对象
+     * @param 菜单名称 小写
+     * @return Menus 菜单对象
+     */
+    public menuFind(key: string): Menu {
+        const menuList = this.menuList
+        for (let i = 0, l = menuList.length; i < l; i++) {
+            if (menuList[i].key === key) return menuList[i]
+        }
+
+        return menuList[0]
     }
 
     /**

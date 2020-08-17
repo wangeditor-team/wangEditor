@@ -8,6 +8,7 @@ import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
 import { UA, throttle } from '../utils/util'
 import getChildrenJSON, { NodeListType } from './getChildrenJSON'
+import { formatCodeHtml } from '../menus/code/index'
 
 // 各个事件钩子函数
 type TextEventHooks = {
@@ -21,6 +22,7 @@ type TextEventHooks = {
     deleteDownEvents: Function[] // 删除键（keyCode === 8）down 时
     pasteEvents: Function[] // 粘贴事件
     linkClickEvents: Function[] // 点击链接事件
+    codeClickEvents: Function[] // 点击代码事件
     textScrollEvents: Function[] // 编辑区域滑动事件
     toolbarClickEvents: Function[] // 菜单栏被点击
     imgClickEvents: Function[] // 图片被点击事件
@@ -46,6 +48,7 @@ class Text {
             deleteDownEvents: [],
             pasteEvents: [],
             linkClickEvents: [],
+            codeClickEvents: [],
             textScrollEvents: [],
             toolbarClickEvents: [],
             imgClickEvents: [],
@@ -101,6 +104,10 @@ class Text {
             html = html.replace(/\u200b/gm, '')
             html = html.replace(/<p><\/p>/gim, '') // 去掉空行
             html = html.replace(/<p><br\/?><\/p>$/gim, '') // 去掉最后的 <p><br><p>
+
+            // pre标签格式化
+            html = formatCodeHtml(editor, html)
+
             return html
         }
 
@@ -363,6 +370,33 @@ class Text {
 
             const imgClickEvents = eventHooks.imgClickEvents
             imgClickEvents.forEach(fn => fn($img))
+        })
+
+        // code click
+        $textElem.on('click', (e: Event) => {
+            e.preventDefault()
+
+            // 存储代码元素
+            let $code: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+            if ($target.getNodeName() === 'PRE') {
+                // 当前点击的就是一个链接
+                $code = $target
+            } else {
+                // 否则，向父节点中寻找链接
+                const $parent = $target.parentUntil('pre')
+                if ($parent != null) {
+                    // 找到了
+                    $code = $parent
+                }
+            }
+
+            if ($code == null) return // 没有点击链接，则返回
+
+            const codeClickEvents = eventHooks.codeClickEvents
+            codeClickEvents.forEach(fn => fn($code))
         })
 
         // 菜单栏被点击
