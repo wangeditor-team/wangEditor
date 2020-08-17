@@ -8,6 +8,7 @@ import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
 import UploadImg from './upload-img'
+import linkImgCheck from '../../config/linkImgCheck'
 
 export default function (editor: editor): PanelConf {
     const config = editor.config
@@ -18,6 +19,28 @@ export default function (editor: editor): PanelConf {
     const upFileId = getRandom('up-file-id')
     const linkUrlId = getRandom('input-link-url')
     const linkBtnId = getRandom('btn-link')
+
+    /**
+     * 校验网络图片链接是否合法
+     * @param linkImg 网络图片链接
+     */
+    function linkImgCheck(src: string): boolean {
+        const check = editor.config.linkImgCheck(src)
+        if (check == undefined) {
+            //用户未能通过开发者的校验，开发者自定义提示方式，编辑器无需重复校验，也不必执行链接插入
+        } else if (check == true) {
+            //用户通过了开发者的校验，编辑器正常校验，并提示
+            if (!/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(src)) {
+                alert('您插入的网络图片无法识别，请替换为支持的图片类型，如jpg,png,gif等')
+            } else {
+                return true
+            }
+        } else {
+            //用户未能通过开发者的校验，开发者希望我们提示这一字符串
+            alert(check)
+        }
+        return false
+    }
 
     // tabs 配置 -----------------------------------------
     const tabsConf: PanelTabConf[] = [
@@ -97,10 +120,10 @@ export default function (editor: editor): PanelConf {
                         const $linkUrl = $('#' + linkUrlId)
                         const url = $linkUrl.val().trim()
 
-                        if (url) {
-                            uploadImg.insertImg(url)
-                        }
-
+                        //如果url非空且合法就插入
+                        if (!(url && linkImgCheck(url))) return
+                        //插入图片url
+                        uploadImg.insertImg(url)
                         // 返回 true 表示函数执行结束之后关闭 panel
                         return true
                     },

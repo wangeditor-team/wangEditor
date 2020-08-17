@@ -32,7 +32,7 @@
 - 多语言 `i18n`
     - dropList
     - panel
-- 链接校验，图片 url 校验
+- 链接校验，图片 url 校验（down-maxinwei）
 - 整理菜单顺序，菜单的 key（按文档来）（顺带将 `FontSizeType` 替换为 `DicType`）
 
 API

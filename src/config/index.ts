@@ -11,6 +11,8 @@ import cmdConfig from './cmd'
 import imageConfig, { UploadImageHooksType } from './image'
 import textConfig from './text'
 import langConfig from './lang'
+import linkCheckConfig from './linkCheck'
+import linkImgCheckConfig from './linkImgCheck'
 
 // 字典类型
 export type DicType = {
@@ -54,6 +56,9 @@ export type ConfigType = {
 
     lang: string
     languages: Resource
+
+    linkCheck: Function
+    linkImgCheck: Function
 }
 
 export type Resource = {
@@ -81,7 +86,9 @@ const defaultConfig = Object.assign(
     pasteConfig,
     imageConfig,
     textConfig,
-    langConfig
+    langConfig,
+    linkCheckConfig,
+    linkImgCheckConfig
 )
 
 export default defaultConfig
