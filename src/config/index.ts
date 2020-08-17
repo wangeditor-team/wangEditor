@@ -21,6 +21,7 @@ export type DicType = {
 export type ConfigType = {
     menus: string[]
     fontNames: string[]
+    lineHeights: string[]
     fontSizes: DicType
     customFontSize: customFontSizeType
     colors: string[]
