@@ -23,6 +23,7 @@ export type ConfigType = {
     languageTab: string
     menus: string[]
     fontNames: string[]
+    lineHeights: string[]
     fontSizes: DicType
     customFontSize: customFontSizeType
     colors: string[]

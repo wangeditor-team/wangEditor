@@ -8,6 +8,7 @@ import DropListMenu from '../menu-constructors/DropListMenu'
 import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
+import lineHeightList from './lineHeightList'
 
 class LineHeight extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -16,20 +17,12 @@ class LineHeight extends DropListMenu implements MenuActive {
                     <i class="w-e-icon-row-height"></i>
                 </div>`
         )
-
+        let lineHeightMenu = new lineHeightList(editor, editor.config.lineHeights)
         const DropListMenu = {
             width: 100,
             title: '设置行高',
             type: 'list', // droplist 以列表形式展示
-            list: [
-                { $elem: $(`<span>${editor.i18next.t('默认')}</span>`), value: '' },
-                { $elem: $('<span>1</span>'), value: '1' },
-                { $elem: $('<span>1.15</span>'), value: '1.15' },
-                { $elem: $('<span>1.6</span>'), value: '1.6' },
-                { $elem: $('<span>2</span>'), value: '2' },
-                { $elem: $('<span>2.5</span>'), value: '2.5' },
-                { $elem: $('<span>3</span>'), value: '3' },
-            ],
+            list: lineHeightMenu.getItemList(),
             clickHandler: (value: string) => {
                 //保存焦点
                 editor.selection.saveRange()
