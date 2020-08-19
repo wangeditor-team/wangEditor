@@ -8,6 +8,7 @@ import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $, { DomElement } from '../../utils/dom-core'
 import isActive from './is-active'
+import { urlregex } from '../../utils/const'
 
 export default function (editor: editor, text: string, link: string): PanelConf {
     // panel 中需要用到的id
@@ -69,18 +70,22 @@ export default function (editor: editor, text: string, link: string): PanelConf 
      * 校验链接是否合法
      * @param link 链接
      */
-    function linkCheck(text: string, link: string): boolean {
+    function checkLink(text: string, link: string): boolean {
+        //编辑器进行正常校验，链接合规则使指针为true，不合规为false
+        var flag = true
+        if (!urlregex.test(link)) {
+            flag = false
+        }
+
+        //查看开发者自定义配置的返回值
         const check = editor.config.linkCheck(text, link)
         if (check == undefined) {
-            //用户未能通过开发者的校验，开发者自定义提示方式，编辑器无需重复校验，也不必执行链接插入
+            //用户未能通过开发者的校验，且开发者不希望编辑器提示用户
+            if (flag == false) console.log('您刚才插入的链接未通过编辑器校验')
         } else if (check == true) {
-            //用户通过了开发者的校验，编辑器正常校验，并提示
-            const urlregex = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
-            if (urlregex.test(link)) {
-                return true
-            } else {
-                alert('您插入的链接不正确，请重新输入！')
-            }
+            //用户通过了开发者的校验
+            if (flag == false) alert('您插入链接不正确，请插入正确的链接！')
+            else return true
         } else {
             //用户未能通过开发者的校验，开发者希望我们提示这一字符串
             alert(check)
@@ -140,7 +145,7 @@ export default function (editor: editor, text: string, link: string): PanelConf 
                             // 文本为空，则用链接代替
                             if (!text) text = link
                             // 校验链接是否合法，若不合法则不插入
-                            if (!linkCheck(text, link)) return
+                            if (!checkLink(text, link)) return
 
                             insertLink(text, link)
 

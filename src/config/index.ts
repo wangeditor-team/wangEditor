@@ -11,8 +11,6 @@ import cmdConfig from './cmd'
 import imageConfig, { UploadImageHooksType } from './image'
 import textConfig from './text'
 import langConfig from './lang'
-import linkCheckConfig from './linkCheck'
-import linkImgCheckConfig from './linkImgCheck'
 
 // 字典类型
 export type DicType = {
@@ -76,6 +74,20 @@ export type ResourceKey =
       }
 
 export type customFontSizeType = Array<{ value: string; text: string }>
+
+//关于链接和网络图片校验的配置信息
+let checkConfig: {
+    linkCheck: Function
+    linkImgCheck: Function
+} = {
+    linkCheck: function (text: string, link: string): string | boolean {
+        return true
+    },
+    linkImgCheck: function (src: string): string | boolean {
+        return true
+    },
+}
+
 // 合并所有的配置信息
 const defaultConfig = Object.assign(
     {},
@@ -87,8 +99,7 @@ const defaultConfig = Object.assign(
     imageConfig,
     textConfig,
     langConfig,
-    linkCheckConfig,
-    linkImgCheckConfig
+    checkConfig
 )
 
 export default defaultConfig

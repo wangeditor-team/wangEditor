@@ -8,7 +8,6 @@ import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
 import UploadImg from './upload-img'
-import linkImgCheck from '../../config/linkImgCheck'
 
 export default function (editor: editor): PanelConf {
     const config = editor.config
@@ -24,17 +23,23 @@ export default function (editor: editor): PanelConf {
      * 校验网络图片链接是否合法
      * @param linkImg 网络图片链接
      */
-    function linkImgCheck(src: string): boolean {
+    function checkLinkImg(src: string): boolean {
+        //编辑器进行正常校验，图片合规则使指针为true，不合规为false
+        var flag = true
+        if (!/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(src)) {
+            flag = false
+        }
+
+        //查看开发者自定义配置的返回值
         const check = editor.config.linkImgCheck(src)
         if (check == undefined) {
-            //用户未能通过开发者的校验，开发者自定义提示方式，编辑器无需重复校验，也不必执行链接插入
+            //用户未能通过开发者的校验，且开发者不希望编辑器提示用户
+            if (flag == false) console.log('您刚才插入的图片链接未通过编辑器校验')
         } else if (check == true) {
-            //用户通过了开发者的校验，编辑器正常校验，并提示
-            if (!/\.(gif|jpg|jpeg|png|GIF|JPEG|JPG|PNG)$/.test(src)) {
+            //用户通过了开发者的校验
+            if (flag == false)
                 alert('您插入的网络图片无法识别，请替换为支持的图片类型，如jpg,png,gif等')
-            } else {
-                return true
-            }
+            else return true
         } else {
             //用户未能通过开发者的校验，开发者希望我们提示这一字符串
             alert(check)
@@ -120,8 +125,11 @@ export default function (editor: editor): PanelConf {
                         const $linkUrl = $('#' + linkUrlId)
                         const url = $linkUrl.val().trim()
 
-                        //如果url非空且合法就插入
-                        if (!(url && linkImgCheck(url))) return
+                        //如果url为空则直接返回
+                        if (!url) return
+                        //如果不能通过校验也直接返回
+                        if (!checkLinkImg(url)) return
+
                         //插入图片url
                         uploadImg.insertImg(url)
                         // 返回 true 表示函数执行结束之后关闭 panel
