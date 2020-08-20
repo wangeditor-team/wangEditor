@@ -58,7 +58,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
 
     // @ts-ignore
     const conf = {
-        width: 400,
+        width: 500,
         height: 0,
 
         // panel 中可包含多个 tab
@@ -81,8 +81,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 )
                             })}
                         </select>
-                        <br><br>
-                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 200px">${text}</textarea>
+                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 160px">${text}</textarea>
                         <div class="w-e-button-container">
                             <button id="${btnOkId}" class="right">${
                     isActive(editor) ? '修改' : '插入'

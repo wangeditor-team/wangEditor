@@ -39,10 +39,10 @@ export default {
         'emoticon',
         'image',
         'video',
-        'undo',
-        'redo',
         'table',
         'code',
+        'undo',
+        'redo',
     ],
 
     fontNames: [
