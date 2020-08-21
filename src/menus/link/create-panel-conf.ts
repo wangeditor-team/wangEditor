@@ -72,19 +72,19 @@ export default function (editor: editor, text: string, link: string): PanelConf 
      */
     function checkLink(text: string, link: string): boolean {
         //编辑器进行正常校验，链接合规则使指针为true，不合规为false
-        var flag = true
+        let flag = true
         if (!urlregex.test(link)) {
             flag = false
         }
 
         //查看开发者自定义配置的返回值
         const check = editor.config.linkCheck(text, link)
-        if (check == undefined) {
+        if (check === undefined) {
             //用户未能通过开发者的校验，且开发者不希望编辑器提示用户
-            if (flag == false) console.log('您刚才插入的链接未通过编辑器校验')
-        } else if (check == true) {
+            if (flag === false) console.log('您刚才插入的链接未通过编辑器校验')
+        } else if (check === true) {
             //用户通过了开发者的校验
-            if (flag == false) alert('您插入链接不正确，请插入正确的链接！')
+            if (flag === false) alert('您插入链接不正确，请插入正确的链接！')
             else return true
         } else {
             //用户未能通过开发者的校验，开发者希望我们提示这一字符串

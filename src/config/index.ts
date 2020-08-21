@@ -75,19 +75,6 @@ export type ResourceKey =
 
 export type customFontSizeType = Array<{ value: string; text: string }>
 
-//关于链接和网络图片校验的配置信息
-let checkConfig: {
-    linkCheck: Function
-    linkImgCheck: Function
-} = {
-    linkCheck: function (text: string, link: string): string | boolean {
-        return true
-    },
-    linkImgCheck: function (src: string): string | boolean {
-        return true
-    },
-}
-
 // 合并所有的配置信息
 const defaultConfig = Object.assign(
     {},
@@ -99,7 +86,17 @@ const defaultConfig = Object.assign(
     imageConfig,
     textConfig,
     langConfig,
-    checkConfig
+    //关于链接和网络图片校验的配置信息
+    {
+        linkCheck: function (text: string, link: string): string | boolean {
+            return true
+        },
+    },
+    {
+        linkImgCheck: function (src: string): string | boolean {
+            return true
+        },
+    }
 )
 
 export default defaultConfig
