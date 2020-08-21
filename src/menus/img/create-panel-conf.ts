@@ -32,7 +32,7 @@ export default function (editor: editor): PanelConf {
         }
 
         //查看开发者自定义配置的返回值
-        const check = editor.config.linkImgCheck(src)
+        const check = config.linkImgCheck(src)
         if (check === undefined) {
             //用户未能通过开发者的校验，且开发者不希望编辑器提示用户
             if (flag === false) console.log('您刚才插入的图片链接未通过编辑器校验')
