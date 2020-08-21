@@ -696,17 +696,16 @@ export class DomElement {
     insertAfter(selector: string | DomElement): DomElement {
         const $referenceNode = $(selector)
         const referenceNode = $referenceNode.elems[0]
+        const anchorNode = referenceNode && referenceNode.nextSibling
         if (!referenceNode) {
             return this
         }
         return this.forEach(function (elem: HTMLElement) {
             const parent = referenceNode.parentNode as Node
-            if (parent.lastChild === referenceNode) {
-                // 最后一个元素
-                parent.appendChild(elem)
+            if (anchorNode) {
+                parent.insertBefore(elem, anchorNode)
             } else {
-                // 不是最后一个元素
-                parent.insertBefore(elem, referenceNode.nextSibling)
+                parent.appendChild(elem)
             }
         })
     }
