@@ -35,7 +35,10 @@ function _bindChange(editor: Editor): void {
     // 输入法开始输入
     $textContainerElem.on('compositionstart', () => (compositionEnd = false))
     // 输入法结束输入
-    $textContainerElem.on('compositionend', () => (compositionEnd = true))
+    $textContainerElem.on('compositionend', () => {
+        compositionEnd = true
+        editor.change()
+    })
 
     // 绑定 onchange
     const onchangeTimeout = editor.config.onchangeTimeout
