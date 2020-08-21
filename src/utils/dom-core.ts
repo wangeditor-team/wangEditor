@@ -5,13 +5,15 @@ import Editor from '../editor/index'
  * @wangfupeng
  */
 
-// 记录所有的事件绑定
+// 记录代理事件绑定
+type listener = (e: Event) => void
 type EventItem = {
     elem: HTMLElement
-    type: string
-    fn: Function
+    selector: string
+    fn: listener
+    agentFn: listener
 }
-const EVENT_LIST: EventItem[] = []
+const AGENT_EVENTS: EventItem[] = []
 
 /**
  * DOM List 转为 HTMLElement 数组
@@ -222,46 +224,37 @@ export class DomElement {
     on(type: string, fn: Function): DomElement
     on(type: string, selector: string, fn: Function): DomElement
     on(type: string, selector: string | Function, fn?: Function): DomElement {
+        if (!type) return this
+
         // 没有 selector ，只有 type 和 fn
         if (typeof selector === 'function') {
             fn = selector
             selector = ''
         }
 
-        const curFn = fn as Function
-
-        // type 是否有多个
-        const types = type.split(/\s+/)
-
         return this.forEach(function (elem: HTMLElement) {
-            types.forEach(type => {
-                if (!type) {
-                    return
+            // 没有事件代理
+            if (!selector) {
+                // 无代理
+                elem.addEventListener(type, fn as listener)
+                return
+            }
+
+            // 有事件代理
+            const agentFn: listener = function (e) {
+                const target = e.target as HTMLElement
+                if (target.matches(selector as string)) {
+                    ;(fn as listener).call(target, e)
                 }
+            }
+            elem.addEventListener(type, agentFn)
 
-                // 记录下，方便后面解绑
-                EVENT_LIST.push({
-                    elem: elem,
-                    type: type,
-                    fn: curFn,
-                })
-
-                // 没有事件代理
-                if (!selector) {
-                    // 无代理
-                    elem.addEventListener(type, e => {
-                        curFn(e)
-                    })
-                    return
-                }
-
-                // 有事件代理
-                elem.addEventListener(type, e => {
-                    const target = e.target as HTMLElement
-                    if (target.matches(selector as string)) {
-                        curFn.call(target, e)
-                    }
-                })
+            // 缓存代理事件
+            AGENT_EVENTS.push({
+                elem: elem,
+                selector: selector as string,
+                fn: fn as listener,
+                agentFn,
             })
         })
     }
@@ -269,11 +262,38 @@ export class DomElement {
     /**
      * 解绑事件
      * @param type 事件类型
+     * @param selector DOM 选择器
      * @param fn 事件函数
      */
-    off(type: string, fn: Function): DomElement {
+    off(type: string, fn: Function): DomElement
+    off(type: string, selector: string, fn: Function): DomElement
+    off(type: string, selector: string | Function, fn?: Function): DomElement {
+        if (!type) return this
+
+        // 没有 selector ，只有 type 和 fn
+        if (typeof selector === 'function') {
+            fn = selector
+            selector = ''
+        }
+
         return this.forEach(function (elem: HTMLElement) {
-            elem.removeEventListener(type, e => fn(e))
+            // 解绑事件代理
+            if (selector) {
+                let idx = -1
+                for (let i = 0; i < AGENT_EVENTS.length; i++) {
+                    let item = AGENT_EVENTS[i]
+                    if (item.selector === selector && item.fn === fn && item.elem === elem) {
+                        idx = i
+                        break
+                    }
+                }
+                if (idx !== -1) {
+                    const { agentFn } = AGENT_EVENTS.splice(idx, 1)[0]
+                    elem.removeEventListener(type, agentFn)
+                }
+            } else {
+                elem.removeEventListener(type, fn as listener)
+            }
         })
     }
 
@@ -543,7 +563,8 @@ export class DomElement {
         if (!val) {
             // 获取 text
             const elem = this.elems[0]
-            return elem.innerHTML.replace(/<.*?>/g, () => '')
+
+            return elem.innerHTML.replace(/<[^>]+>/g, () => '')
         } else {
             // 设置 text
             return this.forEach(function (elem: HTMLElement) {
@@ -725,17 +746,6 @@ export class DomElement {
 // new 一个对象
 function $(selector: any): DomElement {
     return new DomElement(selector)
-}
-
-// 解绑所有事件，用于销毁编辑器
-$.offAll = function (): void {
-    EVENT_LIST.forEach((item: EventItem) => {
-        const elem = item.elem
-        const type = item.type
-        const fn = item.fn
-        // 解绑事件
-        elem.removeEventListener(type, e => fn(e))
-    })
 }
 
 export default $

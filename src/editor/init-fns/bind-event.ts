@@ -43,10 +43,15 @@ function _bindChange(editor: Editor): void {
     // 绑定 onchange
     const onchangeTimeout = editor.config.onchangeTimeout
     const change = debounce(changeHandler, onchangeTimeout)
-    $textContainerElem.on('click keyup', () => {
-        // 输入法结束才出发 onchange
-        compositionEnd && change(editor)
-    })
+    $textContainerElem
+        .on('click', () => {
+            // 输入法结束才出发 onchange
+            compositionEnd && change(editor)
+        })
+        .on('keyup', () => {
+            // 输入法结束才出发 onchange
+            compositionEnd && change(editor)
+        })
     $toolbarElem.on('click', () => {
         change(editor)
     })
@@ -60,7 +65,7 @@ function _bindFocusAndBlur(editor: Editor): void {
     // 当前编辑器是否是焦点状态
     editor.isFocus = false
 
-    $(document).on('click', (e: Event) => {
+    function listener(e: Event) {
         const target = e.target
         const $target = $(target)
         const $textElem = editor.$textElem
@@ -89,6 +94,11 @@ function _bindFocusAndBlur(editor: Editor): void {
             }
             editor.isFocus = true
         }
+    }
+    $(document).on('click', listener)
+    // 全局事件在编辑器实例销毁的时候进行解绑
+    editor.beforeDestroy(function () {
+        $(document).off('click', listener)
     })
 }
 
