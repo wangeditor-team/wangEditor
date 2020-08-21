@@ -8,7 +8,7 @@ import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
 import UploadImg from './upload-img'
-import { imgregex } from '../../utils/const'
+import { imgRegex } from '../../utils/const'
 
 export default function (editor: editor): PanelConf {
     const config = editor.config
@@ -27,7 +27,7 @@ export default function (editor: editor): PanelConf {
     function checkLinkImg(src: string): boolean {
         //编辑器进行正常校验，图片合规则使指针为true，不合规为false
         let flag = true
-        if (!imgregex.test(src)) {
+        if (!imgRegex.test(src)) {
             flag = false
         }
 
@@ -38,9 +38,9 @@ export default function (editor: editor): PanelConf {
             if (flag === false) console.log('您刚才插入的图片链接未通过编辑器校验')
         } else if (check === true) {
             //用户通过了开发者的校验
-            if (flag === false)
+            if (flag === false) {
                 alert('您插入的网络图片无法识别，请替换为支持的图片类型，如jpg,png,gif等')
-            else return true
+            } else return true
         } else {
             //用户未能通过开发者的校验，开发者希望我们提示这一字符串
             alert(check)
