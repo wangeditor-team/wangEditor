@@ -55,6 +55,7 @@ export type ConfigType = {
     lang: string
     languages: Resource
 
+    linkCheck: Function
     linkImgCheck: Function
 }
 
@@ -85,7 +86,13 @@ const defaultConfig = Object.assign(
     imageConfig,
     textConfig,
     langConfig,
-    //关于网络图片校验的配置信息
+    //链接校验的配置函数
+    {
+        linkCheck: function (text: string, link: string): string | boolean {
+            return true
+        },
+    },
+    //网络图片校验的配置函数
     {
         linkImgCheck: function (src: string): string | boolean {
             return true
