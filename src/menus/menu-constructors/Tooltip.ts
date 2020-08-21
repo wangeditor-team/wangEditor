@@ -23,12 +23,14 @@ class Tooltip {
     private editor: Editor
     private conf: TooltipConfType
     private _show: boolean
+    private _isInsertTextContainer: boolean
 
     constructor(editor: Editor, $elem: DomElement, conf: TooltipConfType) {
         this.editor = editor
         this.$targetElem = $elem
         this.conf = conf
         this._show = false
+        this._isInsertTextContainer = false
 
         // 定义 container
         const $container = $('<div></div>')
@@ -53,9 +55,35 @@ class Tooltip {
         const targetElemRect = this.$targetElem.getBoundingClientRect()
         // 编辑区域的 rect
         const textElemRect = this.editor.$textElem.getBoundingClientRect()
+        // 获取基于 textContainerElem 的 位置信息
+        const targetOffset = this.$targetElem.getOffsetData()
+        const targetParentElem = $(targetOffset.parent)
 
-        // 计算 top
-        if (targetElemRect.top < tooltipHeight) {
+        this._isInsertTextContainer = targetParentElem.equal(this.editor.$textContainerElem)
+
+        if (this._isInsertTextContainer) {
+            const targetParentElemHeight = targetParentElem.getClientHeight()
+            // const targetParentElemWidth = targetParentElem.getClientWidth()
+            const {
+                top: offsetTop,
+                // left: offsetLeft,
+                // width: offsetWidth,
+                height: offsetHeight,
+            } = targetOffset
+            if (offsetTop > tooltipHeight + 5) {
+                // 说明模板元素的顶部空间足够
+                top = offsetTop - tooltipHeight - 15
+                $container.addClass('w-e-tooltip-up')
+            } else if (offsetHeight + tooltipHeight + 5 < targetParentElemHeight) {
+                // 说明模板元素的底部空间足够
+                top = offsetHeight + tooltipHeight + 5
+                $container.addClass('w-e-tooltip-down')
+            } else {
+                // 其他情况，tooltip 放在目标元素左上角
+                top = offsetTop + tooltipHeight + 10
+                $container.addClass('w-e-tooltip-down')
+            }
+        } else if (targetElemRect.top < tooltipHeight) {
             // 说明目标元素的顶部，因滑动隐藏在浏览器上方。tooltip 要放在目标元素下面
             top = targetElemRect.bottom + pageScrollTop + 5 // 5px 间距
             $container.addClass('w-e-tooltip-down')
@@ -126,7 +154,11 @@ class Tooltip {
         $container.css('z-index', `${editor.config.zIndex + 1}`)
 
         // 添加到 DOM
-        $('body').append($container)
+        if (this._isInsertTextContainer) {
+            this.editor.$textContainerElem.append($container)
+        } else {
+            $('body').append($container)
+        }
 
         this._show = true
     }
