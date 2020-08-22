@@ -131,14 +131,9 @@ export default function (editor: editor, text: string, languageType: string): Pa
 
                                 // @ts-ignore
                                 insertCode(codeDom)
-
-                                editor.cmd.do('insertHTML', '<p><br></p>')
                             } else {
                                 //增加pre标签
                                 codeDom = `<pre id="${codeId}" text="${code}" type="${languageType}"><code>${formatCode}</code></pre>`
-
-                                //增加换行符 隔离代码块
-                                codeDom += '<p><br></p>'
 
                                 // @ts-ignore
                                 insertCode(codeDom)
