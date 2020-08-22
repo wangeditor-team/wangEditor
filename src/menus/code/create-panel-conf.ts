@@ -27,15 +27,17 @@ export default function (editor: editor, text: string, languageType: string): Pa
         // 选区处于链接中，则选中整个菜单，再执行 insertHTML
         if (isActive(editor)) {
             selectCodeElem()
-
-            //删除代码 document.command命令
-            // editor.cmd.do('delete')
-            // editor.cmd.do('delete')
         }
 
-        // editor.cmd.do('insertHTML', `<a href="${code}" target="_blank">${text}</a>`)
-
         editor.cmd.do('insertHTML', text)
+
+        let p = document.createElement('p')
+        p.appendChild(document.createElement('br'))
+
+        // @ts-ignore
+        editor.$textContainerElem.elems[0].querySelector('.w-e-text').appendChild(p)
+
+        editor.selection.createRangeByElem($(p))
     }
 
     /**
@@ -81,7 +83,10 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 )
                             })}
                         </select>
-                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 160px">${text}</textarea>
+                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 160px">${text.replace(
+                    /&quot;/g,
+                    '"'
+                )}</textarea>
                         <div class="w-e-button-container">
                             <button id="${btnOkId}" class="right">${
                     isActive(editor) ? '修改' : '插入'
@@ -115,6 +120,9 @@ export default function (editor: editor, text: string, languageType: string): Pa
                             // 代码为空，则不插入
                             if (!code) return
 
+                            // 标签属性记录代码文本
+                            let attrCode = code.replace(/"/g, '&quot;')
+
                             //增加标签
                             if (isActive(editor)) {
                                 const $code = editor.selection.getSelectionStartElem()
@@ -125,7 +133,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 // @ts-ignore
                                 $codeElem.attr('id', codeId)
                                 // @ts-ignore
-                                $codeElem.attr('text', code)
+                                $codeElem.attr('text', attrCode)
                                 // @ts-ignore
                                 $codeElem.attr('type', languageType)
 
@@ -133,7 +141,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 insertCode(codeDom)
                             } else {
                                 //增加pre标签
-                                codeDom = `<pre id="${codeId}" text="${code}" type="${languageType}"><code>${formatCode}</code></pre>`
+                                codeDom = `<pre id="${codeId}" text="${attrCode}" type="${languageType}"><code>${formatCode}</code></pre>`
 
                                 // @ts-ignore
                                 insertCode(codeDom)
