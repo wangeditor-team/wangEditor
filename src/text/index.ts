@@ -155,6 +155,8 @@ class Text {
         const $textElem = editor.$textElem
         $textElem.append($(html))
 
+        this.editor.change()
+
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
     }
