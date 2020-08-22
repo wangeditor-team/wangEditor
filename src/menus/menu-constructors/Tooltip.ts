@@ -58,7 +58,9 @@ class Tooltip {
         // 获取基于 textContainerElem 的 位置信息
         const targetOffset = this.$targetElem.getOffsetData()
         const targetParentElem = $(targetOffset.parent)
-
+        // 获取 编辑区域的滚动条信息
+        const scrollTop = this.editor.$textElem.elems[0].scrollTop
+        // 是否插入 textContainer 中
         this._isInsertTextContainer = targetParentElem.equal(this.editor.$textContainerElem)
 
         if (this._isInsertTextContainer) {
@@ -66,42 +68,50 @@ class Tooltip {
             // const targetParentElemWidth = targetParentElem.getClientWidth()
             const {
                 top: offsetTop,
-                // left: offsetLeft,
+                left: offsetLeft,
                 // width: offsetWidth,
                 height: offsetHeight,
             } = targetOffset
-            if (offsetTop > tooltipHeight + 5) {
+            const absoluteTop = offsetTop - scrollTop
+            if (absoluteTop > tooltipHeight + 5) {
                 // 说明模板元素的顶部空间足够
-                top = offsetTop - tooltipHeight - 15
+                top = absoluteTop - tooltipHeight - 15
                 $container.addClass('w-e-tooltip-up')
-            } else if (offsetHeight + tooltipHeight + 5 < targetParentElemHeight) {
+            } else if (absoluteTop + offsetHeight + tooltipHeight < targetParentElemHeight) {
                 // 说明模板元素的底部空间足够
-                top = offsetHeight + tooltipHeight + 5
+                top = absoluteTop + offsetHeight + 10
                 $container.addClass('w-e-tooltip-down')
             } else {
                 // 其他情况，tooltip 放在目标元素左上角
-                top = offsetTop + tooltipHeight + 10
+                top = (absoluteTop > 0 ? absoluteTop : 0) + tooltipHeight + 10
                 $container.addClass('w-e-tooltip-down')
             }
-        } else if (targetElemRect.top < tooltipHeight) {
-            // 说明目标元素的顶部，因滑动隐藏在浏览器上方。tooltip 要放在目标元素下面
-            top = targetElemRect.bottom + pageScrollTop + 5 // 5px 间距
-            $container.addClass('w-e-tooltip-down')
-        } else if (targetElemRect.top - textElemRect.top < tooltipHeight) {
-            // 说明目标元素的顶部，因滑动隐藏在编辑区域上方。tooltip 要放在目标元素下面
-            top = targetElemRect.bottom + pageScrollTop + 5 // 5px 间距
-            $container.addClass('w-e-tooltip-down')
+            // 计算 left
+            if (offsetLeft < 0) {
+                left = 0
+            } else {
+                left = offsetLeft
+            }
         } else {
-            // 其他情况，tooltip 放在目标元素上方
-            top = targetElemRect.top + pageScrollTop - tooltipHeight - 15 // 减去 toolbar 的高度，还有 15px 间距
-            $container.addClass('w-e-tooltip-up')
-        }
-
-        // 计算 left
-        if (targetElemRect.left < 0) {
-            left = 0
-        } else {
-            left = targetElemRect.left
+            if (targetElemRect.top < tooltipHeight) {
+                // 说明目标元素的顶部，因滑动隐藏在浏览器上方。tooltip 要放在目标元素下面
+                top = targetElemRect.bottom + pageScrollTop + 5 // 5px 间距
+                $container.addClass('w-e-tooltip-down')
+            } else if (targetElemRect.top - textElemRect.top < tooltipHeight) {
+                // 说明目标元素的顶部，因滑动隐藏在编辑区域上方。tooltip 要放在目标元素下面
+                top = targetElemRect.bottom + pageScrollTop + 5 // 5px 间距
+                $container.addClass('w-e-tooltip-down')
+            } else {
+                // 其他情况，tooltip 放在目标元素上方
+                top = targetElemRect.top + pageScrollTop - tooltipHeight - 15 // 减去 toolbar 的高度，还有 15px 间距
+                $container.addClass('w-e-tooltip-up')
+            }
+            // 计算 left
+            if (targetElemRect.left < 0) {
+                left = 0
+            } else {
+                left = targetElemRect.left
+            }
         }
 
         // 返回结果
