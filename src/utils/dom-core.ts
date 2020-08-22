@@ -5,6 +5,15 @@ import Editor from '../editor/index'
  * @wangfupeng
  */
 
+// 记录元素基于上一个相对&绝对定位的位置信息
+type OffsetDataType = {
+    top: number
+    left: number
+    width: number
+    height: number
+    parent: Element | null
+}
+// 记录所有的事件绑定
 // 记录代理事件绑定
 type listener = (e: Event) => void
 type EventItem = {
@@ -545,6 +554,14 @@ export class DomElement {
     }
 
     /**
+     * 获取当前元素可视宽度
+     */
+    // getClientWidth(): number {
+    //     const elem = this.elems[0]
+    //     return elem.clientWidth
+    // }
+
+    /**
      * 查询
      * @param selector css 选择器
      */
@@ -696,17 +713,16 @@ export class DomElement {
     insertAfter(selector: string | DomElement): DomElement {
         const $referenceNode = $(selector)
         const referenceNode = $referenceNode.elems[0]
+        const anchorNode = referenceNode && referenceNode.nextSibling
         if (!referenceNode) {
             return this
         }
         return this.forEach(function (elem: HTMLElement) {
             const parent = referenceNode.parentNode as Node
-            if (parent.lastChild === referenceNode) {
-                // 最后一个元素
-                parent.appendChild(elem)
+            if (anchorNode) {
+                parent.insertBefore(elem, anchorNode)
             } else {
-                // 不是最后一个元素
-                parent.insertBefore(elem, referenceNode.nextSibling)
+                parent.appendChild(elem)
             }
         })
     }
@@ -727,7 +743,7 @@ export class DomElement {
     }
 
     /**
-     * getNodeTop 获取当前节点的顶级(段落)
+     * 获取当前节点的顶级(段落)
      * @param editor 富文本实例
      */
     getNodeTop(editor: Editor): DomElement {
@@ -741,6 +757,21 @@ export class DomElement {
         }
 
         return $parent.getNodeTop(editor)
+    }
+
+    /**
+     * 获取当前 节点 基与上一个拥有相对或者解决定位的父容器的位置
+     * @param editor 富文本实例
+     */
+    getOffsetData(): OffsetDataType {
+        const $node = this.elems[0]
+        return {
+            top: $node.offsetTop,
+            left: $node.offsetLeft,
+            width: $node.offsetWidth,
+            height: $node.offsetHeight,
+            parent: $node.offsetParent,
+        }
     }
 }
 
