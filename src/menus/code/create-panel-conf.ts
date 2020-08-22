@@ -43,7 +43,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
         // @ts-ignore
         editor.$textContainerElem.elems[0].querySelector('.w-e-text').appendChild(p)
 
-        editor.selection.createRangeByElem($(p))
+        editor.selection.createRangeByElem($(p), true)
 
         // editor.cmd.do('insertHTML', '<p><br></p>')
     }
