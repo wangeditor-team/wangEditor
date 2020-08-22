@@ -35,7 +35,7 @@ test('link 菜单：插入链接', () => {
     // 插入链接
     mockCmdFn(document)
     const text = '文字'
-    const link = '链接'
+    const link = 'http://www.baidu.com/'
     $inputText.val(text)
     $inputLink.val(link)
     $btnInsert.click()

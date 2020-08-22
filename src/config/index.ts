@@ -19,6 +19,7 @@ export type DicType = {
 
 // 定义配置项的类型规范
 export type ConfigType = {
+    height: number
     languageType: string[]
     languageTab: string
     menus: string[]
@@ -57,6 +58,9 @@ export type ConfigType = {
 
     lang: string
     languages: Resource
+
+    linkCheck: Function
+    linkImgCheck: Function
 }
 
 export type Resource = {
@@ -74,6 +78,7 @@ export type ResourceKey =
       }
 
 export type customFontSizeType = Array<{ value: string; text: string }>
+
 // 合并所有的配置信息
 const defaultConfig = Object.assign(
     {},
@@ -84,7 +89,19 @@ const defaultConfig = Object.assign(
     pasteConfig,
     imageConfig,
     textConfig,
-    langConfig
+    langConfig,
+    //链接校验的配置函数
+    {
+        linkCheck: function (text: string, link: string): string | boolean {
+            return true
+        },
+    },
+    //网络图片校验的配置函数
+    {
+        linkImgCheck: function (src: string): string | boolean {
+            return true
+        },
+    }
 )
 
 export default defaultConfig
