@@ -67,10 +67,21 @@ class Text {
     }
 
     /**
+     * 切换placeholder
+     */
+    public togglePlaceholder(): void {
+        const html = this.html()
+        const $placeholder = this.editor.$textContainerElem.find('.placeholder')
+        $placeholder.hide()
+        if (!html || html === '<p><br></p>') $placeholder.show()
+    }
+
+    /**
      * 清空内容
      */
     public clear(): void {
         this.html('<p><br></p>')
+        this.editor.change()
     }
 
     /**
@@ -93,6 +104,9 @@ class Text {
 
         // 有 val ，则是设置 html
         $textElem.html(val)
+
+        this.editor.change()
+
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
     }
@@ -113,6 +127,7 @@ class Text {
     public text(val?: string): void | string {
         const editor = this.editor
         const $textElem = editor.$textElem
+        const $textContainerElem = editor.$textContainerElem
 
         // 没有 val ，是获取 text
         if (val == null) {
@@ -124,6 +139,9 @@ class Text {
 
         // 有 val ，则是设置 text
         $textElem.text(`<p>${val}</p>`)
+
+        this.editor.change()
+
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
     }

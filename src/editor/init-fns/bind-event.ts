@@ -111,6 +111,9 @@ export function changeHandler(editor: Editor): void {
     // 执行 change 事件
     onchange(html)
 
+    // placeholder 隐藏和展示事件
+    editor.txt.togglePlaceholder()
+
     // 重新赋值
     CURRENT_HTML = html
 }

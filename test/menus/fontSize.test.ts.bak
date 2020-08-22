@@ -3,6 +3,8 @@
  * @author lkw
  */
 
+// 暂时用 customFontSize 代替 fontSize ，因此这个测试用例暂时不用，先暂存 - wangfupeng 2020.08.10
+
 import Editor from '../../src/editor'
 import createEditor from '../fns/create-editor'
 import mockCmdFn from '../fns/command-mock'

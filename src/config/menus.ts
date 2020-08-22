@@ -20,24 +20,25 @@ export type EmotionsType = {
 /*表情菜单数据结构类型END*/
 export default {
     menus: [
-        'bold',
         'head',
-        'link',
+        'bold',
+        // 'fontSize',
+        'customFontSize',
+        'fontName',
         'italic',
         'underline',
         'strikeThrough',
-        'fontStyle',
-        'justify',
-        'fontSize',
-        'quote',
+        'indent',
+        'lineHeight',
+        'foreColor',
         'backColor',
-        'fontColor',
+        'link',
+        'list',
+        'justify',
+        'quote',
         'emoticon',
         'image',
         'video',
-        'indent',
-        'list',
-        'lineHeight',
     ],
 
     fontNames: [
@@ -64,6 +65,17 @@ export default {
         'x-large': '5',
         'xx-large': '6',
     },
+
+    customFontSize: [
+        { value: '9px', text: '9' },
+        { value: '10px', text: '10' },
+        { value: '12px', text: '12' },
+        { value: '14px', text: '14' },
+        { value: '16px', text: '16' },
+        { value: '20px', text: '20' },
+        { value: '42px', text: '42' },
+        { value: '72px', text: '72' },
+    ],
 
     colors: [
         '#000000',

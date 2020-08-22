@@ -21,6 +21,7 @@ import Indent from './indent/index'
 import Emoticon from './emoticon/index'
 import List from './list/index'
 import LineHeight from './lineHeight/index'
+import CustomFontSize from './custom-font-size/index'
 
 export type MenuListType = {
     [key: string]: any
@@ -33,16 +34,17 @@ export default {
     link: Link,
     underline: Underline,
     strikeThrough: StrikeThrough,
-    fontStyle: FontStyle,
+    fontName: FontStyle,
     fontSize: FontSize,
     justify: Justify,
     quote: Quote,
     backColor: BackColor,
-    fontColor: FontColor,
+    foreColor: FontColor,
     video: Video,
     image: Image,
     indent: Indent,
     emoticon: Emoticon,
     list: List,
     lineHeight: LineHeight,
+    customFontSize: CustomFontSize,
 }
