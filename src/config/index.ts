@@ -19,8 +19,12 @@ export type DicType = {
 
 // 定义配置项的类型规范
 export type ConfigType = {
+    height: number
+    languageType: string[]
+    languageTab: string
     menus: string[]
     fontNames: string[]
+    lineHeights: string[]
     fontSizes: DicType
     customFontSize: customFontSizeType
     colors: string[]

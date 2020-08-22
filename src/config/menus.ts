@@ -39,6 +39,10 @@ export default {
         'emoticon',
         'image',
         'video',
+        'table',
+        'code',
+        'undo',
+        'redo',
     ],
 
     fontNames: [
@@ -89,6 +93,33 @@ export default {
         '#f9963b',
         '#ffffff',
     ],
+
+    //插入代码语言配置
+    languageType: [
+        'Bash',
+        'C',
+        'C#',
+        'C++',
+        'CSS',
+        'Java',
+        'JavaScript',
+        'JSON',
+        'TypeScript',
+        'Plain text',
+        'Html',
+        'XML',
+        'SQL',
+        'Go',
+        'Kotlin',
+        'Lua',
+        'Markdown',
+        'PHP',
+        'Python',
+        'Shell Session',
+        'Ruby',
+    ],
+
+    languageTab: '　　　　',
     /**
      * 表情配置菜单
      * 如果为emoji表情直接作为元素插入
@@ -180,4 +211,6 @@ export default {
             ],
         },
     ],
+
+    lineHeights: ['1', '1.15', '1.6', '2', '2.5', '3'],
 }

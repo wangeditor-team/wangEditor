@@ -2,7 +2,7 @@
  * @description 字号 class
  * @author lkw
  */
-import $, { DomElement } from '../../utils/dom-core'
+import $ from '../../utils/dom-core'
 import { DropListItem } from '../menu-constructors/DropList'
 import { DicType } from '../../config/index'
 
