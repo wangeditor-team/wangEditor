@@ -535,10 +535,10 @@ export class DomElement {
     /**
      * 获取当前元素可视宽度
      */
-    getClientWidth(): number {
-        const elem = this.elems[0]
-        return elem.clientWidth
-    }
+    // getClientWidth(): number {
+    //     const elem = this.elems[0]
+    //     return elem.clientWidth
+    // }
 
     /**
      * 查询

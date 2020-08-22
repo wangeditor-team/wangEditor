@@ -64,14 +64,11 @@ class Tooltip {
         this._isInsertTextContainer = targetParentElem.equal(this.editor.$textContainerElem)
 
         if (this._isInsertTextContainer) {
+            // 父容器的高度
             const targetParentElemHeight = targetParentElem.getClientHeight()
-            // const targetParentElemWidth = targetParentElem.getClientWidth()
-            const {
-                top: offsetTop,
-                left: offsetLeft,
-                // width: offsetWidth,
-                height: offsetHeight,
-            } = targetOffset
+            // 相对于父容器的位置信息
+            const { top: offsetTop, left: offsetLeft, height: offsetHeight } = targetOffset
+            // 元素基于父容器的 绝对top信息
             const absoluteTop = offsetTop - scrollTop
             if (absoluteTop > tooltipHeight + 5) {
                 // 说明模板元素的顶部空间足够
