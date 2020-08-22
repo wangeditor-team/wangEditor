@@ -36,6 +36,16 @@ export default function (editor: editor, text: string, languageType: string): Pa
         // editor.cmd.do('insertHTML', `<a href="${code}" target="_blank">${text}</a>`)
 
         editor.cmd.do('insertHTML', text)
+
+        let p = document.createElement('p')
+        p.appendChild(document.createElement('br'))
+
+        // @ts-ignore
+        editor.$textContainerElem.elems[0].querySelector('.w-e-text').appendChild(p)
+
+        editor.selection.createRangeByElem($(p))
+
+        // editor.cmd.do('insertHTML', '<p><br></p>')
     }
 
     /**
@@ -82,7 +92,10 @@ export default function (editor: editor, text: string, languageType: string): Pa
                             })}
                         </select>
                         <br><br>
-                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 200px">${text}</textarea>
+                        <textarea contenteditable='true' id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 200px">${text.replace(
+                    /&quot;/g,
+                    '"'
+                )}</textarea>
                         <div class="w-e-button-container">
                             <button id="${btnOkId}" class="right">${
                     isActive(editor) ? '修改' : '插入'
@@ -126,7 +139,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 // @ts-ignore
                                 $codeElem.attr('id', codeId)
                                 // @ts-ignore
-                                $codeElem.attr('text', code)
+                                $codeElem.attr('text', code.replace(/"/g, '&quot;'))
                                 // @ts-ignore
                                 $codeElem.attr('type', languageType)
 
@@ -136,10 +149,10 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 editor.cmd.do('insertHTML', '<p><br></p>')
                             } else {
                                 //增加pre标签
-                                codeDom = `<pre id="${codeId}" text="${code}" type="${languageType}"><code>${formatCode}</code></pre>`
-
-                                //增加换行符 隔离代码块
-                                codeDom += '<p><br></p>'
+                                codeDom = `<pre id="${codeId}" text="${code.replace(
+                                    /"/g,
+                                    '&quot;'
+                                )}" type="${languageType}"><code>${formatCode}</code></pre>`
 
                                 // @ts-ignore
                                 insertCode(codeDom)

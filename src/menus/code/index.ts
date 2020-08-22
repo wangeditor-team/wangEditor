@@ -17,7 +17,8 @@ export function formatCodeHtml(editor: Editor, html: string) {
     for (let i = 0; i < codeArr.length; i++) {
         html = html.replace(
             codeArr[i].outerHTML,
-            `<pre><code>${codeArr[i].getAttribute('text')}</code></pre>`
+            // @ts-ignore
+            `<pre><code>${codeArr[i].getAttribute('text').replace(/&quot;/g, '"')}</code></pre>`
         )
     }
 
@@ -59,6 +60,7 @@ class Code extends PanelMenu implements MenuActive {
             // 菜单被激活，说明选区在链接里
             const $code = editor.selection.getSelectionStartElem()
             const $codeElem = $code?.getNodeTop(editor)
+
             // @ts-ignore
             if (!($codeElem.getNodeName() == 'PRE')) {
                 if (editor.selection.isSelectionEmpty()) {
@@ -72,6 +74,7 @@ class Code extends PanelMenu implements MenuActive {
             }
             // 弹出 panel
             // @ts-ignore
+
             this.createPanel($codeElem.attr('text'), $codeElem.attr('type'))
         } else {
             // 菜单未被激活，说明选区不在链接里
