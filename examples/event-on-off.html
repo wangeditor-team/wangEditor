@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+        input[type="button"] {
+            cursor: pointer;
+        }
+        .container {
+            width: 1000px;
+            margin: 50px auto;
+            display: flex;
+        }
+        .message {
+            width: 40%;
+            height: 100%;
+        }
+        .event-list {
+            width: 60%;
+        }
+        .event {
+            display: flex;
+        }
+        .left, .right {
+            height: 32px;
+            margin: 15px 0 0;
+        }
+        .left {
+            width: 75%;
+            display: flex;
+            align-items: center;
+        }
+        .right {
+            width: 25%;
+            display: flex;
+            justify-content: space-around;
+        }
+        .item {
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="message" id="log"></div>
+        <div class="event-list">
+            <div class="event">
+                <div class="left">
+                    <span>demo1 </span>
+                    <div class="item">
+                        <input type="button" id="current" value="触发事件">
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="button" id="currentOn" value="绑定事件">
+                    <input type="button" id="currentOff" value="解绑事件" disabled>
+                </div>
+            </div>
+            <div class="event">
+                <div class="left">
+                    <span>demo2 </span>
+                    <div class="item agent">
+                        <input type="button" value="触发代理">
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="button" id="agentOn" value="绑定代理">
+                    <input type="button" id="agentOff" value="解绑代理" disabled>
+                </div>
+            </div>
+            <div class="event">
+                <div class="left">
+                    <span>demo3 </span>
+                    <div class="item agents">
+                        <input type="button" value="触发代理">
+                    </div>
+                    <div class="item agents">
+                        <input type="button" value="触发代理">
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="button" id="agentsOn" value="绑定代理">
+                    <input type="button" id="agentsOff" value="解绑代理" disabled>
+                </div>
+            </div>
+            <div class="event">
+                <div class="left">
+                    <span>demo4</span>
+                    <div class="item agent4">
+                        <input type="button" value="btn">
+                    </div>
+                    <div class="item">
+                        <input type="button" id="add-dom" value="add dom">
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="button" id="agent4On" value="绑定代理">
+                    <input type="button" id="agent4Off" value="解绑代理" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        const { $ } = window.wangEditor
+
+        // log
+        const log = document.querySelector('#log')
+        function addLog(msg) {
+            let p = document.createElement('p')
+            p.textContent = msg
+            log.insertBefore(p, log.firstChild)
+        }
+
+        // 常规绑定
+        const curOn = document.querySelector('#currentOn')
+        const curOff = document.querySelector('#currentOff')
+
+        function currentFn(e) {
+            addLog('demo1：触发事件')
+        }
+        curOn.addEventListener('click', function () {
+            this.disabled = true
+            curOff.disabled = false
+            $('#current').on('click', currentFn)
+            addLog('demo1：绑定事件')
+        })
+        curOff.addEventListener('click', function () {
+            this.disabled = true
+            curOn.disabled = false
+            $('#current').off('click', currentFn)
+            addLog('demo1：解绑事件')
+        })
+
+
+        // 代理绑定
+        const agentOn = document.querySelector('#agentOn')
+        const agentOff = document.querySelector('#agentOff')
+
+        function agentFn(e) {
+            addLog('demo2：触发代理事件')
+        }
+        agentOn.addEventListener('click', function () {
+            this.disabled = true
+            agentOff.disabled = false
+            $('.agent').on('click', 'input[type="button"]', agentFn)
+            addLog('demo2：绑定代理事件')
+        })
+        agentOff.addEventListener('click', function () {
+            this.disabled = true
+            agentOn.disabled = false
+            $('.agent').off('click', 'input[type="button"]', agentFn)
+            addLog('demo2：解绑代理事件')
+        })
+
+        
+        // 代理绑定
+        const agentsOn = document.querySelector('#agentsOn')
+        const agentsOff = document.querySelector('#agentsOff')
+
+        function agentsFn(e) {
+            addLog('demo3：触发代理事件')
+        }
+        agentsOn.addEventListener('click', function () {
+            this.disabled = true
+            agentsOff.disabled = false
+            $('.agents').on('click', 'input[type="button"]', agentsFn)
+            addLog('demo3：绑定代理事件')
+        })
+        agentsOff.addEventListener('click', function () {
+            this.disabled = true
+            agentsOn.disabled = false
+            $('.agents').off('click', 'input[type="button"]', agentsFn)
+            addLog('demo3：解绑代理事件')
+        })
+
+
+        // 代理绑定
+        const agent4On = document.querySelector('#agent4On')
+        const agent4Off = document.querySelector('#agent4Off')
+        const addDom = document.querySelector('#add-dom')
+        const agent4 = document.querySelector('.agent4')
+
+        function agent4Fn(e) {
+            addLog(`demo4：触发代理事件  >  ${e.target.value}`)
+        }
+        agent4On.addEventListener('click', function () {
+            this.disabled = true
+            agent4Off.disabled = false
+            $('.agent4').on('click', 'input[type="button"]', agent4Fn)
+            addLog('demo4：绑定代理事件')
+        })
+        agent4Off.addEventListener('click', function () {
+            this.disabled = true
+            agent4On.disabled = false
+            $('.agent4').off('click', 'input[type="button"]', agent4Fn)
+            addLog('demo4：解绑代理事件')
+        })
+        let i = 1
+        addDom.addEventListener('click', function() {
+            agent4.insertAdjacentHTML('afterend', `<div class="item agent4"><input type="button" value="btn ${i++}"></div>`)
+        })
+    </script>
+</body>
+
+</html>

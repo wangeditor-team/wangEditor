@@ -49,6 +49,10 @@ class Editor {
     public txt: Text
     public menus: Menus
     public i18next: any
+    public highlight: any
+
+    // 实例销毁前需要执行的钩子集合
+    private beforeDestroyHooks: Function[] = []
 
     /**
      * 构造函数
@@ -114,6 +118,27 @@ class Editor {
 
     public change(): void {
         changeHandler(this)
+    }
+
+    /**
+     * 提供给用户添加销毁前的钩子函数
+     * @param fn 钩子函数
+     */
+    public beforeDestroy(fn: Function): Editor {
+        this.beforeDestroyHooks.push(fn)
+        return this
+    }
+
+    /**
+     * 销毁当前编辑器实例
+     */
+    public destroy(): void {
+        // 调用钩子函数
+        this.beforeDestroyHooks.forEach(fn => fn.call(this))
+
+        // 销毁 DOM 节点
+        this.$toolbarElem.remove()
+        this.$textContainerElem.remove()
     }
 }
 

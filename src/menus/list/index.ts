@@ -59,10 +59,16 @@ class List extends DropListMenu implements MenuActive {
             return
         }
 
+        //禁止在table中添加列表
+        let $selectionElem = $(editor.selection.getSelectionContainerElem())
+        let $dom = $($selectionElem.elems[0]).parentUntil('TABLE', $selectionElem.elems[0])
+        if ($dom && $($dom.elems[0]).getNodeName() === 'TABLE') {
+            return
+        }
+
         editor.cmd.do(value)
 
         // 验证列表是否被包裹在 <p> 之内
-        let $selectionElem = $(editor.selection.getSelectionContainerElem())
         if ($selectionElem.getNodeName() === 'LI') {
             $selectionElem = $selectionElem.parent()
         }

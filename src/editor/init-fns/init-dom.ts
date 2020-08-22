@@ -14,6 +14,7 @@ export default function (editor: Editor): void {
 
     const config = editor.config
     const zIndex = config.zIndex
+    const height = config.height
 
     let $toolbarElem: DomElement
     let $textContainerElem: DomElement
@@ -36,7 +37,7 @@ export default function (editor: Editor): void {
         $textContainerElem
             .css('border', '1px solid #ccc')
             .css('border-top', 'none')
-            .css('height', '300px')
+            .css('height', `${height}px`)
     } else {
         // toolbarSelector 和 textSelector 都有
         $toolbarElem = $toolbarSelector

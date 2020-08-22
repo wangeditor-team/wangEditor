@@ -14,6 +14,7 @@ export interface MenuActive {
 }
 
 class Menu {
+    public key: string | undefined
     public $elem: DomElement
     public editor: Editor
     private _active: boolean // 菜单是否处于激活状态，如选中一段加粗文字时，bold 菜单要被激活（即高亮显示）

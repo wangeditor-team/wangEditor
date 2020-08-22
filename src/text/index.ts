@@ -8,6 +8,7 @@ import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
 import { UA, throttle } from '../utils/util'
 import getChildrenJSON, { NodeListType } from './getChildrenJSON'
+import { formatCodeHtml } from '../menus/code/index'
 
 // 各个事件钩子函数
 type TextEventHooks = {
@@ -21,10 +22,12 @@ type TextEventHooks = {
     deleteDownEvents: Function[] // 删除键（keyCode === 8）down 时
     pasteEvents: Function[] // 粘贴事件
     linkClickEvents: Function[] // 点击链接事件
+    codeClickEvents: Function[] // 点击代码事件
     textScrollEvents: Function[] // 编辑区域滑动事件
     toolbarClickEvents: Function[] // 菜单栏被点击
     imgClickEvents: Function[] // 图片被点击事件
     imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
+    tableClickEvents: Function[] //表格点击
 }
 
 class Text {
@@ -45,10 +48,12 @@ class Text {
             deleteDownEvents: [],
             pasteEvents: [],
             linkClickEvents: [],
+            codeClickEvents: [],
             textScrollEvents: [],
             toolbarClickEvents: [],
             imgClickEvents: [],
             imgDragBarMouseDownEvents: [],
+            tableClickEvents: [],
         }
     }
 
@@ -99,6 +104,10 @@ class Text {
             html = html.replace(/\u200b/gm, '')
             html = html.replace(/<p><\/p>/gim, '') // 去掉空行
             html = html.replace(/<p><br\/?><\/p>$/gim, '') // 去掉最后的 <p><br><p>
+
+            // pre标签格式化
+            html = formatCodeHtml(editor, html)
+
             return html
         }
 
@@ -153,6 +162,10 @@ class Text {
     public append(html: string): void {
         const editor = this.editor
         const $textElem = editor.$textElem
+        if (html.indexOf('<') !== 0) {
+            // 普通字符串，用 <p> 包裹
+            html = `<p>${html}</p>`
+        }
         $textElem.append($(html))
 
         this.editor.change()
@@ -287,10 +300,24 @@ class Text {
         )
 
         // 拖拽相关的事件
-        $(document).on('dragleave drop dragenter dragover', function (e: Event) {
+        function preventDefault(e: Event) {
             // 禁用 document 拖拽事件
             e.preventDefault()
+        }
+        $(document)
+            .on('dragleave', preventDefault)
+            .on('drop', preventDefault)
+            .on('dragenter', preventDefault)
+            .on('dragover', preventDefault)
+        // 全局事件在编辑器实例销毁的时候进行解绑
+        editor.beforeDestroy(function () {
+            $(document)
+                .off('dragleave', preventDefault)
+                .off('drop', preventDefault)
+                .off('dragenter', preventDefault)
+                .off('dragover', preventDefault)
         })
+
         $textElem.on('drop', (e: Event) => {
             e.preventDefault()
             const events = eventHooks.dropEvents
@@ -351,6 +378,33 @@ class Text {
             imgClickEvents.forEach(fn => fn($img))
         })
 
+        // code click
+        $textElem.on('click', (e: Event) => {
+            e.preventDefault()
+
+            // 存储代码元素
+            let $code: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+            if ($target.getNodeName() === 'PRE') {
+                // 当前点击的就是一个链接
+                $code = $target
+            } else {
+                // 否则，向父节点中寻找链接
+                const $parent = $target.parentUntil('pre')
+                if ($parent != null) {
+                    // 找到了
+                    $code = $parent
+                }
+            }
+
+            if ($code == null) return // 没有点击链接，则返回
+
+            const codeClickEvents = eventHooks.codeClickEvents
+            codeClickEvents.forEach(fn => fn($code))
+        })
+
         // 菜单栏被点击
         editor.$toolbarElem.on('click', (e: Event) => {
             const toolbarClickEvents = eventHooks.toolbarClickEvents
@@ -367,6 +421,34 @@ class Text {
                 // 点击的元素，是图片拖拽调整大小的 bar
                 const imgDragBarMouseDownEvents = eventHooks.imgDragBarMouseDownEvents
                 imgDragBarMouseDownEvents.forEach(fn => fn())
+            }
+        })
+
+        //table cilik
+        $textElem.on('click', (e: Event) => {
+            e.preventDefault()
+
+            // 存储元素
+            let $dom: DomElement | null = null
+
+            const target = e.target as HTMLElement
+
+            //获取最祖父元素
+            $dom = $(target).parentUntil('TABLE', target)
+
+            if ($dom == null) return // 没有table范围内，则返回
+
+            const tableClickEvents = eventHooks.tableClickEvents
+            tableClickEvents.forEach(fn => fn($dom))
+        })
+
+        //table外边最右或最左 防止回车后在回车焦点无法换行
+        $textElem.on('keydown', (e: Event) => {
+            const $selectElem = editor.selection.getSelectionContainerElem()
+            if ($($selectElem?.elems[0]).hasClass('w-e-text')) {
+                e.preventDefault()
+                editor.cmd.do('insertHTML', '<p><br></p>')
+                editor.selection.createEmptyRange()
             }
         })
     }
