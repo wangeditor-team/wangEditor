@@ -75,8 +75,7 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 // 用户自定义过滤处理粘贴内容
                 pasteHtml = '' + (pasteTextHandle(pasteHtml) || '') // html
             }
-            // 用户自定义的不需要处理
-            editor.cmd.do('insertHTML', pasteHtml)
+            editor.cmd.do('insertHTML', `<p>${formatHtml(pasteHtml)}</p>`)
         } catch (ex) {
             // 此时使用 pasteText 来兼容一下
             if (pasteTextHandle && isFunction(pasteTextHandle)) {
