@@ -174,9 +174,10 @@ class Text {
 
     /**
      * 格式化 html 内容，让最外层的标签符合规范
+     * @param html 有该参数则返回符合规范的html 否则重置html无返回值
      */
-    public formatHtml(): void {
-        let curHtml = this.html() || ''
+    public formatHtml(html?: string): void | string {
+        let curHtml = html || this.html() || ''
 
         // 忽略 <br> 换行
         curHtml = curHtml.replace(/<br>|<br\/>/gim, '')
@@ -187,8 +188,12 @@ class Text {
         // 不允许空行，放在最后
         curHtml = curHtml.replace(/<p><\/p>/gim, '<p><br></p>')
 
-        // 重置 html
-        this.html(curHtml)
+        if (html) {
+            return curHtml.trim()
+        } else {
+            // 重置 html
+            this.html(curHtml)
+        }
     }
 
     /**
