@@ -29,7 +29,6 @@ function formatHtml(val: string) {
  * @param editor 编辑器对象
  * @param pasteEvents 粘贴事件列表
  */
-
 function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
     function fn(e: Event) {
         // 获取配置
