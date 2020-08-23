@@ -44,7 +44,6 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
 
         // 当前选区所在的 DOM 节点
         const $selectionElem = editor.selection.getSelectionContainerElem()
-
         if (!$selectionElem) {
             return
         }
