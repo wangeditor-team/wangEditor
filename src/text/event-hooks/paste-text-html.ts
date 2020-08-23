@@ -60,6 +60,7 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         }
 
         // table 中（td、th），待开发。。。
+
         if (!pasteHtml) {
             return
         }
