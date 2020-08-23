@@ -78,15 +78,17 @@ function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.toolbarClickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideCodeTooltip)
 
-    // editor.$textElem.on('keydown', (e: KeyboardEvent) => {
-    //     if (isActive(editor)) {
-    //         const $code = editor.selection.getSelectionTopContainerElem('PRE')
-    //
-    //         if (!$code || !$code.length) return
-    //
-    //         e.preventDefault()
-    //     }
-    // })
+    editor.$textElem.on('keydown', (e: KeyboardEvent) => {
+        if (isActive(editor)) {
+            const $code = editor.selection.getSelectionStartElem()
+            const $codeElem = $code?.getNodeTop(editor)
+
+            if ($codeElem?.getNodeName() == 'Pre') return
+
+            e.preventDefault()
+            e.stopPropagation()
+        }
+    })
 }
 
 export default bindTooltipEvent
