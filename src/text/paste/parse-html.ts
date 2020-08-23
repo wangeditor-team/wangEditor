@@ -151,9 +151,9 @@ function parseHtml(html: string, filterStyle: boolean = true, ignoreImg: boolean
             // 最后，标记结束
             markTagEnd()
         },
-        // comment(str: string) {
-        //     /* 注释，不做处理 */
-        // },
+        comment(str: string) {
+            /* 注释，不做处理 */
+        },
     })
 
     let result = resultArr.join('') // 转换为字符串

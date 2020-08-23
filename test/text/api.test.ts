@@ -66,14 +66,6 @@ test('获取 JSON', () => {
     expect(attr2.value).toBe('_blank')
 })
 
-test('format html', () => {
-    const html = '<p>AAA<br>BBB<br/>CCC</p><div>CCC</div><p></p>'
-    editor.txt.html(html) // 赋值一个不规范的 html
-    editor.txt.formatHtml() // 格式化
-    const newHtml1 = editor.txt.html() // 使用 API 获取的 html（没有最后的 <p><br></p>）
-    expect(newHtml1).toBe('<p>AAABBBCCC</p><p>CCC</p>')
-})
-
 // 最后测
 test('清空内容', () => {
     editor.txt.clear()
