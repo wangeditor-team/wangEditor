@@ -162,6 +162,10 @@ class Text {
     public append(html: string): void {
         const editor = this.editor
         const $textElem = editor.$textElem
+        if (html.indexOf('<') !== 0) {
+            // 普通字符串，用 <p> 包裹
+            html = `<p>${html}</p>`
+        }
         $textElem.append($(html))
 
         // 初始化选区，将光标定位到内容尾部

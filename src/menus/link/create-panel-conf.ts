@@ -65,6 +65,25 @@ export default function (editor: editor, text: string, link: string): PanelConf 
         editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
     }
 
+    /**
+     * 校验链接是否合法
+     * @param link 链接
+     */
+    function checkLink(text: string, link: string): boolean {
+        //查看开发者自定义配置的返回值
+        const check = editor.config.linkCheck(text, link)
+        if (check === undefined) {
+            //用户未能通过开发者的校验，且开发者不希望编辑器提示用户
+        } else if (check === true) {
+            //用户通过了开发者的校验
+            return true
+        } else {
+            //用户未能通过开发者的校验，开发者希望我们提示这一字符串
+            alert(check)
+        }
+        return false
+    }
+
     const conf = {
         width: 300,
         height: 0,
@@ -116,7 +135,8 @@ export default function (editor: editor, text: string, link: string): PanelConf 
                             if (!link) return
                             // 文本为空，则用链接代替
                             if (!text) text = link
-
+                            // 校验链接是否满足用户的规则，若不满足则不插入
+                            if (!checkLink(text, link)) return
                             insertLink(text, link)
 
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
