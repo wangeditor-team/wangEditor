@@ -27,12 +27,14 @@ class DropListMenu extends Menu {
                 if (editor.selection.getRange() == null) {
                     return
                 }
+                $elem.css('z-index', editor.config.zIndex + 2)
                 // 显示
                 dropList.showTimeoutId = window.setTimeout(() => {
                     dropList.show()
                 }, 200)
             })
             .on('mouseleave', () => {
+                $elem.css('z-index', editor.config.zIndex + 1)
                 // 隐藏
                 dropList.hideTimeoutId = window.setTimeout(() => {
                     dropList.hide()

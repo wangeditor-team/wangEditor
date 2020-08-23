@@ -25,14 +25,20 @@ function tabHandler(editor: Editor, tabDownEvents: Function[]) {
         const selectionNodeName = $selectionElem.getNodeName()
         const parentNodeName = $parentElem.getNodeName()
 
-        if (selectionNodeName === 'CODE' && parentNodeName === 'PRE') {
+        if (
+            selectionNodeName == 'CODE' ||
+            parentNodeName === 'CODE' ||
+            parentNodeName === 'PRE' ||
+            /hljs/.test(parentNodeName)
+        ) {
             // <pre><code> 里面
-            editor.cmd.do('insertHTML', '    ')
+            editor.cmd.do('insertHTML', editor.config.languageTab)
         } else {
             // 普通文字
             editor.cmd.do('insertHTML', '&nbsp;&nbsp;&nbsp;&nbsp;')
         }
     }
+
     // 保留函数
     tabDownEvents.push(fn)
 }

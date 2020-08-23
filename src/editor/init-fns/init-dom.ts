@@ -14,6 +14,7 @@ export default function (editor: Editor): void {
 
     const config = editor.config
     const zIndex = config.zIndex
+    const height = config.height
 
     let $toolbarElem: DomElement
     let $textContainerElem: DomElement
@@ -36,7 +37,7 @@ export default function (editor: Editor): void {
         $textContainerElem
             .css('border', '1px solid #ccc')
             .css('border-top', 'none')
-            .css('height', '300px')
+            .css('height', `${height}px`)
     } else {
         // toolbarSelector 和 textSelector 都有
         $toolbarElem = $toolbarSelector
@@ -49,15 +50,24 @@ export default function (editor: Editor): void {
     $textElem = $('<div></div>')
     $textElem.attr('contenteditable', 'true').css('width', '100%').css('height', '100%')
 
+    // 添加 placeholder
+    const $placeholder = $(`<div>${editor.config.placeholder}</div>`)
+    $placeholder.addClass('placeholder')
+
     // 初始化编辑区域内容
     if ($children && $children.length) {
         $textElem.append($children)
+        // 编辑器有默认值的时候隐藏placeholder
+        $placeholder.hide()
     } else {
         $textElem.append($('<p><br></p>')) // 新增一行，方便继续编辑
     }
 
     // 编辑区域加入DOM
     $textContainerElem.append($textElem)
+
+    // 添加placeholder
+    $textContainerElem.append($placeholder)
 
     // 设置通用的 class
     $toolbarElem.addClass('w-e-toolbar')
@@ -70,11 +80,6 @@ export default function (editor: Editor): void {
     $toolbarElem.attr('id', toolbarElemId)
     const textElemId = getRandom('text-elem')
     $textElem.attr('id', textElemId)
-
-    // 添加 placeholder
-    const $placeholder = $(`<div>${editor.config.placeholder}</div>`)
-    $placeholder.addClass('placeholder')
-    $textContainerElem.append($placeholder)
 
     // 判断编辑区与容器高度是否一致
     const textContainerCliheight = $textContainerElem.getClientHeight()
