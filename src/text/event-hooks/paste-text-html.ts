@@ -14,7 +14,6 @@ import { isFunction } from '../../utils/util'
  */
 function formatHtml(val: string) {
     let pasteText = val
-
     // 去除br
     pasteText = pasteText.replace(/<br>|<br\/>/gim, '')
     // div 全部替换为 p 标签
@@ -63,7 +62,6 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         }
 
         // table 中（td、th），待开发。。。
-
         if (!pasteHtml) {
             return
         }
