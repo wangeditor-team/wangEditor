@@ -1,0 +1,118 @@
+[33mb4c19fb[m[33m ([m[1;36mHEAD -> [m[1;32mfix-paste[m[33m, [m[1;31morigin/fix-paste[m[33m)[m HEAD@{0}: commit: fix:补充注释
+[33m4cae1f3[m HEAD@{1}: commit: fix：优化函数方法
+[33m3e4a482[m HEAD@{2}: checkout: moving from dev to fix-paste
+[33mea52d38[m[33m ([m[1;32mdev[m[33m)[m HEAD@{3}: checkout: moving from fix-paste to dev
+[33m3e4a482[m HEAD@{4}: pull origin dev: Merge made by the 'recursive' strategy.
+[33m6cfde39[m HEAD@{5}: commit: fix:修改命名添加注释
+[33mb3aeef6[m HEAD@{6}: commit: fix:修复粘贴光标bug
+[33mb56a017[m HEAD@{7}: pull origin dev: Fast-forward
+[33m877c2c2[m HEAD@{8}: pull origin dev: Fast-forward
+[33mea52d38[m[33m ([m[1;32mdev[m[33m)[m HEAD@{9}: checkout: moving from dev to fix-paste
+[33mea52d38[m[33m ([m[1;32mdev[m[33m)[m HEAD@{10}: checkout: moving from fix-paste to dev
+[33mea52d38[m[33m ([m[1;32mdev[m[33m)[m HEAD@{11}: checkout: moving from dev to fix-paste
+[33mea52d38[m[33m ([m[1;32mdev[m[33m)[m HEAD@{12}: pull origin dev: Fast-forward
+[33mc7f124c[m HEAD@{13}: pull origin dev: Fast-forward
+[33mf8c523c[m HEAD@{14}: checkout: moving from master to dev
+[33mf60ff0f[m[33m ([m[1;33mtag: v0.0.9[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{15}: checkout: moving from dev to master
+[33mf8c523c[m HEAD@{16}: pull origin dev: Fast-forward
+[33ma0d7e3f[m HEAD@{17}: checkout: moving from dev to dev
+[33ma0d7e3f[m HEAD@{18}: checkout: moving from fix-menus-emoticon to dev
+[33mb453632[m[33m ([m[1;31morigin/fix-menus-emoticon[m[33m, [m[1;32mfix-menus-emoticon[m[33m)[m HEAD@{19}: commit: fix：去除console
+[33m18d824c[m HEAD@{20}: pull origin master: Merge made by the 'recursive' strategy.
+[33m89804fe[m HEAD@{21}: pull origin dev: Merge made by the 'recursive' strategy.
+[33m9694104[m HEAD@{22}: commit: fix：修复插入表情后存在多余空格的情况
+[33m838c6db[m HEAD@{23}: checkout: moving from feature-menus-custom-font-size to fix-menus-emoticon
+[33m607bb59[m[33m ([m[1;31morigin/feature-menus-custom-font-size[m[33m, [m[1;32mfeature-menus-custom-font-size[m[33m)[m HEAD@{24}: commit: fix：完善自定义字体自定义大小的逻辑
+[33m1c9d7ef[m HEAD@{25}: checkout: moving from fix-menus-emoticon to feature-menus-custom-font-size
+[33m838c6db[m HEAD@{26}: commit: fix：修复插入表情后有多余空格的bug
+[33ma0d7e3f[m HEAD@{27}: checkout: moving from dev to fix-menus-emoticon
+[33ma0d7e3f[m HEAD@{28}: checkout: moving from feature-menus-custom-font-size to dev
+[33m1c9d7ef[m HEAD@{29}: commit: feat:增加自定义字体大小
+[33ma0d7e3f[m HEAD@{30}: checkout: moving from dev to feature-menus-custom-font-size
+[33ma0d7e3f[m HEAD@{31}: checkout: moving from feature-menus-customfontsize to dev
+[33m439174c[m HEAD@{32}: commit: fix：无法选中
+[33m69647c0[m HEAD@{33}: checkout: moving from dev to feature-menus-customfontsize
+[33ma0d7e3f[m HEAD@{34}: checkout: moving from feature-menus-customfontsize to dev
+[33m69647c0[m HEAD@{35}: commit: fix：命名问题
+[33m9bed341[m HEAD@{36}: checkout: moving from dev to feature-menus-customfontsize
+[33ma0d7e3f[m HEAD@{37}: checkout: moving from feature-menus-customfontsize to dev
+[33m9bed341[m HEAD@{38}: commit (merge): “fix:修复设置字号选区丢失问题
+[33m81b07d4[m HEAD@{39}: commit: fix：变量名修改
+[33m9e96e48[m HEAD@{40}: commit: fix:驼峰命名问题修改
+[33m2fb4668[m HEAD@{41}: commit: fix:尝试修复innerhtml插入后再次选择丢失选区问题
+[33m326ad80[m HEAD@{42}: commit: fix:尝试修复innerhtml插入后再次选择丢失选区问题
+[33m59d3673[m HEAD@{43}: checkout: moving from dev to feature-menus-customfontsize
+[33ma0d7e3f[m HEAD@{44}: pull origin dev: Fast-forward
+[33m98c1a6c[m HEAD@{45}: checkout: moving from feature-menus-customfontsize to dev
+[33m59d3673[m HEAD@{46}: commit: fix：去除console
+[33mc986fe8[m HEAD@{47}: commit: feat：自定义字号
+[33m98c1a6c[m HEAD@{48}: Branch: renamed refs/heads/menus-fontsizediy to refs/heads/feature-menus-customfontsize
+[33m98c1a6c[m HEAD@{50}: checkout: moving from dev to menus-fontsizediy
+[33m98c1a6c[m HEAD@{51}: checkout: moving from menus-fontsizediy to dev
+[33m98c1a6c[m HEAD@{52}: checkout: moving from dev to menus-fontsizediy
+[33m98c1a6c[m HEAD@{53}: pull origin dev: Fast-forward
+[33mf3918f1[m HEAD@{54}: pull origin dev: Fast-forward
+[33mc54c203[m HEAD@{55}: checkout: moving from feature-menus-emoticon to dev
+[33md3eaad0[m[33m ([m[1;32mfeature-menus-emoticon[m[33m)[m HEAD@{56}: pull origin dev: Fast-forward
+[33m2b4ee03[m HEAD@{57}: pull origin dev: Fast-forward
+[33m752a7e4[m[33m ([m[1;31morigin/feature-menus-emoticon[m[33m)[m HEAD@{58}: commit: fix:修复type类型问题
+[33m88a262f[m HEAD@{59}: pull origin dev: Merge made by the 'recursive' strategy.
+[33m95c7e17[m HEAD@{60}: checkout: moving from dev to feature-menus-emoticon
+[33mc54c203[m HEAD@{61}: checkout: moving from dev to dev
+[33mc54c203[m HEAD@{62}: pull origin dev: Fast-forward
+[33mc5e82f3[m HEAD@{63}: checkout: moving from feature-menus-emoticon to dev
+[33m95c7e17[m HEAD@{64}: commit: fix：type类型修改
+[33mb291ae9[m HEAD@{65}: checkout: moving from dev to feature-menus-emoticon
+[33mc5e82f3[m HEAD@{66}: checkout: moving from feature-menus-emoticon to dev
+[33mb291ae9[m HEAD@{67}: checkout: moving from dev to feature-menus-emoticon
+[33mc5e82f3[m HEAD@{68}: checkout: moving from feature-menus-emoticon to dev
+[33mb291ae9[m HEAD@{69}: commit: feat:增加插入表情
+[33m0e65633[m HEAD@{70}: checkout: moving from dev to feature-menus-emoticon
+[33mc5e82f3[m HEAD@{71}: checkout: moving from feature-menus-emoticon to dev
+[33m0e65633[m HEAD@{72}: commit: feat:增加插入表情功能
+[33mc5e82f3[m HEAD@{73}: checkout: moving from dev to feature-menus-emoticon
+[33mc5e82f3[m HEAD@{74}: checkout: moving from feature-menus-emoticon to dev
+[33mba8ea3d[m HEAD@{75}: commit: “fix:增加必要的注释
+[33m25b5e8e[m HEAD@{76}: commit: feat:增加插入表情功能
+[33mc5e82f3[m HEAD@{77}: checkout: moving from dev to feature-menus-emoticon
+[33mc5e82f3[m HEAD@{78}: checkout: moving from fix-editor-dom to dev
+[33mb50a7fc[m[33m ([m[1;31morigin/fix-editor-dom[m[33m, [m[1;32mfix-editor-dom[m[33m)[m HEAD@{79}: commit: fix:修改返回值类型注释错误
+[33mc99ced0[m HEAD@{80}: commit: feat:dom-core增加获取高度方法
+[33m23c58e1[m HEAD@{81}: checkout: moving from dev to fix-editor-dom
+[33mc5e82f3[m HEAD@{82}: pull origin dev: Fast-forward
+[33m05ae975[m HEAD@{83}: checkout: moving from fix-editor-dom to dev
+[33m23c58e1[m HEAD@{84}: commit: 修复容器高度和编辑区高度不一致的问题
+[33m05ae975[m HEAD@{85}: checkout: moving from dev to fix-editor-dom
+[33m05ae975[m HEAD@{86}: pull origin dev: Fast-forward
+[33md2bf964[m HEAD@{87}: checkout: moving from fix-config-style to dev
+[33m79007ed[m[33m ([m[1;32mfix-config-style[m[33m)[m HEAD@{88}: pull origin dev: Merge made by the 'recursive' strategy.
+[33m686681d[m[33m ([m[1;31morigin/fix-config-style[m[33m)[m HEAD@{89}: commit: fix:修复点击区域空白处光标未focus到选区的bug
+[33md2bf964[m HEAD@{90}: checkout: moving from dev to fix-config-style
+[33md2bf964[m HEAD@{91}: pull origin dev: Fast-forward
+[33mf34dc67[m HEAD@{92}: checkout: moving from fix-menus-justify to dev
+[33md611450[m[33m ([m[1;32mfix-menus-justify[m[33m)[m HEAD@{93}: commit: fix：修复icon与文字不对齐的情况
+[33md2bf964[m HEAD@{94}: pull origin dev: Fast-forward
+[33mb8b9cfa[m[33m ([m[1;31morigin/fix-menus-justify[m[33m)[m HEAD@{95}: commit: fix：修复icon与文字不对其的问题
+[33mf34dc67[m HEAD@{96}: checkout: moving from dev to fix-menus-justify
+[33mf34dc67[m HEAD@{97}: pull origin dev: Fast-forward
+[33m639f322[m HEAD@{98}: checkout: moving from fix-editor-init-fns-bind-events to dev
+[33m747d1b7[m[33m ([m[1;31morigin/fix-editor-init-fns-bind-events[m[33m, [m[1;32mfix-editor-init-fns-bind-events[m[33m)[m HEAD@{99}: commit: fix:修复导航和编辑器分开时点击编辑器无法聚焦的问题
+[33me17b336[m[33m ([m[1;31morigin/feature-menus-justify[m[33m, [m[1;32mfeature-menus-justify[m[33m)[m HEAD@{100}: checkout: moving from feature-menus-justify to fix-editor-init-fns-bind-events
+[33me17b336[m[33m ([m[1;31morigin/feature-menus-justify[m[33m, [m[1;32mfeature-menus-justify[m[33m)[m HEAD@{101}: pull origin feature-menus-justify: Merge made by the 'recursive' strategy.
+[33mab3ad42[m HEAD@{102}: commit: fix:修复icon与文字不对齐的情况
+[33m0c5ad0f[m HEAD@{103}: commit: fix:修复icon与文字不对其的情况
+[33m084cf72[m[33m ([m[1;32mfeature-justify[m[33m)[m HEAD@{104}: checkout: moving from feature-justify to feature-menus-justify
+[33m084cf72[m[33m ([m[1;32mfeature-justify[m[33m)[m HEAD@{105}: commit: fix:修复icon与字体不对齐的问题
+[33m42c73f2[m HEAD@{106}: commit: fix:修复文字和icon不对齐的问题
+[33m2a78ab5[m HEAD@{107}: commit: fix:修复 examples/division.html ，点击编辑区域的空白处，光标没有 focus 到编辑区域中,修复对齐菜单样式问题
+[33m639f322[m HEAD@{108}: pull origin dev: Fast-forward
+[33m235ed4c[m HEAD@{109}: pull origin dev: Fast-forward
+[33mfa4f603[m HEAD@{110}: commit: fix：去除尝试激活高亮功能
+[33mde5bdee[m HEAD@{111}: commit (merge): feat:增加功能对齐方式
+[33m1c5e711[m HEAD@{112}: commit: feat:增加功能对齐方式
+[33m095952f[m HEAD@{113}: commit: feat: 功能justify
+[33med6017d[m[33m ([m[1;32mfeature-italic[m[33m)[m HEAD@{114}: checkout: moving from feature-italic to feature-justify
+[33med6017d[m[33m ([m[1;32mfeature-italic[m[33m)[m HEAD@{115}: pull origin master: Fast-forward
+[33m3d9f5df[m HEAD@{116}: commit: feat:增加功能Italic
+[33mf60ff0f[m[33m ([m[1;33mtag: v0.0.9[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{117}: checkout: moving from master to feature-italic
+[33mf60ff0f[m[33m ([m[1;33mtag: v0.0.9[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{118}: clone: from https://github.com/wangeditor-team/we-next.git
