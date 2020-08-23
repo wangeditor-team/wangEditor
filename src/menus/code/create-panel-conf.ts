@@ -18,6 +18,15 @@ export default function (editor: editor, text: string, languageType: string): Pa
     const inputTextId = getRandom('input-text')
     const btnOkId = getRandom('btn-ok')
 
+    function insertAfter(newElement: any, targentElement: any) {
+        var parent = targentElement.parentNode
+        if (parent.lastChild == targentElement) {
+            parent.appendChild(newElement)
+        } else {
+            parent.insertBefore(newElement, targentElement.nextSibling)
+        }
+    }
+
     /**
      * 插入链接
      * @param text 文字
@@ -25,19 +34,26 @@ export default function (editor: editor, text: string, languageType: string): Pa
      */
     function insertCode(text: string): void {
         // 选区处于链接中，则选中整个菜单，再执行 insertHTML
-        if (isActive(editor)) {
+        let active = isActive(editor)
+
+        if (active) {
             selectCodeElem()
         }
 
         editor.cmd.do('insertHTML', text)
 
+        const $code = editor.selection.getSelectionStartElem()
+        const $codeElem = $code?.getNodeTop(editor)
+
+        // 生成换行标签
         let p = document.createElement('p')
         p.appendChild(document.createElement('br'))
 
+        // 通过dom操作添加换行标签
         // @ts-ignore
-        editor.$textContainerElem.elems[0].querySelector('.w-e-text').appendChild(p)
+        insertAfter(p, $codeElem.elems[0])
 
-        editor.selection.createRangeByElem($(p))
+        // editor.selection.createRangeByElem($(p))
     }
 
     /**
@@ -128,7 +144,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 const $code = editor.selection.getSelectionStartElem()
                                 const $codeElem = $code?.getNodeTop(editor)
 
-                                codeDom = formatCode
+                                codeDom = `<code>${formatCode}</code>`
 
                                 // @ts-ignore
                                 $codeElem.attr('id', codeId)
@@ -138,7 +154,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 $codeElem.attr('type', languageType)
 
                                 // @ts-ignore
-                                insertCode(codeDom)
+                                $codeElem.html(codeDom)
                             } else {
                                 //增加pre标签
                                 codeDom = `<pre id="${codeId}" text="${attrCode}" type="${languageType}"><code>${formatCode}</code></pre>`
