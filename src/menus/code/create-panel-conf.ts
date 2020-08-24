@@ -18,15 +18,6 @@ export default function (editor: editor, text: string, languageType: string): Pa
     const inputTextId = getRandom('input-text')
     const btnOkId = getRandom('btn-ok')
 
-    function insertAfter(newElement: any, targentElement: any) {
-        var parent = targentElement.parentNode
-        if (parent.lastChild == targentElement) {
-            parent.appendChild(newElement)
-        } else {
-            parent.insertBefore(newElement, targentElement.nextSibling)
-        }
-    }
-
     /**
      * 插入链接
      * @param text 文字
