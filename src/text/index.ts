@@ -175,25 +175,6 @@ class Text {
     }
 
     /**
-     * 格式化 html 内容，让最外层的标签符合规范
-     */
-    public formatHtml(): void {
-        let curHtml = this.html() || ''
-
-        // 忽略 <br> 换行
-        curHtml = curHtml.replace(/<br>|<br\/>/gim, '')
-
-        // div 全部替换为 p 标签
-        curHtml = curHtml.replace(/<div>/gim, '<p>').replace(/<\/div>/gim, '</p>')
-
-        // 不允许空行，放在最后
-        curHtml = curHtml.replace(/<p><\/p>/gim, '<p><br></p>')
-
-        // 重置 html
-        this.html(curHtml)
-    }
-
-    /**
      * 每一步操作，都实时保存选区范围
      */
     private _saveRange(): void {
@@ -443,12 +424,14 @@ class Text {
         })
 
         //table外边最右或最左 防止回车后在回车焦点无法换行
-        $textElem.on('keydown', (e: Event) => {
-            const $selectElem = editor.selection.getSelectionContainerElem()
-            if ($($selectElem?.elems[0]).hasClass('w-e-text')) {
-                e.preventDefault()
-                editor.cmd.do('insertHTML', '<p><br></p>')
-                editor.selection.createEmptyRange()
+        $textElem.on('keydown', (e: KeyboardEvent) => {
+            if (e.keyCode === 13) {
+                const $selectElem = editor.selection.getSelectionContainerElem()
+                if ($($selectElem?.elems[0]).hasClass('w-e-text')) {
+                    e.preventDefault()
+                    editor.cmd.do('insertHTML', '<p><br></p>')
+                    editor.selection.createEmptyRange()
+                }
             }
         })
     }

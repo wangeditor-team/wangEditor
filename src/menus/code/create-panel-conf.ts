@@ -25,17 +25,20 @@ export default function (editor: editor, text: string, languageType: string): Pa
      */
     function insertCode(text: string): void {
         // 选区处于链接中，则选中整个菜单，再执行 insertHTML
-        if (isActive(editor)) {
-            selectCodeElem()
+        let active = isActive(editor)
 
-            //删除代码 document.command命令
-            // editor.cmd.do('delete')
-            // editor.cmd.do('delete')
+        if (active) {
+            selectCodeElem()
         }
 
-        // editor.cmd.do('insertHTML', `<a href="${code}" target="_blank">${text}</a>`)
-
         editor.cmd.do('insertHTML', text)
+
+        const $code = editor.selection.getSelectionStartElem()
+        const $codeElem = $code?.getNodeTop(editor)
+
+        // 通过dom操作添加换行标签
+        // @ts-ignore
+        $('<p><br></p>').insertAfter($codeElem)
     }
 
     /**
@@ -81,7 +84,10 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 )
                             })}
                         </select>
-                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 160px">${text}</textarea>
+                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 160px">${text.replace(
+                    /&quot;/g,
+                    '"'
+                )}</textarea>
                         <div class="w-e-button-container">
                             <button id="${btnOkId}" class="right">${
                     isActive(editor) ? '修改' : '插入'
@@ -115,30 +121,28 @@ export default function (editor: editor, text: string, languageType: string): Pa
                             // 代码为空，则不插入
                             if (!code) return
 
+                            // 标签属性记录代码文本
+                            let attrCode = code.replace(/"/g, '&quot;')
+
                             //增加标签
                             if (isActive(editor)) {
                                 const $code = editor.selection.getSelectionStartElem()
                                 const $codeElem = $code?.getNodeTop(editor)
 
-                                codeDom = formatCode
+                                codeDom = `<code>${formatCode}</code>`
 
                                 // @ts-ignore
                                 $codeElem.attr('id', codeId)
                                 // @ts-ignore
-                                $codeElem.attr('text', code)
+                                $codeElem.attr('text', attrCode)
                                 // @ts-ignore
                                 $codeElem.attr('type', languageType)
 
                                 // @ts-ignore
-                                insertCode(codeDom)
-
-                                editor.cmd.do('insertHTML', '<p><br></p>')
+                                $codeElem.html(codeDom)
                             } else {
                                 //增加pre标签
-                                codeDom = `<pre id="${codeId}" text="${code}" type="${languageType}"><code>${formatCode}</code></pre>`
-
-                                //增加换行符 隔离代码块
-                                codeDom += '<p><br></p>'
+                                codeDom = `<pre id="${codeId}" text="${attrCode}" type="${languageType}"><code>${formatCode}</code></pre>`
 
                                 // @ts-ignore
                                 insertCode(codeDom)
