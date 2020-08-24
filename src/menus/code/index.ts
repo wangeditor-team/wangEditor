@@ -14,6 +14,7 @@ import bindEvent from './bind-event/index'
 import hljs from 'highlight.js'
 
 export function formatCodeHtml(editor: Editor, html: string) {
+    // return html
     if (!html) return html
     // 获取所有hljs文本
     let m = html.match(/<span\sclass="hljs[\s|\S]+?\/span>/gm)
@@ -36,6 +37,9 @@ export function formatCodeHtml(editor: Editor, html: string) {
     html = formatCodeHtml(editor, html)
 
     return html
+        .replace(/&lt;/gm, '<')
+        .replace(/&gt;/gm, '>')
+        .replace(/&quot;/gm, '"')
 }
 
 class Code extends PanelMenu implements MenuActive {
