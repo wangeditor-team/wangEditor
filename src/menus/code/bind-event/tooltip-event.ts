@@ -20,20 +20,6 @@ let _editor: Editor
 function showCodeTooltip($code: DomElement) {
     const conf: TooltipConfType = [
         {
-            $elem: $('<span>修改代码</span>'),
-            onClick: (editor: Editor, $code: DomElement) => {
-                let code = editor.menus.menuFind('code')
-
-                window.setTimeout(() => {
-                    // @ts-ignore
-                    code.clickHandler()
-                }, 0)
-
-                // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
-                return true
-            },
-        },
-        {
             $elem: $('<span>删除代码</span>'),
             onClick: (editor: Editor, $code: DomElement) => {
                 //dom操作删除
@@ -77,18 +63,6 @@ function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.clickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.toolbarClickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideCodeTooltip)
-
-    editor.$textElem.on('keydown', (e: KeyboardEvent) => {
-        if (isActive(editor)) {
-            const $code = editor.selection.getSelectionStartElem()
-            const $codeElem = $code?.getNodeTop(editor)
-
-            if ($codeElem?.getNodeName() === 'Pre') return
-
-            e.preventDefault()
-            e.stopPropagation()
-        }
-    })
 }
 
 export default bindTooltipEvent

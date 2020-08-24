@@ -11,15 +11,25 @@ import isActive from './is-active'
 import Panel from '../menu-constructors/Panel'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event/index'
+import hljs from 'highlight.js'
 
 export function formatCodeHtml(editor: Editor, html: string) {
-    let codeArr = editor.$textElem.elems[0].querySelectorAll('pre')
-    for (let i = 0; i < codeArr.length; i++) {
-        html = html.replace(
-            codeArr[i].outerHTML,
-            // @ts-ignore
-            `<pre><code>${codeArr[i].getAttribute('text').replace(/&quot;/g, '"')}</code></pre>`
-        )
+    if (!html) return html
+    // 获取所有hljs文本
+    let m = html.match(/<span\sclass="hljs.+?\/span>/g)
+
+    // 没有代码渲染文本则退出
+    // @ts-ignore
+    if (!m || !m.length) return html
+
+    // 获取替换文本
+    let r = JSON.parse(JSON.stringify(m)).map((i: string) => {
+        return i.replace(/<[^>]+>/g, '')
+    })
+
+    // @ts-ignore
+    for (let i = 0; i < m.length; i++) {
+        html = html.replace(m[i], r[i])
     }
 
     return html
@@ -27,6 +37,7 @@ export function formatCodeHtml(editor: Editor, html: string) {
 
 class Code extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
+        editor.highlight = hljs
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-terminal"></i></div>')
         super($elem, editor)
 
@@ -57,26 +68,7 @@ class Code extends PanelMenu implements MenuActive {
         const selectionText = editor.selection.getSelectionText()
 
         if (this.isActive) {
-            // 菜单被激活，说明选区在链接里
-            const $code = editor.selection.getSelectionStartElem()
-            const $preElem = $code?.getNodeTop(editor)
-            const $codeElem = $code?.parentUntil('code')
-
-            // @ts-ignore
-            if (!($preElem.getNodeName() == 'PRE')) {
-                if (editor.selection.isSelectionEmpty()) {
-                    return
-                }
-
-                // 行内代码处理
-                this.insertLineCode(selectionText)
-
-                return
-            }
-            // 弹出 panel
-            // @ts-ignore
-
-            this.createPanel($preElem.attr('text'), $preElem.attr('type'))
+            return
         } else {
             // 菜单未被激活，说明选区不在链接里
             if (editor.selection.isSelectionEmpty()) {
