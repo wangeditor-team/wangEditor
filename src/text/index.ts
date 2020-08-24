@@ -251,10 +251,13 @@ class Text {
             const $topElem = $selectionElem?.getNodeTop(editor)
             const topNodeName = $topElem?.getNodeName()
 
+            console.log(topNodeName)
+
             if (topNodeName !== 'PRE') return
 
             e.preventDefault()
-            editor.cmd.do('insertHTML', '\n')
+
+            editor.cmd.do('insertHTML', '\n\r')
 
             return
         })

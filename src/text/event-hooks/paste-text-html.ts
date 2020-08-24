@@ -30,7 +30,11 @@ function formatHtml(val: string) {
  * @author liuwei
  */
 function formatCode(val: string) {
-    return val.replace(/<[^>]+>/, '')
+    let pasteText = val
+    // 替换换行符
+    pasteText = pasteText.replace(/<br>|<br\/>/gim, '\n\r')
+
+    return pasteText.replace(/<[^>]+>/gm, '')
 }
 
 /**
@@ -66,7 +70,9 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 // 用户自定义过滤处理粘贴内容
                 pasteText = '' + (pasteTextHandle(pasteText) || '')
             }
-            editor.cmd.do('insertHTML', `<p>${formatCode(pasteText)}</p>`)
+            console.log(pasteText)
+            console.log(formatCode(pasteText))
+            editor.cmd.do('insertHTML', formatCode(pasteText))
             return
         }
 

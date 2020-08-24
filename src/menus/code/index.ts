@@ -14,9 +14,10 @@ import bindEvent from './bind-event/index'
 import hljs from 'highlight.js'
 
 export function formatCodeHtml(editor: Editor, html: string) {
+    return html
     if (!html) return html
     // 获取所有hljs文本
-    let m = html.match(/<span\sclass="hljs.+?\/span>/gm)
+    let m = html.match(/<span\sclass="hljs.+?\/span>/gim)
 
     // 没有代码渲染文本则退出
     // @ts-ignore
@@ -24,12 +25,12 @@ export function formatCodeHtml(editor: Editor, html: string) {
 
     // 获取替换文本
     let r = JSON.parse(JSON.stringify(m)).map((i: string) => {
-        return i.replace(/<[^>]+>/gm, '')
+        return i.replace(/<[^>]+>/gim, '')
     })
 
     // @ts-ignore
     for (let i = 0; i < m.length; i++) {
-        html = html.replace(m[i], r[i])
+        html = html.replace(new RegExp(m[i], 'gim'), r[i])
     }
 
     return html
