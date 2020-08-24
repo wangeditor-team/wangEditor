@@ -16,7 +16,7 @@ import hljs from 'highlight.js'
 export function formatCodeHtml(editor: Editor, html: string) {
     if (!html) return html
     // 获取所有hljs文本
-    let m = html.match(/<span\sclass="hljs.+?\/span>/g)
+    let m = html.match(/<span\sclass="hljs.+?\/span>/gm)
 
     // 没有代码渲染文本则退出
     // @ts-ignore
@@ -24,7 +24,7 @@ export function formatCodeHtml(editor: Editor, html: string) {
 
     // 获取替换文本
     let r = JSON.parse(JSON.stringify(m)).map((i: string) => {
-        return i.replace(/<[^>]+>/g, '')
+        return i.replace(/<[^>]+>/gm, '')
     })
 
     // @ts-ignore

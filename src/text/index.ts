@@ -243,6 +243,22 @@ class Text {
             deleteDownEvents.forEach(fn => fn(e))
         })
 
+        // pre 标签内 enter 键 down 时 hooks
+        $textElem.on('keydown', (e: KeyboardEvent) => {
+            if (e.keyCode !== 13) return
+
+            const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
+            const $topElem = $selectionElem?.getNodeTop(editor)
+            const topNodeName = $topElem?.getNodeName()
+
+            if (topNodeName !== 'PRE') return
+
+            e.preventDefault()
+            editor.cmd.do('insertHTML', '\n')
+
+            return
+        })
+
         // 粘贴
         $textElem.on('paste', (e: Event) => {
             if (UA.isIE()) return // IE 不支持
