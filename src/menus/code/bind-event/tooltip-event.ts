@@ -83,7 +83,7 @@ function bindTooltipEvent(editor: Editor) {
             const $code = editor.selection.getSelectionStartElem()
             const $codeElem = $code?.getNodeTop(editor)
 
-            if ($codeElem?.getNodeName() == 'Pre') return
+            if ($codeElem?.getNodeName() === 'Pre') return
 
             e.preventDefault()
             e.stopPropagation()

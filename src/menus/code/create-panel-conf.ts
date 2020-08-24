@@ -45,15 +45,9 @@ export default function (editor: editor, text: string, languageType: string): Pa
         const $code = editor.selection.getSelectionStartElem()
         const $codeElem = $code?.getNodeTop(editor)
 
-        // 生成换行标签
-        let p = document.createElement('p')
-        p.appendChild(document.createElement('br'))
-
         // 通过dom操作添加换行标签
         // @ts-ignore
-        insertAfter(p, $codeElem.elems[0])
-
-        // editor.selection.createRangeByElem($(p))
+        $('<p><br></p>').insertAfter($codeElem)
     }
 
     /**
