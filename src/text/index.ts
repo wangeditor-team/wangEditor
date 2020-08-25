@@ -18,6 +18,7 @@ type TextEventHooks = {
     tabUpEvents: Function[] // tab 键（keyCode === ）Up 时
     tabDownEvents: Function[] // tab 键（keyCode === 9）Down 时
     enterUpEvents: Function[] // enter 键（keyCode === 13）up 时
+    enterDownEvents: Function[] // enter 键（keyCode === 13）down 时
     deleteUpEvents: Function[] // 删除键（keyCode === 8）up 时
     deleteDownEvents: Function[] // 删除键（keyCode === 8）down 时
     pasteEvents: Function[] // 粘贴事件
@@ -44,6 +45,7 @@ class Text {
             tabUpEvents: [],
             tabDownEvents: [],
             enterUpEvents: [],
+            enterDownEvents: [],
             deleteUpEvents: [],
             deleteDownEvents: [],
             pasteEvents: [],
@@ -223,6 +225,13 @@ class Text {
             enterUpEvents.forEach(fn => fn(e))
         })
 
+        // enter 键 down 时的 hooks
+        $textElem.on('keydown', (e: KeyboardEvent) => {
+            if (e.keyCode !== 13) return
+            const enterUpEvents = eventHooks.enterDownEvents
+            enterUpEvents.forEach(fn => fn(e))
+        })
+
         // 键盘 up 时的 hooks
         $textElem.on('keyup', (e: KeyboardEvent) => {
             const keyupEvents = eventHooks.keyupEvents
@@ -300,6 +309,7 @@ class Text {
             // 禁用 document 拖拽事件
             e.preventDefault()
         }
+
         $(document)
             .on('dragleave', preventDefault)
             .on('drop', preventDefault)
