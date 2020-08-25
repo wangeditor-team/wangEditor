@@ -258,8 +258,6 @@ class Text {
             e.preventDefault()
 
             editor.cmd.do('insertHTML', '\n\r')
-
-            return
         })
 
         // 粘贴
