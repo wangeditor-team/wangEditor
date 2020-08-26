@@ -121,6 +121,9 @@ export function changeHandler(editor: Editor): void {
         }
     }
 
+    // 触发自定义事件
+    editor.event.emit('change')
+
     // 执行 change 事件
     onchange(html)
 
