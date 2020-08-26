@@ -3,10 +3,10 @@
  * @author wangfupeng
  */
 
-/*表情菜单数据结构类型*/
-/**
- *
- */
+const SINA_PATH1 = 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal'
+const SINA_PATH2 = 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal'
+
+// 表情菜单数据结构类型
 export type EmotionsContentType = {
     alt: string
     src: string
@@ -135,18 +135,15 @@ export default {
             content: [
                 {
                     alt: '[坏笑]',
-                    src:
-                        'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png',
+                    src: `${SINA_PATH1}/50/pcmoren_huaixiao_org.png`,
                 },
                 {
                     alt: '[舔屏]',
-                    src:
-                        'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/40/pcmoren_tian_org.png',
+                    src: `${SINA_PATH1}/40/pcmoren_tian_org.png`,
                 },
                 {
                     alt: '[污]',
-                    src:
-                        'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/3c/pcmoren_wu_org.png',
+                    src: `${SINA_PATH1}/3c/pcmoren_wu_org.png`,
                 },
             ],
         },
@@ -158,18 +155,15 @@ export default {
             // content -> 数组
             content: [
                 {
-                    src:
-                        'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/7a/shenshou_thumb.gif',
+                    src: `${SINA_PATH2}/7a/shenshou_thumb.gif`,
                     alt: '[草泥马]',
                 },
                 {
-                    src:
-                        'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/60/horse2_thumb.gif',
+                    src: `${SINA_PATH2}/60/horse2_thumb.gif`,
                     alt: '[神马]',
                 },
                 {
-                    src:
-                        'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal/bc/fuyun_thumb.gif',
+                    src: `${SINA_PATH2}/bc/fuyun_thumb.gif`,
                     alt: '[浮云]',
                 },
             ],
