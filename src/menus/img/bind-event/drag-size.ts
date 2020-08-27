@@ -172,6 +172,9 @@ const bindDragImgSize = (editor: Editor) => {
     editor.txt.eventHooks.textScrollEvents.push(hideDrag)
     editor.txt.eventHooks.keyupEvents.push(hideDrag)
     document.onclick = hideDrag
+
+    // change 时，隐藏
+    editor.event.on('change', hideDrag)
 }
 
 export default bindDragImgSize

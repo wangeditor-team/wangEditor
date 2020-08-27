@@ -13,7 +13,12 @@
     <p>
         wangEditor demo
     </p>
-    <div id="div1"></div>
+    <div id="div1">
+        <p>一行文字</p>
+        <p>
+            <img src="//www.baidu.com/img/flexible/logo/pc/result@2.png"/>
+        </p>
+    </div>
 
     <script src="../dist/wangEditor.js"></script>
     <script>
@@ -21,9 +26,9 @@
         const editor = new E('#div1')
 
 
-        // editor.config.onchange = function (newHtml) {
-        //     console.log('onchange', newHtml)
-        // }
+        editor.config.onchange = function (newHtml) {
+            console.log('onchange', newHtml)
+        }
         // editor.config.onblur = function (newHtml) {
         //     console.log('onblur', newHtml)
         // }
