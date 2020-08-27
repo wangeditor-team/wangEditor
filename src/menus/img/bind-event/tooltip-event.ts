@@ -60,9 +60,6 @@ function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.toolbarClickEvents.push(hideImgTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideImgTooltip)
     editor.txt.eventHooks.imgDragBarMouseDownEvents.push(hideImgTooltip)
-
-    // change 时，隐藏 tooltip
-    editor.event.on('change', hideImgTooltip)
 }
 
 export default bindTooltipEvent

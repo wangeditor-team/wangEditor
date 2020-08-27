@@ -14,7 +14,6 @@ import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
-import CustomEvent from '../utils/custom-event'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -51,7 +50,6 @@ class Editor {
     public menus: Menus
     public i18next: any
     public highlight: any
-    public event: CustomEvent
 
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
@@ -80,7 +78,6 @@ class Editor {
         this.toolbarElemId = ''
         this.textElemId = ''
         this.isFocus = false
-        this.event = new CustomEvent() // 自定义事件
 
         this.selection = new SelectionAndRangeAPI(this)
         this.cmd = new CommandAPI(this)
