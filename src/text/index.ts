@@ -12,6 +12,7 @@ import { formatCodeHtml } from '../menus/code/index'
 
 // 各个事件钩子函数
 type TextEventHooks = {
+    changeEvents: Function[] // 内容修改时
     dropEvents: Function[]
     clickEvents: Function[]
     keyupEvents: Function[]
@@ -38,6 +39,7 @@ class Text {
         this.editor = editor
 
         this.eventHooks = {
+            changeEvents: [],
             dropEvents: [],
             clickEvents: [],
             keyupEvents: [],
