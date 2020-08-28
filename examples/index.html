@@ -14,7 +14,7 @@
         wangEditor demo
     </p>
     <div id="div1">
-        <p>一行文字</p>
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
         <p>
             <img src="//www.baidu.com/img/flexible/logo/pc/result@2.png"/>
         </p>
@@ -25,10 +25,9 @@
         const E = window.wangEditor
         const editor = new E('#div1')
 
-
-        editor.config.onchange = function (newHtml) {
-            console.log('onchange', newHtml)
-        }
+        // editor.config.onchange = function (newHtml) {
+        //     console.log('onchange', newHtml)
+        // }
         // editor.config.onblur = function (newHtml) {
         //     console.log('onblur', newHtml)
         // }
@@ -39,6 +38,7 @@
         //     '宋体',
         //     '微软雅黑',
         // ]
+
         editor.create()
     </script>
 </body>

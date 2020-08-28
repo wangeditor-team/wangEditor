@@ -70,8 +70,14 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
 
         let setW = width
         let setH = height
-        document.onmousemove = function (ev: MouseEvent) {
-            ev = ev || event
+        const $document = $(document)
+
+        function offEvents() {
+            $document.off('mousemove', mouseMoveHandler)
+            $document.off('mouseup', mouseUpHandler)
+        }
+
+        function mouseMoveHandler(ev: MouseEvent) {
             ev.stopPropagation()
             ev.preventDefault()
 
@@ -92,8 +98,9 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
                 )
             setDragStyle($drag, setW, setH, left, top)
         }
+        $document.on('mousemove', mouseMoveHandler)
 
-        document.onmouseup = function () {
+        function mouseUpHandler() {
             $imgTarget.attr('width', setW + '')
             $imgTarget.attr('height', setH + '')
             const newImgRect = $imgTarget.getBoundingClientRect()
@@ -105,12 +112,13 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
                 newImgRect.top - boxRect.top
             )
 
-            document.onmousemove = document.onmouseup = null
+            // 解绑事件
+            offEvents()
         }
+        $document.on('mouseup', mouseUpHandler)
 
-        document.onmouseleave = function () {
-            document.onmousemove = document.onmouseup = null
-        }
+        // 解绑事件
+        $document.on('mouseleave', offEvents)
     })
 }
 
@@ -121,8 +129,8 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
 const setDragMask = ($textContainerElem: DomElement): DomElement => {
     const $drag = $(
         `<div class="w-e-img-drag-mask">
-            <div class="w-e-img-drag-rb"></div>
             <div class="w-e-img-drag-show-size"></div>
+            <div class="w-e-img-drag-rb"></div>
          </div>`
     )
 
