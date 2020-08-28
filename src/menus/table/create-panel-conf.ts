@@ -18,15 +18,15 @@ export default function (editor: editor): PanelConf {
     const rowId = getRandom('w-row-id')
     const insertBtnId = getRandom('btn-link')
 
+    const i18Prefix = 'menus.panelMenus.table.'
     const t = (text: string): string => {
         return editor.i18next.t(text)
     }
-    const i18Prefix = 'menus.panelMenus.table.'
 
     // tabs 配置 -----------------------------------------
     const tabsConf: PanelTabConf[] = [
         {
-            title: `${t('插入')} ${t(`${i18Prefix}表格`)}`,
+            title: t(`${i18Prefix}插入表格`),
             tpl: `<div>
                     <div class="w-e-table">
                         <span>${t('创建')}</span>

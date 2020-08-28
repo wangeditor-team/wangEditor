@@ -59,10 +59,10 @@ export default function (editor: editor, text: string, languageType: string): Pa
         $selectedCode = $codeElem // 赋值给函数内全局变量
     }
 
+    const i18Prefix = 'menus.panelMenus.code.'
     const t = (text: string): string => {
         return editor.i18next.t(text)
     }
-    const i18Prefix = 'menus.panelMenus.code.'
 
     // @ts-ignore
     const conf = {
@@ -73,7 +73,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
         tabs: [
             {
                 // tab 的标题
-                title: `${t('插入')} ${t(`${i18Prefix}代码`)}`,
+                title: t(`${i18Prefix}插入代码`),
                 // 模板
                 tpl: `<div>
                         <select name="" id="${languageId}">
