@@ -10,8 +10,9 @@ import $, { DomElement } from '../../utils/dom-core'
  * 回车时，保证生成的是 <p> 标签
  * @param editor 编辑器实例
  * @param enterUpEvents enter 键 up 时的 hooks
+ * @param enterDownEvents enter 键 down 时的 hooks
  */
-function enterToCreateP(editor: Editor, enterUpEvents: Function[]) {
+function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEvents: Function[]) {
     function insertEmptyP($selectionElem: DomElement) {
         const $p = $('<p><br></p>')
         $p.insertBefore($selectionElem)
@@ -20,6 +21,7 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[]) {
         $selectionElem.remove()
     }
 
+    // enter up 时
     function fn() {
         const $textElem = editor.$textElem
         const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
@@ -51,9 +53,19 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[]) {
         // 插入 <p> ，并将选取定位到 <p>，删除当前标签
         insertEmptyP($selectionElem)
     }
-
-    // 添加到 hook
     enterUpEvents.push(fn)
+
+    // enter down 时
+    function createPWhenEnterText(e: Event) {
+        const $selectElem = editor.selection.getSelectionContainerElem() as DomElement
+        if ($selectElem.id === editor.textElemId) {
+            // 回车时，默认创建了 text 标签（没有 p 标签包裹），父元素直接就是 $textElem
+            // 例如，光标放在 table 最后侧，回车时，默认就是这个情况
+            e.preventDefault()
+            editor.cmd.do('insertHTML', '<p><br></p>')
+        }
+    }
+    enterDownEvents.push(createPWhenEnterText)
 }
 
 export default enterToCreateP
