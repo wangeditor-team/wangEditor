@@ -5,6 +5,8 @@ export default {
             wangEditor: {
                 插入: '插入',
                 默认: '默认',
+                创建: '创建',
+                修改: '修改',
                 如: '如',
                 menus: {
                     dropListMenu: {
@@ -55,6 +57,15 @@ export default {
                         video: {
                             插入视频: '插入视频',
                         },
+                        table: {
+                            行: '行',
+                            列: '列',
+                            的: '的',
+                            表格: '表格',
+                        },
+                        code: {
+                            代码: '代码',
+                        },
                     },
                 },
             },
@@ -63,6 +74,8 @@ export default {
             wangEditor: {
                 插入: 'insert',
                 默认: 'default',
+                创建: 'create',
+                修改: 'edit',
                 如: 'like',
                 menus: {
                     dropListMenu: {
@@ -112,6 +125,15 @@ export default {
                         },
                         video: {
                             插入视频: 'insert video',
+                        },
+                        table: {
+                            行: 'row',
+                            列: 'column',
+                            的: ' ',
+                            表格: 'table',
+                        },
+                        code: {
+                            代码: 'code',
                         },
                     },
                 },

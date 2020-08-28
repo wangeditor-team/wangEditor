@@ -59,6 +59,11 @@ export default function (editor: editor, text: string, languageType: string): Pa
         $selectedCode = $codeElem // 赋值给函数内全局变量
     }
 
+    const t = (text: string): string => {
+        return editor.i18next.t(text)
+    }
+    const i18Prefix = 'menus.panelMenus.code.'
+
     // @ts-ignore
     const conf = {
         width: 500,
@@ -68,7 +73,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
         tabs: [
             {
                 // tab 的标题
-                title: '插入代码',
+                title: `${t('插入')} ${t(`${i18Prefix}代码`)}`,
                 // 模板
                 tpl: `<div>
                         <select name="" id="${languageId}">
@@ -90,7 +95,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                 )}</textarea>
                         <div class="w-e-button-container">
                             <button id="${btnOkId}" class="right">${
-                    isActive(editor) ? '修改' : '插入'
+                    isActive(editor) ? t('修改') : t('插入')
                 }</button>
                         </div>
                     </div>`,
