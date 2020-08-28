@@ -6,6 +6,7 @@
 import PanelMenu from '../menu-constructors/PanelMenu'
 import Editor from '../../editor/index'
 import $ from '../../utils/dom-core'
+import { replaceSpecialSymbol } from '../../utils/util'
 import createPanelConf from './create-panel-conf'
 import isActive from './is-active'
 import Panel from '../menu-constructors/Panel'
@@ -16,30 +17,51 @@ import hljs from 'highlight.js'
 export function formatCodeHtml(editor: Editor, html: string) {
     // return html
     if (!html) return html
-    // 获取所有hljs文本
-    let m = html.match(/<span\sclass="hljs[\s|\S]+?\/span>/gm)
 
-    // 没有代码渲染文本则退出
-    // @ts-ignore
-    if (!m || !m.length) return html
+    html = deleteHighlightCode(html)
 
-    // 获取替换文本
-    let r = JSON.parse(JSON.stringify(m)).map((i: string) => {
-        i = i.replace(/<span\sclass="hljs[^>]+>/, '')
-        return i.replace(/<\/span>/, '')
-    })
+    html = formatEnterCode(html)
 
-    // @ts-ignore
-    for (let i = 0; i < m.length; i++) {
-        html = html.replace(m[i], r[i])
-    }
-
-    html = formatCodeHtml(editor, html)
+    html = replaceSpecialSymbol(html)
 
     return html
-        .replace(/&lt;/gm, '<')
-        .replace(/&gt;/gm, '>')
-        .replace(/&quot;/gm, '"')
+
+    // 格式化换换所产生的code标签
+    function formatEnterCode(html: string): string {
+        let preArr = html.match(/<pre[\s|\S]+?\/pre>/g)
+
+        if (preArr === null) return html
+
+        preArr.map(item => {
+            //将连续的code标签换为\n换行
+            html = html.replace(item, item.replace(/<\/code><code>/g, '\n'))
+        })
+
+        return html
+    }
+
+    // highlight格式化方法
+    function deleteHighlightCode(html: string): string {
+        // 获取所有hljs文本
+        let m = html.match(/<span\sclass="hljs[\s|\S]+?\/span>/gm)
+
+        // 没有代码渲染文本则退出
+        // @ts-ignore
+        if (!m || !m.length) return html
+
+        // 获取替换文本
+        let r = JSON.parse(JSON.stringify(m)).map((i: string) => {
+            i = i.replace(/<span\sclass="hljs[^>]+>/, '')
+            return i.replace(/<\/span>/, '')
+        })
+
+        // @ts-ignore
+        for (let i = 0; i < m.length; i++) {
+            html = html.replace(m[i], r[i])
+        }
+
+        return deleteHighlightCode(html)
+    }
 }
 
 class Code extends PanelMenu implements MenuActive {

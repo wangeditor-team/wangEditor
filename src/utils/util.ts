@@ -39,6 +39,13 @@ export function replaceHtmlSymbol(html: string): string {
         .replace(/(\r\n|\r|\n)/g, '<br/>')
 }
 
+export function replaceSpecialSymbol(value: string) {
+    return value
+        .replace(/&lt;/gm, '<')
+        .replace(/&gt;/gm, '>')
+        .replace(/&quot;/gm, '"')
+}
+
 /**
  * 遍历对象或数组，执行回调函数
  * @param obj 对象或数组

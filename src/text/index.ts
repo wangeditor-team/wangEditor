@@ -229,7 +229,7 @@ class Text {
         $textElem.on('keydown', (e: KeyboardEvent) => {
             if (e.keyCode !== 13) return
             const enterUpEvents = eventHooks.enterDownEvents
-            enterUpEvents.forEach(fn => fn(e))
+            enterUpEvents.forEach(fn => fn(e, editor))
         })
 
         // 键盘 up 时的 hooks
@@ -250,21 +250,6 @@ class Text {
             if (e.keyCode !== 8) return
             const deleteDownEvents = eventHooks.deleteDownEvents
             deleteDownEvents.forEach(fn => fn(e))
-        })
-
-        // pre 标签内 enter 键 down 时 hooks
-        $textElem.on('keydown', (e: KeyboardEvent) => {
-            if (e.keyCode !== 13) return
-
-            const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
-            const $topElem = $selectionElem?.getNodeTop(editor)
-            const topNodeName = $topElem?.getNodeName()
-
-            if (topNodeName !== 'PRE') return
-
-            e.preventDefault()
-
-            editor.cmd.do('insertHTML', '\n\r')
         })
 
         // 粘贴

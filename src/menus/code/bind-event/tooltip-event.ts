@@ -47,6 +47,31 @@ function hideCodeTooltip() {
     }
 }
 
+/**
+ * pre标签内的回车监听
+ * @param e
+ * @param editor
+ */
+function preEnterListener(e: KeyboardEvent, editor: Editor) {
+    // 获取当前标签元素
+    const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
+
+    // 获取当前节点最顶级标签元素
+    const $topElem = $selectionElem?.getNodeTop(editor)
+
+    // 获取顶级节点节点名
+    const topNodeName = $topElem?.getNodeName()
+
+    // 非pre标签退出
+    if (topNodeName !== 'PRE') return
+
+    // 取消默认行为
+    e.preventDefault()
+
+    // 执行换行
+    editor.cmd.do('insertHTML', '\n\r')
+}
+
 function removePreKeyDown() {}
 
 /**
@@ -63,6 +88,9 @@ function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.clickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.toolbarClickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideCodeTooltip)
+
+    // 添加换行监听
+    // editor.txt.eventHooks.enterDownEvents.push(preEnterListener)
 }
 
 export default bindTooltipEvent
