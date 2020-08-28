@@ -18,7 +18,7 @@ function initTextHooks(text: Text): void {
     const eventHooks = text.eventHooks
 
     // 回车时，保证生成的是 <p> 标签
-    enterToCreateP(editor, eventHooks.enterUpEvents)
+    enterToCreateP(editor, eventHooks.enterUpEvents, eventHooks.enterDownEvents)
 
     // 删除时，保留 <p><br></p>
     deleteToKeepP(editor, eventHooks.deleteUpEvents, eventHooks.deleteDownEvents)
