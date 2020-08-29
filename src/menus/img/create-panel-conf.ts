@@ -22,7 +22,7 @@ export default function (editor: editor): PanelConf {
 
     const i18Prefix = 'menus.panelMenus.image.'
     const t = (text: string, prefix: string = i18Prefix): string => {
-        return editor.i18next.t(i18Prefix + text)
+        return editor.i18next.t(prefix + text)
     }
 
     /**
@@ -40,14 +40,14 @@ export default function (editor: editor): PanelConf {
         const check = config.linkImgCheck(src)
         if (check === undefined) {
             //用户未能通过开发者的校验，且开发者不希望编辑器提示用户
-            if (flag === false) console.log(t('您刚才插入的图片链接未通过编辑器校验', 'validate'))
+            if (flag === false) console.log(t('您刚才插入的图片链接未通过编辑器校验', 'validate.'))
         } else if (check === true) {
             //用户通过了开发者的校验
             if (flag === false) {
                 alert(
-                    `${t('您插入的网络图片无法识别', 'validate')}，${t(
+                    `${t('您插入的网络图片无法识别', 'validate.')}，${t(
                         '请替换为支持的图片类型',
-                        'validate'
+                        'validate.'
                     )}：jpg | png | gif ...`
                 )
             } else return true

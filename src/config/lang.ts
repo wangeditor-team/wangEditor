@@ -63,6 +63,7 @@ export default {
                             列: '列',
                             的: '的',
                             表格: '表格',
+                            插入表格: '插入表格',
                         },
                         code: {
                             代码: '代码',
@@ -82,6 +83,7 @@ export default {
                     错误: '错误',
                     链接: '链接',
                     未通过: '未通过',
+                    插入图片: '插入图片',
                     一次最多: '一次最多',
                     发生错误: '发生错误',
                     返回结果: '返回结果',
@@ -153,6 +155,7 @@ export default {
                             行: 'row',
                             列: 'column',
                             的: ' ',
+                            表格: 'table',
                             插入表格: 'insert table',
                         },
                         code: {
@@ -173,6 +176,7 @@ export default {
                     错误: 'error ',
                     链接: 'link ',
                     未通过: 'failed ',
+                    插入图片: 'insert image ',
                     一次最多: 'most ',
                     发生错误: 'error ',
                     返回结果: 'return results ',

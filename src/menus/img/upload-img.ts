@@ -54,7 +54,7 @@ class UploadImg {
         const linkText = t('链接')
         const imageText = t('图片')
         const imageLinkText = imageText + linkText
-        const insertImageText = t('插入', '') + imageText
+        const insertImageText = t('插入图片')
         const insertImageErrorText = insertImageText + t('错误')
 
         // 先插入图片，无论是否能成功
