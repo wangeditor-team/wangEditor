@@ -171,6 +171,13 @@ export class DomElement {
     }
 
     /**
+     * 获取元素 id
+     */
+    get id(): string {
+        return this.elems[0].id
+    }
+
+    /**
      * 遍历所有元素，执行回调函数
      * @param fn 回调函数
      */
