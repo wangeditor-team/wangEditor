@@ -46,8 +46,8 @@ class UploadImg {
         const editor = this.editor
         const config = editor.config
 
-        const i18Prefix = 'validate.'
-        const t = (text: string, prefix: string = i18Prefix): string => {
+        const i18nPrefix = 'validate.'
+        const t = (text: string, prefix: string = i18nPrefix): string => {
             return editor.i18next.t(prefix + text)
         }
 
@@ -94,9 +94,9 @@ class UploadImg {
 
         // ------------------------------ i18next ------------------------------
 
-        const i18Prefix = 'validate.'
+        const i18nPrefix = 'validate.'
         const t = (text: string): string => {
-            return editor.i18next.t(i18Prefix + text)
+            return editor.i18next.t(i18nPrefix + text)
         }
 
         const imageText = t('图片')

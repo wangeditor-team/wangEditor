@@ -20,8 +20,8 @@ export default function (editor: editor): PanelConf {
     const linkUrlId = getRandom('input-link-url')
     const linkBtnId = getRandom('btn-link')
 
-    const i18Prefix = 'menus.panelMenus.image.'
-    const t = (text: string, prefix: string = i18Prefix): string => {
+    const i18nPrefix = 'menus.panelMenus.image.'
+    const t = (text: string, prefix: string = i18nPrefix): string => {
         return editor.i18next.t(prefix + text)
     }
 

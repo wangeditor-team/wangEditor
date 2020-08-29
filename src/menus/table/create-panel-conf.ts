@@ -18,7 +18,7 @@ export default function (editor: editor): PanelConf {
     const rowId = getRandom('w-row-id')
     const insertBtnId = getRandom('btn-link')
 
-    const i18Prefix = 'menus.panelMenus.table.'
+    const i18nPrefix = 'menus.panelMenus.table.'
     const t = (text: string): string => {
         return editor.i18next.t(text)
     }
@@ -26,15 +26,15 @@ export default function (editor: editor): PanelConf {
     // tabs 配置 -----------------------------------------
     const tabsConf: PanelTabConf[] = [
         {
-            title: t(`${i18Prefix}插入表格`),
+            title: t(`${i18nPrefix}插入表格`),
             tpl: `<div>
                     <div class="w-e-table">
                         <span>${t('创建')}</span>
                         <input id="${rowId}"  type="text" class="w-e-table-input" value="5"/></td>
-                        <span>${t(`${i18Prefix}行`)}</span>
+                        <span>${t(`${i18nPrefix}行`)}</span>
                         <input id="${colId}" type="text" class="w-e-table-input" value="5"/></td>
                         <span>${
-                            t(`${i18Prefix}列`) + t(`${i18Prefix}的`) + t(`${i18Prefix}表格`)
+                            t(`${i18nPrefix}列`) + t(`${i18nPrefix}的`) + t(`${i18nPrefix}表格`)
                         }</span>
                     </div>
                     <div class="w-e-button-container">
