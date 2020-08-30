@@ -34,7 +34,7 @@ export function formatCodeHtml(editor: Editor, html: string) {
 
         preArr.map(item => {
             //将连续的code标签换为\n换行
-            html = html.replace(item, item.replace(/<\/code><code>/g, '\n'))
+            html = html.replace(item, item.replace(/<\/code><code>/g, '\n').replace(/<br>/g, ''))
         })
 
         return html

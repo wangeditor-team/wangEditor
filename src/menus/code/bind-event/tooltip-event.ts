@@ -88,9 +88,25 @@ function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.clickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.toolbarClickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideCodeTooltip)
-
+    // || e.target.className != 'wang-code-textarea'
     // 添加换行监听
     // editor.txt.eventHooks.enterDownEvents.push(preEnterListener)
+    window.addEventListener('keydown', e => {
+        if (e.keyCode == 9 && e.target.className == 'wang-code-textarea') {
+            console.log('e')
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            e.returnValue = false
+            editor.cmd.do('insertHTML', '    ')
+        }
+
+        if (e.keyCode == 13) {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+    })
 }
 
 export default bindTooltipEvent
