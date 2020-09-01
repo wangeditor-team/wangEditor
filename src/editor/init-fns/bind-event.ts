@@ -121,6 +121,9 @@ export function changeHandler(editor: Editor): void {
         }
     }
 
+    // 触发 eventHooks
+    editor.txt.eventHooks.changeEvents.forEach(fn => fn())
+
     // 执行 change 事件
     onchange(html)
 

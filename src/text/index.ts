@@ -12,12 +12,14 @@ import { formatCodeHtml } from '../menus/code/index'
 
 // 各个事件钩子函数
 type TextEventHooks = {
+    changeEvents: Function[] // 内容修改时
     dropEvents: Function[]
     clickEvents: Function[]
     keyupEvents: Function[]
     tabUpEvents: Function[] // tab 键（keyCode === ）Up 时
     tabDownEvents: Function[] // tab 键（keyCode === 9）Down 时
     enterUpEvents: Function[] // enter 键（keyCode === 13）up 时
+    enterDownEvents: Function[] // enter 键（keyCode === 13）down 时
     deleteUpEvents: Function[] // 删除键（keyCode === 8）up 时
     deleteDownEvents: Function[] // 删除键（keyCode === 8）down 时
     pasteEvents: Function[] // 粘贴事件
@@ -38,12 +40,14 @@ class Text {
         this.editor = editor
 
         this.eventHooks = {
+            changeEvents: [],
             dropEvents: [],
             clickEvents: [],
             keyupEvents: [],
             tabUpEvents: [],
             tabDownEvents: [],
             enterUpEvents: [],
+            enterDownEvents: [],
             deleteUpEvents: [],
             deleteDownEvents: [],
             pasteEvents: [],
@@ -307,8 +311,6 @@ class Text {
 
         // link click
         $textElem.on('click', (e: Event) => {
-            e.preventDefault()
-
             // 存储链接元素
             let $link: DomElement | null = null
 
@@ -334,8 +336,6 @@ class Text {
 
         // img click
         $textElem.on('click', (e: Event) => {
-            e.preventDefault()
-
             // 存储图片元素
             let $img: DomElement | null = null
 
@@ -361,8 +361,6 @@ class Text {
 
         // code click
         $textElem.on('click', (e: Event) => {
-            e.preventDefault()
-
             // 存储代码元素
             let $code: DomElement | null = null
 
@@ -393,9 +391,7 @@ class Text {
         })
 
         //mousedown事件
-        $(document).on('mousedown', (e: Event) => {
-            e.stopPropagation()
-
+        editor.$textContainerElem.on('mousedown', (e: Event) => {
             const target = e.target as HTMLElement
             const $target = $(target)
             if ($target.hasClass('w-e-img-drag-rb')) {
@@ -405,10 +401,8 @@ class Text {
             }
         })
 
-        //table cilik
+        //table click
         $textElem.on('click', (e: Event) => {
-            e.preventDefault()
-
             // 存储元素
             let $dom: DomElement | null = null
 
@@ -423,16 +417,11 @@ class Text {
             tableClickEvents.forEach(fn => fn($dom))
         })
 
-        //table外边最右或最左 防止回车后在回车焦点无法换行
+        // enter 键 down
         $textElem.on('keydown', (e: KeyboardEvent) => {
-            if (e.keyCode === 13) {
-                const $selectElem = editor.selection.getSelectionContainerElem()
-                if ($($selectElem?.elems[0]).hasClass('w-e-text')) {
-                    e.preventDefault()
-                    editor.cmd.do('insertHTML', '<p><br></p>')
-                    editor.selection.createEmptyRange()
-                }
-            }
+            if (e.keyCode !== 13) return
+            const enterDownEvents = eventHooks.enterDownEvents
+            enterDownEvents.forEach(fn => fn(e))
         })
     }
 }

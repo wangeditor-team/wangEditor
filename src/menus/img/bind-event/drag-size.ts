@@ -45,10 +45,11 @@ const setDragStyle = (
 
 /**
  * 设置拖拽事件
+ * @param editor 编辑器实例
  * @param $drag 拖拽框的domElement
  * @param $textContainerElem 编辑器实例
  */
-const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
+const addDragListen = (editor: Editor, $drag: DomElement, $textContainerElem: DomElement) => {
     $drag.on('click', function (e: Event) {
         e.stopPropagation()
     })
@@ -70,8 +71,14 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
 
         let setW = width
         let setH = height
-        document.onmousemove = function (ev: MouseEvent) {
-            ev = ev || event
+        const $document = $(document)
+
+        function offEvents() {
+            $document.off('mousemove', mouseMoveHandler)
+            $document.off('mouseup', mouseUpHandler)
+        }
+
+        function mouseMoveHandler(ev: MouseEvent) {
             ev.stopPropagation()
             ev.preventDefault()
 
@@ -83,6 +90,9 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
                 setH = setW / ratio
             }
 
+            setW = parseFloat(setW.toFixed(2))
+            setH = parseFloat(setH.toFixed(2))
+
             $drag
                 .find('.w-e-img-drag-show-size')
                 .text(
@@ -92,8 +102,9 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
                 )
             setDragStyle($drag, setW, setH, left, top)
         }
+        $document.on('mousemove', mouseMoveHandler)
 
-        document.onmouseup = function () {
+        function mouseUpHandler() {
             $imgTarget.attr('width', setW + '')
             $imgTarget.attr('height', setH + '')
             const newImgRect = $imgTarget.getBoundingClientRect()
@@ -105,28 +116,31 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
                 newImgRect.top - boxRect.top
             )
 
-            document.onmousemove = document.onmouseup = null
+            // 解绑事件
+            offEvents()
+            editor.change()
         }
+        $document.on('mouseup', mouseUpHandler)
 
-        document.onmouseleave = function () {
-            document.onmousemove = document.onmouseup = null
-        }
+        // 解绑事件
+        $document.on('mouseleave', offEvents)
     })
 }
 
 /**
  * 生成一个图片指定大小的拖拽框
+ * @param editor 编辑器实例
  * @param $textContainerElem 编辑框对象
  */
-const setDragMask = ($textContainerElem: DomElement): DomElement => {
+const setDragMask = (editor: Editor, $textContainerElem: DomElement): DomElement => {
     const $drag = $(
         `<div class="w-e-img-drag-mask">
-            <div class="w-e-img-drag-rb"></div>
             <div class="w-e-img-drag-show-size"></div>
+            <div class="w-e-img-drag-rb"></div>
          </div>`
     )
 
-    addDragListen($drag, $textContainerElem)
+    addDragListen(editor, $drag, $textContainerElem)
     $drag.hide()
     $textContainerElem.append($drag)
     return $drag
@@ -140,8 +154,16 @@ const setDragMask = ($textContainerElem: DomElement): DomElement => {
 const showDarg = ($textContainerElem: DomElement, $drag: DomElement) => {
     const boxRect = $textContainerElem.getBoundingClientRect()
     const rect = $imgTarget.getBoundingClientRect()
-    $drag.find('.w-e-img-drag-show-size').text(`${rect.width}px * ${rect.height}px`)
-    setDragStyle($drag, rect.width, rect.height, rect.left - boxRect.left, rect.top - boxRect.top)
+    const rectW = rect.width.toFixed(2)
+    const rectH = rect.height.toFixed(2)
+    $drag.find('.w-e-img-drag-show-size').text(`${rectW}px * ${rectH}px`)
+    setDragStyle(
+        $drag,
+        parseFloat(rectW),
+        parseFloat(rectH),
+        rect.left - boxRect.left,
+        rect.top - boxRect.top
+    )
     $drag.show()
 }
 
@@ -152,7 +174,7 @@ const showDarg = ($textContainerElem: DomElement, $drag: DomElement) => {
 const bindDragImgSize = (editor: Editor) => {
     const $textContainerElem = editor.$textContainerElem
 
-    const $drag = setDragMask($textContainerElem)
+    const $drag = setDragMask(editor, $textContainerElem)
 
     // 图片点击事件
     const imgClickHooks = ($target: DomElement) => {
@@ -172,6 +194,9 @@ const bindDragImgSize = (editor: Editor) => {
     editor.txt.eventHooks.textScrollEvents.push(hideDrag)
     editor.txt.eventHooks.keyupEvents.push(hideDrag)
     document.onclick = hideDrag
+
+    // change 时隐藏
+    editor.txt.eventHooks.changeEvents.push(hideDrag)
 }
 
 export default bindDragImgSize
