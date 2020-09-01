@@ -73,6 +73,8 @@ export default {
                             删除表格: '删除表格',
                         },
                         code: {
+                            删除代码: '删除代码',
+                            修改代码: '修改代码',
                             插入代码: '插入代码',
                         },
                     },
@@ -170,6 +172,8 @@ export default {
                             删除表格: 'delete table',
                         },
                         code: {
+                            删除代码: 'delete code',
+                            修改代码: 'edit code',
                             插入代码: 'insert code',
                         },
                     },

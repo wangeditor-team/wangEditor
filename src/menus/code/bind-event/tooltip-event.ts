@@ -18,9 +18,14 @@ let _editor: Editor
  * @param $code 链接元素
  */
 function showCodeTooltip($code: DomElement) {
-    const conf: TooltipConfType = [
+    const i18nPrefix = 'menus.panelMenus.code.'
+    const t = (text: string, prefix: string = i18nPrefix): string => {
+        return _editor.i18next.t(prefix + text)
+    }
+
+    const conf = [
         {
-            $elem: $('<span>修改代码</span>'),
+            $elem: $(`<span>${t('修改代码')}</span>`),
             onClick: (editor: Editor, $code: DomElement) => {
                 let code = editor.menus.menuFind('code')
 
@@ -34,7 +39,7 @@ function showCodeTooltip($code: DomElement) {
             },
         },
         {
-            $elem: $('<span>删除代码</span>'),
+            $elem: $(`<span>${t('删除代码')}</span>`),
             onClick: (editor: Editor, $code: DomElement) => {
                 //dom操作删除
                 $code.remove()
