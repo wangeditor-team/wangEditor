@@ -72,8 +72,6 @@ function preEnterListener(e: KeyboardEvent, editor: Editor) {
     editor.cmd.do('insertHTML', '\n\r')
 }
 
-function removePreKeyDown() {}
-
 /**
  * 绑定 tooltip 事件
  * @param editor 编辑器实例
