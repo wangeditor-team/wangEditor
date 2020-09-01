@@ -227,13 +227,6 @@ class Text {
             enterUpEvents.forEach(fn => fn(e))
         })
 
-        // enter 键 down 时的 hooks
-        $textElem.on('keydown', (e: KeyboardEvent) => {
-            if (e.keyCode !== 13) return
-            const enterUpEvents = eventHooks.enterDownEvents
-            enterUpEvents.forEach(fn => fn(e, editor))
-        })
-
         // 键盘 up 时的 hooks
         $textElem.on('keyup', (e: KeyboardEvent) => {
             const keyupEvents = eventHooks.keyupEvents
