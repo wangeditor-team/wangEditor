@@ -6,7 +6,7 @@
 import PanelMenu from '../menu-constructors/PanelMenu'
 import Editor from '../../editor/index'
 import $ from '../../utils/dom-core'
-import { replaceSpecialSymbol } from '../../utils/util'
+import { replaceSpecialSymbol, deepClone } from '../../utils/util'
 import createPanelConf from './create-panel-conf'
 import isActive from './is-active'
 import Panel from '../menu-constructors/Panel'
@@ -50,7 +50,7 @@ export function formatCodeHtml(editor: Editor, html: string) {
         if (!m || !m.length) return html
 
         // 获取替换文本
-        let r = JSON.parse(JSON.stringify(m)).map((i: string) => {
+        let r = deepClone(m).map((i: string) => {
             i = i.replace(/<span\sclass="hljs[^>]+>/, '')
             return i.replace(/<\/span>/, '')
         })

@@ -48,6 +48,8 @@ function hideCodeTooltip() {
 }
 
 /**
+ * preEnterListener是为了统一浏览器 在pre标签内的enter行为而进行的监听
+ * 目前并没有使用, 但是在未来处理与Firefox和ie的兼容性时需要用到 暂且放置
  * pre标签内的回车监听
  * @param e
  * @param editor
