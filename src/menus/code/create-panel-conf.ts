@@ -84,7 +84,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 )
                             })}
                         </select>
-                        <textarea value="" id="${inputIFrameId}" type="text" class="wang-code-textarea" placeholder="" style="height: 160px">${text.replace(
+                        <textarea id="${inputIFrameId}" type="text" class="wang-code-textarea" placeholder="" style="height: 160px">${text.replace(
                     /&quot;/g,
                     '"'
                 )}</textarea>
