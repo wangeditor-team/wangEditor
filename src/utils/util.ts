@@ -143,9 +143,10 @@ export function deepClone(data: any) {
     }
 
     for (let i in data) {
-        Object.entries(data).forEach((v, k) => {
-            item[k] = deepClone(v)
-        })
+        Object.prototype.hasOwnProperty.call(data, i)
+        {
+            item[i] = deepClone(data[i])
+        }
     }
 
     return item
