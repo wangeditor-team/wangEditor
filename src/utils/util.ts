@@ -143,8 +143,7 @@ export function deepClone(data: any) {
     }
 
     for (let i in data) {
-        Object.prototype.hasOwnProperty.call(data, i)
-        {
+        if (Object.prototype.hasOwnProperty.call(data, i)) {
             item[i] = deepClone(data[i])
         }
     }
