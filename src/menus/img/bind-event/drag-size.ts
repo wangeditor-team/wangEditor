@@ -45,10 +45,11 @@ const setDragStyle = (
 
 /**
  * 设置拖拽事件
+ * @param editor 编辑器实例
  * @param $drag 拖拽框的domElement
  * @param $textContainerElem 编辑器实例
  */
-const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
+const addDragListen = (editor: Editor, $drag: DomElement, $textContainerElem: DomElement) => {
     $drag.on('click', function (e: Event) {
         e.stopPropagation()
     })
@@ -89,6 +90,9 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
                 setH = setW / ratio
             }
 
+            setW = parseFloat(setW.toFixed(2))
+            setH = parseFloat(setH.toFixed(2))
+
             $drag
                 .find('.w-e-img-drag-show-size')
                 .text(
@@ -114,6 +118,7 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
 
             // 解绑事件
             offEvents()
+            editor.change()
         }
         $document.on('mouseup', mouseUpHandler)
 
@@ -124,9 +129,10 @@ const addDragListen = ($drag: DomElement, $textContainerElem: DomElement) => {
 
 /**
  * 生成一个图片指定大小的拖拽框
+ * @param editor 编辑器实例
  * @param $textContainerElem 编辑框对象
  */
-const setDragMask = ($textContainerElem: DomElement): DomElement => {
+const setDragMask = (editor: Editor, $textContainerElem: DomElement): DomElement => {
     const $drag = $(
         `<div class="w-e-img-drag-mask">
             <div class="w-e-img-drag-show-size"></div>
@@ -134,7 +140,7 @@ const setDragMask = ($textContainerElem: DomElement): DomElement => {
          </div>`
     )
 
-    addDragListen($drag, $textContainerElem)
+    addDragListen(editor, $drag, $textContainerElem)
     $drag.hide()
     $textContainerElem.append($drag)
     return $drag
@@ -148,8 +154,16 @@ const setDragMask = ($textContainerElem: DomElement): DomElement => {
 const showDarg = ($textContainerElem: DomElement, $drag: DomElement) => {
     const boxRect = $textContainerElem.getBoundingClientRect()
     const rect = $imgTarget.getBoundingClientRect()
-    $drag.find('.w-e-img-drag-show-size').text(`${rect.width}px * ${rect.height}px`)
-    setDragStyle($drag, rect.width, rect.height, rect.left - boxRect.left, rect.top - boxRect.top)
+    const rectW = rect.width.toFixed(2)
+    const rectH = rect.height.toFixed(2)
+    $drag.find('.w-e-img-drag-show-size').text(`${rectW}px * ${rectH}px`)
+    setDragStyle(
+        $drag,
+        parseFloat(rectW),
+        parseFloat(rectH),
+        rect.left - boxRect.left,
+        rect.top - boxRect.top
+    )
     $drag.show()
 }
 
@@ -160,7 +174,7 @@ const showDarg = ($textContainerElem: DomElement, $drag: DomElement) => {
 const bindDragImgSize = (editor: Editor) => {
     const $textContainerElem = editor.$textContainerElem
 
-    const $drag = setDragMask($textContainerElem)
+    const $drag = setDragMask(editor, $textContainerElem)
 
     // 图片点击事件
     const imgClickHooks = ($target: DomElement) => {

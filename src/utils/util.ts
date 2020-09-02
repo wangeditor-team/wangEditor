@@ -123,3 +123,31 @@ export function debounce(fn: Function, delay: number = 200): Function {
 export function isFunction(fn: any) {
     return typeof fn === 'function'
 }
+
+/**
+ * 引用与非引用值 深拷贝方法
+ * @param data
+ */
+export function deepClone(data: any) {
+    if (typeof data !== 'object' || typeof data == 'function' || data === null) {
+        return data
+    }
+
+    let item: any
+    if (Array.isArray(data)) {
+        item = []
+    }
+
+    if (!Array.isArray(data)) {
+        item = {}
+    }
+
+    for (let i in data) {
+        Object.prototype.hasOwnProperty.call(data, i)
+        {
+            item[i] = deepClone(data[i])
+        }
+    }
+
+    return item
+}

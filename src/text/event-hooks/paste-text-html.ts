@@ -30,7 +30,6 @@ function formatHtml(val: string) {
  * @author liuwei
  */
 function formatCode(val: string) {
-    console.log(val)
     let pasteText = val.replace(/<br>|<br\/>/gm, '\n').replace(/<[^>]+>/gm, '')
 
     return pasteText
