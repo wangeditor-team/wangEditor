@@ -12,7 +12,6 @@ import isActive from './is-active'
 import Panel from '../menu-constructors/Panel'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event/index'
-import hljs from 'highlight.js'
 
 export function formatCodeHtml(editor: Editor, html: string) {
     // return html
@@ -66,7 +65,6 @@ export function formatCodeHtml(editor: Editor, html: string) {
 
 class Code extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
-        editor.highlight = hljs
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-terminal"></i></div>')
         super($elem, editor)
 
