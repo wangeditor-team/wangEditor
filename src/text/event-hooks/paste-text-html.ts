@@ -25,6 +25,17 @@ function formatHtml(val: string) {
 }
 
 /**
+ * 格式化html
+ * @param val 粘贴的html
+ * @author liuwei
+ */
+function formatCode(val: string) {
+    let pasteText = val.replace(/<br>|<br\/>/gm, '\n').replace(/<[^>]+>/gm, '')
+
+    return pasteText
+}
+
+/**
  * 粘贴文本和 html
  * @param editor 编辑器对象
  * @param pasteEvents 粘贴事件列表
@@ -48,14 +59,16 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
             return
         }
         const nodeName = $selectionElem.getNodeName()
+        const $topElem = $selectionElem?.getNodeTop(editor)
+        const topNodeName = $topElem?.getNodeName()
 
         // code 中只能粘贴纯文本
-        if (nodeName === 'CODE' || nodeName === 'PRE') {
+        if (nodeName === 'CODE' || topNodeName === 'PRE') {
             if (pasteTextHandle && isFunction(pasteTextHandle)) {
                 // 用户自定义过滤处理粘贴内容
                 pasteText = '' + (pasteTextHandle(pasteText) || '')
             }
-            editor.cmd.do('insertHTML', `<p>${formatHtml(pasteText)}</p>`)
+            editor.cmd.do('insertHTML', formatCode(pasteText))
             return
         }
 
@@ -79,9 +92,10 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 // 用户自定义过滤处理粘贴内容
                 pasteText = '' + (pasteTextHandle(pasteText) || '')
             }
-            editor.cmd.do('insertHTML', `<p>${formatHtml(pasteText)}</p>`) // text
+            editor.cmd.do('insertHTML', `${formatHtml(pasteText)}`) // text
         }
     }
+
     pasteEvents.push(fn)
 }
 
