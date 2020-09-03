@@ -289,6 +289,7 @@ class Text {
             // 禁用 document 拖拽事件
             e.preventDefault()
         }
+
         $(document)
             .on('dragleave', preventDefault)
             .on('drop', preventDefault)

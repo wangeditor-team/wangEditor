@@ -39,6 +39,13 @@ export function replaceHtmlSymbol(html: string): string {
         .replace(/(\r\n|\r|\n)/g, '<br/>')
 }
 
+export function replaceSpecialSymbol(value: string) {
+    return value
+        .replace(/&lt;/gm, '<')
+        .replace(/&gt;/gm, '>')
+        .replace(/&quot;/gm, '"')
+}
+
 /**
  * 遍历对象或数组，执行回调函数
  * @param obj 对象或数组
@@ -115,4 +122,31 @@ export function debounce(fn: Function, delay: number = 200): Function {
  */
 export function isFunction(fn: any) {
     return typeof fn === 'function'
+}
+
+/**
+ * 引用与非引用值 深拷贝方法
+ * @param data
+ */
+export function deepClone(data: any) {
+    if (typeof data !== 'object' || typeof data == 'function' || data === null) {
+        return data
+    }
+
+    let item: any
+    if (Array.isArray(data)) {
+        item = []
+    }
+
+    if (!Array.isArray(data)) {
+        item = {}
+    }
+
+    for (let i in data) {
+        if (Object.prototype.hasOwnProperty.call(data, i)) {
+            item[i] = deepClone(data[i])
+        }
+    }
+
+    return item
 }

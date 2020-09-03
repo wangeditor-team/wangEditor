@@ -88,7 +88,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 )
                             })}
                         </select>
-                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 160px">${text.replace(
+                        <textarea id="${inputIFrameId}" type="text" class="wang-code-textarea" placeholder="" style="height: 160px">${text.replace(
                     /&quot;/g,
                     '"'
                 )}</textarea>
@@ -106,8 +106,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                         type: 'click',
                         fn: () => {
                             let formatCode, codeDom
-                            // 执行插入视频
-                            // const $code = $('#' + inputIFrameId)
+
                             const $code = document.getElementById(inputIFrameId)
                             const $select = $('#' + languageId)
 
@@ -125,28 +124,12 @@ export default function (editor: editor, text: string, languageType: string): Pa
                             // 代码为空，则不插入
                             if (!code) return
 
-                            // 标签属性记录代码文本
-                            let attrCode = code.replace(/"/g, '&quot;')
-
                             //增加标签
                             if (isActive(editor)) {
-                                const $code = editor.selection.getSelectionStartElem()
-                                const $codeElem = $code?.getNodeTop(editor)
-
-                                codeDom = `<code>${formatCode}</code>`
-
-                                // @ts-ignore
-                                $codeElem.attr('id', codeId)
-                                // @ts-ignore
-                                $codeElem.attr('text', attrCode)
-                                // @ts-ignore
-                                $codeElem.attr('type', languageType)
-
-                                // @ts-ignore
-                                $codeElem.html(codeDom)
+                                return false
                             } else {
                                 //增加pre标签
-                                codeDom = `<pre id="${codeId}" text="${attrCode}" type="${languageType}"><code>${formatCode}</code></pre>`
+                                codeDom = `<pre type="${languageType}"><code>${formatCode}</code></pre>`
 
                                 // @ts-ignore
                                 insertCode(codeDom)
