@@ -59,6 +59,10 @@ export default function (editor: editor, text: string, languageType: string): Pa
         $selectedCode = $codeElem // 赋值给函数内全局变量
     }
 
+    const t = (text: string): string => {
+        return editor.i18next.t(text)
+    }
+
     // @ts-ignore
     const conf = {
         width: 500,
@@ -68,7 +72,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
         tabs: [
             {
                 // tab 的标题
-                title: '插入代码',
+                title: t('menus.panelMenus.code.插入代码'),
                 // 模板
                 tpl: `<div>
                         <select name="" id="${languageId}">
@@ -84,13 +88,13 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 )
                             })}
                         </select>
-                        <textarea value="" id="${inputIFrameId}" type="text" class="block" placeholder="" style="height: 160px">${text.replace(
+                        <textarea id="${inputIFrameId}" type="text" class="wang-code-textarea" placeholder="" style="height: 160px">${text.replace(
                     /&quot;/g,
                     '"'
                 )}</textarea>
                         <div class="w-e-button-container">
                             <button id="${btnOkId}" class="right">${
-                    isActive(editor) ? '修改' : '插入'
+                    isActive(editor) ? t('修改') : t('插入')
                 }</button>
                         </div>
                     </div>`,
@@ -102,8 +106,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                         type: 'click',
                         fn: () => {
                             let formatCode, codeDom
-                            // 执行插入视频
-                            // const $code = $('#' + inputIFrameId)
+
                             const $code = document.getElementById(inputIFrameId)
                             const $select = $('#' + languageId)
 
@@ -121,28 +124,12 @@ export default function (editor: editor, text: string, languageType: string): Pa
                             // 代码为空，则不插入
                             if (!code) return
 
-                            // 标签属性记录代码文本
-                            let attrCode = code.replace(/"/g, '&quot;')
-
                             //增加标签
                             if (isActive(editor)) {
-                                const $code = editor.selection.getSelectionStartElem()
-                                const $codeElem = $code?.getNodeTop(editor)
-
-                                codeDom = `<code>${formatCode}</code>`
-
-                                // @ts-ignore
-                                $codeElem.attr('id', codeId)
-                                // @ts-ignore
-                                $codeElem.attr('text', attrCode)
-                                // @ts-ignore
-                                $codeElem.attr('type', languageType)
-
-                                // @ts-ignore
-                                $codeElem.html(codeDom)
+                                return false
                             } else {
                                 //增加pre标签
-                                codeDom = `<pre id="${codeId}" text="${attrCode}" type="${languageType}"><code>${formatCode}</code></pre>`
+                                codeDom = `<pre type="${languageType}"><code>${formatCode}</code></pre>`
 
                                 // @ts-ignore
                                 insertCode(codeDom)
