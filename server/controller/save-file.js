@@ -23,7 +23,7 @@ function saveFiles(req) {
 
         // windows 系统，处理 rename 报错
         if (isWindows) {
-            const tmpPath = path.resolve(__dirname, TMP_FOLDER)
+            const tmpPath = path.resolve(__dirname, '..', '..', TMP_FOLDER) // 在根目录下
             if (!fs.existsSync(tmpPath)) {
                 fs.mkdirSync(tmpPath)
             }
