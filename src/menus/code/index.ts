@@ -14,7 +14,6 @@ import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event/index'
 
 export function formatCodeHtml(editor: Editor, html: string) {
-    // return html
     if (!html) return html
 
     html = deleteHighlightCode(html)
