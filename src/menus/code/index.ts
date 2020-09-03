@@ -6,6 +6,7 @@
 import PanelMenu from '../menu-constructors/PanelMenu'
 import Editor from '../../editor/index'
 import $ from '../../utils/dom-core'
+import { replaceSpecialSymbol, deepClone } from '../../utils/util'
 import createPanelConf from './create-panel-conf'
 import isActive from './is-active'
 import Panel from '../menu-constructors/Panel'
@@ -13,16 +14,53 @@ import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event/index'
 
 export function formatCodeHtml(editor: Editor, html: string) {
-    let codeArr = editor.$textElem.elems[0].querySelectorAll('pre')
-    for (let i = 0; i < codeArr.length; i++) {
-        html = html.replace(
-            codeArr[i].outerHTML,
-            // @ts-ignore
-            `<pre><code>${codeArr[i].getAttribute('text').replace(/&quot;/g, '"')}</code></pre>`
-        )
-    }
+    // return html
+    if (!html) return html
+
+    html = deleteHighlightCode(html)
+
+    html = formatEnterCode(html)
+
+    html = replaceSpecialSymbol(html)
 
     return html
+
+    // 格式化换换所产生的code标签
+    function formatEnterCode(html: string): string {
+        let preArr = html.match(/<pre[\s|\S]+?\/pre>/g)
+
+        if (preArr === null) return html
+
+        preArr.map(item => {
+            //将连续的code标签换为\n换行
+            html = html.replace(item, item.replace(/<\/code><code>/g, '\n').replace(/<br>/g, ''))
+        })
+
+        return html
+    }
+
+    // highlight格式化方法
+    function deleteHighlightCode(html: string): string {
+        // 获取所有hljs文本
+        let m = html.match(/<span\sclass="hljs[\s|\S]+?\/span>/gm)
+
+        // 没有代码渲染文本则退出
+        // @ts-ignore
+        if (!m || !m.length) return html
+
+        // 获取替换文本
+        let r = deepClone(m).map((i: string) => {
+            i = i.replace(/<span\sclass="hljs[^>]+>/, '')
+            return i.replace(/<\/span>/, '')
+        })
+
+        // @ts-ignore
+        for (let i = 0; i < m.length; i++) {
+            html = html.replace(m[i], r[i])
+        }
+
+        return deleteHighlightCode(html)
+    }
 }
 
 class Code extends PanelMenu implements MenuActive {
@@ -57,26 +95,7 @@ class Code extends PanelMenu implements MenuActive {
         const selectionText = editor.selection.getSelectionText()
 
         if (this.isActive) {
-            // 菜单被激活，说明选区在链接里
-            const $code = editor.selection.getSelectionStartElem()
-            const $preElem = $code?.getNodeTop(editor)
-            const $codeElem = $code?.parentUntil('code')
-
-            // @ts-ignore
-            if (!($preElem.getNodeName() == 'PRE')) {
-                if (editor.selection.isSelectionEmpty()) {
-                    return
-                }
-
-                // 行内代码处理
-                this.insertLineCode(selectionText)
-
-                return
-            }
-            // 弹出 panel
-            // @ts-ignore
-
-            this.createPanel($preElem.attr('text'), $preElem.attr('type'))
+            return
         } else {
             // 菜单未被激活，说明选区不在链接里
             if (editor.selection.isSelectionEmpty()) {

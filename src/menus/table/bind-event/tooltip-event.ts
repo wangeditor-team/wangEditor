@@ -22,10 +22,15 @@ let _editor: Editor
 function showTableTooltip($node: DomElement) {
     const getnode = new getNode(_editor)
 
+    const i18nPrefix = 'menus.panelMenus.table.'
+    const t = (text: string, prefix: string = i18nPrefix): string => {
+        return _editor.i18next.t(prefix + text)
+    }
+
     const conf: TooltipConfType = [
         {
             // $elem: $("<span class='w-e-icon-trash-o'></span>"),
-            $elem: $('<span>删除表格</span>'),
+            $elem: $(`<span>${t('删除表格')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
                 // 选中img元素
                 editor.selection.createRangeByElem($node)
@@ -36,7 +41,7 @@ function showTableTooltip($node: DomElement) {
             },
         },
         {
-            $elem: $('<span>添加行</span>'),
+            $elem: $(`<span>${t('添加行')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
@@ -63,7 +68,7 @@ function showTableTooltip($node: DomElement) {
             },
         },
         {
-            $elem: $('<span>删除行</span>'),
+            $elem: $(`<span>${t('删除行')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
@@ -98,7 +103,7 @@ function showTableTooltip($node: DomElement) {
             },
         },
         {
-            $elem: $('<span>添加列</span>'),
+            $elem: $(`<span>${t('添加列')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
@@ -120,7 +125,7 @@ function showTableTooltip($node: DomElement) {
             },
         },
         {
-            $elem: $('<span>删除列</span>'),
+            $elem: $(`<span>${t('删除列')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
@@ -151,7 +156,7 @@ function showTableTooltip($node: DomElement) {
             },
         },
         {
-            $elem: $('<span>设置表头</span>'),
+            $elem: $(`<span>${t('设置表头')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
@@ -182,7 +187,7 @@ function showTableTooltip($node: DomElement) {
             },
         },
         {
-            $elem: $('<span>取消表头</span>'),
+            $elem: $(`<span>${t('取消表头')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())

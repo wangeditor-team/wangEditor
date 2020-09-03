@@ -46,6 +46,11 @@ class UploadImg {
         const editor = this.editor
         const config = editor.config
 
+        const i18nPrefix = 'validate.'
+        const t = (text: string, prefix: string = i18nPrefix): string => {
+            return editor.i18next.t(prefix + text)
+        }
+
         // 先插入图片，无论是否能成功
         editor.cmd.do('insertHTML', `<img src="${src}" style="max-width:100%;"/>`)
         // 执行回调函数
@@ -58,8 +63,8 @@ class UploadImg {
         }
         img.onerror = () => {
             this.alert(
-                '插入图片出错',
-                `wangEditor: 插入图片出错，图片链接是 "${src}"，下载该链接失败`
+                t('插入图片错误'),
+                `wangEditor: ${t('插入图片错误')}，${t('图片链接')} "${src}"，${t('下载链接失败')}`
             )
             img = null
         }
@@ -78,6 +83,13 @@ class UploadImg {
 
         const editor = this.editor
         const config = editor.config
+
+        // ------------------------------ i18next ------------------------------
+
+        const i18nPrefix = 'validate.'
+        const t = (text: string): string => {
+            return editor.i18next.t(i18nPrefix + text)
+        }
 
         // ------------------------------ 获取配置信息 ------------------------------
 
@@ -128,13 +140,13 @@ class UploadImg {
 
             if (/\.(jpg|jpeg|png|bmp|gif|webp)$/i.test(name) === false) {
                 // 后缀名不合法，不是图片
-                errInfos.push(`【${name}】不是图片`)
+                errInfos.push(`【${name}】${t('不是图片')}`)
                 return
             }
 
             if (maxSize < size) {
                 // 上传图片过大
-                errInfos.push(`【${name}】大于 ${maxSizeM}M`)
+                errInfos.push(`【${name}】${t('大于')} ${maxSizeM}M`)
                 return
             }
 
@@ -143,11 +155,11 @@ class UploadImg {
         })
         // 抛出验证信息
         if (errInfos.length) {
-            this.alert('图片验证未通过: \n' + errInfos.join('\n'))
+            this.alert(`${t('图片验证未通过')}: \n` + errInfos.join('\n'))
             return
         }
         if (resultFiles.length > maxLength) {
-            this.alert('一次最多上传' + maxLength + '张图片')
+            this.alert(t('一次最多上传') + maxLength + t('张图片'))
             return
         }
 
@@ -207,7 +219,7 @@ class UploadImg {
                     if (hooks.before) return hooks.before(xhr, editor, resultFiles)
                 },
                 onTimeout: (xhr: XMLHttpRequest) => {
-                    this.alert('上传图片超时')
+                    this.alert(t('上传图片超时'))
                     if (hooks.timeout) hooks.timeout(xhr, editor)
                 },
                 onProgress: (percent: number, e: ProgressEvent) => {
@@ -219,13 +231,16 @@ class UploadImg {
                 },
                 onError: (xhr: XMLHttpRequest) => {
                     this.alert(
-                        '上传图片发生错误',
-                        `上传图片发生错误，服务器返回状态是 ${xhr.status}`
+                        t('上传图片错误'),
+                        `${t('上传图片错误')}，${t('服务器返回状态')}: ${xhr.status}`
                     )
                     if (hooks.error) hooks.error(xhr, editor)
                 },
                 onFail: (xhr: XMLHttpRequest, resultStr: string) => {
-                    this.alert('上传图片失败', '上传图片返回结果错误，返回结果是: ' + resultStr)
+                    this.alert(
+                        t('上传图片失败'),
+                        t('上传图片返回结果错误') + `，${t('返回结果')}: ` + resultStr
+                    )
                     if (hooks.fail) hooks.fail(xhr, editor, resultStr)
                 },
                 onSuccess: (xhr: XMLHttpRequest, result: ResType) => {
@@ -237,8 +252,8 @@ class UploadImg {
                     if (result.errno != '0') {
                         // 返回格式不对，应该为 { errno: 0, data: [...] }
                         this.alert(
-                            '上传图片失败',
-                            `上传图片返回结果错误，返回结果 errno=${result.errno}`
+                            t('上传图片失败'),
+                            `${t('上传图片返回结果错误')}，${t('返回结果')} errno=${result.errno}`
                         )
                         if (hooks.fail) hooks.fail(xhr, editor, result)
                         return
