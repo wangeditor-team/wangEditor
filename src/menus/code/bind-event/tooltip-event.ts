@@ -25,7 +25,7 @@ function showCodeTooltip($code: DomElement) {
 
     const conf = [
         {
-            $elem: $(`<span>${t('修改代码')}</span>`),
+            $elem: $(`<span>${t('删除代码')}</span>`),
             onClick: (editor: Editor, $code: DomElement) => {
                 //dom操作删除
                 $code.remove()
