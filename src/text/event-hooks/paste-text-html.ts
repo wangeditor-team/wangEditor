@@ -72,6 +72,15 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
             return
         }
 
+        // 如果复制进来的是url链接则插入时将它转为链接
+        const urlReg = /^(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&amp;:/~+#]*[\w\-@?^=%&amp;/~+#])?/
+        if (urlReg.test(pasteText)) {
+            return editor.cmd.do(
+                'insertHTML',
+                `<a href="${pasteText}" target="_blank">${pasteText}</a>`
+            )
+        }
+
         // table 中（td、th），待开发。。。
 
         if (!pasteHtml) {
@@ -85,7 +94,7 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 // 用户自定义过滤处理粘贴内容
                 pasteHtml = '' + (pasteTextHandle(pasteHtml) || '') // html
             }
-            editor.cmd.do('insertHTML', `<p>${formatHtml(pasteHtml)}</p>`)
+            editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`)
         } catch (ex) {
             // 此时使用 pasteText 来兼容一下
             if (pasteTextHandle && isFunction(pasteTextHandle)) {

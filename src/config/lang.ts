@@ -52,7 +52,7 @@ export default {
                         link: {
                             链接: '链接',
                             链接文字: '链接文字',
-                            删除链接: '删除链接',
+                            取消链接: '取消链接',
                             查看链接: '查看链接',
                         },
                         video: {
@@ -151,8 +151,8 @@ export default {
                         link: {
                             链接: 'link',
                             链接文字: 'link text',
-                            删除链接: 'delete',
-                            查看链接: 'view',
+                            取消链接: 'unlink',
+                            查看链接: 'view links',
                         },
                         video: {
                             插入视频: 'insert video',
