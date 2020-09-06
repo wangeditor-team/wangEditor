@@ -6,6 +6,7 @@
 import Editor from '../../editor/index'
 import { getPasteText, getPasteHtml } from '../paste/paste-event'
 import { isFunction } from '../../utils/util'
+import { urlRegex } from '../../utils/const'
 
 /**
  * 格式化html
@@ -73,8 +74,7 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         }
 
         // 如果复制进来的是url链接则插入时将它转为链接
-        const urlReg = /^(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&amp;:/~+#]*[\w\-@?^=%&amp;/~+#])?/
-        if (urlReg.test(pasteText)) {
+        if (urlRegex.test(pasteText)) {
             return editor.cmd.do(
                 'insertHTML',
                 `<a href="${pasteText}" target="_blank">${pasteText}</a>`
