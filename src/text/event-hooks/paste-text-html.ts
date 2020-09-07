@@ -6,6 +6,7 @@
 import Editor from '../../editor/index'
 import { getPasteText, getPasteHtml } from '../paste/paste-event'
 import { isFunction } from '../../utils/util'
+import { urlRegex } from '../../utils/const'
 
 /**
  * 格式化html
@@ -72,6 +73,14 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
             return
         }
 
+        // 如果复制进来的是url链接则插入时将它转为链接
+        if (urlRegex.test(pasteText)) {
+            return editor.cmd.do(
+                'insertHTML',
+                `<a href="${pasteText}" target="_blank">${pasteText}</a>`
+            )
+        }
+
         // table 中（td、th），待开发。。。
 
         if (!pasteHtml) {
@@ -85,7 +94,7 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 // 用户自定义过滤处理粘贴内容
                 pasteHtml = '' + (pasteTextHandle(pasteHtml) || '') // html
             }
-            editor.cmd.do('insertHTML', `<p>${formatHtml(pasteHtml)}</p>`)
+            editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`)
         } catch (ex) {
             // 此时使用 pasteText 来兼容一下
             if (pasteTextHandle && isFunction(pasteTextHandle)) {
