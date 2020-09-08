@@ -11,6 +11,8 @@ import operateElement from './operate-element'
 
 class Indent extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
+        const className: string = editor.config.lang === 'zh-CN' ? '' : 'class="w-e-drop-list-tl"'
+
         const $elem = $(
             `<div class="w-e-menu">
                 <i class="w-e-icon-indent-increase"></i>
@@ -23,7 +25,7 @@ class Indent extends DropListMenu implements MenuActive {
             list: [
                 {
                     $elem: $(
-                        `<p class="w-e-drop-list-tl">
+                        `<p ${className}>
                             <i class="w-e-icon-indent-increase w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.indent.增加缩进')}
                         <p>`
@@ -33,7 +35,7 @@ class Indent extends DropListMenu implements MenuActive {
 
                 {
                     $elem: $(
-                        `<p class="w-e-drop-list-tl">
+                        `<p ${className}>
                             <i class="w-e-icon-indent-decrease w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.indent.减少缩进')}
                         <p>`

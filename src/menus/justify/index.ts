@@ -10,7 +10,10 @@ import { MenuActive } from '../menu-constructors/Menu'
 
 class Justify extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
+        const className: string = editor.config.lang === 'zh-CN' ? '' : 'class="w-e-drop-list-tl"'
+
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-paragraph-left"></i></div>')
+
         const dropListConf = {
             width: 100,
             title: '对齐方式',
@@ -18,7 +21,7 @@ class Justify extends DropListMenu implements MenuActive {
             list: [
                 {
                     $elem: $(
-                        `<p class="w-e-drop-list-tl">
+                        `<p ${className}>
                             <i class="w-e-icon-paragraph-left w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.justify.靠左')}
                         </p>`
@@ -27,7 +30,7 @@ class Justify extends DropListMenu implements MenuActive {
                 },
                 {
                     $elem: $(
-                        `<p class="w-e-drop-list-tl">
+                        `<p ${className}>
                             <i class="w-e-icon-paragraph-center w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.justify.居中')}
                         </p>`
@@ -36,7 +39,7 @@ class Justify extends DropListMenu implements MenuActive {
                 },
                 {
                     $elem: $(
-                        `<p class="w-e-drop-list-tl">
+                        `<p ${className}>
                             <i class="w-e-icon-paragraph-right w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.justify.靠右')}
                         </p>`
