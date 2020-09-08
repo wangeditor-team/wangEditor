@@ -23,7 +23,7 @@ class Indent extends DropListMenu implements MenuActive {
             list: [
                 {
                     $elem: $(
-                        `<p>
+                        `<p class="w-e-drop-list-tl">
                             <i class="w-e-icon-indent-increase w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.indent.增加缩进')}
                         <p>`
@@ -33,7 +33,7 @@ class Indent extends DropListMenu implements MenuActive {
 
                 {
                     $elem: $(
-                        `<p>
+                        `<p class="w-e-drop-list-tl">
                             <i class="w-e-icon-indent-decrease w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.indent.减少缩进')}
                         <p>`

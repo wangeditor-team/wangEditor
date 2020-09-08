@@ -23,7 +23,7 @@ class List extends DropListMenu implements MenuActive {
             list: [
                 {
                     $elem: $(`
-                        <p>
+                        <p class="w-e-drop-list-tl">
                             <i class="w-e-icon-list2 w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.list.无序列表')}
                         <p>`),
@@ -32,7 +32,7 @@ class List extends DropListMenu implements MenuActive {
 
                 {
                     $elem: $(
-                        `<p>
+                        `<p class="w-e-drop-list-tl">
                             <i class="w-e-icon-list-numbered w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.list.有序列表')}
                         <p>`
