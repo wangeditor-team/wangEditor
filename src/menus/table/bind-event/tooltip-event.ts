@@ -248,6 +248,7 @@ function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.clickEvents.push(hideTableTooltip)
     editor.txt.eventHooks.keyupEvents.push(hideTableTooltip)
     editor.txt.eventHooks.toolbarClickEvents.push(hideTableTooltip)
+    editor.txt.eventHooks.menuClickEvents.push(hideTableTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideTableTooltip)
 }
 

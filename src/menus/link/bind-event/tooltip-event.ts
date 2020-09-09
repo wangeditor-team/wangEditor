@@ -73,6 +73,7 @@ function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.clickEvents.push(hideLinkTooltip)
     editor.txt.eventHooks.keyupEvents.push(hideLinkTooltip)
     editor.txt.eventHooks.toolbarClickEvents.push(hideLinkTooltip)
+    editor.txt.eventHooks.menuClickEvents.push(hideLinkTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideLinkTooltip)
 }
 
