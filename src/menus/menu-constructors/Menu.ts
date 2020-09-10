@@ -5,6 +5,7 @@
 
 import { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
+import Panel from './Panel'
 
 export interface MenuActive {
     /**
@@ -26,6 +27,11 @@ class Menu {
 
         // 绑定菜单点击事件
         $elem.on('click', (e: Event) => {
+            Panel.hideCurAllPanels() // 隐藏当前的所有 Panel
+
+            // 触发菜单点击的钩子
+            editor.txt.eventHooks.menuClickEvents.forEach(fn => fn())
+
             e.stopPropagation()
             if (editor.selection.getRange() == null) {
                 return
