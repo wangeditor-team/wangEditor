@@ -19,7 +19,7 @@ class PanelMenu extends Menu {
      * 给 menu 设置 panel
      * @param panel panel 实例
      */
-    protected setPanel(panel: Panel): void {
+    public setPanel(panel: Panel): void {
         this.panel = panel
     }
 }

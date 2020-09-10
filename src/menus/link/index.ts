@@ -58,8 +58,6 @@ class Link extends PanelMenu implements MenuActive {
         const conf = createPanelConf(this.editor, text, link)
         const panel = new Panel(this, conf)
         panel.create()
-
-        this.setPanel(panel)
     }
 
     /**
