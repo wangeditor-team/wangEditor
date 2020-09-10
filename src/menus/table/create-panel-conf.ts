@@ -63,7 +63,7 @@ export default function (editor: editor): PanelConf {
 
     // 最终的配置 -----------------------------------------
     const conf: PanelConf = {
-        width: 320,
+        width: 330,
         height: 0,
         tabs: [],
     }
