@@ -7,9 +7,6 @@ import $, { DomElement } from '../../utils/dom-core'
 import PanelMenu from './PanelMenu'
 import { EMPTY_FN } from '../../utils/const'
 
-// 记录已经创建过的 panel
-const CREATED_MENUS = new Set()
-
 // Panel 配置格式
 type _TabEventConf = {
     selector: string
@@ -28,6 +25,9 @@ export type PanelConf = {
 }
 
 class Panel {
+    // 记录已经创建过的 panelMenu
+    static createdMenus: Set<PanelMenu> = new Set()
+
     private menu: PanelMenu
     private conf: PanelConf
     public $container: DomElement
@@ -36,6 +36,11 @@ class Panel {
         this.menu = menu
         this.conf = conf
         this.$container = $('<div class="w-e-panel-container"></div>')
+
+        // 隐藏 panel
+        const editor = menu.editor
+        editor.txt.eventHooks.clickEvents.push(Panel.hideCurAllPanels)
+        editor.txt.eventHooks.toolbarClickEvents.push(Panel.hideCurAllPanels)
     }
 
     /**
@@ -43,7 +48,7 @@ class Panel {
      */
     public create(): void {
         const menu = this.menu
-        if (CREATED_MENUS.has(menu)) {
+        if (Panel.createdMenus.has(menu)) {
             // 创建过了
             return
         }
@@ -132,9 +137,6 @@ class Panel {
             // 点击时阻止冒泡
             e.stopPropagation()
         })
-        $body.on('click', () => {
-            this.remove()
-        })
 
         // 添加到 DOM
         $textContainerElem.append($container)
@@ -168,10 +170,11 @@ class Panel {
         }
 
         // 隐藏其他 panel
-        this.hideOtherPanels()
+        Panel.hideCurAllPanels()
 
         // 记录该 menu 已经创建了 panel
-        CREATED_MENUS.add(menu)
+        menu.setPanel(this)
+        Panel.createdMenus.add(menu)
     }
 
     /**
@@ -185,17 +188,17 @@ class Panel {
         }
 
         // 将该 menu 记录中移除
-        CREATED_MENUS.delete(menu)
+        Panel.createdMenus.delete(menu)
     }
 
     /**
-     * 隐藏其他 panel
+     * 隐藏当前所有的 panel
      */
-    private hideOtherPanels(): void {
-        if (CREATED_MENUS.size === 0) {
+    static hideCurAllPanels(): void {
+        if (Panel.createdMenus.size === 0) {
             return
         }
-        CREATED_MENUS.forEach(menu => {
+        Panel.createdMenus.forEach(menu => {
             const panel = (menu as PanelMenu).panel
             panel && panel.remove()
         })

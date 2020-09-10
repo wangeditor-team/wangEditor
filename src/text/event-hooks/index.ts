@@ -8,6 +8,7 @@ import enterToCreateP from './enter-to-create-p'
 import deleteToKeepP from './del-to-keep-p'
 import tabToSpan from './tab-to-space'
 import pasteTextHtml from './paste-text-html'
+import imgClickActive from './img-click-active'
 
 /**
  * 初始化 text 事件钩子函数
@@ -28,6 +29,9 @@ function initTextHooks(text: Text): void {
 
     // 粘贴 text html
     pasteTextHtml(editor, eventHooks.pasteEvents)
+
+    // img click active
+    imgClickActive(editor, eventHooks.imgClickEvents)
 }
 
 export default initTextHooks

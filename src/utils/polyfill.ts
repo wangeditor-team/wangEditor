@@ -13,3 +13,6 @@ if (!Element.prototype.matches) {
         return i > -1
     }
 }
+
+// 有的第三方库需要原生 Promise ，而 IE11 又没有原生 Promise ，就报错
+window.Promise = Promise
