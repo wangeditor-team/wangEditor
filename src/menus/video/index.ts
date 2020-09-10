@@ -24,9 +24,6 @@ class Video extends PanelMenu implements MenuActive {
      * 菜单点击事件
      */
     public clickHandler(): void {
-        const editor = this.editor
-        let $videoElem
-
         // 弹出 panel
         this.createPanel('')
     }
@@ -39,7 +36,6 @@ class Video extends PanelMenu implements MenuActive {
         const conf = createPanelConf(this.editor, iframe)
         const panel = new Panel(this, conf)
         panel.create()
-        this.setPanel(panel)
     }
 
     /**

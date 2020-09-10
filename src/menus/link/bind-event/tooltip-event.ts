@@ -27,7 +27,7 @@ function showLinkTooltip($link: DomElement) {
             },
         },
         {
-            $elem: $(`<span>${_editor.i18next.t('menus.panelMenus.link.删除链接')}</span>`),
+            $elem: $(`<span>${_editor.i18next.t('menus.panelMenus.link.取消链接')}</span>`),
             onClick: (editor: Editor, $link: DomElement) => {
                 // 选中链接元素
                 editor.selection.createRangeByElem($link)
@@ -73,6 +73,7 @@ function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.clickEvents.push(hideLinkTooltip)
     editor.txt.eventHooks.keyupEvents.push(hideLinkTooltip)
     editor.txt.eventHooks.toolbarClickEvents.push(hideLinkTooltip)
+    editor.txt.eventHooks.menuClickEvents.push(hideLinkTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideLinkTooltip)
 }
 
