@@ -31,6 +31,7 @@ type TextEventHooks = {
     imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
     tableClickEvents: Function[] //表格点击
     menuClickEvents: Function[] // 每个菜单被点击时，按理说这个不属于 txt 的，先暂时在这放着吧
+    menuHoverEvents: Function[] // droplist 菜单悬浮事件。暂时放这里
 }
 
 class Text {
@@ -60,6 +61,7 @@ class Text {
             imgDragBarMouseDownEvents: [],
             tableClickEvents: [],
             menuClickEvents: [],
+            menuHoverEvents: [],
         }
     }
 

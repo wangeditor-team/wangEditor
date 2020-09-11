@@ -41,6 +41,7 @@ class Panel {
         const editor = menu.editor
         editor.txt.eventHooks.clickEvents.push(Panel.hideCurAllPanels)
         editor.txt.eventHooks.toolbarClickEvents.push(Panel.hideCurAllPanels)
+        editor.txt.eventHooks.menuHoverEvents.push(Panel.hideCurAllPanels)
     }
 
     /**
