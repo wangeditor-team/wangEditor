@@ -29,7 +29,7 @@ class DropListMenu extends Menu {
                 }
                 $elem.css('z-index', editor.config.zIndex + 2)
                 // 触发 droplist 悬浮事件
-                editor.txt.eventHooks.menuHoverEvents.forEach(fn => fn())
+                editor.txt.eventHooks.dropListMenuHoverEvents.forEach(fn => fn())
                 // 显示
                 dropList.showTimeoutId = window.setTimeout(() => {
                     dropList.show()
