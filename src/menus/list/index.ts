@@ -10,8 +10,6 @@ import { MenuActive } from '../menu-constructors/Menu'
 
 class List extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
-        const className: string = editor.config.lang === 'zh-CN' ? '' : 'class="w-e-drop-list-tl"'
-
         const $elem = $(
             `<div class="w-e-menu">
                 <i class="w-e-icon-list2"></i>
@@ -25,7 +23,7 @@ class List extends DropListMenu implements MenuActive {
             list: [
                 {
                     $elem: $(`
-                        <p ${className}>
+                        <p>
                             <i class="w-e-icon-list2 w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.list.无序列表')}
                         <p>`),
@@ -34,7 +32,7 @@ class List extends DropListMenu implements MenuActive {
 
                 {
                     $elem: $(
-                        `<p ${className}>
+                        `<p>
                             <i class="w-e-icon-list-numbered w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.list.有序列表')}
                         <p>`
