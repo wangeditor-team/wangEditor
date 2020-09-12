@@ -59,10 +59,15 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         if (!$selectionElem) {
             return
         }
-        const nodeName = $selectionElem.getNodeName()
-        const $topElem = $selectionElem?.getNodeTop(editor)
-        const topNodeName = $topElem?.getNodeName()
 
+        const nodeName = $selectionElem?.getNodeName()
+        const $topElem = $selectionElem?.getNodeTop(editor)
+
+        // 当前节点顶级可能没有
+        let topNodeName: string = ''
+        if ($topElem.elems[0]) {
+            topNodeName = $topElem?.getNodeName()
+        }
         // code 中只能粘贴纯文本
         if (nodeName === 'CODE' || topNodeName === 'PRE') {
             if (pasteTextHandle && isFunction(pasteTextHandle)) {
