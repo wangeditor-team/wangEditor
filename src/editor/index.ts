@@ -14,6 +14,7 @@ import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
+import Revoke from '../text/event-hooks/undo-redo'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -50,6 +51,7 @@ class Editor {
     public menus: Menus
     public i18next: any
     public highlight: any
+    public revoke: any
 
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
@@ -83,6 +85,7 @@ class Editor {
         this.cmd = new CommandAPI(this)
         this.txt = new Text(this)
         this.menus = new Menus(this)
+        this.revoke = new Revoke(this)
     }
 
     /**
