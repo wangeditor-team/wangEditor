@@ -1,5 +1,7 @@
 # 代码结构
 
+源码介绍视频 https://www.bilibili.com/video/BV14p4y1v776
+
 ## 技术选型
 
 - 语言：`typescript`
