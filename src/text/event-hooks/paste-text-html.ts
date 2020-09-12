@@ -59,7 +59,6 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         if (!$selectionElem) {
             return
         }
-
         const nodeName = $selectionElem?.getNodeName()
         const $topElem = $selectionElem?.getNodeTop(editor)
 
