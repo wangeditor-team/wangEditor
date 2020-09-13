@@ -20,13 +20,12 @@ class DropListMenu extends Menu {
         // 非中文模式下 带 icon 的下拉列表居左
         const className: string = editor.config.lang === 'zh-CN' ? '' : 'w-e-drop-list-tl'
         if (className !== '' && conf.type === 'list') {
-            const reg = /^I$/i
             conf.list.forEach(item => {
                 const $elem = item.$elem
                 const $children = $($elem.children())
                 if ($children.length > 0) {
                     const nodeName = $children?.getNodeName()
-                    if (nodeName && reg.test(nodeName)) {
+                    if (nodeName && nodeName === 'I') {
                         $elem.addClass(className)
                     }
                 }
