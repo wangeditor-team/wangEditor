@@ -43,6 +43,7 @@ export default {
         'code',
         'undo',
         'redo',
+        'fullScreen',
     ],
 
     fontNames: [

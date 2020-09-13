@@ -41,6 +41,7 @@ export type ConfigType = {
     linkImgCallback: Function
 
     placeholder: string
+    zIndexFullScreen: number
     showLinkImg: boolean
     uploadImgServer: string
     uploadImgShowBase64: boolean

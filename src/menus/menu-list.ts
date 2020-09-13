@@ -26,6 +26,7 @@ import Undo from './undo/index'
 import Redo from './redo/index'
 import Table from './table/index'
 import Code from './code'
+import FullScreen from './full-screen'
 
 export type MenuListType = {
     [key: string]: any
@@ -55,4 +56,5 @@ export default {
     redo: Redo,
     table: Table,
     code: Code,
+    fullScreen: FullScreen,
 }
