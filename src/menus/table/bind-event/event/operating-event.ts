@@ -7,6 +7,10 @@ import $, { DomElement } from '../../../../utils/dom-core'
  */
 function ProcessingRow($node: DomElement, _index: number): DomElement {
     let $dom = $node.elems[0].childNodes[0]
+    //粘贴的table 最后一个节点才是tbody
+    if ($dom.nodeName === 'COLGROUP') {
+        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
+    }
     //取出所有的行
     let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //列的数量
@@ -37,6 +41,10 @@ function ProcessingRow($node: DomElement, _index: number): DomElement {
  */
 function ProcessingCol($node: DomElement, _index: number): DomElement {
     let $dom = $node.elems[0].childNodes[0]
+    //粘贴的table 最后一个节点才是tbody
+    if ($dom.nodeName === 'COLGROUP') {
+        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
+    }
     //取出所有的行
     let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //创建td
@@ -80,6 +88,10 @@ function ProcessingCol($node: DomElement, _index: number): DomElement {
  */
 function DeleteRow($node: DomElement, _index: number): DomElement {
     let $dom = $node.elems[0].childNodes[0]
+    //粘贴的table 最后一个节点才是tbody
+    if ($dom.nodeName === 'COLGROUP') {
+        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
+    }
     //取出所有的行
     let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //删除行
@@ -102,6 +114,10 @@ function DeleteRow($node: DomElement, _index: number): DomElement {
  */
 function DeleteCol($node: DomElement, _index: number): DomElement {
     let $dom = $node.elems[0].childNodes[0]
+    //粘贴的table 最后一个节点才是tbody
+    if ($dom.nodeName === 'COLGROUP') {
+        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
+    }
     //取出所有的行
     let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //创建td
@@ -140,6 +156,10 @@ function DeleteCol($node: DomElement, _index: number): DomElement {
  */
 function setTheHeader($node: DomElement, _index: number, type: string): DomElement {
     let $dom = $node.elems[0].childNodes[0]
+    //粘贴的table 最后一个节点才是tbody
+    if ($dom.nodeName === 'COLGROUP') {
+        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
+    }
     //取出所有的行
     let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //列的数量
