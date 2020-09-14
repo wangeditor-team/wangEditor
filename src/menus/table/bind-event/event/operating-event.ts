@@ -6,11 +6,8 @@ import $, { DomElement } from '../../../../utils/dom-core'
  * @param _index 行的inde
  */
 function ProcessingRow($node: DomElement, _index: number): DomElement {
-    let $dom = $node.elems[0].childNodes[0]
-    //粘贴的table 最后一个节点才是tbody
-    if ($dom.nodeName === 'COLGROUP') {
-        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
-    }
+    //执行获取tbody节点
+    let $dom = generateDomAction($node)
     //取出所有的行
     let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //列的数量
@@ -23,14 +20,8 @@ function ProcessingRow($node: DomElement, _index: number): DomElement {
     }
     //插入集合中
     domArray.splice(_index + 1, 0, tr)
-    //移除所有的旧的子节点
-    while ($dom.childNodes.length !== 0) {
-        $dom.removeChild($dom.childNodes[0])
-    }
-    //插入新的子节点
-    for (let i = 0; i < domArray.length; i++) {
-        $dom.appendChild(domArray[i])
-    }
+    //移除、新增节点事件
+    removeAndInsertAction($dom, domArray)
     return $($dom.parentNode)
 }
 
@@ -40,11 +31,8 @@ function ProcessingRow($node: DomElement, _index: number): DomElement {
  * @param _index 列的inde
  */
 function ProcessingCol($node: DomElement, _index: number): DomElement {
-    let $dom = $node.elems[0].childNodes[0]
-    //粘贴的table 最后一个节点才是tbody
-    if ($dom.nodeName === 'COLGROUP') {
-        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
-    }
+    //执行获取tbody节点
+    let $dom = generateDomAction($node)
     //取出所有的行
     let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //创建td
@@ -70,14 +58,8 @@ function ProcessingCol($node: DomElement, _index: number): DomElement {
             domArray[i].appendChild(cArray[j])
         }
     }
-    //移除所有的旧的子节点
-    while ($dom.childNodes.length !== 0) {
-        $dom.removeChild($dom.childNodes[0])
-    }
-    //插入新的子节点
-    for (let i = 0; i < domArray.length; i++) {
-        $dom.appendChild(domArray[i])
-    }
+    //移除、新增节点事件
+    removeAndInsertAction($dom, domArray)
     return $($dom.parentNode)
 }
 
@@ -87,23 +69,14 @@ function ProcessingCol($node: DomElement, _index: number): DomElement {
  * @param _index  行的inde
  */
 function DeleteRow($node: DomElement, _index: number): DomElement {
-    let $dom = $node.elems[0].childNodes[0]
-    //粘贴的table 最后一个节点才是tbody
-    if ($dom.nodeName === 'COLGROUP') {
-        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
-    }
+    //执行获取tbody节点
+    let $dom = generateDomAction($node)
     //取出所有的行
     let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //删除行
     domArray.splice(_index, 1)
-    //移除所有的旧的子节点
-    while ($dom.childNodes.length !== 0) {
-        $dom.removeChild($dom.childNodes[0])
-    }
-    //插入新的子节点
-    for (let i = 0; i < domArray.length; i++) {
-        $dom.appendChild(domArray[i])
-    }
+    //移除、新增节点事件
+    removeAndInsertAction($dom, domArray)
     return $($dom.parentNode)
 }
 
@@ -113,11 +86,8 @@ function DeleteRow($node: DomElement, _index: number): DomElement {
  * @param _index
  */
 function DeleteCol($node: DomElement, _index: number): DomElement {
-    let $dom = $node.elems[0].childNodes[0]
-    //粘贴的table 最后一个节点才是tbody
-    if ($dom.nodeName === 'COLGROUP') {
-        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
-    }
+    //执行获取tbody节点
+    let $dom = generateDomAction($node)
     //取出所有的行
     let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //创建td
@@ -137,14 +107,8 @@ function DeleteCol($node: DomElement, _index: number): DomElement {
             domArray[i].appendChild(cArray[j])
         }
     }
-    //移除所有的旧的子节点
-    while ($dom.childNodes.length !== 0) {
-        $dom.removeChild($dom.childNodes[0])
-    }
-    //插入新的子节点
-    for (let i = 0; i < domArray.length; i++) {
-        $dom.appendChild(domArray[i])
-    }
+    //移除、新增节点事件
+    removeAndInsertAction($dom, domArray)
     return $($dom.parentNode)
 }
 
@@ -155,11 +119,8 @@ function DeleteCol($node: DomElement, _index: number): DomElement {
  * @type 替换的列 th 还是td
  */
 function setTheHeader($node: DomElement, _index: number, type: string): DomElement {
-    let $dom = $node.elems[0].childNodes[0]
-    //粘贴的table 最后一个节点才是tbody
-    if ($dom.nodeName === 'COLGROUP') {
-        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
-    }
+    //执行获取tbody节点
+    let $dom = generateDomAction($node)
     //取出所有的行
     let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
     //列的数量
@@ -176,6 +137,17 @@ function setTheHeader($node: DomElement, _index: number, type: string): DomEleme
     }
     //插入集合中
     domArray.splice(_index, 1, tr)
+    //移除、新增节点事件
+    removeAndInsertAction($dom, domArray)
+    return $($dom.parentNode)
+}
+
+/**
+ * 封装移除、新增节点事件
+ * @param $dom tbody节点
+ * @param domArray  所有的行
+ */
+function removeAndInsertAction($dom: ChildNode, domArray: Node[]) {
     //移除所有的旧的子节点
     while ($dom.childNodes.length !== 0) {
         $dom.removeChild($dom.childNodes[0])
@@ -184,7 +156,19 @@ function setTheHeader($node: DomElement, _index: number, type: string): DomEleme
     for (let i = 0; i < domArray.length; i++) {
         $dom.appendChild(domArray[i])
     }
-    return $($dom.parentNode)
+}
+
+/**
+ * 封装判断是否tbody节点
+ * 粘贴的table 第一个节点是<colgroup> 最后的节点<tbody>
+ * @param dom
+ */
+function generateDomAction($node: DomElement): ChildNode {
+    let $dom: ChildNode = $node.elems[0].childNodes[0]
+    if ($dom.nodeName === 'COLGROUP') {
+        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
+    }
+    return $dom
 }
 
 export default {
