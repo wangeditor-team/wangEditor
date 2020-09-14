@@ -7,8 +7,8 @@ import Editor from '../../editor/index'
 import $, { DomElement } from '../../utils/dom-core'
 
 class Revoke {
-    private undoArray: string[]
-    private redoArray: string[]
+    private undoStack: string[]
+    private redoStack: string[]
     private undoString: string | undefined
     private redoString: string | undefined
 
@@ -16,13 +16,13 @@ class Revoke {
 
     public undo(editor: Editor) {
         // 获取undo最后一位元素
-        const last = this.undoArray.pop()
+        const last = this.undoStack.pop()
 
         if (!last) return false
 
         // redo 入栈
         if (typeof last === 'string') {
-            this.redoArray.push(last)
+            this.redoStack.push(last)
         }
         this.undoString = last
         // 设置文本内容
@@ -31,13 +31,13 @@ class Revoke {
 
     public redo(editor: Editor) {
         // 获取redo第一个文本
-        const first = this.redoArray.pop()
+        const first = this.redoStack.shift()
 
         if (!first) return false
 
         // undo 入栈
         if (typeof first === 'string') {
-            this.undoArray.push(first)
+            this.undoStack.push(first)
         }
         this.redoString = first
         // 设置文本
@@ -48,18 +48,33 @@ class Revoke {
         // 获取文本内容
         const str = editor.txt.html()
 
-        // 判断类型
-        if (typeof str === 'string' && str !== editor.revoke.undoString) {
-            this.undoArray.push(str)
-        }
+        // 类型不符
+        if (typeof str !== 'string') return false
+
+        // 判断缓存
+        if (str === editor.revoke.undoString) return false
+
+        // 缓存推入撤销栈
+        editor.revoke.undoStack.push(editor.revoke.undoString)
+
+        // 更新缓存
+        editor.revoke.undoString = str
+
+        // 清空重做栈
+        editor.revoke.redoStack.length = 0
     }
 
     public onCustomActionAfter() {}
 
     constructor(editor: Editor) {
         this.editor = editor
-        this.undoArray = []
-        this.redoArray = []
+        this.undoStack = []
+        this.redoStack = []
+
+        const str = editor.txt.html()
+        if (typeof str === 'string') {
+            this.undoStack.push(str)
+        }
 
         // change钩子
         editor.txt.eventHooks.changeEvents.push(() => {
