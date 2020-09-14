@@ -64,7 +64,7 @@ export default function (editor: editor): PanelConf {
         // first tab
         {
             // 标题
-            title: editor.i18next.t('上传图片'),
+            title: t('上传图片'),
             // 模板
             tpl: `<div class="w-e-up-img-container">
                     <div id="${upTriggerId}" class="w-e-up-btn">
@@ -117,16 +117,16 @@ export default function (editor: editor): PanelConf {
         }, // first tab end
         // second tab
         {
-            title: editor.i18next.t('menus.panelMenus.image.网络图片'),
+            title: t('网络图片'),
             tpl: `<div>
                     <input 
                         id="${linkUrlId}" 
                         type="text" 
                         class="block"
-                        placeholder="${editor.i18next.t('menus.panelMenus.image.图片链接')}"/>
+                        placeholder="${t('图片链接')}"/>
                     </td>
                     <div class="w-e-button-container">
-                        <button id="${linkBtnId}" class="right">${editor.i18next.t('插入')}</button>
+                        <button id="${linkBtnId}" class="right">${t('插入', '')}</button>
                     </div>
                 </div>`,
             events: [
