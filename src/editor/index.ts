@@ -23,6 +23,9 @@ import Panel from '../menus/menu-constructors/Panel'
 import PanelMenu from '../menus/menu-constructors/PanelMenu'
 import Tooltip from '../menus/menu-constructors/Tooltip'
 
+// 全屏实现
+import { setFullScreen, setUnFullScreen } from '../menus/full-screen/tools'
+
 let EDITOR_ID = 1
 
 class Editor {
@@ -139,6 +142,20 @@ class Editor {
         // 销毁 DOM 节点
         this.$toolbarElem.remove()
         this.$textContainerElem.remove()
+    }
+
+    /**
+     * 将编辑器设置为全屏
+     */
+    public fullScreen(): void {
+        setFullScreen(this)
+    }
+
+    /**
+     * 将编辑器退出全屏
+     */
+    public unFullScreen(): void {
+        setUnFullScreen(this)
     }
 }
 
