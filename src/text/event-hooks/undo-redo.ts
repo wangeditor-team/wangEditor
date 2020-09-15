@@ -23,7 +23,7 @@ class Revoke {
     public undo(editor: Editor) {
         // 获取undo最后一位元素
         const last = this.undoStack.pop()
-        const limit = this.editor.config.revokeLength
+        const limit = this.editor.config.revokeLimit
         // 类型判断
         if (typeof last?.text !== 'string') return false
 
@@ -47,7 +47,7 @@ class Revoke {
     public redo(editor: Editor) {
         // 获取redo第一个文本
         const first = this.redoStack.pop()
-        const limit = this.editor.config.revokeLength
+        const limit = this.editor.config.revokeLimit
 
         // 类型判断
         if (typeof first?.text !== 'string') return false
