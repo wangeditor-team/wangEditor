@@ -114,6 +114,8 @@ class Text {
             html = html.replace(/\u200b/gm, '')
             html = html.replace(/<p><\/p>/gim, '') // 去掉空行
             html = html.replace(/<p><br\/?><\/p>$/gim, '') // 去掉最后的 <p><br><p>
+            html = html.replace(/><br>(?!<)/gi, '>') // 过滤 <p><br>内容</p> 中的br
+            html = html.replace(/(?!>)<br></gi, '<') // 过滤 <p>内容<br></p> 中的br
 
             // pre标签格式化
             html = formatCodeHtml(editor, html)

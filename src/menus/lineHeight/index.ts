@@ -9,6 +9,7 @@ import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 import lineHeightList from './lineHeightList'
+import { UA } from '../../utils/util'
 
 class LineHeight extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -57,6 +58,11 @@ class LineHeight extends DropListMenu implements MenuActive {
 
         //选中多行操作
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
+            let isIE = UA.isIE()
+            if (isIE) {
+                // ie下禁止多行操作 避免多行造成除第一行外的段落内容都被删除
+                return
+            }
             //获取range 开头结束的dom在 祖父元素的下标
             let indexStore: Array<number> = []
             let arrayDom_a: Array<HTMLElement> = []
