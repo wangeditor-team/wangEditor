@@ -20,6 +20,9 @@
         </p>
     </div>
 
+    <button onclick="fullScreen()">全屏</button>
+    <button onclick="unFullScreen()">取消全屏</button>
+
     <script src="../dist/wangEditor.js"></script>
     <script>
         const E = window.wangEditor
@@ -40,6 +43,14 @@
         // ]
 
         editor.create()
+
+        function fullScreen() {
+            editor.fullScreen()
+        }
+
+        function unFullScreen() {
+            editor.unFullScreen()
+        }
     </script>
 </body>
 
