@@ -23,12 +23,15 @@ class Revoke {
     public undo(editor: Editor) {
         // 获取undo最后一位元素
         const last = this.undoStack.pop()
-
+        const length = this.editor.config.revokeLength
         // 类型判断
         if (typeof last?.text !== 'string') return false
 
         // redo 入栈
         this.redoStack.push(this.undoString)
+
+        // 超出长度 出列
+        if (length && this.undoStack.length > length) this.undoStack.shift()
 
         this.undoString = last
 
@@ -44,12 +47,16 @@ class Revoke {
     public redo(editor: Editor) {
         // 获取redo第一个文本
         const first = this.redoStack.pop()
+        const length = this.editor.config.revokeLength
 
         // 类型判断
         if (typeof first?.text !== 'string') return false
 
         // undo 入栈
         this.undoStack.push(this.undoString)
+
+        // 超出长度 出列
+        if (length && this.redoStack.length > length) this.redoStack.shift()
 
         this.undoString = first
         // 设置文本

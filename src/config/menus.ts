@@ -207,4 +207,6 @@ export default {
     ],
 
     lineHeights: ['1', '1.15', '1.6', '2', '2.5', '3'],
+
+    revokeLength: 1000,
 }
