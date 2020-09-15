@@ -7,11 +7,13 @@ import Editor from '../../editor/index'
 import $, { DomElement } from '../../utils/dom-core'
 
 class Revoke {
-    private undoStack: string[]
-    private redoStack: string[]
-    private undoString: string = ''
-    private redoString: string | undefined
-
+    // 撤销栈
+    private undoStack: (RevokeItem | undefined)[]
+    // 重做栈
+    private redoStack: (RevokeItem | undefined)[]
+    // 记录缓存
+    private undoString: RevokeItem | undefined
+    // 编辑器实例
     public editor: Editor
 
     public undo(editor: Editor) {
@@ -19,7 +21,7 @@ class Revoke {
         const last = this.undoStack.pop()
 
         // 类型判断
-        if (typeof last !== 'string') return false
+        if (typeof last?.text !== 'string') return false
 
         // redo 入栈
         this.redoStack.push(this.undoString)
@@ -27,7 +29,12 @@ class Revoke {
         this.undoString = last
 
         // 设置文本内容
-        this.editor.txt.html(last)
+        this.editor.txt.html(last?.text)
+
+        // @ts-ignore
+        // selection中的range默认值 Range | null | undefined未统一 有待修改
+        // 恢复选区
+        this.editor.selection.saveRange(last.range)
     }
 
     public redo(editor: Editor) {
@@ -35,37 +42,41 @@ class Revoke {
         const first = this.redoStack.pop()
 
         // 类型判断
-        if (typeof first !== 'string') return false
+        if (typeof first?.text !== 'string') return false
 
         // undo 入栈
         this.undoStack.push(this.undoString)
 
         this.undoString = first
         // 设置文本
-        this.editor.txt.html(first)
+        this.editor.txt.html(first?.text)
+
+        // @ts-ignore
+        // selection中的range默认值 Range | null | undefined未统一 有待修改
+        // 恢复选区
+        this.editor.selection.saveRange(first.range)
     }
 
     public onChangeAfter(editor: Editor) {
         // 获取文本内容
         const str = editor.txt.html()
+        const range = editor.selection.getRange()
 
         // 类型不符
         if (typeof str !== 'string') return false
 
         // 判断缓存
-        if (str === editor.revoke.undoString) return false
+        if (str === editor.revoke.undoString.text) return false
 
         // 缓存推入撤销栈
         editor.revoke.undoStack.push(editor.revoke.undoString)
 
         // 更新缓存
-        editor.revoke.undoString = str
+        editor.revoke.undoString = new RevokeItem(range, str)
 
         // 清空重做栈
         editor.revoke.redoStack.length = 0
     }
-
-    public onCustomActionAfter() {}
 
     constructor(editor: Editor) {
         this.editor = editor
@@ -74,9 +85,10 @@ class Revoke {
 
         // 初始化缓存字符串与撤销栈
         const str = editor.txt.html()
+        const range = editor.selection.getRange()
         if (typeof str === 'string') {
-            this.undoStack.push(str)
-            this.undoString = str
+            this.undoStack.push(new RevokeItem(range, str))
+            this.undoString = new RevokeItem(range, str)
         }
 
         // change钩子
@@ -88,6 +100,16 @@ class Revoke {
         editor.txt.eventHooks.revokeEvents.push(() => {
             this.undo(editor)
         })
+    }
+}
+
+class RevokeItem {
+    public range: Range | null
+    public text: string
+
+    constructor(range: Range | null, text: string) {
+        this.range = range
+        this.text = text
     }
 }
 
