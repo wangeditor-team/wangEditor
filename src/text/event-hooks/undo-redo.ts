@@ -85,7 +85,12 @@ class Revoke {
         if (typeof str !== 'string') return false
 
         // 判断标示 是否正在执行撤销操作
-        if (editor.revoke.flag) return false
+        if (editor.revoke.flag) {
+            // 更新标示
+            editor.revoke.flag = false
+            // 不执行记录操作
+            return false
+        }
 
         // 缓存推入撤销栈
         editor.revoke.undoStack.push(editor.revoke.undoString)
