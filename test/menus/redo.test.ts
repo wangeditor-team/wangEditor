@@ -20,5 +20,5 @@ test('重做', () => {
     // 执行点击事件，模拟引用
     mockCmdFn(document)
     ;(redoMenu as Redo).clickHandler()
-    expect(document.execCommand).toBeCalledWith('redo', false, undefined) // mock fn 被调用
+    expect(editor.revoke.redo) // mock fn 被调用
 })
