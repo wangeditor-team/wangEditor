@@ -17,6 +17,8 @@ class Revoke {
     private redoStack: (RevokeItem | undefined)[]
     // 记录缓存
     private undoString: RevokeItem | undefined
+    // 操作标示
+    private flag: boolean
     // 编辑器实例
     public editor: Editor
 
@@ -26,6 +28,9 @@ class Revoke {
         const length = this.editor.config.revokeLength
         // 类型判断
         if (typeof last?.text !== 'string') return false
+
+        // 更新标示
+        this.flag = true
 
         // redo 入栈
         this.redoStack.push(this.undoString)
@@ -52,6 +57,9 @@ class Revoke {
         // 类型判断
         if (typeof first?.text !== 'string') return false
 
+        // 更新标示
+        this.flag = true
+
         // undo 入栈
         this.undoStack.push(this.undoString)
 
@@ -76,8 +84,8 @@ class Revoke {
         // 类型不符
         if (typeof str !== 'string') return false
 
-        // 判断缓存
-        if (str === editor.revoke.undoString.text) return false
+        // 判断标示 是否正在执行撤销操作
+        if (editor.revoke.flag) return false
 
         // 缓存推入撤销栈
         editor.revoke.undoStack.push(editor.revoke.undoString)
@@ -87,12 +95,16 @@ class Revoke {
 
         // 清空重做栈
         editor.revoke.redoStack.length = 0
+
+        // 更新标示
+        editor.revoke.flag = false
     }
 
     constructor(editor: Editor) {
         this.editor = editor
         this.undoStack = []
         this.redoStack = []
+        this.flag = false
 
         // 初始化缓存字符串与撤销栈
         const str = editor.txt.html()
