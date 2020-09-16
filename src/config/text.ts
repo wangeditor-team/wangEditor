@@ -4,6 +4,7 @@
  */
 
 export default {
+    focus: true,
     height: 300,
     placeholder: '请输入正文',
 }
