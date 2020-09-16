@@ -122,6 +122,15 @@ class Text {
         }
 
         // 有 val ，则是设置 html
+        val = val.trim()
+        if (val === '') {
+            val = `<p><br></p>`
+        }
+        if (val.indexOf('<') !== 0) {
+            // 内容用 p 标签包裹
+            val = `<p>${val}</p>`
+        }
+
         $textElem.html(val)
 
         this.editor.change()
