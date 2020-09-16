@@ -11,8 +11,11 @@ import Editor from './index'
 class Undo {
     constructor(editor: Editor) {
         this.editor = editor
+        // 初始化撤销栈
         this.undoStack = []
+        // 初始化重做栈
         this.redoStack = []
+        // 初始化操作标示
         this.flag = false
 
         // 初始化缓存字符串与撤销栈
@@ -61,6 +64,7 @@ class Undo {
         // 超出长度 出列
         if (limit && this.undoStack.length > limit) this.undoStack.shift()
 
+        // 更新缓存
         this.undoString = last
 
         // 设置文本内容
@@ -87,6 +91,7 @@ class Undo {
         // 超出长度 出列
         if (limit && this.redoStack.length > limit) this.redoStack.shift()
 
+        // 更新缓存
         this.undoString = first
         // 设置文本
         this.editor.txt.html(first)
