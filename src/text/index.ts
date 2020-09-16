@@ -267,7 +267,7 @@ class Text {
         // 撤销
         $textElem.on('keydown', (e: KeyboardEvent) => {
             // 非撤销行为
-            if (!(e.ctrlKey || (e.metaKey && e.keyCode === 90))) return false
+            if (!((e.ctrlKey || e.metaKey) && e.keyCode === 90)) return false
 
             // 取消默认行为
             e.preventDefault()

@@ -11,6 +11,25 @@ import Editor from '../../editor/index'
  * 后续如果能使用能够记录选区的api,那么这种记录方式仍然可用
  */
 class Revoke {
+    constructor(editor: Editor) {
+        this.editor = editor
+        this.undoStack = []
+        this.redoStack = []
+        this.flag = false
+
+        // 初始化缓存字符串与撤销栈
+        const str = editor.txt.html()
+        const range = editor.selection.getRange()
+        if (typeof str === 'string') {
+            this.undoStack.push(new RevokeItem(range, str))
+            this.undoString = new RevokeItem(range, str)
+        }
+
+        // change钩子
+        editor.txt.eventHooks.changeEvents.push(() => {
+            this.onChangeAfter(editor)
+        })
+    }
     // 撤销栈
     private undoStack: (RevokeItem | undefined)[]
     // 重做栈
@@ -103,26 +122,6 @@ class Revoke {
 
         // 更新标示
         editor.revoke.flag = false
-    }
-
-    constructor(editor: Editor) {
-        this.editor = editor
-        this.undoStack = []
-        this.redoStack = []
-        this.flag = false
-
-        // 初始化缓存字符串与撤销栈
-        const str = editor.txt.html()
-        const range = editor.selection.getRange()
-        if (typeof str === 'string') {
-            this.undoStack.push(new RevokeItem(range, str))
-            this.undoString = new RevokeItem(range, str)
-        }
-
-        // change钩子
-        editor.txt.eventHooks.changeEvents.push(() => {
-            this.onChangeAfter(editor)
-        })
     }
 }
 
