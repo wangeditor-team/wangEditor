@@ -14,7 +14,7 @@ import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
-import Undo from '../text/event-hooks/undo-redo'
+import Undo from './undo-redo'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'

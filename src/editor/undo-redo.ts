@@ -3,7 +3,7 @@
  * @author lkw
  */
 
-import Editor from '../../editor/index'
+import Editor from './index'
 
 /**
  * 撤销类
