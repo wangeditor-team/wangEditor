@@ -11,7 +11,6 @@ import cmdConfig from './cmd'
 import imageConfig, { UploadImageHooksType } from './image'
 import textConfig from './text'
 import langConfig from './lang'
-import focus from './focus'
 
 // 字典类型
 export type DicType = {
@@ -93,7 +92,6 @@ const defaultConfig = Object.assign(
     imageConfig,
     textConfig,
     langConfig,
-    focus,
     //链接校验的配置函数
     {
         linkCheck: function (text: string, link: string): string | boolean {
