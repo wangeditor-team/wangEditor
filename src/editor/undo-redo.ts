@@ -19,15 +19,17 @@ class Undo {
         this.flag = false
 
         // 初始化缓存字符串与撤销栈
-        const str = editor.txt.html()
-        if (typeof str === 'string') {
-            this.undoStack.push(str)
-            this.undoString = str
-        }
+        setTimeout(() => {
+            const str = editor.txt.html()
+            if (typeof str === 'string') {
+                this.undoStack.push(str)
+                this.undoString = str
+            }
+        }, 0)
 
         // change钩子
         editor.txt.eventHooks.changeEvents.push(() => {
-            this.onChangeAfter(editor)
+            this.onChangeAfter()
         })
     }
 
@@ -48,7 +50,7 @@ class Undo {
     // 编辑器实例
     public editor: Editor
 
-    public undo(editor: Editor): string {
+    public undo(): string {
         // 获取undo最后一位元素
         const last = this.undoStack.pop()
         const limit = this.editor.config.undoLimit
@@ -74,7 +76,7 @@ class Undo {
         return last
     }
 
-    public redo(editor: Editor): string {
+    public redo(): string {
         // 获取redo第一个文本
         const first = this.redoStack.pop()
         const limit = this.editor.config.undoLimit
@@ -100,32 +102,32 @@ class Undo {
         return first
     }
 
-    public onChangeAfter(editor: Editor) {
+    public onChangeAfter() {
         // 获取文本内容
-        const str = editor.txt.html()
+        const str = this.editor.txt.html()
 
         // 类型不符
         if (typeof str !== 'string') return false
 
         // 判断标示 是否正在执行撤销操作
-        if (editor.undo.flag) {
+        if (this.flag) {
             // 更新标示
-            editor.undo.flag = false
+            this.flag = false
             // 不执行记录操作
             return false
         }
 
         // 缓存推入撤销栈
-        editor.undo.undoStack.push(editor.undo.undoString)
+        this.undoStack.push(this.undoString)
 
         // 更新缓存
-        editor.undo.undoString = str
+        this.undoString = str
 
         // 清空重做栈
-        editor.undo.redoStack.length = 0
+        this.redoStack.length = 0
 
         // 更新标示为false,change正常记录
-        editor.undo.flag = false
+        this.flag = false
     }
 }
 
