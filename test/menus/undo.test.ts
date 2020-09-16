@@ -20,5 +20,5 @@ test('撤销', () => {
     // 执行点击事件，模拟引用
     mockCmdFn(document)
     ;(undoMenu as Undo).clickHandler()
-    expect(editor.revoke.undo) // mock fn 被调用
+    expect(editor.undo.undo) // mock fn 被调用
 })
