@@ -13,7 +13,7 @@ const $P = $('<p></p>')
 $P.append($SPAN)
 
 let SELECTION_INSTANCE: Selection
-let RANGE: Range | null
+let RANGE: Range | null | undefined
 
 test('初始化 selection 实例', () => {
     const editor = createEditor(document, 'div1')
