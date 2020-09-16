@@ -49,7 +49,7 @@ class Menu {
     /**
      * 激活菜单，高亮显示
      */
-    public active(): void {
+    protected active(): void {
         this._active = true
         this.$elem.addClass('w-e-active')
     }
@@ -57,7 +57,7 @@ class Menu {
     /**
      * 取消激活，不再高亮显示
      */
-    public unActive(): void {
+    protected unActive(): void {
         this._active = false
         this.$elem.removeClass('w-e-active')
     }
