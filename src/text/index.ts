@@ -32,6 +32,7 @@ type TextEventHooks = {
     tableClickEvents: Function[] //表格点击
     menuClickEvents: Function[] // 每个菜单被点击时，按理说这个不属于 txt 的，先暂时在这放着吧
     dropListMenuHoverEvents: Function[] // droplist 菜单悬浮事件。暂时放这里
+    splitLineEvents: Function[] // 点击分割线时
 }
 
 class Text {
@@ -62,6 +63,7 @@ class Text {
             tableClickEvents: [],
             menuClickEvents: [],
             dropListMenuHoverEvents: [],
+            splitLineEvents: [],
         }
     }
 
@@ -122,6 +124,15 @@ class Text {
         }
 
         // 有 val ，则是设置 html
+        val = val.trim()
+        if (val === '') {
+            val = `<p><br></p>`
+        }
+        if (val.indexOf('<') !== 0) {
+            // 内容用 p 标签包裹
+            val = `<p>${val}</p>`
+        }
+
         $textElem.html(val)
 
         this.editor.change()
@@ -401,6 +412,28 @@ class Text {
 
             const codeClickEvents = eventHooks.codeClickEvents
             codeClickEvents.forEach(fn => fn($code))
+        })
+
+        // splitLine click
+        $textElem.on('click', (e: Event) => {
+            // 存储分割线元素
+            let $splitLine: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+            // 判断当前点击元素
+            if ($target.getNodeName() === 'HR') {
+                $splitLine = $target
+            } else {
+                $target == null
+            }
+
+            if ($splitLine == null) return // 没有点击分割线，则返回
+            // 设置、恢复选区
+            editor.selection.createRangeByElem($splitLine)
+            editor.selection.restoreSelection()
+            const splitLineClickEvents = eventHooks.splitLineEvents
+            splitLineClickEvents.forEach(fn => fn($splitLine))
         })
 
         // 菜单栏被点击
