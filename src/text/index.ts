@@ -283,8 +283,14 @@ class Text {
             // 取消默认行为
             e.preventDefault()
 
-            // 执行撤销事件
-            editor.undo.undo(editor)
+            // 执行事件
+            if (e.shiftKey) {
+                //撤销
+                editor.undo.redo()
+            } else {
+                //重做
+                editor.undo.undo()
+            }
         })
 
         // tab up
