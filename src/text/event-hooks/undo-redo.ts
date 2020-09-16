@@ -7,8 +7,6 @@ import Editor from '../../editor/index'
 
 /**
  * 撤销类
- * 选区的变化不能触发change事件,但我仍然保留了记录与恢复选区的代码
- * 后续如果能使用能够记录选区的api,那么这种记录方式仍然可用
  */
 class Undo {
     constructor(editor: Editor) {
