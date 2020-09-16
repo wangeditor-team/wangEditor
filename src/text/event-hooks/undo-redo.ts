@@ -10,7 +10,7 @@ import Editor from '../../editor/index'
  * 选区的变化不能触发change事件,但我仍然保留了记录与恢复选区的代码
  * 后续如果能使用能够记录选区的api,那么这种记录方式仍然可用
  */
-class Revoke {
+class Undo {
     constructor(editor: Editor) {
         this.editor = editor
         this.undoStack = []
@@ -19,10 +19,9 @@ class Revoke {
 
         // 初始化缓存字符串与撤销栈
         const str = editor.txt.html()
-        const range = editor.selection.getRange()
         if (typeof str === 'string') {
-            this.undoStack.push(new RevokeItem(range, str))
-            this.undoString = new RevokeItem(range, str)
+            this.undoStack.push(str)
+            this.undoString = str
         }
 
         // change钩子
@@ -30,12 +29,13 @@ class Revoke {
             this.onChangeAfter(editor)
         })
     }
+
     // 撤销栈
-    private undoStack: (RevokeItem | undefined)[]
+    private undoStack: string[]
     // 重做栈
-    private redoStack: (RevokeItem | undefined)[]
+    private redoStack: string[]
     // 记录缓存
-    private undoString: RevokeItem | undefined
+    private undoString: string = ''
     // 操作标示
     private flag: boolean
     // 编辑器实例
@@ -46,7 +46,7 @@ class Revoke {
         const last = this.undoStack.pop()
         const limit = this.editor.config.revokeLimit
         // 类型判断
-        if (typeof last?.text !== 'string') return false
+        if (typeof last !== 'string') return false
 
         // 更新标示
         this.flag = true
@@ -60,12 +60,7 @@ class Revoke {
         this.undoString = last
 
         // 设置文本内容
-        this.editor.txt.html(last?.text)
-
-        // @ts-ignore
-        // selection中的range默认值 Range | null | undefined未统一 有待修改
-        // 恢复选区
-        this.editor.selection.saveRange(last.range)
+        this.editor.txt.html(last)
     }
 
     public redo(editor: Editor) {
@@ -74,7 +69,7 @@ class Revoke {
         const limit = this.editor.config.revokeLimit
 
         // 类型判断
-        if (typeof first?.text !== 'string') return false
+        if (typeof first !== 'string') return false
 
         // 更新标示
         this.flag = true
@@ -87,18 +82,12 @@ class Revoke {
 
         this.undoString = first
         // 设置文本
-        this.editor.txt.html(first?.text)
-
-        // @ts-ignore
-        // selection中的range默认值 Range | null | undefined未统一 有待修改
-        // 恢复选区
-        this.editor.selection.saveRange(first.range)
+        this.editor.txt.html(first)
     }
 
     public onChangeAfter(editor: Editor) {
         // 获取文本内容
         const str = editor.txt.html()
-        const range = editor.selection.getRange()
 
         // 类型不符
         if (typeof str !== 'string') return false
@@ -115,7 +104,7 @@ class Revoke {
         editor.revoke.undoStack.push(editor.revoke.undoString)
 
         // 更新缓存
-        editor.revoke.undoString = new RevokeItem(range, str)
+        editor.revoke.undoString = str
 
         // 清空重做栈
         editor.revoke.redoStack.length = 0
@@ -125,19 +114,4 @@ class Revoke {
     }
 }
 
-/**
- * RevokeItem 撤销栈基础类
- * range 选区
- * text 文本内容
- * */
-class RevokeItem {
-    public range: Range | null
-    public text: string
-
-    constructor(range: Range | null, text: string) {
-        this.range = range
-        this.text = text
-    }
-}
-
-export default Revoke
+export default Undo
