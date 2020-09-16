@@ -273,7 +273,7 @@ class Text {
             e.preventDefault()
 
             // 执行撤销事件
-            editor.revoke.undo(editor)
+            editor.undo.undo(editor)
         })
 
         // tab up

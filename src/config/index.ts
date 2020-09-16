@@ -39,7 +39,7 @@ export type ConfigType = {
     pasteTextHandle: Function
     styleWithCSS: boolean
     linkImgCallback: Function
-    revokeLimit: number | boolean
+    undoLimit: number | boolean
 
     placeholder: string
     showLinkImg: boolean

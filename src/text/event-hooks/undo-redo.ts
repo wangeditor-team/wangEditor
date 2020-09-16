@@ -42,7 +42,7 @@ class Undo {
     public undo(editor: Editor) {
         // 获取undo最后一位元素
         const last = this.undoStack.pop()
-        const limit = this.editor.config.revokeLimit
+        const limit = this.editor.config.undoLimit
         // 类型判断
         if (typeof last !== 'string') return false
 
@@ -64,7 +64,7 @@ class Undo {
     public redo(editor: Editor) {
         // 获取redo第一个文本
         const first = this.redoStack.pop()
-        const limit = this.editor.config.revokeLimit
+        const limit = this.editor.config.undoLimit
 
         // 类型判断
         if (typeof first !== 'string') return false
@@ -91,24 +91,24 @@ class Undo {
         if (typeof str !== 'string') return false
 
         // 判断标示 是否正在执行撤销操作
-        if (editor.revoke.flag) {
+        if (editor.undo.flag) {
             // 更新标示
-            editor.revoke.flag = false
+            editor.undo.flag = false
             // 不执行记录操作
             return false
         }
 
         // 缓存推入撤销栈
-        editor.revoke.undoStack.push(editor.revoke.undoString)
+        editor.undo.undoStack.push(editor.undo.undoString)
 
         // 更新缓存
-        editor.revoke.undoString = str
+        editor.undo.undoString = str
 
         // 清空重做栈
-        editor.revoke.redoStack.length = 0
+        editor.undo.redoStack.length = 0
 
         // 更新标示
-        editor.revoke.flag = false
+        editor.undo.flag = false
     }
 }
 
