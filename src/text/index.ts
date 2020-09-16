@@ -23,7 +23,6 @@ type TextEventHooks = {
     deleteUpEvents: Function[] // 删除键（keyCode === 8）up 时
     deleteDownEvents: Function[] // 删除键（keyCode === 8）down 时
     pasteEvents: Function[] // 粘贴事件
-    revokeEvents: Function[] //撤销事件
     linkClickEvents: Function[] // 点击链接事件
     codeClickEvents: Function[] // 点击代码事件
     textScrollEvents: Function[] // 编辑区域滑动事件
@@ -54,7 +53,6 @@ class Text {
             deleteUpEvents: [],
             deleteDownEvents: [],
             pasteEvents: [],
-            revokeEvents: [],
             linkClickEvents: [],
             codeClickEvents: [],
             textScrollEvents: [],
@@ -269,14 +267,13 @@ class Text {
         // 撤销
         $textElem.on('keydown', (e: KeyboardEvent) => {
             // 非撤销行为
-            if (!(e.keyCode === 90 && e.ctrlKey)) return false
+            if (!(e.ctrlKey || (e.metaKey && e.keyCode === 90))) return false
 
             // 取消默认行为
             e.preventDefault()
 
             // 执行撤销事件
-            const revokeEvents = eventHooks.revokeEvents
-            revokeEvents.forEach(fn => fn(e))
+            editor.revoke.undo(editor)
         })
 
         // tab up

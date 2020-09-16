@@ -123,11 +123,6 @@ class Revoke {
         editor.txt.eventHooks.changeEvents.push(() => {
             this.onChangeAfter(editor)
         })
-
-        // 添加撤销事件
-        editor.txt.eventHooks.revokeEvents.push(() => {
-            this.undo(editor)
-        })
     }
 }
 
