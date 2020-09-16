@@ -20,8 +20,6 @@ function showSplitLineTooltip($splitLine: DomElement): void {
             $elem: $(`<span>${_editor.i18next.t('menus.panelMenus.删除')}</span>`),
             onClick: (editor: Editor, $splitLine: DomElement) => {
                 // 选中 分割线 元素
-                // console.log(editor.selection)
-                $splitLine.addClass('w-e-split-line-mask')
                 editor.selection.createRangeByElem($splitLine)
                 editor.selection.restoreSelection()
                 editor.cmd.do('delete')

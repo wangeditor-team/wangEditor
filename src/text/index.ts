@@ -398,7 +398,7 @@ class Text {
 
             const target = e.target as HTMLElement
             const $target = $(target)
-
+            // 判断当前点击元素
             if ($target.getNodeName() === 'HR') {
                 $splitLine = $target
             } else {
@@ -406,7 +406,9 @@ class Text {
             }
 
             if ($splitLine == null) return // 没有点击分割线，则返回
-
+            // 设置、恢复选区
+            editor.selection.createRangeByElem($splitLine)
+            editor.selection.restoreSelection()
             const splitLineClickEvents = eventHooks.splitLineEvents
             splitLineClickEvents.forEach(fn => fn($splitLine))
         })

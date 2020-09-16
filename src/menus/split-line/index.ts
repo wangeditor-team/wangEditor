@@ -19,15 +19,12 @@ class splitLine extends BtnMenu implements MenuActive {
      */
     public clickHandler(): void {
         const editor = this.editor
-        // console.log('editor.selection', editor.selection)
+        const range = editor.selection.getRange()
 
-        // TODO: 当将表格拖蓝时有BUG
-        // TODO: 光标在图片后时，点击添加分割线，有BUG
-        // TODO: 不允许在 代码块、表格、 图片、 中添加分割线
-        const $selectionElem = $(editor.selection.getSelectionContainerElem())
+        const $selectionElem = editor.selection.getSelectionContainerElem()
+        if (!$selectionElem) return
+
         const $DomElement = $($selectionElem.elems[0])
-        // console.log($DomElement)
-
         const $tableDOM = $DomElement.parentUntil('TABLE', $selectionElem.elems[0])
         const $imgDOM = $DomElement.children()
 
@@ -35,8 +32,16 @@ class splitLine extends BtnMenu implements MenuActive {
         if ($DomElement.getNodeName() === 'CODE') return
         // 禁止在表格中添加分割线
         if ($tableDOM && $($tableDOM.elems[0]).getNodeName() === 'TABLE') return
+
         // 禁止在图片处添加分割线
-        if ($imgDOM && $imgDOM.length !== 0 && $($imgDOM.elems[0]).getNodeName() === 'IMG') return
+        if (
+            $imgDOM &&
+            $imgDOM.length !== 0 &&
+            $($imgDOM.elems[0]).getNodeName() === 'IMG' &&
+            !range?.collapsed // 处理光标在 img 后面的情况
+        ) {
+            return
+        }
 
         this.createSplitLine()
     }
@@ -44,19 +49,12 @@ class splitLine extends BtnMenu implements MenuActive {
      * 创建 splitLine
      */
     private createSplitLine(): void {
-        const splitLineDOM: string = `<hr class='w-e-split-line'/>`
+        const splitLineDOM: string = '<hr/>'
         this.editor.cmd.do('insertHTML', splitLineDOM)
     }
     /**
      * 尝试修改菜单激活状态
      */
-    public tryChangeActive(): void {
-        // const editor = this.editor
-        // if (isActive(editor)) {
-        //     this.active()
-        // } else {
-        //     this.unActive()
-        // }
-    }
+    public tryChangeActive(): void {}
 }
 export default splitLine
