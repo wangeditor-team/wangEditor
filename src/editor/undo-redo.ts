@@ -29,9 +29,9 @@ class Undo {
     }
 
     // 撤销栈
-    private undoStack: string[]
+    public undoStack: string[]
     // 重做栈
-    private redoStack: string[]
+    public redoStack: string[]
     // 记录缓存
     private undoString: string = ''
     /**
@@ -45,12 +45,12 @@ class Undo {
     // 编辑器实例
     public editor: Editor
 
-    public undo(editor: Editor) {
+    public undo(editor: Editor): string {
         // 获取undo最后一位元素
         const last = this.undoStack.pop()
         const limit = this.editor.config.undoLimit
         // 类型判断
-        if (typeof last !== 'string') return false
+        if (typeof last !== 'string') return ''
 
         // 更新标示为true,change不执行记录
         this.flag = true
@@ -65,15 +65,18 @@ class Undo {
 
         // 设置文本内容
         this.editor.txt.html(last)
+
+        // 返回设置文本
+        return last
     }
 
-    public redo(editor: Editor) {
+    public redo(editor: Editor): string {
         // 获取redo第一个文本
         const first = this.redoStack.pop()
         const limit = this.editor.config.undoLimit
 
         // 类型判断
-        if (typeof first !== 'string') return false
+        if (typeof first !== 'string') return ''
 
         // 更新标示为true,change不执行记录
         this.flag = true
@@ -87,6 +90,9 @@ class Undo {
         this.undoString = first
         // 设置文本
         this.editor.txt.html(first)
+
+        // 返回设置文本
+        return first
     }
 
     public onChangeAfter(editor: Editor) {

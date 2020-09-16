@@ -20,5 +20,6 @@ test('撤销', () => {
     // 执行点击事件，模拟引用
     mockCmdFn(document)
     ;(undoMenu as Undo).clickHandler()
-    expect(editor.undo.undo) // mock fn 被调用
+    expect(typeof editor.undo.undo(editor)).toBe('string') // 返回值为字符串
+    expect(editor.undo.undoStack.length < editor.config.undoLimit).toBe(true) //undo栈长度不超过限制
 })

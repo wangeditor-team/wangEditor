@@ -20,5 +20,6 @@ test('重做', () => {
     // 执行点击事件，模拟引用
     mockCmdFn(document)
     ;(redoMenu as Redo).clickHandler()
-    expect(editor.undo.redo) // mock fn 被调用
+    expect(typeof editor.undo.redo(editor)).toBe('string') // 返回值为字符串
+    expect(editor.undo.redoStack.length < editor.config.undoLimit) //redo栈长度不超过限制
 })
