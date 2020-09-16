@@ -1,10 +1,12 @@
 /**
- * @description 实现打开全屏和关闭全屏的功能
+ * @description 全屏功能
  * @author xiaokyo
  */
 
+import Editor from '../index'
 import $ from '../../utils/dom-core'
-import Editor from '../../editor/index'
+
+import '../../assets/style/full-screen.less'
 
 const iconFullScreenText = 'w-e-icon-fullscreen' // 全屏icon class
 const iconExitFullScreenText = 'w-e-icon-fullscreen_exit' // 退出全屏icon class
@@ -17,8 +19,8 @@ const classfullScreenEditor = 'w-e-full-screen-editor' // 全屏添加至编辑�
 export const setFullScreen = (editor: Editor) => {
     const $editorParent = $(editor.toolbarSelector)
     const $textContainerElem = editor.$textContainerElem
-    const FullScreen = editor.menus.menuFind('fullScreen')
-    const $iconElem = FullScreen.$elem.find(`i`)
+    const $toolbarElem = editor.$toolbarElem
+    const $iconElem = $toolbarElem.find(`i.${iconFullScreenText}`)
     const config = editor.config
 
     $iconElem.removeClass(iconFullScreenText)
@@ -26,7 +28,6 @@ export const setFullScreen = (editor: Editor) => {
     $editorParent.addClass(classfullScreenEditor)
     $editorParent.css('z-index', config.zIndexFullScreen)
     $textContainerElem.css('height', '100%')
-    if (FullScreen) FullScreen.active()
 }
 
 /**
@@ -36,8 +37,8 @@ export const setFullScreen = (editor: Editor) => {
 export const setUnFullScreen = (editor: Editor) => {
     const $editorParent = $(editor.toolbarSelector)
     const $textContainerElem = editor.$textContainerElem
-    const FullScreen = editor.menus.menuFind('fullScreen')
-    const $iconElem = FullScreen.$elem.find(`i`)
+    const $toolbarElem = editor.$toolbarElem
+    const $iconElem = $toolbarElem.find(`i.${iconExitFullScreenText}`)
     const config = editor.config
 
     $iconElem.removeClass(iconExitFullScreenText)
@@ -45,5 +46,29 @@ export const setUnFullScreen = (editor: Editor) => {
     $editorParent.removeClass(classfullScreenEditor)
     $editorParent.css('z-index', 'auto')
     $textContainerElem.css('height', config.height + 'px')
-    if (FullScreen) FullScreen.unActive()
 }
+
+/**
+ * 初始化全屏功能
+ * @param editor 编辑器实例
+ */
+const initFullScreen = (editor: Editor) => {
+    const $toolbarElem = editor.$toolbarElem
+    const $elem = $(
+        `<div class="w-e-menu">
+        <i class="${iconFullScreenText}"></i>
+    </div>`
+    )
+    $elem.on('click', function (e: MouseEvent) {
+        const $elemIcon = $(e.currentTarget).find('i')
+        if ($elemIcon.hasClass(iconFullScreenText)) {
+            setFullScreen(editor)
+        } else {
+            setUnFullScreen(editor)
+        }
+    })
+
+    $toolbarElem.append($elem)
+}
+
+export default initFullScreen

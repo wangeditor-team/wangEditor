@@ -14,6 +14,7 @@ import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
+import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-full-screen'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -22,9 +23,6 @@ import DropListMenu from '../menus/menu-constructors/DropListMenu'
 import Panel from '../menus/menu-constructors/Panel'
 import PanelMenu from '../menus/menu-constructors/PanelMenu'
 import Tooltip from '../menus/menu-constructors/Tooltip'
-
-// 全屏实现
-import { setFullScreen, setUnFullScreen } from '../menus/full-screen/tools'
 
 let EDITOR_ID = 1
 
@@ -111,6 +109,9 @@ class Editor {
 
         // 初始化菜单
         this.menus.init()
+
+        // 初始化全屏功能
+        initFullScreen(this)
 
         // 初始化选区，将光标定位到内容尾部
         this.initSelection(true)
