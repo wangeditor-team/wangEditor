@@ -12,7 +12,12 @@ import $ from 'jquery'
  * @param toolbarId toolbar id
  * @param textId text id
  */
-function createEditor(document: Document, toolbarId: string, textId?: string): Editor {
+function createEditor(
+    document: Document,
+    toolbarId: string,
+    textId?: string,
+    config?: any
+): Editor {
     const toolbarElem = document.createElement('div')
     toolbarElem.id = toolbarId
     $('body').append($(toolbarElem))
@@ -27,6 +32,14 @@ function createEditor(document: Document, toolbarId: string, textId?: string): E
     }
 
     editor = new Editor(`#${toolbarId}`)
+
+    if (config) {
+        for (const key in config) {
+            if (Object.prototype.hasOwnProperty.call(config, key)) {
+                ;(editor.config as any)[key] = config[key]
+            }
+        }
+    }
 
     editor.create()
     return editor

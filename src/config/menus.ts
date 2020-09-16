@@ -41,6 +41,7 @@ export default {
         'video',
         'table',
         'code',
+        'splitLine',
         'undo',
         'redo',
         'fullScreen',
