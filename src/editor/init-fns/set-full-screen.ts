@@ -53,6 +53,7 @@ export const setUnFullScreen = (editor: Editor) => {
  * @param editor 编辑器实例
  */
 const initFullScreen = (editor: Editor) => {
+    // 当textSelector有值的时候，也就是编辑器是工具栏和编辑区域分离的情况， 则不生成全屏功能按钮
     if (editor.textSelector) return
     if (!editor.config.showFullScreen) return
     const $toolbarElem = editor.$toolbarElem
