@@ -61,6 +61,8 @@ export type ConfigType = {
 
     linkCheck: Function
     linkImgCheck: Function
+
+    focus: boolean
 }
 
 export type Resource = {
