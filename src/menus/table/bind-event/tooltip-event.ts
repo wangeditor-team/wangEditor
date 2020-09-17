@@ -43,6 +43,11 @@ function showTableTooltip($node: DomElement) {
         {
             $elem: $(`<span>${t('添加行')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
+                // 禁止多选操作
+                let isMore = isMoreRowAction(editor)
+                if (isMore) {
+                    return true
+                }
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
                 //当前行
@@ -70,6 +75,11 @@ function showTableTooltip($node: DomElement) {
         {
             $elem: $(`<span>${t('删除行')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
+                // 禁止多选操作
+                let isMore = isMoreRowAction(editor)
+                if (isMore) {
+                    return true
+                }
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
                 //当前行
@@ -105,6 +115,11 @@ function showTableTooltip($node: DomElement) {
         {
             $elem: $(`<span>${t('添加列')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
+                // 禁止多选操作
+                let isMore = isMoreRowAction(editor)
+                if (isMore) {
+                    return true
+                }
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
                 //当前列的index
@@ -127,6 +142,11 @@ function showTableTooltip($node: DomElement) {
         {
             $elem: $(`<span>${t('删除列')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
+                // 禁止多选操作
+                let isMore = isMoreRowAction(editor)
+                if (isMore) {
+                    return true
+                }
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
                 //当前列的index
@@ -158,6 +178,11 @@ function showTableTooltip($node: DomElement) {
         {
             $elem: $(`<span>${t('设置表头')}</span>`),
             onClick: (editor: Editor, $node: DomElement) => {
+                // 禁止多选操作
+                let isMore = isMoreRowAction(editor)
+                if (isMore) {
+                    return true
+                }
                 //当前元素
                 let selectDom = $(editor.selection.getSelectionStartElem())
                 //当前行
@@ -250,6 +275,19 @@ function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.toolbarClickEvents.push(hideTableTooltip)
     editor.txt.eventHooks.menuClickEvents.push(hideTableTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideTableTooltip)
+}
+
+/**
+ * 判断是否是多行
+ */
+function isMoreRowAction(editor: Editor): boolean {
+    const $startElem = editor.selection.getSelectionStartElem()
+    const $endElem = editor.selection.getSelectionEndElem()
+    if ($startElem?.elems[0] !== $endElem?.elems[0]) {
+        return true
+    } else {
+        return false
+    }
 }
 
 export default bindTooltipEvent

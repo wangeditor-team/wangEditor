@@ -72,10 +72,9 @@ class Quote extends BtnMenu implements MenuActive {
      * 尝试修改菜单激活状态
      */
     public tryChangeActive(): void {
-        const reg = /^BLOCKQUOTE$/i
         const editor = this.editor
         const cmdValue = editor.cmd.queryCommandValue('formatBlock')
-        if (reg.test(cmdValue)) {
+        if (cmdValue === 'blockquote') {
             this.active()
         } else {
             this.unActive()

@@ -87,7 +87,7 @@ git config user.email xxx@xxx.com
 
 ## 自动部署远程测试页
 
-说明：只有以 `feature-` 和 `fox-` 开头的分支，才具有这个功能。
+说明：只有以 `feature-` 和 `fix-` 开头的分支，才具有这个功能。
 
 当提交完自己的分支之后，github actions 会自动触发部署到腾讯云测试机。
 查看 [actions 列表](https://github.com/wangeditor-team/we-next/actions)，待所有任务运行完成之后。

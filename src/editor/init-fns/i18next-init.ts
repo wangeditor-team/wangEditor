@@ -20,7 +20,7 @@ function i18nextInit(editor: Editor) {
                 resources: languages,
             })
         } catch (error) {
-            throw new Error('i18next introduction error')
+            throw new Error('i18next:' + error)
         }
         return
     }
