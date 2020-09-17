@@ -53,11 +53,13 @@ export const setUnFullScreen = (editor: Editor) => {
  * @param editor 编辑器实例
  */
 const initFullScreen = (editor: Editor) => {
+    if (editor.textSelector) return
+    if (!editor.config.showFullScreen) return
     const $toolbarElem = editor.$toolbarElem
     const $elem = $(
         `<div class="w-e-menu">
-        <i class="${iconFullScreenText}"></i>
-    </div>`
+            <i class="${iconFullScreenText}"></i>
+        </div>`
     )
     $elem.on('click', function (e: MouseEvent) {
         const $elemIcon = $(e.currentTarget).find('i')

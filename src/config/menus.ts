@@ -44,7 +44,6 @@ export default {
         'splitLine',
         'undo',
         'redo',
-        'fullScreen',
     ],
 
     fontNames: [

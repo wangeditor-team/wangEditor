@@ -42,6 +42,7 @@ export type ConfigType = {
 
     placeholder: string
     zIndexFullScreen: number
+    showFullScreen: boolean
     showLinkImg: boolean
     uploadImgServer: string
     uploadImgShowBase64: boolean
