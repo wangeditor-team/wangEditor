@@ -21,7 +21,7 @@ function deleteToKeepP(editor: Editor, deleteUpEvents: Function[], deleteDownEve
         if (!txtHtml || txtHtml === '<br>') {
             // 内容空了
             const $p = $('<p><br/></p>')
-            $textElem.html('') // 一定要先清空，否则在 firefox 下有问题
+            $textElem.html(' ') // 一定要先清空，否则在 firefox 下有问题
             $textElem.append($p)
             editor.selection.createRangeByElem($p, false, true)
             editor.selection.restoreSelection()
