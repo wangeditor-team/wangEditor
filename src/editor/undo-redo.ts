@@ -9,6 +9,23 @@ import Editor from './index'
  * 撤销类
  */
 class Undo {
+    // 撤销栈
+    public undoStack: string[]
+    // 重做栈
+    public redoStack: string[]
+    // 记录缓存
+    private undoString: string = ''
+    /**
+     * 操作标示 true | false
+     * (因撤销操作需要使用html方法赋值,所以使用falg的方式区分撤销操作状态,屏蔽change的记录行为)
+     * 记录撤销操作的状态,true为操作中,false为未在操作,默认值为false
+     * 当值为true时,说明撤销操作正在进行,此时onchange事件不进行撤销文本的记录
+     * 当值为false是,说明未在执行撤销操作,此时onchange正常记录撤销文本,推入undo栈
+     */
+    private flag: boolean
+    // 编辑器实例
+    public editor: Editor
+
     constructor(editor: Editor) {
         this.editor = editor
         // 初始化撤销栈
@@ -29,26 +46,9 @@ class Undo {
 
         // change钩子
         editor.txt.eventHooks.changeEvents.push(() => {
-            this.onChangeAfter()
+            this.afterChange()
         })
     }
-
-    // 撤销栈
-    public undoStack: string[]
-    // 重做栈
-    public redoStack: string[]
-    // 记录缓存
-    private undoString: string = ''
-    /**
-     * 操作标示 true | false
-     * (因撤销操作需要使用html方法赋值,所以使用falg的方式区分撤销操作状态,屏蔽change的记录行为)
-     * 记录撤销操作的状态,true为操作中,false为未在操作,默认值为false
-     * 当值为true时,说明撤销操作正在进行,此时onchange事件不进行撤销文本的记录
-     * 当值为false是,说明未在执行撤销操作,此时onchange正常记录撤销文本,推入undo栈
-     */
-    private flag: boolean
-    // 编辑器实例
-    public editor: Editor
 
     public undo(): string {
         // 获取undo最后一位元素
@@ -102,7 +102,7 @@ class Undo {
         return first
     }
 
-    public onChangeAfter() {
+    public afterChange() {
         // 获取文本内容
         const str = this.editor.txt.html()
 
