@@ -114,3 +114,5 @@ upload-files-tmp/
 ISSUE1.md
 
 .idea/
+
+package-lock.json
