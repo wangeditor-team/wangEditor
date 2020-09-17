@@ -57,7 +57,9 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEven
 
     // enter down 时
     function createPWhenEnterText(e: Event) {
-        const $selectElem = editor.selection.getSelectionContainerElem() as DomElement
+        // selection中的range缓存还有问题,更新不及时,此处单独获取range处理enter的bug
+        const range = getSelection()?.getRangeAt(0)
+        const $selectElem = editor.selection.getSelectionContainerElem(range) as DomElement
         if ($selectElem.id === editor.textElemId) {
             // 回车时，默认创建了 text 标签（没有 p 标签包裹），父元素直接就是 $textElem
             // 例如，光标放在 table 最后侧，回车时，默认就是这个情况
