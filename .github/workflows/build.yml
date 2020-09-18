@@ -7,8 +7,12 @@ name: build
 on:
   push:
     branches: [ dev, master ]
-  pull_request:
-    branches: [ dev, master ]
+    paths:
+      - '.github/workflows/*'
+      - 'src/**'
+      - 'test/**'
+      - 'examples/**'
+      - 'server/**' # 暂时用不到，先留着吧，后面会加关于 server 的处理
 
 jobs:
   build:

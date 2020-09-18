@@ -12,6 +12,21 @@ type AttrType = {
 }
 
 /**
+ * 过滤掉空 span
+ * @param html html
+ */
+function filterEmptySpan(html: string): string {
+    const regForReplace = /<span>.*?<\/span>/gi
+    const regForMatch = /<span>(.*?)<\/span>/
+    return html.replace(regForReplace, (s: string): string => {
+        // s 是单个 span ，如 <span>文字</span>
+        const result = s.match(regForMatch)
+        if (result == null) return ''
+        return result[1]
+    })
+}
+
+/**
  * 是否忽略标签
  * @param tag tag
  * @param ignoreImg 是否忽略 img 标签
@@ -160,6 +175,10 @@ function parseHtml(html: string, filterStyle: boolean = true, ignoreImg: boolean
     })
 
     let result = resultArr.join('') // 转换为字符串
+
+    // 过滤掉空 span 标签
+    result = filterEmptySpan(result)
+
     return result
 }
 
