@@ -40,7 +40,7 @@ editor.create();
 
 ## 开发团队
 
-有专业[开发团队](http://www.wangeditor.com/doc/#%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98)维护，非个人单兵作战。
+有专业[开发团队](http://www.wangeditor.com/doc/#%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98)维护，非个人大兵作战。
 
 想加入 wangEditor 研发团队，可申请加入 QQ 群，然后私聊群主。
 
