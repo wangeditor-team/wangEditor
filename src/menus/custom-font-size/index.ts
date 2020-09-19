@@ -40,7 +40,6 @@ class customFontSize extends DropListMenu implements MenuActive {
             type: 'list',
             list: fontList,
             clickHandler: (value: string) => {
-                // this 是指向当前的 FontSize 对象
                 this.command(value)
             },
         }
@@ -55,7 +54,34 @@ class customFontSize extends DropListMenu implements MenuActive {
     public command(value: string): void {
         const editor = this.editor
         const selection = editor.selection
+        const _rang = selection.getRange()
+        // 获取选区被选中的文字
+        const text = selection.getSelectionText()
+        if (selection.isSelectionEmpty() || !text || text.length === 0 || text === ' ') {
+            return
+        }
+        // 获取当前选区的node
+        const _childrenNode = _rang?.commonAncestorContainer.childNodes
+        let isHasImg: Boolean = false
+        // 遍历循环看有没有img标签
+        _childrenNode?.forEach((el: ChildNode) => {
+            if (el.nodeName === 'IMG') {
+                isHasImg = true
+            }
+            !isHasImg &&
+                el.childNodes.length > 0 &&
+                el.childNodes.forEach((sonEl: ChildNode) => {
+                    if (sonEl.nodeName === 'IMG') {
+                        isHasImg = true
+                    }
+                })
+        })
+        // 如果存在则不执行字体大小设置
+        if (isHasImg) {
+            return
+        }
 
+<<<<<<< HEAD
         // 获取选区被选中的文字
         const text = selection.getSelectionText()
 
@@ -65,6 +91,41 @@ class customFontSize extends DropListMenu implements MenuActive {
         // Todo 待优化 insertHTML 导致dom重绘选区丢失问题 insertElem无法撤回
 
         if (!selection.isSelectionEmpty()) {
+=======
+        // var data = _rang && selection.getSelectionContainerElem(_rang)?.childNodes
+        // console.log('data', data)
+        // 获取父级的element
+        const parentEle = _rang?.commonAncestorContainer.parentElement
+        // 获取当前选择文字父级的标签的名字
+        const firstNodename: string | undefined = parentEle?.firstChild?.nodeName
+        // 获取当前fontsize大小
+        const pre: String | undefined = parentEle?.style?.fontSize
+        // 需要插入的html
+        let html = `<span style="font-size:${value}">${text}</span>`
+        console.log('parentNodename', firstNodename)
+        // 当他的父级的Nodename是span且有font-size大小时
+        // 说明当前选中的文字的选区之前设置过字体大小
+        // Todo 待优化 insertHTML 导致dom重绘选区丢失问题 insertElem无法撤回
+        if (firstNodename === 'DIV') {
+            editor.cmd.do(`insertElem`, $(`<p>${html}</p>`))
+        } else if (firstNodename === 'SPAN') {
+            // 创建动态RegExp正则
+            const regStr: string = `>${text.trim()}</span>`
+            const reg: RegExp = new RegExp(regStr, 'g')
+            // 获取当前编辑区html
+            const editorhtml: string = editor.txt.html() as string
+            // 如果匹配成功说明span标签包着的就是这个文字，直接给它的父级设置字体大小属性即可
+            const regRes: boolean = reg.test(editorhtml.trim())
+            // 获取父级的element直接设置font-size
+            if (regRes) {
+                parentEle?.setAttribute('style', `font-size:${value}`)
+            } else {
+                editor.cmd.do(`insertElem`, $(html))
+            }
+        } else if (firstNodename === 'P') {
+            editor.cmd.do(`insertElem`, $(` <p>${html}</p>`))
+        } else {
+>>>>>>> d115c9a... fix：修复插入的html外面是span的情况
             editor.cmd.do(`insertElem`, $(html))
         }
 
