@@ -42,6 +42,8 @@ export type ConfigType = {
     undoLimit: number | boolean
 
     placeholder: string
+    zIndexFullScreen: number
+    showFullScreen: boolean
     showLinkImg: boolean
     uploadImgServer: string
     uploadImgShowBase64: boolean

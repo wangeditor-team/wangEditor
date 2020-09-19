@@ -14,6 +14,7 @@ import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
+import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-full-screen'
 import Undo from './undo-redo'
 
 // 创建菜单的 class
@@ -112,6 +113,9 @@ class Editor {
         // 初始化菜单
         this.menus.init()
 
+        // 初始化全屏功能
+        initFullScreen(this)
+
         // 初始化选区，将光标定位到内容尾部
         this.initSelection(true)
 
@@ -142,6 +146,20 @@ class Editor {
         // 销毁 DOM 节点
         this.$toolbarElem.remove()
         this.$textContainerElem.remove()
+    }
+
+    /**
+     * 将编辑器设置为全屏
+     */
+    public fullScreen(): void {
+        setFullScreen(this)
+    }
+
+    /**
+     * 将编辑器退出全屏
+     */
+    public unFullScreen(): void {
+        setUnFullScreen(this)
     }
 }
 
