@@ -39,7 +39,6 @@ class Undo {
         setTimeout(() => {
             const str = editor.txt.html()
             if (typeof str === 'string') {
-                this.undoStack.push(str)
                 this.undoString = str
             }
         }, 0)
