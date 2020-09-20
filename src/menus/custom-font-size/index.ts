@@ -40,6 +40,7 @@ class customFontSize extends DropListMenu implements MenuActive {
             type: 'list',
             list: fontList,
             clickHandler: (value: string) => {
+                // this 是指向当前的 FontSize 对象
                 this.command(value)
             },
         }
@@ -54,14 +55,9 @@ class customFontSize extends DropListMenu implements MenuActive {
     public command(value: string): void {
         const editor = this.editor
         const selection = editor.selection
-        const _range = selection.getRange()
-        // 获取选区被选中的文字
-        const text = selection.getSelectionText()
-        if (selection.isSelectionEmpty() || !text || text.length === 0 || text === ' ') {
-            return
-        }
+        selection.saveRange()
         // 获取当前选区的node
-        const _childrenNode = _range?.commonAncestorContainer.childNodes
+        const _childrenNode = selection.getRange()?.commonAncestorContainer.childNodes
         let isHasImg: Boolean = false
         // 遍历循环看有没有img标签
         _childrenNode?.forEach((el: ChildNode) => {
@@ -76,63 +72,46 @@ class customFontSize extends DropListMenu implements MenuActive {
                     }
                 })
         })
-        // 如果存在则不执行字体大小设置
         if (isHasImg) {
             return
         }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
         // 获取选区被选中的文字
         const text = selection.getSelectionText()
-
-        // 需要插入的html
-        let html = `<span style="font-size:${value}">${text}</span>`
-
-        // Todo 待优化 insertHTML 导致dom重绘选区丢失问题 insertElem无法撤回
-
-        if (!selection.isSelectionEmpty()) {
-=======
-        // var data = _rang && selection.getSelectionContainerElem(_rang)?.childNodes
-=======
-        // var data = _range && selection.getSelectionContainerElem(_range)?.childNodes
->>>>>>> 6653df6... fix：修复插入的html外面是span的情况
-        // console.log('data', data)
         // 获取父级的element
-        const parentEle = _range?.commonAncestorContainer.parentElement
+        const parentEle = selection.getRange()?.commonAncestorContainer.parentElement
         // 获取当前选择文字父级的标签的名字
-        const firstNodename: string | undefined = parentEle?.firstChild?.nodeName
+        const parentNodename: string | undefined = parentEle?.nodeName
         // 获取当前fontsize大小
-        const pre: String | undefined = parentEle?.style?.fontSize
+        const curFontzie: String | undefined = parentEle?.style?.fontSize
         // 需要插入的html
         let html = `<span style="font-size:${value}">${text}</span>`
         // 当他的父级的Nodename是span且有font-size大小时
         // 说明当前选中的文字的选区之前设置过字体大小
-        // Todo 待优化 insertHTML 导致dom重绘选区丢失问题 insertElem无法撤回
-        if (firstNodename === 'DIV') {
-            editor.cmd.do(`insertElem`, $(`<p>${html}</p>`))
-        } else if (firstNodename === 'SPAN') {
+        if (parentNodename === 'SPAN' && curFontzie != '') {
             // 创建动态RegExp正则
-            const regStr: string = `>${text.trim()}</span>`
-            const reg: RegExp = new RegExp(regStr, 'gi')
+            const regStrWithspan: string = `>${text}</span>`
+            const regStrWithp: string = `>${text}</p>`
+            const regWithspan: RegExp = new RegExp(regStrWithspan, 'g')
+            const regWithp: RegExp = new RegExp(regStrWithp, 'g')
             // 获取当前编辑区html
             const editorhtml: string = editor.txt.html() as string
             // 如果匹配成功说明span标签包着的就是这个文字，直接给它的父级设置字体大小属性即可
-            const regRes: boolean = reg.test(editorhtml.trim())
-            // 获取父级的element直接设置font-size
-            if (regRes) {
-                parentEle?.setAttribute('style', `font-size:${value}`)
-            } else {
+            const regResWithspan: boolean = regWithspan.test(editorhtml)
+            const regResWithp: boolean = regWithp.test(editorhtml)
+            if (!selection.isSelectionEmpty() && text !== '' && text.length > 0) {
+                // 获取父级的element直接设置font-size
+                if (regResWithspan || regResWithp) {
+                    parentEle?.setAttribute('style', `font-size:${value}`)
+                } else {
+                    editor.cmd.do(`insertElem`, $(html))
+                }
+            }
+        } else {
+            // Todo 待优化 insertHTML 导致dom重绘选区丢失问题 insertElem无法撤回
+            if (!selection.isSelectionEmpty() && text !== '' && text.length > 0) {
                 editor.cmd.do(`insertElem`, $(html))
             }
-        } else if (firstNodename === 'P') {
-            editor.cmd.do(`insertElem`, $(` <p>${html}</p>`))
-        } else {
->>>>>>> d115c9a... fix：修复插入的html外面是span的情况
-            editor.cmd.do(`insertElem`, $(html))
         }
-
-        // editor.selection.restoreSelection()
     }
 
     /**
