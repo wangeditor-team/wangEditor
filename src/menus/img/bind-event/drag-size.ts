@@ -6,6 +6,7 @@
 import Editor from '../../../editor'
 import $, { DomElement } from '../../../utils/dom-core'
 import '../../../assets/style/drag-size.less'
+import { UA } from '../../../utils/util'
 
 let $imgTarget: DomElement
 
@@ -178,6 +179,7 @@ const bindDragImgSize = (editor: Editor) => {
 
     // 图片点击事件
     const imgClickHooks = ($target: DomElement) => {
+        if (UA.isIE()) return false
         if ($target) {
             $imgTarget = $target
             showDarg($textContainerElem, $drag)
@@ -193,6 +195,8 @@ const bindDragImgSize = (editor: Editor) => {
     }
     editor.txt.eventHooks.textScrollEvents.push(hideDrag)
     editor.txt.eventHooks.keyupEvents.push(hideDrag)
+    editor.txt.eventHooks.toolbarClickEvents.push(hideDrag)
+    editor.txt.eventHooks.menuClickEvents.push(hideDrag)
     document.onclick = hideDrag
 
     // change 时隐藏

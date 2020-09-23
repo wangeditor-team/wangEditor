@@ -30,6 +30,9 @@ type TextEventHooks = {
     imgClickEvents: Function[] // 图片被点击事件
     imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
     tableClickEvents: Function[] //表格点击
+    menuClickEvents: Function[] // 每个菜单被点击时，按理说这个不属于 txt 的，先暂时在这放着吧
+    dropListMenuHoverEvents: Function[] // droplist 菜单悬浮事件。暂时放这里
+    splitLineEvents: Function[] // 点击分割线时
 }
 
 class Text {
@@ -58,6 +61,9 @@ class Text {
             imgClickEvents: [],
             imgDragBarMouseDownEvents: [],
             tableClickEvents: [],
+            menuClickEvents: [],
+            dropListMenuHoverEvents: [],
+            splitLineEvents: [],
         }
     }
 
@@ -82,7 +88,7 @@ class Text {
         const html = this.html()
         const $placeholder = this.editor.$textContainerElem.find('.placeholder')
         $placeholder.hide()
-        if (!html || html === '<p><br></p>') $placeholder.show()
+        if (!html || html === '<p><br></p>' || html === ' ') $placeholder.show()
     }
 
     /**
@@ -109,6 +115,15 @@ class Text {
             html = html.replace(/<p><\/p>/gim, '') // 去掉空行
             html = html.replace(/<p><br\/?><\/p>$/gim, '') // 去掉最后的 <p><br><p>
 
+            /**
+             * 这里的代码为了处理火狐多余的空行标签,但是强制删除空行标签会带来其他问题
+             * html()方法返回的的值,"<p><br></p>"中pr会被删除,只留下<p>,点不进去,从而产生垃圾数据
+             * 目前在末位有多个空行的情况下执行撤销重做操作,会产生一种不记录末尾空行的错觉
+             * 暂时注释, 等待进一步的兼容处理
+             */
+            // html = html.replace(/><br>(?!<)/gi, '>') // 过滤 <p><br>内容</p> 中的br
+            // html = html.replace(/(?!>)<br></gi, '<') // 过滤 <p>内容<br></p> 中的br
+
             // pre标签格式化
             html = formatCodeHtml(editor, html)
 
@@ -116,6 +131,15 @@ class Text {
         }
 
         // 有 val ，则是设置 html
+        val = val.trim()
+        if (val === '') {
+            val = `<p><br></p>`
+        }
+        if (val.indexOf('<') !== 0) {
+            // 内容用 p 标签包裹
+            val = `<p>${val}</p>`
+        }
+
         $textElem.html(val)
 
         this.editor.change()
@@ -258,6 +282,24 @@ class Text {
             pasteEvents.forEach(fn => fn(e))
         })
 
+        // 撤销
+        $textElem.on('keydown', (e: KeyboardEvent) => {
+            // 非撤销行为
+            if (!((e.ctrlKey || e.metaKey) && e.keyCode === 90)) return false
+
+            // 取消默认行为
+            e.preventDefault()
+
+            // 执行事件
+            if (e.shiftKey) {
+                //撤销
+                editor.undo.redo()
+            } else {
+                //重做
+                editor.undo.undo()
+            }
+        })
+
         // tab up
         $textElem.on('keyup', (e: KeyboardEvent) => {
             if (e.keyCode !== 9) return
@@ -383,6 +425,28 @@ class Text {
 
             const codeClickEvents = eventHooks.codeClickEvents
             codeClickEvents.forEach(fn => fn($code))
+        })
+
+        // splitLine click
+        $textElem.on('click', (e: Event) => {
+            // 存储分割线元素
+            let $splitLine: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+            // 判断当前点击元素
+            if ($target.getNodeName() === 'HR') {
+                $splitLine = $target
+            } else {
+                $target == null
+            }
+
+            if ($splitLine == null) return // 没有点击分割线，则返回
+            // 设置、恢复选区
+            editor.selection.createRangeByElem($splitLine)
+            editor.selection.restoreSelection()
+            const splitLineClickEvents = eventHooks.splitLineEvents
+            splitLineClickEvents.forEach(fn => fn($splitLine))
         })
 
         // 菜单栏被点击

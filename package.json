@@ -1,7 +1,13 @@
 {
   "name": "@wangeditor-team/we-next",
-  "version": "0.0.24",
-  "description": "wangEditor next",
+  "version": "0.0.26",
+  "description": "wangEditor - 轻量级 web 富文本编辑器，配置方便，使用简单，开源免费",
+  "homepage": "http://www.wangeditor.com/",
+  "keywords": [
+    "wangEditor",
+    "富文本编辑器",
+    "富文本"
+  ],
   "main": "dist/wangEditor.min.js",
   "types": "dist/wangEditor.d.ts",
   "module": "dist/wangEditor.min.js",
@@ -27,14 +33,17 @@
   "bugs": {
     "url": "https://github.com/wangeditor-team/we-next/issues"
   },
-  "homepage": "https://github.com/wangeditor-team/we-next#readme",
   "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
     "@types/jest": "^25.2.1",
     "@types/jquery": "^3.3.38",
     "@types/lodash": "^4.14.150",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
     "autoprefixer": "^9.7.6",
+    "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^7.0.2",
     "css-loader": "^3.5.3",
@@ -42,9 +51,9 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
     "formidable": "^1.2.2",
+    "highlight.js": "^10.1.2",
     "husky": "^4.2.5",
     "i18next": "^19.6.3",
-    "highlight.js": "^10.1.2",
     "jest": "^26.0.1",
     "jquery": "^3.5.1",
     "koa": "^2.13.0",
@@ -66,9 +75,14 @@
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@babel/runtime": "^7.11.2",
+    "@babel/runtime-corejs3": "^7.11.2"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

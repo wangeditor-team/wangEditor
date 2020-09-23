@@ -11,6 +11,12 @@ on:
       - 'dev'
       - 'feature-*'
       - 'fix-*'
+    paths:
+      - '.github/workflows/*'
+      - 'src/**'
+      - 'test/**'
+      - 'examples/**'
+      - 'server/**' # 暂时用不到，先留着吧，后面会加关于 server 的处理
 
 jobs:
   build:
@@ -22,7 +28,7 @@ jobs:
         node-version: 12
     - name: build
       run: |
-        npm ci ## 安装 npm 依赖
+        npm i
         npm test
         npm run build --if-present
     - name: set ssh key # 临时设置 ssh key

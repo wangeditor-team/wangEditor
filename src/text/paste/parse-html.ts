@@ -12,6 +12,21 @@ type AttrType = {
 }
 
 /**
+ * 过滤掉空 span
+ * @param html html
+ */
+function filterEmptySpan(html: string): string {
+    const regForReplace = /<span>.*?<\/span>/gi
+    const regForMatch = /<span>(.*?)<\/span>/
+    return html.replace(regForReplace, (s: string): string => {
+        // s 是单个 span ，如 <span>文字</span>
+        const result = s.match(regForMatch)
+        if (result == null) return ''
+        return result[1]
+    })
+}
+
+/**
  * 是否忽略标签
  * @param tag tag
  * @param ignoreImg 是否忽略 img 标签
@@ -94,13 +109,13 @@ function parseHtml(html: string, filterStyle: boolean = true, ignoreImg: boolean
     const htmlParser = new HtmlParser()
     htmlParser.parse(html, {
         startElement(tag: string, attrs: []) {
+            // 首先，标记开始
+            markTagStart(tag)
+
             // 忽略的标签
             if (isIgnoreTag(tag, ignoreImg)) {
                 return
             }
-
-            // 首先，标记开始
-            markTagStart(tag)
 
             // 找出该标签必须的属性（其他的属性忽略）
             const necessaryAttrKeys = NECESSARY_ATTRS.get(tag) || []
@@ -134,7 +149,10 @@ function parseHtml(html: string, filterStyle: boolean = true, ignoreImg: boolean
             str = str.trim()
             if (!str) return
 
-            if (!CUR_TAG) return // 如果当前没有标签，即纯文本，则忽略
+            // 忽略的标签
+            if (isIgnoreTag(CUR_TAG, ignoreImg)) {
+                return
+            }
 
             resultArr.push(str)
         },
@@ -157,6 +175,10 @@ function parseHtml(html: string, filterStyle: boolean = true, ignoreImg: boolean
     })
 
     let result = resultArr.join('') // 转换为字符串
+
+    // 过滤掉空 span 标签
+    result = filterEmptySpan(result)
+
     return result
 }
 

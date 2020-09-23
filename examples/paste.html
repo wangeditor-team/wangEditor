@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <p>
+        wangEditor demo
+    </p>
+    <div id="div1">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+    </div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        const E = window.wangEditor
+        const editor = new E('#div1')
+        editor.config.height = 800
+
+        // 过滤样式，默认 true
+        editor.config.pasteFilterStyle = true
+
+        // 忽略图片，默认 false
+        editor.config.pasteIgnoreImg = false
+
+        editor.config.pasteTextHandle = function (content) {
+            return content
+        }
+
+        editor.create()
+    </script>
+</body>
+
+</html>

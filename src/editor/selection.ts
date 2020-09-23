@@ -10,7 +10,7 @@ import SelectionRangeTopNodes from './selection-range-top-nodes/index'
 
 class SelectionAndRange {
     public editor: Editor
-    private _currentRange: Range | null
+    private _currentRange: Range | null | undefined
 
     constructor(editor: Editor) {
         this.editor = editor
@@ -20,7 +20,7 @@ class SelectionAndRange {
     /**
      * 获取当前 range
      */
-    public getRange(): Range | null {
+    public getRange(): Range | null | undefined {
         return this._currentRange
     }
 

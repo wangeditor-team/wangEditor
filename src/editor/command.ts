@@ -80,6 +80,7 @@ class Command {
             // IE
             range.deleteContents()
             range.insertNode($(html).elems[0])
+            editor.selection.collapseRange()
         }
         // else if (range.pasteHTML) {
         //     // IE <= 10

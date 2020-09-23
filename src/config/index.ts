@@ -39,8 +39,11 @@ export type ConfigType = {
     pasteTextHandle: Function
     styleWithCSS: boolean
     linkImgCallback: Function
+    undoLimit: number | boolean
 
     placeholder: string
+    zIndexFullScreen: number
+    showFullScreen: boolean
     showLinkImg: boolean
     uploadImgServer: string
     uploadImgShowBase64: boolean
@@ -61,6 +64,8 @@ export type ConfigType = {
 
     linkCheck: Function
     linkImgCheck: Function
+
+    focus: boolean
 }
 
 export type Resource = {

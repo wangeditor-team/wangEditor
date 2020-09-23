@@ -6,9 +6,9 @@
 import $, { DomElement } from '../../../utils/dom-core'
 import Tooltip, { TooltipConfType } from '../../menu-constructors/Tooltip'
 import Editor from '../../../editor/index'
-import Code from '../index'
-import isActive from '../is-active'
-import Menu from '../../menu-constructors/Menu'
+// import Code from '../index'
+// import isActive from '../is-active'
+// import Menu from '../../menu-constructors/Menu'
 
 let tooltip: Tooltip | null
 let _editor: Editor
@@ -18,9 +18,14 @@ let _editor: Editor
  * @param $code 链接元素
  */
 function showCodeTooltip($code: DomElement) {
-    const conf: TooltipConfType = [
+    const i18nPrefix = 'menus.panelMenus.code.'
+    const t = (text: string, prefix: string = i18nPrefix): string => {
+        return _editor.i18next.t(prefix + text)
+    }
+
+    const conf = [
         {
-            $elem: $('<span>删除代码</span>'),
+            $elem: $(`<span>${t('删除代码')}</span>`),
             onClick: (editor: Editor, $code: DomElement) => {
                 //dom操作删除
                 $code.remove()
@@ -87,6 +92,7 @@ function bindTooltipEvent(editor: Editor) {
     // 点击其他地方，或者滚动时，隐藏 tooltip
     editor.txt.eventHooks.clickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.toolbarClickEvents.push(hideCodeTooltip)
+    editor.txt.eventHooks.menuClickEvents.push(hideCodeTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideCodeTooltip)
 }
 

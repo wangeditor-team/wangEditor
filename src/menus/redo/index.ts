@@ -22,7 +22,7 @@ class Redo extends BtnMenu implements MenuActive {
      * 点击事件
      */
     public clickHandler(): void {
-        this.editor.cmd.do('redo')
+        this.editor.undo.redo()
     }
 
     /**

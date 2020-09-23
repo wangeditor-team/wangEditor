@@ -34,8 +34,6 @@ class Image extends PanelMenu implements MenuActive {
         const conf = createPanelConf(this.editor)
         const panel = new Panel(this, conf)
         panel.create()
-
-        this.setPanel(panel)
     }
 
     /**

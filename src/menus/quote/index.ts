@@ -3,7 +3,8 @@
  * @author tonghan
  */
 
-import $ from '../../utils/dom-core'
+import $, { DomElement } from '../../utils/dom-core'
+import { UA } from '../../utils/util'
 import Editor from '../../editor/index'
 import BtnMenu from '../menu-constructors/BtnMenu'
 import { MenuActive } from '../menu-constructors/Menu'
@@ -25,19 +26,39 @@ class Quote extends BtnMenu implements MenuActive {
         const editor = this.editor
         const isSelectEmpty = editor.selection.isSelectionEmpty()
 
-        const $selectionElem = editor.selection.getSelectionContainerElem()
-        const nodeName = $selectionElem?.getNodeName()
+        const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
+        const nodeName = $selectionElem.getNodeName()
 
         if (isSelectEmpty) {
             // 选区范围是空的，插入并选中一个“空白”
             editor.selection.createEmptyRange()
         }
 
-        // 执行 formatBlock 命令
-        if (nodeName === 'BLOCKQUOTE') {
-            editor.cmd.do('formatBlock', '<p>')
+        if (UA.isIE()) {
+            // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
+            let content, $targetELem
+            if (nodeName === 'P') {
+                // 将 P 转换为 quote
+                content = $selectionElem.text()
+                $targetELem = $(`<blockquote>${content}</blockquote>`)
+                $targetELem.insertAfter($selectionElem)
+                $selectionElem.remove()
+                return
+            }
+            if (nodeName === 'BLOCKQUOTE') {
+                // 撤销 quote
+                content = $selectionElem.text()
+                $targetELem = $(`<p>${content}</p>`)
+                $targetELem.insertAfter($selectionElem)
+                $selectionElem.remove()
+            }
         } else {
-            editor.cmd.do('formatBlock', '<blockquote>')
+            // 执行 formatBlock 命令
+            if (nodeName === 'BLOCKQUOTE') {
+                editor.cmd.do('formatBlock', '<p>')
+            } else {
+                editor.cmd.do('formatBlock', '<blockquote>')
+            }
         }
 
         if (isSelectEmpty) {
@@ -51,10 +72,9 @@ class Quote extends BtnMenu implements MenuActive {
      * 尝试修改菜单激活状态
      */
     public tryChangeActive(): void {
-        const reg = /^BLOCKQUOTE$/i
         const editor = this.editor
         const cmdValue = editor.cmd.queryCommandValue('formatBlock')
-        if (reg.test(cmdValue)) {
+        if (cmdValue === 'blockquote') {
             this.active()
         } else {
             this.unActive()

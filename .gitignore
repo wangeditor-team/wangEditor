@@ -107,8 +107,12 @@ examples/test-page/
 
 upload-files/
 
+upload-files-tmp/
+
 .DS_Store
 
 ISSUE1.md
 
 .idea/
+
+package-lock.json
