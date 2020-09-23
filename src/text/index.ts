@@ -8,7 +8,7 @@ import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
 import { UA, throttle } from '../utils/util'
 import getChildrenJSON, { NodeListType } from './getChildrenJSON'
-import { formatCodeHtml } from '../menus/code/index'
+import { formatCodeHtml } from '../menus/code'
 
 // 各个事件钩子函数
 type TextEventHooks = {
