@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import menusConfig, { EmotionsType } from './menus'
+import menusConfig, { EmotionsType, FontSizeConfType } from './menus'
 import eventsConfig from './events'
 import styleConfig from './style'
 import pasteConfig from './paste'
@@ -25,8 +25,7 @@ export type ConfigType = {
     menus: string[]
     fontNames: string[]
     lineHeights: string[]
-    fontSizes: DicType
-    customFontSize: customFontSizeType
+    fontSizes: FontSizeConfType
     colors: string[]
     emotions: EmotionsType[]
     zIndex: number
@@ -81,8 +80,6 @@ export type ResourceKey =
     | {
           [key: string]: any
       }
-
-export type customFontSizeType = Array<{ value: string; text: string }>
 
 // 合并所有的配置信息
 const defaultConfig = Object.assign(
