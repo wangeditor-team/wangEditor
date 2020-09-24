@@ -17,13 +17,21 @@ export type EmotionsType = {
     content: Array<EmotionsContentType | string>
 }
 
+// font-size 类型
+export type FontSizeConfType = {
+    [key: string]: {
+        name: string
+        value: string
+    }
+}
+
 /*表情菜单数据结构类型END*/
 export default {
     menus: [
         'head',
         'bold',
-        // 'fontSize',
-        'customFontSize',
+        'fontSize',
+        // 'customFontSize',
         'fontName',
         'italic',
         'underline',
@@ -63,24 +71,46 @@ export default {
     ],
 
     fontSizes: {
-        'x-small': '1',
-        small: '2',
-        normal: '3',
-        large: '4',
-        'x-large': '5',
-        'xx-large': '6',
+        'x-small': {
+            name: '10px',
+            value: '1',
+        },
+        small: {
+            name: '13px',
+            value: '2',
+        },
+        normal: {
+            name: '16px',
+            value: '3',
+        },
+        large: {
+            name: '18px',
+            value: '4',
+        },
+        'x-large': {
+            name: '24px',
+            value: '5',
+        },
+        'xx-large': {
+            name: '32px',
+            value: '6',
+        },
+        'xxx-large': {
+            name: '48px',
+            value: '7',
+        },
     },
 
-    customFontSize: [
-        { value: '9px', text: '9' },
-        { value: '10px', text: '10' },
-        { value: '12px', text: '12' },
-        { value: '14px', text: '14' },
-        { value: '16px', text: '16' },
-        { value: '20px', text: '20' },
-        { value: '42px', text: '42' },
-        { value: '72px', text: '72' },
-    ],
+    // customFontSize: [ // 该菜单暂时不用 - 王福朋 20200924
+    //     { value: '9px', text: '9' },
+    //     { value: '10px', text: '10' },
+    //     { value: '12px', text: '12' },
+    //     { value: '14px', text: '14' },
+    //     { value: '16px', text: '16' },
+    //     { value: '20px', text: '20' },
+    //     { value: '42px', text: '42' },
+    //     { value: '72px', text: '72' },
+    // ],
 
     colors: [
         '#000000',
@@ -208,4 +238,6 @@ export default {
     ],
 
     lineHeights: ['1', '1.15', '1.6', '2', '2.5', '3'],
+
+    undoLimit: 20,
 }

@@ -14,6 +14,8 @@ import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent, { changeHandler } from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
+import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-full-screen'
+import Undo from './undo-redo'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -50,6 +52,7 @@ class Editor {
     public menus: Menus
     public i18next: any
     public highlight: any
+    public undo: Undo
 
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
@@ -83,6 +86,7 @@ class Editor {
         this.cmd = new CommandAPI(this)
         this.txt = new Text(this)
         this.menus = new Menus(this)
+        this.undo = new Undo(this)
     }
 
     /**
@@ -108,6 +112,9 @@ class Editor {
 
         // 初始化菜单
         this.menus.init()
+
+        // 初始化全屏功能
+        initFullScreen(this)
 
         // 初始化选区，将光标定位到内容尾部
         this.initSelection(true)
@@ -139,6 +146,20 @@ class Editor {
         // 销毁 DOM 节点
         this.$toolbarElem.remove()
         this.$textContainerElem.remove()
+    }
+
+    /**
+     * 将编辑器设置为全屏
+     */
+    public fullScreen(): void {
+        setFullScreen(this)
+    }
+
+    /**
+     * 将编辑器退出全屏
+     */
+    public unFullScreen(): void {
+        setUnFullScreen(this)
     }
 }
 

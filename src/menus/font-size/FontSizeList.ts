@@ -4,7 +4,7 @@
  */
 import $ from '../../utils/dom-core'
 import { DropListItem } from '../menu-constructors/DropList'
-import { DicType } from '../../config/index'
+import { FontSizeConfType } from '../../config/menus'
 
 /**
  * FontSizeList 字号配置列表
@@ -12,12 +12,13 @@ import { DicType } from '../../config/index'
 class FontSizeList {
     private itemList: DropListItem[]
 
-    constructor(list: DicType) {
+    constructor(list: FontSizeConfType) {
         this.itemList = []
         for (let key in list) {
+            const item = list[key]
             this.itemList.push({
-                $elem: $(`<p style="font-size:${key}">${key}</p>`),
-                value: list[key],
+                $elem: $(`<p style="font-size:${key}">${item.name}</p>`),
+                value: item.value,
             })
         }
     }

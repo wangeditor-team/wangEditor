@@ -18,6 +18,7 @@ export const IGNORE_TAGS = new Set([
     'iframe',
     'title',
     'svg', // 暂时忽略，有需要再修改
+    'center',
 ])
 
 // 指定标签必要的属性

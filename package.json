@@ -1,7 +1,13 @@
 {
   "name": "@wangeditor-team/we-next",
   "version": "0.1.0",
-  "description": "wangEditor next",
+  "description": "wangEditor - 轻量级 web 富文本编辑器，配置方便，使用简单，开源免费",
+  "homepage": "http://www.wangeditor.com/",
+  "keywords": [
+    "wangEditor",
+    "富文本编辑器",
+    "富文本"
+  ],
   "main": "dist/wangEditor.min.js",
   "types": "dist/wangEditor.d.ts",
   "module": "dist/wangEditor.min.js",
@@ -27,7 +33,6 @@
   "bugs": {
     "url": "https://github.com/wangeditor-team/we-next/issues"
   },
-  "homepage": "https://github.com/wangeditor-team/we-next#readme",
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/plugin-transform-runtime": "^7.11.5",
