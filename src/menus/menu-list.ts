@@ -21,7 +21,6 @@ import Indent from './indent/index'
 import Emoticon from './emoticon/index'
 import List from './list/index'
 import LineHeight from './lineHeight/index'
-import CustomFontSize from './custom-font-size/index'
 import Undo from './undo/index'
 import Redo from './redo/index'
 import Table from './table/index'
@@ -51,7 +50,6 @@ export default {
     emoticon: Emoticon,
     list: List,
     lineHeight: LineHeight,
-    customFontSize: CustomFontSize,
     undo: Undo,
     redo: Redo,
     table: Table,

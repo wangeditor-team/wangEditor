@@ -8,7 +8,7 @@ import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
 import { UA, throttle } from '../utils/util'
 import getChildrenJSON, { NodeListType } from './getChildrenJSON'
-import { formatCodeHtml } from '../menus/code/index'
+import { formatCodeHtml } from '../menus/code'
 
 // 各个事件钩子函数
 type TextEventHooks = {
@@ -88,7 +88,7 @@ class Text {
         const html = this.html()
         const $placeholder = this.editor.$textContainerElem.find('.placeholder')
         $placeholder.hide()
-        if (!html || html === '<p><br></p>') $placeholder.show()
+        if (!html || html === '<p><br></p>' || html === ' ') $placeholder.show()
     }
 
     /**
@@ -114,8 +114,15 @@ class Text {
             html = html.replace(/\u200b/gm, '')
             html = html.replace(/<p><\/p>/gim, '') // 去掉空行
             html = html.replace(/<p><br\/?><\/p>$/gim, '') // 去掉最后的 <p><br><p>
-            html = html.replace(/><br>(?!<)/gi, '>') // 过滤 <p><br>内容</p> 中的br
-            html = html.replace(/(?!>)<br></gi, '<') // 过滤 <p>内容<br></p> 中的br
+
+            /**
+             * 这里的代码为了处理火狐多余的空行标签,但是强制删除空行标签会带来其他问题
+             * html()方法返回的的值,"<p><br></p>"中pr会被删除,只留下<p>,点不进去,从而产生垃圾数据
+             * 目前在末位有多个空行的情况下执行撤销重做操作,会产生一种不记录末尾空行的错觉
+             * 暂时注释, 等待进一步的兼容处理
+             */
+            // html = html.replace(/><br>(?!<)/gi, '>') // 过滤 <p><br>内容</p> 中的br
+            // html = html.replace(/(?!>)<br></gi, '<') // 过滤 <p>内容<br></p> 中的br
 
             // pre标签格式化
             html = formatCodeHtml(editor, html)
@@ -273,6 +280,24 @@ class Text {
 
             const pasteEvents = eventHooks.pasteEvents
             pasteEvents.forEach(fn => fn(e))
+        })
+
+        // 撤销
+        $textElem.on('keydown', (e: KeyboardEvent) => {
+            // 非撤销行为
+            if (!((e.ctrlKey || e.metaKey) && e.keyCode === 90)) return false
+
+            // 取消默认行为
+            e.preventDefault()
+
+            // 执行事件
+            if (e.shiftKey) {
+                //撤销
+                editor.undo.redo()
+            } else {
+                //重做
+                editor.undo.undo()
+            }
         })
 
         // tab up
