@@ -61,11 +61,12 @@ class Panel {
         const width = conf.width || 300 // 默认 300px
         const rect = menu.editor.$toolbarElem.getBoundingClientRect()
         const menuRect = menu.$elem.getBoundingClientRect()
+        const top = rect.height + rect.top - menuRect.top
         const left = (rect.width - width) / 2 + rect.left - menuRect.left
 
         $container
             .css('width', width + 'px')
-            .css('margin-top', `${rect.height}px`)
+            .css('margin-top', `${top}px`)
             .css('margin-left', `${left}px`)
             .css('z-index', menu.editor.zIndex.get('panel'))
 
