@@ -54,16 +54,11 @@ class Menus {
     private _addToToolbar(): void {
         const editor = this.editor
         const $toolbarElem = editor.$toolbarElem
-        const config = editor.config
-        // config.zIndex 是配置的编辑区域的 z-index，菜单的 z-index 得在其基础上 +1
-        const zIndex = config.zIndex + 1
 
         // 遍历添加到 DOM
         this.menuList.forEach(menu => {
             const $elem = menu.$elem
             if ($elem) {
-                // 设置 z-index
-                $elem.css('z-index', zIndex)
                 $toolbarElem.append($elem)
             }
         })

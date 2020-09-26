@@ -42,7 +42,7 @@ class DropListMenu extends Menu {
                 if (editor.selection.getRange() == null) {
                     return
                 }
-                $elem.css('z-index', editor.config.zIndex + 2)
+                $elem.css('z-index', editor.zIndex.get('menu'))
                 // 触发 droplist 悬浮事件
                 editor.txt.eventHooks.dropListMenuHoverEvents.forEach(fn => fn())
                 // 显示
@@ -51,7 +51,7 @@ class DropListMenu extends Menu {
                 }, 200)
             })
             .on('mouseleave', () => {
-                $elem.css('z-index', editor.config.zIndex + 1)
+                $elem.css('z-index', 'auto')
                 // 隐藏
                 dropList.hideTimeoutId = window.setTimeout(() => {
                     dropList.hide()
