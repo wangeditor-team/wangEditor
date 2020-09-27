@@ -89,7 +89,7 @@ class Editor {
         this.txt = new Text(this)
         this.menus = new Menus(this)
         this.undo = new Undo(this)
-        this.zIndex = new ZIndex(this)
+        this.zIndex = new ZIndex()
     }
 
     /**
@@ -104,6 +104,9 @@ class Editor {
      * 创建编辑器实例
      */
     public create(): void {
+        // 初始化 ZIndex
+        this.zIndex.init(this)
+
         // 国际化 因为要在创建菜单前使用 所以要最先 初始化
         i18nextInit(this)
 

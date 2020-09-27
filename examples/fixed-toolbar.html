@@ -36,6 +36,7 @@
     <script>
         const E = window.wangEditor
         const editor = new E('#toolbar-container', '#text-container') // 传入两个元素
+        editor.config.zIndex = 100
         editor.create()
     </script>
 </body>
