@@ -13,7 +13,6 @@ export default function (editor: Editor): void {
     const textSelector = editor.textSelector
 
     const config = editor.config
-    const zIndex = config.zIndex
     const height = config.height
     const i18next = editor.i18next
 
@@ -71,9 +70,9 @@ export default function (editor: Editor): void {
     $textContainerElem.append($placeholder)
 
     // 设置通用的 class
-    $toolbarElem.addClass('w-e-toolbar')
+    $toolbarElem.addClass('w-e-toolbar').css('z-index', editor.zIndex.get('toolbar'))
     $textContainerElem.addClass('w-e-text-container')
-    $textContainerElem.css('z-index', `${zIndex}`)
+    $textContainerElem.css('z-index', editor.zIndex.get())
     $textElem.addClass('w-e-text')
 
     // 添加 ID

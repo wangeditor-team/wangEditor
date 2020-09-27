@@ -54,15 +54,21 @@ class Panel {
             return
         }
 
-        const editor = menu.editor
-        const $body = $('body')
-        const $textContainerElem = editor.$textContainerElem
         const conf = this.conf
 
         // panel 的容器
         const $container = this.$container
         const width = conf.width || 300 // 默认 300px
-        $container.css('width', width + 'px').css('margin-left', (0 - width) / 2 + 'px')
+        const rect = menu.editor.$toolbarElem.getBoundingClientRect()
+        const menuRect = menu.$elem.getBoundingClientRect()
+        const top = rect.height + rect.top - menuRect.top
+        const left = (rect.width - width) / 2 + rect.left - menuRect.left
+
+        $container
+            .css('width', width + 'px')
+            .css('margin-top', `${top}px`)
+            .css('margin-left', `${left}px`)
+            .css('z-index', menu.editor.zIndex.get('panel'))
 
         // 添加关闭按钮
         const $closeBtn = $('<i class="w-e-icon-close w-e-panel-close"></i>')
@@ -140,7 +146,7 @@ class Panel {
         })
 
         // 添加到 DOM
-        $textContainerElem.append($container)
+        menu.$elem.append($container)
 
         // 绑定 conf events 的事件，只有添加到 DOM 之后才能绑定成功
         tabs.forEach((tab: PanelTabConf, index: number) => {
