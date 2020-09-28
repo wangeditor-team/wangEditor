@@ -74,7 +74,7 @@ class Editor {
         }
 
         // 属性的默认值，后面可能会再修改
-        this.config = defaultConfig // 默认配置
+        this.config = defaultConfig() // 默认配置
         this.$toolbarElem = $('<div></div>')
         this.$textContainerElem = $('<div></div>')
         this.$textElem = $('<div></div>')

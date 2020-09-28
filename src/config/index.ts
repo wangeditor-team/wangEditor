@@ -11,6 +11,7 @@ import cmdConfig from './cmd'
 import imageConfig, { UploadImageHooksType } from './image'
 import textConfig from './text'
 import langConfig from './lang'
+import { deepClone } from '../utils/util'
 
 // 字典类型
 export type DicType = {
@@ -106,4 +107,6 @@ const defaultConfig = Object.assign(
     }
 )
 
-export default defaultConfig
+export default () => {
+    return deepClone(defaultConfig)
+}
