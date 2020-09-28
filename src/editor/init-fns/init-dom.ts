@@ -6,7 +6,12 @@
 import Editor from '../index'
 import $, { DomElement } from '../../utils/dom-core'
 import { getRandom } from '../../utils/util'
-import { border, toolbarBgColor, toolbarBottomBorder } from '../../settings'
+
+const styleSettings = {
+    border: '1px solid #c9d8db',
+    toolbarBgColor: '#FFF',
+    toolbarBottomBorder: '1px solid #EEE',
+}
 
 export default function (editor: Editor): void {
     const toolbarSelector = editor.toolbarSelector
@@ -36,11 +41,11 @@ export default function (editor: Editor): void {
 
         // 自行创建的，需要配置默认的样式
         $toolbarElem
-            .css('background-color', toolbarBgColor)
-            .css('border', border)
-            .css('border-bottom', toolbarBottomBorder)
+            .css('background-color', styleSettings.toolbarBgColor)
+            .css('border', styleSettings.border)
+            .css('border-bottom', styleSettings.toolbarBottomBorder)
         $textContainerElem
-            .css('border', border)
+            .css('border', styleSettings.border)
             .css('border-top', 'none')
             .css('height', `${height}px`)
     } else {
