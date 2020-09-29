@@ -5,6 +5,7 @@
 
 import $, { DomElement } from '../utils/dom-core'
 import { EMPTY_FN } from '../utils/const'
+import { deepClone } from '../utils/util'
 import defaultConfig, { ConfigType } from '../config'
 import SelectionAndRangeAPI from './selection'
 import CommandAPI from './command'
@@ -74,7 +75,7 @@ class Editor {
         }
 
         // 属性的默认值，后面可能会再修改
-        this.config = defaultConfig() // 默认配置
+        this.config = deepClone(defaultConfig) // 默认配置
         this.$toolbarElem = $('<div></div>')
         this.$textContainerElem = $('<div></div>')
         this.$textElem = $('<div></div>')
