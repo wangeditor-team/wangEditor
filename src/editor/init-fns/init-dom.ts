@@ -7,13 +7,18 @@ import Editor from '../index'
 import $, { DomElement } from '../../utils/dom-core'
 import { getRandom } from '../../utils/util'
 
+const styleSettings = {
+    border: '1px solid #c9d8db',
+    toolbarBgColor: '#FFF',
+    toolbarBottomBorder: '1px solid #EEE',
+}
+
 export default function (editor: Editor): void {
     const toolbarSelector = editor.toolbarSelector
     const $toolbarSelector = $(toolbarSelector)
     const textSelector = editor.textSelector
 
     const config = editor.config
-    const zIndex = config.zIndex
     const height = config.height
     const i18next = editor.i18next
 
@@ -34,9 +39,12 @@ export default function (editor: Editor): void {
         $toolbarSelector.append($toolbarElem).append($textContainerElem)
 
         // 自行创建的，需要配置默认的样式
-        $toolbarElem.css('background-color', '#f1f1f1').css('border', '1px solid #ccc')
+        $toolbarElem
+            .css('background-color', styleSettings.toolbarBgColor)
+            .css('border', styleSettings.border)
+            .css('border-bottom', styleSettings.toolbarBottomBorder)
         $textContainerElem
-            .css('border', '1px solid #ccc')
+            .css('border', styleSettings.border)
             .css('border-top', 'none')
             .css('height', `${height}px`)
     } else {
@@ -71,9 +79,9 @@ export default function (editor: Editor): void {
     $textContainerElem.append($placeholder)
 
     // 设置通用的 class
-    $toolbarElem.addClass('w-e-toolbar')
+    $toolbarElem.addClass('w-e-toolbar').css('z-index', editor.zIndex.get('toolbar'))
     $textContainerElem.addClass('w-e-text-container')
-    $textContainerElem.css('z-index', `${zIndex}`)
+    $textContainerElem.css('z-index', editor.zIndex.get())
     $textElem.addClass('w-e-text')
 
     // 添加 ID

@@ -5,6 +5,7 @@
 
 import $, { DomElement } from '../utils/dom-core'
 import { EMPTY_FN } from '../utils/const'
+import { deepClone } from '../utils/util'
 import defaultConfig, { ConfigType } from '../config'
 import SelectionAndRangeAPI from './selection'
 import CommandAPI from './command'
@@ -16,6 +17,7 @@ import bindEvent, { changeHandler } from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
 import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-full-screen'
 import Undo from './undo-redo'
+import ZIndex from './z-index'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -53,6 +55,7 @@ class Editor {
     public i18next: any
     public highlight: any
     public undo: Undo
+    public zIndex: ZIndex
 
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
@@ -74,7 +77,8 @@ class Editor {
         }
 
         // 属性的默认值，后面可能会再修改
-        this.config = defaultConfig // 默认配置
+        // 默认配置 - 当一个页面有多个编辑器的时候，因为 JS 的特性(引用类型)会导致多个编辑器的 config 引用是同一个，所以需要 深度克隆 断掉引用
+        this.config = deepClone(defaultConfig)
         this.$toolbarElem = $('<div></div>')
         this.$textContainerElem = $('<div></div>')
         this.$textElem = $('<div></div>')
@@ -87,6 +91,7 @@ class Editor {
         this.txt = new Text(this)
         this.menus = new Menus(this)
         this.undo = new Undo(this)
+        this.zIndex = new ZIndex()
     }
 
     /**
@@ -101,6 +106,9 @@ class Editor {
      * 创建编辑器实例
      */
     public create(): void {
+        // 初始化 ZIndex
+        this.zIndex.init(this)
+
         // 国际化 因为要在创建菜单前使用 所以要最先 初始化
         i18nextInit(this)
 

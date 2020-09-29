@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .toolbar {
+            border: 1px solid #ccc;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .text {
+            border: 1px solid #ccc;
+            height: 1500px;
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    <p>
+        container 和 toolbar 分开
+    </p>
+    <div>
+        <div id="toolbar-container" class="toolbar"></div>
+        <p>------ 我是分割线 ------</p>
+        <div id="text-container" class="text"></div>
+    </div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        const E = window.wangEditor
+        const editor = new E('#toolbar-container', '#text-container') // 传入两个元素
+        editor.config.zIndex = 100
+        editor.create()
+    </script>
+</body>
+
+</html>
