@@ -107,6 +107,4 @@ const defaultConfig = Object.assign(
     }
 )
 
-export default () => {
-    return deepClone(defaultConfig)
-}
+export default defaultConfig
