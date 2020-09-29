@@ -5,6 +5,7 @@
 
 import $, { DomElement } from '../utils/dom-core'
 import { EMPTY_FN } from '../utils/const'
+import { deepClone } from '../utils/util'
 import defaultConfig, { ConfigType } from '../config'
 import SelectionAndRangeAPI from './selection'
 import CommandAPI from './command'
@@ -76,7 +77,8 @@ class Editor {
         }
 
         // 属性的默认值，后面可能会再修改
-        this.config = defaultConfig // 默认配置
+        // 默认配置 - 当一个页面有多个编辑器的时候，因为 JS 的特性(引用类型)会导致多个编辑器的 config 引用是同一个，所以需要 深度克隆 断掉引用
+        this.config = deepClone(defaultConfig)
         this.$toolbarElem = $('<div></div>')
         this.$textContainerElem = $('<div></div>')
         this.$textElem = $('<div></div>')
