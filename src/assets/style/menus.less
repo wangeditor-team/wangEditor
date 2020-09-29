@@ -1,13 +1,17 @@
 .w-e-toolbar {
     display: flex;
-    padding: 0 5px;
+    padding: 0 6px;
     flex-wrap: wrap;
 
     /* 单个菜单 */
     .w-e-menu {
         position: relative;
+        display: flex;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
         text-align: center;
-        padding: 5px 10px;
         cursor: pointer;
         
         i {
@@ -15,6 +19,8 @@
         }
 
         &:hover {
+            background-color: #F6F6F6;
+
             i {
                 color: #333;
             }
