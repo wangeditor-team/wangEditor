@@ -1,5 +1,7 @@
 # 开发文档
 
+首先，请认真阅读使用手册 http://www.wangeditor.com/doc/ 。先了解如何使用，再去看源码。
+
 ## 阅读人
 
 - wangEditor 开发小组成员
