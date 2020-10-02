@@ -47,7 +47,7 @@ function _createElemByHTML(html: string): HTMLElement[] {
  * 判断是否是 DOM List
  * @param selector DOM 元素或列表
  */
-function _isDOMList(selector: any): boolean {
+function _isDOMList<T extends HTMLCollection | NodeList>(selector: unknown): selector is T {
     if (!selector) {
         return false
     }
@@ -96,7 +96,7 @@ function _styleArrTrim(style: string | string[]): string[] {
 // 构造函数
 export class DomElement {
     // 定义属性
-    selector: string
+    selector: HTMLElement | string | Document | NodeList | HTMLElement[] | HTMLCollection
     length: number
     elems: HTMLElement[]
     dataSource: Map<string, any>
@@ -105,14 +105,16 @@ export class DomElement {
      * 构造函数
      * @param selector 任一类型的选择器
      */
-    constructor(selector: string)
-    constructor(selector: DomElement)
-    constructor(selector: HTMLElement)
-    constructor(selector: Document)
-    constructor(selector: HTMLCollection)
-    constructor(selector: NodeList)
-    constructor(selector: HTMLElement[])
-    constructor(selector: any) {
+    constructor(
+        selector:
+            | string
+            | DomElement
+            | HTMLElement
+            | Document
+            | HTMLCollection
+            | NodeList
+            | HTMLElement[]
+    ) {
         // 初始化属性
         this.selector = ''
         this.elems = []
@@ -130,14 +132,15 @@ export class DomElement {
 
         let selectorResult: HTMLElement[] = [] // 存储查询结果
         this.selector = selector
-        const nodeType = selector.nodeType
-
-        if (nodeType === 9) {
-            // document 节点
-            selectorResult = [selector]
-        } else if (nodeType === 1) {
-            // 单个 DOM 节点
-            selectorResult = [selector]
+        if (selector instanceof HTMLElement) {
+            const nodeType = selector.nodeType
+            if (nodeType === 9) {
+                // document 节点
+                selectorResult = [selector]
+            } else if (nodeType === 1) {
+                // 单个 DOM 节点
+                selectorResult = [selector]
+            }
         } else if (_isDOMList(selector)) {
             // DOM List
             selectorResult = _toArray(selector)
@@ -181,7 +184,7 @@ export class DomElement {
      * 遍历所有元素，执行回调函数
      * @param fn 回调函数
      */
-    forEach(fn: Function): DomElement {
+    forEach(fn: (ele: HTMLElement, index?: number) => boolean | unknown): DomElement {
         for (let i = 0; i < this.length; i++) {
             const elem = this.elems[i]
             const result = fn.call(elem, elem, i)
@@ -248,7 +251,7 @@ export class DomElement {
             selector = ''
         }
 
-        return this.forEach(function (elem: HTMLElement) {
+        return this.forEach(elem => {
             // 没有事件代理
             if (!selector) {
                 // 无代理
@@ -308,7 +311,8 @@ export class DomElement {
                     elem.removeEventListener(type, agentFn)
                 }
             } else {
-                elem.removeEventListener(type, fn as listener)
+                // @ts-ignore
+                elem.removeEventListener(type, fn)
             }
         })
     }
@@ -336,7 +340,7 @@ export class DomElement {
      * 添加 css class
      * @param className css class
      */
-    addClass(className: string): DomElement {
+    addClass(className?: string): DomElement {
         if (!className) {
             return this
         }
@@ -365,7 +369,7 @@ export class DomElement {
      * 添加 css class
      * @param className css class
      */
-    removeClass(className: string): DomElement {
+    removeClass(className?: string): DomElement {
         if (!className) {
             return this
         }
@@ -393,7 +397,7 @@ export class DomElement {
      * 是否有传入的 css class
      * @param className css class
      */
-    hasClass(className: string = ''): boolean {
+    hasClass(className?: string): boolean {
         if (!className) {
             return false
         }
@@ -412,15 +416,14 @@ export class DomElement {
      * @param val css value
      */
     // css(key: string): string
-    css(key: string, val: string | number): DomElement
-    css(key: string, val?: string | number): DomElement | string {
+    css(key: string, val?: string | number): DomElement {
         let currentStyle: string
         if (val == '') {
             currentStyle = ''
         } else {
             currentStyle = `${key}:${val};`
         }
-        return this.forEach(function (elem: HTMLElement) {
+        return this.forEach(elem => {
             const style = (elem.getAttribute('style') || '').trim()
             if (style) {
                 // 有 style，将 style 按照 `;` 拆分为数组
@@ -504,7 +507,7 @@ export class DomElement {
      * @param $children 子节点
      */
     append($children: DomElement): DomElement {
-        return this.forEach(function (elem: HTMLElement) {
+        return this.forEach(elem => {
             $children.forEach(function (child: HTMLElement) {
                 elem.appendChild(child)
             })
@@ -515,7 +518,7 @@ export class DomElement {
      * 移除当前节点
      */
     remove(): DomElement {
-        return this.forEach(function (elem: HTMLElement) {
+        return this.forEach(elem => {
             if (elem.remove) {
                 elem.remove()
             } else {
@@ -627,7 +630,7 @@ export class DomElement {
      * focus 到当前元素
      */
     focus(): DomElement {
-        return this.forEach(function (elem: HTMLElement) {
+        return this.forEach(elem => {
             elem.focus()
         })
     }
@@ -661,8 +664,6 @@ export class DomElement {
      * @param selector css 选择器
      * @param curElem 从哪个元素开始查找，默认为当前元素
      */
-    parentUntil(selector: string): DomElement | null
-    parentUntil(selector: string, curElem: HTMLElement): DomElement | null
     parentUntil(selector: string, curElem?: HTMLElement): DomElement | null {
         const elem = curElem || this.elems[0]
         if (elem.nodeName === 'BODY') {
@@ -707,7 +708,7 @@ export class DomElement {
         if (!referenceNode) {
             return this
         }
-        return this.forEach(function (elem: HTMLElement) {
+        return this.forEach(elem => {
             const parent = referenceNode.parentNode as Node
             parent.insertBefore(elem, referenceNode)
         })

@@ -8,7 +8,7 @@ import { arrForEach, forEach } from '../../utils/util'
 import post from '../../editor/upload/upload-core'
 import Progress from '../../editor/upload/progress'
 
-type ResType = {
+export type ResType = {
     errno: number | string
     data: string[]
 }
@@ -129,7 +129,7 @@ class UploadImg {
         // ------------------------------ 验证文件信息 ------------------------------
         const resultFiles: File[] = []
         const errInfos: string[] = []
-        arrForEach(files, (file: File) => {
+        arrForEach(files, file => {
             const name = file.name
             const size = file.size
 
@@ -215,35 +215,35 @@ class UploadImg {
                 formData,
                 headers: uploadImgHeaders,
                 withCredentials: !!withCredentials,
-                beforeSend: (xhr: XMLHttpRequest) => {
+                beforeSend: xhr => {
                     if (hooks.before) return hooks.before(xhr, editor, resultFiles)
                 },
-                onTimeout: (xhr: XMLHttpRequest) => {
+                onTimeout: xhr => {
                     this.alert(t('上传图片超时'))
                     if (hooks.timeout) hooks.timeout(xhr, editor)
                 },
-                onProgress: (percent: number, e: ProgressEvent) => {
+                onProgress: (percent, e) => {
                     const progressBar = new Progress(editor)
                     if (e.lengthComputable) {
                         percent = e.loaded / e.total
                         progressBar.show(percent)
                     }
                 },
-                onError: (xhr: XMLHttpRequest) => {
+                onError: xhr => {
                     this.alert(
                         t('上传图片错误'),
                         `${t('上传图片错误')}，${t('服务器返回状态')}: ${xhr.status}`
                     )
                     if (hooks.error) hooks.error(xhr, editor)
                 },
-                onFail: (xhr: XMLHttpRequest, resultStr: string) => {
+                onFail: (xhr, resultStr) => {
                     this.alert(
                         t('上传图片失败'),
                         t('上传图片返回结果错误') + `，${t('返回结果')}: ` + resultStr
                     )
                     if (hooks.fail) hooks.fail(xhr, editor, resultStr)
                 },
-                onSuccess: (xhr: XMLHttpRequest, result: ResType) => {
+                onSuccess: (xhr, result: ResType) => {
                     if (hooks.customInsert) {
                         // 自定义插入图片
                         hooks.customInsert(this.insertImg.bind(this), result, editor)
@@ -280,7 +280,7 @@ class UploadImg {
 
         // ------------------------------ 显示 base64 格式 ------------------------------
         if (uploadImgShowBase64) {
-            arrForEach(files, (file: File) => {
+            arrForEach(files, file => {
                 const _this = this
                 const reader = new FileReader()
                 reader.readAsDataURL(file)

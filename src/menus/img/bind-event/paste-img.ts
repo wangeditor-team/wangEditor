@@ -19,8 +19,8 @@ function _haveTextOrHtml(editor: Editor, e: ClipboardEvent): boolean {
     const pasteFilterStyle = config.pasteFilterStyle
     const pasteIgnoreImg = config.pasteIgnoreImg
     let pasteHtml = getPasteHtml(e, pasteFilterStyle, pasteIgnoreImg)
-    let pasteText = getPasteText(e)
     if (pasteHtml) return true
+    let pasteText = getPasteText(e)
     if (pasteText) return true
 
     return false // text html 都没有，则返回 false

@@ -12,7 +12,7 @@ let _editor: Editor
  * 拖拽图片的事件
  * @param e 事件参数
  */
-function dropImgHandler(e: any): void {
+function dropImgHandler(e: DragEvent): void {
     const files = e.dataTransfer && e.dataTransfer.files
     if (!files || !files.length) {
         return

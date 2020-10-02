@@ -19,9 +19,6 @@ class Command {
      * @param name name
      * @param value value
      */
-    public do(name: string): void
-    public do(name: string, value: string): void
-    public do(name: string, value: DomElement): void
     public do(name: string, value?: string | DomElement): void {
         const editor = this.editor
 
