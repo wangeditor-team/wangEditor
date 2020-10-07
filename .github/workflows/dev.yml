@@ -11,11 +11,13 @@ on:
       - 'dev'
       - 'feature-*'
       - 'fix-*'
+      - 'hotfix-*'
     paths:
       - '.github/workflows/*'
       - 'src/**'
       - 'test/**'
       - 'examples/**'
+      - 'build/**'
       - 'server/**' # 暂时用不到，先留着吧，后面会加关于 server 的处理
 
 jobs:
