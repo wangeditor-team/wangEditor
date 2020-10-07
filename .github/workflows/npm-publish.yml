@@ -51,5 +51,5 @@ jobs:
 
           ## 将 dist 文件夹，重命名为 publish-npm-test ，并上传到服务器
           mv dist publish-npm-test
-          ssh root@${{secrets.TECENT_SERVER}} "rm -rf /root/we-next/publish-npm-test"
-          scp -r ./publish-npm-test root@${{secrets.TECENT_SERVER}}:/root/we-next/publish-npm-test
+          ssh root@${{secrets.TECENT_SERVER}} "rm -rf /root/wangEditor/publish-npm-test"
+          scp -r ./publish-npm-test root@${{secrets.TECENT_SERVER}}:/root/wangEditor/publish-npm-test
