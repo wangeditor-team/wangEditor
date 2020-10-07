@@ -45,7 +45,7 @@ jobs:
           cd we-demo
           npm install
           echo "--------------- npm i done ---------------"
-          npm install @wangeditor-team/we-next@latest --save
+          npm install wangeditor@latest --save
           npm run prod
           echo "--------------- rebuild done ---------------"
 

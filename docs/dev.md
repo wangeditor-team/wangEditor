@@ -90,7 +90,7 @@ git config user.email xxx@xxx.com
 说明：只有以 `feature-` 和 `fix-` 开头的分支，才具有这个功能。
 
 当提交完自己的分支之后，github actions 会自动触发部署到腾讯云测试机。
-查看 [actions 列表](https://github.com/wangeditor-team/we-next/actions)，待所有任务运行完成之后。
+查看 [actions 列表](https://github.com/wangeditor-team/wangEditor/actions)，待所有任务运行完成之后。
 打开浏览器访问 `http://106.55.153.217:8881/<你的分支名>/examples/index.html` ，这就是你本次分支代码的远程测试环境。
 
 要保证这一步成功，再进行下一步。

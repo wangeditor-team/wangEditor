@@ -1,6 +1,6 @@
 # wangEditor
 
-![build badge](https://github.com/wangeditor-team/we-next/workflows/build/badge.svg)
+![build badge](https://github.com/wangeditor-team/wangEditor/workflows/build/badge.svg)
 
 轻量级 web 富文本编辑器，配置方便，使用简单。
 

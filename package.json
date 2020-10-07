@@ -1,6 +1,6 @@
 {
-  "name": "@wangeditor-team/we-next",
-  "version": "0.1.2",
+  "name": "wangeditor",
+  "version": "4.0.0",
   "description": "wangEditor - 轻量级 web 富文本编辑器，配置方便，使用简单，开源免费",
   "homepage": "http://www.wangeditor.com/",
   "keywords": [
@@ -26,12 +26,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wangeditor-team/we-next.git"
+    "url": "git+https://github.com/wangeditor-team/wangEditor.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wangeditor-team/we-next/issues"
+    "url": "https://github.com/wangeditor-team/wangEditor/issues"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
