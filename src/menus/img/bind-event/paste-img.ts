@@ -7,8 +7,6 @@ import Editor from '../../../editor/index'
 import { getPasteText, getPasteHtml, getPasteImgs } from '../../../text/paste/paste-event'
 import UploadImg from '../upload-img'
 
-let _editor: Editor
-
 /**
  * 剪切板是否有 text 或者 html ？
  * @param editor 编辑器对象
@@ -30,8 +28,8 @@ function _haveTextOrHtml(editor: Editor, e: ClipboardEvent): boolean {
  * 粘贴图片事件方法
  * @param e 事件参数
  */
-function pasteImgHandler(e: ClipboardEvent): void {
-    if (_haveTextOrHtml(_editor, e)) {
+function pasteImgHandler(e: ClipboardEvent, editor: Editor): void {
+    if (_haveTextOrHtml(editor, e)) {
         // 粘贴过来的有 text 或者 html ，则不执行粘贴图片逻辑
         return
     }
@@ -45,7 +43,7 @@ function pasteImgHandler(e: ClipboardEvent): void {
     // code 中忽略（暂不管它）
 
     // 执行上传
-    const uploadImg = new UploadImg(_editor)
+    const uploadImg = new UploadImg(editor)
     uploadImg.uploadImg(pastedFiles)
 }
 
@@ -55,10 +53,10 @@ function pasteImgHandler(e: ClipboardEvent): void {
  * @param pasteEvents 粘贴事件列表
  */
 function bindPasteImg(editor: Editor): void {
-    _editor = editor
-
     // 绑定 paste 事件
-    editor.txt.eventHooks.pasteEvents.push(pasteImgHandler)
+    editor.txt.eventHooks.pasteEvents.push((e: ClipboardEvent) => {
+        pasteImgHandler(e, editor)
+    })
 }
 
 export default bindPasteImg
