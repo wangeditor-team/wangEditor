@@ -118,7 +118,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                             if (editor.highlight) {
                                 formatCode = editor.highlight.highlightAuto(code).value
                             } else {
-                                formatCode = code
+                                formatCode = `<xmp>${code}</xmp>`
                             }
 
                             // 代码为空，则不插入
@@ -129,7 +129,7 @@ export default function (editor: editor, text: string, languageType: string): Pa
                                 return false
                             } else {
                                 //增加pre标签
-                                codeDom = `<pre type="${languageType}"><code><xmp>${formatCode}</xmp></code></pre>`
+                                codeDom = `<pre type="${languageType}"><code>${formatCode}</code></pre>`
 
                                 // @ts-ignore
                                 insertCode(codeDom)

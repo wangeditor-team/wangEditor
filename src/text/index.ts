@@ -146,8 +146,13 @@ class Text {
             // html = html.replace(/><br>(?!<)/gi, '>') // 过滤 <p><br>内容</p> 中的br
             // html = html.replace(/(?!>)<br></gi, '<') // 过滤 <p>内容<br></p> 中的br
 
-            // pre标签格式化
-            html = formatCodeHtml(editor, html)
+            /**
+             * pre标签格式化
+             * html()方法理论上应当输出纯净的代码文本,但是对于是否解析html标签还没有良好的判断
+             * 如果去除hljs的标签,在解析状态下回显,会造成显示错误并且无法再通过hljs方法渲染
+             * 暂且其弃用
+             */
+            // html = formatCodeHtml(editor, html)
 
             return html
         }
