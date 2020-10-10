@@ -13,7 +13,7 @@
   "module": "dist/wangEditor.min.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --watch --config build/webpack.dev.js",
-    "example": "cross-env PORT=8881 node server/www.js",
+    "example": "cross-env PORT=12306 node server/www.js",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
     "lint": "eslint 'src/**/*.{js,ts}'",
     "lint-fix": "eslint --fix \"src/**/*.{js,ts}\"",
