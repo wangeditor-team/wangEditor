@@ -27,6 +27,30 @@ function showImgTooltip($node: DomElement) {
                 return true
             },
         },
+        {
+            $elem: $('<span>30%</span>'),
+            onClick: (editor: Editor, $node: DomElement) => {
+                $node.css('max-width', '30%')
+                // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                return false
+            },
+        },
+        {
+            $elem: $('<span>50%</span>'),
+            onClick: (editor: Editor, $node: DomElement) => {
+                $node.css('max-width', '50%')
+                // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                return false
+            },
+        },
+        {
+            $elem: $('<span>100%</span>'),
+            onClick: (editor: Editor, $node: DomElement) => {
+                $node.css('max-width', '100%')
+                // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                return false
+            },
+        },
     ]
 
     tooltip = new Tooltip(_editor, $node, conf)
