@@ -22,13 +22,22 @@ class Undo extends BtnMenu implements MenuActive {
      * 点击事件
      */
     public clickHandler(): void {
-        this.editor.undo.undo()
+        this.editor.history.revoke()
     }
 
     /**
      * 尝试修改菜单激活状态
      */
-    public tryChangeActive(): void {}
+    public tryChangeActive(): void {
+        // 标准模式下才进行操作
+        if (!this.editor.isCompatibleMode) {
+            if (this.editor.history.size[0]) {
+                this.active()
+            } else {
+                this.unActive()
+            }
+        }
+    }
 }
 
 export default Undo

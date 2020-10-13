@@ -3,21 +3,38 @@
  * @author wangfupeng
  */
 
-// 和 UA 相关的属性
-export const UA = {
-    _ua: navigator.userAgent,
+class NavUA {
+    public _ua: string
 
-    // 是否 webkit
-    isWebkit: function () {
-        const reg = /webkit/i
-        return reg.test(this._ua)
-    },
+    // 是否为旧版 Edge
+    public isOldEdge: boolean
 
-    // 是否 IE
-    isIE: function () {
+    // 是否为 Firefox
+    public isFirefox: boolean
+
+    constructor() {
+        this._ua = navigator.userAgent
+
+        const math = this._ua.match(/(Edge?)\/(\d+)/)
+        this.isOldEdge = math && math[1] == 'Edge' && parseInt(math[2]) < 19 ? true : false
+
+        this.isFirefox =
+            /Firefox\/\d+/.test(this._ua) && !/Seamonkey\/\d+/.test(this._ua) ? true : false
+    }
+
+    // 是否为 IE
+    public isIE() {
         return 'ActiveXObject' in window
-    },
+    }
+
+    // 是否为 webkit
+    public isWebkit() {
+        return /webkit/i.test(this._ua)
+    }
 }
+
+// 和 UA 相关的属性
+export const UA = new NavUA()
 
 /**
  * 获取随机石

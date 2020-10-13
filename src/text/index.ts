@@ -96,7 +96,6 @@ class Text {
      */
     public clear(): void {
         this.html('<p><br></p>')
-        this.editor.change()
     }
 
     /**
@@ -147,8 +146,6 @@ class Text {
 
         $textElem.html(val)
 
-        this.editor.change()
-
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
     }
@@ -182,8 +179,6 @@ class Text {
         // 有 val ，则是设置 text
         $textElem.text(`<p>${val}</p>`)
 
-        this.editor.change()
-
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
     }
@@ -200,8 +195,6 @@ class Text {
             html = `<p>${html}</p>`
         }
         $textElem.append($(html))
-
-        this.editor.change()
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
@@ -287,21 +280,24 @@ class Text {
             pasteEvents.forEach(fn => fn(e))
         })
 
-        // 撤销
+        // 撤销/恢复 快捷键
         $textElem.on('keydown', (e: KeyboardEvent) => {
-            // 非撤销行为
-            if (!((e.ctrlKey || e.metaKey) && e.keyCode === 90)) return false
-
-            // 取消默认行为
-            e.preventDefault()
-
-            // 执行事件
-            if (e.shiftKey) {
-                //撤销
-                editor.undo.redo()
-            } else {
-                //重做
-                editor.undo.undo()
+            if (
+                // 编辑器处于聚焦状态下（多编辑器实例） || 当前处于兼容模式（兼容模式撤销/恢复后不聚焦，所以直接过，但会造成多编辑器同时撤销/恢复）
+                (editor.isFocus || editor.isCompatibleMode) &&
+                (e.ctrlKey || e.metaKey) &&
+                e.keyCode === 90
+            ) {
+                // 取消默认行为
+                e.preventDefault()
+                // 执行事件
+                if (e.shiftKey) {
+                    // 恢复
+                    editor.history.restore()
+                } else {
+                    // 撤销
+                    editor.history.revoke()
+                }
             }
         })
 
