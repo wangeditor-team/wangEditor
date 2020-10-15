@@ -337,7 +337,9 @@ export class DomElement {
      * @param key key
      */
     removeAttr(key: string): void {
-        this.elems[0].removeAttribute(key)
+        this.forEach(function (elem: HTMLElement) {
+            elem.removeAttribute(key)
+        })
     }
 
     /**
