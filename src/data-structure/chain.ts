@@ -52,7 +52,7 @@ export class TailChain<T> {
         }
         this.data.push(data)
         // 超出链表最大长度
-        while (this.size > this.max) {
+        while (this.max && this.size > this.max) {
             this.data.shift()
         }
         // 从新定位指针到最后一个元素
