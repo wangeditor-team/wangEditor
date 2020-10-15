@@ -333,6 +333,14 @@ export class DomElement {
     }
 
     /**
+     * 删除 属性
+     * @param key key
+     */
+    removeAttr(key: string): void {
+        this.elems[0].removeAttribute(key)
+    }
+
+    /**
      * 添加 css class
      * @param className css class
      */
