@@ -31,6 +31,7 @@ function showImgTooltip($node: DomElement) {
             $elem: $('<span>30%</span>'),
             onClick: (editor: Editor, $node: DomElement) => {
                 $node.attr('width', '30%')
+                $node.removeAttr('height')
 
                 // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                 return true
@@ -40,6 +41,7 @@ function showImgTooltip($node: DomElement) {
             $elem: $('<span>50%</span>'),
             onClick: (editor: Editor, $node: DomElement) => {
                 $node.attr('width', '50%')
+                $node.removeAttr('height')
 
                 // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                 return true
@@ -49,6 +51,8 @@ function showImgTooltip($node: DomElement) {
             $elem: $('<span>100%</span>'),
             onClick: (editor: Editor, $node: DomElement) => {
                 $node.attr('width', '100%')
+                $node.removeAttr('height')
+                
                 // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                 return true
             },
