@@ -22,7 +22,7 @@ export default class NodeCache extends Cache<Compile[]> {
      * 编译并保存数据
      */
     public compile(data: MutationRecord[]) {
-        super.save(compile(data))
+        this.save(compile(data))
         return this
     }
 

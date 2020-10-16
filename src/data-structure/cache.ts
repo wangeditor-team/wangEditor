@@ -7,7 +7,7 @@ import { CeilStack } from './stack'
 
 export default class Cache<T> {
     /**
-     * 正常操作（用户输入、js代码修改内容、恢复操作）产生的缓存码修改内容）产生的缓存
+     * 正常操作（用户输入、js代码修改内容、恢复操作）产生的缓存
      */
     protected data: CeilStack<T>
 

@@ -4,7 +4,7 @@
  */
 
 import { TargetPosition, DiffNodes, Compile } from '../type'
-import { UA } from '../../../../utils/util'
+import { UA, toArray } from '../../../../utils/util'
 
 /**
  * 数据类型
@@ -72,6 +72,9 @@ function compliePosition(data: MutationRecord) {
     return temp
 }
 
+/**
+ * 补全 Firefox 数据的特殊标签
+ */
 const tag = ['UL', 'OL', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']
 
 /**
@@ -121,13 +124,13 @@ export default function compile(data: MutationRecord[]) {
             }
             // 特殊的标签：['UL', 'OL', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']
             if (tag.indexOf(replenishNode.nodeName) != -1) {
-                replenishData.nodes.add = Array.prototype.slice.call(replenishNode.childNodes)
+                replenishData.nodes.add = toArray(replenishNode.childNodes)
                 temp.push(replenishData)
             }
             // 上一个删除元素是文本节点
             else if (removeNode.nodeType == 3) {
                 if (contains(replenishNode, removeCache)) {
-                    replenishData.nodes.add = Array.prototype.slice.call(replenishNode.childNodes)
+                    replenishData.nodes.add = toArray(replenishNode.childNodes)
                 }
                 temp.push(replenishData)
             }
@@ -136,7 +139,7 @@ export default function compile(data: MutationRecord[]) {
                 tag.indexOf(record.target.nodeName) == -1 &&
                 contains(replenishNode, removeCache)
             ) {
-                replenishData.nodes.add = Array.prototype.slice.call(replenishNode.childNodes)
+                replenishData.nodes.add = toArray(replenishNode.childNodes)
                 temp.push(replenishData)
             }
         }

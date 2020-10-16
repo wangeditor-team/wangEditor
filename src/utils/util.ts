@@ -167,3 +167,11 @@ export function deepClone(data: any) {
 
     return item
 }
+
+/**
+ * 将可遍历的对象转换为数组
+ * @param data 可遍历的对象
+ */
+export function toArray<T>(data: T) {
+    return Array.prototype.slice.call(data)
+}
