@@ -83,7 +83,6 @@ export default class RangeCache extends Cache<[RangeItem, RangeItem]> {
         // 解除事件绑定
         this.editor.beforeDestroy(function () {
             $(document).off('selectionchange', selectionchange)
-            self.editor.$textElem.off('keydown', deletecallback)
         })
     }
 

@@ -35,21 +35,21 @@ function compileValue(data: MutationRecord) {
 }
 
 /**
- * removeNodes、addNodes
+ * addedNodes/removedNodes
  */
 function complieNodes(data: MutationRecord) {
     const temp: DiffNodes = {}
     if (data.addedNodes.length) {
-        temp.add = Array.prototype.slice.call(data.addedNodes)
+        temp.add = toArray(data.addedNodes)
     }
     if (data.removedNodes.length) {
-        temp.remove = Array.prototype.slice.call(data.removedNodes)
+        temp.remove = toArray(data.removedNodes)
     }
     return temp
 }
 
 /**
- * target 的相对位置
+ * addedNodes/removedNodes 的相对位置
  */
 function compliePosition(data: MutationRecord) {
     let temp: TargetPosition
