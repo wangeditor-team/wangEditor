@@ -337,6 +337,16 @@ export class DomElement {
     }
 
     /**
+     * 删除 属性
+     * @param key key
+     */
+    removeAttr(key: string): void {
+        this.forEach(function (elem: HTMLElement) {
+            elem.removeAttribute(key)
+        })
+    }
+
+    /**
      * 添加 css class
      * @param className css class
      */

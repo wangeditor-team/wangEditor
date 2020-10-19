@@ -1,6 +1,6 @@
 {
   "name": "wangeditor",
-  "version": "4.0.0",
+  "version": "4.0.3",
   "description": "wangEditor - 轻量级 web 富文本编辑器，配置方便，使用简单，开源免费",
   "homepage": "http://www.wangeditor.com/",
   "keywords": [
@@ -19,7 +19,8 @@
     "lint-fix": "eslint --fix \"src/**/*.{js,ts}\"",
     "prettier": "prettier --write --config .prettierrc.js \"src/**/*.{js,ts}\"",
     "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
-    "test-c": "cross-env NODE_ENV=test jest --coverage"
+    "test-c": "cross-env NODE_ENV=test jest --coverage",
+    "start": "concurrently \"npm run dev\" \"npm run example\" "
   },
   "jest": {
     "testEnvironment": "node"
@@ -35,6 +36,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
     "@types/jest": "^25.2.1",
@@ -45,6 +48,7 @@
     "autoprefixer": "^9.7.6",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
+    "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
     "css-loader": "^3.5.3",
     "eslint": "^6.8.0",
@@ -75,9 +79,7 @@
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-merge": "^4.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.11.0"
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
