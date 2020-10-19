@@ -3,8 +3,7 @@
  * @author wangfupeng
  */
 
-import $, { DomElement } from '../utils/dom-core'
-import { EMPTY_FN } from '../utils/const'
+import $, { DomElement, DomElementSelector } from '../utils/dom-core'
 import { deepClone } from '../utils/util'
 import defaultConfig, { ConfigType } from '../config'
 import SelectionAndRangeAPI from './selection'
@@ -36,11 +35,11 @@ class Editor {
     } = {}
 
     // 暴露 $
-    static $: Function = $
+    static $ = $
 
     public id: string
-    public toolbarSelector: string
-    public textSelector: string | undefined
+    public toolbarSelector: DomElementSelector
+    public textSelector?: DomElementSelector
     public config: ConfigType
     public $toolbarElem: DomElement
     public $textContainerElem: DomElement
@@ -65,7 +64,7 @@ class Editor {
      * @param toolbarSelector 工具栏 DOM selector
      * @param textSelector 文本区域 DOM selector
      */
-    constructor(toolbarSelector: string, textSelector?: string) {
+    constructor(toolbarSelector: DomElementSelector, textSelector?: DomElementSelector) {
         // id，用以区分单个页面不同的编辑器对象
         this.id = `wangEditor-${EDITOR_ID++}`
 

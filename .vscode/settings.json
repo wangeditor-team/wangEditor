@@ -24,5 +24,6 @@
         "we",
         "write",
         "img"
-    ]
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

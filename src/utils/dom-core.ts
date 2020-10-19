@@ -93,10 +93,24 @@ function _styleArrTrim(style: string | string[]): string[] {
     return resultArr
 }
 
+export type DomElementSelector =
+    | string
+    | DomElement
+    | HTMLElement
+    | Element
+    | Document
+    | HTMLCollection
+    | Node
+    | NodeList
+    | HTMLElement[]
+    | EventTarget
+    | null
+    | undefined
+
 // 构造函数
-export class DomElement {
+export class DomElement<T extends DomElementSelector = DomElementSelector> {
     // 定义属性
-    selector: HTMLElement | string | Document | NodeList | HTMLElement[] | HTMLCollection
+    selector?: T
     length: number
     elems: HTMLElement[]
     dataSource: Map<string, any>
@@ -105,18 +119,8 @@ export class DomElement {
      * 构造函数
      * @param selector 任一类型的选择器
      */
-    constructor(
-        selector:
-            | string
-            | DomElement
-            | HTMLElement
-            | Document
-            | HTMLCollection
-            | NodeList
-            | HTMLElement[]
-    ) {
+    constructor(selector: T) {
         // 初始化属性
-        this.selector = ''
         this.elems = []
         this.length = this.elems.length
         this.dataSource = new Map()
@@ -149,13 +153,13 @@ export class DomElement {
             selectorResult = selector
         } else if (typeof selector === 'string') {
             // 字符串
-            selector = selector.replace('/\n/mg', '').trim()
-            if (selector.indexOf('<') === 0) {
+            const tmpSelector = selector.replace('/\n/mg', '').trim()
+            if (tmpSelector.indexOf('<') === 0) {
                 // 如 <div>
-                selectorResult = _createElemByHTML(selector)
+                selectorResult = _createElemByHTML(tmpSelector)
             } else {
                 // 如 #id .class
-                selectorResult = _querySelectorAll(selector)
+                selectorResult = _querySelectorAll(tmpSelector)
             }
         }
 
@@ -794,8 +798,8 @@ export class DomElement {
 }
 
 // new 一个对象
-function $(selector: any): DomElement {
-    return new DomElement(selector)
+function $(s: ConstructorParameters<typeof DomElement>[0]): DomElement {
+    return new DomElement(s)
 }
 
 export default $
