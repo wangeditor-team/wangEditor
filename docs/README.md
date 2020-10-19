@@ -14,8 +14,7 @@
 git clone <项目 git 地址>
 cd <项目文件夹>
 npm install
-npm run dev
-npm run example # 可新开一个命令行窗口运行
+npm run start
 # 浏览器访问 http://localhost:8881/examples/index.html
 ```
 
