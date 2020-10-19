@@ -136,12 +136,11 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
 
         let selectorResult: HTMLElement[] = [] // 存储查询结果
         this.selector = selector
-        if (selector instanceof HTMLElement) {
-            const nodeType = selector.nodeType
-            if (nodeType === 9) {
+        if (selector instanceof Node) {
+            if (selector instanceof Document) {
                 // document 节点
-                selectorResult = [selector]
-            } else if (nodeType === 1) {
+                selectorResult = [selector.documentElement]
+            } else if (selector instanceof HTMLElement) {
                 // 单个 DOM 节点
                 selectorResult = [selector]
             }
@@ -685,7 +684,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
         }
 
         const parent = elem.parentElement
-        if (parent == null) {
+        if (parent === null) {
             return null
         }
 
@@ -695,7 +694,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
         }
 
         // 继续查找，递归
-        return this.parentUntil(selector, parent as HTMLElement)
+        return this.parentUntil(selector, parent)
     }
 
     /**

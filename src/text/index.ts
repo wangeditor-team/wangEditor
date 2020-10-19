@@ -86,7 +86,6 @@ class Text {
             dropListMenuHoverEvents: [],
             splitLineEvents: [],
         }
-        this.text()
     }
 
     /**
@@ -403,7 +402,7 @@ class Text {
                 }
             }
 
-            if ($link === null) return // 没有点击链接，则返回
+            if (!$link) return // 没有点击链接，则返回
 
             const linkClickEvents = eventHooks.linkClickEvents
             linkClickEvents.forEach(fn => fn($link as DomElement))
@@ -428,7 +427,7 @@ class Text {
                 e.stopPropagation()
                 $img = $target
             }
-            if ($img === null) return // 没有点击图片，则返回
+            if (!$img) return // 没有点击图片，则返回
 
             const imgClickEvents = eventHooks.imgClickEvents
             imgClickEvents.forEach(fn => fn($img as DomElement))
@@ -437,7 +436,7 @@ class Text {
         // code click
         $textElem.on('click', (e: Event) => {
             // 存储代码元素
-            let $code: DomElement | undefined
+            let $code: DomElement | null = null
 
             const target = e.target as HTMLElement
             const $target = $(target)
@@ -453,7 +452,7 @@ class Text {
                 }
             }
 
-            if ($code === null) return
+            if (!$code) return
 
             const codeClickEvents = eventHooks.codeClickEvents
             codeClickEvents.forEach(fn => fn($code as DomElement))
@@ -473,7 +472,7 @@ class Text {
                 $target == null
             }
 
-            if ($splitLine === null) return // 没有点击分割线，则返回
+            if (!$splitLine) return // 没有点击分割线，则返回
             // 设置、恢复选区
             editor.selection.createRangeByElem($splitLine)
             editor.selection.restoreSelection()
@@ -509,7 +508,7 @@ class Text {
             $dom = $(target).parentUntil('TABLE', target)
 
             // 没有table范围内，则返回
-            if ($dom === null) return
+            if (!$dom) return
 
             const tableClickEvents = eventHooks.tableClickEvents
             tableClickEvents.forEach(fn => fn($dom as DomElement))
