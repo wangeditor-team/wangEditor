@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import menusConfig, { EmotionsType, FontSizeConfType } from './menus'
+import menusConfig, { EmotionsType, FontSizeConfType, IndentationType } from './menus'
 import eventsConfig from './events'
 import styleConfig from './style'
 import pasteConfig from './paste'
@@ -25,6 +25,7 @@ export type ConfigType = {
     menus: string[]
     fontNames: string[]
     lineHeights: string[]
+    indentation: IndentationType
     fontSizes: FontSizeConfType
     colors: string[]
     emotions: EmotionsType[]
