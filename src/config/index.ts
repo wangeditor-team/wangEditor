@@ -11,6 +11,7 @@ import cmdConfig from './cmd'
 import imageConfig, { UploadImageHooksType } from './image'
 import textConfig from './text'
 import langConfig from './lang'
+import historyConfig from './history'
 
 // 字典类型
 export type DicType = {
@@ -38,7 +39,6 @@ export type ConfigType = {
     pasteTextHandle: Function
     styleWithCSS: boolean
     linkImgCallback: Function
-    undoLimit: number | boolean
 
     placeholder: string
     zIndexFullScreen: number
@@ -63,6 +63,8 @@ export type ConfigType = {
 
     linkCheck: Function
     linkImgCheck: Function
+    compatibleMode: () => boolean
+    historyMaxSize: number
 
     focus: boolean
 }
@@ -92,6 +94,7 @@ const defaultConfig = Object.assign(
     imageConfig,
     textConfig,
     langConfig,
+    historyConfig,
     //链接校验的配置函数
     {
         linkCheck: function (text: string, link: string): string | boolean {

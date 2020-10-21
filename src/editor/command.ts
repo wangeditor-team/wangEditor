@@ -59,9 +59,6 @@ class Command {
         // 最后，恢复选取保证光标在原来的位置闪烁
         selection.saveRange()
         selection.restoreSelection()
-
-        // 触发 onchange
-        editor.change()
     }
 
     /**
