@@ -31,6 +31,7 @@ export default {
                             靠左: '靠左',
                             居中: '居中',
                             靠右: '靠右',
+                            两端: '两端',
                         },
                         list: {
                             无序列表: '无序列表',
@@ -130,6 +131,7 @@ export default {
                             靠左: 'left',
                             居中: 'center',
                             靠右: 'right',
+                            两端: 'justify',
                         },
                         list: {
                             无序列表: 'unordered',

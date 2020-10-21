@@ -4,7 +4,7 @@
  */
 
 import DropListMenu from '../menu-constructors/DropListMenu'
-import $ from '../../utils/dom-core'
+import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 
@@ -44,6 +44,15 @@ class Justify extends DropListMenu implements MenuActive {
                     ),
                     value: 'justifyRight',
                 },
+                {
+                    $elem: $(
+                        `<p>
+                            <i class="w-e-icon-paragraph-justify w-e-drop-list-item"></i>
+                            ${editor.i18next.t('menus.dropListMenu.justify.两端')}
+                        </p>`
+                    ),
+                    value: 'justifyFull',
+                },
             ],
             clickHandler: (value: string) => {
                 // 执行对应的value操作
@@ -59,10 +68,29 @@ class Justify extends DropListMenu implements MenuActive {
     public command(value: string): void {
         const editor = this.editor
         const $selectionElem = editor.selection.getSelectionContainerElem()
+        // 选区等于textElem时表示选择了多个段落
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
-            return
+            // 定义对齐方式的type
+            type justifyType = {
+                [key: string]: string
+            }
+            // 数据项
+            const justifyClass: justifyType = {
+                justifyLeft: 'left',
+                justifyCenter: 'center',
+                justifyRight: 'right',
+                justifyFull: 'justify',
+            }
+            // 获取顶级元素
+            const $elems = editor.selection.getSelectionRangeTopNodes(editor)
+            $elems.forEach((el: DomElement) => {
+                // 设置样式
+                el.css('text-align', justifyClass[value])
+            })
+        } else {
+            // 如果单行的使用execcommand实现
+            editor.cmd.do(value, value)
         }
-        editor.cmd.do(value, value)
     }
 
     /**
