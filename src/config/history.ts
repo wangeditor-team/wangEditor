@@ -17,5 +17,5 @@ function compatibleMode() {
 
 export default {
     compatibleMode,
-    historyMaxSize: 99,
+    historyMaxSize: 30,
 }

@@ -4,11 +4,6 @@
  */
 
 /**
- * 栈缓存数据的最大长度的默认值
- */
-export const MAX_SIZE = 99
-
-/**
  * 差异备份：节点相对位置信息
  */
 export interface TargetPosition {

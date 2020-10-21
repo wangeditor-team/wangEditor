@@ -3,7 +3,7 @@
  * @author fangzhicong
  */
 
-import Cache from '../../../../data-structure/cache'
+import Cache from '../../../../utils/data-structure/cache'
 import Editor from '../../../index'
 import { RangeItem } from '../type'
 import $ from '../../../../utils/dom-core'

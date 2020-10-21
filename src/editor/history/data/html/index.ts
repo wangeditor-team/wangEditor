@@ -3,7 +3,7 @@
  * @author fangzhicong
  */
 import Editor from '../../../index'
-import { TailChain } from '../../../../data-structure/chain'
+import { TailChain } from '../../../../utils/data-structure/chain'
 
 export default class HtmlCache {
     // 缓存数据

@@ -3,7 +3,7 @@
  * @author fangzhicong
  */
 
-import Cache from '../../../../data-structure/cache'
+import Cache from '../../../../utils/data-structure/cache'
 import compile from './compile'
 import { revoke, restore } from './decompilation'
 import { Compile } from '../type'
