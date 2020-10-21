@@ -119,7 +119,6 @@ const addDragListen = (editor: Editor, $drag: DomElement, $textContainerElem: Do
 
             // 解绑事件
             offEvents()
-            editor.change()
         }
         $document.on('mouseup', mouseUpHandler)
 
