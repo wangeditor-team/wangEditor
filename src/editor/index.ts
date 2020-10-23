@@ -31,9 +31,14 @@ let EDITOR_ID = 1
 
 class Editor {
     // 存储自定义菜单的构造函数
-    static menuConstructors: {
-        [key: string]: Function
-    } = {}
+    static menuConstructors = {
+        BtnMenu,
+        DropList,
+        DropListMenu,
+        Panel,
+        PanelMenu,
+        Tooltip,
+    }
 
     // 暴露 $
     static $: Function = $
@@ -179,16 +184,6 @@ class Editor {
     public unFullScreen(): void {
         setUnFullScreen(this)
     }
-}
-
-// 暴露创建菜单的 class
-Editor.menuConstructors = {
-    BtnMenu,
-    DropList,
-    DropListMenu,
-    Panel,
-    PanelMenu,
-    Tooltip,
 }
 
 export default Editor
