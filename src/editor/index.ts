@@ -18,6 +18,7 @@ import i18nextInit from './init-fns/i18next-init'
 import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-full-screen'
 import Undo from './undo-redo'
 import ZIndex from './z-index'
+import Contenteditable from './contenteditable'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -168,6 +169,20 @@ class Editor {
      */
     public unFullScreen(): void {
         setUnFullScreen(this)
+    }
+
+    /**
+     * 禁用api
+     */
+    public disable(): void {
+        Contenteditable.createCurtain(this)
+    }
+
+    /**
+     * 启用api
+     */
+    public enable(): void {
+        Contenteditable.deleteCurtain(this)
     }
 }
 
