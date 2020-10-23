@@ -18,6 +18,9 @@ import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-f
 import ZIndex from './z-index'
 import Change from './change/index'
 import History from './history/index'
+import Contenteditable from './contenteditable'
+
+// 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
 import DropList from '../menus/menu-constructors/DropList'
 import DropListMenu from '../menus/menu-constructors/DropListMenu'
@@ -178,6 +181,20 @@ class Editor {
      */
     public unFullScreen(): void {
         setUnFullScreen(this)
+    }
+
+    /**
+     * 禁用api
+     */
+    public disable(): void {
+        Contenteditable.createCurtain(this)
+    }
+
+    /**
+     * 启用api
+     */
+    public enable(): void {
+        Contenteditable.deleteCurtain(this)
     }
 }
 
