@@ -19,27 +19,9 @@ import ZIndex from './z-index'
 import Change from './change/index'
 import History from './history/index'
 
-// 创建菜单的 class
-import BtnMenu from '../menus/menu-constructors/BtnMenu'
-import DropList from '../menus/menu-constructors/DropList'
-import DropListMenu from '../menus/menu-constructors/DropListMenu'
-import Panel from '../menus/menu-constructors/Panel'
-import PanelMenu from '../menus/menu-constructors/PanelMenu'
-import Tooltip from '../menus/menu-constructors/Tooltip'
-
 let EDITOR_ID = 1
 
 class Editor {
-    // 存储自定义菜单的构造函数
-    static menuConstructors = {
-        BtnMenu,
-        DropList,
-        DropListMenu,
-        Panel,
-        PanelMenu,
-        Tooltip,
-    }
-
     // 暴露 $
     static $: Function = $
 

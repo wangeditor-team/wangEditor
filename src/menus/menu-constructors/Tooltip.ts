@@ -11,7 +11,7 @@ type PositionDataType = {
     left: number
 }
 
-type TooltipConfItemType = {
+export type TooltipConfItemType = {
     $elem: DomElement
     onClick: Function
 }
