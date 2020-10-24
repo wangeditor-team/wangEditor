@@ -4,14 +4,9 @@
  */
 
 import createEditor from '../fns/create-editor'
-import Editor, {
-    BtnMenu,
-    DropListMenu,
-    PanelMenu,
-    DropList,
-    Panel,
-    Tooltip,
-} from '../../src/wangEditor'
+import Editor from '../../src/wangEditor'
+
+const { BtnMenu, DropListMenu, PanelMenu, DropList, Panel, Tooltip } = Editor
 
 let editor: Editor
 

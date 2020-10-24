@@ -18,12 +18,25 @@ import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-f
 import ZIndex from './z-index'
 import Change from './change/index'
 import History from './history/index'
+import BtnMenu from '../menus/menu-constructors/BtnMenu'
+import DropList from '../menus/menu-constructors/DropList'
+import DropListMenu from '../menus/menu-constructors/DropListMenu'
+import Panel from '../menus/menu-constructors/Panel'
+import PanelMenu from '../menus/menu-constructors/PanelMenu'
+import Tooltip from '../menus/menu-constructors/Tooltip'
 
 let EDITOR_ID = 1
 
 class Editor {
     // 暴露 $
     static $: Function = $
+
+    static BtnMenu = BtnMenu
+    static DropList = DropList
+    static DropListMenu = DropListMenu
+    static Panel = Panel
+    static PanelMenu = PanelMenu
+    static Tooltip = Tooltip
 
     public id: string
     public toolbarSelector: string
