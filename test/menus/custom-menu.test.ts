@@ -11,7 +11,7 @@ const { BtnMenu, DropListMenu, PanelMenu, DropList, Panel, Tooltip } = Editor
 let editor: Editor
 
 // 创建 menu 的各个 class
-test('E.menuConstructors 中的 class', () => {
+test('自定义菜单的 class', () => {
     expect(BtnMenu).not.toBeNull()
     expect(DropListMenu).not.toBeNull()
     expect(PanelMenu).not.toBeNull()
