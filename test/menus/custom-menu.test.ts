@@ -4,15 +4,14 @@
  */
 
 import createEditor from '../fns/create-editor'
-import Editor from '../../src/editor'
-import BtnMenu from '../../src/menus/menu-constructors/BtnMenu'
+import Editor from '../../src/wangEditor'
+
+const { BtnMenu, DropListMenu, PanelMenu, DropList, Panel, Tooltip } = Editor
 
 let editor: Editor
 
 // 创建 menu 的各个 class
-test('E.menuConstructors 中的 class', () => {
-    const { BtnMenu, DropListMenu, PanelMenu, DropList, Panel, Tooltip } = Editor.menuConstructors
-
+test('自定义菜单的 class', () => {
     expect(BtnMenu).not.toBeNull()
     expect(DropListMenu).not.toBeNull()
     expect(PanelMenu).not.toBeNull()
