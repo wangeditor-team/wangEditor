@@ -13,7 +13,7 @@ import './assets/style/droplist.less'
 import './utils/polyfill'
 import Editor from './editor/index'
 
-export * from './menus/menu-constructors'
+export * from './menus/menu-constructors/index'
 
 // 检验是否浏览器环境
 try {
