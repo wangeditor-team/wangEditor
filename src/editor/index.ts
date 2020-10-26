@@ -18,8 +18,6 @@ import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-f
 import ZIndex from './z-index'
 import Change from './change/index'
 import History from './history/index'
-
-// 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
 import DropList from '../menus/menu-constructors/DropList'
 import DropListMenu from '../menus/menu-constructors/DropListMenu'
@@ -30,13 +28,15 @@ import Tooltip from '../menus/menu-constructors/Tooltip'
 let EDITOR_ID = 1
 
 class Editor {
-    // 存储自定义菜单的构造函数
-    static menuConstructors: {
-        [key: string]: Function
-    } = {}
-
     // 暴露 $
     static $: Function = $
+
+    static BtnMenu = BtnMenu
+    static DropList = DropList
+    static DropListMenu = DropListMenu
+    static Panel = Panel
+    static PanelMenu = PanelMenu
+    static Tooltip = Tooltip
 
     public id: string
     public toolbarSelector: string
@@ -179,16 +179,6 @@ class Editor {
     public unFullScreen(): void {
         setUnFullScreen(this)
     }
-}
-
-// 暴露创建菜单的 class
-Editor.menuConstructors = {
-    BtnMenu,
-    DropList,
-    DropListMenu,
-    Panel,
-    PanelMenu,
-    Tooltip,
 }
 
 export default Editor

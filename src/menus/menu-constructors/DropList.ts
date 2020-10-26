@@ -16,7 +16,7 @@ export type DropListConf = {
     title: string
     list: DropListItem[]
     type: string // 'list' 列表形式（如“标题”菜单）； 'inline-block' 块状形式（如“颜色”菜单）
-    clickHandler: Function
+    clickHandler: (value: DropListItem['value']) => void
     width: number | 100
 }
 

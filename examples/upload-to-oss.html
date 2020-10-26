@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor example</title>
+  <style>
+  </style>
+
+  <!-- 引入在线资源 -->
+  <script src="http://gosspublic.alicdn.com/aliyun-oss-sdk-6.8.0.min.js"></script>
+</head>
+
+<body>
+  <p>
+    wangEditor demo upload image
+  </p>
+
+  <div id="div1"></div>
+
+  <script src="../dist/wangEditor.js"></script>
+  <script>
+
+    let client = new OSS({
+      // // region以杭州为例（oss-cn-hangzhou），其他region按实际情况填写。
+      // region: '<Your region>',
+      // // 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录RAM控制台创建RAM账号。
+      // accessKeyId: '<Your AccessKeyId>',
+      // accessKeySecret: '<Your AccessKeySecret>',
+      // bucket: 'Your bucket name',
+    });
+
+    const E = window.wangEditor
+    const editor = new E('#div1')
+
+    editor.config.customUploadImg = function (resultFiles, insertImgFn) {
+      // resultFiles 是 input 中选中的文件列表
+      // insertImgFn 是获取图片 url 后，插入到编辑器的方法
+      client.put('myImg', resultFiles[0])
+        .then(function (res) {
+          // 上传图片，返回结果，将图片插入到编辑器中
+          insertImgFn(res.url)
+        }).catch(function (err) {
+          console.log(err)
+        })
+    }
+
+    editor.create()
+  </script>
+</body>
+
+</html>
