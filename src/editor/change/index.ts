@@ -34,9 +34,9 @@ export default class Change extends Mutation {
     private data: MutationRecord[] = []
 
     /**
-     * 防抖处理
+     * 异步保存数据
      */
-    private debounce: Function = EMPTY_FN
+    private asyncSave: Function = EMPTY_FN
 
     constructor(public editor: Editor) {
         super((mutations, observer) => {
@@ -48,14 +48,14 @@ export default class Change extends Mutation {
 
             // 标准模式下
             if (!editor.isCompatibleMode) {
-                // 其它浏览器在非中文输入状态下时才保存数据
+                // 在非中文输入状态下时才保存数据
                 if (!editor.isComposing) {
-                    return this.debounce()
+                    return this.asyncSave()
                 }
             }
             // 兼容模式下
             else {
-                this.debounce()
+                this.asyncSave()
             }
         })
     }
@@ -89,13 +89,13 @@ export default class Change extends Mutation {
         super.observe(this.editor.$textElem.elems[0])
 
         let timeout = this.editor.config.onchangeTimeout
-        this.debounce = debounce(() => {
+        this.asyncSave = debounce(() => {
             this.save()
         }, timeout)
 
         if (!this.editor.isCompatibleMode) {
             this.editor.$textElem.on('compositionend', () => {
-                this.debounce()
+                this.asyncSave()
             })
         }
     }
