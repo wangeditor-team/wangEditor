@@ -118,6 +118,11 @@ class Editor {
         // 确定当前的历史记录模式
         this.isCompatibleMode = this.config.compatibleMode()
 
+        // 标准模式下，重置延迟时间
+        if (!this.isCompatibleMode) {
+            this.config.onchangeTimeout = 30
+        }
+
         // 国际化 因为要在创建菜单前使用 所以要最先 初始化
         i18nextInit(this)
 
