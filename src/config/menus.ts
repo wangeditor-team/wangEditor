@@ -25,6 +25,13 @@ export type FontSizeConfType = {
     }
 }
 
+// indent
+export interface IndentationOptions {
+    value: number
+    unit: string
+}
+export type IndentationType = string | IndentationOptions
+
 /*表情菜单数据结构类型END*/
 export default {
     menus: [
@@ -240,4 +247,6 @@ export default {
     lineHeights: ['1', '1.15', '1.6', '2', '2.5', '3'],
 
     undoLimit: 20,
+
+    indentation: '2em',
 }

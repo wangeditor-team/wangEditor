@@ -7,16 +7,46 @@
 
 import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
+import { IndentationOptions } from '../../config/menus'
 import increaseIndentStyle from './increase-indent-style'
 import decreaseIndentStyle from './decrease-indent-style'
+
+const lengthRegex = /^(\d+)(\w+)$/
+const percentRegex = /^(\d+)%$/
+
+function parseIndentation(editor: Editor): IndentationOptions {
+    const { indentation } = editor.config
+
+    if (typeof indentation === 'string') {
+        if (lengthRegex.test(indentation)) {
+            const [value, unit] = indentation.trim().match(lengthRegex)!.slice(1, 3)
+            return {
+                value: Number(value),
+                unit,
+            }
+        } else if (percentRegex.test(indentation)) {
+            return {
+                value: Number(indentation.trim().match(percentRegex)![1]),
+                unit: '%',
+            }
+        }
+    } else if (indentation.value !== void 0 && indentation.unit) {
+        return indentation
+    }
+
+    return {
+        value: 2,
+        unit: 'em',
+    }
+}
 
 function operateElement($node: DomElement, type: String, editor: Editor): void {
     const $elem = $node.getNodeTop(editor)
     const reg = /^P$/i
 
     if (reg.test($elem.getNodeName())) {
-        if (type === 'increase') increaseIndentStyle($elem)
-        else if (type === 'decrease') decreaseIndentStyle($elem)
+        if (type === 'increase') increaseIndentStyle($elem, parseIndentation(editor))
+        else if (type === 'decrease') decreaseIndentStyle($elem, parseIndentation(editor))
     }
 }
 
