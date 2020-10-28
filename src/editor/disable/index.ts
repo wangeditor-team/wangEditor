@@ -23,7 +23,6 @@ function disable(editor: Editor) {
                 <div class="w-e-content-preview w-e-text">${content}</div>
             </div>`
     )
-    console.log($contentDom)
     editor.$textContainerElem.append($contentDom)
     // 生成div 菜单膜布
     let menuZindexValue = editor.zIndex.get('menu')
