@@ -18,7 +18,7 @@ import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-f
 import ZIndex from './z-index'
 import Change from './change/index'
 import History from './history/index'
-import Disable from './disable'
+import disable from './disable'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -192,14 +192,14 @@ class Editor {
      * 禁用api
      */
     public disable(): void {
-        Disable.createCurtain(this)
+        disable.disable(this)
     }
 
     /**
      * 启用api
      */
     public enable(): void {
-        Disable.deleteCurtain(this)
+        disable.enable(this)
     }
 }
 
