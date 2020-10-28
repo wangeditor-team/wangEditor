@@ -67,30 +67,36 @@ class Justify extends DropListMenu implements MenuActive {
      */
     public command(value: string): void {
         const editor = this.editor
-        const $selectionElem = editor.selection.getSelectionContainerElem()
+        const selection = editor.selection
+        const $selectionElem = selection.getSelectionContainerElem()
+        // 保存选区
+        selection.saveRange()
+        // 定义对齐方式的type
+        type justifyType = {
+            [key: string]: string
+        }
+        // 数据项
+        const justifyClass: justifyType = {
+            justifyLeft: 'left',
+            justifyCenter: 'center',
+            justifyRight: 'right',
+            justifyFull: 'justify',
+        }
+        // 获取顶级元素
+        const $elems = editor.selection.getSelectionRangeTopNodes(editor)
         // 选区等于textElem时表示选择了多个段落
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
-            // 定义对齐方式的type
-            type justifyType = {
-                [key: string]: string
-            }
-            // 数据项
-            const justifyClass: justifyType = {
-                justifyLeft: 'left',
-                justifyCenter: 'center',
-                justifyRight: 'right',
-                justifyFull: 'justify',
-            }
-            // 获取顶级元素
-            const $elems = editor.selection.getSelectionRangeTopNodes(editor)
+            // 获取在css中对应style的值
+            const justifyValue = justifyClass[value]
             $elems.forEach((el: DomElement) => {
-                // 设置样式
-                el.css('text-align', justifyClass[value])
+                el.css('text-align', justifyValue)
             })
         } else {
             // 如果单行的使用execcommand实现
             editor.cmd.do(value, value)
         }
+        //恢复选区
+        selection.restoreSelection()
     }
 
     /**
