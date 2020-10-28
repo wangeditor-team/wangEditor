@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor example</title>
+  <style>
+  </style>
+  <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <p>
+    wangEditor demo
+  </p>
+
+  <label for="indentation">indentation</label>
+  <select name="indention" id="indentation" onchange="setIndentation(event)">
+    <option value="default">默认(2em)</option>
+    <option value="1em">1em</option>
+    <option value="2cm">2cm</option>
+    <option value="10%">10%</option>
+  </select>
+
+  <div id="div1">
+    <p>无缩进</p>
+    <p style="padding-left: 2em;" id="test">带有缩进缩进</p>
+  </div>
+
+  <script src="../dist/wangEditor.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    let editor = new E('#div1')
+
+    function setIndentation(event) {
+      let val = event.target.value
+      let currIndent = val
+      let html = editor.txt.html()
+
+      editor.destroy()
+      editor = new E('#div1')
+      console.log('indentation', val)
+      if (val === 'default') {
+        editor.config.indentation = null
+        currIndent = '2em'
+      } else {
+        editor.config.indentation = val
+      }
+      editor.create()
+      editor.txt.html(html)
+      window.test.style.paddingLeft = currIndent
+    }
+
+    editor.create()
+
+  </script>
+</body>
+
+</html>
