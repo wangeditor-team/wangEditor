@@ -15,8 +15,6 @@ import { urlRegex } from '../../utils/const'
  */
 function formatHtml(val: string) {
     let pasteText = val
-    // 去除br
-    pasteText = pasteText.replace(/<br>|<br\/>/gim, '')
     // div 全部替换为 p 标签
     pasteText = pasteText.replace(/<div>/gim, '<p>').replace(/<\/div>/gim, '</p>')
     // 不允许空行，放在最后

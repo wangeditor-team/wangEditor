@@ -69,7 +69,7 @@ git config user.email xxx@xxx.com
 - `git add .`
 - `git commit -m "xxx"` 提交代码，此时会自动进行 eslint 和 prettier 的检查和修复，请耐心等待
 
-注意，在执行 `git commit` 之前，**请务必遵守 commit 规范**。
+注意，在执行 `git commit` 时，请务必遵守 commit 规范，程序也会强制按照如下格式提交：
 
 - `feat: xxx` 新功能
 - `fix: xxx` bug 修复
@@ -78,6 +78,10 @@ git config user.email xxx@xxx.com
 - `refactor: xxx` 重构某个功能
 - `test: xxx` 增加或修改测试用例
 - `chore: xxx` 修改辅助功能（如 webpack eslint 等）
+- `perf: xxx` 性能优化
+- `release: xxx` 发布新版本
+- `revert: xxx` 回退
+
 
 例如，你本次 commit 是修复了一个 bug ，那就执行 `git commit -m "fix: 说明本次修改了哪个 bug"`
 
