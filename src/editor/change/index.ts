@@ -34,9 +34,9 @@ export default class Change extends Mutation {
     private data: MutationRecord[] = []
 
     /**
-     * 兼容模式下进行防抖处理的的发布函数
+     * 异步保存数据
      */
-    private debounce: Function = EMPTY_FN
+    private asyncSave: Function = EMPTY_FN
 
     constructor(public editor: Editor) {
         super((mutations, observer) => {
@@ -48,21 +48,14 @@ export default class Change extends Mutation {
 
             // 标准模式下
             if (!editor.isCompatibleMode) {
-                // 有数据
-                if (this.data.length) {
-                    // 如果是 Firefox 浏览器，直接保存数据
-                    if (UA.isFirefox) {
-                        return this.save()
-                    }
-                    // 其它浏览器在非中文输入状态下时才保存数据
-                    if (!editor.isComposing) {
-                        return this.save()
-                    }
+                // 在非中文输入状态下时才保存数据
+                if (!editor.isComposing) {
+                    return this.asyncSave()
                 }
             }
             // 兼容模式下
             else {
-                this.debounce()
+                this.asyncSave()
             }
         })
     }
@@ -71,13 +64,16 @@ export default class Change extends Mutation {
      * 保存变化的数据并发布 change event
      */
     private save() {
-        // 保存变化数据
-        this.editor.history.save(this.data)
+        // 有数据
+        if (this.data.length) {
+            // 保存变化数据
+            this.editor.history.save(this.data)
 
-        // 清除缓存
-        this.data.length = 0
+            // 清除缓存
+            this.data.length = 0
 
-        this.emit()
+            this.emit()
+        }
     }
 
     /**
@@ -92,12 +88,15 @@ export default class Change extends Mutation {
     public observe() {
         super.observe(this.editor.$textElem.elems[0])
 
-        // 初始化兼容模式下的防抖函数
-        if (this.editor.isCompatibleMode) {
-            let timeout = this.editor.config.onchangeTimeout
-            this.debounce = debounce(() => {
-                this.save()
-            }, timeout)
+        let timeout = this.editor.config.onchangeTimeout
+        this.asyncSave = debounce(() => {
+            this.save()
+        }, timeout)
+
+        if (!this.editor.isCompatibleMode) {
+            this.editor.$textElem.on('compositionend', () => {
+                this.asyncSave()
+            })
         }
     }
 }

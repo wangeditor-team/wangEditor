@@ -7,6 +7,7 @@ import Cache from '../../../../utils/data-structure/cache'
 import Editor from '../../../index'
 import { RangeItem } from '../type'
 import $ from '../../../../utils/dom-core'
+import { debounce } from '../../../../utils/util'
 
 /**
  * 把 Range 对象转换成缓存对象
@@ -35,10 +36,15 @@ export default class RangeCache extends Cache<[RangeItem, RangeItem]> {
      */
     private root: Element
 
+    public updateLastRange: Function
+
     constructor(public editor: Editor) {
         super(editor.config.historyMaxSize)
         this.lastRange = rangeToObject(document.createRange())
         this.root = editor.$textElem.elems[0]
+        this.updateLastRange = debounce(() => {
+            this.lastRange = rangeToObject(this.rangeHandle)
+        }, editor.config.onchangeTimeout)
     }
 
     /**
@@ -66,24 +72,26 @@ export default class RangeCache extends Cache<[RangeItem, RangeItem]> {
             ) {
                 // 非中文输入状态下才进行记录
                 if (!self.editor.isComposing) {
-                    self.lastRange = rangeToObject(handle)
+                    self.updateLastRange()
                 }
             }
         }
         // backspace 和 delete 手动更新 Range 缓存
         function deletecallback(e: KeyboardEvent) {
             if (e.key == 'Backspace' || e.key == 'Delete') {
-                self.lastRange = rangeToObject(self.rangeHandle)
+                // self.lastRange = rangeToObject(self.rangeHandle)
+                self.updateLastRange()
             }
         }
         // 绑定事件（必须绑定在 document 上，不能绑定在 window 上）
         $(document).on('selectionchange', selectionchange)
-        // 删除文本时手动更新 range
-        self.editor.$textElem.on('keydown', deletecallback)
         // 解除事件绑定
         this.editor.beforeDestroy(function () {
             $(document).off('selectionchange', selectionchange)
         })
+
+        // 删除文本时手动更新 range
+        self.editor.$textElem.on('keydown', deletecallback)
     }
 
     /**
