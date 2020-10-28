@@ -35,8 +35,8 @@ function disable(editor: Editor) {
 // 销毁幕布并显示可编辑区域
 function enable(editor: Editor) {
     if (!isCurtain) return
-    $contentDom.elems[0].remove()
-    $menuDom.elems[0].remove()
+    $contentDom.remove()
+    $menuDom.remove()
     editor.$textElem.show()
     isCurtain = false
 }
