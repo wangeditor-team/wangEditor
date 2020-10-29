@@ -4,9 +4,6 @@ module.exports = {
         commitMessage: 'release: v${version}',
         requireCleanWorkingDir: false,
     },
-    hooks: {
-        'after:bump': ['npm run build'],
-    },
     npm: {
         publish: false,
     },
