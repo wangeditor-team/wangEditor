@@ -1,36 +1,32 @@
 # 发布到 npm
 
-把已合并的代码发布到 npm 。
+## 技术方案
 
-## 合并代码到 master
+`v4.1.0` 版本开始，采用 [release-it](https://github.com/release-it/release-it) 来执行发布操作。
+不过，release-it 仅仅用来创建 tag 并 push ，真正 publish 到 npm 是在 github actions 中实现的，代码见 `.github/workflows/npm-publish.yml` 。
 
-创建 Pull Request ，将 dev 分支合并到 master 分支。
+## set upstream
 
-## 升级版本并提交 tag
+切换到 master 分支，执行 `git branch --set-upstream-to=origin/master master`
 
-### 升级三级版本
+## 触发 release
 
-如将 `1.1.1` 升级为 `1.1.2`。一般用于 bug 修复，功能补全，小改动。
+执行 `npm run release` 。主要进行如下步骤（配置见 `.release-it.js`）
 
-本地运行 `sh ./build/up-version.sh`，即可升级版本并提交 tag
+- 必须是 master 分支
+- 首先 `git pull origin master`
+- 然后 `npm run all-check`
+- 创建 tag 并 push （它会自动推荐 tag 的版本号，我们默认用即可）
 
-### 升级二级版本
+**【注意】千万不要随意执行 `npm run release` ！！！**
 
-如将 `1.1.2` 升级为 `1.2.0`。一般用于增加新功能，新模块。
-
-本地运行 `sh ./build/up-version.sh minor`，即可升级版本并提交 tag
-
-### 升级一级版本
-
-如将 `1.2.0` 升级为 `2.0.0`。一般用于项目全面升级、重构，大改动。
-
-本地运行 `sh ./build/up-version.sh major`，即可升级版本并提交 tag
+如果想要体验一下发布过程，可执行 `npm run just-try-release` ，这个随便玩。
 
 ## 发布到 npm
 
-提交 tag 会触发 github actions ，自动发布到 npm 。
+提交 tag 会触发 [github actions](https://github.com/wangeditor-team/wangEditor/actions?query=workflow%3A%22npm-publish+and+test%22) ，自动发布到 npm 。
 
-待 actions 执行完成，只要没有报错，即表示发布完成。
+待 github actions 执行完成，只要没有报错，即表示发布完成。
 
 ## 回归测试
 
@@ -43,3 +39,8 @@ PS：配置代码见 `.github/workflows/npm-publish.yml`
 ### 手动测试
 
 可下载测试 demo `git clone git@github.com:wangeditor-team/we-demo.git` ，安装最新的包，本地运行。
+
+## 合并代码到 dev
+
+发布完成之后，将 master 代码合并到 dev 分支，并提交。
+以便后续开发 merge 时，代码更简洁。

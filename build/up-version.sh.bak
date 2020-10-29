@@ -1,4 +1,5 @@
 #!/bin/bash
+# v4.1.0 之前，使用该 sh 文件创建 tag 并 push 。v4.1.0 开始，使用 release-it 来代替了。
 
 # 切换到 master 分支
 git checkout master
