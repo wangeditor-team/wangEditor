@@ -20,9 +20,10 @@
     "prettier": "prettier --write --config .prettierrc.js \"src/**/*.{js,ts}\"",
     "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
     "test-c": "cross-env NODE_ENV=test jest --coverage",
+    "all-check": "npm run prettier && npm run lint-fix && npm run test",
     "start": "concurrently \"npm run dev\" \"npm run example\" ",
     "release": "release-it",
-    "release:dry": "release-it --dry-run"
+    "just-try-release": "release-it --dry-run"
   },
   "jest": {
     "testEnvironment": "node"
@@ -100,9 +101,7 @@
   },
   "lint-staged": {
     "*.{ts,js}": [
-      "npm run prettier",
-      "npm run lint-fix",
-      "npm run test",
+      "npm run all-check",
       "git add ."
     ]
   },
