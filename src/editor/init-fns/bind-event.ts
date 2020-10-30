@@ -65,6 +65,16 @@ function _bindFocusAndBlur(editor: Editor): void {
             if (!editor.isFocus) {
                 _focusHandler(editor)
             }
+
+            // 单击编辑非选择toolbar空白处，新建空选区
+            if (!isToolbar) {
+                const $textElem = editor.$textElem
+                const $last = $textElem.children()?.last()
+                if ($last != null) {
+                    editor.selection.createRangeByElem($last, false, true)
+                }
+            }
+
             editor.isFocus = true
         }
     }
