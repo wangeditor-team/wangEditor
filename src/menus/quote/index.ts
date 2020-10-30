@@ -27,7 +27,12 @@ class Quote extends BtnMenu implements MenuActive {
         const isSelectEmpty = editor.selection.isSelectionEmpty()
 
         const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
-        const nodeName = $selectionElem.getNodeName()
+        const nodeName = this.getQuoteNodeName($selectionElem)
+
+        // if (nodeName !== "P" && nodeName !== "BLOCKQUOTE") {
+        //     // 当nodeName不为p 和 BLOCKQUOTE 取其父节点，防止无法quote操作失效
+        //     nodeName = $(parentNode).getNodeName()
+        // }
 
         if (isSelectEmpty) {
             // 选区范围是空的，插入并选中一个“空白”
@@ -79,6 +84,21 @@ class Quote extends BtnMenu implements MenuActive {
         } else {
             this.unActive()
         }
+    }
+
+    /**
+     * 获取包裹在最外层的节点(防止内部嵌入多个样式)
+     * @param selectionElem 选中的节点
+     * @returns {string} 最终要处理的节点名称
+     */
+    private getQuoteNodeName(selectionElem: DomElement): string {
+        let nodeName = selectionElem.getNodeName()
+        let parentNode = $(nodeName).parent()
+
+        if (nodeName !== 'P' && nodeName !== 'BLOCKQUOTE') {
+            nodeName = this.getQuoteNodeName(parentNode)
+        }
+        return nodeName
     }
 }
 
