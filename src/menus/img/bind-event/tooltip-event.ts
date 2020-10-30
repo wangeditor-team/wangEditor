@@ -7,70 +7,79 @@ import $, { DomElement } from '../../../utils/dom-core'
 import Tooltip, { TooltipConfType } from '../../menu-constructors/Tooltip'
 import Editor from '../../../editor/index'
 
-let tooltip: Tooltip | null
-let _editor: Editor
-
 /**
- * 显示 tooltip
- * @param  链接元素
+ * 生成 Tooltip 的显示隐藏函数
  */
-function showImgTooltip($node: DomElement) {
-    const conf: TooltipConfType = [
-        {
-            $elem: $("<span class='w-e-icon-trash-o'></span>"),
-            onClick: (editor: Editor, $node: DomElement) => {
-                // 选中img元素
-                editor.selection.createRangeByElem($node)
-                editor.selection.restoreSelection()
-                editor.cmd.do('delete')
-                // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
-                return true
+function createShowHideFn(editor: Editor) {
+    let tooltip: Tooltip | null
+
+    /**
+     * 显示 tooltip
+     * @param $node 链接元素
+     */
+    function showImgTooltip($node: DomElement) {
+        const conf: TooltipConfType = [
+            {
+                $elem: $("<span class='w-e-icon-trash-o'></span>"),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    // 选中img元素
+                    editor.selection.createRangeByElem($node)
+                    editor.selection.restoreSelection()
+                    editor.cmd.do('delete')
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
             },
-        },
-        {
-            $elem: $('<span>30%</span>'),
-            onClick: (editor: Editor, $node: DomElement) => {
-                $node.attr('width', '30%')
-                $node.removeAttr('height')
+            {
+                $elem: $('<span>30%</span>'),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    $node.attr('width', '30%')
+                    $node.removeAttr('height')
 
-                // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
-                return true
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
             },
-        },
-        {
-            $elem: $('<span>50%</span>'),
-            onClick: (editor: Editor, $node: DomElement) => {
-                $node.attr('width', '50%')
-                $node.removeAttr('height')
+            {
+                $elem: $('<span>50%</span>'),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    $node.attr('width', '50%')
+                    $node.removeAttr('height')
 
-                // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
-                return true
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
             },
-        },
-        {
-            $elem: $('<span>100%</span>'),
-            onClick: (editor: Editor, $node: DomElement) => {
-                $node.attr('width', '100%')
-                $node.removeAttr('height')
+            {
+                $elem: $('<span>100%</span>'),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    $node.attr('width', '100%')
+                    $node.removeAttr('height')
 
-                // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
-                return true
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
             },
-        },
-    ]
+        ]
 
-    tooltip = new Tooltip(_editor, $node, conf)
-    tooltip.create()
-}
+        tooltip = new Tooltip(editor, $node, conf)
+        tooltip.create()
+    }
 
-/**
- * 隐藏 tooltip
- */
-function hideImgTooltip() {
-    // 移除 tooltip
-    if (tooltip) {
-        tooltip.remove()
-        tooltip = null
+    /**
+     * 隐藏 tooltip
+     */
+    function hideImgTooltip() {
+        // 移除 tooltip
+        if (tooltip) {
+            tooltip.remove()
+            tooltip = null
+        }
+    }
+
+    return {
+        showImgTooltip,
+        hideImgTooltip,
     }
 }
 
@@ -78,8 +87,8 @@ function hideImgTooltip() {
  * 绑定 tooltip 事件
  * @param editor 编辑器实例
  */
-function bindTooltipEvent(editor: Editor) {
-    _editor = editor
+export default function bindTooltipEvent(editor: Editor) {
+    const { showImgTooltip, hideImgTooltip } = createShowHideFn(editor)
 
     // 点击图片元素是，显示 tooltip
     editor.txt.eventHooks.imgClickEvents.push(showImgTooltip)
@@ -95,5 +104,3 @@ function bindTooltipEvent(editor: Editor) {
     // change 时隐藏
     editor.txt.eventHooks.changeEvents.push(hideImgTooltip)
 }
-
-export default bindTooltipEvent
