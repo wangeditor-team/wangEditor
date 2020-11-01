@@ -3,6 +3,7 @@
  * @author wangfupeng
  */
 
+import text from '../config/text'
 import $, { DomElement } from '../utils/dom-core'
 import { UA } from '../utils/util'
 import Editor from './index'
@@ -231,6 +232,23 @@ class SelectionAndRange {
         const item = new SelectionRangeTopNodes(editor)
         item.init()
         return item.getSelectionNodes()
+    }
+
+    /**
+     * 移动光标位置
+     * @param {Node} node 元素节点
+     */
+    public moveCursor(node: Node) {
+        const range = this.getRange()
+        const pos = 1
+        if (!range) {
+            return
+        }
+        if (node) {
+            range.setStart(node, pos)
+            range.setEnd(node, pos)
+            this.restoreSelection()
+        }
     }
 }
 

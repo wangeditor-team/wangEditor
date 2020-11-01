@@ -556,6 +556,14 @@ export class DomElement {
     }
 
     /**
+     * 获取当前元素节点
+     */
+    getNdoe(): Node {
+        const elem = this.elems[0]
+        return elem
+    }
+
+    /**
      * 获取当前元素可视高度
      */
     getClientHeight(): number {

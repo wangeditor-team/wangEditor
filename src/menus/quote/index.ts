@@ -25,37 +25,38 @@ class Quote extends BtnMenu implements MenuActive {
     public clickHandler(): void {
         const editor = this.editor
         const isSelectEmpty = editor.selection.isSelectionEmpty()
-
         const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
-        const nodeName = this.getQuoteNodeName($selectionElem)
-
-        // if (nodeName !== "P" && nodeName !== "BLOCKQUOTE") {
-        //     // 当nodeName不为p 和 BLOCKQUOTE 取其父节点，防止无法quote操作失效
-        //     nodeName = $(parentNode).getNodeName()
-        // }
+        const $topNodeElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
+        const nodeName = this.getTopNodeName()
 
         if (isSelectEmpty) {
             // 选区范围是空的，插入并选中一个“空白”
             editor.selection.createEmptyRange()
         }
-
-        if (UA.isIE()) {
+        console.log(nodeName)
+        if (UA.isIE() || UA.isFirefox || UA.isOldEdge) {
             // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
-            let content, $targetELem
+            // 兼容firefox无法取消blockquote的问题
+            let $targetELem
+            const cloneNode = $topNodeElem.getNdoe().firstChild?.cloneNode(true) as ChildNode
             if (nodeName === 'P') {
                 // 将 P 转换为 quote
-                content = $selectionElem.text()
-                $targetELem = $(`<blockquote>${content}</blockquote>`)
-                $targetELem.insertAfter($selectionElem)
+                const targetElem = document.createElement('blockquote')
+                targetElem.appendChild(cloneNode)
+                $targetELem = $(targetElem)
+                $targetELem.insertAfter($topNodeElem)
                 $selectionElem.remove()
+                editor.selection.moveCursor($targetELem.getNdoe())
                 return
             }
             if (nodeName === 'BLOCKQUOTE') {
                 // 撤销 quote
-                content = $selectionElem.text()
-                $targetELem = $(`<p>${content}</p>`)
-                $targetELem.insertAfter($selectionElem)
+                const targetElem = document.createElement('p')
+                targetElem.appendChild(cloneNode)
+                $targetELem = $(targetElem)
+                $targetELem.insertAfter($topNodeElem)
                 $selectionElem.remove()
+                editor.selection.moveCursor($targetELem.elems[0])
             }
         } else {
             // 执行 formatBlock 命令
@@ -91,13 +92,11 @@ class Quote extends BtnMenu implements MenuActive {
      * @param selectionElem 选中的节点
      * @returns {string} 最终要处理的节点名称
      */
-    private getQuoteNodeName(selectionElem: DomElement): string {
-        let nodeName = selectionElem.getNodeName()
-        let parentNode = $(nodeName).parent()
+    private getTopNodeName(): string {
+        const editor = this.editor
+        const $topNodeElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
+        const nodeName = $topNodeElem.getNodeName()
 
-        if (nodeName !== 'P' && nodeName !== 'BLOCKQUOTE') {
-            nodeName = this.getQuoteNodeName(parentNode)
-        }
         return nodeName
     }
 }
