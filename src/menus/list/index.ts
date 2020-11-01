@@ -3,7 +3,7 @@
  * @author tonghan
  */
 
-import $ from '../../utils/dom-core'
+import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import DropListMenu from '../menu-constructors/DropListMenu'
 import { MenuActive } from '../menu-constructors/Menu'
@@ -52,44 +52,20 @@ class List extends DropListMenu implements MenuActive {
     public command(value: string): void {
         const editor = this.editor
         const $textElem = editor.$textElem
-        editor.selection.restoreSelection()
+        const $selectionElem = editor.selection.getSelectionContainerElem()
 
-        // 判断是否已经执行了命令
-        if (editor.cmd.queryCommandState(value)) {
-            return
+        // 选区范围的 DOM 元素不存在，不执行命令
+        if ($selectionElem === undefined) return
+
+        if ($textElem.equal($selectionElem)) {
+            // 选区范围的 DOM 元素等于 textElem 时
+            // 代表当前选区可能是一个段落或者多个段落
+            const $nodes = editor.selection.getSelectionRangeTopNodes()
+        } else {
+            // 选区范围的 DOM 元素不等于 textElem 时
+            // 代表 当前选区要么是一个段落，要么是段落中的一部分
+            const $node = $selectionElem.first()
         }
-
-        //禁止在table中添加列表
-        let $selectionElem = $(editor.selection.getSelectionContainerElem())
-        let $dom = $($selectionElem.elems[0]).parentUntil('TABLE', $selectionElem.elems[0])
-        if ($dom && $($dom.elems[0]).getNodeName() === 'TABLE') {
-            return
-        }
-
-        editor.cmd.do(value)
-
-        // 验证列表是否被包裹在 <p> 之内
-        if ($selectionElem.getNodeName() === 'LI') {
-            $selectionElem = $selectionElem.parent()
-        }
-
-        if (/^ol|ul$/i.test($selectionElem.getNodeName()) === false) {
-            return
-        }
-
-        if ($selectionElem.equal($textElem)) {
-            // 证明是顶级标签，没有被 <p> 包裹
-            return
-        }
-
-        const $parent = $selectionElem.parent()
-        if ($parent.equal($textElem)) {
-            // $parent 是顶级标签，不能删除
-            return
-        }
-
-        $selectionElem.insertAfter($parent)
-        $parent.remove()
 
         // 恢复选区
         editor.selection.restoreSelection()

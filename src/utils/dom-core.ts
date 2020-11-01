@@ -93,6 +93,7 @@ export class DomElement {
     length: number
     elems: HTMLElement[]
     dataSource: Map<string, any>
+    prior?: DomElement
 
     /**
      * 构造函数
@@ -762,6 +763,7 @@ export class DomElement {
         }
 
         const $parent = this.parent()
+        $parent.prior = this
         if (editor.$textElem.equal($parent)) {
             return this
         }
