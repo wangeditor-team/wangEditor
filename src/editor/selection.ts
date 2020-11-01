@@ -240,7 +240,7 @@ class SelectionAndRange {
      */
     public moveCursor(node: Node) {
         const range = this.getRange()
-        const pos = 1
+        const pos = node.childNodes.length
         if (!range) {
             return
         }

@@ -38,24 +38,27 @@ class Quote extends BtnMenu implements MenuActive {
             // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
             // 兼容firefox无法取消blockquote的问题
             let $targetELem
-            const cloneNode = $topNodeElem.getNdoe().firstChild?.cloneNode(true) as ChildNode
+            const cloneNode = $topNodeElem.getNode().firstChild?.cloneNode(true) as ChildNode
+            const nodeList = $topNodeElem.getNode().childNodes
             if (nodeName === 'P') {
                 // 将 P 转换为 quote
                 const targetElem = document.createElement('blockquote')
-                targetElem.appendChild(cloneNode)
+                this.insertNode(targetElem, nodeList)
                 $targetELem = $(targetElem)
                 $targetELem.insertAfter($topNodeElem)
-                $selectionElem.remove()
-                editor.selection.moveCursor($targetELem.getNdoe())
+                $topNodeElem.remove()
+                editor.selection.moveCursor($targetELem.getNode())
+                // 防止最后一行无法跳出
+                $(`<p><br></p>`).insertAfter($targetELem)
                 return
             }
             if (nodeName === 'BLOCKQUOTE') {
                 // 撤销 quote
                 const targetElem = document.createElement('p')
-                targetElem.appendChild(cloneNode)
+                this.insertNode(targetElem, nodeList)
                 $targetELem = $(targetElem)
                 $targetELem.insertAfter($topNodeElem)
-                $selectionElem.remove()
+                $topNodeElem.remove()
                 editor.selection.moveCursor($targetELem.elems[0])
             }
         } else {
@@ -98,6 +101,24 @@ class Quote extends BtnMenu implements MenuActive {
         const nodeName = $topNodeElem.getNodeName()
 
         return nodeName
+    }
+
+    /**
+     * 将nodelist插入element中，并做一些特殊化处理
+     * @param element 需要插入的父节点
+     * @param nodeList 需要插入的nodelist
+     */
+    private insertNode(element: Node, nodeList: NodeList) {
+        nodeList.forEach((node, i) => {
+            if ((node.nodeName && node.textContent !== null) || node.nodeName === 'BR') {
+                if (node.nodeName === 'BR' && i !== nodeList.length - 1) {
+                    let newNode = $(`<p><br><p>`).getNode()
+                    element.appendChild(newNode)
+                } else {
+                    element.appendChild(node.cloneNode(true))
+                }
+            }
+        })
     }
 }
 
