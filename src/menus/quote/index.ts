@@ -25,7 +25,6 @@ class Quote extends BtnMenu implements MenuActive {
     public clickHandler(): void {
         const editor = this.editor
         const isSelectEmpty = editor.selection.isSelectionEmpty()
-        const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
         const $topNodeElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
         const nodeName = this.getTopNodeName()
 
@@ -33,18 +32,15 @@ class Quote extends BtnMenu implements MenuActive {
             // 选区范围是空的，插入并选中一个“空白”
             editor.selection.createEmptyRange()
         }
-        console.log(nodeName)
         if (UA.isIE() || UA.isFirefox || UA.isOldEdge) {
             // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
             // 兼容firefox无法取消blockquote的问题
-            let $targetELem
-            const cloneNode = $topNodeElem.getNode().firstChild?.cloneNode(true) as ChildNode
             const nodeList = $topNodeElem.getNode().childNodes
             if (nodeName === 'P') {
                 // 将 P 转换为 quote
-                const targetElem = document.createElement('blockquote')
+                const $targetELem = $(`<blockquote></blockquote>`)
+                const targetElem = $targetELem.getNode()
                 this.insertNode(targetElem, nodeList)
-                $targetELem = $(targetElem)
                 $targetELem.insertAfter($topNodeElem)
                 $topNodeElem.remove()
                 editor.selection.moveCursor($targetELem.getNode())
@@ -54,9 +50,9 @@ class Quote extends BtnMenu implements MenuActive {
             }
             if (nodeName === 'BLOCKQUOTE') {
                 // 撤销 quote
-                const targetElem = document.createElement('p')
+                const $targetELem = $(`<p></p>`)
+                const targetElem = $targetELem.getNode()
                 this.insertNode(targetElem, nodeList)
-                $targetELem = $(targetElem)
                 $targetELem.insertAfter($topNodeElem)
                 $topNodeElem.remove()
                 editor.selection.moveCursor($targetELem.elems[0])
@@ -110,11 +106,10 @@ class Quote extends BtnMenu implements MenuActive {
      */
     private insertNode(element: Node, nodeList: NodeList) {
         nodeList.forEach((node, i) => {
-            if ((node.nodeName && node.textContent !== null) || node.nodeName === 'BR') {
-                if (node.nodeName === 'BR' && i !== nodeList.length - 1) {
-                    let newNode = $(`<p><br><p>`).getNode()
-                    element.appendChild(newNode)
-                } else {
+            // 去除空节点
+            if (node.nodeName && node.textContent !== null) {
+                if (node.nodeName !== 'BR' || i !== nodeList.length - 1) {
+                    // 去除最后的br
                     element.appendChild(node.cloneNode(true))
                 }
             }
