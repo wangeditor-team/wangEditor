@@ -1,3 +1,18 @@
+# [4.2.0](https://github.com/wangeditor-team/wangEditor/compare/v4.1.0...v4.2.0) (2020-11-02)
+
+
+### Bug Fixes
+
+* release 配置 ([f07bedb](https://github.com/wangeditor-team/wangEditor/commit/f07bedb3a29fe1a9a15fa42d1b9fcb5ee49cf129))
+* 修复上传本地图片覆盖问题 ([a5e87a2](https://github.com/wangeditor-team/wangEditor/commit/a5e87a239202b12df143b3c93070f03bf4acd947))
+* 修复部分情况保存range错误,从而造成上传图片被替换或者复制粘贴失效的情况 ([35492c7](https://github.com/wangeditor-team/wangEditor/commit/35492c7e8b28522eafc5822c7d71abeb2db407f7))
+* 修改描述 ([7bebdd9](https://github.com/wangeditor-team/wangEditor/commit/7bebdd98c0fcf073873298fbb079ece56adc8290))
+
+
+### Features
+
+* 添加问题模板 ([fca8ea1](https://github.com/wangeditor-team/wangEditor/commit/fca8ea11873f3e479810fa763a327af9d27f7edd))
+
 # [4.1.0](https://github.com/wangeditor-team/wangEditor/compare/v4.0.8...v4.1.0) (2020-10-29)
 
 
