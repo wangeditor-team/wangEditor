@@ -221,8 +221,22 @@ class Text {
             // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
             $textElem.on('mouseleave', saveRange)
         })
+
         $textElem.on('mouseup', () => {
+            const selection = editor.selection
+            const range = selection.getRange()
+
+            if (range == null) return
+
+            const { startOffset, endOffset } = range
+            let endContainer: Node | undefined = range?.endContainer
+            // 修复当selection结束时，点击编辑器内部，保存选区异常的情况
+            if (startOffset !== endOffset && endContainer != null) {
+                range?.setStart(endContainer, endOffset)
+            }
+
             saveRange()
+
             // 在编辑器区域之内完成点击，取消鼠标滑动到编辑区外面的事件
             $textElem.off('mouseleave', saveRange)
         })

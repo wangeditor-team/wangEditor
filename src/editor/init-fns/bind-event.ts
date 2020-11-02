@@ -65,6 +65,7 @@ function _bindFocusAndBlur(editor: Editor): void {
             if (!editor.isFocus) {
                 _focusHandler(editor)
             }
+
             editor.isFocus = true
         }
     }
