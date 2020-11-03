@@ -8,6 +8,17 @@ import Editor from '../../editor/index'
 import DropListMenu from '../menu-constructors/DropListMenu'
 import { MenuActive } from '../menu-constructors/Menu'
 
+/**
+ * 列表的种类
+ */
+export enum ListType {
+    OrderedList = 'insertOrderedList',
+    UnorderedList = 'insertUnorderedList',
+}
+
+// 序列类型
+type ListTypeValue = ListType
+
 class List extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
@@ -27,7 +38,7 @@ class List extends DropListMenu implements MenuActive {
                             <i class="w-e-icon-list2 w-e-drop-list-item"></i>
                             ${editor.i18next.t('menus.dropListMenu.list.无序列表')}
                         <p>`),
-                    value: 'insertUnorderedList',
+                    value: ListType.UnorderedList,
                 },
 
                 {
@@ -37,19 +48,19 @@ class List extends DropListMenu implements MenuActive {
                             ${editor.i18next.t('menus.dropListMenu.list.有序列表')}
                         <p>`
                     ),
-                    value: 'insertOrderedList',
+                    value: ListType.OrderedList,
                 },
             ],
             clickHandler: (value: string) => {
                 // 注意 this 是指向当前的 List 对象
-                this.command(value)
+                this.command(value as ListTypeValue)
             },
         }
 
         super($elem, editor, dropListConf)
     }
 
-    public command(value: string): void {
+    public command(type: ListTypeValue): void {
         const editor = this.editor
         const $textElem = editor.$textElem
         const $selectionElem = editor.selection.getSelectionContainerElem()
@@ -57,15 +68,10 @@ class List extends DropListMenu implements MenuActive {
         // 选区范围的 DOM 元素不存在，不执行命令
         if ($selectionElem === undefined) return
 
-        if ($textElem.equal($selectionElem)) {
-            // 选区范围的 DOM 元素等于 textElem 时
-            // 代表当前选区可能是一个段落或者多个段落
-            const $nodes = editor.selection.getSelectionRangeTopNodes()
-        } else {
-            // 选区范围的 DOM 元素不等于 textElem 时
-            // 代表 当前选区要么是一个段落，要么是段落中的一部分
-            const $node = $selectionElem.first()
-        }
+        // 获取选区范围内的顶级 DOM 元素
+        const $nodes = editor.selection.getSelectionRangeTopNodes()
+
+        this.operateElements($nodes, type)
 
         // 恢复选区
         editor.selection.restoreSelection()
@@ -73,6 +79,29 @@ class List extends DropListMenu implements MenuActive {
     }
 
     public tryChangeActive(): void {}
+
+    // 操作元素
+    private operateElements($nodes: DomElement[], type: ListTypeValue) {
+        /**
+         * 列表的每一项都是独立的通过 type 决定 list-style 的样式
+         * 有序列表通过 start 决定起始值
+         * 列表的层级通过 data-list-level 来决定 但是这样就需要用户配置 css 那么属性要加 style 也要加
+         *
+         * 多段落的时候 优先处理 非序列段落，只有序列段落的时候 进行取消操作
+         *
+         **/
+
+        const $notLiHtml = $nodes.filter(($node: DomElement) => {
+            const targerName = $node.getNodeName()
+            if (targerName !== 'UL' && targerName !== 'OL') {
+                return $node
+            }
+        })
+
+        if ($notLiHtml.length) {
+            $notLiHtml.forEach(($node: DomElement) => {})
+        }
+    }
 }
 
 export default List

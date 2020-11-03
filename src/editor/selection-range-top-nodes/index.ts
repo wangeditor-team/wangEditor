@@ -54,7 +54,7 @@ class SelectionRangeTopNodes {
      * @param $node 节点
      */
     private getNextSibling($node: DomElement): DomElement {
-        return $($node.elems[0].nextSibling)
+        return $($node.elems[0].nextElementSibling)
     }
 
     /**

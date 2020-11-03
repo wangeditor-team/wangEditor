@@ -763,11 +763,11 @@ export class DomElement {
         }
 
         const $parent = this.parent()
-        $parent.prior = this
         if (editor.$textElem.equal($parent)) {
             return this
         }
 
+        $parent.prior = this
         return $parent.getNodeTop(editor)
     }
 
