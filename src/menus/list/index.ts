@@ -12,8 +12,8 @@ import { MenuActive } from '../menu-constructors/Menu'
  * 列表的种类
  */
 export enum ListType {
-    OrderedList = 'insertOrderedList',
-    UnorderedList = 'insertUnorderedList',
+    OrderedList = 'OL',
+    UnorderedList = 'UL',
 }
 
 // 序列类型
@@ -91,6 +91,8 @@ class List extends DropListMenu implements MenuActive {
          *
          **/
 
+        const listHtml = type.toLowerCase()
+
         const $notLiHtml = $nodes.filter(($node: DomElement) => {
             const targerName = $node.getNodeName()
             if (targerName !== 'UL' && targerName !== 'OL') {
@@ -99,8 +101,24 @@ class List extends DropListMenu implements MenuActive {
         })
 
         if ($notLiHtml.length) {
-            $notLiHtml.forEach(($node: DomElement) => {})
+            // const $docFragment = document.createDocumentFragment()
+            $notLiHtml.forEach(($node: DomElement, index: number) => {
+                const $list = $(
+                    `<${listHtml} data-list-level="1"><li>${$node.html()}</li></${listHtml}>`
+                )
+                $list.insertAfter($node)
+                $node.remove()
+                this.updateRange($list)
+            })
         }
+    }
+
+    /**
+     * 更新选区
+     * @param $node
+     */
+    private updateRange($node: DomElement) {
+        this.editor.selection.createRangeByElem($node, false, true)
     }
 }
 
