@@ -10,11 +10,12 @@
   ],
   "main": "dist/wangEditor.min.js",
   "types": "dist/wangEditor.d.ts",
-  "module": "dist/wangEditor.min.js",
+  "module": "dist/wangEditor.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --watch --config build/webpack.dev.js",
     "example": "cross-env PORT=8881 node server/www.js",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
+    "build:un-min": "cross-env NODE_ENV=production webpack --config build/webpack.un-min.prod.js",
     "lint": "eslint 'src/**/*.{js,ts}'",
     "lint-fix": "eslint --fix \"src/**/*.{js,ts}\"",
     "prettier": "prettier --write --config .prettierrc.js \"src/**/*.{js,ts}\"",
