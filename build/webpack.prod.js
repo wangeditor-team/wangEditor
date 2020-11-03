@@ -12,11 +12,12 @@ const { distPath } = require('./myPath')
 module.exports = smart(CommonConf, {
     mode: 'production',
     output: {
-        filename: 'wangEditor.min.js',
+        filename: '[name].min.js',
         path: distPath,
         library: 'wangEditor',
         libraryTarget: 'umd',
         libraryExport: 'default',
     },
     plugins: [new CleanWebpackPlugin()],
+    devtool: 'source-map',
 })

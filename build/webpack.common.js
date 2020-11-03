@@ -8,7 +8,9 @@ const webpack = require('webpack')
 const { srcPath } = require('./myPath')
 
 module.exports = {
-    entry: path.join(srcPath, 'wangEditor.ts'),
+    entry: {
+        wangEditor: path.join(srcPath, 'wangEditor.ts')
+    },
     module: {
         rules: [
             {
