@@ -16,6 +16,7 @@
     "example": "cross-env PORT=8881 node server/www.js",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
     "build:un-min": "cross-env NODE_ENV=production webpack --config build/webpack.un-min.prod.js",
+    "build:analyzer": "cross-env NODE_ENV=production_analyzer webpack --config build/webpack.prod.js",
     "lint": "eslint 'src/**/*.{js,ts}'",
     "lint-fix": "eslint --fix \"src/**/*.{js,ts}\"",
     "prettier": "prettier --write --config .prettierrc.js \"src/**/*.{js,ts}\"",
@@ -87,6 +88,7 @@
     "typescript": "^3.8.3",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
+    "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2"
   },
