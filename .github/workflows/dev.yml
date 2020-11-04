@@ -31,7 +31,7 @@ jobs:
       run: |
         npm i
         npm test
-        npm run build --if-present
+        npm run build:un-min --if-present
     - name: set ssh key # 临时设置 ssh key
       run: |
         mkdir -p ~/.ssh/
