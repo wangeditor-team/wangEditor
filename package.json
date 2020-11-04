@@ -80,7 +80,6 @@
     "less": "^3.11.1",
     "less-loader": "^6.0.0",
     "lint-staged": "^10.2.2",
-    "pm2": "^4.5.0",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.0.5",
     "release-it": "^14.2.0",
