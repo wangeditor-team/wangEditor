@@ -14,6 +14,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --watch --config build/webpack.dev.js",
     "example": "cross-env PORT=8881 node server/www.js",
+    "server": "cross-env NODE_ENV=prd_dev pm2 start server/pm2.conf.js",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
     "build:un-min": "cross-env NODE_ENV=production webpack --config build/webpack.un-min.prod.js",
     "build:analyzer": "cross-env NODE_ENV=production_analyzer webpack --config build/webpack.prod.js",
