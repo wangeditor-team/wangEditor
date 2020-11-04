@@ -18,7 +18,6 @@ on:
       - 'test/**'
       - 'examples/**'
       - 'build/**'
-      - 'server/**' # 暂时用不到，先留着吧，后面会加关于 server 的处理
 
 jobs:
   build:
@@ -32,7 +31,7 @@ jobs:
       run: |
         npm i
         npm test
-        npm run build --if-present
+        npm run build:un-min --if-present
     - name: set ssh key # 临时设置 ssh key
       run: |
         mkdir -p ~/.ssh/
@@ -47,12 +46,11 @@ jobs:
 
         ## 将 dist examples 移到刚创建的文件夹之内
         mv dist/ $currentBranchName/dist/
-        cp $currentBranchName/dist/wangEditor.min.js $currentBranchName/dist/wangEditor.js
         mv examples/ $currentBranchName/examples/
 
         ## 将该文件夹，及其所有文件，上传到服务器
         echo current branch name is: $currentBranchName
-        ssh root@${{secrets.TECENT_SERVER}} "rm -rf /root/wangEditor/$currentBranchName"
-        scp -r ./$currentBranchName root@${{secrets.TECENT_SERVER}}:/root/wangEditor/$currentBranchName
+        ssh work@${{secrets.TECENT_SERVER}} "rm -rf /home/work/wangEditor-team/example-pages/$currentBranchName"
+        scp -r ./$currentBranchName work@${{secrets.TECENT_SERVER}}:/home/work/wangEditor-team/example-pages/$currentBranchName
     - name: delete ssh key # 删除 ssh key
       run: rm -rf ~/.ssh/id_rsa

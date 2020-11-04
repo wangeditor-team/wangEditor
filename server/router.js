@@ -6,7 +6,7 @@
 const router = require('koa-router')()
 const saveFiles = require('./controller/save-file')
 
-router.prefix('/')
+router.prefix('/api')
 
 // 测试用
 router.get('/test', async function (ctx, next) {

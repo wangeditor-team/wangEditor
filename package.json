@@ -13,7 +13,8 @@
   "module": "dist/wangEditor.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --watch --config build/webpack.dev.js",
-    "example": "cross-env PORT=8881 node server/www.js",
+    "example": "cross-env PORT=8881 nodemon server/www.js",
+    "server": "cross-env NODE_ENV=prd_dev pm2 start server/pm2.conf.json",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.js",
     "build:un-min": "cross-env NODE_ENV=production webpack --config build/webpack.un-min.prod.js",
     "build:analyzer": "cross-env NODE_ENV=production_analyzer webpack --config build/webpack.prod.js",
@@ -79,6 +80,7 @@
     "less": "^3.11.1",
     "less-loader": "^6.0.0",
     "lint-staged": "^10.2.2",
+    "nodemon": "^2.0.6",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.0.5",
     "release-it": "^14.2.0",
