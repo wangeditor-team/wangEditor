@@ -2,8 +2,6 @@
  * @description selection range API
  * @author wangfupeng
  */
-
-import text from '../config/text'
 import $, { DomElement } from '../utils/dom-core'
 import { UA } from '../utils/util'
 import Editor from './index'
