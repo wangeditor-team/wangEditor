@@ -91,8 +91,10 @@ class List extends DropListMenu implements MenuActive {
          *
          **/
 
+        // 获取 序列标签
         const listHtml = type.toLowerCase()
 
+        // 筛选 选区带非序列
         const $notLiHtml = $nodes.filter(($node: DomElement) => {
             const targerName = $node.getNodeName()
             if (targerName !== 'UL' && targerName !== 'OL') {
@@ -101,16 +103,58 @@ class List extends DropListMenu implements MenuActive {
         })
 
         if ($notLiHtml.length) {
+            // 处理 多段落带非序列标签
             // const $docFragment = document.createDocumentFragment()
             $notLiHtml.forEach(($node: DomElement, index: number) => {
                 const $list = $(
-                    `<${listHtml} data-list-level="1"><li>${$node.html()}</li></${listHtml}>`
+                    `<${listHtml} data-list-level="1">
+                        <li>${$node.html()}</li>
+                    </${listHtml}>`
                 )
                 $list.insertAfter($node)
                 $node.remove()
                 this.updateRange($list)
             })
+        } else {
+            // 处理 序列标签
+            $nodes.forEach(($node: DomElement, index: number) => {
+                if ($node.getNodeName() === type) {
+                    const $li = $node.children()
+                    const $p = $(`<p>${$li?.html()}</p>`)
+                    $p.insertAfter($node)
+                    $node.remove()
+                    this.updateRange($p)
+                } else {
+                    const $list = $(
+                        `<${listHtml} data-list-level="${$node.attr('data-list-level')}">
+                            ${$node.html()}
+                        </${listHtml}>`
+                    )
+                    $list.insertAfter($node)
+                    $node.remove()
+                    this.updateRange($list)
+                }
+            })
         }
+
+        // 重置 序列属性
+        this.resetListAttr()
+    }
+
+    /**
+     * 获取编辑区域的所有顶级段落，并对其中的序列进行处理
+     */
+    private resetListAttr() {
+        const editor = this.editor
+        const $nodes = editor.$textElem.children() as DomElement
+        let i = 1
+        $nodes.forEach(($node: HTMLElement) => {
+            const _$node = $($node)
+            if (_$node.getNodeName() === 'OL') {
+                _$node.attr('start', i.toString())
+                i++
+            }
+        })
     }
 
     /**
