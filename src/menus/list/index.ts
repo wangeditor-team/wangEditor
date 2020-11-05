@@ -58,6 +58,11 @@ class List extends DropListMenu implements MenuActive {
         }
 
         super($elem, editor, dropListConf)
+
+        const events = editor.events
+        events.on('hook:keyup:enter', function (e: Event) {
+            console.log(e)
+        })
     }
 
     public command(type: ListTypeValue): void {
@@ -150,9 +155,14 @@ class List extends DropListMenu implements MenuActive {
         let i = 1
         $nodes.forEach(($node: HTMLElement) => {
             const _$node = $($node)
-            if (_$node.getNodeName() === 'OL') {
+            const $child = _$node.children() as DomElement
+            const nodeName = _$node.getNodeName()
+
+            if (nodeName === 'OL') {
                 _$node.attr('start', i.toString())
-                i++
+                i += $child.length
+            } else {
+                i = 1
             }
         })
     }
