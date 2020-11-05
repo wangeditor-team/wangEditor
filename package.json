@@ -26,7 +26,8 @@
     "all-check": "npm run prettier && npm run lint-fix && npm run test",
     "start": "concurrently \"npm run dev\" \"npm run example\" ",
     "release": "release-it",
-    "just-try-release": "release-it --dry-run"
+    "just-try-release": "release-it --dry-run",
+    "cypress:open": "cypress open"
   },
   "jest": {
     "testEnvironment": "node"
@@ -60,6 +61,7 @@
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
     "css-loader": "^3.5.3",
+    "cypress": "^5.5.0",
     "cz-customizable": "^6.3.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
