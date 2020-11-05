@@ -27,7 +27,8 @@
     "start": "concurrently \"npm run dev\" \"npm run example\" ",
     "release": "release-it",
     "just-try-release": "release-it --dry-run",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "jest": {
     "testEnvironment": "node"
