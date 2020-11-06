@@ -50,6 +50,7 @@
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
     "@cypress/code-coverage": "^3.8.3",
+    "@percy/cypress": "^2.3.2",
     "@release-it/conventional-changelog": "^2.0.0",
     "@types/jest": "^25.2.1",
     "@types/jquery": "^3.3.38",
