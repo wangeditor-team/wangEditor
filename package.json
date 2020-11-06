@@ -28,7 +28,8 @@
     "release": "release-it",
     "just-try-release": "release-it --dry-run",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "cypress:coverage": "nyc report --reporter=text-summary"
   },
   "jest": {
     "testEnvironment": "node"
@@ -48,6 +49,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
+    "@cypress/code-coverage": "^3.8.3",
     "@release-it/conventional-changelog": "^2.0.0",
     "@types/jest": "^25.2.1",
     "@types/jquery": "^3.3.38",
@@ -56,6 +58,7 @@
     "@typescript-eslint/parser": "^2.31.0",
     "autoprefixer": "^9.7.6",
     "babel-loader": "^8.1.0",
+    "babel-plugin-istanbul": "^6.0.0",
     "clean-webpack-plugin": "^3.0.0",
     "commitlint": "^11.0.0",
     "commitlint-config-cz": "^0.13.2",
@@ -84,6 +87,7 @@
     "less-loader": "^6.0.0",
     "lint-staged": "^10.2.2",
     "nodemon": "^2.0.6",
+    "nyc": "^15.1.0",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.0.5",
     "release-it": "^14.2.0",
