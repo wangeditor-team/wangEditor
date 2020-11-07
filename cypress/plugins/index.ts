@@ -12,12 +12,19 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
+import { percyHealthCheck } from "@percy/cypress/task";
+import codeCoverageTask from "@cypress/code-coverage/task";
+
 /**
  * @type {Cypress.PluginConfig}
  */
-module.exports = (on, config) => {
+export default (on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-  require('@cypress/code-coverage/task')(on, config)
+  on('task', {
+    percyHealthCheck
+  })
+
+  codeCoverageTask(on, config)
   return config
 }
