@@ -12,11 +12,13 @@ import Text from '../text/index'
 import Menus from '../menus/index'
 import initDom from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
-import bindEvent, { changeHandler } from './init-fns/bind-event'
+import bindEvent from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
 import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-full-screen'
-import Undo from './undo-redo'
 import ZIndex from './z-index'
+import Change from './change/index'
+import History from './history/index'
+import disable from './disable'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -29,13 +31,15 @@ import Tooltip from '../menus/menu-constructors/Tooltip'
 let EDITOR_ID = 1
 
 class Editor {
-    // 存储自定义菜单的构造函数
-    static menuConstructors: {
-        [key: string]: Function
-    } = {}
-
     // 暴露 $
     static $ = $
+
+    static BtnMenu = BtnMenu
+    static DropList = DropList
+    static DropListMenu = DropListMenu
+    static Panel = Panel
+    static PanelMenu = PanelMenu
+    static Tooltip = Tooltip
 
     public id: string
     public toolbarSelector: DomElementSelector
@@ -47,14 +51,17 @@ class Editor {
     public toolbarElemId: string
     public textElemId: string
     public isFocus: boolean
+    public isComposing: boolean
+    public isCompatibleMode: boolean
     public selection: SelectionAndRangeAPI
     public cmd: CommandAPI
     public txt: Text
     public menus: Menus
     public i18next: any
     public highlight: any
-    public undo: Undo
     public zIndex: ZIndex
+    public change: Change
+    public history: History
 
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
@@ -84,13 +91,16 @@ class Editor {
         this.toolbarElemId = ''
         this.textElemId = ''
         this.isFocus = false
+        this.isComposing = false
+        this.isCompatibleMode = false
 
         this.selection = new SelectionAndRangeAPI(this)
         this.cmd = new CommandAPI(this)
         this.txt = new Text(this)
         this.menus = new Menus(this)
-        this.undo = new Undo(this)
         this.zIndex = new ZIndex()
+        this.change = new Change(this)
+        this.history = new History(this)
     }
 
     /**
@@ -107,6 +117,14 @@ class Editor {
     public create(): void {
         // 初始化 ZIndex
         this.zIndex.init(this)
+
+        // 确定当前的历史记录模式
+        this.isCompatibleMode = this.config.compatibleMode()
+
+        // 标准模式下，重置延迟时间
+        if (!this.isCompatibleMode) {
+            this.config.onchangeTimeout = 30
+        }
 
         // 国际化 因为要在创建菜单前使用 所以要最先 初始化
         i18nextInit(this)
@@ -128,10 +146,11 @@ class Editor {
 
         // 绑定事件
         bindEvent(this)
-    }
 
-    public change(): void {
-        changeHandler(this)
+        // 绑定监听的目标节点
+        this.change.observe()
+
+        this.history.observe()
     }
 
     /**
@@ -168,16 +187,20 @@ class Editor {
     public unFullScreen(): void {
         setUnFullScreen(this)
     }
-}
 
-// 暴露创建菜单的 class
-Editor.menuConstructors = {
-    BtnMenu,
-    DropList,
-    DropListMenu,
-    Panel,
-    PanelMenu,
-    Tooltip,
+    /**
+     * 禁用api
+     */
+    public disable(): void {
+        disable.disable(this)
+    }
+
+    /**
+     * 启用api
+     */
+    public enable(): void {
+        disable.enable(this)
+    }
 }
 
 export default Editor

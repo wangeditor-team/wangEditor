@@ -44,9 +44,6 @@ class Indent extends DropListMenu implements MenuActive {
             clickHandler: (value: string) => {
                 // 注意 this 是指向当前的 Indent 对象
                 this.command(value)
-
-                // 手动执行change事件,记录文本数据,供撤销操作(undo)使用
-                editor.undo.afterChange()
             },
         }
 

@@ -1,9 +1,10 @@
-import Editor from '../editor/index'
-
 /**
  * @description 封装 DOM 操作
  * @wangfupeng
  */
+
+import Editor from '../editor/index'
+import { toArray } from './util'
 
 // 记录元素基于上一个相对&绝对定位的位置信息
 type OffsetDataType = {
@@ -13,7 +14,7 @@ type OffsetDataType = {
     height: number
     parent: Element | null
 }
-// 记录所有的事件绑定
+
 // 记录代理事件绑定
 type listener = (e: Event) => void
 type EventItem = {
@@ -25,14 +26,6 @@ type EventItem = {
 const AGENT_EVENTS: EventItem[] = []
 
 /**
- * DOM List 转为 HTMLElement 数组
- * @param elems DOM List
- */
-function _toArray<T>(elems: T): HTMLElement[] {
-    return Array.prototype.slice.call(elems)
-}
-
-/**
  * 根据 html 字符串创建 elem
  * @param {String} html html
  */
@@ -40,7 +33,7 @@ function _createElemByHTML(html: string): HTMLElement[] {
     const div = document.createElement('div')
     div.innerHTML = html
     const elems = div.children
-    return _toArray(elems)
+    return toArray(elems)
 }
 
 /**
@@ -63,7 +56,7 @@ function _isDOMList<T extends HTMLCollection | NodeList>(selector: unknown): sel
  */
 function _querySelectorAll(selector: string): HTMLElement[] {
     const elems = document.querySelectorAll(selector)
-    return _toArray(elems)
+    return toArray(elems)
 }
 
 /**
@@ -146,7 +139,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
             }
         } else if (_isDOMList(selector)) {
             // DOM List
-            selectorResult = _toArray(selector)
+            selectorResult = toArray(selector)
         } else if (selector instanceof Array) {
             // Element 数组（其他数据类型，暂时忽略）
             selectorResult = selector
@@ -566,6 +559,14 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     getNodeName(): string {
         const elem = this.elems[0]
         return elem.nodeName
+    }
+
+    /**
+     * 获取当前元素节点
+     */
+    getNode(): Node {
+        const elem = this.elems[0]
+        return elem
     }
 
     /**

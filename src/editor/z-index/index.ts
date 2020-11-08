@@ -10,6 +10,7 @@ const tier = {
     panel: 2,
     toolbar: 1, // 菜单栏父容器
     tooltip: 1, // tooltip
+    textContainer: 1, // 编辑区域
 }
 
 type Tier = typeof tier

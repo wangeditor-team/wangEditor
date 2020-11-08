@@ -11,7 +11,7 @@ const { distPath } = require('./myPath')
 module.exports = smart(CommonConf, {
     mode: 'development',
     output: {
-        filename: 'wangEditor.js',
+        filename: '[name].js',
         path: distPath,
         library: 'wangEditor',
         libraryTarget: 'umd',
