@@ -60,8 +60,40 @@ class List extends DropListMenu implements MenuActive {
         super($elem, editor, dropListConf)
 
         const events = editor.events
-        events.on('hook:keyup:enter', function (e: Event) {
-            console.log(e)
+        // events.on('hook:keydown:enter', function (e: Event) {
+        //     console.log(e)
+        //     return false
+        // })
+
+        events.on('hook:keyup:enter', (e: Event) => {
+            // 获取选区范围内的顶级 DOM 元素
+            const $node = editor.selection.getSelectionRangeTopNodes()[0]
+            if (!$node.length) return
+
+            const nodeName = $node.getNodeName()
+            if (nodeName === ListType.OrderedList || nodeName === ListType.UnorderedList) {
+                const $child = $node.children() as DomElement
+                const $prve = $child.get(0)
+                const $curr = $child.get(1)
+                const prveText = $prve.text()
+                const currText = $curr.text()
+
+                const reg = /(\s+)|(<br.*?>)|(&nbsp;+)|(&#8203;+)/gim
+
+                if (prveText.replace(reg, '').length) {
+                    const $list = $(
+                        `<${nodeName} data-list-level="${$node.attr('data-list-level')}">
+                            <li>${$curr.html()}</li>
+                        </${nodeName}>`
+                    )
+                    $list.insertAfter($node)
+                    this.updateRange($list)
+                }
+
+                $curr.remove()
+
+                this.resetListAttr()
+            }
         })
     }
 
@@ -102,7 +134,7 @@ class List extends DropListMenu implements MenuActive {
         // 筛选 选区带非序列
         const $notLiHtml = $nodes.filter(($node: DomElement) => {
             const targerName = $node.getNodeName()
-            if (targerName !== 'UL' && targerName !== 'OL') {
+            if (targerName !== ListType.OrderedList && targerName !== ListType.UnorderedList) {
                 return $node
             }
         })
@@ -158,7 +190,7 @@ class List extends DropListMenu implements MenuActive {
             const $child = _$node.children() as DomElement
             const nodeName = _$node.getNodeName()
 
-            if (nodeName === 'OL') {
+            if (nodeName === ListType.OrderedList) {
                 _$node.attr('start', i.toString())
                 i += $child.length
             } else {
@@ -173,6 +205,7 @@ class List extends DropListMenu implements MenuActive {
      */
     private updateRange($node: DomElement) {
         this.editor.selection.createRangeByElem($node, false, true)
+        this.editor.selection.restoreSelection()
     }
 }
 

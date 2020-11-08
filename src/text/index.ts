@@ -506,6 +506,9 @@ class Text {
             if (e.keyCode !== 13) return
             const enterDownEvents = eventHooks.enterDownEvents
             enterDownEvents.forEach(fn => fn(e))
+
+            // 触发自定义事件的钩子
+            events.emit('hook:keydown:enter', e)
         })
     }
 }
