@@ -8,6 +8,7 @@ import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
 import { UA, throttle } from '../utils/util'
 import getChildrenJSON, { NodeListType } from './getChildrenJSON'
+import getHtmlByNodeList from './getHtmlByNodeList'
 import { formatCodeHtml } from '../menus/code'
 
 // 各个事件钩子函数
@@ -148,6 +149,20 @@ class Text {
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
+    }
+
+    /**
+     * 将json设置成html至编辑器
+     * @param nodeList json格式
+     */
+    public setJSON(nodeList: NodeListType): void {
+        const html = getHtmlByNodeList(nodeList).children()
+        const editor = this.editor
+        const $textElem = editor.$textElem
+        // 没有获取到元素的情况
+        if (!html) return
+        // 替换文本节点下全部子节点
+        $textElem.replaceChildAll(html)
     }
 
     /**

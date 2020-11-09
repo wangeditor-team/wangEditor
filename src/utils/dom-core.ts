@@ -503,6 +503,19 @@ export class DomElement {
     }
 
     /**
+     * 将子元素全部替换
+     * @param $children 新的child节点
+     */
+    replaceChildAll($children: DomElement): void {
+        const parent = this.getNode()
+        const elem = this.elems[0]
+        while (elem.hasChildNodes()) {
+            parent.firstChild && elem.removeChild(parent.firstChild)
+        }
+        this.append($children)
+    }
+
+    /**
      * 增加子节点
      * @param $children 子节点
      */
