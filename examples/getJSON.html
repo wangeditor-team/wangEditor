@@ -21,17 +21,53 @@
     </div>
 
     <button onclick="setJsonOne()">setJSON</button>
+    <button onclick="setJsonTwo()">setJSON（自定义 JSON）</button>
 
     <script src="../dist/wangEditor.js"></script>
     <script>
         const E = window.wangEditor
         const editor = new E('#div1')
+        editor.config.onchange = function (newHtml) {
+            console.log('onchange', newHtml)
+        }
         editor.create()
 
         console.log(editor.txt.getJSON())
         let myJson = editor.txt.getJSON()
         function setJsonOne() {
             editor.txt.setJSON(myJson)
+        }
+
+        function setJsonTwo() {
+            editor.txt.setJSON([
+                {
+                    "tag": "p",
+                    "attrs": [],
+                    "children": [
+                        "欢迎使用 ",
+                        {
+                            "tag": "b",
+                            "attrs": [],
+                            "children": [ "wangEditor" ]
+                        },
+                        " 富文本编辑器"
+                    ]
+                },
+                {
+                    "tag": "p",
+                    "attrs": [],
+                    "children": [
+                        {
+                            "tag": "img",
+                            "attrs": [
+                                { "name": "src", "value": "xxx.png" },
+                                { "name": "style", "value": "max-width:100%;" }
+                            ],
+                            "children": []
+                        }
+                    ]
+                }
+            ])
         }
     </script>
 </body>
