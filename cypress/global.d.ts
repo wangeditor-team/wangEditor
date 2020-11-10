@@ -1,5 +1,12 @@
 /// <reference types="cypress" />
 
+declare namespace Editor {
+
+  import('../src/editor/index');  // Don't delete this line.
+  import Editor from '../src/editor/index';
+
+}
+
 declare namespace Cypress {
   interface CustomWindow extends Window {}
 
@@ -16,6 +23,8 @@ declare namespace Cypress {
 
     getByClass(dataTestAttribute: string, args?: any): Chainable<Element>;
     getBySelLike(dataTestPrefixAttribute: string, args?: any): Chainable<Element>;
+    getEditor(): Chainable<Editor>;
+    saveRange(el?: HTMLElement): Chainable<Editor>
 
     /**
      *  Cypress task for directly querying to the database within tests
