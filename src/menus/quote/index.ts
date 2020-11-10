@@ -52,9 +52,18 @@ class Quote extends BtnMenu implements MenuActive {
         if (nodeName === 'BLOCKQUOTE') {
             // 撤销 quote
             // const $targetELem = $topNodeElem
-            const $targetELem = $($topNodeElem.childNodes()?.getNode())
+            // const $targetELem = $($topNodeElem.childNodes()?.getNode())
+            const $targetELem = $($topNodeElem.childNodes())
+            // const targetElem = $topNodeElem.childNodes()
+            let $middle = $topNodeElem
             // this.insertNode(targetElem, nodeList)
-            $targetELem.insertAfter($topNodeElem)
+            console.log($targetELem)
+            $targetELem.forEach((elem: Node) => {
+                const $elem = $(elem)
+                $elem.insertBefore($middle)
+                $middle = $elem
+            })
+            // $targetELem.insertAfter($topNodeElem)
             $topNodeElem.remove()
             editor.selection.moveCursor($targetELem.elems[0])
         }
