@@ -32,39 +32,40 @@ class Quote extends BtnMenu implements MenuActive {
             // 选区范围是空的，插入并选中一个“空白”
             editor.selection.createEmptyRange()
         }
-        if (UA.isIE() || UA.isFirefox || UA.isOldEdge) {
-            // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
-            // 兼容firefox无法取消blockquote的问题
-            const nodeList = $topNodeElem.getNode().childNodes
-            if (nodeName === 'P') {
-                // 将 P 转换为 quote
-                const $targetELem = $(`<blockquote></blockquote>`)
-                const targetElem = $targetELem.getNode()
-                this.insertNode(targetElem, nodeList)
-                $targetELem.insertAfter($topNodeElem)
-                $topNodeElem.remove()
-                editor.selection.moveCursor($targetELem.getNode())
-                // 防止最后一行无法跳出
-                $(`<p><br></p>`).insertAfter($targetELem)
-                return
-            }
-            if (nodeName === 'BLOCKQUOTE') {
-                // 撤销 quote
-                const $targetELem = $(`<p></p>`)
-                const targetElem = $targetELem.getNode()
-                this.insertNode(targetElem, nodeList)
-                $targetELem.insertAfter($topNodeElem)
-                $topNodeElem.remove()
-                editor.selection.moveCursor($targetELem.elems[0])
-            }
-        } else {
-            // 执行 formatBlock 命令
-            if (nodeName === 'BLOCKQUOTE') {
-                editor.cmd.do('formatBlock', '<p>')
-            } else {
-                editor.cmd.do('formatBlock', '<blockquote>')
-            }
+        // if (UA.isIE() || UA.isFirefox || UA.isOldEdge) {
+        // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
+        // 兼容firefox无法取消blockquote的问题
+        const nodeList = $topNodeElem.getNode().childNodes
+        if (nodeName === 'P') {
+            // 将 P 转换为 quote
+            const $targetELem = $(`<blockquote></blockquote>`)
+            const targetElem = $targetELem.getNode()
+            const insertNode = $topNodeElem.getNode()
+            this.insertNode(targetElem, insertNode)
+            $targetELem.insertAfter($topNodeElem)
+            $topNodeElem.remove()
+            editor.selection.moveCursor($targetELem.getNode())
+            // 防止最后一行无法跳出
+            $(`<p><br></p>`).insertAfter($targetELem)
+            return
         }
+        if (nodeName === 'BLOCKQUOTE') {
+            // 撤销 quote
+            // const $targetELem = $topNodeElem
+            const $targetELem = $($topNodeElem.childNodes()?.getNode())
+            // this.insertNode(targetElem, nodeList)
+            $targetELem.insertAfter($topNodeElem)
+            $topNodeElem.remove()
+            editor.selection.moveCursor($targetELem.elems[0])
+        }
+        // } else {
+        // 执行 formatBlock 命令
+        //     if (nodeName === 'BLOCKQUOTE') {
+        //         editor.cmd.do('formatBlock', '<p>')
+        //     } else {
+        //         editor.cmd.do('formatBlock', '<blockquote>')
+        //     }
+        // }
 
         if (isSelectEmpty) {
             // 需要将选区范围折叠起来
@@ -100,20 +101,26 @@ class Quote extends BtnMenu implements MenuActive {
     }
 
     /**
-     * 将nodelist插入element中，并做一些特殊化处理
+     * 将node插入element中，并做一些特殊化处理
      * @param element 需要插入的父节点
-     * @param nodeList 需要插入的nodelist
+     * @param node 需要插入的node
      */
-    private insertNode(element: Node, nodeList: NodeList) {
-        nodeList.forEach((node, i) => {
-            // 去除空节点
-            if (node.nodeName && node.textContent !== null) {
-                if (node.nodeName !== 'BR' || i !== nodeList.length - 1) {
-                    // 去除最后的br
-                    element.appendChild(node.cloneNode(true))
-                }
-            }
-        })
+    // private insertNode(element: Node, nodeList: NodeList) {
+    //     nodeList.forEach((node, i) => {
+    //         // 去除空节点
+    //         if (node.nodeName && node.textContent !== null) {
+    //             if (node.nodeName !== 'BR' || i !== nodeList.length - 1) {
+    //                 // 去除最后的br
+    //                 element.appendChild(node.cloneNode(true))
+    //             }
+    //         }
+    //     })
+    // }
+    private insertNode(element: Node, node: Node) {
+        let clearNode = $('<p></p>').getNode()
+        // 获取内容节点去除其他多余节点
+        clearNode.appendChild(node.childNodes[0])
+        element.appendChild(clearNode)
     }
 }
 
