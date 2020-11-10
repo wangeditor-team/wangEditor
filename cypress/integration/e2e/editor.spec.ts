@@ -57,7 +57,7 @@ describe('Editor init', () => {
 
   })
 
-  it.only('能给选中的内容添加对应的字体样式', () => {
+  it('能给选中的内容添加对应的字体样式', () => {
     cy.get('@Editable').type(text)
 
     cy.saveRange()
