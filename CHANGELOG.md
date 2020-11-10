@@ -1,3 +1,16 @@
+# [4.3.0](https://github.com/wangeditor-team/wangEditor/compare/v4.2.2...v4.3.0) (2020-11-09)
+
+
+### Bug Fixes
+
+* getJSON example page ([1797c54](https://github.com/wangeditor-team/wangEditor/commit/1797c54a5efed4998581ce609f1a50dc8085dac0))
+* 多实例 disable 异常 ([683fe00](https://github.com/wangeditor-team/wangEditor/commit/683fe00d86c8ba4020ebd35cd358960bc49dc6c2))
+
+
+### Features
+
+* 完成setJSON ([2982304](https://github.com/wangeditor-team/wangEditor/commit/298230449f15276975506fe1b54ee1abdad78e3d))
+
 ## [4.2.2](https://github.com/wangeditor-team/wangEditor/compare/v4.2.1...v4.2.2) (2020-11-05)
 
 
