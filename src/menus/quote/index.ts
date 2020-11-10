@@ -4,10 +4,10 @@
  */
 
 import $, { DomElement } from '../../utils/dom-core'
-import { UA } from '../../utils/util'
 import Editor from '../../editor/index'
 import BtnMenu from '../menu-constructors/BtnMenu'
 import { MenuActive } from '../menu-constructors/Menu'
+import bindEvent from './bind-event'
 
 class Quote extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -17,6 +17,7 @@ class Quote extends BtnMenu implements MenuActive {
             </div>`
         )
         super($elem, editor)
+        bindEvent(editor)
     }
 
     /**
@@ -32,7 +33,6 @@ class Quote extends BtnMenu implements MenuActive {
             // 选区范围是空的，插入并选中一个“空白”
             editor.selection.createEmptyRange()
         }
-        // if (UA.isIE() || UA.isFirefox || UA.isOldEdge) {
         // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
         // 兼容firefox无法取消blockquote的问题
         const nodeList = $topNodeElem.getNode().childNodes
@@ -51,30 +51,19 @@ class Quote extends BtnMenu implements MenuActive {
         }
         if (nodeName === 'BLOCKQUOTE') {
             // 撤销 quote
-            // const $targetELem = $topNodeElem
-            // const $targetELem = $($topNodeElem.childNodes()?.getNode())
             const $targetELem = $($topNodeElem.childNodes())
-            // const targetElem = $topNodeElem.childNodes()
+            const len = $targetELem.length
             let $middle = $topNodeElem
-            // this.insertNode(targetElem, nodeList)
             console.log($targetELem)
             $targetELem.forEach((elem: Node) => {
+                console.log(elem)
                 const $elem = $(elem)
-                $elem.insertBefore($middle)
+                $elem.insertAfter($middle)
                 $middle = $elem
             })
-            // $targetELem.insertAfter($topNodeElem)
             $topNodeElem.remove()
-            editor.selection.moveCursor($targetELem.elems[0])
+            editor.selection.moveCursor($targetELem.elems[len - 1])
         }
-        // } else {
-        // 执行 formatBlock 命令
-        //     if (nodeName === 'BLOCKQUOTE') {
-        //         editor.cmd.do('formatBlock', '<p>')
-        //     } else {
-        //         editor.cmd.do('formatBlock', '<blockquote>')
-        //     }
-        // }
 
         if (isSelectEmpty) {
             // 需要将选区范围折叠起来
@@ -104,7 +93,9 @@ class Quote extends BtnMenu implements MenuActive {
     private getTopNodeName(): string {
         const editor = this.editor
         const $topNodeElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
+        console.log(editor.selection.getSelectionRangeTopNodes(editor))
         const nodeName = $topNodeElem.getNodeName()
+        console.log(nodeName)
 
         return nodeName
     }

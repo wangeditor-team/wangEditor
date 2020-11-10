@@ -5,7 +5,6 @@
 
 import Editor from '../../editor/index'
 import $, { DomElement } from '../../utils/dom-core'
-import { UA } from '../../utils/util'
 
 /**
  * 回车时，保证生成的是 <p> 标签
@@ -28,22 +27,6 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEven
         const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
         const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
         const $parentElem = $selectionElem.parent()
-
-        // 兼容firefox
-        if (UA.isFirefox) {
-            if (
-                $topSelectElem.getNodeName() === 'BLOCKQUOTE' &&
-                $selectionElem.getNodeName() === 'BLOCKQUOTE'
-            ) {
-                const $last = $selectionElem.childNodes()?.last()
-                if ($last?.getNodeName() === 'BR') {
-                    const $newLine = $('<p><br></p>')
-                    $last.remove()
-                    $selectionElem.append($newLine)
-                    editor.selection.moveCursor($newLine.getNode(), true)
-                }
-            }
-        }
 
         if ($parentElem.html() === '<code><br></code>') {
             // 回车之前光标所在一个 <p><code>.....</code></p> ，忽然回车生成一个空的 <p><code><br></code></p>
@@ -84,19 +67,6 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEven
             // 例如，光标放在 table 最后侧，回车时，默认就是这个情况
             e.preventDefault()
             editor.cmd.do('insertHTML', '<p><br></p>')
-        }
-        // 特殊处理quote
-        //最后一行为<p><br></p>时再按会出跳出blockquote
-        // 可以考虑直接移动选区来兼容firefox
-        if ($topSelectElem.getNodeName() === 'BLOCKQUOTE') {
-            console.log($selectElem.text())
-            if ($selectElem.text() === '') {
-                e.preventDefault()
-                $selectElem.remove()
-                const $newLine = $('<p><br></p>')
-                $newLine.insertAfter($topSelectElem)
-                editor.selection.moveCursor($newLine.getNode())
-            }
         }
     }
     enterDownEvents.push(createPWhenEnterText)

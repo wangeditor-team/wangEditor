@@ -1,0 +1,28 @@
+import Editor from '../../../editor/index'
+import $, { DomElement } from '../../../utils/dom-core'
+function bindEvent(editor: Editor) {
+    function quoteEnter(e: Event) {
+        const $selectElem = editor.selection.getSelectionContainerElem() as DomElement
+        const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
+        // 对quote的enter进行特殊处理
+        //最后一行为<p><br></p>时再按会出跳出blockquote
+        if ($topSelectElem.getNodeName() === 'BLOCKQUOTE') {
+            // firefox下点击引用按钮会选中外容器<blockquote></blockquote>
+            if ($selectElem.getNodeName() === 'BLOCKQUOTE') {
+                const selectNode = $selectElem.childNodes()?.getNode() as Node
+                editor.selection.moveCursor(selectNode)
+            }
+            if ($selectElem.text() === '') {
+                e.preventDefault()
+                $selectElem.remove()
+                const $newLine = $('<p><br></p>')
+                $newLine.insertAfter($topSelectElem)
+                // 将光标移动br前面
+                editor.selection.moveCursor($newLine.getNode(), true)
+            }
+        }
+    }
+    editor.txt.eventHooks.enterDownEvents.push(quoteEnter)
+}
+
+export default bindEvent
