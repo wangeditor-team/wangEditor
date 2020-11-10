@@ -33,7 +33,8 @@ editor.create();
 
 加入 QQ 群
 - 164999061（人已满）
-- 710646022
+- 710646022（人已满）
+- 901247714
 
 提交 bug 或建议
 - [github issues](https://github.com/wangeditor-team/wangeditor/issues) 提交问题
