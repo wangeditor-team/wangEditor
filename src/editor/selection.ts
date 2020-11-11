@@ -183,6 +183,7 @@ class SelectionAndRange {
                 // 存储
                 this.saveRange(range)
             } else {
+                console.log('xbd')
                 $elem = $('<strong>&#8203;</strong>')
                 editor.cmd.do('insertElem', $elem)
                 this.createRangeByElem($elem, true)

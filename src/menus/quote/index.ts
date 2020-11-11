@@ -26,43 +26,38 @@ class Quote extends BtnMenu implements MenuActive {
     public clickHandler(): void {
         const editor = this.editor
         const isSelectEmpty = editor.selection.isSelectionEmpty()
-        const $topNodeElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
+        const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes(editor)
+        const $topNodeElem: DomElement = topNodeElem[topNodeElem.length - 1]
         const nodeName = this.getTopNodeName()
-
-        if (isSelectEmpty) {
-            // 选区范围是空的，插入并选中一个“空白”
-            editor.selection.createEmptyRange()
-        }
         // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
         // 兼容firefox无法取消blockquote的问题
-        const nodeList = $topNodeElem.getNode().childNodes
-        if (nodeName === 'P') {
-            // 将 P 转换为 quote
-            const $targetELem = $(`<blockquote></blockquote>`)
-            const targetElem = $targetELem.getNode()
-            const insertNode = $topNodeElem.getNode()
-            this.insertNode(targetElem, insertNode)
-            $targetELem.insertAfter($topNodeElem)
-            $topNodeElem.remove()
-            editor.selection.moveCursor($targetELem.getNode())
-            // 防止最后一行无法跳出
-            $(`<p><br></p>`).insertAfter($targetELem)
-            return
-        }
         if (nodeName === 'BLOCKQUOTE') {
             // 撤销 quote
             const $targetELem = $($topNodeElem.childNodes())
             const len = $targetELem.length
             let $middle = $topNodeElem
-            console.log($targetELem)
             $targetELem.forEach((elem: Node) => {
-                console.log(elem)
                 const $elem = $(elem)
                 $elem.insertAfter($middle)
                 $middle = $elem
             })
             $topNodeElem.remove()
             editor.selection.moveCursor($targetELem.elems[len - 1])
+        } else {
+            // 将 P 转换为 quote
+            const $targetELem = $(`<blockquote></blockquote>`)
+            const insertNode: DomElement[] = topNodeElem
+            this.insertNode($targetELem, insertNode)
+            $targetELem.insertAfter($topNodeElem)
+            this.delSelectNode(topNodeElem)
+            const moveNode = $targetELem.childNodes()?.last().getNode() as Node
+            // 兼容firefox（firefox下空行情况下选区会在br后，造成自动换行的问题）
+            moveNode.textContent
+                ? editor.selection.moveCursor(moveNode)
+                : editor.selection.moveCursor(moveNode, true)
+            // 防止最后一行无法跳出
+            $(`<p><br></p>`).insertAfter($targetELem)
+            return
         }
 
         if (isSelectEmpty) {
@@ -93,34 +88,30 @@ class Quote extends BtnMenu implements MenuActive {
     private getTopNodeName(): string {
         const editor = this.editor
         const $topNodeElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
-        console.log(editor.selection.getSelectionRangeTopNodes(editor))
         const nodeName = $topNodeElem.getNodeName()
-        console.log(nodeName)
 
         return nodeName
     }
 
     /**
-     * 将node插入element中，并做一些特殊化处理
-     * @param element 需要插入的父节点
-     * @param node 需要插入的node
+     * 将novelist插入targetElem中
+     * @param targetElem 需要插入的父节点
+     * @param nodeList 需要插入的节点列表
      */
-    // private insertNode(element: Node, nodeList: NodeList) {
-    //     nodeList.forEach((node, i) => {
-    //         // 去除空节点
-    //         if (node.nodeName && node.textContent !== null) {
-    //             if (node.nodeName !== 'BR' || i !== nodeList.length - 1) {
-    //                 // 去除最后的br
-    //                 element.appendChild(node.cloneNode(true))
-    //             }
-    //         }
-    //     })
-    // }
-    private insertNode(element: Node, node: Node) {
-        let clearNode = $('<p></p>').getNode()
+    private insertNode(targetElem: DomElement, nodeList: DomElement[]) {
         // 获取内容节点去除其他多余节点
-        clearNode.appendChild(node.childNodes[0])
-        element.appendChild(clearNode)
+        nodeList.forEach(node => {
+            targetElem.append(node.clone(true))
+        })
+    }
+    /**
+     * 删除选中的元素
+     * @param selectElem 选中的元素节点数组
+     */
+    private delSelectNode(selectElem: DomElement[]) {
+        selectElem.forEach(node => {
+            node.remove()
+        })
     }
 }
 
