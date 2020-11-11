@@ -8,6 +8,7 @@ import Editor from '../../editor/index'
 import BtnMenu from '../menu-constructors/BtnMenu'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event'
+import createQuote from './create-quote-node'
 
 class Quote extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -45,18 +46,16 @@ class Quote extends BtnMenu implements MenuActive {
             editor.selection.moveCursor($targetELem.elems[len - 1])
         } else {
             // 将 P 转换为 quote
-            const $targetELem = $(`<blockquote></blockquote>`)
-            const insertNode: DomElement[] = topNodeElem
-            this.insertNode($targetELem, insertNode)
-            $targetELem.insertAfter($topNodeElem)
+            const $quote = createQuote(topNodeElem)
+            $quote.insertAfter($topNodeElem)
             this.delSelectNode(topNodeElem)
-            const moveNode = $targetELem.childNodes()?.last().getNode() as Node
+            const moveNode = $quote.childNodes()?.last().getNode() as Node
             // 兼容firefox（firefox下空行情况下选区会在br后，造成自动换行的问题）
             moveNode.textContent
                 ? editor.selection.moveCursor(moveNode)
                 : editor.selection.moveCursor(moveNode, true)
             // 防止最后一行无法跳出
-            $(`<p><br></p>`).insertAfter($targetELem)
+            $(`<p><br></p>`).insertAfter($quote)
             return
         }
 
@@ -93,17 +92,6 @@ class Quote extends BtnMenu implements MenuActive {
         return nodeName
     }
 
-    /**
-     * 将novelist插入targetElem中
-     * @param targetElem 需要插入的父节点
-     * @param nodeList 需要插入的节点列表
-     */
-    private insertNode(targetElem: DomElement, nodeList: DomElement[]) {
-        // 获取内容节点去除其他多余节点
-        nodeList.forEach(node => {
-            targetElem.append(node.clone(true))
-        })
-    }
     /**
      * 删除选中的元素
      * @param selectElem 选中的元素节点数组

@@ -8,6 +8,8 @@ import Quote from '../../src/menus/quote/index'
 import mockCmdFn from '../fns/command-mock'
 import { getMenuInstance } from '../fns/menus'
 import { NodeType } from '../../src/text/getChildrenJSON'
+import createQuote from '../../src/menus/quote/create-quote-node'
+import $, { DomElement } from '../../src/utils/dom-core'
 
 let editor: Editor
 let quoteMenu: Quote
@@ -15,14 +17,19 @@ let evt: any
 
 test('引用', () => {
     editor = createEditor(document, 'div1') // 赋值给全局变量
+    const $childElem: DomElement[] = [$(`<p>123</p>`)]
+    const $quote = createQuote($childElem)
+    const p = $(`<p></p>`)
+    p.append($quote)
+    expect(p.html()).toEqual(`<blockquote><p>123</p></blockquote>`)
 
-    // 找到 quote 菜单
-    quoteMenu = getMenuInstance(editor, Quote) as Quote
+    // // 找到 quote 菜单
+    // quoteMenu = getMenuInstance(editor, Quote) as Quote
 
-    // 执行点击事件，模拟引用
-    mockCmdFn(document)
-    ;(quoteMenu as Quote).clickHandler()
-    expect(document.execCommand).toBeCalledWith('formatBlock', false, '<blockquote>') // mock fn 被调用
+    // // 执行点击事件，模拟引用
+    // mockCmdFn(document)
+    //     ; (quoteMenu as Quote).clickHandler()
+    // expect(document.execCommand).toBeCalledWith('formatBlock', false, '<blockquote>') // mock fn 被调用
 })
 
 // test('引用末尾回车跳出引用', () => {

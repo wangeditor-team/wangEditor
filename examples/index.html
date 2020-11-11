@@ -38,6 +38,10 @@
         //     '宋体',
         //     '微软雅黑',
         // ]
+        editor.config.compatibleMode = function () {
+            // 返回 true 表示使用兼容模式；返回 false 使用标准模式
+            return true
+        }
 
         editor.config.showFullScreen = true
         editor.create()
