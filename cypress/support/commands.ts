@@ -24,39 +24,42 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 Cypress.Commands.add('getByClass', (selector, ...args) => {
-  return cy.get(`.w-e-${selector}`, ...args)
+    return cy.get(`.w-e-${selector}`, ...args)
 })
 
 Cypress.Commands.add('getEditor', () => {
-  return cy.window().its('editor')
+    return cy.window().its('editor')
 })
 
 Cypress.Commands.add('saveRange', (el?: HTMLElement) => {
-  cy.getByClass('text-container').children().first().as('Editable')
+    cy.getByClass('text-container').children().first().as('Editable')
 
-  return cy.window().then(win => {
-    const range = win.document.createRange();
+    return cy.window().then(win => {
+        const range = win.document.createRange()
 
-    if (el != null) {
-      range.setStart(el, 0);
-      range.setEnd(el, 0);
+        if (el != null) {
+            range.setStart(el, 0)
+            range.setEnd(el, 0)
 
-      return cy.getEditor().then((editor) => {
-        editor.selection.saveRange(range)
-        return editor
-      })
-    } else {
-      return cy.get('@Editable').children().then(($el) => {
-        const el = $el.get(0)
-  
-        range.setStart(el, 0);
-        range.setEnd(el, 0);
+            return cy.getEditor().then(editor => {
+                editor.selection.saveRange(range)
+                return editor
+            })
+        } else {
+            return cy
+                .get('@Editable')
+                .children()
+                .then($el => {
+                    const el = $el.get(0)
 
-        return cy.getEditor().then((editor) => {
-          editor.selection.saveRange(range)
-          return editor
-        })
-      })
-    }
-  })
+                    range.setStart(el, 0)
+                    range.setEnd(el, 0)
+
+                    return cy.getEditor().then(editor => {
+                        editor.selection.saveRange(range)
+                        return editor
+                    })
+                })
+        }
+    })
 })

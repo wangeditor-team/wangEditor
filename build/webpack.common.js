@@ -9,7 +9,7 @@ const { srcPath } = require('./myPath')
 
 module.exports = {
     entry: {
-        wangEditor: path.join(srcPath, 'wangEditor.ts')
+        wangEditor: path.join(srcPath, 'wangEditor.ts'),
     },
     module: {
         rules: [
