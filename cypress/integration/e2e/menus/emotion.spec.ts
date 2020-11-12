@@ -37,7 +37,7 @@ describe('表情', () => {
         cy.get('@emotionMenu').find('.w-e-panel-container').should('not.exist')
     })
 
-    it.only('可以插入表情', () => {
+    it('可以插入表情', () => {
         cy.get('@Editable').type(text)
         cy.get('@Editable').contains(text)
 
