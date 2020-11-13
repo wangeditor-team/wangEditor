@@ -60,7 +60,7 @@ export type ConfigType = {
     customAlert: Function | null
 
     lang: string
-    languages: Resource
+    languages: typeof langConfig
 
     linkCheck: Function
     linkImgCheck: Function

@@ -1,6 +1,6 @@
 {
   "name": "wangeditor",
-  "version": "4.2.2",
+  "version": "4.3.0",
   "description": "wangEditor - 轻量级 web 富文本编辑器，配置方便，使用简单，开源免费",
   "homepage": "http://www.wangeditor.com/",
   "keywords": [
@@ -31,9 +31,6 @@
     "cypress:run": "cypress run",
     "cypress:coverage": "nyc report --reporter=text-summary"
   },
-  "jest": {
-    "testEnvironment": "node"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wangeditor-team/wangEditor.git"
@@ -55,7 +52,7 @@
     "@types/jquery": "^3.3.38",
     "@types/lodash": "^4.14.150",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
-    "@typescript-eslint/parser": "^2.31.0",
+    "@typescript-eslint/parser": "^4.4.1",
     "autoprefixer": "^9.7.6",
     "babel-loader": "^8.1.0",
     "babel-plugin-istanbul": "^6.0.0",
@@ -94,7 +91,7 @@
     "style-loader": "^1.2.1",
     "ts-jest": "^25.4.0",
     "ts-loader": "^7.0.2",
-    "typescript": "^3.8.3",
+    "typescript": "^4.0.3",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-bundle-analyzer": "^3.9.0",

@@ -37,7 +37,7 @@ class NavUA {
 export const UA = new NavUA()
 
 /**
- * 获取随机石
+ * 获取随机字符
  * @param prefix 前缀
  */
 export function getRandom(prefix: string = ''): string {
@@ -48,7 +48,7 @@ export function getRandom(prefix: string = ''): string {
  * 替换 html 特殊字符
  * @param html html 字符串
  */
-export function replaceHtmlSymbol(html: string): string {
+export function replaceHtmlSymbol(html: string) {
     return html
         .replace(/</gm, '&lt;')
         .replace(/>/gm, '&gt;')
@@ -63,15 +63,42 @@ export function replaceSpecialSymbol(value: string) {
         .replace(/&quot;/gm, '"')
 }
 
+interface Obj {
+    [key: string]: unknown
+    [key: number]: unknown
+}
+interface ArrObj {
+    length: number
+    [key: number]: unknown
+}
+
 /**
  * 遍历对象或数组，执行回调函数
  * @param obj 对象或数组
  * @param fn 回调函数 (key, val) => {...}
  */
-export function forEach(obj: Object | [], fn: Function): void {
+export function forEach<T extends ArrObj, V = T[Extract<keyof T, number>]>(
+    obj: T,
+    fn: (key: string, value: V) => boolean | void
+): void
+export function forEach<T extends Obj>(
+    obj: T,
+    fn: (key: string, value: T[Extract<keyof T, string | number>]) => boolean | void
+): void
+export function forEach<T extends unknown[]>(
+    obj: T,
+    fn: (key: string, value: T[Extract<keyof T, number>]) => boolean | void
+): void
+export function forEach<T extends unknown[] | Obj | ArrObj>(
+    obj: T,
+    fn: (
+        key: string,
+        value: T[Extract<keyof T, number>] | T[Extract<keyof T, string>]
+    ) => boolean | void
+): void {
     for (let key in obj) {
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
-            const result = fn(key, (obj as any)[key])
+            const result = fn(key, obj[key])
             if (result === false) {
                 // 提前终止循环
                 break
@@ -85,7 +112,10 @@ export function forEach(obj: Object | [], fn: Function): void {
  * @param fakeArr 类数组
  * @param fn 回调函数
  */
-export function arrForEach(fakeArr: any, fn: Function): void {
+export function arrForEach<T extends { length: number; [key: number]: unknown }>(
+    fakeArr: T,
+    fn: (this: T, item: T[number], index: number) => boolean | unknown
+): void {
     let i, item, result
     const length = fakeArr.length || 0
     for (i = 0; i < length; i++) {
@@ -102,14 +132,18 @@ export function arrForEach(fakeArr: any, fn: Function): void {
  * @param fn 函数
  * @param interval 间隔时间，毫秒
  */
-export function throttle(fn: Function, interval: number = 200): Function {
+
+export function throttle<C, T extends unknown[]>(
+    fn: (this: C, ...args: T) => unknown,
+    interval: number = 200
+) {
     let flag = false
-    return function (...args: any): void {
+    return function (this: C, ...args: T): void {
         if (!flag) {
             flag = true
             setTimeout(() => {
                 flag = false
-                fn.call(null, ...args) // this 报语法错误，先用 null
+                fn.call(this, ...args) // this 报语法错误，先用 null
             }, interval)
         }
     }
@@ -120,15 +154,18 @@ export function throttle(fn: Function, interval: number = 200): Function {
  * @param fn 函数
  * @param delay 间隔时间，毫秒
  */
-export function debounce(fn: Function, delay: number = 200): Function {
+export function debounce<C, T extends unknown[]>(
+    fn: (this: C, ...args: T) => void,
+    delay: number = 200
+): (this: C, ...args: T) => void {
     let lastFn = 0
-    return function (...args: any) {
+    return function (...args: T) {
         if (lastFn) {
             window.clearTimeout(lastFn)
         }
         lastFn = window.setTimeout(() => {
             lastFn = 0
-            fn.call(null, ...args) // this 报语法错误，先用 null
+            fn.call(this, ...args) // this 报语法错误，先用 null
         }, delay)
     }
 }
@@ -137,7 +174,7 @@ export function debounce(fn: Function, delay: number = 200): Function {
  * isFunction 是否是函数
  * @param fn 函数
  */
-export function isFunction(fn: any) {
+export function isFunction(fn: any): fn is Function {
     return typeof fn === 'function'
 }
 
@@ -145,7 +182,7 @@ export function isFunction(fn: any) {
  * 引用与非引用值 深拷贝方法
  * @param data
  */
-export function deepClone(data: any) {
+export function deepClone<T>(data: T): T {
     if (typeof data !== 'object' || typeof data == 'function' || data === null) {
         return data
     }

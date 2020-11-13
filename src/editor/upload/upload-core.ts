@@ -6,17 +6,17 @@
 import { forEach } from '../../utils/util'
 import { DicType } from '../../config/index'
 
-type PostOptionType = {
+type PostOptionType<T> = {
     timeout?: number
     formData?: FormData
     headers?: DicType
     withCredentials?: boolean
-    onTimeout?: Function
-    onProgress?: Function
-    beforeSend?: Function
-    onError?: Function
-    onFail?: Function
-    onSuccess: Function
+    onTimeout?: (xhr: XMLHttpRequest) => void
+    onProgress?: (percent: number, event: ProgressEvent) => void
+    beforeSend?: (xhr: XMLHttpRequest) => { prevent: boolean; msg: string } | void
+    onError?: (xhr: XMLHttpRequest) => void
+    onFail?: (xhr: XMLHttpRequest, msg: string) => void
+    onSuccess: (xhr: XMLHttpRequest, result: T) => void
 }
 
 /**
@@ -24,7 +24,7 @@ type PostOptionType = {
  * @param url url
  * @param option 配置项
  */
-function post(url: string, option: PostOptionType): XMLHttpRequest | string {
+function post<T extends Object>(url: string, option: PostOptionType<T>): XMLHttpRequest | string {
     const xhr = new XMLHttpRequest()
     xhr.open('POST', url)
 
@@ -79,7 +79,7 @@ function post(url: string, option: PostOptionType): XMLHttpRequest | string {
 
         // status = 200 ，得到结果
         const resultStr = xhr.responseText
-        let result: Object
+        let result: T
         if (typeof resultStr !== 'object') {
             try {
                 result = JSON.parse(resultStr)

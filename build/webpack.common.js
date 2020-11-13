@@ -44,6 +44,7 @@ module.exports = {
         alias: {
             // utils: path.join(srcPath, 'utils'),
             // style: path.join(srcPath, 'assets', 'style'),
+            '@': srcPath,
         },
     },
     plugins: [
