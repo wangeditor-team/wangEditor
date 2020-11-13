@@ -21,7 +21,7 @@ describe('插入代码', () => {
     }
     `
 
-    it.only('点击菜单打开插入代码的面板', () => {
+    it('点击菜单打开插入代码的面板', () => {
         cy.getByClass('toolbar').children().eq(19).as('codeMenu').click()
 
         cy.get('@codeMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
@@ -34,7 +34,7 @@ describe('插入代码', () => {
             .contains('插入')
     })
 
-    it.only('点击插入代码的面板的关闭按钮可以收起面板', () => {
+    it('点击插入代码的面板的关闭按钮可以收起面板', () => {
         cy.getByClass('toolbar').children().eq(19).as('codeMenu').click()
 
         cy.get('@codeMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
@@ -43,7 +43,7 @@ describe('插入代码', () => {
         cy.get('@Panel').should('not.exist')
     })
 
-    it.only('可以插入代码，默认为bash', () => {
+    it('可以插入代码，默认为bash', () => {
         cy.getByClass('toolbar').children().eq(19).as('codeMenu').click()
         cy.get('@codeMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
 
@@ -54,7 +54,7 @@ describe('插入代码', () => {
         cy.get('@Editable').find('pre').contains(bashCode).and('have.attr', 'type', 'Bash')
     })
 
-    it.only('可以插入代码，指定支持的编程语言', () => {
+    it('可以插入代码，指定支持的编程语言', () => {
         cy.getByClass('toolbar').children().eq(19).as('codeMenu').click()
         cy.get('@codeMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
 
