@@ -103,7 +103,7 @@ export type DomElementSelector =
 // 构造函数
 export class DomElement<T extends DomElementSelector = DomElementSelector> {
     // 定义属性
-    selector?: T
+    selector!: T
     length: number
     elems: HTMLElement[]
     dataSource: Map<string, any>
@@ -128,15 +128,11 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
         }
 
         let selectorResult: HTMLElement[] = [] // 存储查询结果
+        const nodeType = selector instanceof Node ? selector.nodeType : -1
         this.selector = selector
-        if (selector instanceof Node) {
-            if (selector instanceof Document) {
-                // document 节点
-                selectorResult = [selector.documentElement]
-            } else if (selector instanceof HTMLElement) {
-                // 单个 DOM 节点
-                selectorResult = [selector]
-            }
+
+        if (nodeType === 1 || nodeType === 9) {
+            selectorResult = [selector as HTMLElement]
         } else if (_isDOMList(selector)) {
             // DOM List
             selectorResult = toArray(selector)
@@ -811,8 +807,8 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
 }
 
 // new 一个对象
-function $(s: ConstructorParameters<typeof DomElement>[0]): DomElement {
-    return new DomElement(s)
+function $(...arg: ConstructorParameters<typeof DomElement>): DomElement {
+    return new DomElement(...arg)
 }
 
 export default $

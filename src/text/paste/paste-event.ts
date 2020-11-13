@@ -66,12 +66,8 @@ export function getPasteImgs(e: ClipboardEvent): File[] {
         return result
     }
 
-    const clipboardData = e.clipboardData
-    if (!clipboardData) {
-        return result
-    }
+    const items = e.clipboardData?.items
 
-    const items = clipboardData.items
     if (!items) return result
 
     forEach(items, (key, value) => {
