@@ -29,7 +29,7 @@ describe('Editor init', () => {
         cy.get('@Editable').contains(text)
     })
 
-    it.only('能监听编辑器focus事件', () => {
+    it('能监听编辑器focus事件', () => {
         const fn = cy.stub().as('foucsHandler')
         cy.getEditor().then((editor: Editor) => {
             editor.config.onfocus = fn
@@ -40,7 +40,7 @@ describe('Editor init', () => {
         })
     })
 
-    it.only('能监听编辑器blur事件', () => {
+    it('能监听编辑器blur事件', () => {
         const fn = cy.stub().as('blurHandler')
         cy.getEditor().then((editor: Editor) => {
             editor.config.onblur = fn

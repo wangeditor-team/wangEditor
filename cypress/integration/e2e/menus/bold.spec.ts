@@ -14,7 +14,11 @@ describe('加粗', () => {
 
         cy.saveRange()
 
+        cy.getEditor().then(editor => {
+            console.log(editor)
+        })
+
         cy.getByClass('toolbar').children().eq(1).click()
-        cy.get('@Editable').find('b').contains(text)
+        cy.get('@Editable').find('b').should('contains.text', text)
     })
 })
