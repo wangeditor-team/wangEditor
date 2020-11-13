@@ -28,4 +28,30 @@ describe('Editor init', () => {
         cy.get('@Editable').type(text)
         cy.get('@Editable').contains(text)
     })
+
+    it.only('能监听编辑器focus事件', () => {
+        const fn = cy.stub().as('foucsHandler')
+        cy.getEditor().then((editor: Editor) => {
+            editor.config.onfocus = fn
+
+            cy.get('#div1').find('.w-e-text-container').children().first().as('Editable').click()
+
+            cy.get('@foucsHandler').should('be.called')
+        })
+    })
+
+    it.only('能监听编辑器blur事件', () => {
+        const fn = cy.stub().as('blurHandler')
+        cy.getEditor().then((editor: Editor) => {
+            editor.config.onblur = fn
+
+            // 先focus
+            cy.get('#div1').find('.w-e-text-container').children().first().as('Editable').click()
+
+            // 获取含有Wandeditor demo文案的dom，来测试富文本失去焦点的情况
+            cy.get('body').children().eq(0).click()
+
+            cy.get('@blurHandler').should('be.called')
+        })
+    })
 })
