@@ -9,11 +9,10 @@ import SelectionRangeTopNodes from './selection-range-top-nodes/index'
 
 class SelectionAndRange {
     public editor: Editor
-    private _currentRange: Range | null | undefined
+    private _currentRange: Range | null | undefined = null
 
     constructor(editor: Editor) {
         this.editor = editor
-        this._currentRange = null
     }
 
     /**
