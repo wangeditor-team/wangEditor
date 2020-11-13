@@ -17,4 +17,5 @@ module.exports = smart(CommonConf, {
         libraryTarget: 'umd',
         libraryExport: 'default',
     },
+    devtool: 'eval-source-map',
 })
