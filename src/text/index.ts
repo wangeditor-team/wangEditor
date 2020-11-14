@@ -325,6 +325,8 @@ class Text {
             e.preventDefault()
             const tabUpEvents = eventHooks.tabUpEvents
             tabUpEvents.forEach(fn => fn(e))
+            // 触发自定义事件的钩子
+            events.emit('hook:keydown:tab', e)
         })
 
         // tab down

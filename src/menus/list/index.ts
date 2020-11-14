@@ -68,7 +68,7 @@ class List extends DropListMenu implements MenuActive {
         events.on('hook:keyup:enter', (e: Event) => {
             // 获取选区范围内的顶级 DOM 元素
             const $node = editor.selection.getSelectionRangeTopNodes()[0]
-            if (!$node.length) return
+            if (!$node) return
 
             const nodeName = $node.getNodeName()
             if (nodeName === ListType.OrderedList || nodeName === ListType.UnorderedList) {
@@ -94,6 +94,17 @@ class List extends DropListMenu implements MenuActive {
 
                 this.resetListAttr()
             }
+        })
+
+        events.on('hook:keydown:tab', (e: Event) => {
+            // 获取选区范围内的顶级 DOM 元素
+            const $node = editor.selection.getSelectionRangeTopNodes()[0]
+            if (!$node) return
+
+            const nodeName = $node.getNodeName()
+            // if (nodeName === ListType.OrderedList || nodeName === ListType.UnorderedList) {
+            //     debugger
+            // }
         })
     }
 
