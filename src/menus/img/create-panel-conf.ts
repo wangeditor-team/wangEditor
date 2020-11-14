@@ -119,9 +119,9 @@ export default function (editor: editor): PanelConf {
         {
             title: t('网络图片'),
             tpl: `<div>
-                    <input 
-                        id="${linkUrlId}" 
-                        type="text" 
+                    <input
+                        id="${linkUrlId}"
+                        type="text"
                         class="block"
                         placeholder="${t('图片链接')}"/>
                     </td>

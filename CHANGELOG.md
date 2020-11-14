@@ -1,3 +1,31 @@
+# [4.3.0](https://github.com/wangeditor-team/wangEditor/compare/v4.2.2...v4.3.0) (2020-11-09)
+
+
+### Bug Fixes
+
+* getJSON example page ([1797c54](https://github.com/wangeditor-team/wangEditor/commit/1797c54a5efed4998581ce609f1a50dc8085dac0))
+* 多实例 disable 异常 ([683fe00](https://github.com/wangeditor-team/wangEditor/commit/683fe00d86c8ba4020ebd35cd358960bc49dc6c2))
+
+
+### Features
+
+* 完成setJSON ([2982304](https://github.com/wangeditor-team/wangEditor/commit/298230449f15276975506fe1b54ee1abdad78e3d))
+
+## [4.2.2](https://github.com/wangeditor-team/wangEditor/compare/v4.2.1...v4.2.2) (2020-11-05)
+
+
+### Bug Fixes
+
+* dev deploy build ([76eacbe](https://github.com/wangeditor-team/wangEditor/commit/76eacbeb9c55fd68a452ba90a0b9abeb0c11402d))
+* dev 部署 ([0a403c4](https://github.com/wangeditor-team/wangEditor/commit/0a403c4401584b3f12effe04ff2270b80ab3e44a))
+* npm i ([b498172](https://github.com/wangeditor-team/wangEditor/commit/b498172304668a569abce3f2b048f545c397cf91))
+* pm2 start ([23130d6](https://github.com/wangeditor-team/wangEditor/commit/23130d6c90b4761d48ec5519e20c072c4e9d2d57))
+* yml 语法 ([d6d8df8](https://github.com/wangeditor-team/wangEditor/commit/d6d8df8ce451321140c9d6b5ae27309b48925001))
+* 修复quote在火狐浏览器下的问题 ([3166084](https://github.com/wangeditor-team/wangEditor/commit/31660846d9715e47d8a62de50a5bcae02da961aa))
+* 修复quote某些情况下无法取消的问题 ([d8484e7](https://github.com/wangeditor-team/wangEditor/commit/d8484e7f5927312adbbd08744006921f5e34f1ae))
+* 修复取消引用多出br的问题 ([c12139c](https://github.com/wangeditor-team/wangEditor/commit/c12139cbff123fa3aa8b8662971748ec4c316316))
+* 修复多行下使用饮用的问题 ([5e3c972](https://github.com/wangeditor-team/wangEditor/commit/5e3c9727db66bbd9b5be4808cdc527d7f16577be))
+
 ## [4.2.1](https://github.com/wangeditor-team/wangEditor/compare/v4.2.0...v4.2.1) (2020-11-03)
 
 # [4.2.0](https://github.com/wangeditor-team/wangEditor/compare/v4.1.0...v4.2.0) (2020-11-02)

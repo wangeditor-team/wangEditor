@@ -8,31 +8,53 @@ import Editor from '../editor/index'
 import initEventHooks from './event-hooks/index'
 import { UA, throttle } from '../utils/util'
 import getChildrenJSON, { NodeListType } from './getChildrenJSON'
+import getHtmlByNodeList from './getHtmlByNodeList'
 import { formatCodeHtml } from '../menus/code'
 
+/** 按键函数 */
+type KeyBoardHandler = (event: KeyboardEvent) => unknown
+/** 普通事件回调 */
+type EventHandler = (event: Event) => unknown
 // 各个事件钩子函数
 type TextEventHooks = {
-    changeEvents: Function[] // 内容修改时
-    dropEvents: Function[]
-    clickEvents: Function[]
-    keyupEvents: Function[]
-    tabUpEvents: Function[] // tab 键（keyCode === ）Up 时
-    tabDownEvents: Function[] // tab 键（keyCode === 9）Down 时
-    enterUpEvents: Function[] // enter 键（keyCode === 13）up 时
-    enterDownEvents: Function[] // enter 键（keyCode === 13）down 时
-    deleteUpEvents: Function[] // 删除键（keyCode === 8）up 时
-    deleteDownEvents: Function[] // 删除键（keyCode === 8）down 时
-    pasteEvents: Function[] // 粘贴事件
-    linkClickEvents: Function[] // 点击链接事件
-    codeClickEvents: Function[] // 点击代码事件
-    textScrollEvents: Function[] // 编辑区域滑动事件
-    toolbarClickEvents: Function[] // 菜单栏被点击
-    imgClickEvents: Function[] // 图片被点击事件
-    imgDragBarMouseDownEvents: Function[] //图片拖拽MouseDown
-    tableClickEvents: Function[] //表格点击
-    menuClickEvents: Function[] // 每个菜单被点击时，按理说这个不属于 txt 的，先暂时在这放着吧
-    dropListMenuHoverEvents: Function[] // droplist 菜单悬浮事件。暂时放这里
-    splitLineEvents: Function[] // 点击分割线时
+    changeEvents: (() => void)[] // 内容修改时
+    dropEvents: ((event: DragEvent) => unknown)[]
+    clickEvents: EventHandler[]
+    keyupEvents: KeyBoardHandler[]
+    /** tab 键（keyCode === ）Up 时 */
+    tabUpEvents: KeyBoardHandler[]
+    /** tab 键（keyCode === 9）Down 时 */
+    tabDownEvents: KeyBoardHandler[]
+    /** enter 键（keyCode === 13）up 时 */
+    enterUpEvents: KeyBoardHandler[]
+    /** enter 键（keyCode === 13）down 时 */
+    enterDownEvents: KeyBoardHandler[]
+    /** 删除键（keyCode === 8）up 时 */
+    deleteUpEvents: KeyBoardHandler[]
+    /** 删除键（keyCode === 8）down 时 */
+    deleteDownEvents: KeyBoardHandler[]
+    /** 粘贴事件 */
+    pasteEvents: ((e: ClipboardEvent) => void)[]
+    /** 点击链接事件 */
+    linkClickEvents: ((e: DomElement) => void)[]
+    /** 点击代码事件 */
+    codeClickEvents: ((e: DomElement) => void)[]
+    /** 编辑区域滑动事件 */
+    textScrollEvents: EventHandler[]
+    /** 菜单栏被点击 */
+    toolbarClickEvents: EventHandler[]
+    /** 图片被点击事件 */
+    imgClickEvents: ((e: DomElement) => void)[]
+    /** 图片拖拽MouseDown */
+    imgDragBarMouseDownEvents: (() => void)[]
+    /** 表格点击 */
+    tableClickEvents: ((e: DomElement) => void)[]
+    /** 每个菜单被点击时，按理说这个不属于 txt 的，先暂时在这放着吧 */
+    menuClickEvents: (() => void)[]
+    /** droplist 菜单悬浮事件。暂时放这里 */
+    dropListMenuHoverEvents: (() => void)[]
+    /** 点击分割线时 */
+    splitLineEvents: ((e: DomElement) => void)[]
 }
 
 class Text {
@@ -151,6 +173,20 @@ class Text {
     }
 
     /**
+     * 将json设置成html至编辑器
+     * @param nodeList json格式
+     */
+    public setJSON(nodeList: NodeListType): void {
+        const html = getHtmlByNodeList(nodeList).children()
+        const editor = this.editor
+        const $textElem = editor.$textElem
+        // 没有获取到元素的情况
+        if (!html) return
+        // 替换文本节点下全部子节点
+        $textElem.replaceChildAll(html)
+    }
+
+    /**
      * 获取 json 格式的数据
      */
     public getJSON(): NodeListType {
@@ -160,9 +196,14 @@ class Text {
     }
 
     /**
-     * 获取/设置 字符串内容
+     * 设置 字符串内容
      * @param val text 字符串
      */
+    public text(val: string): void
+    /**
+     * 获取 字符串内容
+     */
+    public text(): string
     public text(val?: string): void | string {
         const editor = this.editor
         const $textElem = editor.$textElem
@@ -288,7 +329,7 @@ class Text {
         })
 
         // 粘贴
-        $textElem.on('paste', (e: Event) => {
+        $textElem.on('paste', (e: ClipboardEvent) => {
             if (UA.isIE()) return // IE 不支持
 
             // 阻止默认行为，使用 execCommand 的粘贴命令
@@ -367,7 +408,7 @@ class Text {
                 .off('dragover', preventDefault)
         })
 
-        $textElem.on('drop', (e: Event) => {
+        $textElem.on('drop', (e: DragEvent) => {
             e.preventDefault()
             const events = eventHooks.dropEvents
             events.forEach(fn => fn(e))
@@ -392,10 +433,10 @@ class Text {
                 }
             }
 
-            if ($link == null) return // 没有点击链接，则返回
+            if (!$link) return // 没有点击链接，则返回
 
             const linkClickEvents = eventHooks.linkClickEvents
-            linkClickEvents.forEach(fn => fn($link))
+            linkClickEvents.forEach(fn => fn($link as DomElement))
         })
 
         // img click
@@ -417,10 +458,10 @@ class Text {
                 e.stopPropagation()
                 $img = $target
             }
-            if ($img == null) return // 没有点击图片，则返回
+            if (!$img) return // 没有点击图片，则返回
 
             const imgClickEvents = eventHooks.imgClickEvents
-            imgClickEvents.forEach(fn => fn($img))
+            imgClickEvents.forEach(fn => fn($img as DomElement))
         })
 
         // code click
@@ -436,16 +477,16 @@ class Text {
             } else {
                 // 否则，向父节点中寻找链接
                 const $parent = $target.parentUntil('pre')
-                if ($parent != null) {
+                if ($parent !== null) {
                     // 找到了
                     $code = $parent
                 }
             }
 
-            if ($code == null) return // 没有点击链接，则返回
+            if (!$code) return
 
             const codeClickEvents = eventHooks.codeClickEvents
-            codeClickEvents.forEach(fn => fn($code))
+            codeClickEvents.forEach(fn => fn($code as DomElement))
         })
 
         // splitLine click
@@ -462,12 +503,12 @@ class Text {
                 $target == null
             }
 
-            if ($splitLine == null) return // 没有点击分割线，则返回
+            if (!$splitLine) return // 没有点击分割线，则返回
             // 设置、恢复选区
             editor.selection.createRangeByElem($splitLine)
             editor.selection.restoreSelection()
             const splitLineClickEvents = eventHooks.splitLineEvents
-            splitLineClickEvents.forEach(fn => fn($splitLine))
+            splitLineClickEvents.forEach(fn => fn($splitLine as DomElement))
         })
 
         // 菜单栏被点击
@@ -477,7 +518,7 @@ class Text {
         })
 
         //mousedown事件
-        editor.$textContainerElem.on('mousedown', (e: Event) => {
+        editor.$textContainerElem.on('mousedown', (e: MouseEvent) => {
             const target = e.target as HTMLElement
             const $target = $(target)
             if ($target.hasClass('w-e-img-drag-rb')) {
@@ -497,10 +538,11 @@ class Text {
             //获取最祖父元素
             $dom = $(target).parentUntil('TABLE', target)
 
-            if ($dom == null) return // 没有table范围内，则返回
+            // 没有table范围内，则返回
+            if (!$dom) return
 
             const tableClickEvents = eventHooks.tableClickEvents
-            tableClickEvents.forEach(fn => fn($dom))
+            tableClickEvents.forEach(fn => fn($dom as DomElement))
         })
 
         // enter 键 down

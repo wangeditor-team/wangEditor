@@ -2,7 +2,6 @@
  * @description selection range API
  * @author wangfupeng
  */
-
 import $, { DomElement } from '../utils/dom-core'
 import { UA } from '../utils/util'
 import Editor from './index'
@@ -10,11 +9,10 @@ import SelectionRangeTopNodes from './selection-range-top-nodes/index'
 
 class SelectionAndRange {
     public editor: Editor
-    private _currentRange: Range | null | undefined
+    private _currentRange: Range | null | undefined = null
 
     constructor(editor: Editor) {
         this.editor = editor
-        this._currentRange = null
     }
 
     /**
@@ -231,6 +229,23 @@ class SelectionAndRange {
         const item = new SelectionRangeTopNodes(this.editor)
         item.init()
         return item.getSelectionNodes()
+    }
+
+    /**
+     * 移动光标位置
+     * @param {Node} node 元素节点
+     */
+    public moveCursor(node: Node) {
+        const range = this.getRange()
+        const pos = node.childNodes.length
+        if (!range) {
+            return
+        }
+        if (node) {
+            range.setStart(node, pos)
+            range.setEnd(node, pos)
+            this.restoreSelection()
+        }
     }
 }
 

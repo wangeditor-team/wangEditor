@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import $, { DomElement } from '../utils/dom-core'
+import $, { DomElement, DomElementSelector } from '../utils/dom-core'
 import { deepClone } from '../utils/util'
 import defaultConfig, { ConfigType } from '../config'
 import SelectionAndRangeAPI from './selection'
@@ -18,8 +18,8 @@ import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-f
 import ZIndex from './z-index'
 import Change from './change/index'
 import History from './history/index'
-import disable from './disable'
 import CustomEvents from '../utils/custom-events'
+import disableInit from './disable'
 
 // 创建菜单的 class
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -33,7 +33,7 @@ let EDITOR_ID = 1
 
 class Editor {
     // 暴露 $
-    static $: Function = $
+    static $ = $
 
     static BtnMenu = BtnMenu
     static DropList = DropList
@@ -43,8 +43,8 @@ class Editor {
     static Tooltip = Tooltip
 
     public id: string
-    public toolbarSelector: string
-    public textSelector: string | undefined
+    public toolbarSelector: DomElementSelector
+    public textSelector?: DomElementSelector
     public config: ConfigType
     public $toolbarElem: DomElement
     public $textContainerElem: DomElement
@@ -68,12 +68,18 @@ class Editor {
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
 
+    /** 禁用api */
+    public disable: Function
+
+    /** 启用api */
+    public enable: Function
+
     /**
      * 构造函数
      * @param toolbarSelector 工具栏 DOM selector
      * @param textSelector 文本区域 DOM selector
      */
-    constructor(toolbarSelector: string, textSelector?: string) {
+    constructor(toolbarSelector: DomElementSelector, textSelector?: DomElementSelector) {
         // id，用以区分单个页面不同的编辑器对象
         this.id = `wangEditor-${EDITOR_ID++}`
 
@@ -104,6 +110,10 @@ class Editor {
         this.zIndex = new ZIndex()
         this.change = new Change(this)
         this.history = new History(this)
+
+        const { disable, enable } = disableInit(this)
+        this.disable = disable
+        this.enable = enable
     }
 
     /**
@@ -189,20 +199,6 @@ class Editor {
      */
     public unFullScreen(): void {
         setUnFullScreen(this)
-    }
-
-    /**
-     * 禁用api
-     */
-    public disable(): void {
-        disable.disable(this)
-    }
-
-    /**
-     * 启用api
-     */
-    public enable(): void {
-        disable.enable(this)
     }
 }
 
