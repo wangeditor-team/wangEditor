@@ -20,6 +20,11 @@ function bindEvent(editor: Editor) {
                 // 将光标移动br前面
                 editor.selection.moveCursor($newLine.getNode(), true)
             }
+
+            // 当blockQuote中没有内容回车后移除blockquote
+            if ($topSelectElem.text() === '') {
+                $topSelectElem.remove()
+            }
         }
     }
     editor.txt.eventHooks.enterDownEvents.push(quoteEnter)
