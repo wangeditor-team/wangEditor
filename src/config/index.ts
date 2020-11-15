@@ -1,4 +1,3 @@
-import { TOutOnline } from './outOnline'
 /**
  * @description 编辑器配置
  * @author wangfupeng
@@ -13,7 +12,7 @@ import imageConfig, { UploadImageHooksType } from './image'
 import textConfig from './text'
 import langConfig from './lang'
 import historyConfig from './history'
-import outOnlineConfig from './outOnline'
+import outOnlineConfig, { TOutOnline } from './outOnline'
 
 // 字典类型
 export type DicType = {
