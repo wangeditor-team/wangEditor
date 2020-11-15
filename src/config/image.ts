@@ -3,15 +3,25 @@
  * @author wangfupeng
  */
 
-import { EMPTY_FN } from '../utils/const'
+import Editor from '@/editor'
+import { EMPTY_FN } from '@/utils/const'
+import { ResType } from '@/menus/img/upload-img'
 
 export type UploadImageHooksType = {
-    before?: Function
-    success?: Function
-    fail?: Function
-    error?: Function
-    timeout?: Function
-    customInsert?: Function
+    before?: (
+        xhr: XMLHttpRequest,
+        editor: Editor,
+        files: File[]
+    ) => { prevent: boolean; msg: string } | void
+    success?: (xhr: XMLHttpRequest, editor: Editor, result: ResType) => void
+    fail?: (xhr: XMLHttpRequest, editor: Editor, err: ResType | string) => void
+    error?: (xhr: XMLHttpRequest, editor: Editor) => void
+    timeout?: (xhr: XMLHttpRequest, editor: Editor) => void
+    customInsert?: (
+        inserImg: (this: Editor, src: string) => void,
+        result: ResType,
+        editor: Editor
+    ) => void
 }
 
 export default {
