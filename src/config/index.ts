@@ -1,3 +1,4 @@
+import { TOutOnline } from './outOnline'
 /**
  * @description 编辑器配置
  * @author wangfupeng
@@ -12,6 +13,7 @@ import imageConfig, { UploadImageHooksType } from './image'
 import textConfig from './text'
 import langConfig from './lang'
 import historyConfig from './history'
+import outOnlineConfig from './outOnline'
 
 // 字典类型
 export type DicType = {
@@ -59,6 +61,9 @@ export type ConfigType = {
     customUploadImg: Function | null
     customAlert: Function | null
 
+    outOnline: boolean
+    outOnlineChange: Function
+
     lang: string
     languages: typeof langConfig
 
@@ -96,6 +101,7 @@ const defaultConfig = Object.assign(
     textConfig,
     langConfig,
     historyConfig,
+    outOnlineConfig,
     //链接校验的配置函数
     {
         linkCheck: function (text: string, link: string): string | boolean {
