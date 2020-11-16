@@ -25,7 +25,6 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEven
     function fn() {
         const $textElem = editor.$textElem
         const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
-        const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
         const $parentElem = $selectionElem.parent()
 
         if ($parentElem.html() === '<code><br></code>') {
@@ -61,7 +60,6 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEven
         // selection中的range缓存还有问题,更新不及时,此处手动更新range,处理enter的bug
         editor.selection.saveRange(getSelection()?.getRangeAt(0))
         const $selectElem = editor.selection.getSelectionContainerElem() as DomElement
-        const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
         if ($selectElem.id === editor.textElemId) {
             // 回车时，默认创建了 text 标签（没有 p 标签包裹），父元素直接就是 $textElem
             // 例如，光标放在 table 最后侧，回车时，默认就是这个情况
