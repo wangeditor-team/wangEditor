@@ -1,6 +1,5 @@
 /**
- * 空函数
- * @description 常亮
+ * @description 常量
  * @author wangfupeng
  */
 

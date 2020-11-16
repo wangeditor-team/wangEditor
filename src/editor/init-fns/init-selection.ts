@@ -36,7 +36,7 @@ function initSelection(editor: Editor, newLine?: boolean) {
     }
 
     if (editor.config.focus) {
-        editor.selection.createRangeByElem($last, false, true)
+        editor.selection.createRangeByElem($last, true, true)
         editor.selection.restoreSelection()
     }
 }
