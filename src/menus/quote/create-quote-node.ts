@@ -1,4 +1,3 @@
-import Editor from '../../editor/index'
 import $, { DomElement } from '../../utils/dom-core'
 
 /**

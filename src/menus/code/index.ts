@@ -90,7 +90,6 @@ class Code extends PanelMenu implements MenuActive {
      */
     public clickHandler(): void {
         const editor = this.editor
-        let $codeElem
         const selectionText = editor.selection.getSelectionText()
 
         if (this.isActive) {

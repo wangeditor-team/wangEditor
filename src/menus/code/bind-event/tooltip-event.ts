@@ -65,6 +65,7 @@ function createShowHideFn(editor: Editor) {
  * @param e
  * @param editor
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function preEnterListener(e: KeyboardEvent, editor: Editor) {
     // 获取当前标签元素
     const $selectionElem = editor.selection.getSelectionContainerElem() as DomElement

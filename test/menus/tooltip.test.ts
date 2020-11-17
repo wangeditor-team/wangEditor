@@ -6,7 +6,7 @@
 import Tooltip from '../../src/menus/menu-constructors/Tooltip'
 import Editor from '../../src/editor'
 import createEditor from '../fns/create-editor'
-import $, { DomElement } from '../../src/utils/dom-core'
+import $ from '../../src/utils/dom-core'
 
 let editor: Editor
 let tooltip: Tooltip

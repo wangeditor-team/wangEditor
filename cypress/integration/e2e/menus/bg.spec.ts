@@ -14,7 +14,7 @@ describe('背景颜色', () => {
 
         if (result == null) return null
 
-        const [noop, r, g, b] = result.map(i => parseInt(i, 16))
+        const [r, g, b] = result.map(i => parseInt(i, 16))
 
         return `rgb(${r}, ${g}, ${b})`
     }
