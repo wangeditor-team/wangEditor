@@ -9,6 +9,7 @@ import BtnMenu from '../menu-constructors/BtnMenu'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event'
 import createQuote from './create-quote-node'
+import cmd from '@/config/cmd'
 
 class Quote extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -44,6 +45,8 @@ class Quote extends BtnMenu implements MenuActive {
             })
             $topNodeElem.remove()
             editor.selection.moveCursor($targetELem.elems[len - 1])
+            // 即时更新btn状态
+            this.tryChangeActive()
         } else {
             // 将 P 转换为 quote
             const $quote = createQuote(topNodeElem)
@@ -54,6 +57,8 @@ class Quote extends BtnMenu implements MenuActive {
             moveNode.textContent
                 ? editor.selection.moveCursor(moveNode)
                 : editor.selection.moveCursor(moveNode, true)
+            // 即时更新btn状态
+            this.tryChangeActive()
             // 防止最后一行无法跳出
             $(`<p><br></p>`).insertAfter($quote)
             return
@@ -71,8 +76,8 @@ class Quote extends BtnMenu implements MenuActive {
      */
     public tryChangeActive(): void {
         const editor = this.editor
-        const cmdValue = editor.cmd.queryCommandValue('formatBlock')
-        if (cmdValue === 'blockquote') {
+        const cmdValue = editor.selection.getSelectionRangeTopNodes(editor)[0].getNodeName()
+        if (cmdValue === 'BLOCKQUOTE') {
             this.active()
         } else {
             this.unActive()
