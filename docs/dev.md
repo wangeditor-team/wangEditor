@@ -71,7 +71,7 @@ git config user.email xxx@xxx.com
 
 注意，在执行 `git commit` 时，请务必遵守 commit 规范，程序也会强制按照如下格式提交：
 
-- `feat: xxx` 新功能
+- `feat: xxx` 新功能 —— **【注意】请务必谨慎使用 `feat` ，除非真的是新功能，否则不要乱用。不确定的可以群里问一问。**
 - `fix: xxx` bug 修复
 - `style: xxx` 修改样式
 - `docs: xxx` 修改文档
