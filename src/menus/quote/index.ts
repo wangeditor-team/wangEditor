@@ -9,7 +9,6 @@ import BtnMenu from '../menu-constructors/BtnMenu'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event'
 import createQuote from './create-quote-node'
-import cmd from '@/config/cmd'
 
 class Quote extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
