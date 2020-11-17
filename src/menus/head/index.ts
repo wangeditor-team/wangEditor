@@ -62,12 +62,10 @@ class Head extends DropListMenu implements MenuActive {
      */
     private addUidForSelectionElem() {
         const editor = this.editor
-        if (editor.config.outOnline) {
-            const tag = editor.selection.getSelectionContainerElem()
-            const id = getRandomCode(5) // 默认五位数id
-            $(tag).attr('id', id)
-            $(tag).attr('class', 'outOnline')
-        }
+        const tag = editor.selection.getSelectionContainerElem()
+        const id = getRandomCode(5) // 默认五位数id
+        $(tag).attr('id', id)
+        $(tag).attr('class', 'outOnline')
     }
 
     /**
@@ -75,11 +73,9 @@ class Head extends DropListMenu implements MenuActive {
      */
     private addListenerOutOnline() {
         const editor = this.editor
-        if (editor.config.outOnline) {
-            editor.txt.eventHooks.changeEvents.push(() => {
-                this.getOutOnlines()
-            })
-        }
+        editor.txt.eventHooks.changeEvents.push(() => {
+            this.getOutOnlines()
+        })
     }
 
     /**
@@ -106,7 +102,7 @@ class Head extends DropListMenu implements MenuActive {
                 text,
             })
         })
-        editor.config.outOnlineChange(outOnlines)
+        editor.config.onHeadChange(outOnlines)
     }
 
     /**

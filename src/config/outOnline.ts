@@ -10,6 +10,5 @@ export type TOutOnline = {
 }
 
 export default {
-    outOnline: false, // 默认关闭大纲功能
-    outOnlineChange: (list: TOutOnline) => {},
+    onHeadChange: (list: TOutOnline) => {},
 }

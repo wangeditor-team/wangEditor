@@ -53,11 +53,10 @@
         const editor = new E('#div1')
 
         editor.config.outOnline = true // 打开大纲功能配置
-        editor.config.outOnlineChange = function (arr) {
+        editor.config.onHeadChange = function (arr) {
             // 大纲回调
             const box = document.getElementById("outOnlineBox")
             box.innerHTML = ''
-
 
             let level = 1, levelObj = {
                 1: '',
@@ -80,8 +79,11 @@
 
                 const p = document.createElement("p")
                 const a = document.createElement("a")
-                a.href = "#" + item.id
+                a.href = "javascript:void(0)"
                 a.innerText = levelObj[level] + item.text
+                a.onclick = function(){
+                    editor.scrollToHead(item.id)
+                }
                 p.appendChild(a)
                 box.appendChild(p)
             })

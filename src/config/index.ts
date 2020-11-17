@@ -12,7 +12,7 @@ import imageConfig, { UploadImageHooksType } from './image'
 import textConfig from './text'
 import langConfig from './lang'
 import historyConfig from './history'
-import outOnlineConfig, { TOutOnline } from './outOnline'
+import outOnlineConfig from './outOnline'
 
 // 字典类型
 export type DicType = {
@@ -60,8 +60,7 @@ export type ConfigType = {
     customUploadImg: Function | null
     customAlert: Function | null
 
-    outOnline: boolean
-    outOnlineChange: Function
+    onHeadChange: Function
 
     lang: string
     languages: typeof langConfig
