@@ -25,7 +25,7 @@ test('重做', done => {
 
                 if (editor.isCompatibleMode) {
                     // 兼容模式
-                    expect(editor.$textElem.html()).toEqual('<p><br><span>123</span></p>')
+                    expect(editor.$textElem.html()).toEqual('<p><span>123</span><br></p>')
                 } else {
                     // 标准模式
                     expect(editor.history.size).toEqual([1, 0])

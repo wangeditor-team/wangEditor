@@ -66,13 +66,11 @@ export function getPasteImgs(e: ClipboardEvent): File[] {
         return result
     }
 
-    const clipboardData = e.clipboardData as any
-    const items = clipboardData.items
-    if (!items) {
-        return result
-    }
+    const items = e.clipboardData?.items
 
-    forEach(items, (key: any, value: DataTransferItem) => {
+    if (!items) return result
+
+    forEach(items, (key, value) => {
         const type = value.type
         if (/image/i.test(type)) {
             result.push(value.getAsFile() as File)

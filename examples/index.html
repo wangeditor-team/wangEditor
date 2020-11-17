@@ -22,8 +22,9 @@
 
     <script src="../dist/wangEditor.js"></script>
     <script>
-        const E = window.wangEditor
-        const editor = new E('#div1')
+        // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
+        var E = window.wangEditor
+        var editor = new E('#div1')
 
         editor.config.onchange = function (newHtml) {
             console.log('onchange', newHtml)

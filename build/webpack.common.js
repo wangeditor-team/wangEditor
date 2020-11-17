@@ -9,7 +9,7 @@ const { srcPath } = require('./myPath')
 
 module.exports = {
     entry: {
-        wangEditor: path.join(srcPath, 'wangEditor.ts')
+        wangEditor: path.join(srcPath, 'wangEditor.ts'),
     },
     module: {
         rules: [
@@ -44,6 +44,7 @@ module.exports = {
         alias: {
             // utils: path.join(srcPath, 'utils'),
             // style: path.join(srcPath, 'assets', 'style'),
+            '@': srcPath,
         },
     },
     plugins: [
