@@ -12,7 +12,7 @@ import Editor from '../index'
  */
 const scrollToHead = (editor: Editor, id: string) => {
     const $textElem = editor.$textElem
-    const $targetHead = $textElem.find('#' + id)
+    const $targetHead = $textElem.find(`[id='${id}']`)
     const targetTop = $targetHead.getOffsetData().top
     $textElem.scrollTop(targetTop)
 }

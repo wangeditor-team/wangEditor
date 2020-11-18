@@ -8,7 +8,7 @@ import $ from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 import { getRandomCode } from '@/utils/util'
-import { TOutOnline } from '@/config/outOnline'
+import { TCatalog } from '@/config/events'
 
 class Head extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -34,8 +34,8 @@ class Head extends DropListMenu implements MenuActive {
             },
         }
         super($elem, editor, dropListConf)
-        this.addListenerOutOnline() // 监听文本框编辑时的大纲信息
-        this.getOutOnlines() // 初始有值的情况获取一遍大纲信息
+        this.addListenerCatalog() // 监听文本框编辑时的大纲信息
+        this.getCatalogs() // 初始有值的情况获取一遍大纲信息
     }
 
     /**
@@ -63,46 +63,45 @@ class Head extends DropListMenu implements MenuActive {
     private addUidForSelectionElem() {
         const editor = this.editor
         const tag = editor.selection.getSelectionContainerElem()
-        const id = getRandomCode(5) // 默认五位数id
+        const id = getRandomCode() // 默认五位数id
         $(tag).attr('id', id)
-        $(tag).attr('class', 'outOnline')
     }
 
     /**
      * 监听change事件来返回大纲信息
      */
-    private addListenerOutOnline() {
+    private addListenerCatalog() {
         const editor = this.editor
         editor.txt.eventHooks.changeEvents.push(() => {
-            this.getOutOnlines()
+            this.getCatalogs()
         })
     }
 
     /**
      * 获取大纲数组
      */
-    private getOutOnlines() {
+    private getCatalogs() {
         const editor = this.editor
         const $textElem = this.editor.$textElem
         const elems = $textElem.find('h1,h2,h3,h4,h5')
-        const outOnlines: TOutOnline[] = []
+        const catalogs: TCatalog[] = []
         elems.forEach((elem, index) => {
             const $elem = $(elem)
             let id = $elem.attr('id')
             const tag = $elem.getNodeName()
             const text = $elem.text()
             if (!id) {
-                id = getRandomCode(5)
+                id = getRandomCode()
                 $elem.attr('id', id)
             }
 
-            outOnlines.push({
+            catalogs.push({
                 tag,
                 id,
                 text,
             })
         })
-        editor.config.onHeadChange(outOnlines)
+        editor.config.onCatalogChange(catalogs)
     }
 
     /**
