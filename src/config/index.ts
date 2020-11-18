@@ -9,6 +9,7 @@ import styleConfig from './style'
 import pasteConfig from './paste'
 import cmdConfig from './cmd'
 import imageConfig, { UploadImageHooksType } from './image'
+import videoConfig from './video'
 import textConfig from './text'
 import langConfig from './lang'
 import historyConfig from './history'
@@ -68,6 +69,8 @@ export type ConfigType = {
     historyMaxSize: number
 
     focus: boolean
+
+    videoCallback: Function
 }
 
 export type Resource = {
@@ -96,6 +99,7 @@ const defaultConfig = Object.assign(
     textConfig,
     langConfig,
     historyConfig,
+    videoConfig,
     //链接校验的配置函数
     {
         linkCheck: function (text: string, link: string): string | boolean {

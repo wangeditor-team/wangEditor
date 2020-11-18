@@ -19,6 +19,9 @@ export default function (editor: editor, video: string): PanelConf {
      */
     function insertVideo(video: string): void {
         editor.cmd.do('insertHTML', video + '<p><br></p>')
+
+        // video添加后的回调
+        editor.config.videoCallback(video)
     }
 
     const conf = {
