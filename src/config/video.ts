@@ -6,6 +6,6 @@
 import { EMPTY_FN } from '@/utils/const'
 
 export default {
-    // 插入图片成功之后的回调函数
-    linkImgCallback: EMPTY_FN,
+    // 插入网络视频成功之后的回调函数
+    onlineVideoCallback: EMPTY_FN,
 }

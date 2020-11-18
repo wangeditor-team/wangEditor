@@ -26,9 +26,13 @@
         var E = window.wangEditor
         var editor = new E('#div1')
 
-        editor.config.videoCallback = function (video) {
+        editor.config.onlineVideoCallback = function (video) {
             console.log('video', video)
         }
+
+        // editor.config.linkImgCallback = function (src) {
+        //     console.log('src', src)
+        // }
         editor.create()
     </script>
 </body>
