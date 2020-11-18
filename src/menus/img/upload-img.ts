@@ -4,7 +4,7 @@
  */
 
 import Editor from '../../editor/index'
-import { arrForEach, forEach } from '../../utils/util'
+import { arrForEach, forEach, getRandom } from '../../utils/util'
 import post from '../../editor/upload/upload-core'
 import Progress from '../../editor/upload/progress'
 
@@ -180,6 +180,8 @@ class UploadImg {
             if (resultFiles.length > 1) {
                 // 多个文件时，filename 不能重复
                 name = name + (index + 1)
+            } else {
+                name = name + getRandom()
             }
             formData.append(name, file)
         })
