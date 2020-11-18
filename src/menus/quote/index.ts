@@ -75,7 +75,7 @@ class Quote extends BtnMenu implements MenuActive {
      */
     public tryChangeActive(): void {
         const editor = this.editor
-        const cmdValue = editor.selection.getSelectionRangeTopNodes(editor)[0].getNodeName()
+        const cmdValue = editor.selection.getSelectionRangeTopNodes(editor)[0]?.getNodeName()
         if (cmdValue === 'BLOCKQUOTE') {
             this.active()
         } else {
@@ -91,7 +91,7 @@ class Quote extends BtnMenu implements MenuActive {
     private getTopNodeName(): string {
         const editor = this.editor
         const $topNodeElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
-        const nodeName = $topNodeElem.getNodeName()
+        const nodeName = $topNodeElem?.getNodeName()
 
         return nodeName
     }
