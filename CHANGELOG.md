@@ -1,3 +1,13 @@
+## [4.4.1](https://github.com/wangeditor-team/wangEditor/compare/v4.4.0...v4.4.1) (2020-11-18)
+
+
+### Bug Fixes
+
+* [#2301](https://github.com/wangeditor-team/wangEditor/issues/2301) zone.js Promise冲突问题 ([0f63a04](https://github.com/wangeditor-team/wangEditor/commit/0f63a0466f98ad9a183afbd3cb85160b1eb4b6a9))
+* [#2398](https://github.com/wangeditor-team/wangEditor/issues/2398) 自动聚焦 不触发 onfocus & 直接失焦不触发 onblur ([e3b39c6](https://github.com/wangeditor-team/wangEditor/commit/e3b39c6643cc2ab47909f692faad6a9c7c68e483))
+* 修复引用按钮高亮失效的问题 ([0e4a30e](https://github.com/wangeditor-team/wangEditor/commit/0e4a30e02cc02f54107c49597308d9665865c337))
+* 去除多余变量 ([e0f900d](https://github.com/wangeditor-team/wangEditor/commit/e0f900da4e465a061d1de48c85a7bbf782c9737d))
+
 # [4.4.0](https://github.com/wangeditor-team/wangEditor/compare/v4.3.0...v4.4.0) (2020-11-17)
 
 
