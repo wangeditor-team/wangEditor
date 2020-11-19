@@ -5,7 +5,7 @@
  * @author tonghan
  */
 
-import $, { DomElement } from '../../utils/dom-core'
+import { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import { IndentationOptions } from '../../config/menus'
 import increaseIndentStyle from './increase-indent-style'

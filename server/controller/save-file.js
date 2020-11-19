@@ -45,7 +45,7 @@ function saveFiles(req) {
                 // 图片临时位置
                 const tempFilePath = file.path
                 // 图片名称和路径
-                const fileName = file.name
+                const fileName = name
                 const fullFileName = path.join(storePath, fileName)
                 // 将临时文件保存为正式文件
                 fs.renameSync(tempFilePath, fullFileName)

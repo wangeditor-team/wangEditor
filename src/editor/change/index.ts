@@ -7,7 +7,6 @@ import Editor from '../index'
 import Mutation from '../../utils/observer/mutation'
 import { debounce } from '../../utils/util'
 import { EMPTY_FN } from '../../utils/const'
-import { UA } from '../../utils/util'
 
 /**
  * 剔除编辑区容器的 attribute 变化中的非 contenteditable 变化
