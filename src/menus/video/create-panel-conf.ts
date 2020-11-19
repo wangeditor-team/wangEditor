@@ -3,12 +3,12 @@
  * @author tonghan
  */
 
-import editor from '../../editor/index'
+import Editor from '../../editor/index'
 import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
 
-export default function (editor: editor, video: string): PanelConf {
+export default function (editor: Editor, video: string): PanelConf {
     // panel 中需要用到的id
     const inputIFrameId = getRandom('input-iframe')
     const btnOkId = getRandom('btn-ok')
