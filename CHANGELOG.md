@@ -1,3 +1,15 @@
+## [4.4.2](https://github.com/wangeditor-team/wangEditor/compare/v4.4.1...v4.4.2) (2020-11-19)
+
+
+### Bug Fixes
+
+* [#2336](https://github.com/wangeditor-team/wangEditor/issues/2336) 重复截图粘贴到编辑区内,只会粘贴出第一次截图的图片 ([627c485](https://github.com/wangeditor-team/wangEditor/commit/627c4853e9b4e612084eaf9703c5c21cf65546fc))
+* [#2469](https://github.com/wangeditor-team/wangEditor/issues/2469) 火狐浏览器经过多次删除内容，重新添加内容 文章内容没有被p标签包裹 ([6c6e879](https://github.com/wangeditor-team/wangEditor/commit/6c6e879d5a0722634115c237fedc5e7e6d1a2519))
+* eslint 问题 ([5e918d6](https://github.com/wangeditor-team/wangEditor/commit/5e918d6850267f85c42903fbe494ace8e9586bb5))
+* 引用路径 ([01dc0ef](https://github.com/wangeditor-team/wangEditor/commit/01dc0ef0a1d4e613fd308a85472764edf5b54818))
+* 火狐中 getSelectionRangeTopNodes返回值 可能为undefined ([25a544a](https://github.com/wangeditor-team/wangEditor/commit/25a544a2e58de521f63e406aedd8493a36b41d98))
+* 直接按回车placeholder没有隐藏,只有回车2次以上才能隐藏 ([baa47ca](https://github.com/wangeditor-team/wangEditor/commit/baa47ca2c5a1064054490a829b8ed34ffd8c40f0))
+
 ## [4.4.1](https://github.com/wangeditor-team/wangEditor/compare/v4.4.0...v4.4.1) (2020-11-18)
 
 
