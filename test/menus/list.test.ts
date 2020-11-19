@@ -3,7 +3,6 @@
  * @author tonghan
  */
 
-import $ from '../../src/utils/dom-core'
 import List from '../../src/menus/list/index'
 import Editor from '../../src/editor'
 import mockCmdFn from '../fns/command-mock'
