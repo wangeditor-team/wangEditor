@@ -5,7 +5,6 @@
 
 import createEditor from '../fns/create-editor'
 import mockCmdFn from '../fns/command-mock'
-import Command from '../../src/editor/command'
 import Editor from '../../src/editor'
 import $ from '../../src/utils/dom-core'
 

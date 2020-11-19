@@ -69,6 +69,10 @@ function _bindFocusAndBlur(editor: Editor): void {
             editor.isFocus = true
         }
     }
+    if (document.activeElement === editor.$textElem.elems[0]) {
+        _focusHandler(editor)
+        editor.isFocus = true
+    }
     $(document).on('click', listener)
     // 全局事件在编辑器实例销毁的时候进行解绑
     editor.beforeDestroy(function () {

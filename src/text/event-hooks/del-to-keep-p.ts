@@ -4,7 +4,7 @@
  */
 
 import Editor from '../../editor/index'
-import $, { DomElement } from '../../utils/dom-core'
+import $ from '../../utils/dom-core'
 
 /**
  * 删除时保留 <p><br></p>

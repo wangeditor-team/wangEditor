@@ -1,3 +1,43 @@
+## [4.4.1](https://github.com/wangeditor-team/wangEditor/compare/v4.4.0...v4.4.1) (2020-11-18)
+
+
+### Bug Fixes
+
+* [#2301](https://github.com/wangeditor-team/wangEditor/issues/2301) zone.js Promise冲突问题 ([0f63a04](https://github.com/wangeditor-team/wangEditor/commit/0f63a0466f98ad9a183afbd3cb85160b1eb4b6a9))
+* [#2398](https://github.com/wangeditor-team/wangEditor/issues/2398) 自动聚焦 不触发 onfocus & 直接失焦不触发 onblur ([e3b39c6](https://github.com/wangeditor-team/wangEditor/commit/e3b39c6643cc2ab47909f692faad6a9c7c68e483))
+* 修复引用按钮高亮失效的问题 ([0e4a30e](https://github.com/wangeditor-team/wangEditor/commit/0e4a30e02cc02f54107c49597308d9665865c337))
+* 去除多余变量 ([e0f900d](https://github.com/wangeditor-team/wangEditor/commit/e0f900da4e465a061d1de48c85a7bbf782c9737d))
+
+# [4.4.0](https://github.com/wangeditor-team/wangEditor/compare/v4.3.0...v4.4.0) (2020-11-17)
+
+
+### Bug Fixes
+
+* 修复DomElement内部处理错误 ([04484e0](https://github.com/wangeditor-team/wangEditor/commit/04484e086194fddcdec14abb924a2c963f482869))
+* 修复firefox下会自动换行的问题 ([490c2e4](https://github.com/wangeditor-team/wangEditor/commit/490c2e48d2a0967a624f5475ce182fc2b12ed25f))
+* 修复firefox和chrome下引用表现不一致的问题 ([6c33e7f](https://github.com/wangeditor-team/wangEditor/commit/6c33e7fb8d82bfde9130541c405c55d93d043a0a))
+* 修复qoute下多行下表现态不一致的问题 ([cdbd853](https://github.com/wangeditor-team/wangEditor/commit/cdbd853ae74119cdab7f2574635ece17fd63c9ac))
+* 修复单元测试不一致的地方 ([5bf49a2](https://github.com/wangeditor-team/wangEditor/commit/5bf49a2a92dacdaa1072ae1218fad52ce8ca4932))
+* 修复多行和序列无法正常使用quote的问题 ([886072d](https://github.com/wangeditor-team/wangEditor/commit/886072d71b0405f9ae5183e2a767035a495f22e4))
+* 修复空行引用回车的的问题 ([d5124c8](https://github.com/wangeditor-team/wangEditor/commit/d5124c8f3b307e8e4630318b33af7e421acd7043))
+* 修复空行引用回车的的问题 ([6a68a83](https://github.com/wangeditor-team/wangEditor/commit/6a68a83cc4cac7e2bb27671b69386ab0bc35165a))
+* 修复隐患 ([b6ab6e0](https://github.com/wangeditor-team/wangEditor/commit/b6ab6e0d6c63256e9a60926d30f9a7e6809cc343))
+* 完善cypress配置 ([76b9920](https://github.com/wangeditor-team/wangEditor/commit/76b9920e28a26f4dbbf2f33fb501d65c5be745ac))
+* 完善测试用例 ([f7d616b](https://github.com/wangeditor-team/wangEditor/commit/f7d616b4ec31b864c29a63e65faa2c17436bd822))
+* 移除没有必要的依赖 ([1e759e9](https://github.com/wangeditor-team/wangEditor/commit/1e759e96579e089529822b938cbbe7ffa4f3ec16))
+
+
+### Features
+
+* 使入口函数提示类型 ([ed60d29](https://github.com/wangeditor-team/wangEditor/commit/ed60d299cf487ae5c0cb2bc244773b06c216c76d))
+* 修改容易更改的类型 ([62455b2](https://github.com/wangeditor-team/wangEditor/commit/62455b2681a3dddde20b43731e0cbd35dfabf796))
+* 完善了测试用例 ([a126c01](https://github.com/wangeditor-team/wangEditor/commit/a126c01c463424fccb5ace7db0665fe1614b676b))
+* 完善了编辑器菜单所有测试用例 ([d9a9b37](https://github.com/wangeditor-team/wangEditor/commit/d9a9b379c614796bf10ca94f80bb5ef7390706f2))
+* 完善单元测试 ([4a724f9](https://github.com/wangeditor-team/wangEditor/commit/4a724f98bb8ad2e529bf770b42ec54d10886c0ce))
+* 添加所以菜单的测试文件 ([d85f19a](https://github.com/wangeditor-team/wangEditor/commit/d85f19a097070cc803efaaf2363d644264737fd6))
+* 添加新的测试 ([3a1ec8b](https://github.com/wangeditor-team/wangEditor/commit/3a1ec8b11ac07018239ca7e4ab1ac3941b7ac25f))
+* 添加新的测试用例 ([af512d7](https://github.com/wangeditor-team/wangEditor/commit/af512d749ba6566a39ba69ccb32ba3db99bae64b))
+
 # [4.3.0](https://github.com/wangeditor-team/wangEditor/compare/v4.2.2...v4.3.0) (2020-11-09)
 
 
@@ -396,7 +436,7 @@
 * ts 类型问题 ([2d85266](https://github.com/wangeditor-team/wangEditor/commit/2d85266a788c36c668d79601d2ac65efdec09847))
 * 修改 css class 名称 ([9ff1ffd](https://github.com/wangeditor-team/wangEditor/commit/9ff1ffdc7be476511f5cbef260c581f6e3c77afe))
 * 修改 css class 名称 ([3bec8a2](https://github.com/wangeditor-team/wangEditor/commit/3bec8a2ed49ee8f3226e34d83708684929a4b3cc))
-* 修改 css 替换style为空的时候，会有残留 ([6a56477](https://github.com/wangeditor-team/wangEditor/commit/6a564774a198bd450997250cfc869eaf7eab940f))
+* 修改 css 替换style为空的时候，会���残留 ([6a56477](https://github.com/wangeditor-team/wangEditor/commit/6a564774a198bd450997250cfc869eaf7eab940f))
 * 修改减少缩进的名称 和 icon 统一 ([37d965a](https://github.com/wangeditor-team/wangEditor/commit/37d965adbe3cb25615e506d1fdf1e3db054ae8f2))
 * 修改字体颜色 ([2a84f0b](https://github.com/wangeditor-team/wangEditor/commit/2a84f0be1d8a6ff17294c8c0e5ae5cc8d7eff6b7))
 * 函数添加返回值 ([2fd126a](https://github.com/wangeditor-team/wangEditor/commit/2fd126a8d3b557e0cbe0ea518ae06c25eef4c43a))

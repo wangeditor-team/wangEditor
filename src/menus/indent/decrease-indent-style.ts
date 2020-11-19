@@ -3,7 +3,7 @@
  * @author tonghan
  */
 
-import $, { DomElement } from '../../utils/dom-core'
+import { DomElement } from '../../utils/dom-core'
 import { IndentationOptions } from '../../config/menus'
 
 function decreaseIndentStyle($node: DomElement, options: IndentationOptions): void {

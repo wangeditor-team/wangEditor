@@ -7,8 +7,8 @@ import DropListMenu from '../menu-constructors/DropListMenu'
 import $ from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
-import { getRandomCode } from '@/utils/util'
-import { TCatalog } from '@/config/events'
+import { getRandomCode } from '../../utils/util'
+import { TCatalog } from '../../config/events'
 
 class Head extends DropListMenu implements MenuActive {
     oldCatalogs: TCatalog[] | undefined

@@ -3,9 +3,9 @@
  * @author wangfupeng
  */
 
-import Editor from '@/editor'
-import { EMPTY_FN } from '@/utils/const'
-import { ResType } from '@/menus/img/upload-img'
+import Editor from '../editor/index'
+import { EMPTY_FN } from '../utils/const'
+import { ResType } from '../menus/img/upload-img'
 
 export type UploadImageHooksType = {
     before?: (
