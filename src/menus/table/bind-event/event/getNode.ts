@@ -3,7 +3,7 @@
  * @author lichunlin
  */
 
-import $, { DomElement } from '../../../../utils/dom-core'
+import $ from '../../../../utils/dom-core'
 import Editor from '../../../../editor/index'
 
 class getNode {

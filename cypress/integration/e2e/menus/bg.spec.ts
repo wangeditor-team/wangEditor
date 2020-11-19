@@ -14,6 +14,7 @@ describe('背景颜色', () => {
 
         if (result == null) return null
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [noop, r, g, b] = result.map(i => parseInt(i, 16))
 
         return `rgb(${r}, ${g}, ${b})`

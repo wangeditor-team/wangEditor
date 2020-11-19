@@ -4,7 +4,6 @@
  */
 
 import $, { DomElement } from '../utils/dom-core'
-import { UA } from '../utils/util'
 import Editor from './index'
 
 class Command {

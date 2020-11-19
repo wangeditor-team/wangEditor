@@ -4,7 +4,7 @@
  */
 
 import createEditor from '../fns/create-editor'
-import $, { DomElement } from '../../src/utils/dom-core'
+import $ from '../../src/utils/dom-core'
 
 const TEXT = '我是一行文字'
 const $SPAN = $(`<span>${TEXT}</span>`)
