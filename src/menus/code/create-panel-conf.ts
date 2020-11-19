@@ -3,13 +3,13 @@
  * @author lkw
  */
 
-import editor from '../../editor/index'
+import Editor from '../../editor/index'
 import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $, { DomElement } from '../../utils/dom-core'
 import isActive from './is-active'
 
-export default function (editor: editor, text: string, languageType: string): PanelConf {
+export default function (editor: Editor, text: string, languageType: string): PanelConf {
     // panel 中需要用到的id
     const inputIFrameId = getRandom('input-iframe')
     const languageId = getRandom('select')

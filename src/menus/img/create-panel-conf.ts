@@ -3,14 +3,14 @@
  * @author wangfupeng
  */
 
-import editor from '../../editor/index'
+import Editor from '../../editor/index'
 import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
 import UploadImg from './upload-img'
 import { imgRegex } from '../../utils/const'
 
-export default function (editor: editor): PanelConf {
+export default function (editor: Editor): PanelConf {
     const config = editor.config
     const uploadImg = new UploadImg(editor)
 

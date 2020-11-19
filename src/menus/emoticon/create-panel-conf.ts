@@ -3,12 +3,12 @@
  * @author liuwei
  */
 
-import editor from '../../editor/index'
+import Editor from '../../editor/index'
 import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import $ from '../../utils/dom-core'
 import { EmotionsType, EmotionsContentType } from '../../config/menus'
 
-export default function (editor: editor): PanelConf {
+export default function (editor: Editor): PanelConf {
     // 声明emotions数据结构
     const emotions: Array<EmotionsType> = editor.config.emotions
 
