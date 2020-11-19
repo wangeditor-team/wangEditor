@@ -110,7 +110,6 @@ class Head extends DropListMenu implements MenuActive {
                 text,
             })
         })
-        console.log('计算')
         // 旧目录和新目录对比是否相等，不相等则运行回调并保存新目录到旧目录变量，以方便下一次对比
         if (JSON.stringify(this.oldCatalogs) !== JSON.stringify(catalogs)) {
             this.oldCatalogs = catalogs
