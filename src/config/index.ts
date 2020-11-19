@@ -59,7 +59,7 @@ export type ConfigType = {
     customUploadImg: Function | null
     customAlert: Function | null
 
-    onCatalogChange: Function
+    onCatalogChange: Function | null
 
     lang: string
     languages: typeof langConfig

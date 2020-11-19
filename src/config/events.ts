@@ -18,5 +18,5 @@ export default {
     onfocus: EMPTY_FN,
     onblur: EMPTY_FN,
 
-    onCatalogChange: (list: TCatalog) => {},
+    onCatalogChange: null,
 }

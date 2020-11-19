@@ -11,6 +11,7 @@ import { getRandomCode } from '@/utils/util'
 import { TCatalog } from '@/config/events'
 
 class Head extends DropListMenu implements MenuActive {
+    oldCatalogs: TCatalog[] | undefined
     constructor(editor: Editor) {
         const $elem = $('<div class="w-e-menu"><i class="w-e-icon-header"></i></div>')
         const dropListConf = {
@@ -34,8 +35,14 @@ class Head extends DropListMenu implements MenuActive {
             },
         }
         super($elem, editor, dropListConf)
-        this.addListenerCatalog() // 监听文本框编辑时的大纲信息
-        this.getCatalogs() // 初始有值的情况获取一遍大纲信息
+
+        const onCatalogChange = editor.config.onCatalogChange
+        // 未配置目录change监听回调时不运行下面操作
+        if (onCatalogChange) {
+            this.oldCatalogs = []
+            this.addListenerCatalog() // 监听文本框编辑时的大纲信息
+            this.getCatalogs() // 初始有值的情况获取一遍大纲信息
+        }
     }
 
     /**
@@ -83,6 +90,7 @@ class Head extends DropListMenu implements MenuActive {
     private getCatalogs() {
         const editor = this.editor
         const $textElem = this.editor.$textElem
+        const onCatalogChange = editor.config.onCatalogChange
         const elems = $textElem.find('h1,h2,h3,h4,h5')
         const catalogs: TCatalog[] = []
         elems.forEach((elem, index) => {
@@ -94,14 +102,20 @@ class Head extends DropListMenu implements MenuActive {
                 id = getRandomCode()
                 $elem.attr('id', id)
             }
-
+            // 标题为空的情况不生成目录
+            if (!text) return
             catalogs.push({
                 tag,
                 id,
                 text,
             })
         })
-        editor.config.onCatalogChange(catalogs)
+        console.log('计算')
+        // 旧目录和新目录对比是否相等，不相等则运行回调并保存新目录到旧目录变量，以方便下一次对比
+        if (JSON.stringify(this.oldCatalogs) !== JSON.stringify(catalogs)) {
+            this.oldCatalogs = catalogs
+            onCatalogChange && onCatalogChange(catalogs)
+        }
     }
 
     /**
