@@ -110,7 +110,7 @@ class Text {
         const html = this.html()
         const $placeholder = this.editor.$textContainerElem.find('.placeholder')
         $placeholder.hide()
-        if (!html || html === '<p><br></p>' || html === ' ') $placeholder.show()
+        if (!html || html === ' ') $placeholder.show()
     }
 
     /**
