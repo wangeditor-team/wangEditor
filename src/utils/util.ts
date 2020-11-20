@@ -212,3 +212,11 @@ export function deepClone<T>(data: T): T {
 export function toArray<T>(data: T) {
     return Array.prototype.slice.call(data)
 }
+
+/**
+ * 唯一id生成
+ * @param length 随机数长度
+ */
+export function getRandomCode() {
+    return Math.random().toString(36).slice(-5)
+}
