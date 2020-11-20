@@ -1,3 +1,22 @@
+# [4.5.0](https://github.com/wangeditor-team/wangEditor/compare/v4.4.2...v4.5.0) (2020-11-20)
+
+
+### Bug Fixes
+
+* console去掉 ([d49f3d3](https://github.com/wangeditor-team/wangEditor/commit/d49f3d3c0ca3f17fe848390c9965270220ead9f7))
+* fileName 去掉随机数 ([d7a3a34](https://github.com/wangeditor-team/wangEditor/commit/d7a3a34a3832135b07f2c383de6011b5829a875b))
+* online改成catalog ([ba43299](https://github.com/wangeditor-team/wangEditor/commit/ba4329990f2fd58ffb062678496997c52c9b9b2d))
+* server rm shell ([565ddb3](https://github.com/wangeditor-team/wangEditor/commit/565ddb3f345cf8e0900e7fa71809785193235928))
+* 优化运行机制 ([900f7dd](https://github.com/wangeditor-team/wangEditor/commit/900f7dd17d69973469bcaae8429c521c43896045))
+* 引用路径 ([573fd4a](https://github.com/wangeditor-team/wangEditor/commit/573fd4a48306ea4d5f39b56f84a93d967057a15a))
+* 新增API滚动到指定标题 ([3772ff0](https://github.com/wangeditor-team/wangEditor/commit/3772ff08b1d5e853cd7a6588fde487ff26ae0449))
+* 类型引用位置问题 ([3922c8d](https://github.com/wangeditor-team/wangEditor/commit/3922c8d06286b15de643956d924dd6dcf1e3c827))
+
+
+### Features
+
+* 添加大纲配置及demo ([99b12f9](https://github.com/wangeditor-team/wangEditor/commit/99b12f9c0b1ade3b2810828b8b5c35e65dcebd43))
+
 ## [4.4.2](https://github.com/wangeditor-team/wangEditor/compare/v4.4.1...v4.4.2) (2020-11-19)
 
 
