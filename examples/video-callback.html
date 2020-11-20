@@ -26,6 +26,13 @@
         var E = window.wangEditor
         var editor = new E('#div1')
 
+        // 测试如果输入'测试'，返回false，停止插入
+        editor.config.onlineVideoCheck = function (video) {
+            if (video === '测试') return;
+
+            return video;
+        }
+
         editor.config.onlineVideoCallback = function (video) {
             console.log('video', video)
         }

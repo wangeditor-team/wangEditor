@@ -70,6 +70,7 @@ export type ConfigType = {
 
     focus: boolean
 
+    onlineVideoCheck: Function
     onlineVideoCallback: Function
 }
 

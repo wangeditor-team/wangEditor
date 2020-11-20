@@ -57,9 +57,8 @@ export default function (editor: editor, video: string): PanelConf {
                             // 执行插入视频
                             const $video = $('#' + inputIFrameId)
                             let video = $video.val().trim()
-
-                            // 视频为空，则不插入
-                            if (!video) return
+                            // 对当前用户插入的内容进行判断，插入为空，或者返回false，都停止插入
+                            if (!editor.config.onlineVideoCheck(video)) return
 
                             insertVideo(video)
 
