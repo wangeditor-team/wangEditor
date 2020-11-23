@@ -14,14 +14,12 @@
         wangEditor getJSON
     </p>
     <div id="div1">
-        <p>我是一行文字</p>
-        <p>我是一行<b>这里加粗</b>文字</p>
-        <p>我是一行<a href="123" target="_blank">链接</a>文字</p>
-        <p><img src="https://www.tslang.cn/assets/images/fork_me_ribbon.svg" style="width: 200px;" /></p>
+        
     </div>
 
     <button onclick="setJsonOne()">setJSON</button>
     <button onclick="setJsonTwo()">setJSON（自定义 JSON）</button>
+    <button onclick="getJson()">getJSON</button>
 
     <script src="../dist/wangEditor.js"></script>
     <script>
@@ -34,7 +32,14 @@
 
         console.log(editor.txt.getJSON())
         let myJson = editor.txt.getJSON()
+
+        function getJson(){
+            myJson = editor.txt.getJSON()
+            console.log(myJson, JSON.stringify(myJson))
+        }
+
         function setJsonOne() {
+            console.log(myJson)
             editor.txt.setJSON(myJson)
         }
 

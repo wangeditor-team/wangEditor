@@ -176,7 +176,8 @@ class Text {
      * @param nodeList json格式
      */
     public setJSON(nodeList: NodeListType): void {
-        const html = getHtmlByNodeList(nodeList).children()
+        const html = getHtmlByNodeList(nodeList)
+        console.log('long', html)
         const editor = this.editor
         const $textElem = editor.$textElem
         // 没有获取到元素的情况
