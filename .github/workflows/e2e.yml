@@ -2,33 +2,40 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 # github actions 中文文档 https://docs.github.com/cn/actions/getting-started-with-github-actions
 
-name: build
+name: Cypress tests
 
 on:
   push:
-    branches: [ dev, master ]
+    branches:
+      - 'master'
+      - 'dev'
+      - 'feature-*'
+      - 'fix-*'
+      - 'hotfix-*'
     paths:
       - '.github/workflows/*'
       - 'src/**'
       - 'test/**'
       - 'examples/**'
       - 'build/**'
-      - 'server/**' # 暂时用不到，先留着吧，后面会加关于 server 的处理
+      - 'cypress/**'
 
 jobs:
-  build:
+  test-e2e:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x]
-
+    container: cypress/browsers:node12.13.0-chrome78-ff70
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm i
-    - run: npm test
-    - run: npm run build --if-present
+    - name: Install dependencies
+      run: npm install
+    - name: Run build
+      run: npm run build:dev   
+    - uses: cypress-io/github-action@v2
+      with:
+        browser: chrome
+        start: npm run example
+        wait-on: 'http://localhost:8881/examples/index.html'
