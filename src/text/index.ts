@@ -176,7 +176,7 @@ class Text {
      * @param nodeList json格式
      */
     public setJSON(nodeList: NodeListType): void {
-        const html = getHtmlByNodeList(nodeList)
+        const html = getHtmlByNodeList(nodeList).children()
         console.log('long', html)
         const editor = this.editor
         const $textElem = editor.$textElem

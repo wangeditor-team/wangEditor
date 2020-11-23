@@ -20,6 +20,7 @@
     <button onclick="setJsonOne()">setJSON</button>
     <button onclick="setJsonTwo()">setJSON（自定义 JSON）</button>
     <button onclick="getJson()">getJSON</button>
+    <button onclick="setTable()">setJSON Table</button>
 
     <script src="../dist/wangEditor.js"></script>
     <script>
@@ -73,6 +74,11 @@
                     ]
                 }
             ])
+        }
+
+        function setTable(){
+            let tableJson = [{"tag":"p","attrs":[],"children":["setJSON表格设置成功"]},{"tag":"table","attrs":[{"name":"border","value":"0"},{"name":"width","value":"100%"},{"name":"cellpadding","value":"0"},{"name":"cellspacing","value":"0"}],"children":[{"tag":"tbody","attrs":[],"children":[{"tag":"tr","attrs":[],"children":[{"tag":"th","attrs":[],"children":["1"]},{"tag":"th","attrs":[],"children":["2"]}]},{"tag":"tr","attrs":[],"children":[{"tag":"td","attrs":[],"children":["3"]},{"tag":"td","attrs":[],"children":["2"]}]}]}]},{"tag":"p","attrs":[],"children":[{"tag":"br","attrs":[],"children":[]}]}]
+            editor.txt.setJSON(tableJson)
         }
     </script>
 </body>
