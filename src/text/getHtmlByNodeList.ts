@@ -8,10 +8,10 @@ import { NodeListType } from './getChildrenJSON'
 
 function getHtmlByNodeList(
     nodeList: NodeListType,
-    $parent: Node = document.createElement('div')
+    parent: Node = document.createElement('div')
 ): DomElement {
     // 设置一个父节点存储所有子节点
-    let $root = $parent
+    let root = parent
 
     // 遍历节点JSON
     nodeList.forEach(item => {
@@ -34,9 +34,9 @@ function getHtmlByNodeList(
                 getHtmlByNodeList(item.children, elem.getRootNode())
             }
         }
-        elem && $root.appendChild(elem)
+        elem && root.appendChild(elem)
     })
-    return $($root)
+    return $(root)
 }
 
 export default getHtmlByNodeList
