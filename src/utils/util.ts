@@ -220,3 +220,20 @@ export function toArray<T>(data: T) {
 export function getRandomCode() {
     return Math.random().toString(36).slice(-5)
 }
+
+/**
+ * hex color 转换成 rgb
+ * @param hex string
+ */
+export function hexToRgb(hex: string) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+
+    if (result == null) return null
+
+    const colors = result.map(i => parseInt(i, 16))
+    const r = colors[1]
+    const g = colors[2]
+    const b = colors[3]
+
+    return `rgb(${r}, ${g}, ${b})`
+}

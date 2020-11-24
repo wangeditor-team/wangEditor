@@ -25,6 +25,9 @@ function deleteToKeepP(editor: Editor, deleteUpEvents: Function[], deleteDownEve
             $textElem.append($p)
             editor.selection.createRangeByElem($p, false, true)
             editor.selection.restoreSelection()
+            // 设置折叠后的光标位置，在firebox等浏览器下
+            // 光标设置在end位置会自动换行
+            editor.selection.moveCursor($p.getNode(), 0)
         }
     }
     deleteUpEvents.push(upFn)

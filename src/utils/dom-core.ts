@@ -573,8 +573,19 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     /**
      * 获取当前元素节点
      */
-    getNode(): Node {
-        const elem = this.elems[0]
+    /**
+     * 根据元素位置获取元素节点（默认获取0位置的节点）
+     * @param n 元素节点位置
+     */
+    getNode(n?: number): Node {
+        let elem: Node
+
+        if (n) {
+            elem = this.elems[n]
+        } else {
+            elem = this.elems[0]
+        }
+
         return elem
     }
 
@@ -683,7 +694,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     }
 
     /**
-     * 查找父元素，知道满足 selector 条件
+     * 查找父元素，直到满足 selector 条件
      * @param selector css 选择器
      * @param curElem 从哪个元素开始查找，默认为当前元素
      */
@@ -705,6 +716,31 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
 
         // 继续查找，递归
         return this.parentUntil(selector, parent)
+    }
+
+    /**
+     * 查找父元素，直到满足 selector 条件,或者 到达 编辑区域容器以及菜单栏容器
+     * @param selector css 选择器
+     * @param curElem 从哪个元素开始查找，默认为当前元素
+     */
+    parentUntilEditor(selector: string, editor: Editor, curElem?: HTMLElement): DomElement | null {
+        const elem = curElem || this.elems[0]
+        if ($(elem).equal(editor.$textContainerElem) || $(elem).equal(editor.$toolbarElem)) {
+            return null
+        }
+
+        const parent = elem.parentElement
+        if (parent === null) {
+            return null
+        }
+
+        if (parent.matches(selector)) {
+            // 找到，并返回
+            return $(parent)
+        }
+
+        // 继续查找，递归
+        return this.parentUntilEditor(selector, editor, parent)
     }
 
     /**
@@ -738,7 +774,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     }
 
     /**
-     * 将该元素插入到某个元素后面
+     * 将该元素插入到selector元素后面
      * @param selector css 选择器
      */
     insertAfter(selector: string | DomElement): DomElement {
