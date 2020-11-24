@@ -37,7 +37,29 @@ class FontStyle extends DropListMenu implements MenuActive {
      */
     public command(value: string): void {
         const editor = this.editor
+        const isEmptySelection = editor.selection.isSelectionEmpty()
+
+        const $selectionElem = editor.selection.getSelectionContainerElem()?.elems[0]
+        const isFont = $selectionElem?.nodeName.toLowerCase() !== 'p'
+        const isSameValue = $selectionElem?.getAttribute('face') === value
+
+        if (isEmptySelection) {
+            if (isFont && !isSameValue) {
+                const $elems = editor.selection.getSelectionRangeTopNodes(editor)
+                editor.selection.createRangeByElem($elems[0])
+                editor.selection.moveCursor($elems[0].elems[0])
+            }
+            // 插入空白选区
+            editor.selection.createEmptyRange()
+        }
+
         editor.cmd.do('fontName', value)
+
+        if (isEmptySelection) {
+            // 需要将选区范围折叠起来
+            editor.selection.collapseRange()
+            editor.selection.restoreSelection()
+        }
     }
 
     /**
