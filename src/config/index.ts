@@ -45,6 +45,7 @@ export type ConfigType = {
     zIndexFullScreen: number
     showFullScreen: boolean
     showLinkImg: boolean
+    uploadImgAccept: string[]
     uploadImgServer: string
     uploadImgShowBase64: boolean
     uploadImgMaxSize: number
