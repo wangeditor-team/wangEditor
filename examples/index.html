@@ -20,8 +20,6 @@
         </p>
     </div>
 
-    <div id="div2"></div>
-
     <script src="../dist/wangEditor.js"></script>
     <script>
         // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
@@ -44,10 +42,6 @@
 
         editor.config.showFullScreen = true
         editor.create()
-
-        var editor2 = new E("#div2")
-        editor2.config.showFullScreen = true
-        editor2.create()
     </script>
 </body>
 
