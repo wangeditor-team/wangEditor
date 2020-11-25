@@ -60,6 +60,7 @@ export default function (editor: Editor): PanelConf {
 
     // tabs 配置 -----------------------------------------
     const fileMultipleAttr = config.uploadImgMaxLength === 1 ? '' : 'multiple="multiple"'
+    const accepts: string = config.uploadImgAccept.map((item: string) => `image/${item}`).join(',')
     const tabsConf: PanelTabConf[] = [
         // first tab
         {
@@ -71,7 +72,7 @@ export default function (editor: Editor): PanelConf {
                         <i class="w-e-icon-upload2"></i>
                     </div>
                     <div style="display:none;">
-                        <input id="${upFileId}" type="file" ${fileMultipleAttr} accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>
+                        <input id="${upFileId}" type="file" ${fileMultipleAttr} accept="${accepts}"/>
                     </div>
                 </div>`,
             // 事件绑定
