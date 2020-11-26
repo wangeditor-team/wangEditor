@@ -6,7 +6,6 @@
 import Editor from '../../editor/index'
 import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
-import { statusType } from '../../utils/const'
 import $, { DomElement } from '../../utils/dom-core'
 import isActive from './is-active'
 
@@ -80,7 +79,7 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
             return true
         } else {
             //用户未能通过开发者的校验，开发者希望我们提示这一字符串
-            editor.config.customAlert(check, statusType.warning)
+            editor.config.customAlert(check, 'warning')
         }
         return false
     }

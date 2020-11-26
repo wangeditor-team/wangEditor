@@ -5,7 +5,6 @@
 
 import Editor from '../../editor/index'
 import { arrForEach, forEach } from '../../utils/util'
-import { statusType } from '../../utils/const'
 import post from '../../editor/upload/upload-core'
 import Progress from '../../editor/upload/progress'
 
@@ -47,7 +46,7 @@ class UploadImg {
         img.onerror = () => {
             config.customAlert(
                 t('插入图片错误'),
-                statusType.error,
+                'error',
                 `wangEditor: ${t('插入图片错误')}，${t('图片链接')} "${src}"，${t('下载链接失败')}`
             )
             img = null
@@ -139,14 +138,11 @@ class UploadImg {
         })
         // 抛出验证信息
         if (errInfos.length) {
-            config.customAlert(
-                `${t('图片验证未通过')}: \n` + errInfos.join('\n'),
-                statusType.warning
-            )
+            config.customAlert(`${t('图片验证未通过')}: \n` + errInfos.join('\n'), 'warning')
             return
         }
         if (resultFiles.length > maxLength) {
-            config.customAlert(t('一次最多上传') + maxLength + t('张图片'), statusType.warning)
+            config.customAlert(t('一次最多上传') + maxLength + t('张图片'), 'warning')
             return
         }
 
@@ -206,7 +202,7 @@ class UploadImg {
                     if (hooks.before) return hooks.before(xhr, editor, resultFiles)
                 },
                 onTimeout: xhr => {
-                    config.customAlert(t('上传图片超时'), statusType.error)
+                    config.customAlert(t('上传图片超时'), 'error')
                     if (hooks.timeout) hooks.timeout(xhr, editor)
                 },
                 onProgress: (percent, e) => {
@@ -219,7 +215,7 @@ class UploadImg {
                 onError: xhr => {
                     config.customAlert(
                         t('上传图片错误'),
-                        statusType.error,
+                        'error',
                         `${t('上传图片错误')}，${t('服务器返回状态')}: ${xhr.status}`
                     )
                     if (hooks.error) hooks.error(xhr, editor)
@@ -227,7 +223,7 @@ class UploadImg {
                 onFail: (xhr, resultStr) => {
                     config.customAlert(
                         t('上传图片失败'),
-                        statusType.error,
+                        'error',
                         t('上传图片返回结果错误') + `，${t('返回结果')}: ` + resultStr
                     )
                     if (hooks.fail) hooks.fail(xhr, editor, resultStr)
@@ -242,7 +238,7 @@ class UploadImg {
                         // 返回格式不对，应该为 { errno: 0, data: [...] }
                         config.customAlert(
                             t('上传图片失败'),
-                            statusType.error,
+                            'error',
                             `${t('上传图片返回结果错误')}，${t('返回结果')} errno=${result.errno}`
                         )
                         if (hooks.fail) hooks.fail(xhr, editor, result)
@@ -261,7 +257,7 @@ class UploadImg {
             })
             if (typeof xhr === 'string') {
                 // 上传被阻止
-                config.customAlert(xhr, statusType.error)
+                config.customAlert(xhr, 'error')
             }
 
             // 阻止以下代码执行，重要！！！

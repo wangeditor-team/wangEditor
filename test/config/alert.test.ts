@@ -4,10 +4,9 @@
  */
 
 import events from '../../src/config/events'
-import { statusType } from '../../src/utils/const'
 
 test('customAlert 事件', () => {
     window.alert = jest.fn()
-    events.customAlert('customAlert', statusType.success)
+    events.customAlert('customAlert', 'success')
     expect(window.alert).toHaveBeenCalledTimes(1)
 })

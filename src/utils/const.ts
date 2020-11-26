@@ -9,11 +9,3 @@ export const imgRegex = /\.(gif|jpg|jpeg|png)$/i
 
 //用于校验是否为url格式字符串
 export const urlRegex = /^(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-.,@?^=%&amp;:/~+#]*[\w\-@?^=%&amp;/~+#])?/
-
-//用于基础状态码
-export const statusType = {
-    success: 'success',
-    info: 'info',
-    warning: 'warning',
-    error: 'error',
-}
