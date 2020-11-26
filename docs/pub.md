@@ -2,19 +2,30 @@
 
 ## 技术方案
 
+### release-t
+
 `v4.1.0` 版本开始，采用 [release-it](https://github.com/release-it/release-it) 来执行发布操作。
 不过，release-it 仅仅用来创建 tag 并 push ，真正 publish 到 npm 是在 github actions 中实现的，代码见 `.github/workflows/npm-publish.yml` 。
 
-## set upstream
+### set upstream
 
 切换到 master 分支，执行 `git branch --set-upstream-to=origin/master master`
+
+## 明确发布的范围
+
+打开以下页面，分别找到“待发布”的任务
+
+- bugs https://github.com/wangeditor-team/wangEditor/projects/1
+- feature https://www.teambition.com/project/5eb8b4e2ce8c00002237bb81/tasks/view/all
+
+要确定这些任务的 pr ，都已经被合并到了 `dev` 分支。否则，终止发布，联系任务负责人确认。
 
 ## 合并代码
 
 到 https://github.com/wangeditor-team/wangEditor/pulls 创建 pr ，分别将以下分支，合并到 `master` 分支。
 
 - `dev`
-- `feature-third-contribution`
+- `feature-third-contribution` （其他人贡献的代码，会合并到这里）
 
 然后，等待 master 分支的 [github actions](https://github.com/wangeditor-team/wangEditor/actions) 执行完成，主要 jest 和 cypress 测试的流程。
 
@@ -51,3 +62,9 @@
 ## 回归测试
 
 发布完成之后，访问 http://106.55.153.217:8881/publish-npm-test/ 即可得到最新版本的 demo 。
+
+## 修改任务状态
+
+将任务列表中，“待发布”的任务，拖拽到“已发布”阶段。并通知任务负责人。
+
+如果修改的是 issue ，则回复“已修复，请更新到最新版本”，并关闭。
