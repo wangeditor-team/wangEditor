@@ -34,6 +34,9 @@ describe('Editor init', () => {
         cy.getEditor().then((editor: Editor) => {
             editor.config.onfocus = fn
 
+            //先失焦
+            cy.get('body').children().eq(0).click()
+
             cy.get('#div1').find('.w-e-text-container').children().first().as('Editable').click()
 
             cy.get('@foucsHandler').should('be.called')
