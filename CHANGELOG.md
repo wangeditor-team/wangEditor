@@ -1,3 +1,20 @@
+# [4.6.0](https://github.com/wangeditor-team/wangEditor/compare/v4.5.0...v4.6.0) (2020-11-25)
+
+
+### Bug Fixes
+
+* setJSON的表格不成功的问题解决 ([f57395b](https://github.com/wangeditor-team/wangEditor/commit/f57395b3445fe05debdeaf4eaae7ddd1ce44da1e))
+* uploadImgAccept 类型 ([18b7a42](https://github.com/wangeditor-team/wangEditor/commit/18b7a42e02a6079502d3ce7583524f3f391a082f))
+* 去掉console.log ([6197747](https://github.com/wangeditor-team/wangEditor/commit/6197747700ce99616831624688f6395b4baaae9b))
+* 变量名优化 ([5d20096](https://github.com/wangeditor-team/wangEditor/commit/5d20096319a63c11bd9071dfe107245fac632597))
+* 完善了设置字体大小、样式、背景、文字颜色等菜单的功能 ([3072543](https://github.com/wangeditor-team/wangEditor/commit/3072543efdff2cb36f594ac396eb6c2c61815d13))
+* 添加自定义setJSON表格按钮 ([7bd76c6](https://github.com/wangeditor-team/wangEditor/commit/7bd76c6ebab4011e40fab4d78fa59c74903df7b6))
+
+
+### Features
+
+* 🎸 support custom accept for image [#1655](https://github.com/wangeditor-team/wangEditor/issues/1655) ([5af4dcd](https://github.com/wangeditor-team/wangEditor/commit/5af4dcd505a41a3f4fbe6b1e885c0005bcf887d8))
+
 # [4.5.0](https://github.com/wangeditor-team/wangEditor/compare/v4.4.2...v4.5.0) (2020-11-20)
 
 
