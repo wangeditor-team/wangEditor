@@ -2,7 +2,10 @@
 
 ## 技术方案
 
-### release-t
+- release-it 发布 tag 和 ChangeLog
+- github actions 监控 tag 提交，自动发布到 npm
+
+### release-it
 
 `v4.1.0` 版本开始，采用 [release-it](https://github.com/release-it/release-it) 来执行发布操作。
 不过，release-it 仅仅用来创建 tag 并 push ，真正 publish 到 npm 是在 github actions 中实现的，代码见 `.github/workflows/npm-publish.yml` 。
