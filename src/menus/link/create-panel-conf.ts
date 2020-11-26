@@ -79,7 +79,7 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
             return true
         } else {
             //用户未能通过开发者的校验，开发者希望我们提示这一字符串
-            alert(check)
+            editor.config.customAlert(check, 'warning')
         }
         return false
     }
@@ -95,18 +95,18 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                 title: editor.i18next.t('menus.panelMenus.link.链接'),
                 // 模板
                 tpl: `<div>
-                        <input 
-                            id="${inputTextId}" 
-                            type="text" 
-                            class="block" 
-                            value="${text}" 
+                        <input
+                            id="${inputTextId}"
+                            type="text"
+                            class="block"
+                            value="${text}"
                             placeholder="${editor.i18next.t('menus.panelMenus.link.链接文字')}"/>
                         </td>
-                        <input 
-                            id="${inputLinkId}" 
-                            type="text" 
-                            class="block" 
-                            value="${link}" 
+                        <input
+                            id="${inputLinkId}"
+                            type="text"
+                            class="block"
+                            value="${link}"
                             placeholder="${editor.i18next.t('如')} https://..."/>
                         </td>
                         <div class="w-e-button-container">
