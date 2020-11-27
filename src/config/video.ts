@@ -3,7 +3,7 @@
  * @author hutianhao
  */
 
-import { EMPTY_FN } from '@/utils/const'
+import { EMPTY_FN } from '../utils/const'
 
 export default {
     // 插入网络视频前的回调函数
