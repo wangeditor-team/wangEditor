@@ -7,6 +7,7 @@ import Editor from '../../src/editor'
 import createQuote from '../../src/menus/quote/create-quote-node'
 import $, { DomElement } from '../../src/utils/dom-core'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let editor: Editor
 
 test('单行引用', () => {

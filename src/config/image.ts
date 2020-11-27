@@ -3,9 +3,9 @@
  * @author wangfupeng
  */
 
-import Editor from '@/editor'
-import { EMPTY_FN } from '@/utils/const'
-import { ResType } from '@/menus/img/upload-img'
+import Editor from '../editor/index'
+import { EMPTY_FN } from '../utils/const'
+import { ResType } from '../menus/img/upload-img'
 
 export type UploadImageHooksType = {
     before?: (
@@ -30,6 +30,9 @@ export default {
 
     // 插入图片成功之后的回调函数
     linkImgCallback: EMPTY_FN,
+
+    // accept
+    uploadImgAccept: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
 
     // 服务端地址
     uploadImgServer: '',

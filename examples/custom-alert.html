@@ -10,14 +10,10 @@
 </head>
 
 <body>
-    <p>
-        wangEditor demo
-    </p>
+    <p>wangEditor demo</p>
     <div id="div1">
         <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
-        <p>
-            <img src="http://www.wangeditor.com/imgs/logo.jpeg"/>
-        </p>
+        <p><img src="http://www.wangeditor.com/imgs/logo.jpeg"/></p>
     </div>
 
     <script src="../dist/wangEditor.js"></script>
@@ -26,21 +22,15 @@
         var E = window.wangEditor
         var editor = new E('#div1')
 
-        editor.config.onchange = function (newHtml) {
-            console.log('onchange', newHtml)
+        editor.config.customAlert = function (str, code, err) {
+            console.log('customAlert', str, code, err)
+            alert(`str:${str}, code:${code}, err: ${err}`)
         }
-        // editor.config.onblur = function (newHtml) {
-        //     console.log('onblur', newHtml)
-        // }
-        // editor.config.onfocus = function (newHtml) {
-        //     console.log('onfocus', newHtml)
-        // }
-        // editor.config.fontNames = [
-        //     '宋体',
-        //     '微软雅黑',
-        // ]
 
-        editor.config.showFullScreen = true
+        editor.config.linkCheck = () => {
+            return false
+        }
+
         editor.create()
     </script>
 </body>

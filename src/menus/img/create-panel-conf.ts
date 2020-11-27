@@ -3,14 +3,14 @@
  * @author wangfupeng
  */
 
-import editor from '../../editor/index'
+import Editor from '../../editor/index'
 import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
 import UploadImg from './upload-img'
 import { imgRegex } from '../../utils/const'
 
-export default function (editor: editor): PanelConf {
+export default function (editor: Editor): PanelConf {
     const config = editor.config
     const uploadImg = new UploadImg(editor)
 
@@ -44,22 +44,24 @@ export default function (editor: editor): PanelConf {
         } else if (check === true) {
             //用户通过了开发者的校验
             if (flag === false) {
-                alert(
+                config.customAlert(
                     `${t('您插入的网络图片无法识别', 'validate.')}，${t(
                         '请替换为支持的图片类型',
                         'validate.'
-                    )}：jpg | png | gif ...`
+                    )}：jpg | png | gif ...`,
+                    'warning'
                 )
             } else return true
         } else {
             //用户未能通过开发者的校验，开发者希望我们提示这一字符串
-            alert(check)
+            config.customAlert(check, 'error')
         }
         return false
     }
 
     // tabs 配置 -----------------------------------------
     const fileMultipleAttr = config.uploadImgMaxLength === 1 ? '' : 'multiple="multiple"'
+    const accepts: string = config.uploadImgAccept.map((item: string) => `image/${item}`).join(',')
     const tabsConf: PanelTabConf[] = [
         // first tab
         {
@@ -71,7 +73,7 @@ export default function (editor: editor): PanelConf {
                         <i class="w-e-icon-upload2"></i>
                     </div>
                     <div style="display:none;">
-                        <input id="${upFileId}" type="file" ${fileMultipleAttr} accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp"/>
+                        <input id="${upFileId}" type="file" ${fileMultipleAttr} accept="${accepts}"/>
                     </div>
                 </div>`,
             // 事件绑定

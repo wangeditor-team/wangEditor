@@ -1,3 +1,92 @@
+## [4.5.2](https://github.com/wangeditor-team/wangEditor/compare/v4.5.1...v4.5.2) (2020-11-27)
+
+
+### Bug Fixes
+
+* 错误提示类型优化 ([61cc9b4](https://github.com/wangeditor-team/wangEditor/commit/61cc9b4d5081ce7e0733753e138ae2ff4f157921))
+* 多实例全屏的问题 ([83f6b43](https://github.com/wangeditor-team/wangEditor/commit/83f6b43db87a4671d46d302f975a5e6bf7b8b070))
+* 去掉测试全屏的代码 ([03a3f81](https://github.com/wangeditor-team/wangEditor/commit/03a3f811a01255bb5aeb8f6a64985919df76e271))
+* 添加 custom alert 的 html 文档 ([baba963](https://github.com/wangeditor-team/wangEditor/commit/baba96388c819e8b51288fb8997d14998f3c7447))
+* 添加居中样式 ([8db384a](https://github.com/wangeditor-team/wangEditor/commit/8db384ab19987943e255b22fe77144c0be9ebf8a))
+* fix wrap wrap in firefox ([7ebdbbf](https://github.com/wangeditor-team/wangEditor/commit/7ebdbbf3dbccf5a83d02518698d74ef643a1576b))
+* fix: 某些情况下，无法成功粘贴 ([dbfe2eb](https://github.com/wangeditor-team/wangEditor/commit/dbfe2eb3db0426a22fe3296fa3e62c1dc44b6537)), closes [#2530](https://github.com/wangeditor-team/wangEditor/issues/2530) [#2530](https://github.com/wangeditor-team/wangEditor/issues/2530)
+* img 添加 重置 效果 ([10df1bb](https://github.com/wangeditor-team/wangEditor/commit/10df1bbcda00b723299a4935077a3636f4a09906))
+
+## [4.5.1](https://github.com/wangeditor-team/wangEditor/compare/v4.5.0...v4.5.1) (2020-11-26)
+
+
+### Bug Fixes
+
+* setJSON的表格不成功的问题解决 ([f57395b](https://github.com/wangeditor-team/wangEditor/commit/f57395b3445fe05debdeaf4eaae7ddd1ce44da1e))
+* uploadImgAccept 类型 ([18b7a42](https://github.com/wangeditor-team/wangEditor/commit/18b7a42e02a6079502d3ce7583524f3f391a082f))
+* 去掉console.log ([6197747](https://github.com/wangeditor-team/wangEditor/commit/6197747700ce99616831624688f6395b4baaae9b))
+* 变量名优化 ([5d20096](https://github.com/wangeditor-team/wangEditor/commit/5d20096319a63c11bd9071dfe107245fac632597))
+* 完善了设置字体大小、样式、背景、文字颜色等菜单的功能 ([3072543](https://github.com/wangeditor-team/wangEditor/commit/3072543efdff2cb36f594ac396eb6c2c61815d13))
+* 添加自定义setJSON表格按钮 ([7bd76c6](https://github.com/wangeditor-team/wangEditor/commit/7bd76c6ebab4011e40fab4d78fa59c74903df7b6))
+
+
+### Features
+
+* 🎸 support custom accept for image [#1655](https://github.com/wangeditor-team/wangEditor/issues/1655) ([5af4dcd](https://github.com/wangeditor-team/wangEditor/commit/5af4dcd505a41a3f4fbe6b1e885c0005bcf887d8))
+
+# [4.6.0](https://github.com/wangeditor-team/wangEditor/compare/v4.5.0...v4.6.0) (2020-11-25)
+
+
+### Bug Fixes
+
+* setJSON的表格不成功的问题解决 ([f57395b](https://github.com/wangeditor-team/wangEditor/commit/f57395b3445fe05debdeaf4eaae7ddd1ce44da1e))
+* uploadImgAccept 类型 ([18b7a42](https://github.com/wangeditor-team/wangEditor/commit/18b7a42e02a6079502d3ce7583524f3f391a082f))
+* 去掉console.log ([6197747](https://github.com/wangeditor-team/wangEditor/commit/6197747700ce99616831624688f6395b4baaae9b))
+* 变量名优化 ([5d20096](https://github.com/wangeditor-team/wangEditor/commit/5d20096319a63c11bd9071dfe107245fac632597))
+* 完善了设置字体大小、样式、背景、文字颜色等菜单的功能 ([3072543](https://github.com/wangeditor-team/wangEditor/commit/3072543efdff2cb36f594ac396eb6c2c61815d13))
+* 添加自定义setJSON表格按钮 ([7bd76c6](https://github.com/wangeditor-team/wangEditor/commit/7bd76c6ebab4011e40fab4d78fa59c74903df7b6))
+
+
+### Features
+
+* 🎸 support custom accept for image [#1655](https://github.com/wangeditor-team/wangEditor/issues/1655) ([5af4dcd](https://github.com/wangeditor-team/wangEditor/commit/5af4dcd505a41a3f4fbe6b1e885c0005bcf887d8))
+
+# [4.5.0](https://github.com/wangeditor-team/wangEditor/compare/v4.4.2...v4.5.0) (2020-11-20)
+
+
+### Bug Fixes
+
+* console去掉 ([d49f3d3](https://github.com/wangeditor-team/wangEditor/commit/d49f3d3c0ca3f17fe848390c9965270220ead9f7))
+* fileName 去掉随机数 ([d7a3a34](https://github.com/wangeditor-team/wangEditor/commit/d7a3a34a3832135b07f2c383de6011b5829a875b))
+* online改成catalog ([ba43299](https://github.com/wangeditor-team/wangEditor/commit/ba4329990f2fd58ffb062678496997c52c9b9b2d))
+* server rm shell ([565ddb3](https://github.com/wangeditor-team/wangEditor/commit/565ddb3f345cf8e0900e7fa71809785193235928))
+* 优化运行机制 ([900f7dd](https://github.com/wangeditor-team/wangEditor/commit/900f7dd17d69973469bcaae8429c521c43896045))
+* 引用路径 ([573fd4a](https://github.com/wangeditor-team/wangEditor/commit/573fd4a48306ea4d5f39b56f84a93d967057a15a))
+* 新增API滚动到指定标题 ([3772ff0](https://github.com/wangeditor-team/wangEditor/commit/3772ff08b1d5e853cd7a6588fde487ff26ae0449))
+* 类型引用位置问题 ([3922c8d](https://github.com/wangeditor-team/wangEditor/commit/3922c8d06286b15de643956d924dd6dcf1e3c827))
+
+
+### Features
+
+* 添加大纲配置及demo ([99b12f9](https://github.com/wangeditor-team/wangEditor/commit/99b12f9c0b1ade3b2810828b8b5c35e65dcebd43))
+
+## [4.4.2](https://github.com/wangeditor-team/wangEditor/compare/v4.4.1...v4.4.2) (2020-11-19)
+
+
+### Bug Fixes
+
+* [#2336](https://github.com/wangeditor-team/wangEditor/issues/2336) 重复截图粘贴到编辑区内,只会粘贴出第一次截图的图片 ([627c485](https://github.com/wangeditor-team/wangEditor/commit/627c4853e9b4e612084eaf9703c5c21cf65546fc))
+* [#2469](https://github.com/wangeditor-team/wangEditor/issues/2469) 火狐浏览器经过多次删除内容，重新添加内容 文章内容没有被p标签包裹 ([6c6e879](https://github.com/wangeditor-team/wangEditor/commit/6c6e879d5a0722634115c237fedc5e7e6d1a2519))
+* eslint 问题 ([5e918d6](https://github.com/wangeditor-team/wangEditor/commit/5e918d6850267f85c42903fbe494ace8e9586bb5))
+* 引用路径 ([01dc0ef](https://github.com/wangeditor-team/wangEditor/commit/01dc0ef0a1d4e613fd308a85472764edf5b54818))
+* 火狐中 getSelectionRangeTopNodes返回值 可能为undefined ([25a544a](https://github.com/wangeditor-team/wangEditor/commit/25a544a2e58de521f63e406aedd8493a36b41d98))
+* 直接按回车placeholder没有隐藏,只有回车2次以上才能隐藏 ([baa47ca](https://github.com/wangeditor-team/wangEditor/commit/baa47ca2c5a1064054490a829b8ed34ffd8c40f0))
+
+## [4.4.1](https://github.com/wangeditor-team/wangEditor/compare/v4.4.0...v4.4.1) (2020-11-18)
+
+
+### Bug Fixes
+
+* [#2301](https://github.com/wangeditor-team/wangEditor/issues/2301) zone.js Promise冲突问题 ([0f63a04](https://github.com/wangeditor-team/wangEditor/commit/0f63a0466f98ad9a183afbd3cb85160b1eb4b6a9))
+* [#2398](https://github.com/wangeditor-team/wangEditor/issues/2398) 自动聚焦 不触发 onfocus & 直接失焦不触发 onblur ([e3b39c6](https://github.com/wangeditor-team/wangEditor/commit/e3b39c6643cc2ab47909f692faad6a9c7c68e483))
+* 修复引用按钮高亮失效的问题 ([0e4a30e](https://github.com/wangeditor-team/wangEditor/commit/0e4a30e02cc02f54107c49597308d9665865c337))
+* 去除多余变量 ([e0f900d](https://github.com/wangeditor-team/wangEditor/commit/e0f900da4e465a061d1de48c85a7bbf782c9737d))
+
 # [4.4.0](https://github.com/wangeditor-team/wangEditor/compare/v4.3.0...v4.4.0) (2020-11-17)
 
 

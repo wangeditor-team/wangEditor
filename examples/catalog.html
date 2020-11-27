@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <p>
+        wangEditor demo
+    </p>
+    <div id="div1">
+        <h1>标题一</h1>
+        <p>
+            正文balabala
+        </p>
+        <h2>标题二</h2>
+        <p>
+            正文balabala
+        </p>
+        <h3>标题三</h3>
+        <p>
+            正文balabala
+        </p>
+        <h4>标题四</h4>
+        <p>
+            正文balabala
+        </p>
+        <h2>标题五</h2>
+        <p>
+            正文balabala
+        </p>
+        <h3>标题六</h3>
+        <p>
+            正文balabala
+        </p>
+        <h3>标题七</h3>
+        <p>
+            正文balabala
+        </p>
+    </div>
+
+    <h1>大纲</h1>
+    <div id="catalogBox"></div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        const E = window.wangEditor
+        const editor = new E('#div1')
+
+        editor.config.onCatalogChange = function (arr) {
+            // 大纲回调
+            console.log('onCatalogChange arr', arr)
+            const box = document.getElementById("catalogBox")
+            box.innerHTML = ''
+
+            let level = 1, levelObj = {
+                1: '',
+                2: '-',
+                3: '--'
+            }
+            arr.forEach((item, index) => {
+                // item 里有 tag:H1,H2,H3,H4,H5, text:标签内文本, id:唯一id
+
+                if (index > 0) {
+                    const prevLevelTag = arr[index - 1].tag,
+                        levelTag = arr[index].tag,
+                        currentTagNum = +levelTag.replace("H", ''),
+                        prevTagNum = prevLevelTag.replace("H", "");
+                    if (currentTagNum > prevTagNum) {
+                        if (currentTagNum <= 3) level++
+                    }
+                    if (currentTagNum < prevTagNum) level = 1
+                }
+
+                const p = document.createElement("p")
+                const a = document.createElement("a")
+                a.href = "javascript:void(0)"
+                a.innerText = levelObj[level] + item.text
+                a.onclick = function(){
+                    console.log('item.id', item.id)
+                    editor.scrollToHead(item.id)
+                }
+                p.appendChild(a)
+                box.appendChild(p)
+            })
+        }
+
+        editor.create()
+    </script>
+</body>
+
+</html>

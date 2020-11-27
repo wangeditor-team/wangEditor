@@ -804,6 +804,15 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
             parent: $node.offsetParent,
         }
     }
+
+    /**
+     * 从上至下进行滚动
+     * @param top 滚动的值
+     */
+    scrollTop(top: number): void {
+        const $node = this.elems[0]
+        $node.scrollTo({ top })
+    }
 }
 
 // new 一个对象

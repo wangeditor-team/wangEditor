@@ -6,7 +6,7 @@ function bindEvent(editor: Editor) {
         const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
         // 对quote的enter进行特殊处理
         //最后一行为<p><br></p>时再按会出跳出blockquote
-        if ($topSelectElem.getNodeName() === 'BLOCKQUOTE') {
+        if ($topSelectElem?.getNodeName() === 'BLOCKQUOTE') {
             // firefox下点击引用按钮会选中外容器<blockquote></blockquote>
             if ($selectElem.getNodeName() === 'BLOCKQUOTE') {
                 const selectNode = $selectElem.childNodes()?.getNode() as Node
