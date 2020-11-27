@@ -40,3 +40,42 @@ test('video 菜单：插入', () => {
     // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
     expect(editor.$textElem.html().indexOf(video)).toBeGreaterThan(0)
 })
+
+test('video 插入前检查', () => {
+    videoMenu.clickHandler()
+    let isRunOnlineVideoCheck = false
+    editor.config.onlineVideoCheck = function (video: string) {
+        isRunOnlineVideoCheck = true
+        return video
+    }
+
+    const panel = videoMenu.panel as Panel
+    const panelElem = panel.$container.elems[0]
+    const $panelElem = $(panelElem) // jquery 对象
+
+    // panel 里的 input 和 button 元素
+    const $btnInsert = $panelElem.find(":button[id^='btn-ok']") // id 以 'btn-ok' 的 button
+
+    $btnInsert.click()
+    // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+    expect(isRunOnlineVideoCheck).toBeTruthy
+})
+
+test('video 插入后回调', () => {
+    videoMenu.clickHandler()
+    let isRunOnlineVideoCallback = false
+    editor.config.onlineVideoCallback = function () {
+        isRunOnlineVideoCallback = true
+    }
+
+    const panel = videoMenu.panel as Panel
+    const panelElem = panel.$container.elems[0]
+    const $panelElem = $(panelElem) // jquery 对象
+
+    // panel 里的 input 和 button 元素
+    const $btnInsert = $panelElem.find(":button[id^='btn-ok']") // id 以 'btn-ok' 的 button
+
+    $btnInsert.click()
+    // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+    expect(isRunOnlineVideoCallback).toBeTruthy
+})
