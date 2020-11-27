@@ -44,16 +44,17 @@ export default function (editor: Editor): PanelConf {
         } else if (check === true) {
             //用户通过了开发者的校验
             if (flag === false) {
-                alert(
+                config.customAlert(
                     `${t('您插入的网络图片无法识别', 'validate.')}，${t(
                         '请替换为支持的图片类型',
                         'validate.'
-                    )}：jpg | png | gif ...`
+                    )}：jpg | png | gif ...`,
+                    'warning'
                 )
             } else return true
         } else {
             //用户未能通过开发者的校验，开发者希望我们提示这一字符串
-            alert(check)
+            config.customAlert(check, 'error')
         }
         return false
     }

@@ -58,7 +58,7 @@ export type ConfigType = {
     uploadImgTimeout: number
     withCredentials: boolean
     customUploadImg: Function | null
-    customAlert: Function | null
+    customAlert: Function
 
     onCatalogChange: Function | null
 
