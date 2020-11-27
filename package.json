@@ -49,6 +49,7 @@
     "@babel/preset-env": "^7.11.5",
     "@cypress/code-coverage": "^3.8.3",
     "@release-it/conventional-changelog": "^2.0.0",
+    "@testing-library/jest-dom": "^5.11.6",
     "@types/jest": "^25.2.1",
     "@types/jquery": "^3.3.38",
     "@types/lodash": "^4.14.150",

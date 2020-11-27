@@ -9,7 +9,7 @@ import { UA, toArray } from '../../../../utils/util'
 /**
  * 数据类型
  */
-function compileType(data: string) {
+export function compileType(data: string) {
     switch (data) {
         case 'childList':
             return 'node'
@@ -23,7 +23,7 @@ function compileType(data: string) {
 /**
  * 获取当前的文本内容
  */
-function compileValue(data: MutationRecord) {
+export function compileValue(data: MutationRecord) {
     switch (data.type) {
         case 'attributes':
             return (data.target as Element).getAttribute(data.attributeName as string) || ''
@@ -37,7 +37,7 @@ function compileValue(data: MutationRecord) {
 /**
  * addedNodes/removedNodes
  */
-function complieNodes(data: MutationRecord) {
+export function complieNodes(data: MutationRecord) {
     const temp: DiffNodes = {}
     if (data.addedNodes.length) {
         temp.add = toArray(data.addedNodes)
@@ -51,7 +51,7 @@ function complieNodes(data: MutationRecord) {
 /**
  * addedNodes/removedNodes 的相对位置
  */
-function compliePosition(data: MutationRecord) {
+export function compliePosition(data: MutationRecord) {
     let temp: TargetPosition
     if (data.previousSibling) {
         temp = {
