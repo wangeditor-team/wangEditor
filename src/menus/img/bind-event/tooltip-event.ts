@@ -12,6 +12,9 @@ import Editor from '../../../editor/index'
  */
 function createShowHideFn(editor: Editor) {
     let tooltip: Tooltip | null
+    const t = (text: string, prefix: string = ''): string => {
+        return editor.i18next.t(prefix + text)
+    }
 
     /**
      * 显示 tooltip
@@ -54,6 +57,16 @@ function createShowHideFn(editor: Editor) {
                 $elem: $('<span>100%</span>'),
                 onClick: (editor: Editor, $node: DomElement) => {
                     $node.attr('width', '100%')
+                    $node.removeAttr('height')
+
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
+            },
+            {
+                $elem: $(`<span>${t('重置')}</span>`),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    $node.removeAttr('width')
                     $node.removeAttr('height')
 
                     // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
