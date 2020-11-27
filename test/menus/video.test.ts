@@ -79,3 +79,28 @@ test('video 插入后回调', () => {
     // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
     expect(isRunOnlineVideoCallback).toBeTruthy
 })
+
+test('video onlineVideoCheck 返回false，禁止插入', () => {
+    videoMenu.clickHandler()
+    editor.config.onlineVideoCheck = function (video: string) {
+        if (video === '测试') return false
+        return video
+    }
+
+    const panel = videoMenu.panel as Panel
+    const panelElem = panel.$container.elems[0]
+    const $panelElem = $(panelElem) // jquery 对象
+
+    // panel 里的 input 和 button 元素
+    const $btnInsert = $panelElem.find(":button[id^='btn-ok']") // id 以 'btn-ok' 的 button
+    const $videoIFrame = $panelElem.find(":input[id^='input-iframe']")
+
+    // 插入链接
+    mockCmdFn(document)
+    const video = '测试'
+    $videoIFrame.val(video)
+    $btnInsert.click()
+
+    // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+    expect(editor.$textElem.html().indexOf(video)).toBe(-1)
+})
