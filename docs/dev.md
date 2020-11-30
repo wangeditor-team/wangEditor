@@ -28,7 +28,11 @@ git config user.email xxx@xxx.com
 
 ## 运行代码
 
-打开两个控制台，进入项目目录，分别运行 `npm run dev` 和 `npm run example` ，然后浏览器访问 `http://127.0.0.1:8881/examples/` 即可。
+```sh
+npm install
+npm run start
+# 浏览器访问 http://localhost:8881/examples/index.html
+```
 
 ## 创建分支
 
@@ -36,8 +40,10 @@ git config user.email xxx@xxx.com
 
 - `master` 主干分支，当前正在运行的代码。**不可**直接往 `master` 提交代码。
 - `dev` 开发分支，当前正在开发、但尚未发布的代码。**不可**直接往 `dev` 提交代码，但可以合并其他分支。
+- `server` 开发分支，用于部署 server 端功能，**不可**直接往 `server` 提交代码，但可以合并其他分支。
 - `feature-xxx` 开发新功能
 - `fix-xxx` bug 修复
+- `hotfix-xxx` 高优紧急 bug 修复，修复完需紧急上线
 - `doc-xxx` 仅修改文档，不修改代码
 
 例如你要开发一个图片上传的功能，可以根据 master 分支拉一个新的分支 `git checkout -b feature-upload-img`
@@ -56,7 +62,7 @@ git config user.email xxx@xxx.com
 写完代码之后，一定要进行自测：
 
 - 运行 `npm run test` 进行单元测试
-- 运行 `npm run dev` 和 `npm run example` 打开页面，进行功能测试
+- 运行 `npm start` 打开页面，进行功能测试
     - 自己的功能正常
     - 其他功能不影响
 
@@ -107,7 +113,15 @@ git config user.email xxx@xxx.com
 
 然后，一定要自己先看一看 PR 的 **Files Changed** ，看是否符合自己的预期，重要！！如果不符合预期，则把这个 PR 关掉，再重新修改代码，重新提交 PR 。
 
-拿到 Pull Request 的链接，然后
+将 Pull Request 的链接贴到任务卡片中，这样其他人就能看到了。
 
-- 如果你是开发小组成员，将 PR 链接粘贴到任务卡片中，并通知导师来代码走查
-- 如果你不是开发小组成员，可在 QQ 群 @ 通知群主，并给出 PR 链接
+## 剩下的步骤
+
+剩下的步骤，也非常重要，加入团队之后可以从团队知识库中找到说明。
+
+- 交叉测试
+- code review
+
+## 非团队人员贡献源码
+
+自己测试，自己 code review，具体参考 [contribution.md](./contribution.md)
