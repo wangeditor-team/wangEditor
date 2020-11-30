@@ -1,3 +1,17 @@
+## [4.5.2](https://github.com/wangeditor-team/wangEditor/compare/v4.5.1...v4.5.2) (2020-11-27)
+
+
+### Bug Fixes
+
+* 错误提示类型优化 ([61cc9b4](https://github.com/wangeditor-team/wangEditor/commit/61cc9b4d5081ce7e0733753e138ae2ff4f157921))
+* 多实例全屏的问题 ([83f6b43](https://github.com/wangeditor-team/wangEditor/commit/83f6b43db87a4671d46d302f975a5e6bf7b8b070))
+* 去掉测试全屏的代码 ([03a3f81](https://github.com/wangeditor-team/wangEditor/commit/03a3f811a01255bb5aeb8f6a64985919df76e271))
+* 添加 custom alert 的 html 文档 ([baba963](https://github.com/wangeditor-team/wangEditor/commit/baba96388c819e8b51288fb8997d14998f3c7447))
+* 添加居中样式 ([8db384a](https://github.com/wangeditor-team/wangEditor/commit/8db384ab19987943e255b22fe77144c0be9ebf8a))
+* fix wrap wrap in firefox ([7ebdbbf](https://github.com/wangeditor-team/wangEditor/commit/7ebdbbf3dbccf5a83d02518698d74ef643a1576b))
+* fix: 某些情况下，无法成功粘贴 ([dbfe2eb](https://github.com/wangeditor-team/wangEditor/commit/dbfe2eb3db0426a22fe3296fa3e62c1dc44b6537)), closes [#2530](https://github.com/wangeditor-team/wangEditor/issues/2530) [#2530](https://github.com/wangeditor-team/wangEditor/issues/2530)
+* img 添加 重置 效果 ([10df1bb](https://github.com/wangeditor-team/wangEditor/commit/10df1bbcda00b723299a4935077a3636f4a09906))
+
 ## [4.5.1](https://github.com/wangeditor-team/wangEditor/compare/v4.5.0...v4.5.1) (2020-11-26)
 
 
