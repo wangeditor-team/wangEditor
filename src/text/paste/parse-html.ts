@@ -146,7 +146,7 @@ function parseHtml(html: string, filterStyle: boolean = true, ignoreImg: boolean
             resultArr.push(html)
         },
         characters(str: string) {
-            if (/^\s*$/.test(str)) {
+            if (!str) {
                 return
             }
 
