@@ -128,7 +128,10 @@ export default function (editor: Editor): PanelConf {
                         placeholder="${t('图片链接')}"/>
                     </td>
                     <div class="w-e-button-container">
-                        <button id="${linkBtnId}" class="right">${t('插入', '')}</button>
+                        <button type="button" id="${linkBtnId}" class="right">${t(
+                '插入',
+                ''
+            )}</button>
                     </div>
                 </div>`,
             events: [

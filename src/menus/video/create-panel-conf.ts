@@ -39,7 +39,7 @@ export default function (editor: Editor, video: string): PanelConf {
                             placeholder="${editor.i18next.t('如')}：<iframe src=... ></iframe>"/>
                         </td>
                         <div class="w-e-button-container">
-                            <button id="${btnOkId}" class="right">
+                            <button type="button" id="${btnOkId}" class="right">
                                 ${editor.i18next.t('插入')}
                             </button>
                         </div>
