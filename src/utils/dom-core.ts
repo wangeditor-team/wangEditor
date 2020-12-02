@@ -683,7 +683,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     }
 
     /**
-     * 查找父元素，知道满足 selector 条件
+     * 查找父元素，直到满足 selector 条件
      * @param selector css 选择器
      * @param curElem 从哪个元素开始查找，默认为当前元素
      */
@@ -705,6 +705,31 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
 
         // 继续查找，递归
         return this.parentUntil(selector, parent)
+    }
+
+    /**
+     * 查找父元素，直到满足 selector 条件,或者 到达 编辑区域容器以及菜单栏容器
+     * @param selector css 选择器
+     * @param curElem 从哪个元素开始查找，默认为当前元素
+     */
+    parentUntilEditor(selector: string, editor: Editor, curElem?: HTMLElement): DomElement | null {
+        const elem = curElem || this.elems[0]
+        if ($(elem).equal(editor.$textContainerElem) || $(elem).equal(editor.$toolbarElem)) {
+            return null
+        }
+
+        const parent = elem.parentElement
+        if (parent === null) {
+            return null
+        }
+
+        if (parent.matches(selector)) {
+            // 找到，并返回
+            return $(parent)
+        }
+
+        // 继续查找，递归
+        return this.parentUntilEditor(selector, editor, parent)
     }
 
     /**
