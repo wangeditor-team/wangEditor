@@ -27,7 +27,9 @@ export const setFullScreen = (editor: Editor) => {
     $iconElem.addClass(iconExitFullScreenText)
     $editorParent.addClass(classfullScreenEditor)
     $editorParent.css('z-index', config.zIndexFullScreen)
-    $textContainerElem.css('height', '100%')
+    const bar = $toolbarElem.getBoundingClientRect()
+    const h = window.innerHeight - bar.height
+    $textContainerElem.css('height', `${h}px`)
 }
 
 /**
