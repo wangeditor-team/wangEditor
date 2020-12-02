@@ -58,6 +58,14 @@ class SelectionAndRange {
         const editor = this.editor
         const $textElem = editor.$textElem
         if ($textElem.isContain($containerElem)) {
+            if ($textElem.elems[0] === $containerElem.elems[0]) {
+                if ($textElem.html() === '<p><br></p>') {
+                    const $children = $textElem.children()
+                    const $last = $children?.last()
+                    editor.selection.createRangeByElem($last as DomElement, true, true)
+                    editor.selection.restoreSelection()
+                }
+            }
             // 是编辑内容之内的
             this._currentRange = range
         }
@@ -234,10 +242,12 @@ class SelectionAndRange {
     /**
      * 移动光标位置
      * @param {Node} node 元素节点
+     * @param {Boolean} toStart 为true光标在开始位置 为false在结束位置 默认在结束位置
      */
-    public moveCursor(node: Node) {
+    public moveCursor(node: Node, toStart: boolean = false) {
         const range = this.getRange()
-        const pos = node.childNodes.length
+        const pos = toStart ? 0 : node.childNodes.length
+
         if (!range) {
             return
         }

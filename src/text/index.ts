@@ -9,7 +9,6 @@ import initEventHooks from './event-hooks/index'
 import { UA, throttle } from '../utils/util'
 import getChildrenJSON, { NodeListType } from './getChildrenJSON'
 import getHtmlByNodeList from './getHtmlByNodeList'
-import { formatCodeHtml } from '../menus/code'
 
 /** 按键函数 */
 type KeyBoardHandler = (event: KeyboardEvent) => unknown
@@ -110,7 +109,7 @@ class Text {
         const html = this.html()
         const $placeholder = this.editor.$textContainerElem.find('.placeholder')
         $placeholder.hide()
-        if (!html || html === '<p><br></p>' || html === ' ') $placeholder.show()
+        if (!html || html === ' ') $placeholder.show()
     }
 
     /**
@@ -207,7 +206,6 @@ class Text {
     public text(val?: string): void | string {
         const editor = this.editor
         const $textElem = editor.$textElem
-        const $textContainerElem = editor.$textContainerElem
 
         // 没有 val ，是获取 text
         if (val == null) {

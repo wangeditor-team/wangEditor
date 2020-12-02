@@ -124,7 +124,6 @@ class Tooltip {
         const $targetElem = this.$targetElem
         const $container = this.$container
 
-        const length = conf.length
         conf.forEach((item: TooltipConfItemType, index: number) => {
             // 添加元素
             const $elem = item.$elem

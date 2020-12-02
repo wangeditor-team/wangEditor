@@ -4,7 +4,7 @@
  */
 
 import Editor from '../../editor/index'
-import $, { DomElement } from '../../utils/dom-core'
+import { DomElement } from '../../utils/dom-core'
 
 /**
  * 图片点击后选区更新到img的位置

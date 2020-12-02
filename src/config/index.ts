@@ -45,6 +45,7 @@ export type ConfigType = {
     zIndexFullScreen: number
     showFullScreen: boolean
     showLinkImg: boolean
+    uploadImgAccept: string[]
     uploadImgServer: string
     uploadImgShowBase64: boolean
     uploadImgMaxSize: number
@@ -57,7 +58,9 @@ export type ConfigType = {
     uploadImgTimeout: number
     withCredentials: boolean
     customUploadImg: Function | null
-    customAlert: Function | null
+    customAlert: Function
+
+    onCatalogChange: Function | null
 
     lang: string
     languages: typeof langConfig

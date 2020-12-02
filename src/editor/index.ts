@@ -15,6 +15,7 @@ import initSelection from './init-fns/init-selection'
 import bindEvent from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
 import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-full-screen'
+import scrollToHead from './init-fns/scroll-to-head'
 import ZIndex from './z-index'
 import Change from './change/index'
 import History from './history/index'
@@ -199,6 +200,14 @@ class Editor {
      */
     public unFullScreen(): void {
         setUnFullScreen(this)
+    }
+
+    /**
+     * 滚动到指定标题锚点
+     * @param id 标题锚点id
+     */
+    public scrollToHead(id: string): void {
+        scrollToHead(this, id)
     }
 }
 

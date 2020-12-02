@@ -3,6 +3,7 @@ export default {
     languages: {
         'zh-CN': {
             wangEditor: {
+                重置: '重置',
                 插入: '插入',
                 默认: '默认',
                 创建: '创建',
@@ -103,6 +104,7 @@ export default {
         },
         en: {
             wangEditor: {
+                重置: 'reset',
                 插入: 'insert',
                 默认: 'default',
                 创建: 'create',
