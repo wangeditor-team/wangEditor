@@ -76,7 +76,7 @@ class List extends DropListMenu implements MenuActive {
                 const $prve = $child.get(0)
                 const $curr = $child.get(1)
                 const prveText = $prve.text()
-                const currText = $curr.text()
+                // const currText = $curr.text()
 
                 const reg = /(\s+)|(<br.*?>)|(&nbsp;+)|(&#8203;+)/gim
 
@@ -101,7 +101,7 @@ class List extends DropListMenu implements MenuActive {
             const $node = editor.selection.getSelectionRangeTopNodes()[0]
             if (!$node) return
 
-            const nodeName = $node.getNodeName()
+            // const nodeName = $node.getNodeName()
             // if (nodeName === ListType.OrderedList || nodeName === ListType.UnorderedList) {
             //     debugger
             // }
@@ -110,7 +110,7 @@ class List extends DropListMenu implements MenuActive {
 
     public command(type: ListTypeValue): void {
         const editor = this.editor
-        const $textElem = editor.$textElem
+        // const $textElem = editor.$textElem
         const $selectionElem = editor.selection.getSelectionContainerElem()
 
         // 选区范围的 DOM 元素不存在，不执行命令
