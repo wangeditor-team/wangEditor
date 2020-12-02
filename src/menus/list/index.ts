@@ -58,59 +58,10 @@ class List extends DropListMenu implements MenuActive {
         }
 
         super($elem, editor, dropListConf)
-
-        const events = editor.events
-        // events.on('hook:keydown:enter', function (e: Event) {
-        //     console.log(e)
-        //     return false
-        // })
-
-        events.on('hook:keyup:enter', (e: Event) => {
-            // 获取选区范围内的顶级 DOM 元素
-            const $node = editor.selection.getSelectionRangeTopNodes()[0]
-            if (!$node) return
-
-            const nodeName = $node.getNodeName()
-            if (nodeName === ListType.OrderedList || nodeName === ListType.UnorderedList) {
-                const $child = $node.children() as DomElement
-                const $prve = $child.get(0)
-                const $curr = $child.get(1)
-                const prveText = $prve.text()
-                // const currText = $curr.text()
-
-                const reg = /(\s+)|(<br.*?>)|(&nbsp;+)|(&#8203;+)/gim
-
-                if (prveText.replace(reg, '').length) {
-                    const $list = $(
-                        `<${nodeName} data-list-level="${$node.attr('data-list-level')}">
-                            <li>${$curr.html()}</li>
-                        </${nodeName}>`
-                    )
-                    $list.insertAfter($node)
-                    this.updateRange($list)
-                }
-
-                $curr.remove()
-
-                this.resetListAttr()
-            }
-        })
-
-        events.on('hook:keydown:tab', (e: Event) => {
-            // 获取选区范围内的顶级 DOM 元素
-            const $node = editor.selection.getSelectionRangeTopNodes()[0]
-            if (!$node) return
-
-            // const nodeName = $node.getNodeName()
-            // if (nodeName === ListType.OrderedList || nodeName === ListType.UnorderedList) {
-            //     debugger
-            // }
-        })
     }
 
     public command(type: ListTypeValue): void {
         const editor = this.editor
-        // const $textElem = editor.$textElem
         const $selectionElem = editor.selection.getSelectionContainerElem()
 
         // 选区范围的 DOM 元素不存在，不执行命令
@@ -121,8 +72,7 @@ class List extends DropListMenu implements MenuActive {
 
         this.operateElements($nodes, type)
 
-        // 恢复选区
-        editor.selection.restoreSelection()
+        // 是否激活
         this.tryChangeActive()
     }
 
@@ -140,75 +90,104 @@ class List extends DropListMenu implements MenuActive {
          **/
 
         // 获取 序列标签
-        const listHtml = type.toLowerCase()
+        const listTarget = type.toLowerCase()
 
-        // 筛选 选区带非序列
-        const $notLiHtml = $nodes.filter(($node: DomElement) => {
+        // 筛选
+        const $listHtml: DomElement[] = []
+        $nodes.forEach(($node: DomElement) => {
             const targerName = $node.getNodeName()
             if (targerName !== ListType.OrderedList && targerName !== ListType.UnorderedList) {
-                return $node
+                $listHtml.push($node)
+            } else {
+                if ($node.prior) {
+                    $listHtml.push($node.prior)
+                } else {
+                    const $children = $node.children()
+                    $children?.forEach(($li: HTMLElement) => {
+                        $listHtml.push($($li))
+                    })
+                }
             }
         })
 
-        if ($notLiHtml.length) {
-            // 处理 多段落带非序列标签
-            // const $docFragment = document.createDocumentFragment()
-            $notLiHtml.forEach(($node: DomElement, index: number) => {
-                const $list = $(
-                    `<${listHtml} data-list-level="1">
-                        <li>${$node.html()}</li>
-                    </${listHtml}>`
-                )
-                $list.insertAfter($node)
-                $node.remove()
-                this.updateRange($list)
-            })
-        } else {
-            // 处理 序列标签
-            $nodes.forEach(($node: DomElement, index: number) => {
-                if ($node.getNodeName() === type) {
-                    const $li = $node.children()
-                    const $p = $(`<p>${$li?.html()}</p>`)
-                    $p.insertAfter($node)
-                    $node.remove()
-                    this.updateRange($p)
-                } else {
-                    const $list = $(
-                        `<${listHtml} data-list-level="${$node.attr('data-list-level')}">
-                            ${$node.html()}
-                        </${listHtml}>`
-                    )
-                    $list.insertAfter($node)
-                    $node.remove()
-                    this.updateRange($list)
-                }
-            })
-        }
+        const $list = document.createElement(listTarget)
+        $listHtml.forEach($node => {
+            const targerName = $node.getNodeName()
+            if (targerName === 'LI') {
+                $list.append($node.elems[0])
+            } else {
+                const $li = document.createElement('li')
+                $li.append($node.html())
+                $list.append($li)
+            }
+        })
+
+        // 删除这里有 bug
+        const _range = this.editor.selection.getRange()
+        _range?.deleteContents()
+        _range?.insertNode($list)
+
+        this.updateRange($($list))
+
+        // if ($notLiHtml.length) {
+        //     // 处理 多段落带非序列标签
+        //     // const $docFragment = document.createDocumentFragment()
+        //     $notLiHtml.forEach(($node: DomElement, index: number) => {
+        //         const $list = $(
+        //             `<${listHtml} data-list-level="1">
+        //                 <li>${$node.html()}</li>
+        //             </${listHtml}>`
+        //         )
+        //         $list.insertAfter($node)
+        //         $node.remove()
+        //         this.updateRange($list)
+        //     })
+        // } else {
+        //     // 处理 序列标签
+        //     $nodes.forEach(($node: DomElement, index: number) => {
+        //         if ($node.getNodeName() === type) {
+        //             const $li = $node.children()
+        //             const $p = $(`<p>${$li?.html()}</p>`)
+        //             $p.insertAfter($node)
+        //             $node.remove()
+        //             this.updateRange($p)
+        //         } else {
+        //             const $list = $(
+        //                 `<${listHtml} data-list-level="${$node.attr('data-list-level')}">
+        //                     ${$node.html()}
+        //                 </${listHtml}>`
+        //             )
+        //             $list.insertAfter($node)
+        //             $node.remove()
+        //             this.updateRange($list)
+        //         }
+        //     })
+        // }
 
         // 重置 序列属性
-        this.resetListAttr()
+        // this.resetListAttr()
     }
 
     /**
      * 获取编辑区域的所有顶级段落，并对其中的序列进行处理
      */
-    private resetListAttr() {
-        const editor = this.editor
-        const $nodes = editor.$textElem.children() as DomElement
-        let i = 1
-        $nodes.forEach(($node: HTMLElement) => {
-            const _$node = $($node)
-            const $child = _$node.children() as DomElement
-            const nodeName = _$node.getNodeName()
+    // private resetListAttr() {
+    //     const editor = this.editor
+    //     const $nodes = editor.$textElem.children() as DomElement
+    //     let i = 1
+    //     $nodes.forEach(($node: HTMLElement) => {
+    //         const _$node = $($node)
+    //         const $child = _$node.children() as DomElement
+    //         const nodeName = _$node.getNodeName()
 
-            if (nodeName === ListType.OrderedList) {
-                _$node.attr('start', i.toString())
-                i += $child.length
-            } else {
-                i = 1
-            }
-        })
-    }
+    //         if (nodeName === ListType.OrderedList) {
+    //             _$node.attr('start', i.toString())
+    //             i += $child.length
+    //         } else {
+    //             i = 1
+    //         }
+    //     })
+    // }
 
     /**
      * 更新选区
