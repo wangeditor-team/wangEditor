@@ -67,6 +67,8 @@ class List extends DropListMenu implements MenuActive {
         // 选区范围的 DOM 元素不存在，不执行命令
         if ($selectionElem === undefined) return
 
+        this.getSelectionRangeNodes()
+
         // 获取选区范围内的顶级 DOM 元素
         const $nodes = editor.selection.getSelectionRangeTopNodes()
 
@@ -76,21 +78,59 @@ class List extends DropListMenu implements MenuActive {
         this.tryChangeActive()
     }
 
-    public tryChangeActive(): void {}
+    private getSelectionRangeNodes() {
+        /**
+         * 开始是 ul 的时候，因为 getNodeTop 的原因会直接拿到 ul 并且获取下一个兄弟节点导致 ul 有 point
+         * 结束是 ul 的时候，因为 getNodeTop 的原因，上一个兄弟节点会直接拿到 ul 并且和 $endElem 匹配所以没有 point
+         *
+         * 所以我需要一个小方法对 ul ol 进行特殊处理
+         */
+
+        const editor = this.editor
+        const $selectionElem = editor.selection.getSelectionContainerElem()
+        const $startElem = (editor.selection.getSelectionStartElem() as DomElement).getNodeTop(
+            editor
+        )
+        const $endElem = (editor.selection.getSelectionEndElem() as DomElement).getNodeTop(editor)
+
+        const $nodes = editor.selection.getSelectionRangeTopNodes()
+
+        if (this.isListElem($selectionElem as DomElement)) {
+            // 当容器为 UL OL 的时候，选区必定是在 序列 中多选或者全选
+        } else if (this.isListElem($startElem as DomElement)) {
+            // 当开始的时候为 序列
+            $nodes.shift()
+            const $start = $startElem.prior
+            const domArr: DomElement[] = []
+            let $dom: Element | undefined | null = $start?.elems[0]
+            while ($dom) {
+                domArr.push($($dom).getNodeTop(editor))
+                $dom = $dom.nextElementSibling
+            }
+            $nodes.unshift(...domArr)
+        } else if (this.isListElem($endElem as DomElement)) {
+            // 当结束的时候为 序列
+            $nodes.pop()
+            const $end = $endElem.prior
+            const domArr: DomElement[] = []
+            let $dom: Element | undefined | null = $end?.elems[0]
+            while ($dom) {
+                domArr.unshift($($dom).getNodeTop(editor))
+                $dom = $dom.previousElementSibling
+            }
+            $nodes.push(...domArr)
+        } else {
+            // 当选区不是序列内且开头和结尾不是序列的时候，直接获取所有顶级段落即可
+            return $nodes
+        }
+    }
 
     // 操作元素
     private operateElements($nodes: DomElement[], type: ListTypeValue) {
-        /**
-         * 列表的每一项都是独立的通过 type 决定 list-style 的样式
-         * 有序列表通过 start 决定起始值
-         * 列表的层级通过 data-list-level 来决定 但是这样就需要用户配置 css 那么属性要加 style 也要加
-         *
-         * 多段落的时候 优先处理 非序列段落，只有序列段落的时候 进行取消操作
-         *
-         **/
-
         // 获取 序列标签
         const listTarget = type.toLowerCase()
+
+        return console.log($nodes)
 
         // 筛选
         const $listHtml: DomElement[] = []
@@ -197,6 +237,17 @@ class List extends DropListMenu implements MenuActive {
         this.editor.selection.createRangeByElem($node, false, true)
         this.editor.selection.restoreSelection()
     }
+
+    private isListElem($node: DomElement) {
+        const nodeName = $node.getNodeName()
+        if (nodeName === ListType.OrderedList || nodeName === ListType.UnorderedList) {
+            return true
+        }
+
+        return false
+    }
+
+    public tryChangeActive(): void {}
 }
 
 export default List
