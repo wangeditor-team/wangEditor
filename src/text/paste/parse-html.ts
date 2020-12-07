@@ -146,8 +146,9 @@ function parseHtml(html: string, filterStyle: boolean = true, ignoreImg: boolean
             resultArr.push(html)
         },
         characters(str: string) {
-            str = str.trim()
-            if (!str) return
+            if (!str) {
+                return
+            }
 
             // 忽略的标签
             // 如果复制拿到的内容是 `<body><html>这种形式无法成功粘贴</html></body>`
