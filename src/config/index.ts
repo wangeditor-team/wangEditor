@@ -24,6 +24,7 @@ export type ConfigType = {
     languageType: string[]
     languageTab: string
     menus: string[]
+    excludeMenus: string[]
     fontNames: string[]
     lineHeights: string[]
     indentation: IndentationType
