@@ -37,37 +37,37 @@ describe('表情', () => {
         cy.get('@emotionMenu').find('.w-e-panel-container').should('not.exist')
     })
 
-    it('可以插入表情', () => {
-        cy.get('@Editable').type(text)
-        cy.get('@Editable').contains(text)
+    // it('可以插入表情', () => {
+    //     cy.get('@Editable').type(text)
+    //     cy.get('@Editable').contains(text)
 
-        cy.getByClass('toolbar').children().eq(15).as('emotionMenu').click()
+    //     cy.getByClass('toolbar').children().eq(15).as('emotionMenu').click()
 
-        cy.get('@emotionMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
-        cy.get('@Panel').find('.w-e-panel-tab-title').children().should('have.length', 4)
-        cy.get('@Panel')
-            .find('.w-e-panel-tab-title')
-            .children()
-            .eq(0)
-            .should('have.class', 'w-e-active')
-            .and('contain.text', '默认')
+    //     cy.get('@emotionMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
+    //     cy.get('@Panel').find('.w-e-panel-tab-title').children().should('have.length', 4)
+    //     cy.get('@Panel')
+    //         .find('.w-e-panel-tab-title')
+    //         .children()
+    //         .eq(0)
+    //         .should('have.class', 'w-e-active')
+    //         .and('contain.text', '默认')
 
-        cy.get('@Panel')
-            .find('.w-e-panel-tab-content')
-            .children()
-            .eq(0)
-            .children()
-            .as('emotionList')
+    //     cy.get('@Panel')
+    //         .find('.w-e-panel-tab-content')
+    //         .children()
+    //         .eq(0)
+    //         .children()
+    //         .as('emotionList')
 
-        cy.get('@emotionList')
-            .eq(0)
-            .as('emotion')
-            .click()
-            .then($el => {
-                const img = $el.find('img')
-                const src = (img.get(0) as HTMLImageElement).src
+    //     cy.get('@emotionList')
+    //         .eq(0)
+    //         .as('emotion')
+    //         .click()
+    //         .then($el => {
+    //             const img = $el.find('img')
+    //             const src = (img.get(0) as HTMLImageElement).src
 
-                cy.get('@Editable').find('img', { timeout: 20000 }).should('have.attr', 'src', src)
-            })
-    })
+    //             cy.get('@Editable').find('img', { timeout: 20000 }).should('have.attr', 'src', src)
+    //         })
+    // })
 })
