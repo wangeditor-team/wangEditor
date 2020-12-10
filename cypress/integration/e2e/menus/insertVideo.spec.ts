@@ -32,15 +32,14 @@ describe('插入视频', () => {
         cy.get('@Editable').find('video').should('not.exist')
 
         cy.getByClass('toolbar').children().eq(17).as('imgMenu').click()
-        const videoEl = `<video src="${videoUrl}" controls></video>`
+        const videoEl = `<iframe src="${videoUrl}" controls></iframe>`
         cy.get('@imgMenu').find('.w-e-panel-container').as('Panel').find('input').type(videoEl)
         cy.get('@Panel').find('.w-e-button-container button').click()
 
-        cy.get('@Editable')
-            .find('video', { timeout: 20000 })
+        cy.get('.w-e-text-container iframe', { timeout: 10000 })
             .should('be.visible')
             .then($video => {
-                const video = $video.get(0)
+                const video = $video.get(0) as HTMLVideoElement
                 expect(video.src).to.eq(videoUrl)
             })
     })
