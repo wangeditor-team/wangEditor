@@ -38,7 +38,9 @@ export default function (editor: Editor): PanelConf {
                         }</span>
                     </div>
                     <div class="w-e-button-container">
-                        <button id="${insertBtnId}" class="right">${t('插入')}</button>
+                        <button type="button" id="${insertBtnId}" class="right">${t(
+                '插入'
+            )}</button>
                     </div>
                 </div>`,
             events: [

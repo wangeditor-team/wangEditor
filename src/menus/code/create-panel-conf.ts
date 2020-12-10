@@ -91,7 +91,7 @@ export default function (editor: Editor, text: string, languageType: string): Pa
                     '"'
                 )}</textarea>
                         <div class="w-e-button-container">
-                            <button id="${btnOkId}" class="right">${
+                            <button type="button" id="${btnOkId}" class="right">${
                     isActive(editor) ? t('修改') : t('插入')
                 }</button>
                         </div>

@@ -67,7 +67,7 @@ describe('表情', () => {
                 const img = $el.find('img')
                 const src = (img.get(0) as HTMLImageElement).src
 
-                cy.get('@Editable').find('img').should('have.attr', 'src', src)
+                cy.get('@Editable').find('img', { timeout: 20000 }).should('have.attr', 'src', src)
             })
     })
 })

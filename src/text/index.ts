@@ -528,7 +528,7 @@ class Text {
             const target = e.target as HTMLElement
 
             //获取最祖父元素
-            $dom = $(target).parentUntil('TABLE', target)
+            $dom = $(target).parentUntilEditor('TABLE', editor, target)
 
             // 没有table范围内，则返回
             if (!$dom) return
