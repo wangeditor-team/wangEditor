@@ -7,8 +7,7 @@ describe('插入视频', () => {
         cy.get('@Editable').clear()
     })
 
-    const videoUrl =
-        'https://player.vimeo.com/external/288190258.sd.mp4?s=8bbc2d25f23cf412a99bd2dbdfa08688fd973ce8&profile_id=164&oauth2_token_id=57447761'
+    const videoUrl = 'https://www.bilibili.com/video/BV14p4y1v776/'
 
     it('点击菜单打开插入视频的面板', () => {
         cy.getByClass('toolbar').children().eq(17).as('videoMenu').click()
@@ -38,7 +37,7 @@ describe('插入视频', () => {
         cy.get('@Panel').find('.w-e-button-container button').click()
 
         cy.get('@Editable')
-            .find('video')
+            .find('video', { timeout: 20000 })
             .should('be.visible')
             .then($video => {
                 const video = $video.get(0)
