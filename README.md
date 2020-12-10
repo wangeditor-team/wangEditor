@@ -19,12 +19,26 @@
 
 ## 基本使用
 
-npm 安装 `npm i wangeditor --save` ，几行代码即可创建一个编辑器
+### NPM
+```bash
+npm i wangeditor --save
+```
+安装后几行代码即可创建一个编辑器：
 
 ```js
 import E from "wangeditor";
 const editor = new E("#div1");
 editor.create();
+```
+### CDN
+```html
+<script type="text/javascript" src="https://unpkg.com/wangeditor/dist/wangEditor.min.js"></script>
+<script type="text/javascript">
+  const E = window.wangEditor
+  const editor = new E('#div1')
+  // 或者 const editor = new E(document.getElementById('div1'))
+  editor.create()
+</script>
 ```
 
 更多使用方法，可参考[文档](http://www.wangeditor.com/doc/)。

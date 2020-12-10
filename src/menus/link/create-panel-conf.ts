@@ -110,10 +110,10 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                             placeholder="${editor.i18next.t('如')} https://..."/>
                         </td>
                         <div class="w-e-button-container">
-                            <button id="${btnOkId}" class="right">
+                            <button type="button" id="${btnOkId}" class="right">
                                 ${editor.i18next.t('插入')}
                             </button>
-                            <button id="${btnDelId}" class="gray right" style="display:${delBtnDisplay}">
+                            <button type="button" id="${btnDelId}" class="gray right" style="display:${delBtnDisplay}">
                                 ${editor.i18next.t('menus.panelMenus.link.取消链接')}
                             </button>
                         </div>

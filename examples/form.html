@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <p>
+        wangEditor demo
+    </p>
+    <form onsubmit="console.log('submit')">
+        <div id="div1">
+            <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+            <p>
+                <img src="http://www.wangeditor.com/imgs/logo.jpeg"/>
+            </p>
+        </div>
+        <button type="submit">submit</button>
+    </form>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
+        var E = window.wangEditor
+        var editor = new E('#div1')
+        editor.create()
+    </script>
+</body>
+
+</html>
