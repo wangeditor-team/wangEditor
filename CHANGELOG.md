@@ -1,3 +1,21 @@
+## [4.5.3](https://github.com/wangeditor-team/wangEditor/compare/v4.5.2...v4.5.3) (2020-12-10)
+
+
+### Bug Fixes
+
+* [#2469](https://github.com/wangeditor-team/wangEditor/issues/2469) 火狐83版本多了一个诡异空格,81.0.2没有空格 ([b070e55](https://github.com/wangeditor-team/wangEditor/commit/b070e550ce8c5a52c874ddba021cc8f69c3e9b1b))
+* 添加一个 向上查到的方法 限制在 编辑器内，修改表格的触发判断 ([c2aa192](https://github.com/wangeditor-team/wangEditor/commit/c2aa192a1a2b295be0ab7deabd15860a8b9be0eb))
+* 修复标题样式会被覆盖的问题 ([864f3ba](https://github.com/wangeditor-team/wangEditor/commit/864f3baaaa1e619be7ad682a1dd9b82e69280883))
+* 修改按钮的 type 为 button ([6037b91](https://github.com/wangeditor-team/wangEditor/commit/6037b913ce1aa7e1e4149262295da4d9c301935c))
+* 粘贴文字保留空格 ([d935195](https://github.com/wangeditor-team/wangEditor/commit/d935195de4bda4c9fe0dd5b5dc793109b752c87a))
+* 粘贴文字中间空格保留 ([7499d29](https://github.com/wangeditor-team/wangEditor/commit/7499d292fab5b4c7bb3b645dd9c811fb44d82c9f))
+* 最后一行文本看不见 ([66c95a9](https://github.com/wangeditor-team/wangEditor/commit/66c95a9596a41c0a41da6fb5cb9ffa10a5975847))
+
+
+### Features
+
+* 插入网络视频的校验和回调 ([dbbbda2](https://github.com/wangeditor-team/wangEditor/commit/dbbbda2757237a6e55d618d51bdb8bf0f2b95e20))
+
 ## [4.5.2](https://github.com/wangeditor-team/wangEditor/compare/v4.5.1...v4.5.2) (2020-11-27)
 
 
