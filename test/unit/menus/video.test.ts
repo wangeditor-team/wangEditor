@@ -94,3 +94,90 @@ test('video onlineVideoCheck 自定义检查', () => {
     expect(fn3).toBeCalled()
     expect(editor.$textElem.html().indexOf(video)).toBe(-1)
 })
+
+test('video 插入类型: video检查', () => {
+    videoMenu.clickHandler()
+    const panel = videoMenu.panel as Panel
+    const panelElem = panel.$container.elems[0]
+    const $panelElem = $(panelElem) // jquery 对象
+
+    // panel 里的 input 和 button 元素
+    const $btnInsert = $panelElem.find(":button[id^='btn-ok']") // id 以 'btn-ok' 的 button
+    const $videoIFrame = $panelElem.find(":input[id^='input-iframe']")
+
+    // 插入链接
+    mockCmdFn(document)
+    const video = '<video width="250"><source src="myVideo.mp4" type="video/mp4"></video>'
+    $videoIFrame.val(video)
+    $btnInsert.click()
+    videoMenu.clickHandler()
+
+    // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+    expect(editor.$textElem.html().indexOf(video)).toBeGreaterThan(0)
+})
+
+test('video 插入类型: embed标签', () => {
+    videoMenu.clickHandler()
+    const panel = videoMenu.panel as Panel
+    const panelElem = panel.$container.elems[0]
+    const $panelElem = $(panelElem) // jquery 对象
+
+    // panel 里的 input 和 button 元素
+    const $btnInsert = $panelElem.find(":button[id^='btn-ok']") // id 以 'btn-ok' 的 button
+    const $videoIFrame = $panelElem.find(":input[id^='input-iframe']")
+
+    // 插入链接
+    mockCmdFn(document)
+    const video =
+        '<embed src="https://www.youtube.com/embed/N4koEPJ0bjU" allowfullscreen="true" width="425" height="344">'
+    $videoIFrame.val(video)
+    $btnInsert.click()
+    videoMenu.clickHandler()
+
+    // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+    expect(editor.$textElem.html().indexOf(video)).toBeGreaterThan(0)
+})
+
+test('video 插入类型: object标签', () => {
+    videoMenu.clickHandler()
+    const panel = videoMenu.panel as Panel
+    const panelElem = panel.$container.elems[0]
+    const $panelElem = $(panelElem) // jquery 对象
+
+    // panel 里的 input 和 button 元素
+    const $btnInsert = $panelElem.find(":button[id^='btn-ok']") // id 以 'btn-ok' 的 button
+    const $videoIFrame = $panelElem.find(":input[id^='input-iframe']")
+
+    // 插入链接
+    mockCmdFn(document)
+    const video =
+        '<object width="425" height="344" data="https://www.youtube.com/embed/N4koEPJ0bjU"></object>'
+    $videoIFrame.val(video)
+    $btnInsert.click()
+    videoMenu.clickHandler()
+
+    // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+    expect(editor.$textElem.html().indexOf(video)).toBeGreaterThan(0)
+})
+
+test('video 插入类型: 非iframe、object、video、embed标签禁止插入', () => {
+    videoMenu.clickHandler()
+    const panel = videoMenu.panel as Panel
+    const panelElem = panel.$container.elems[0]
+    const $panelElem = $(panelElem) // jquery 对象
+
+    // panel 里的 input 和 button 元素
+    const $btnInsert = $panelElem.find(":button[id^='btn-ok']") // id 以 'btn-ok' 的 button
+    const $videoIFrame = $panelElem.find(":input[id^='input-iframe']")
+
+    // 插入链接
+    mockCmdFn(document)
+    const video =
+        '<audio controls><source src="/assets_tutorials/media/Loreena_Mckennitt_Snow_56bit.mp3" type="audio/mpeg"></audio>'
+    $videoIFrame.val(video)
+    $btnInsert.click()
+    videoMenu.clickHandler()
+
+    // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+    expect(editor.$textElem.html().indexOf(video)).toEqual(-1)
+})
