@@ -19,7 +19,7 @@ class Menu {
     public $elem: DomElement
     public editor: Editor
     private _active: boolean // 菜单是否处于激活状态，如选中一段加粗文字时，bold 菜单要被激活（即高亮显示）
-
+    private whiteList: Array<string | undefined> = ['image']
     constructor($elem: DomElement, editor: Editor) {
         this.$elem = $elem
         this.editor = editor
@@ -34,7 +34,10 @@ class Menu {
 
             e.stopPropagation()
             if (editor.selection.getRange() == null) {
-                return
+                if (this.whiteList.indexOf(this.key) === -1) return
+
+                editor.config.focus = true
+                editor.initSelection(true)
             }
             this.clickHandler(e)
         })
