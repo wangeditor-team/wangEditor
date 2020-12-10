@@ -36,7 +36,7 @@ describe('插入视频', () => {
         cy.get('@imgMenu').find('.w-e-panel-container').as('Panel').find('input').type(videoEl)
         cy.get('@Panel').find('.w-e-button-container button').click()
 
-        cy.get('.w-e-text-container iframe', { timeout: 20000 })
+        cy.get('.w-e-text-container iframe', { timeout: 10000 })
             .should('be.visible')
             .then($video => {
                 const video = $video.get(0) as HTMLVideoElement

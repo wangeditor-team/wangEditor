@@ -62,7 +62,7 @@ describe('表情', () => {
         cy.get('@emotionList')
             .eq(0)
             .as('emotion')
-            .click()
+            .click({ timeout: 1000 })
             .then($el => {
                 const img = $el.find('img')
                 const src = (img.get(0) as HTMLImageElement).src
