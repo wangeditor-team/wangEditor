@@ -246,27 +246,18 @@ class SelectionAndRange {
      * @param {Node} node 元素节点
      * @param {number} position 光标的位置
      */
-    public moveCursor(node: Node, position?: number) {
+    public moveCursor(node: Node, position?: number): void {
         const range = this.getRange()
         //对文本节点特殊处理
-        let len: number
-        if (node.nodeType === 3) {
-            len = node.nodeValue?.length as number
-            // 在firefox下文本节点下会自带一个br导致的自动换行问题
-            if (UA.isFirefox && len !== 0) {
+        let len: number =
+            node.nodeType === 3 ? (node.nodeValue?.length as number) : node.childNodes.length
+        if (UA.isFirefox && len !== 0) {
+            // firefox下在节点为文本节点和节点最后一个元素为文本节点的情况下
+            if (node.nodeType === 3 || node.childNodes[len - 1].nodeName === 'BR') {
                 len = len - 1
             }
-        } else {
-            len = node.childNodes.length
-            // 在firefox下文本节点下会自带一个br导致的自动换行问题
-            if (UA.isFirefox && len !== 0) {
-                if (node.childNodes[len - 1].nodeName === 'BR') {
-                    len = len - 1
-                }
-            }
         }
-        //  如果position变量存在取positon,position不存在取默认的len
-        let pos: number = position || position === 0 ? position : len
+        let pos: number = position ?? len
         if (!range) {
             return
         }
