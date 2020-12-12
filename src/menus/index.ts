@@ -36,11 +36,9 @@ class Menus {
         const config = this.editor.config
 
         // 排除exclude包含的菜单
-        if (config.excludeMenus && Array.isArray(config.excludeMenus)) {
-            config.excludeMenus.forEach(
-                menuKey => (config.menus = config.menus.filter(key => key !== menuKey))
-            )
-        }
+        let excludeMenus: string[] | any = config.excludeMenus
+        if (Array.isArray(excludeMenus) === false) excludeMenus = []
+        config.menus = config.menus.filter(key => excludeMenus.includes(key) === false)
 
         config.menus.forEach(menuKey => {
             const MenuConstructor = this.constructorList[menuKey] // 暂用 any ，后面再替换
