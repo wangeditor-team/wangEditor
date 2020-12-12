@@ -49,9 +49,10 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
 
         // 获取粘贴的文字
         let pasteHtml = getPasteHtml(e as ClipboardEvent, pasteFilterStyle, pasteIgnoreImg)
+        // 粘贴的html是否是css的style样式
+        let isCssStyle: Boolean = /[\.\#\@]?\w+[^{]+\{[^}]*\}/.test(pasteHtml) // eslint-disable-line
         let pasteText = getPasteText(e as ClipboardEvent)
         pasteText = pasteText.replace(/\n/gm, '<br>')
-
         // 当前选区所在的 DOM 节点
         const $selectionElem = editor.selection.getSelectionContainerElem()
         if (!$selectionElem) {
@@ -59,7 +60,6 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         }
         const nodeName = $selectionElem?.getNodeName()
         const $topElem = $selectionElem?.getNodeTop(editor)
-
         // 当前节点顶级可能没有
         let topNodeName: string = ''
         if ($topElem.elems[0]) {
@@ -74,7 +74,6 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
             editor.cmd.do('insertHTML', formatCode(pasteText))
             return
         }
-
         // 如果复制进来的是url链接则插入时将它转为链接
         if (urlRegex.test(pasteText)) {
             return editor.cmd.do(
@@ -84,7 +83,6 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         }
 
         // table 中（td、th），待开发。。。
-
         if (!pasteHtml) {
             return
         }
@@ -96,7 +94,12 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 // 用户自定义过滤处理粘贴内容
                 pasteHtml = '' + (pasteTextHandle(pasteHtml) || '') // html
             }
-            editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`)
+            // 经过处理后还是包含暴露的css样式则直接插入它的text
+            if (isCssStyle) {
+                editor.cmd.do('insertHTML', `${formatHtml(pasteText)}`) // text
+            } else {
+                editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`)
+            }
         } catch (ex) {
             // 此时使用 pasteText 来兼容一下
             if (pasteTextHandle && isFunction(pasteTextHandle)) {
