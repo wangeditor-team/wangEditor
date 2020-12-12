@@ -16,3 +16,11 @@ test('菜单数量', () => {
 })
 
 // 各个菜单的配置，随后开发的时候再加
+test('菜单 exclude', () => {
+    const editor = createEditor(document, 'div1', '', {
+        excludeMenus: ['bold'],
+    })
+    const menus = editor.config.menus
+    // 不包含bold
+    expect(menus).not.toContain('bold')
+})
