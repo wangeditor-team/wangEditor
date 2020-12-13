@@ -1,7 +1,7 @@
 import $ from '../../../../src/utils/dom-core'
 import { isTodo, getCursorNextNode } from '../../../../src/menus/todo/util'
 
-const todoHtml = `<ul data-todo-key="w-e-text-todo" style="margin:0 0 0 20px;position:relative;"><li style="list-style:none;"><span style="position: absolute;left: -18px;top: 2px;" contenteditable="false"><input type="checkbox" style="margin-right:3px;"></span>1223</li></ul>`
+const todoHtml = `<ul class="w-e-todo"><li><span contenteditable="false"><input type="checkbox"></span>1223</li></ul>`
 const testNodeTemplate = $(
     `<b><i><span>test132</span><span>232333</span></i><span>12345678</span><span>xxd</span>dddd</b>`
 ).getNode()

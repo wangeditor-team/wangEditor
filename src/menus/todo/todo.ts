@@ -5,7 +5,7 @@ export class todo {
     private $todo: DomElement
     private $child: DomElement
     constructor($orginElem?: DomElement) {
-        this.template = `<ul data-todo-key="w-e-text-todo" style="margin:0 0 0 20px;position:relative;"><li style="list-style:none;"><span style="position: absolute;left: -18px;top: 2px;" contenteditable="false"><input type="checkbox" style="margin-right:3px;"></span></li></ul>`
+        this.template = `<ul class="w-e-todo"><li><span contenteditable="false"><input type="checkbox"></span></li></ul>`
         this.checked = false
         this.$todo = $(this.template)
         this.$child = $orginElem?.childNodes()?.clone(true) as DomElement

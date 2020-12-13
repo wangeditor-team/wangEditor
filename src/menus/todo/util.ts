@@ -6,7 +6,7 @@ import Editor from '../../editor'
  * @param editor 编辑器对象
  */
 function isTodo($topSelectElem: DomElement) {
-    return $topSelectElem.attr('data-todo-key') === 'w-e-text-todo'
+    return $topSelectElem.attr('class') === 'w-e-todo'
 }
 /**
  * 判断选中的内容是不是都是todo

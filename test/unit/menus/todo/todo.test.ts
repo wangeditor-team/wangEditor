@@ -2,7 +2,7 @@ import createTodo from '../../../../src/menus/todo/todo'
 import $ from '../../../../src/utils/dom-core'
 
 function getExpectTodo(content: string = '') {
-    const todoTemplate = `<ul data-todo-key="w-e-text-todo" style="margin:0 0 0 20px;position:relative;"><li style="list-style:none;"><span style="position: absolute;left: -18px;top: 2px;" contenteditable="false"><input type="checkbox" style="margin-right:3px;"></span>${content}</li></ul>`
+    const todoTemplate = `<ul class="w-e-todo"><li><span contenteditable="false"><input type="checkbox"></span>${content}</li></ul>`
     return todoTemplate
 }
 

@@ -9,7 +9,7 @@ editor.txt.append('<p>abc</p><p>test</p>')
 test('设置todo功能', () => {
     boldMenu.clickHandler()
     expect(editor.txt.html()).toEqual(
-        `<p><br></p><p>abc</p><ul data-todo-key="w-e-text-todo" style="margin:0 0 0 20px;position:relative;"><li style="list-style:none;"><span style="position: absolute;left: -18px;top: 2px;" contenteditable="false"><input type="checkbox" style="margin-right:3px;"></span>test</li></ul>`
+        `<p><br></p><p>abc</p><ul class="w-e-todo"><li><span contenteditable="false"><input type="checkbox"></span>test</li></ul>`
     )
 })
 
@@ -23,6 +23,6 @@ test('在第一行设置todo', () => {
     const boldMenu = getMenuInstance(editor, todo)
     boldMenu.clickHandler()
     expect(editor.txt.html()).toEqual(
-        '<p style="height:0px;"><br></p><ul data-todo-key="w-e-text-todo" style="margin:0 0 0 20px;position:relative;"><li style="list-style:none;"><span style="position: absolute;left: -18px;top: 2px;" contenteditable="false"><input type="checkbox" style="margin-right:3px;"></span><br></li></ul>'
+        '<p style="height:0px;"><br></p><ul class="w-e-todo"><li><span contenteditable="false"><input type="checkbox"></span><br></li></ul>'
     )
 })
