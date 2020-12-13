@@ -12,6 +12,7 @@ import imageConfig, { UploadImageHooksType } from './image'
 import textConfig from './text'
 import langConfig from './lang'
 import historyConfig from './history'
+import videoConfig from './video'
 
 // 字典类型
 export type DicType = {
@@ -24,6 +25,7 @@ export type ConfigType = {
     languageType: string[]
     languageTab: string
     menus: string[]
+    excludeMenus: string[]
     fontNames: string[]
     lineHeights: string[]
     indentation: IndentationType
@@ -71,6 +73,9 @@ export type ConfigType = {
     historyMaxSize: number
 
     focus: boolean
+
+    onlineVideoCheck: Function
+    onlineVideoCallback: Function
 }
 
 export type Resource = {
@@ -99,6 +104,7 @@ const defaultConfig = Object.assign(
     textConfig,
     langConfig,
     historyConfig,
+    videoConfig,
     //链接校验的配置函数
     {
         linkCheck: function (text: string, link: string): string | boolean {

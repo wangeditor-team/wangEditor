@@ -46,7 +46,9 @@ describe('设置全屏', () => {
         expect($iconElem.get(0).className).toContain('w-e-icon-fullscreen_exit')
         expect($editorParent.className).toContain(EDIT_CONTAINER_FULLSCREEN_CLASS)
         expect(+$editorParent.style.zIndex).toEqual(editor.config.zIndexFullScreen)
-        expect($textContainerElem.elems[0].style.height).toBe('100%')
+        const bar = editor.$toolbarElem.getBoundingClientRect()
+        const h = window.innerHeight - bar.height
+        expect($textContainerElem.elems[0].style.height).toBe(`${h}px`)
     })
 
     test('调用 setUnFullScreen 取消编辑器全屏模式', () => {

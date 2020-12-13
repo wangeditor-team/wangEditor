@@ -10,7 +10,7 @@ import Editor from '../../../editor/index'
 /**
  * 生成 Tooltip 的显示隐藏函数
  */
-function createShowHideFn(editor: Editor) {
+export function createShowHideFn(editor: Editor) {
     let tooltip: Tooltip | null
 
     /**
@@ -65,6 +65,7 @@ function createShowHideFn(editor: Editor) {
  * @param e
  * @param editor
  */
+/* istanbul ignore next */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function preEnterListener(e: KeyboardEvent, editor: Editor) {
     // 获取当前标签元素
