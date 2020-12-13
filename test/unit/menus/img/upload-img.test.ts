@@ -54,6 +54,7 @@ describe('upload img', () => {
     beforeAll(() => {
         // Mocking Image.prototype.src to call the onload or onerror
         // callbacks depending on the src passed to it
+        // @ts-ignore
         Object.defineProperty(global.Image.prototype, 'src', {
             // Define the property setter
             set(src) {
