@@ -54,8 +54,6 @@ function getCursorNextNode(node: Node, textNode: Node, pos: number): Node | unde
                 if (textNode.isEqualNode(v)) {
                     const textContent = dealTextNode(v, pos)
                     newNode.textContent = textContent
-                } else {
-                    newNode.textContent = v.nodeValue
                 }
             }
             end = true
