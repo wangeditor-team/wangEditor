@@ -3,19 +3,11 @@
  * @author wangfupeng
  */
 
-/**
- * 定义事件和它对应的函数组
- */
-export interface EventsObject {
-    [key: string]: Function[]
-}
-
-export default class CustomEvents {
-    /**
-     * 事件对象
-     */
-    private events: EventsObject
-
+export default class CustomEvent {
+    private events: {
+        // 如 'change': [fn1, fn2, fn3]
+        [key: string]: Function[]
+    }
     constructor() {
         this.events = {}
     }
@@ -54,10 +46,10 @@ export default class CustomEvents {
      * 触发事件
      * @param type 事件类型
      */
-    public emit(type: string, event: Event, arms?: any) {
+    public emit(type: string) {
         const events = this.events
         let curEvents = events[type] || []
 
-        curEvents.forEach(f => f(event, arms))
+        curEvents.forEach(f => f())
     }
 }

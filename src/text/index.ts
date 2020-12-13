@@ -287,7 +287,6 @@ class Text {
     private _bindEventHooks(): void {
         const editor = this.editor
         const $textElem = editor.$textElem
-        const events = editor.events
         const eventHooks = this.eventHooks
 
         // click hooks
@@ -301,9 +300,6 @@ class Text {
             if (e.keyCode !== 13) return
             const enterUpEvents = eventHooks.enterUpEvents
             enterUpEvents.forEach(fn => fn(e))
-
-            // 触发自定义事件的钩子
-            events.emit('hook:keyup:enter', e)
         })
 
         // 键盘 up 时的 hooks
@@ -364,8 +360,6 @@ class Text {
             e.preventDefault()
             const tabUpEvents = eventHooks.tabUpEvents
             tabUpEvents.forEach(fn => fn(e))
-            // 触发自定义事件的钩子
-            events.emit('hook:keydown:tab', e)
         })
 
         // tab down
@@ -548,9 +542,6 @@ class Text {
             if (e.keyCode !== 13) return
             const enterDownEvents = eventHooks.enterDownEvents
             enterDownEvents.forEach(fn => fn(e))
-
-            // 触发自定义事件的钩子
-            events.emit('hook:keydown:enter', e)
         })
     }
 }

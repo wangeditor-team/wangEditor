@@ -711,7 +711,7 @@ class List extends DropListMenu implements MenuActive {
         }
 
         // 更新选区
-        // this.updateRange($($containerFragment.children))
+        this.updateRange($($containerFragment.children))
     }
 
     // 对 nodes 进行筛选
