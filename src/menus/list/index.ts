@@ -81,15 +81,26 @@ class List extends DropListMenu implements MenuActive {
         const orderTarget = type.toLowerCase()
 
         // 获取相对应的 元属节点
-        let $selectionElem = editor.selection.getSelectionContainerElem() as DomElement
-        const $startElem = (editor.selection.getSelectionStartElem() as DomElement).getNodeTop(
-            editor
-        )
-        const $endElem = (editor.selection.getSelectionEndElem() as DomElement).getNodeTop(editor)
-        const $nodes = editor.selection.getSelectionRangeTopNodes()
+        const selection = editor.selection
+        let $selectionElem = selection.getSelectionContainerElem() as DomElement
+        const $startElem = (selection.getSelectionStartElem() as DomElement).getNodeTop(editor)
+        const $endElem = (selection.getSelectionEndElem() as DomElement).getNodeTop(editor)
+
+        // 获取 开始元素 和 结束元素 有问题抛出
+        if (
+            !$startElem.length ||
+            !$endElem.length ||
+            editor.$textElem.equal($startElem) ||
+            editor.$textElem.equal($endElem)
+        ) {
+            return
+        }
+
+        // 获取选中的段落
+        const $nodes = selection.getSelectionRangeTopNodes()
 
         // 获取选区
-        const _range = this.editor.selection.getRange()
+        const _range = selection.getRange()
 
         // 获取开始段落和结束段落 标签名
         const startNodeName = $startElem?.getNodeName()
@@ -97,11 +108,6 @@ class List extends DropListMenu implements MenuActive {
 
         // 容器 - HTML 文档片段
         let $containerFragment: DocumentFragment | HTMLElement
-
-        // 获取 开始元素 和 结束元素 有问题抛出
-        if (editor.$textElem.equal($startElem) || editor.$textElem.equal($endElem)) {
-            return
-        }
 
         // 防止光标的时候判断异常
         if (!editor.$textElem.equal($selectionElem)) {
@@ -741,8 +747,9 @@ class List extends DropListMenu implements MenuActive {
      * @param $node
      */
     private updateRange($node: DomElement) {
-        this.editor.selection.createRangeByElem($node, false, true)
-        this.editor.selection.restoreSelection()
+        const selection = this.editor.selection
+        selection.createRangeByElem($node, false, true)
+        selection.restoreSelection()
     }
 
     /**
