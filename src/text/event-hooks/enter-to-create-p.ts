@@ -16,7 +16,7 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEven
     function insertEmptyP($selectionElem: DomElement) {
         const $p = $('<p><br></p>')
         $p.insertBefore($selectionElem)
-        editor.selection.createRangeByElem($p, true)
+        editor.selection.createRangeByElem($p, true, true)
         editor.selection.restoreSelection()
         $selectionElem.remove()
     }
