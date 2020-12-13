@@ -19,7 +19,6 @@ import scrollToHead from './init-fns/scroll-to-head'
 import ZIndex from './z-index'
 import Change from './change/index'
 import History from './history/index'
-import CustomEvents from '../utils/custom-events'
 import disableInit from './disable'
 
 // 创建菜单的 class
@@ -64,7 +63,6 @@ class Editor {
     public zIndex: ZIndex
     public change: Change
     public history: History
-    public events: CustomEvents
 
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
@@ -103,7 +101,6 @@ class Editor {
         this.isComposing = false
         this.isCompatibleMode = false
 
-        this.events = new CustomEvents()
         this.selection = new SelectionAndRangeAPI(this)
         this.cmd = new CommandAPI(this)
         this.txt = new Text(this)
