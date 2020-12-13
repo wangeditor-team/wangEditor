@@ -141,6 +141,13 @@ class UploadImg {
             config.customAlert(`${t('图片验证未通过')}: \n` + errInfos.join('\n'), 'warning')
             return
         }
+
+        // 如果过滤后文件列表为空直接返回
+        if (resultFiles.length === 0) {
+            config.customAlert(t('传入的文件不合法'), 'warning')
+            return
+        }
+
         if (resultFiles.length > maxLength) {
             config.customAlert(t('一次最多上传') + maxLength + t('张图片'), 'warning')
             return

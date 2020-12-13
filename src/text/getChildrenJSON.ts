@@ -44,7 +44,7 @@ function getChildrenJSON($elem: DomElement): NodeListType {
             elemResult.tag = curElem.nodeName.toLowerCase()
             // attr
             const attrData = []
-            const attrList = curElem.attributes || []
+            const attrList = curElem.attributes
             const attrListLength = attrList.length || 0
             for (let i = 0; i < attrListLength; i++) {
                 const attr = attrList[i]

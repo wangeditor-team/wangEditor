@@ -4,12 +4,12 @@
  */
 
 import $ from 'jquery'
-import Editor from '../../../src/editor'
-import createEditor from '../../helpers/create-editor'
-import mockCmdFn from '../../helpers/command-mock'
-import ImgMenu from '../../../src/menus/img/index'
-import { getMenuInstance } from '../../helpers/menus'
-import Panel from '../../../src/menus/menu-constructors/Panel'
+import Editor from '../../../../src/editor'
+import createEditor from '../../../helpers/create-editor'
+import mockCmdFn from '../../../helpers/command-mock'
+import ImgMenu from '../../../../src/menus/img/index'
+import { getMenuInstance } from '../../../helpers/menus'
+import Panel from '../../../../src/menus/menu-constructors/Panel'
 
 let editor: Editor
 let imgMenu: ImgMenu
