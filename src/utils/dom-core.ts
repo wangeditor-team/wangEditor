@@ -89,13 +89,15 @@ function _styleArrTrim(style: string | string[]): string[] {
 export type DomElementSelector =
     | string
     | DomElement
-    | HTMLElement
-    | Element
     | Document
-    | HTMLCollection
     | Node
     | NodeList
+    | ChildNode
+    | ChildNode[]
+    | Element
+    | HTMLElement
     | HTMLElement[]
+    | HTMLCollection
     | EventTarget
     | null
     | undefined

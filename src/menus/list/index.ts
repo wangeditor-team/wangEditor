@@ -19,7 +19,14 @@ export enum ListType {
 // 序列类型
 type ListTypeValue = ListType
 
+// selection range
+type SelectionRangeType = HTMLElement | ChildNode[]
+type SetSelectionRangeType = SelectionRangeType | DocumentFragment
+type SelectionRangeElemType = SelectionRangeType | undefined
+
 class List extends DropListMenu implements MenuActive {
+    public $selectionRangeElem: SelectionRangeElemType
+
     constructor(editor: Editor) {
         const $elem = $(
             `<div class="w-e-menu">
@@ -74,14 +81,34 @@ class List extends DropListMenu implements MenuActive {
         this.tryChangeActive()
     }
 
+    private setSelectionRangeElem(data: SetSelectionRangeType) {
+        if (data instanceof DocumentFragment) {
+            const childNode: ChildNode[] = []
+            data.childNodes.forEach(($node: ChildNode) => {
+                childNode.push($node)
+            })
+            data = childNode
+        }
+        this.$selectionRangeElem = data
+    }
+
+    private getSelectionRangeElem(): SelectionRangeType {
+        return this.$selectionRangeElem as SelectionRangeType
+    }
+
     private handleSelectionRangeNodes(type: ListTypeValue): void {
         const editor = this.editor
+        const selection = editor.selection
 
         // 获取 序列标签
         const orderTarget = type.toLowerCase()
 
+        // 获取选区
+        const _range = selection.getRange()
+
+        console.log('获取选区 range:', _range)
+
         // 获取相对应的 元属节点
-        const selection = editor.selection
         let $selectionElem = selection.getSelectionContainerElem() as DomElement
         const $startElem = (selection.getSelectionStartElem() as DomElement).getNodeTop(editor)
         const $endElem = (selection.getSelectionEndElem() as DomElement).getNodeTop(editor)
@@ -98,9 +125,6 @@ class List extends DropListMenu implements MenuActive {
 
         // 获取选中的段落
         const $nodes = selection.getSelectionRangeTopNodes()
-
-        // 获取选区
-        const _range = selection.getRange()
 
         // 获取开始段落和结束段落 标签名
         const startNodeName = $startElem?.getNodeName()
@@ -175,6 +199,7 @@ class List extends DropListMenu implements MenuActive {
                 }
 
                 // 把 文档片段 或 序列节点 插入到 selectionElem 的前面
+                this.setSelectionRangeElem($containerFragment)
                 $selectionElem
                     .parent()
                     .elems[0].insertBefore($containerFragment, $selectionElem.elems[0])
@@ -263,6 +288,7 @@ class List extends DropListMenu implements MenuActive {
                     // 如果有，就把文档片段添加到 selectionElem 下一个兄弟节点前
                     // 如果没有，就把文档片段添加到 编辑区域 末尾
                     // =====================================
+                    this.setSelectionRangeElem($containerFragment)
                     const $selectionNextDom: DomElement = $selectionElem.next()
                     $selectionNextDom.length
                         ? $selectionElem
@@ -282,6 +308,7 @@ class List extends DropListMenu implements MenuActive {
                 // =====================================
                 else if (!$prveDom.length) {
                     // 文档片段插入到 selectionElem 之前
+                    this.setSelectionRangeElem($containerFragment)
                     $selectionElem
                         .parent()
                         .elems[0].insertBefore($containerFragment, $selectionElem.elems[0])
@@ -291,10 +318,11 @@ class List extends DropListMenu implements MenuActive {
                 // 不管是 取消 还是 转换 都需要重新插入节点
                 //
                 // nextDom.length 等于 0 即代表选区是 selectionElem 序列的下半部分
-                // 下半部分的 li 元素
+                // 下半部分的 li 元素  if (!$nextDom.length)
                 // =====================================
-                else if (!$nextDom.length) {
+                else {
                     // 文档片段插入到 selectionElem 之后
+                    this.setSelectionRangeElem($containerFragment)
                     const $selectionNextElem = $selectionElem.next()
                     if ($selectionNextElem.length) {
                         $selectionElem
@@ -360,6 +388,7 @@ class List extends DropListMenu implements MenuActive {
                         $endElem.remove()
 
                         // 在开始序列中添加 文档片段
+                        this.setSelectionRangeElem($containerFragment)
                         $startElem.elems[0].append($containerFragment)
                     }
 
@@ -403,6 +432,7 @@ class List extends DropListMenu implements MenuActive {
                         $containerFragment = $orderFragment
 
                         // 插入
+                        this.setSelectionRangeElem($containerFragment)
                         $($orderFragment).insertAfter($startElem)
 
                         // 序列全选被掏空了后，就卸磨杀驴吧
@@ -455,6 +485,7 @@ class List extends DropListMenu implements MenuActive {
                         })
 
                         // 插入到 endElem 前
+                        this.setSelectionRangeElem($containerFragment)
                         $startElem
                             .parent()
                             .elems[0].insertBefore($containerFragment, $endElem.elems[0])
@@ -473,6 +504,7 @@ class List extends DropListMenu implements MenuActive {
                             $containerFragment.append($list.elems[0])
                         })
                         // 插入到 startElem 之后
+                        this.setSelectionRangeElem($containerFragment)
                         $($containerFragment).insertAfter($startElem)
                     }
 
@@ -519,6 +551,7 @@ class List extends DropListMenu implements MenuActive {
                 })
 
                 // 插入
+                this.setSelectionRangeElem($containerFragment)
                 $startElem.elems[0].append($containerFragment)
 
                 // 序列全选被掏空了后，就卸磨杀驴吧
@@ -557,6 +590,7 @@ class List extends DropListMenu implements MenuActive {
                 })
 
                 // 插入到 结束序列 的顶部(作为子元素)
+                this.setSelectionRangeElem($containerFragment)
                 $endElem.elems[0].insertBefore(
                     $containerFragment,
                     $endElem.children()?.elems[0] as HTMLElement
@@ -589,6 +623,7 @@ class List extends DropListMenu implements MenuActive {
                 })
 
                 // 插入到开始序列末尾
+                this.setSelectionRangeElem($containerFragment)
                 $startElem.elems[0].append($containerFragment)
             }
 
@@ -620,6 +655,7 @@ class List extends DropListMenu implements MenuActive {
                 })
 
                 // 插入到开始元素
+                this.setSelectionRangeElem($containerFragment)
                 $($containerFragment).insertAfter($startElem)
 
                 // 序列全选被掏空了后，就卸磨杀驴吧
@@ -652,6 +688,7 @@ class List extends DropListMenu implements MenuActive {
                 })
 
                 // 插入到结束序列之前
+                this.setSelectionRangeElem($containerFragment)
                 $endElem.elems[0].insertBefore(
                     $containerFragment,
                     $endElem.children()?.elems[0] as HTMLElement
@@ -688,6 +725,7 @@ class List extends DropListMenu implements MenuActive {
                 })
 
                 // 插入到结束序列之前
+                this.setSelectionRangeElem($containerFragment)
                 $($containerFragment).insertBefore($endElem)
 
                 // 序列全选被掏空了后，就卸磨杀驴吧
@@ -713,11 +751,14 @@ class List extends DropListMenu implements MenuActive {
                 $node.remove()
             })
 
-            _range?.insertNode($containerFragment) // 插入节点到选区
+            // 插入节点到选区
+            this.setSelectionRangeElem($containerFragment)
+            _range?.insertNode($containerFragment)
         }
 
         // 更新选区
-        this.updateRange($($containerFragment.children))
+        const $selectionRangeElem = this.getSelectionRangeElem()
+        this.updateRange($($selectionRangeElem))
     }
 
     // 对 nodes 进行筛选
