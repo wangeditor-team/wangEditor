@@ -106,8 +106,6 @@ class List extends DropListMenu implements MenuActive {
         // 获取选区
         const _range = selection.getRange()
 
-        console.log('获取选区 range:', _range)
-
         // 获取相对应的 元属节点
         let $selectionElem = selection.getSelectionContainerElem() as DomElement
         const $startElem = (selection.getSelectionStartElem() as DomElement).getNodeTop(editor)
