@@ -37,7 +37,7 @@
     "url": "git+https://github.com/wangeditor-team/wangEditor.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/wangeditor-team/wangEditor/issues"
   },

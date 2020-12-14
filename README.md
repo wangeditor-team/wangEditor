@@ -1,73 +1,101 @@
 # wangEditor
 
+<!-- Badge -->
+![Forks badge](https://img.shields.io/badge/Forks-2.4k-green)
+![Stars badge](https://img.shields.io/badge/stars-10.8K-brightgreen)
+![cypress badge](https://img.shields.io/badge/E2E-Cypress-brightgreen)
+![jest badge](https://img.shields.io/badge/unit%20test-jest-yellowgreen)
 ![build badge](https://github.com/wangeditor-team/wangEditor/workflows/build/badge.svg)
+![ICS License](https://img.shields.io/badge/License-ISC-blue)
 
-轻量级 web 富文本编辑器，配置方便，使用简单。
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="http://www.wangeditor.com/">
+    <img src="http://www.wangeditor.com/imgs/logo.jpeg" alt="Logo" width="80" height="80">
+  </a>
 
-- 官网 [www.wangEditor.com](http://www.wangeditor.com/)
-- 文档 [www.wangEditor.com/doc](http://www.wangeditor.com/doc/)
+  <h3 align="center">wangEditor</h3>
 
-![](./docs/imgs/demo.png)
+  <p align="center">
+    A lightweight rich text editor, friendly API and use extremely conventient.
+    <br />
+    <a href="http://www.wangeditor.com"><strong>Offical website</strong></a>
+    ·
+    <a href="http://www.wangeditor.com/doc/"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="./README-zh-cn.md">Chinese Docs</a>
+    ·
+    <a href="https://codepen.io/collection/DNmPQV">View Demo</a>
+    ·
+    <a href="https://github.com/wangeditor-team/wangEditor/issues/new?template=bug.md">Report Bug</a>
+    ·
+    <a href="https://github.com/wangeditor-team/wangEditor/issues/new?template=feature.md">Request Feature</a>
+  </p>
+</p>
 
-当前是 `v4` 版本。想继续使用 `v3` 版本看[这里](http://www.wangeditor.com/doc/pages/01-%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/08-%E4%BD%BF%E7%94%A8V3%E7%89%88%E6%9C%AC.html)。
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-## 浏览器兼容性
+wangEditor is a web rich text editor that use typescript develop. It's lightweight, simple, use convience and open source.
 
-兼容常见的 PC 浏览器：Chrome，Firefox，Safar，Edge，QQ 浏览器，IE11 。
+It support most of modern browsers: Chrome, Firefox, Safar, Edge, QQ, IE11 and so on.
 
-不支持移动端。
+It doesn't support mobile browers.
 
-## 基本使用
+![Product Name Screen Shot](./docs/imgs/demo.jpg)
 
-### NPM
-```bash
-npm i wangeditor --save
-```
-安装后几行代码即可创建一个编辑器：
+## Usage
+
+### Use NPM package
+```sh
+npm install wangeditor --save
+``` 
+A few lines code for creating editor instance：
 
 ```js
 import E from "wangeditor";
 const editor = new E("#div1");
 editor.create();
 ```
-### CDN
+
+### Use CDN
 ```html
 <script type="text/javascript" src="https://unpkg.com/wangeditor/dist/wangEditor.min.js"></script>
 <script type="text/javascript">
   const E = window.wangEditor
   const editor = new E('#div1')
-  // 或者 const editor = new E(document.getElementById('div1'))
+  // or const editor = new E(document.getElementById('div1'))
   editor.create()
 </script>
 ```
 
-更多使用方法，可参考[文档](http://www.wangeditor.com/doc/)。
+<!-- CONTRIBUTING -->
+## Contributing
 
-## 交流
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**. Before contributing wangEditor, You must read [contribution](./docs/contribution.md) docs.
 
-加入 QQ 群
-- 164999061（人已满）
-- 710646022（人已满）
-- 901247714
+<!-- LICENSE -->
+## License
 
-提交 bug 或建议
-- [github issues](https://github.com/wangeditor-team/wangeditor/issues) 提交问题
+Distributed under the MIT License. See [MIT License](https://en.wikipedia.org/wiki/MIT_license) for more information.
 
-## 开发团队
+<!-- CONTACT -->
+## Contact
 
-有专业[开发团队](http://www.wangeditor.com/doc/#%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98)维护，非个人单兵作战。
+Wangfupeng - wangfupeng1988@163.com
 
-想加入 wangEditor 研发团队，可申请加入 QQ 群，然后私聊群主。
+Project Link: [https://github.com/wangeditor-team/wangEditor](https://github.com/wangeditor-team/wangEditor)
 
-## 开发文档
+## Developer team
+We have a professional developer team, if you want to join us, you can send email to `wangfupeng1988@163.com`.
 
-[开发文档](./docs/README.md)，供申请加入开发团队，或者对源码感兴趣的用户阅读。
+If you are a chinese developer, you can join our QQ group or read [chinese](./README-zh-cn.md) docs for more information.
 
-加入开发团队后，还会有更详细的开发流程、规划、沟通机制。内容太多，这里不公开。
+## Support us
 
-## 为我们加油
-
-你的支持，将激励我们输出更多优质内容！
+Your support will encourage us to output more quality content.
 
 ![](./docs/imgs/wechat-pay.jpeg)
 ![](./docs/imgs/ali-pay.jpeg)
