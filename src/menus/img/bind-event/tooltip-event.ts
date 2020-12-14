@@ -10,7 +10,7 @@ import Editor from '../../../editor/index'
 /**
  * 生成 Tooltip 的显示隐藏函数
  */
-function createShowHideFn(editor: Editor) {
+export function createShowHideFn(editor: Editor) {
     let tooltip: Tooltip | null
     const t = (text: string, prefix: string = ''): string => {
         return editor.i18next.t(prefix + text)
