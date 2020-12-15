@@ -47,6 +47,7 @@ class Editor {
     public textSelector?: DomElementSelector
     public config: ConfigType
     public $toolbarElem: DomElement
+    public toolbarDataId: string
     public $textContainerElem: DomElement
     public $textElem: DomElement
     public toolbarElemId: string
@@ -96,6 +97,7 @@ class Editor {
         this.$textContainerElem = $('<div></div>')
         this.$textElem = $('<div></div>')
         this.toolbarElemId = ''
+        this.toolbarDataId = ''
         this.textElemId = ''
         this.isFocus = false
         this.isComposing = false
