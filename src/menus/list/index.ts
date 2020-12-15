@@ -105,6 +105,7 @@ class List extends DropListMenu implements MenuActive {
 
         // 获取选区
         const _range = selection.getRange()
+        console.log('获取选区:', _range)
 
         // 获取相对应的 元属节点
         let $selectionElem = selection.getSelectionContainerElem() as DomElement
@@ -787,7 +788,17 @@ class List extends DropListMenu implements MenuActive {
      */
     private updateRange($node: DomElement) {
         const selection = this.editor.selection
-        selection.createRangeByElem($node, false, true)
+        const range = document.createRange()
+        if ($node.length > 1) {
+            range.setStart($node.elems[0], 0)
+            range.setEnd(
+                $node.elems[$node.length - 1],
+                $node.elems[$node.length - 1].childNodes.length
+            )
+        } else {
+            range.selectNodeContents($node.elems[0])
+        }
+        selection.saveRange(range)
         selection.restoreSelection()
     }
 
