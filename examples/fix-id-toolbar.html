@@ -15,14 +15,21 @@
     </p>
     <div id="toolbars"></div>
     <div id="text_"></div>
+
+    <div class="div1"></div>
+    <div class="div2"></div>
+
     <script src="../dist/wangEditor.js"></script>
     <script>
         // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
-        const E = window.wangEditor
+        var E = window.wangEditor
         let toolbar = "toolbars";
         let text = "text_";
         let editor = new E(document.getElementById(toolbar), document.getElementById(text));
-        editor.create();
+        editor.create()
+        
+        let editor1 = new E('.div1','.div2')
+        editor1.create();
     </script>
 </body>
 

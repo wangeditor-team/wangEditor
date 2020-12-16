@@ -57,7 +57,7 @@ export default function (editor: Editor): void {
         // 将编辑器区域原有的内容，暂存起来
         $children = $textContainerElem.children()
         // 都有时，toolbarElemId 使用用户自定义的
-        toolbarElemId = $toolbarSelector.attr('id')
+        toolbarElemId = $toolbarSelector.attr('id') || getRandom('toolbar-elem')
     }
 
     // 编辑区域
