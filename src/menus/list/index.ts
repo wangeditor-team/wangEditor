@@ -103,10 +103,6 @@ class List extends DropListMenu implements MenuActive {
         // 获取 序列标签
         const orderTarget = type.toLowerCase()
 
-        // 获取选区
-        const _range = selection.getRange()
-        console.log('获取选区:', _range)
-
         // 获取相对应的 元属节点
         let $selectionElem = selection.getSelectionContainerElem() as DomElement
         const $startElem = (selection.getSelectionStartElem() as DomElement).getNodeTop(editor)
@@ -121,6 +117,10 @@ class List extends DropListMenu implements MenuActive {
         ) {
             return
         }
+
+        // 获取选区
+        const _range = selection.getRange()
+        const _collapsed = _range?.collapsed
 
         // 获取选中的段落
         const $nodes = selection.getSelectionRangeTopNodes()
@@ -757,7 +757,7 @@ class List extends DropListMenu implements MenuActive {
 
         // 更新选区
         const $selectionRangeElem = this.getSelectionRangeElem()
-        this.updateRange($($selectionRangeElem))
+        this.updateRange($($selectionRangeElem), !!_collapsed)
     }
 
     // 对 nodes 进行筛选
@@ -786,18 +786,33 @@ class List extends DropListMenu implements MenuActive {
      * 更新选区
      * @param $node
      */
-    private updateRange($node: DomElement) {
+    private updateRange($node: DomElement, collapsed: boolean) {
         const selection = this.editor.selection
         const range = document.createRange()
+
+        // ===============================
+        // length 大于 1
+        // 代表着转换是一个文档节点多段落
+        // ===============================
         if ($node.length > 1) {
             range.setStart($node.elems[0], 0)
             range.setEnd(
                 $node.elems[$node.length - 1],
                 $node.elems[$node.length - 1].childNodes.length
             )
-        } else {
+        }
+
+        // ===============================
+        // 序列节点 或 单段落
+        // ===============================
+        else {
             range.selectNodeContents($node.elems[0])
         }
+
+        // ===============================
+        // collapsed 为 true 代表是光标
+        // ===============================
+        collapsed && range.collapse(false)
         selection.saveRange(range)
         selection.restoreSelection()
     }
