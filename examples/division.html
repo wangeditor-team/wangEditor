@@ -22,13 +22,28 @@
         <div id="toolbar-container" class="toolbar"></div>
         <p>------ 我是分割线 ------</p>
         <div id="text-container" class="text"></div>
+
+        <!--  测试设置ID -->
+        <!-- 情景1：toolbarSelector为class，div不含id     -->
+        <!-- <div class="toolbar_test"></div> -->
+
+        <!-- 情景2：toolbarSelector为class，div指定id -->
+        <!-- <div class="toolbar_test" id="toolbar_test"></div> -->
+
+        <!-- 情景3：toolbarSelector为id -->
+        <div id="toolbar_test"></div>
+
     </div>
 
     <script src="../dist/wangEditor.js"></script>
     <script>
         const E = window.wangEditor
-        const editor = new E('#toolbar-container', '#text-container')
-        editor.create()
+        // const editor = new E('#toolbar-container', '#text-container')
+        // editor.create()
+
+        // 测试设置ID
+        const editor_1 = new E('#toolbar_test')
+        editor_1.create()
     </script>
 </body>
 </html>

@@ -48,7 +48,8 @@ export default function (editor: Editor): void {
             .css('border', styleSettings.border)
             .css('border-top', 'none')
             .css('height', `${height}px`)
-        // 当只有 toolbarSelector 时，toolbarElemId 自行创建
+
+        // toolbarElemId 使用生成的
         toolbarElemId = getRandom('toolbar-elem')
     } else {
         // toolbarSelector 和 textSelector 都有
@@ -56,7 +57,7 @@ export default function (editor: Editor): void {
         $textContainerElem = $(textSelector)
         // 将编辑器区域原有的内容，暂存起来
         $children = $textContainerElem.children()
-        // 都有时，toolbarElemId 使用用户自定义的
+        // toolbarElemId 使用用户设置的ID，否则使用生成的
         toolbarElemId = $toolbarSelector.attr('id') || getRandom('toolbar-elem')
     }
 
@@ -91,9 +92,6 @@ export default function (editor: Editor): void {
 
     // 添加 ID
     $toolbarElem.attr('id', toolbarElemId)
-    // 为了保证用户设置的id不被替换，将id设置到data-id上
-    const toolbarDataId = getRandom('toolbar-elem')
-    $toolbarElem.attr('data-id', toolbarDataId)
     const textElemId = getRandom('text-elem')
     $textElem.attr('id', textElemId)
 
@@ -108,6 +106,5 @@ export default function (editor: Editor): void {
     editor.$toolbarElem = $toolbarElem
     editor.$textContainerElem = $textContainerElem
     editor.$textElem = $textElem
-    editor.toolbarElemId = toolbarElemId
     editor.textElemId = textElemId
 }
