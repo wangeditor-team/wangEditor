@@ -23,6 +23,6 @@ test('在第一行设置todo', () => {
     const boldMenu = getMenuInstance(editor, todo)
     boldMenu.clickHandler()
     expect(editor.txt.html()).toEqual(
-        '<p style="height:0px;"><br></p><ul class="w-e-todo"><li><span contenteditable="false"><input type="checkbox"></span><br></li></ul>'
+        '<ul class="w-e-todo"><li><span contenteditable="false"><input type="checkbox"></span><br></li></ul>'
     )
 })
