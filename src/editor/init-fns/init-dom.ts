@@ -27,6 +27,7 @@ export default function (editor: Editor): void {
     let $textElem: DomElement
     let $children: DomElement | null
     let toolbarElemId: string
+    let toolbarElemId: string
 
     if (textSelector == null) {
         // 只有 toolbarSelector ，即是容器的选择器或元素，toolbar 和 text 的元素自行创建
@@ -44,15 +45,17 @@ export default function (editor: Editor): void {
             .css('background-color', styleSettings.toolbarBgColor)
             .css('border', styleSettings.border)
             .css('border-bottom', styleSettings.toolbarBottomBorder)
-        $textContainerElem
-            .css('border', styleSettings.border)
-            .css('border-top', 'none')
-            .css('height', `${height}px`)
+        $textContainerElem.css('border', styleSettings.border).css('border-top', 'none')
+
+        // toolbarElemId 使用生成的
+        toolbarElemId = getRandom('toolbar-elem').css('height', `${height}px`)
 
         // toolbarElemId 使用生成的
         toolbarElemId = getRandom('toolbar-elem')
     } else {
         // toolbarSelector 和 textSelector 都有
+        // toolbarElemId 使用用户设置的ID，否则使用生成的
+        toolbarElemId = $toolbarSelector.attr('id') || getRandom('toolbar-elem')
         $toolbarElem = $toolbarSelector
         $textContainerElem = $(textSelector)
         // 将编辑器区域原有的内容，暂存起来
@@ -85,7 +88,6 @@ export default function (editor: Editor): void {
     $textContainerElem.append($placeholder)
 
     // 设置通用的 class
-    $toolbarElem.addClass('w-e-toolbar').css('z-index', editor.zIndex.get('toolbar'))
     $textContainerElem.addClass('w-e-text-container')
     $textContainerElem.css('z-index', editor.zIndex.get())
     $textElem.addClass('w-e-text')
@@ -106,5 +108,6 @@ export default function (editor: Editor): void {
     editor.$toolbarElem = $toolbarElem
     editor.$textContainerElem = $textContainerElem
     editor.$textElem = $textElem
+    editor.toolbarElemId = toolbarElemId
     editor.textElemId = textElemId
 }
