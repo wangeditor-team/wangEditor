@@ -57,7 +57,7 @@ export default function (editor: Editor): void {
         // 将编辑器区域原有的内容，暂存起来
         $children = $textContainerElem.children()
         // 都有时，toolbarElemId 使用用户自定义的
-        toolbarElemId = $toolbarSelector.attr('id')
+        toolbarElemId = $toolbarSelector.attr('id') || getRandom('toolbar-elem')
     }
 
     // 编辑区域
@@ -91,9 +91,6 @@ export default function (editor: Editor): void {
 
     // 添加 ID
     $toolbarElem.attr('id', toolbarElemId)
-    // 为了保证用户设置的id不被替换，将id设置到data-id上
-    const toolbarDataId = getRandom('toolbar-elem')
-    $toolbarElem.attr('data-id', toolbarDataId)
     const textElemId = getRandom('text-elem')
     $textElem.attr('id', textElemId)
 
