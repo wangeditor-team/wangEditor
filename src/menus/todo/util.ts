@@ -72,13 +72,20 @@ function getCursorNextNode(node: Node, textNode: Node, pos: number): Node | unde
  * 获取新的文本节点
  * @param node 要处理的文本节点
  * @param pos  光标在文本节点所在的位置
+ * @param start 设置为true时保留开始位置到光标的内容，设置为false时删去开始的内容
  */
-function dealTextNode(node: Node, pos: number) {
+function dealTextNode(node: Node, pos: number, start: boolean = true): string {
     let content = node.nodeValue
     let oldContent = content?.slice(0, pos) as string
     content = content?.slice(pos) as string
+    // start为false时替换content和oldContent
+    if (!start) {
+        let temp = content
+        content = oldContent
+        oldContent = temp
+    }
     node.nodeValue = oldContent
     return content
 }
 
-export { getCursorNextNode, isTodo, isAllTodo }
+export { getCursorNextNode, isTodo, isAllTodo, dealTextNode }

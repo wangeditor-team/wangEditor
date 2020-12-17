@@ -45,10 +45,6 @@ class Todo extends BtnMenu implements MenuActive {
     private setTodo() {
         const editor = this.editor
         const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes(editor)
-        // 增加垫片防止无法删除的情况
-        if (topNodeElem[0].prev().length === 0) {
-            $(`<p style="height:0px;"><br></p>`).insertBefore(topNodeElem[0])
-        }
         topNodeElem.forEach($node => {
             const nodeName = $node?.getNodeName()
             if (nodeName === 'P') {

@@ -2,6 +2,7 @@ import Editor from '../../../editor/index'
 import $ from '../../../utils/dom-core'
 import { getCursorNextNode, isAllTodo } from '../util'
 import createTodo from '../todo'
+import { dealTextNode, isTodo } from '../util'
 
 /**
  * todolist 内部逻辑
@@ -20,6 +21,38 @@ function bindEvent(editor: Editor) {
             const $topSelectElem = selection.getSelectionRangeTopNodes(editor)[0]
             const $li = $topSelectElem.childNodes()?.get(0)
             const selectionNode = window.getSelection()?.anchorNode as Node
+            const range = selection.getRange()
+
+            if (!range?.collapsed) {
+                const rangeChildNodes = range?.commonAncestorContainer.childNodes
+                const startContainer = range?.startContainer as Node
+                const endContainer = range?.endContainer as Node
+                const startPos = range?.startOffset as number
+                const endPos = range?.endOffset as number
+                let startElemIndex: number = 0
+                let endElemIndex: number = 0
+                let delList: ChildNode[] = []
+                // 找出startContainer和endContainer在rangeChildNodes中的位置
+                rangeChildNodes?.forEach((v, i) => {
+                    if (v.contains(startContainer)) startElemIndex = i
+                    if (v.contains(endContainer)) endElemIndex = i
+                })
+                // 删除两个容器间的内容
+                if (endElemIndex - startElemIndex > 1) {
+                    rangeChildNodes?.forEach((v, i) => {
+                        if (i <= startElemIndex) return
+                        if (i >= endElemIndex) return
+                        delList.push(v)
+                    })
+                    delList.forEach(v => {
+                        v.remove()
+                    })
+                }
+                // 删除两个容器里拖蓝的内容
+                dealTextNode(startContainer, startPos)
+                dealTextNode(endContainer, endPos, false)
+                editor.selection.moveCursor(endContainer, 0)
+            }
 
             // 回车时内容为空时，删去此行
             if ($topSelectElem.text() === '') {
@@ -97,7 +130,22 @@ function bindEvent(editor: Editor) {
             }
         }
     }
+
+    /**
+     * 自定义删除键up事件
+     */
+    function deleteUp() {
+        const selection = editor.selection
+        const $topSelectElem = selection.getSelectionRangeTopNodes(editor)[0]
+        if (isTodo($topSelectElem)) {
+            if ($topSelectElem.text() === '') {
+                $(`<p><br></p>`).insertAfter($topSelectElem)
+                $topSelectElem.remove()
+            }
+        }
+    }
     editor.txt.eventHooks.enterDownEvents.push(todoEnter)
+    editor.txt.eventHooks.deleteUpEvents.push(deleteUp)
     editor.txt.eventHooks.deleteDownEvents.push(delDown)
 }
 

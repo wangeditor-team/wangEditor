@@ -571,9 +571,6 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     }
 
     /**
-     * 获取当前元素节点
-     */
-    /**
      * 根据元素位置获取元素节点（默认获取0位置的节点）
      * @param n 元素节点位置
      */
