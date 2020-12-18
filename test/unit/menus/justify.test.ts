@@ -5,8 +5,9 @@
 
 import Editor from '../../../src/editor'
 import createEditor from '../../helpers/create-editor'
-import mockCmdFn from '../../helpers/command-mock'
 import justify from '../../../src/menus/justify/index'
+import $ from '../../../src/utils/dom-core'
+import { DomElement } from '../../../src/utils/dom-core'
 import { getMenuInstance } from '../../helpers/menus'
 
 let editor: Editor
@@ -23,9 +24,25 @@ test('justify 菜单：dropList', () => {
 })
 
 test('justify 菜单：设置对齐方式', () => {
-    mockCmdFn(document)
-    const cmdVal = ['justifyCenter', 'justifyRight', 'justifyLeft']
-    cmdVal.forEach(val => {
-        justifyMenu.command(val)
-    })
+    type justifyType = {
+        [key: string]: string
+    }
+    const justifyClass: justifyType = {
+        justifyLeft: 'left',
+        justifyCenter: 'center',
+        justifyRight: 'right',
+        justifyFull: 'justify',
+    }
+    const mockGetSelectionRangeTopNodes = (tagString: string) => {
+        const domArr = [$(tagString)]
+        jest.spyOn(editor.selection, 'getSelectionRangeTopNodes').mockImplementation(() => domArr)
+        return domArr
+    }
+    const $elems = mockGetSelectionRangeTopNodes('<p>123</p>')
+    for (let key in justifyClass) {
+        justifyMenu.command(key)
+        $elems.forEach((el: DomElement) => {
+            expect(el.elems[0].getAttribute('style')).toContain(`text-align:${justifyClass[key]}`)
+        })
+    }
 })
