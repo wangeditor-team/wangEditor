@@ -7,8 +7,7 @@ describe('插入网络图片', () => {
         cy.get('@Editable').clear()
     })
 
-    const imgUrl =
-        'https://echolc.github.io/static/d8d5730a3ad5e3cfc74f32c146998e29/14b42/huoyingzhishui.jpg'
+    const imgUrl = 'http://www.wangeditor.com/imgs/ali-pay.jpeg'
 
     it('点击菜单打开插入图片的面板', () => {
         cy.getByClass('toolbar').children().eq(16).as('imgMenu').click()

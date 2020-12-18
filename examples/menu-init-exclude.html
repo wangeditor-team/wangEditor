@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor example</title>
+  <style>
+  </style>
+</head>
+
+<body>
+  <p>
+    wangEditor 自定义菜单
+  </p>
+  <div id="div1"></div>
+
+  <script src="../dist/wangEditor.js"></script>
+  <script>
+    const E = window.wangEditor
+    const editor = new E('#div1')
+
+    // editor.config.menus = ['fontSize', 'bold']
+
+    // 需要排除的菜单
+    editor.config.excludeMenus = ['bold']
+
+    editor.create()
+
+  </script>
+</body>
+
+</html>

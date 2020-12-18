@@ -62,7 +62,7 @@ function showDargBox($textContainerElem: DomElement, $drag: DomElement, $img: Do
 /**
  * 生成图片拖拽框的 显示/隐藏 函数
  */
-function createShowHideFn(editor: Editor) {
+export function createShowHideFn(editor: Editor) {
     const $textContainerElem = editor.$textContainerElem
     let $imgTarget: DomElement
 
