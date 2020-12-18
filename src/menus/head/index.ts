@@ -13,7 +13,9 @@ import { TCatalog } from '../../config/events'
 class Head extends DropListMenu implements MenuActive {
     oldCatalogs: TCatalog[] | undefined
     constructor(editor: Editor) {
-        const $elem = $('<div class="w-e-menu"><i class="w-e-icon-header"></i></div>')
+        const $elem = $(
+            '<div class="w-e-menu" data-title="标题"><i class="w-e-icon-header"></i></div>'
+        )
         const dropListConf = {
             width: 100,
             title: '设置标题',

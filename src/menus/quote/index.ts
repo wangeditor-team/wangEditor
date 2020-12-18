@@ -13,7 +13,7 @@ import createQuote from './create-quote-node'
 class Quote extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="引用">
                 <i class="w-e-icon-quotes-left"></i>
             </div>`
         )

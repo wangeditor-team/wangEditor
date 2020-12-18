@@ -64,7 +64,9 @@ export function formatCodeHtml(editor: Editor, html: string) {
 
 class Code extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
-        const $elem = $('<div class="w-e-menu"><i class="w-e-icon-terminal"></i></div>')
+        const $elem = $(
+            '<div class="w-e-menu" data-title="代码"><i class="w-e-icon-terminal"></i></div>'
+        )
         super($elem, editor)
 
         // 绑定事件，如点击链接时，可以查看链接

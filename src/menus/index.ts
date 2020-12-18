@@ -3,6 +3,7 @@
  * @author wangfupeng
  */
 
+import $ from '../utils/dom-core'
 import Editor from '../editor/index'
 import Menu from './menu-constructors/Menu'
 import MenuConstructorList, { MenuListType } from './menu-list'
@@ -32,6 +33,8 @@ class Menus {
 
     // 初始化菜单
     public init(): void {
+        const editor = this.editor
+        const $toolbarElem = editor.$toolbarElem
         // 从用户配置的 menus 入手，看需要初始化哪些菜单
         const config = this.editor.config
         config.menus.forEach(menuKey => {
@@ -48,6 +51,52 @@ class Menus {
 
         // 渲染 DOM
         this._addToToolbar()
+
+        // 添加菜单栏tooltips
+        function addMenuTooltips() {
+            $toolbarElem.children()?.forEach(ele => {
+                const $elem = $(ele)
+                const title: string | undefined = $elem.attr('data-title')
+                // 有title时才创建tooltips
+                if (title) {
+                    // 创建 tooltip
+                    const $container = $(
+                        `<div class="w-e-menu-tooltip w-e-menu-tooltip-up">
+                          <div class="w-e-menu-tooltip-item-wrapper">
+                            <div>${editor.i18next.t('menus.title.' + title)}</div>
+                          </div>
+                        </div>`
+                    )
+                    const menuHeight = $elem.getSizeData().height || 0
+                    $container.css('margin-top', menuHeight * -1 + 'px')
+                    $container.hide()
+                    $elem.append($container)
+
+                    // 设置 z-index
+                    $container.css('z-index', editor.zIndex.get('tooltip'))
+
+                    let showTimeoutId: number = 0 // 定时器，延时200ms显示tooltips
+                    $elem
+                        .on('mouseenter', () => {
+                            showTimeoutId = window.setTimeout(() => {
+                                $container.show()
+                            }, 200)
+                        })
+                        .on('mouseleave', () => {
+                            if (showTimeoutId) {
+                                clearTimeout(showTimeoutId)
+                            }
+                            $container.hide()
+                        })
+                }
+            })
+        }
+        // 鼠标悬停提示
+        $toolbarElem.on('mouseenter', addMenuTooltips)
+        // 解绑事件
+        $toolbarElem.on('mouseleave', () => {
+            $toolbarElem.off('mouseenter', addMenuTooltips)
+        })
     }
 
     // 添加到菜单栏

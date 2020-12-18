@@ -12,7 +12,7 @@ import { hexToRgb } from '../../utils/util'
 class BackColor extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="背景色">
                 <i class="w-e-icon-paint-brush"></i>
             </div>`
         )

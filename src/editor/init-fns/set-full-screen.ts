@@ -60,7 +60,7 @@ const initFullScreen = (editor: Editor) => {
     if (!editor.config.showFullScreen) return
     const $toolbarElem = editor.$toolbarElem
     const $elem = $(
-        `<div class="w-e-menu">
+        `<div class="w-e-menu" data-title="全屏">
             <i class="${iconFullScreenText}"></i>
         </div>`
     )

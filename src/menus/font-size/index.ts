@@ -13,7 +13,7 @@ import FontSizeList from './FontSizeList'
 class FontSize extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="字号">
                 <i class="w-e-icon-text-heigh"></i>
             </div>`
         )
