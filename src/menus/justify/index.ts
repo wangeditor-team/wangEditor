@@ -84,7 +84,6 @@ class Justify extends DropListMenu implements MenuActive {
         }
         // 获取顶级元素
         const $elems = editor.selection.getSelectionRangeTopNodes(editor)
-        // 选区等于textElem时表示选择了多个段落
         if ($selectionElem) {
             // 获取在css中对应style的值
             const justifyValue = justifyClass[value]
