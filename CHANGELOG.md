@@ -1,3 +1,20 @@
+## [4.5.4](https://github.com/wangeditor-team/wangEditor/compare/v4.5.3...v4.5.4) (2020-12-18)
+
+
+### Bug Fixes
+
+* 插入网络视频的校验 ([285029d](https://github.com/wangeditor-team/wangEditor/commit/285029d1de5b0b488700810b9217ae84eff3791a))
+* 设置完标题回车后,光标消失 ([0121c5c](https://github.com/wangeditor-team/wangEditor/commit/0121c5cdc7e74640228a217cd0510c98efaba5bc))
+* 修改插入视频校验的正则 ([26196ac](https://github.com/wangeditor-team/wangEditor/commit/26196ac88467d6d83e1d93c34cdb84468ca440b0))
+* 修改插入视频校验的正则 ([38e6289](https://github.com/wangeditor-team/wangEditor/commit/38e62898c83a4e074bae1764b381e496453bd401))
+* 修改插入视频校验的正则 ([9944d51](https://github.com/wangeditor-team/wangEditor/commit/9944d515ebee27509395230be696abdc352dd43a))
+
+
+### Features
+
+* editor.config新增excludeMenus配置 ([5401280](https://github.com/wangeditor-team/wangEditor/commit/5401280ea9e54d920b3541078fd2f39955235a92))
+* editor.config增加excludeMenus配置 ([15f1caa](https://github.com/wangeditor-team/wangEditor/commit/15f1caae024b79e76412c8d1aad48c9dac97122f))
+
 ## [4.5.3](https://github.com/wangeditor-team/wangEditor/compare/v4.5.2...v4.5.3) (2020-12-10)
 
 
