@@ -256,6 +256,9 @@ class Text {
 
         // 按键后保存
         $textElem.on('keyup', saveRange)
+        // 点击后保存
+        $textElem.on('click', saveRange)
+
         $textElem.on('mousedown', () => {
             // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
             $textElem.on('mouseleave', saveRange)
