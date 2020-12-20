@@ -3,20 +3,37 @@
  * @author wangfupeng
  */
 
-import PanelMenu from '../menu-constructors/PanelMenu'
 import Editor from '../../editor/index'
+import { EMPTY_FN } from '../../utils/const'
 import $ from '../../utils/dom-core'
-import createPanelConf from './create-panel-conf'
-import Panel from '../menu-constructors/Panel'
 import { MenuActive } from '../menu-constructors/Menu'
+import Panel from '../menu-constructors/Panel'
+import PanelMenu from '../menu-constructors/PanelMenu'
 import bindEvent from './bind-event/index'
+import createPanelConf, { ImgPanelConf } from './create-panel-conf'
 
 class Image extends PanelMenu implements MenuActive {
+    private imgPanelConfig: ImgPanelConf
+
     constructor(editor: Editor) {
-        const $elem = $(
+        let $elem = $(
             '<div class="w-e-menu" data-title="图片"><i class="w-e-icon-image"></i></div>'
         )
+        let imgPanelConfig = createPanelConf(editor)
+        if (imgPanelConfig.onlyUploadConf) {
+            $elem = imgPanelConfig.onlyUploadConf.$elem
+            imgPanelConfig.onlyUploadConf.events.map(event => {
+                const selector = event.selector
+                const type = event.type
+                const fn = event.fn || EMPTY_FN
+                $elem.find(selector).on(type, (e: Event) => {
+                    e.stopPropagation()
+                    fn(e)
+                })
+            })
+        }
         super($elem, editor)
+        this.imgPanelConfig = imgPanelConfig
 
         // 绑定事件，如粘贴图片
         bindEvent(editor)
@@ -26,15 +43,18 @@ class Image extends PanelMenu implements MenuActive {
      * 菜单点击事件
      */
     public clickHandler(): void {
-        this.createPanel()
+        if (!this.imgPanelConfig.onlyUploadConf) {
+            this.createPanel()
+        }
     }
 
     /**
      * 创建 panel
      */
     private createPanel(): void {
-        const conf = createPanelConf(this.editor)
+        const conf = this.imgPanelConfig
         const panel = new Panel(this, conf)
+        this.setPanel(panel)
         panel.create()
     }
 

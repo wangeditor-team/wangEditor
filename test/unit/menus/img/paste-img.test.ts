@@ -79,7 +79,7 @@ describe('Img menu paste-img', () => {
             fn(mockEvent)
         })
 
-        expect(UploadImg).not.toBeCalled()
+        expect(UploadImg).toBeCalled()
     })
 
     test('调用 bindPasteImgEvent 方法给编辑器绑定paste事件后，执行pasteEvent里面的函数如果粘贴的内容有HTML会直接返回', () => {
@@ -103,7 +103,7 @@ describe('Img menu paste-img', () => {
             fn(mockEvent)
         })
 
-        expect(UploadImg).not.toBeCalled()
+        expect(UploadImg).toBeCalled()
     })
 
     test('调用 bindPasteImgEvent 方法给编辑器绑定paste事件后，执行pasteEvent里面的函数如果粘贴的内容有Text会直接返回', () => {
@@ -132,6 +132,6 @@ describe('Img menu paste-img', () => {
             fn(mockEvent)
         })
 
-        expect(UploadImg).not.toBeCalled()
+        expect(UploadImg).toBeCalled()
     })
 })

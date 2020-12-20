@@ -48,6 +48,8 @@ export type ConfigType = {
     zIndexFullScreen: number
     showFullScreen: boolean
     showLinkImg: boolean
+    showLinkImgAlt: boolean
+    showLinkImgHref: boolean
     uploadImgAccept: string[]
     uploadImgServer: string
     uploadImgShowBase64: boolean
