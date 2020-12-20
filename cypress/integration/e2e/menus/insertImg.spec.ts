@@ -7,7 +7,7 @@ describe('插入网络图片', () => {
         cy.get('@Editable').clear()
     })
 
-    const imgUrl = 'http://www.wangeditor.com/imgs/ali-pay.jpeg'
+    const imgObj = { url: 'http://www.wangeditor.com/imgs/ali-pay.jpeg', alt: 'ali-pay' }
 
     it('点击菜单打开插入图片的面板', () => {
         cy.getByClass('toolbar').children().eq(16).as('imgMenu').click()
@@ -32,7 +32,12 @@ describe('插入网络图片', () => {
         cy.get('@Editable').find('img').should('not.exist')
 
         cy.getByClass('toolbar').children().eq(16).as('imgMenu').click()
-        cy.get('@imgMenu').find('.w-e-panel-container').as('Panel').find('input').type(imgUrl)
+        cy.get('@imgMenu')
+            .find('.w-e-panel-container')
+            .as('Panel')
+            .get('input')
+            .first()
+            .type(imgObj.url)
         cy.get('@Panel').find('.w-e-button-container button').click()
 
         cy.get('@Editable')
@@ -40,7 +45,32 @@ describe('插入网络图片', () => {
             .should('be.visible')
             .then($img => {
                 const img = $img.get(0)
-                expect(img.src).to.eq(imgUrl)
+                expect(img.src).to.eq(imgObj.url)
+            })
+    })
+
+    it('插入网络图片并设置图片alt', () => {
+        cy.get('@Editable').find('img').should('not.exist')
+
+        cy.getByClass('toolbar').children().eq(16).as('imgMenu').click()
+        cy.get('@imgMenu')
+            .find('.w-e-panel-container')
+            .as('Panel')
+            .get('input')
+            .first()
+            .type(imgObj.url)
+            .get('input')
+            .last()
+            .type(imgObj.alt)
+        cy.get('@Panel').find('.w-e-button-container button').click()
+
+        cy.get('@Editable')
+            .find('img')
+            .should('be.visible')
+            .then($img => {
+                const img = $img.get(0)
+                expect(img.src).to.eq(imgObj.url)
+                expect(img.alt).to.eq(imgObj.alt)
             })
     })
 })

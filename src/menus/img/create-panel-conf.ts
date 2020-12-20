@@ -18,6 +18,7 @@ export default function (editor: Editor): PanelConf {
     const upTriggerId = getRandom('up-trigger-id')
     const upFileId = getRandom('up-file-id')
     const linkUrlId = getRandom('input-link-url')
+    const linkUrlAltId = getRandom('input-link-url-alt')
     const linkBtnId = getRandom('btn-link')
 
     const i18nPrefix = 'menus.panelMenus.image.'
@@ -126,7 +127,11 @@ export default function (editor: Editor): PanelConf {
                         type="text"
                         class="block"
                         placeholder="${t('图片链接')}"/>
-                    </td>
+                    <input
+                        id="${linkUrlAltId}"
+                        type="text"
+                        class="block"
+                        placeholder="${t('图片alt')}"/>
                     <div class="w-e-button-container">
                         <button type="button" id="${linkBtnId}" class="right">${t(
                 '插入',
@@ -147,8 +152,11 @@ export default function (editor: Editor): PanelConf {
                         //如果不能通过校验也直接返回
                         if (!checkLinkImg(url)) return
 
+                        const linkUrlAltText = $('#' + linkUrlAltId)
+                            .val()
+                            .trim()
                         //插入图片url
-                        uploadImg.insertImg(url)
+                        uploadImg.insertImg(url, linkUrlAltText)
                         // 返回 true 表示函数执行结束之后关闭 panel
                         return true
                     },
