@@ -80,6 +80,17 @@ class Menus {
                         .on('mouseenter', () => {
                             showTimeoutId = window.setTimeout(() => {
                                 $container.show()
+                                // 鼠标移入droplist中提示的处理
+                                const $children = $elem.find('.w-e-droplist')
+                                if ($children.length > 0) {
+                                    $children
+                                        .on('mouseenter', () => {
+                                            $container.hide()
+                                        })
+                                        .on('mouseleave', () => {
+                                            $container.show()
+                                        })
+                                }
                             }, 200)
                         })
                         .on('mouseleave', () => {
