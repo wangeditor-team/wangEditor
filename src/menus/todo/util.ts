@@ -32,6 +32,7 @@ function getCursorNextNode(node: Node, textNode: Node, pos: number): Node | unde
     if (!node.hasChildNodes()) return
 
     const newNode = node.cloneNode() as ChildNode
+    // 判断光标是否在末尾
     let end = false
     if (textNode.nodeValue === '') {
         end = true
@@ -39,13 +40,13 @@ function getCursorNextNode(node: Node, textNode: Node, pos: number): Node | unde
 
     let delArr: Node[] = []
     node.childNodes.forEach(v => {
-        //选中后
-        if (!v.contains(textNode) && end) {
+        //光标后的内容
+        if (!isContains(v, textNode) && end) {
             newNode.appendChild(v.cloneNode(true))
             delArr.push(v)
         }
-        // 选中
-        if (v.contains(textNode)) {
+        // 光标所在的区域
+        if (isContains(v, textNode)) {
             if (v.nodeType === 1) {
                 const childNode = getCursorNextNode(v, textNode, pos) as Node
                 if (childNode && childNode.textContent !== '') newNode?.appendChild(childNode)
@@ -68,6 +69,19 @@ function getCursorNextNode(node: Node, textNode: Node, pos: number): Node | unde
     return newNode
 }
 
+/**
+ * 判断otherNode是否包含在node中
+ * @param node 父节点
+ * @param otherNode 需要判断是不是被包含的节点
+ */
+function isContains(node: Node, otherNode: Node) {
+    // 兼容ie11中textNode不支持contains方法
+    if (node.nodeType === 3) {
+        return node.nodeValue === otherNode.nodeValue
+    }
+
+    return node.contains(otherNode)
+}
 /**
  * 获取新的文本节点
  * @param node 要处理的文本节点
