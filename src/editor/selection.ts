@@ -251,7 +251,7 @@ class SelectionAndRange {
         //对文本节点特殊处理
         let len: number =
             node.nodeType === 3 ? (node.nodeValue?.length as number) : node.childNodes.length
-        if (UA.isFirefox && len !== 0) {
+        if ((UA.isFirefox || UA.isIE()) && len !== 0) {
             // firefox下在节点为文本节点和节点最后一个元素为文本节点的情况下
             if (node.nodeType === 3 || node.childNodes[len - 1].nodeName === 'BR') {
                 len = len - 1

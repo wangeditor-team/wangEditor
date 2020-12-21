@@ -43,7 +43,9 @@ function getCursorNextNode(node: Node, textNode: Node, pos: number): Node | unde
         //光标后的内容
         if (!isContains(v, textNode) && end) {
             newNode.appendChild(v.cloneNode(true))
-            delArr.push(v)
+            if (v.nodeName !== 'BR') {
+                delArr.push(v)
+            }
         }
         // 光标所在的区域
         if (isContains(v, textNode)) {
