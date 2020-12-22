@@ -37,6 +37,12 @@ class Menus {
         const $toolbarElem = editor.$toolbarElem
         // 从用户配置的 menus 入手，看需要初始化哪些菜单
         const config = this.editor.config
+
+        // 排除exclude包含的菜单
+        let excludeMenus: string[] | any = config.excludeMenus
+        if (Array.isArray(excludeMenus) === false) excludeMenus = []
+        config.menus = config.menus.filter(key => excludeMenus.includes(key) === false)
+
         config.menus.forEach(menuKey => {
             const MenuConstructor = this.constructorList[menuKey] // 暂用 any ，后面再替换
             if (MenuConstructor == null || typeof MenuConstructor !== 'function') {

@@ -45,29 +45,30 @@ describe('表情', () => {
 
         cy.get('@emotionMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
         cy.get('@Panel').find('.w-e-panel-tab-title').children().should('have.length', 4)
+        cy.get('@Panel').find('.w-e-panel-tab-title').children().eq(2).click()
+
         cy.get('@Panel')
             .find('.w-e-panel-tab-title')
             .children()
-            .eq(0)
+            .eq(2)
             .should('have.class', 'w-e-active')
-            .and('contain.text', '默认')
+            .and('contain.text', 'emoji')
 
         cy.get('@Panel')
             .find('.w-e-panel-tab-content')
             .children()
-            .eq(0)
+            .eq(2)
             .children()
             .as('emotionList')
 
         cy.get('@emotionList')
             .eq(0)
             .as('emotion')
-            .click({ timeout: 1000 })
+            .click()
             .then($el => {
-                const img = $el.find('img')
-                const src = (img.get(0) as HTMLImageElement).src
+                const emotionValue = $el.get(0).innerText
 
-                cy.get('@Editable').find('img', { timeout: 20000 }).should('have.attr', 'src', src)
+                cy.get('@Editable').should('contain.text', emotionValue)
             })
     })
 })
