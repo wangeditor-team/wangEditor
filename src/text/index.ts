@@ -256,6 +256,14 @@ class Text {
 
         // 按键后保存
         $textElem.on('keyup', saveRange)
+
+        // 点击后保存，为了避免被多次执行而导致造成浪费，这里对 click 使用一次性绑定
+        function onceClickSaveRange() {
+            saveRange()
+            $textElem.off('click', onceClickSaveRange)
+        }
+        $textElem.on('click', onceClickSaveRange)
+
         $textElem.on('mousedown', () => {
             // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
             $textElem.on('mouseleave', saveRange)
