@@ -574,10 +574,12 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     }
 
     /**
-     * 获取当前元素节点
+     * 根据元素位置获取元素节点（默认获取0位置的节点）
+     * @param n 元素节点位置
      */
-    getNode(): Node {
-        const elem = this.elems[0]
+    getNode(n: number = 0): Node {
+        let elem: Node
+        elem = this.elems[n]
         return elem
     }
 
@@ -766,7 +768,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     }
 
     /**
-     * 将该元素插入到某个元素后面
+     * 将该元素插入到selector元素后面
      * @param selector css 选择器
      */
     insertAfter(selector: string | DomElement): DomElement {

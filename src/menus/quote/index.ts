@@ -55,7 +55,7 @@ class Quote extends BtnMenu implements MenuActive {
             // 兼容firefox（firefox下空行情况下选区会在br后，造成自动换行的问题）
             moveNode.textContent
                 ? editor.selection.moveCursor(moveNode)
-                : editor.selection.moveCursor(moveNode, true)
+                : editor.selection.moveCursor(moveNode, 0)
             // 即时更新btn状态
             this.tryChangeActive()
             // 防止最后一行无法跳出

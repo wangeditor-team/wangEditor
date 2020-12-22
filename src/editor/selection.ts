@@ -240,14 +240,24 @@ class SelectionAndRange {
     }
 
     /**
-     * 移动光标位置
+     * 移动光标位置,默认情况下在尾部
+     * 有一个特殊情况是firefox下的文本节点会自动补充一个br元素，会导致自动换行
+     * 所以默认情况下在firefox下的文本节点会自动移动到br前面
      * @param {Node} node 元素节点
-     * @param {Boolean} toStart 为true光标在开始位置 为false在结束位置 默认在结束位置
+     * @param {number} position 光标的位置
      */
-    public moveCursor(node: Node, toStart: boolean = false) {
+    public moveCursor(node: Node, position?: number): void {
         const range = this.getRange()
-        const pos = toStart ? 0 : node.childNodes.length
-
+        //对文本节点特殊处理
+        let len: number =
+            node.nodeType === 3 ? (node.nodeValue?.length as number) : node.childNodes.length
+        if ((UA.isFirefox || UA.isIE()) && len !== 0) {
+            // firefox下在节点为文本节点和节点最后一个元素为文本节点的情况下
+            if (node.nodeType === 3 || node.childNodes[len - 1].nodeName === 'BR') {
+                len = len - 1
+            }
+        }
+        let pos: number = position ?? len
         if (!range) {
             return
         }
@@ -256,6 +266,15 @@ class SelectionAndRange {
             range.setEnd(node, pos)
             this.restoreSelection()
         }
+    }
+
+    /**
+     * 获取光标在当前选区的位置
+     */
+    public getCursorPos(): number | undefined {
+        const selection = window.getSelection()
+
+        return selection?.anchorOffset
     }
 }
 
