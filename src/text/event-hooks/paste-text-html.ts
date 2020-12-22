@@ -76,10 +76,7 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         }
         // 如果复制进来的是url链接则插入时将它转为链接
         if (urlRegex.test(pasteText)) {
-            return editor.cmd.do(
-                'insertHTML',
-                `<a href="${pasteText}" target="_blank">${pasteText}</a>`
-            )
+            editor.cmd.do('insertHTML', `<a href="${pasteText}" target="_blank">${pasteText}</a>`)
         }
 
         // table 中（td、th），待开发。。。
@@ -87,6 +84,11 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
             return
         }
 
+        // 去除非html标签
+        pasteHtml = pasteHtml.replace(
+            /<(?!img|p|span|table|td|tr|th|ol|ul|h1|h2|h3|h4|h5|h6).*?>/g,
+            ''
+        )
         try {
             // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
             // 因此执行 insertHTML 会报错
