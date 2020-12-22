@@ -44,7 +44,7 @@ class Todo extends BtnMenu implements MenuActive {
      */
     private setTodo() {
         const editor = this.editor
-        const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes(editor)
+        const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes()
         topNodeElem.forEach($node => {
             const nodeName = $node?.getNodeName()
             if (nodeName === 'P') {
@@ -64,7 +64,7 @@ class Todo extends BtnMenu implements MenuActive {
      */
     private cancelTodo() {
         const editor = this.editor
-        const $topNodeElems: DomElement[] = editor.selection.getSelectionRangeTopNodes(editor)
+        const $topNodeElems: DomElement[] = editor.selection.getSelectionRangeTopNodes()
 
         $topNodeElems.forEach($topNodeElem => {
             let content = $topNodeElem.childNodes()?.childNodes()?.clone(true) as DomElement
