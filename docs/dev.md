@@ -66,7 +66,7 @@ npm run start
     - 自己的功能正常
     - 其他功能不影响
 
-## 提交自己的分支
+## 提交 commit
 
 请按照一下步骤提交代码，不要怕麻烦
 
@@ -93,8 +93,13 @@ npm run start
 
 （PS：有一些工具可以帮助你规范自己的 commit ，如 `commitizen` ）
 
-最后再 push 分支到 github 。
+## 合并 commit
 
+如果当前分支在开发过程中，提交的 commit 太多、太零散，那就需要合并 commit 。否则，发布新版本之后 CHANGELOG.md 会难以阅读！
+
+合并 commit 的操作，如果不了解的话，可以花 10min 看看作者制作的[视频教程](https://www.bilibili.com/video/bv15h411f74h)。
+
+最后再 push 分支到 github 。
 ## 自动部署远程测试页
 
 说明：只有以 `feature-` `fix-` 和 `hotfix-` 开头的分支，才具有这个功能。
@@ -114,7 +119,6 @@ npm run start
 然后，一定要自己先看一看 PR 的 **Files Changed** ，看是否符合自己的预期，重要！！如果不符合预期，则把这个 PR 关掉，再重新修改代码，重新提交 PR 。
 
 将 Pull Request 的链接贴到任务卡片中，这样其他人就能看到了。
-
 ## 剩下的步骤
 
 剩下的步骤，也非常重要，加入团队之后可以从团队知识库中找到说明。

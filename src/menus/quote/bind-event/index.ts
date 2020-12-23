@@ -18,7 +18,7 @@ function bindEvent(editor: Editor) {
                 const $newLine = $('<p><br></p>')
                 $newLine.insertAfter($topSelectElem)
                 // 将光标移动br前面
-                editor.selection.moveCursor($newLine.getNode(), true)
+                editor.selection.moveCursor($newLine.getNode(), 0)
             }
 
             // 当blockQuote中没有内容回车后移除blockquote
