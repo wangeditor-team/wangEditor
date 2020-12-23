@@ -1,3 +1,4 @@
+import { DomElement } from './../utils/dom-core'
 /**
  * @description Menus 菜单栏 入口文件
  * @author wangfupeng
@@ -59,61 +60,70 @@ class Menus {
         this._addToToolbar()
 
         // 添加菜单栏tooltips
-        function addMenuTooltips() {
-            $toolbarElem.children()?.forEach(ele => {
-                const $elem = $(ele)
-                const title: string | undefined = $elem.attr('data-title')
-                // 有title时才创建tooltips
-                if (title) {
-                    // 创建 tooltip
-                    const $container = $(
-                        `<div class="w-e-menu-tooltip w-e-menu-tooltip-up">
-                          <div class="w-e-menu-tooltip-item-wrapper">
-                            <div>${editor.i18next.t('menus.title.' + title)}</div>
-                          </div>
-                        </div>`
-                    )
-                    const menuHeight = $elem.getSizeData().height || 0
-                    $container.css('margin-top', menuHeight * -1 + 'px')
-                    $container.hide()
-                    $elem.append($container)
+        const $tooltipEl = $(
+            `<div class="w-e-menu-tooltip w-e-menu-tooltip-up">
+              <div class="w-e-menu-tooltip-item-wrapper">
+                <div></div>
+              </div>
+            </div>`
+        )
+        $tooltipEl.css('visibility', 'hidden')
+        $toolbarElem.append($tooltipEl)
+        // 设置 z-index
+        $tooltipEl.css('z-index', editor.zIndex.get('tooltip'))
 
-                    // 设置 z-index
-                    $container.css('z-index', editor.zIndex.get('tooltip'))
+        let showTimeoutId: number = 0 // 定时器，延时200ms显示tooltips
+        // 清空计时器
+        function clearShowTimeoutId() {
+            if (showTimeoutId) {
+                clearTimeout(showTimeoutId)
+            }
+        }
+        // 事件监听
+        $toolbarElem
+            .on('mouseover', (e: MouseEvent) => {
+                const target = e.target as HTMLElement
+                const $target = $(target)
+                let title: string | undefined
+                let $menuEl: DomElement | undefined
 
-                    let showTimeoutId: number = 0 // 定时器，延时200ms显示tooltips
-                    $elem
-                        .on('mouseenter', () => {
-                            showTimeoutId = window.setTimeout(() => {
-                                $container.show()
-                                // 鼠标移入droplist中提示的处理
-                                const $children = $elem.find('.w-e-droplist')
-                                if ($children.length > 0) {
-                                    $children
-                                        .on('mouseenter', () => {
-                                            $container.hide()
-                                        })
-                                        .on('mouseleave', () => {
-                                            $container.show()
-                                        })
-                                }
-                            }, 200)
-                        })
-                        .on('mouseleave', () => {
-                            if (showTimeoutId) {
-                                clearTimeout(showTimeoutId)
-                            }
-                            $container.hide()
-                        })
+                clearShowTimeoutId()
+                if ($target.parentUntil('.w-e-droplist') != null) {
+                    // 处于droplist中时隐藏
+                    $tooltipEl.css('visibility', 'hidden')
+                } else {
+                    if ($target.attr('data-title')) {
+                        title = $target.attr('data-title')
+                        $menuEl = $target
+                    } else {
+                        const $parent = $target.parentUntil('.w-e-menu')
+                        if ($parent != null) {
+                            title = $parent.attr('data-title')
+                            $menuEl = $parent
+                        }
+                    }
+                }
+
+                if (title && $menuEl) {
+                    const targetOffset = $menuEl.getOffsetData()
+                    $tooltipEl.text(editor.i18next.t('menus.title.' + title))
+                    const tooltipOffset = $tooltipEl.getOffsetData()
+                    const left =
+                        targetOffset.left + targetOffset.width / 2 - tooltipOffset.width / 2
+                    $tooltipEl.css('left', `${left}px`)
+                    $tooltipEl.css('top', `${targetOffset.height * -1}px`)
+                    showTimeoutId = window.setTimeout(() => {
+                        $tooltipEl.css('visibility', 'inherit')
+                    }, 200)
+                } else {
+                    clearShowTimeoutId()
+                    $tooltipEl.css('visibility', 'hidden')
                 }
             })
-        }
-        // 鼠标悬停提示
-        $toolbarElem.on('mouseenter', addMenuTooltips)
-        // 解绑事件
-        $toolbarElem.on('mouseleave', () => {
-            $toolbarElem.off('mouseenter', addMenuTooltips)
-        })
+            .on('mouseleave', () => {
+                clearShowTimeoutId()
+                $tooltipEl.css('visibility', 'hidden')
+            })
     }
 
     // 添加到菜单栏
