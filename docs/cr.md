@@ -5,7 +5,8 @@
 ## 检查 PR
 
 - 是否要往 `dev` 分支（或其他指定的分支）合并，而不是其他的分支
-- commits 描述是否符合开发规范
+- commits 描述是否符合开发规范，如 `fix: xxx` `feat: xxx` 这种格式
+- commits 是否需要合并？太零散了会影响 CHANGELOG.md 的阅读
 - github actions 检查是否成功
 
 ## 代码走查
