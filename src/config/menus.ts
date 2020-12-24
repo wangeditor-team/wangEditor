@@ -49,6 +49,7 @@ export default {
         'backColor',
         'link',
         'list',
+        'todo',
         'justify',
         'quote',
         'emoticon',
@@ -59,7 +60,6 @@ export default {
         'splitLine',
         'undo',
         'redo',
-        'todo',
     ],
 
     fontNames: [
