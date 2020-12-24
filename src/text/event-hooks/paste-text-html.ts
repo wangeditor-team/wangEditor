@@ -83,7 +83,6 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         if (!pasteHtml) {
             return
         }
-
         try {
             // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
             // 因此执行 insertHTML 会报错
