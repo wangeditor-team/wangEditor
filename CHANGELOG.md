@@ -1,3 +1,27 @@
+# [4.6.0](https://github.com/wangeditor-team/wangEditor/compare/v4.5.4...v4.6.0) (2020-12-24)
+
+
+### Bug Fixes
+
+* 初始化时对编辑区的click进行saveRange一次性绑定 ([4981cbd](https://github.com/wangeditor-team/wangEditor/commit/4981cbd2e7ba20e812dd2c6f9b1b7b3932b4a09f))
+* 对齐menu 单元测试修改过测 ([f3ce71c](https://github.com/wangeditor-team/wangEditor/commit/f3ce71ce86dd47d43867f4753b96f1760db96752))
+* 兼容ie11 ([694d3ad](https://github.com/wangeditor-team/wangEditor/commit/694d3adc0a4d18e243eb446247d8eff1c1f5a66c))
+* 删除多余文件和代码，增加判空 ([3f15639](https://github.com/wangeditor-team/wangEditor/commit/3f156392a1e544e0b9e76650d5e3555c413de214))
+* 修复对齐菜单bug ([b9242fa](https://github.com/wangeditor-team/wangEditor/commit/b9242fa7bbfe4b4fe722b4d40c980c843c1b0d1f))
+* 修复设置focus为false,无法正常粘贴的问题 ([d551b26](https://github.com/wangeditor-team/wangEditor/commit/d551b267318b8a23571d2eac792b84b24053f97a))
+* 修复元素指定id作为菜单 ([2d83fc2](https://github.com/wangeditor-team/wangEditor/commit/2d83fc2dd16cc3152ebc320b5e2d030c22e3e72e))
+* 修复在styleWithCss下的产生的样式冲突 ([2460ef9](https://github.com/wangeditor-team/wangEditor/commit/2460ef9f41a6cfd99ba7226996a887b0a7a9f596))
+* 修复chrome下在第一行设置todo无法删除的问题 ([b3db3b0](https://github.com/wangeditor-team/wangEditor/commit/b3db3b0723e4c1fa34f84b34124d6a2c8bd96fe1))
+* 修改对齐方式单侧 ([a506544](https://github.com/wangeditor-team/wangEditor/commit/a5065441f37d5e4fe15fd5029716173585992a03))
+* 修改函数名,增加可读性 ([0181bcc](https://github.com/wangeditor-team/wangEditor/commit/0181bcc632fe8fd8fcd8763cf368dfc6056c1a04))
+* fix ie problem ([f840d90](https://github.com/wangeditor-team/wangEditor/commit/f840d90af9895b7134792d51a4b72d99b2cc0832))
+* issue-2518 对齐修复 ([4bd6392](https://github.com/wangeditor-team/wangEditor/commit/4bd6392f7a320c69bfc85702a5b7133930e2b6f0))
+
+
+### Features
+
+* 完成todo功能 ([fcceeba](https://github.com/wangeditor-team/wangEditor/commit/fcceeba68c2af1da118327d1e190702f2d47dc65))
+
 ## [4.5.4](https://github.com/wangeditor-team/wangEditor/compare/v4.5.3...v4.5.4) (2020-12-18)
 
 
