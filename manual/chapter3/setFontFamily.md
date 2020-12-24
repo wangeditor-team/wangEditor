@@ -1,5 +1,5 @@
 # Set Font Size
-You can set font family by `editor.config.fontNames`:
+You can set font family to use `editor.config.fontNames`:
 
 ```js
 const E = window.wangEditor

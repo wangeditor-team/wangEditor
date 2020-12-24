@@ -1,5 +1,4 @@
 # Set Full Screen
-
 ## Set Option
 You can use `editor.config.showFullScreen` to set full screen before creating editor, the default value is `true`.
 
@@ -15,7 +14,7 @@ Note [when toolbar and editable area are separated](http://www.wangeditor.com/do
     const E = window.wangEditor
     const editor = new E('#div1')
 
-    // set unfull screen
+    // cancel full screen
     editor.config.showFullScreen = false
 
     editor.create()
@@ -23,7 +22,7 @@ Note [when toolbar and editable area are separated](http://www.wangeditor.com/do
 ```
 
 ## API
-We also provide API for user(When toolbar and editable area are separated, APIs does't work).
+And we provide API for user(When toolbar and editable area are separated, APIs does't work too).
 
 ```js
 editor.fullScreen() // set full screen

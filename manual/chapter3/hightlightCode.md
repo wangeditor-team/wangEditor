@@ -1,11 +1,11 @@
 # Highlight Code
-The code menu of wangeditor support to import `highlight js` plugin to implement highlight code.And it provides a variety of styles. The highlight function isn't built-in function, so you need to install plugin manually.
+The code menu of wangEditor support to import `highlight js` plugin to implement highlight code function.And it provides a variety of styles. The highlight isn't built-in function, so you need to install plugin manually.
 
 `highlight.js` website: [highlight](https://highlightjs.org/).
 
 ## Install Highlight
 
-### npm
+### NPM
 
 ```bash
 npm install highlight.js -S
@@ -16,8 +16,8 @@ npm install highlight.js -S
 <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
 ```
 
-## Mount Hightlight
-### 1. import hightlight.js
+## Mount Highlight
+### 1. import highlight.js
 
 ```js
 import hljs from 'highlight.js'
@@ -25,6 +25,7 @@ import hljs from 'highlight.js'
 if you use CDN, `highlight.js` declare `hljs` variable under `window` object, you can use it directly.
 
 ### 2. import css
+
 **By NPM:**
 
 ```js
@@ -35,9 +36,9 @@ import 'highlight.js/styles/monokai_sublime.css'
 ```html
 <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai-sublime.min.css" rel="stylesheet">
 ```
-If you finished above all steps, it has highlight styles when you use code menu to insert code.The result as follows:
+If you finished above all steps, it will have highlight styles when you use code menu to insert code.The result as follows:
 
-![highlight-example](../../images/highlight-example.png)
+![highlight-example](../images/highlight-example.png)
 
 ## Show Content
 You need to import `highlight.js` style when you read content from server to show in page.
@@ -48,7 +49,7 @@ If you want to leran more about `highlight.js`, you should reference offical web
 
 ## Insert Code Options
 ### 1.languageType
-The `languageType` option is select options that you select when you insert code.We provide most of languages by default.If you want to set more, you can custom it by `language`:
+The `languageType` option is select options that you select when you insert code.We provide most of languages by default.If you want to set more, you can custom it by `languageType`:
 
 ```js
 editor.config.languageType = [
@@ -76,7 +77,7 @@ editor.config.languageType = [
 ]
 ```
 ### 2.languageTab
-You can edit code in grey area after inserting code.We made tab key behavior to be consistent for eliminating different behavior between browsers.You can use `languageTab` option to set "typing the characters" of tab key. The default value is four full-horn spaces.
+You can edit code in grey area after inserting code. We made tab key behavior to be consistent for eliminating different behavior between browsers. You can use `languageTab` option to set "typing the characters" of tab key. The default value is four full-horn spaces.
 
 ```js
 editor.config.languageTab = '    '
@@ -84,7 +85,7 @@ editor.config.languageTab = '    '
 
 The `languageTab` option decide to tab behavior within `pre` area.
 
-![code-tab-point-example](../../images/code-tab-point-example.png)
+![code-tab-point-example](../images/code-tab-point-example.png)
 
 
 

@@ -2,7 +2,7 @@
 You should set menus before creating editor.
 
 ## editor.config.menus
-The option define which menus are visible and menus order.For example:
+The option is defined for menus which are visible and menus order. For example:
 
 ```html
 <div id="div1">
@@ -28,7 +28,7 @@ The option define which menus are visible and menus order.For example:
 ```
 
 ## editor.config.excludeMenus
-The option define which menus are excluded.For example:
+The option is defined for menus are excluded. For example:
 
 ```html
 <div id="div1">
@@ -52,7 +52,7 @@ The option define which menus are excluded.For example:
 **Note in order to avoid conflict, don't both set `menus` and `excludeMenus`.**
 
 ## All Menus
-By default, editor show all menus, all menus as follows:
+By default, editor show all menus, there are as follows:
 
 ```js
 editor.config.menus = [
