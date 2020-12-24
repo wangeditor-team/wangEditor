@@ -119,6 +119,19 @@ npm run start
 然后，一定要自己先看一看 PR 的 **Files Changed** ，看是否符合自己的预期，重要！！如果不符合预期，则把这个 PR 关掉，再重新修改代码，重新提交 PR 。
 
 将 Pull Request 的链接贴到任务卡片中，这样其他人就能看到了。
+
+## 如果 PR 有冲突
+
+例如，你的分支 `feature-xxx` 提交 PR 之后，提示和 dev 分支有冲突。正确的解决步骤是：
+
+- 本地获取最新的 dev 分支代码
+- 在 `feature-xxx` 分支执行 `git rebase dev` 。**【注意】一定要用 `rebase` ，而不是 `merge` ！！！**
+- 重新 push `feature-xxx` 分支
+- 再检查 PR 是否还有冲突
+
+PS：如果 `git rebase` 命令有不了解的，可以看一看这个[视频教程](https://www.bilibili.com/video/BV1Qb411N7ay)。
+再遇到问题，一定要及时在群里沟通。
+
 ## 剩下的步骤
 
 剩下的步骤，也非常重要，加入团队之后可以从团队知识库中找到说明。
