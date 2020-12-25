@@ -1,3 +1,5 @@
+# editing area height
+
 the default height of editing area is `300px` but you can set it by `editor.config.height`.
 
 ```jsx

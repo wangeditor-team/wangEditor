@@ -1,10 +1,12 @@
-# Download
+# basic usage
+
+## Download
 
 npm `npm i wangeditor --save`
 
 CDN [`https://unpkg.com/wangeditor/dist/wangEditor.min.js`](https://unpkg.com/wangeditor/dist/wangEditor.min.js)
 
-## CDN
+### CDN
 
 example
 
@@ -22,7 +24,7 @@ example
 </script>
 ```
 
-## npm
+### npm
 
 example
 
