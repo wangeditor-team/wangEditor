@@ -30,4 +30,4 @@ font[size="4"] {
     font-size: 18px;
 }
 ```
-The page for editor need above css, the page show editor content too.
+The css mentioned above the page shows editor content too.

@@ -36,20 +36,20 @@ import 'highlight.js/styles/monokai_sublime.css'
 ```html
 <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai-sublime.min.css" rel="stylesheet">
 ```
-If you finished above all steps, it will have highlight styles when you use code menu to insert code.The result as follows:
+If you finished all steps above, it will have highlight styles when you use code menu to insert code.The result as follows:
 
 ![highlight-example](../images/highlight-example.png)
 
 ## Show Content
 You need to import `highlight.js` style when you read content from server to show in page.
 
-The way that insall `highlight.js` the same as above introduction.
+The way that install `highlight.js` the same as introduction above.
 
-If you want to leran more about `highlight.js`, you should reference offical website.
+If you want to leran more about `highlight.js`, you can reference offical website.
 
 ## Insert Code Options
 ### 1.languageType
-The `languageType` option is select options that you select when you insert code.We provide most of languages by default.If you want to set more, you can custom it by `languageType`:
+The `languageType` option is select box options when you insert code. We set many commonly used programming languages. If you want to set more, you can custom it by `languageType`:
 
 ```js
 editor.config.languageType = [

@@ -1,5 +1,5 @@
 # Set Emotions
-You can set emotions to use `editor.config.emotions`. it support multiple tabs in panel.
+You can set emotions by using `editor.config.emotions`. They support multiple tabs in panel.
 
 ```js
 const SINA_URL_PATH = 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal'
