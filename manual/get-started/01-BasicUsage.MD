@@ -1,4 +1,4 @@
-# basic usage
+# Basic usage
 
 ## Download
 
@@ -24,7 +24,7 @@ example
 </script>
 ```
 
-### npm
+### Npm
 
 example
 

@@ -1,4 +1,4 @@
-# use textarea
+# Use textarea
 
 wangEditor no support `textarea` ,but you can use `onchange` come true submit rich text content from `textarea`
 

@@ -1,6 +1,6 @@
 # multiple editor on one web page
 
-wangEditor support create multiple editor on one web page
+wangEditor can create multiple editor on one web page
 
 ```
 <head>

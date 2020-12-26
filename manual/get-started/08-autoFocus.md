@@ -1,6 +1,6 @@
-# auto focus
+# Auto focus
 
-when editor in init process, will focus to editing area in default case. you can cancel auto focus access to follow operate.
+The editing area will be focused by default When initializing. you can cancel auto focus access to follow operate.
 
 ```jsx
 const editor = new E('#div1')

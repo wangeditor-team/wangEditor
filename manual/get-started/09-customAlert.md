@@ -1,4 +1,4 @@
-# custom alert
+# Custom alert
 
 `customAlert` can deal global alert, default option is window.alert.
 

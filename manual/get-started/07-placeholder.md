@@ -1,4 +1,4 @@
-# placeholder
+# Placeholder
 
 you can use `editor.config.placeholder` change placeholder text.
 
