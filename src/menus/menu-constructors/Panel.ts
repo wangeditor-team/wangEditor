@@ -159,9 +159,9 @@ class Panel {
                 const type = event.type
                 const fn = event.fn || EMPTY_FN
                 const $content = tabContentArr[index]
-                $content.find(selector).on(type, (e: Event) => {
+                $content.find(selector).on(type, async (e: Event) => {
                     e.stopPropagation()
-                    const needToHide = fn(e)
+                    const needToHide = await fn(e)
                     // 执行完事件之后，是否要关闭 panel
                     if (needToHide) {
                         this.remove()
