@@ -233,7 +233,11 @@ class Text {
             // 普通字符串，用 <p> 包裹
             html = `<p>${html}</p>`
         }
-        $textElem.append($(html))
+        if ($textElem.html() === '<p><br></p>') {
+            this.html(html)
+        } else {
+            $textElem.append($(html))
+        }
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
