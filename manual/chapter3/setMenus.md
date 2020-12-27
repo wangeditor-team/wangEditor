@@ -79,5 +79,6 @@ editor.config.menus = [
     'splitLine',
     'undo',
     'redo',
+    'todo', 
 ]
 ```

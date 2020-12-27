@@ -22,7 +22,7 @@ npm install highlight.js -S
 ```js
 import hljs from 'highlight.js'
 ```
-if you use CDN, `highlight.js` declare `hljs` variable under `window` object, you can use it directly.
+If you use CDN, `highlight.js` declare `hljs` variable under `window` object, you can use it directly.
 
 ### 2. import css
 
@@ -45,7 +45,7 @@ You need to import `highlight.js` style when you read content from server to sho
 
 The way that install `highlight.js` the same as introduction above.
 
-If you want to leran more about `highlight.js`, you can reference offical website.
+If you want to learn more about `highlight.js`, you can reference offical website.
 
 ## Insert Code Options
 ### 1.languageType
