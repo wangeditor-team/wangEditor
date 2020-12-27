@@ -59,6 +59,7 @@ export default {
                         },
                         video: {
                             插入视频: '插入视频',
+                            上传视频: '上传视频',
                         },
                         table: {
                             行: '行',
@@ -99,6 +100,15 @@ export default {
                     请替换为支持的图片类型: '请替换为支持的图片类型',
                     您插入的网络图片无法识别: '您插入的网络图片无法识别',
                     您刚才插入的图片链接未通过编辑器校验: '您刚才插入的图片链接未通过编辑器校验',
+                    插入视频错误: '插入视频错误',
+                    视频链接: '视频链接',
+                    不是视频: '不是视频',
+                    视频验证未通过: '视频验证未通过',
+                    个视频: '个视频',
+                    上传视频超时: '上传视频超时',
+                    上传视频错误: '上传视频错误',
+                    上传视频失败: '上传视频失败',
+                    上传视频返回结果错误: '上传视频返回结果错误',
                 },
             },
         },
@@ -160,6 +170,7 @@ export default {
                         },
                         video: {
                             插入视频: 'insert video',
+                            上传视频: 'upload local video',
                         },
                         table: {
                             行: 'rows',
@@ -201,6 +212,15 @@ export default {
                     您插入的网络图片无法识别: 'the network picture you inserted is not recognized',
                     您刚才插入的图片链接未通过编辑器校验:
                         'the image link you just inserted did not pass the editor verification',
+                    插入视频错误: 'insert video error',
+                    视频链接: 'video link',
+                    不是视频: 'is not video',
+                    视频验证未通过: 'video validate failed',
+                    个视频: 'videos',
+                    上传视频超时: 'upload video timeout',
+                    上传视频错误: 'upload video error',
+                    上传视频失败: 'upload video failed',
+                    上传视频返回结果错误: 'upload video return results error',
                 },
             },
         },

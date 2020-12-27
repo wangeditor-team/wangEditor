@@ -54,6 +54,8 @@ type TextEventHooks = {
     dropListMenuHoverEvents: (() => void)[]
     /** 点击分割线时 */
     splitLineEvents: ((e: DomElement) => void)[]
+    /** 视频点击事件 */
+    videoClickEvents: ((e: DomElement) => void)[]
 }
 
 class Text {
@@ -85,6 +87,7 @@ class Text {
             menuClickEvents: [],
             dropListMenuHoverEvents: [],
             splitLineEvents: [],
+            videoClickEvents: [],
         }
     }
 
@@ -550,6 +553,27 @@ class Text {
             if (e.keyCode !== 13) return
             const enterDownEvents = eventHooks.enterDownEvents
             enterDownEvents.forEach(fn => fn(e))
+        })
+
+        // 视频 click
+        $textElem.on('click', (e: Event) => {
+            // 存储视频
+            let $video: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+
+            //处理视频点击 简单的video 标签
+            if ($target.getNodeName() === 'VIDEO') {
+                // 当前点击的就是视频
+                e.stopPropagation()
+                $video = $target
+            }
+
+            if (!$video) return // 没有点击视频，则返回
+
+            const videoClickEvents = eventHooks.videoClickEvents
+            videoClickEvents.forEach(fn => fn($video as DomElement))
         })
     }
 }
