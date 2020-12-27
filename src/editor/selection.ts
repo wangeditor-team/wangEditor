@@ -233,8 +233,8 @@ class SelectionAndRange {
      * 获取 当前 选取范围的 顶级(段落) 元素
      * @param $editor
      */
-    public getSelectionRangeTopNodes(editor: Editor): DomElement[] {
-        const item = new SelectionRangeTopNodes(editor)
+    public getSelectionRangeTopNodes(): DomElement[] {
+        const item = new SelectionRangeTopNodes(this.editor)
         item.init()
         return item.getSelectionNodes()
     }
