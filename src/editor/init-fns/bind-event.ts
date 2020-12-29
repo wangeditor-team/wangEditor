@@ -56,10 +56,7 @@ function _bindFocusAndBlur(editor: Editor): void {
             if (isToolbar && !isMenu) {
                 return
             }
-
-            if (editor.isFocus) {
-                _blurHandler(editor)
-            }
+            _blurHandler(editor)
             editor.isFocus = false
         } else {
             if (!editor.isFocus) {
@@ -103,6 +100,7 @@ function _blurHandler(editor: Editor) {
     const config = editor.config
     const onblur = config.onblur
     const currentHtml = editor.txt.html() || ''
+    editor.txt.eventHooks.onBlurEvents.forEach(fn => fn())
     onblur(currentHtml)
 }
 

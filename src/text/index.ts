@@ -13,9 +13,10 @@ import getHtmlByNodeList from './getHtmlByNodeList'
 /** 按键函数 */
 type KeyBoardHandler = (event: KeyboardEvent) => unknown
 /** 普通事件回调 */
-type EventHandler = (event: Event) => unknown
+type EventHandler = (event?: Event) => unknown
 // 各个事件钩子函数
 type TextEventHooks = {
+    onBlurEvents: EventHandler[]
     changeEvents: (() => void)[] // 内容修改时
     dropEvents: ((event: DragEvent) => unknown)[]
     clickEvents: EventHandler[]
@@ -64,6 +65,7 @@ class Text {
         this.editor = editor
 
         this.eventHooks = {
+            onBlurEvents: [],
             changeEvents: [],
             dropEvents: [],
             clickEvents: [],
