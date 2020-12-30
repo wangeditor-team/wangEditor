@@ -84,6 +84,13 @@ class Menus {
                 clearTimeout(showTimeoutId)
             }
         }
+
+        // 隐藏tooltip
+        function hide() {
+            clearShowTimeoutId()
+            $tooltipEl.css('visibility', 'hidden')
+        }
+
         // 事件监听
         $toolbarElem
             .on('mouseover', (e: MouseEvent) => {
@@ -93,14 +100,13 @@ class Menus {
                 let $menuEl: DomElement | undefined
 
                 if ($target.isContain($toolbarElem)) {
-                    clearShowTimeoutId()
-                    $tooltipEl.css('visibility', 'hidden')
+                    hide()
                     return
                 }
 
                 if ($target.parentUntil('.w-e-droplist') != null) {
                     // 处于droplist中时隐藏
-                    $tooltipEl.css('visibility', 'hidden')
+                    hide()
                 } else {
                     if ($target.attr('data-title')) {
                         title = $target.attr('data-title')
@@ -127,13 +133,11 @@ class Menus {
                         $tooltipEl.css('visibility', 'visible')
                     }, 200)
                 } else {
-                    clearShowTimeoutId()
-                    $tooltipEl.css('visibility', 'hidden')
+                    hide()
                 }
             })
             .on('mouseleave', () => {
-                clearShowTimeoutId()
-                $tooltipEl.css('visibility', 'hidden')
+                hide()
             })
     }
 
