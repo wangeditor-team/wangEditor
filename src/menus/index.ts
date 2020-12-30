@@ -124,7 +124,7 @@ class Menus {
                     $tooltipEl.css('left', `${left}px`)
                     $tooltipEl.css('top', `${targetOffset.height * -1}px`)
                     showTimeoutId = window.setTimeout(() => {
-                        $tooltipEl.css('visibility', 'inherit')
+                        $tooltipEl.css('visibility', 'visible')
                     }, 200)
                 } else {
                     clearShowTimeoutId()
