@@ -11,7 +11,7 @@ import { MenuActive } from '../menu-constructors/Menu'
 class Redo extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="撤销">
                 <i class="w-e-icon-redo"></i>
             </div>`
         )

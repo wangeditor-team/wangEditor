@@ -12,7 +12,7 @@ import createPanelConf from './create-panel-conf'
 class Emoticon extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="表情">
                 <i class="w-e-icon-happy"></i>
             </div>`
         )

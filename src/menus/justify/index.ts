@@ -10,7 +10,9 @@ import { MenuActive } from '../menu-constructors/Menu'
 
 class Justify extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
-        const $elem = $('<div class="w-e-menu"><i class="w-e-icon-paragraph-left"></i></div>')
+        const $elem = $(
+            '<div class="w-e-menu" data-title="对齐"><i class="w-e-icon-paragraph-left"></i></div>'
+        )
 
         const dropListConf = {
             width: 100,

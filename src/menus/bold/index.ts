@@ -11,7 +11,7 @@ import { MenuActive } from '../menu-constructors/Menu'
 class Bold extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="加粗">
                 <i class="w-e-icon-bold"></i>
             </div>`
         )

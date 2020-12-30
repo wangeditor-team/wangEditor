@@ -12,7 +12,7 @@ import { MenuActive } from '../menu-constructors/Menu'
 class FontColor extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="文字颜色">
                 <i class="w-e-icon-pencil2"></i>
             </div>`
         )
