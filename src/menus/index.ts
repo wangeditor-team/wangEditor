@@ -34,8 +34,6 @@ class Menus {
 
     // 初始化菜单
     public init(): void {
-        const editor = this.editor
-        const $toolbarElem = editor.$toolbarElem
         // 从用户配置的 menus 入手，看需要初始化哪些菜单
         const config = this.editor.config
 
@@ -60,6 +58,13 @@ class Menus {
         this._addToToolbar()
 
         // 添加菜单栏tooltips
+        this._bindMenuTooltips()
+    }
+
+    // 绑定菜单栏tooltips
+    private _bindMenuTooltips(): void {
+        const editor = this.editor
+        const $toolbarElem = editor.$toolbarElem
         const $tooltipEl = $(
             `<div class="w-e-menu-tooltip w-e-menu-tooltip-up">
               <div class="w-e-menu-tooltip-item-wrapper">
@@ -87,7 +92,12 @@ class Menus {
                 let title: string | undefined
                 let $menuEl: DomElement | undefined
 
-                clearShowTimeoutId()
+                if ($target.isContain($toolbarElem)) {
+                    clearShowTimeoutId()
+                    $tooltipEl.css('visibility', 'hidden')
+                    return
+                }
+
                 if ($target.parentUntil('.w-e-droplist') != null) {
                     // 处于droplist中时隐藏
                     $tooltipEl.css('visibility', 'hidden')
@@ -105,6 +115,7 @@ class Menus {
                 }
 
                 if (title && $menuEl) {
+                    clearShowTimeoutId()
                     const targetOffset = $menuEl.getOffsetData()
                     $tooltipEl.text(editor.i18next.t('menus.title.' + title))
                     const tooltipOffset = $tooltipEl.getOffsetData()
