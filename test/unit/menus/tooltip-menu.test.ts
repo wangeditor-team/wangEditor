@@ -24,7 +24,7 @@ describe('tooltip menu', () => {
         dispatchEvent(BoldMenuEl, 'mouseover', 'MouseEvent')
 
         setTimeout(() => {
-            expect($tooltip.elems[0]).toHaveStyle(`visibility:inherit`)
+            expect($tooltip.elems[0]).toHaveStyle(`visibility:visible`)
             expect($tooltip.text()).toEqual('加粗')
             // 移出隐藏
             dispatchEvent(editor.$toolbarElem, 'mouseleave', 'MouseEvent')
