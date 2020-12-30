@@ -11,7 +11,7 @@ import { MenuActive } from '../menu-constructors/Menu'
 class StrikeThrough extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="删除线">
                 <i class="w-e-icon-strikethrough"></i>
             </div>`
         )

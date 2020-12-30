@@ -11,7 +11,7 @@ import { MenuActive } from '../menu-constructors/Menu'
 class List extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="序列">
                 <i class="w-e-icon-list2"></i>
             </div>`
         )
