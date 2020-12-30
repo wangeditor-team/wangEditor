@@ -1,4 +1,7 @@
 import Editor from '../../../../src/editor/index'
+import menus from '../../../../src/config/menus'
+// 按钮位置
+const pos = menus.menus.indexOf('fontName')
 
 describe('字体', () => {
     beforeEach(() => {
@@ -9,7 +12,7 @@ describe('字体', () => {
     })
 
     const text = 'test123'
-    const menuIndex = 3
+    const menuIndex = pos
     const dropItemIndex = 6
 
     it('点击菜单能打开设置文体的下拉菜单', () => {

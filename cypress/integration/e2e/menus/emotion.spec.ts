@@ -1,3 +1,6 @@
+import menus from '../../../../src/config/menus'
+// 按钮位置
+const pos = menus.menus.indexOf('emoticon')
 describe('表情', () => {
     beforeEach(() => {
         cy.visit('/examples/index.html')
@@ -13,7 +16,7 @@ describe('表情', () => {
         cy.get('@Editable').type(text)
         cy.get('@Editable').contains(text)
 
-        cy.getByClass('toolbar').children().eq(15).as('emotionMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('emotionMenu').click()
 
         cy.get('@emotionMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
         cy.get('@Panel').find('.w-e-panel-tab-title').children().should('have.length', 4)
@@ -29,7 +32,7 @@ describe('表情', () => {
         cy.get('@Editable').type(text)
         cy.get('@Editable').contains(text)
 
-        cy.getByClass('toolbar').children().eq(15).as('emotionMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('emotionMenu').click()
 
         cy.get('@emotionMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
         cy.get('@Panel').find('.w-e-panel-close').click()
@@ -41,7 +44,7 @@ describe('表情', () => {
         cy.get('@Editable').type(text)
         cy.get('@Editable').contains(text)
 
-        cy.getByClass('toolbar').children().eq(15).as('emotionMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('emotionMenu').click()
 
         cy.get('@emotionMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
         cy.get('@Panel').find('.w-e-panel-tab-title').children().should('have.length', 4)
