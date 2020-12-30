@@ -223,6 +223,11 @@ class SelectionAndRange {
         if (toStart != null) {
             // 传入了 toStart 参数，折叠选区。如果没传入 toStart 参数，则忽略这一步
             range.collapse(toStart)
+
+            if (!toStart) {
+                this.saveRange(range)
+                this.editor.selection.moveCursor(elem)
+            }
         }
 
         // 存储 range
@@ -243,6 +248,9 @@ class SelectionAndRange {
      * 移动光标位置,默认情况下在尾部
      * 有一个特殊情况是firefox下的文本节点会自动补充一个br元素，会导致自动换行
      * 所以默认情况下在firefox下的文本节点会自动移动到br前面
+     * 新增newRange函数是为了处理一种特殊情况即：
+     * 进行光标移动时，Range暂时还未保存。这里新增一个参数用来传递还未进行saveRange
+     * 操作的range
      * @param {Node} node 元素节点
      * @param {number} position 光标的位置
      */
@@ -275,6 +283,16 @@ class SelectionAndRange {
         const selection = window.getSelection()
 
         return selection?.anchorOffset
+    }
+
+    /**
+     * 清除选区
+     */
+    public clearRange() {
+        const selection = window.getSelection()
+        if (selection) {
+            selection.removeAllRanges()
+        }
     }
 }
 

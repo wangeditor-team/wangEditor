@@ -66,7 +66,9 @@ describe('LineHeight menu', () => {
         const cmdVal = '2'
         lineHeightMenu.command(cmdVal)
         // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
-        expect(editor.$textElem.elems[0].innerHTML.indexOf('<p>123</p>')).toBeGreaterThanOrEqual(0)
+        expect(
+            editor.$textElem.elems[0].innerHTML.indexOf('<p style="line-height:2;">123</p>')
+        ).toBeGreaterThanOrEqual(0)
     })
 
     test('lineHeight 菜单：选择多行增加行高， 设置非段落的P标签开头全选', () => {
