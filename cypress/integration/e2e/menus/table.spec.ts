@@ -1,3 +1,6 @@
+import menus from '../../../../src/config/menus'
+// 按钮位置
+const pos = menus.menus.indexOf('table')
 describe('插入表格', () => {
     beforeEach(() => {
         cy.visit('/examples/index.html')
@@ -8,7 +11,7 @@ describe('插入表格', () => {
     })
 
     it('点击菜单打开插入表格的面板', () => {
-        cy.getByClass('toolbar').children().eq(18).as('tableMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('tableMenu').click()
 
         cy.get('@tableMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
         cy.get('@Panel').find('.w-e-panel-tab-title').contains('插入表格')
@@ -18,7 +21,7 @@ describe('插入表格', () => {
     })
 
     it('点击插入表格的面板的关闭按钮可以收起面板', () => {
-        cy.getByClass('toolbar').children().eq(18).as('tableMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('tableMenu').click()
 
         cy.get('@tableMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
         cy.get('@Panel').find('.w-e-panel-tab-title').contains('插入表格')
@@ -29,7 +32,7 @@ describe('插入表格', () => {
     it('可以插入表格，默认5行5列', () => {
         cy.get('@Editable').find('table').should('not.exist')
 
-        cy.getByClass('toolbar').children().eq(18).as('tableMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('tableMenu').click()
 
         cy.get('@tableMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
 
@@ -42,7 +45,7 @@ describe('插入表格', () => {
     it('可以插入表格，可以自定义插入的行和列', () => {
         cy.get('@Editable').find('table').should('not.exist')
 
-        cy.getByClass('toolbar').children().eq(18).as('tableMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('tableMenu').click()
 
         cy.get('@tableMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
 

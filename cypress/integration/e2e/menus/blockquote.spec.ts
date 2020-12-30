@@ -1,3 +1,6 @@
+import menus from '../../../../src/config/menus'
+// 按钮位置
+const pos = menus.menus.indexOf('quote')
 describe('添加引用', () => {
     beforeEach(() => {
         cy.visit('/examples/index.html')
@@ -13,8 +16,8 @@ describe('添加引用', () => {
         cy.get('@Editable').type(text)
         cy.get('@Editable').contains(text)
 
-        cy.getByClass('toolbar').children().eq(14).click()
-        cy.getByClass('toolbar').children().eq(14).should('have.class', 'w-e-active')
+        cy.getByClass('toolbar').children().eq(pos).click()
+        cy.getByClass('toolbar').children().eq(pos).should('have.class', 'w-e-active')
 
         cy.get('@Editable').find('blockquote').should('contain.text', text)
     })
@@ -23,8 +26,8 @@ describe('添加引用', () => {
         cy.get('@Editable').type(text)
         cy.get('@Editable').contains(text)
 
-        cy.getByClass('toolbar').children().eq(14).as('quoteMenu').click()
-        cy.getByClass('toolbar').children().eq(14).should('have.class', 'w-e-active')
+        cy.getByClass('toolbar').children().eq(pos).as('quoteMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).should('have.class', 'w-e-active')
 
         cy.get('@Editable').find('blockquote').should('contain.text', text)
 
