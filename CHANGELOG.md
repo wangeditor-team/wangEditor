@@ -1,3 +1,11 @@
+## [4.6.1](https://github.com/wangeditor-team/wangEditor/compare/v4.6.0...v4.6.1) (2020-12-31)
+
+
+### Bug Fixes
+
+* 工具栏鼠标悬浮时显示提示文字 ([6bebfb4](https://github.com/wangeditor-team/wangEditor/commit/6bebfb48b20921298d5d3dddf1cbd3ac4e7a662f))
+* 首次载入不获取焦点的情况菜单无效的问题 ([d89efe4](https://github.com/wangeditor-team/wangEditor/commit/d89efe41ca96a0f7b62646f351a73455bffb3216))
+
 # [4.6.0](https://github.com/wangeditor-team/wangEditor/compare/v4.5.4...v4.6.0) (2020-12-24)
 
 
