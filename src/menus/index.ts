@@ -6,7 +6,7 @@
 import Editor from '../editor/index'
 import Menu from './menu-constructors/Menu'
 import MenuConstructorList, { MenuListType } from './menu-list'
-
+import $, { DomElement } from './../utils/dom-core'
 // import { MenuActive } from './menu-constructors/Menu'
 
 class Menus {
@@ -54,8 +54,90 @@ class Menus {
 
         // 渲染 DOM
         this._addToToolbar()
+
+        // 添加菜单栏tooltips
+        this._bindMenuTooltips()
     }
 
+    // 绑定菜单栏tooltips
+    private _bindMenuTooltips(): void {
+        const editor = this.editor
+        const $toolbarElem = editor.$toolbarElem
+        const $tooltipEl = $(
+            `<div class="w-e-menu-tooltip w-e-menu-tooltip-up">
+            <div class="w-e-menu-tooltip-item-wrapper">
+              <div></div>
+            </div>
+          </div>`
+        )
+        $tooltipEl.css('visibility', 'hidden')
+        $toolbarElem.append($tooltipEl)
+        // 设置 z-index
+        $tooltipEl.css('z-index', editor.zIndex.get('tooltip'))
+
+        let showTimeoutId: number = 0 // 定时器，延时200ms显示tooltips
+        // 清空计时器
+        function clearShowTimeoutId() {
+            if (showTimeoutId) {
+                clearTimeout(showTimeoutId)
+            }
+        }
+
+        // 隐藏tooltip
+        function hide() {
+            clearShowTimeoutId()
+            $tooltipEl.css('visibility', 'hidden')
+        }
+
+        // 事件监听
+        $toolbarElem
+            .on('mouseover', (e: MouseEvent) => {
+                const target = e.target as HTMLElement
+                const $target = $(target)
+                let title: string | undefined
+                let $menuEl: DomElement | undefined
+
+                if ($target.isContain($toolbarElem)) {
+                    hide()
+                    return
+                }
+
+                if ($target.parentUntil('.w-e-droplist') != null) {
+                    // 处于droplist中时隐藏
+                    hide()
+                } else {
+                    if ($target.attr('data-title')) {
+                        title = $target.attr('data-title')
+                        $menuEl = $target
+                    } else {
+                        const $parent = $target.parentUntil('.w-e-menu')
+                        if ($parent != null) {
+                            title = $parent.attr('data-title')
+                            $menuEl = $parent
+                        }
+                    }
+                }
+
+                if (title && $menuEl) {
+                    clearShowTimeoutId()
+                    const targetOffset = $menuEl.getOffsetData()
+                    $tooltipEl.text(editor.i18next.t('menus.title.' + title))
+                    const tooltipOffset = $tooltipEl.getOffsetData()
+                    const left =
+                        targetOffset.left + targetOffset.width / 2 - tooltipOffset.width / 2
+                    $tooltipEl.css('left', `${left}px`)
+                    $tooltipEl.css('top', `${targetOffset.height * -1}px`)
+                    showTimeoutId = window.setTimeout(() => {
+                        $tooltipEl.css('visibility', 'visible')
+                    }, 200)
+                } else {
+                    hide()
+                }
+            })
+            .on('mouseleave', () => {
+                hide()
+            })
+    }
     // 添加到菜单栏
     private _addToToolbar(): void {
         const editor = this.editor

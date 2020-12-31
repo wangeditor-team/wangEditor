@@ -13,7 +13,7 @@ import createPanelConf from './create-panel-conf'
 class Video extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="视频">
                 <i class="w-e-icon-play"></i>
             </div>`
         )

@@ -14,7 +14,7 @@ describe('Editor init', () => {
             const menusLen = editor.menus.menuList.length
             cy.getByClass('toolbar')
                 .children()
-                .should('have.length', menusLen + 1)
+                .should('have.length', menusLen + 2)
         })
 
         cy.get('#div1')

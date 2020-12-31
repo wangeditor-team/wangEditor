@@ -13,7 +13,9 @@ import bindEvent from './bind-event/index'
 
 class Table extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
-        const $elem = $('<div class="w-e-menu"><i class="w-e-icon-table2"></i></div>')
+        const $elem = $(
+            '<div class="w-e-menu" data-title="表格"><i class="w-e-icon-table2"></i></div>'
+        )
         super($elem, editor)
 
         // 绑定事件
