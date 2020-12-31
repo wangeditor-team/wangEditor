@@ -1,3 +1,6 @@
+import menus from '../../../../src/config/menus'
+// 按钮位置
+const pos = menus.menus.indexOf('list')
 describe('插入序列', () => {
     beforeEach(() => {
         cy.visit('/examples/index.html')
@@ -13,13 +16,13 @@ describe('插入序列', () => {
     it('可以插入无序列表', () => {
         cy.get('@Editable').type(text1)
 
-        cy.getByClass('toolbar').children().eq(12).trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).trigger('mouseenter')
 
         cy.wait(200)
 
         cy.getByClass('toolbar')
             .children()
-            .eq(12)
+            .eq(pos)
             .find('.w-e-droplist')
             .as('droplist')
             .should('be.visible')
@@ -50,13 +53,13 @@ describe('插入序列', () => {
     it('可以插入有序列表', () => {
         cy.get('@Editable').type(text1)
 
-        cy.getByClass('toolbar').children().eq(12).trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).trigger('mouseenter')
 
         cy.wait(200)
 
         cy.getByClass('toolbar')
             .children()
-            .eq(12)
+            .eq(pos)
             .find('.w-e-droplist')
             .as('droplist')
             .should('be.visible')

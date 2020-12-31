@@ -9,7 +9,9 @@ import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event/index'
 class splitLine extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
-        const $elem = $('<div class="w-e-menu"><i class="w-e-icon-split-line"></i></div>')
+        const $elem = $(
+            '<div class="w-e-menu" data-title="分割线"><i class="w-e-icon-split-line"></i></div>'
+        )
         super($elem, editor)
         // 绑定事件
         bindEvent(editor)

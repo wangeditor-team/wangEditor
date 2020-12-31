@@ -13,7 +13,7 @@ import FontStyleList from './FontStyleList'
 class FontStyle extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="字体">
                 <i class="w-e-icon-font"></i>
             </div>`
         )

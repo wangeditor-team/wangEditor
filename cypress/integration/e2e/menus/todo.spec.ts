@@ -1,3 +1,6 @@
+import menus from '../../../../src/config/menus'
+// 按钮位置
+const pos = menus.menus.indexOf('todo')
 describe('添加todo', () => {
     beforeEach(() => {
         cy.visit('/examples/index.html')
@@ -7,14 +10,14 @@ describe('添加todo', () => {
         cy.get('@Editable').clear()
     })
 
-    const text = 'text1234'
+    const text = 'text1pos4'
 
     it('点击todo菜单插入todo样式', () => {
         cy.get('@Editable').type(text)
         cy.get('@Editable').contains(text)
 
-        cy.getByClass('toolbar').children().eq(23).click()
-        cy.getByClass('toolbar').children().eq(23).should('have.class', 'w-e-active')
+        cy.getByClass('toolbar').children().eq(pos).click()
+        cy.getByClass('toolbar').children().eq(pos).should('have.class', 'w-e-active')
 
         cy.get('@Editable').find('ul').should('contain.text', text).find('input')
     })
@@ -23,8 +26,8 @@ describe('添加todo', () => {
         cy.get('@Editable').type(text)
         cy.get('@Editable').contains(text)
 
-        cy.getByClass('toolbar').children().eq(23).as('todo').click()
-        cy.getByClass('toolbar').children().eq(23).should('have.class', 'w-e-active')
+        cy.getByClass('toolbar').children().eq(pos).as('todo').click()
+        cy.getByClass('toolbar').children().eq(pos).should('have.class', 'w-e-active')
 
         cy.get('@Editable').find('ul').should('contain.text', text).find('input')
 

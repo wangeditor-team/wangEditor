@@ -1,5 +1,7 @@
 import Editor from '../../../../src/editor/index'
-
+import menus from '../../../../src/config/menus'
+// 按钮位置
+const pos = menus.menus.indexOf('fontSize')
 describe('设置文字大小', () => {
     beforeEach(() => {
         cy.visit('/examples/index.html')
@@ -9,7 +11,7 @@ describe('设置文字大小', () => {
     })
 
     const text = 'test123'
-    const menuIndex = 2
+    const menuIndex = pos
     const dropItemIndex = 6
 
     it('点击菜单能打开设置文字大小的下拉菜单', () => {

@@ -1,4 +1,7 @@
 import Editor from '../../../../src/editor/index'
+import menus from '../../../../src/config/menus'
+// 按钮位置
+const pos = menus.menus.indexOf('foreColor')
 
 describe('文字颜色', () => {
     beforeEach(() => {
@@ -10,7 +13,7 @@ describe('文字颜色', () => {
     })
 
     const text = 'test123'
-    const menuIndex = 9
+    const menuIndex = pos
     const dropItemIndex = 2
 
     it('点击菜单能打开设置文字颜色的下拉', () => {
