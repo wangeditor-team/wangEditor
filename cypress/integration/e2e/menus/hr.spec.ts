@@ -1,3 +1,6 @@
+import menus from '../../../../src/config/menus'
+// 按钮位置
+const pos = menus.menus.indexOf('splitLine')
 describe('插入分割线', () => {
     beforeEach(() => {
         cy.visit('/examples/index.html')
@@ -11,7 +14,7 @@ describe('插入分割线', () => {
         cy.get('@Editable').type(text)
         cy.get('@Editable').contains(text)
 
-        cy.getByClass('toolbar').children().eq(20).as('hrMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('hrMenu').click()
 
         cy.get('@Editable').children().should('have.length', 2).contains(text)
         cy.get('@Editable').find('hr').should('be.visible')

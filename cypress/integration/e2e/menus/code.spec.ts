@@ -1,3 +1,6 @@
+import menus from '../../../../src/config/menus'
+// 按钮位置
+const pos = menus.menus.indexOf('code')
 describe('插入代码', () => {
     beforeEach(() => {
         cy.visit('/examples/index.html')
@@ -22,7 +25,7 @@ describe('插入代码', () => {
     `
 
     it('点击菜单打开插入代码的面板', () => {
-        cy.getByClass('toolbar').children().eq(19).as('codeMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('codeMenu').click()
 
         cy.get('@codeMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
         cy.get('@Panel').find('.w-e-panel-tab-title').contains('插入代码')
@@ -35,7 +38,7 @@ describe('插入代码', () => {
     })
 
     it('点击插入代码的面板的关闭按钮可以收起面板', () => {
-        cy.getByClass('toolbar').children().eq(19).as('codeMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('codeMenu').click()
 
         cy.get('@codeMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
         cy.get('@Panel').find('.w-e-panel-tab-title').contains('插入代码')
@@ -44,7 +47,7 @@ describe('插入代码', () => {
     })
 
     it('可以插入代码，默认为bash', () => {
-        cy.getByClass('toolbar').children().eq(19).as('codeMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('codeMenu').click()
         cy.get('@codeMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
 
         cy.get('@Panel').find('.w-e-panel-tab-content textarea').type(bashCode)
@@ -55,7 +58,7 @@ describe('插入代码', () => {
     })
 
     it('可以插入代码，指定支持的编程语言', () => {
-        cy.getByClass('toolbar').children().eq(19).as('codeMenu').click()
+        cy.getByClass('toolbar').children().eq(pos).as('codeMenu').click()
         cy.get('@codeMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
 
         cy.get('@Panel').find('.w-e-panel-tab-content select').select('JavaScript')
