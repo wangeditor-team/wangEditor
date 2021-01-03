@@ -101,7 +101,6 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`) // html
             }
         } catch (ex) {
-            BaseAudioContext
             // 此时使用 pasteText 来兼容一下
             if (pasteTextHandle && isFunction(pasteTextHandle)) {
                 // 用户自定义过滤处理粘贴内容
