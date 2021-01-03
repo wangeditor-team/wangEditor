@@ -12,7 +12,7 @@ import { MenuActive } from '../menu-constructors/Menu'
 class Underline extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="下划线">
                 <i class="w-e-icon-underline"></i>
             </div>`
         )

@@ -14,7 +14,9 @@ import bindEvent from './bind-event/index'
 
 class Link extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
-        const $elem = $('<div class="w-e-menu"><i class="w-e-icon-link"></i></div>')
+        const $elem = $(
+            '<div class="w-e-menu" data-title="链接"><i class="w-e-icon-link"></i></div>'
+        )
         super($elem, editor)
 
         // 绑定事件，如点击链接时，可以查看链接

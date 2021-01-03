@@ -12,7 +12,7 @@ import operateElement from './operate-element'
 class Indent extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu">
+            `<div class="w-e-menu" data-title="缩进">
                 <i class="w-e-icon-indent-increase"></i>
             </div>`
         )
