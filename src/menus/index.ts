@@ -52,6 +52,15 @@ class Menus {
             this.menuList.push(m)
         })
 
+        //全局注册
+        for (let [menuKey, menuFun] of Object.entries(Editor.constructorList)) {
+            const MenuConstructor = menuFun // 暂用 any ，后面再替换
+            // 创建 menu 实例，并放到 menuList 中
+            const m = new MenuConstructor(this.editor)
+            m.key = menuKey
+            this.menuList.push(m)
+        }
+
         // 渲染 DOM
         this._addToToolbar()
 
