@@ -14,20 +14,13 @@
         wangEditor 自定义菜单
     </p>
     <div id="div1"></div>
+    <div id="div2"></div>
 
     <script src="../dist/wangEditor.js"></script>
     <script>
         const E = window.wangEditor
-        const editor = new E('#div1')
 
         const { BtnMenu, DropListMenu, PanelMenu, DropList, Panel, Tooltip } = E
-        // console.log('BtnMenu', BtnMenu)
-        // console.log('DropListMenu', DropListMenu)
-        // console.log('PanelMenu', PanelMenu)
-        // console.log('DropList', DropList)
-        // console.log('Panel', Panel)
-        // console.log('Tooltip', Tooltip)
-
         // 创建 class
         class InsertABCMenu extends BtnMenu {
             constructor(editor) {
@@ -40,7 +33,7 @@
             }
             // 菜单点击事件
             clickHandler() {
-                editor.cmd.do('insertHTML', 'ABC')
+                this.editor.cmd.do('insertHTML', 'ABC')
             }
             // 菜单激活状态
             tryChangeActive() {
@@ -48,14 +41,15 @@
                 // this.unActive() // 菜单不激活
             }
         }
-
         // 注册菜单
-        editor.menus.extend('insertABC', InsertABCMenu)
+        E.registerMenu('insertABC', InsertABCMenu)
 
-        // 重新配置 editor.config.menus
-        editor.config.menus = editor.config.menus.concat('insertABC')
-
+        //创建编辑器1
+        const editor = new E('#div1')
         editor.create()
+        //创建编辑器2
+        const editor2 = new E('#div2')
+        editor2.create()
     </script>
 </body>
 

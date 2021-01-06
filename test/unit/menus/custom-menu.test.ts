@@ -39,10 +39,10 @@ test('扩展一个菜单', () => {
         tryChangeActive() {}
     }
 
-    // 创建编辑器实例
-    editor = createEditor(document, 'div1') // 赋值给全局变量，便于再扩展测试用例
     // 注册菜单
-    editor.menus.extend('insertABC', InsertABCMenu)
+    Editor.registerMenu('insertABC', InsertABCMenu)
+    // 创建编辑器实例
+    editor = createEditor(document, 'div1')
 
     expect(editor.menus.constructorList.insertABC).not.toBeNull()
 })
