@@ -51,7 +51,6 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         let pasteHtml = getPasteHtml(e as ClipboardEvent, pasteFilterStyle, pasteIgnoreImg)
         let pasteText = getPasteText(e as ClipboardEvent)
         pasteText = pasteText.replace(/\n/gm, '<br>')
-
         // 当前选区所在的 DOM 节点
         const $selectionElem = editor.selection.getSelectionContainerElem()
         if (!$selectionElem) {
@@ -59,7 +58,6 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         }
         const nodeName = $selectionElem?.getNodeName()
         const $topElem = $selectionElem?.getNodeTop(editor)
-
         // 当前节点顶级可能没有
         let topNodeName: string = ''
         if ($topElem.elems[0]) {
@@ -75,20 +73,18 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
             return
         }
 
-        // 如果复制进来的是url链接则插入时将它转为链接
-        if (urlRegex.test(pasteText)) {
+        // 如果用户开启闭粘贴样式注释则将复制进来为url的直接转为链接 否则不转换
+        //  在群中有用户提到关闭样式粘贴复制的文字进来后链接直接转为文字了，不符合预期，这里优化下
+        if (urlRegex.test(pasteText) && pasteFilterStyle) {
             return editor.cmd.do(
                 'insertHTML',
                 `<a href="${pasteText}" target="_blank">${pasteText}</a>`
-            )
+            ) // html
         }
-
         // table 中（td、th），待开发。。。
-
         if (!pasteHtml) {
             return
         }
-
         try {
             // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
             // 因此执行 insertHTML 会报错
@@ -96,7 +92,14 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 // 用户自定义过滤处理粘贴内容
                 pasteHtml = '' + (pasteTextHandle(pasteHtml) || '') // html
             }
-            editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`)
+            // 粘贴的html的是否是css的style样式
+            let isCssStyle: boolean = /[\.\#\@]?\w+[^{]+\{[^}]*\}/.test(pasteHtml) // eslint-disable-line
+            // 经过处理后还是包含暴露的css样式则直接插入它的text
+            if (isCssStyle) {
+                editor.cmd.do('insertHTML', `${formatHtml(pasteText)}`) // text
+            } else {
+                editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`) // html
+            }
         } catch (ex) {
             // 此时使用 pasteText 来兼容一下
             if (pasteTextHandle && isFunction(pasteTextHandle)) {
