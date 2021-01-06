@@ -79,7 +79,7 @@ class Justify extends DropListMenu implements MenuActive {
         selection.saveRange()
 
         // 获取顶级元素
-        const $elems = editor.selection.getSelectionRangeTopNodes(editor)
+        const $elems = editor.selection.getSelectionRangeTopNodes()
         if ($selectionElem?.length) {
             // list 在chrome下默认多包裹一个 p，导致不能通过顶层元素判断，所以单独加个判断
             if (this.isSpecialNode($selectionElem, $elems[0]) || this.isSpecialTopNode($elems[0])) {
@@ -148,7 +148,7 @@ class Justify extends DropListMenu implements MenuActive {
      * 默认左对齐,若选择其他对其方式对active进行高亮否则unActive
      * ?考虑优化的话 是否可以对具体选中的进行高亮
      */
-    public tryChangeActive(): void {}
+    public tryChangeActive(): void { }
 }
 
 export default Justify

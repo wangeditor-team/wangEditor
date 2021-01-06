@@ -3,7 +3,7 @@
  * @author tonghan
  */
 
-import List from '../../../src/menus/list/index'
+import List, { ListType } from '../../../src/menus/list/index'
 import Editor from '../../../src/editor'
 import mockCmdFn from '../../helpers/command-mock'
 import createEditor from '../../helpers/create-editor'
@@ -24,11 +24,11 @@ test('list 菜单：dropList', () => {
 
 test('list 菜单：有序', () => {
     mockCmdFn(document)
-    listMenu.command('insertOrderedList')
-    expect(document.execCommand).toBeCalledWith('insertOrderedList', false, undefined)
+    listMenu.command(ListType.OrderedList)
+    expect(editor.$textElem.html().includes('<ol>')).toBeTruthy()
 })
 
 test('list 菜单：无序', () => {
-    listMenu.command('insertUnorderedList')
-    expect(document.execCommand).toBeCalledWith('insertUnorderedList', false, undefined)
+    listMenu.command(ListType.UnorderedList)
+    expect(editor.$textElem.html().includes('<ul>')).toBeTruthy()
 })

@@ -51,7 +51,7 @@ class FontColor extends DropListMenu implements MenuActive {
 
         if (isEmptySelection) {
             if (isFont && !isSameColor) {
-                const $elems = editor.selection.getSelectionRangeTopNodes(editor)
+                const $elems = editor.selection.getSelectionRangeTopNodes()
                 editor.selection.createRangeByElem($elems[0])
                 editor.selection.moveCursor($elems[0].elems[0])
             }
