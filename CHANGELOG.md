@@ -1,3 +1,10 @@
+## [4.6.2](https://github.com/wangeditor-team/wangEditor/compare/v4.6.1...v4.6.2) (2021-01-07)
+
+
+### Bug Fixes
+
+* wps粘贴bug修复 ([735e878](https://github.com/wangeditor-team/wangEditor/commit/735e87861de20f6ef916a486e125a080cf13f18c))
+
 ## [4.6.1](https://github.com/wangeditor-team/wangEditor/compare/v4.6.0...v4.6.1) (2020-12-31)
 
 
@@ -170,7 +177,7 @@
 * 修复隐患 ([b6ab6e0](https://github.com/wangeditor-team/wangEditor/commit/b6ab6e0d6c63256e9a60926d30f9a7e6809cc343))
 * 完善cypress配置 ([76b9920](https://github.com/wangeditor-team/wangEditor/commit/76b9920e28a26f4dbbf2f33fb501d65c5be745ac))
 * 完善测试用例 ([f7d616b](https://github.com/wangeditor-team/wangEditor/commit/f7d616b4ec31b864c29a63e65faa2c17436bd822))
-* 移除没有必要的依赖 ([1e759e9](https://github.com/wangeditor-team/wangEditor/commit/1e759e96579e089529822b938cbbe7ffa4f3ec16))
+* 移除没有必要的依�� ([1e759e9](https://github.com/wangeditor-team/wangEditor/commit/1e759e96579e089529822b938cbbe7ffa4f3ec16))
 
 
 ### Features
