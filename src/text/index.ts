@@ -229,11 +229,18 @@ class Text {
     public append(html: string): void {
         const editor = this.editor
         const $textElem = editor.$textElem
+        const blankLineReg = /(<p><br><\/p>)+$/g
         if (html.indexOf('<') !== 0) {
             // 普通字符串，用 <p> 包裹
             html = `<p>${html}</p>`
         }
-        $textElem.append($(html))
+        if (blankLineReg.test($textElem.html().trim())) {
+            // 如果有多个空行替换最后一个 <p><br></p>
+            const insertHtml = $textElem.html().replace(/(.*)<p><br><\/p>/, '$1' + html)
+            this.html(insertHtml)
+        } else {
+            $textElem.append($(html))
+        }
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
