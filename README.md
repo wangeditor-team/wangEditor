@@ -4,12 +4,12 @@
 
 轻量级 web 富文本编辑器，配置方便，使用简单。
 
-- 官网 [www.wangEditor.com](http://www.wangeditor.com/)
-- 文档 [www.wangEditor.com/doc](http://www.wangeditor.com/doc/)
+- 官网 [www.wangEditor.com](https://www.wangeditor.com/)
+- 文档 [doc.wangEditor.com](https://doc.wangeditor.com/)
 
 ![](./docs/imgs/demo.png)
 
-当前是 `v4` 版本。想继续使用 `v3` 版本看[这里](http://www.wangeditor.com/doc/pages/01-%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/08-%E4%BD%BF%E7%94%A8V3%E7%89%88%E6%9C%AC.html)。
+当前是 `v4` 版本。想继续使用 `v3` 版本看[这里](https://doc.wangeditor.com/pages/01-%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8/99-%E4%BD%BF%E7%94%A8V3%E7%89%88%E6%9C%AC.html)。
 
 ## 浏览器兼容性
 
@@ -41,7 +41,7 @@ editor.create();
 </script>
 ```
 
-更多使用方法，可参考[文档](http://www.wangeditor.com/doc/)。
+更多使用方法，可参考[文档](https://doc.wangeditor.com/)。
 
 ## 交流
 
@@ -55,7 +55,7 @@ editor.create();
 
 ## 开发团队
 
-有专业[开发团队](http://www.wangeditor.com/doc/#%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98)维护，非个人单兵作战。
+有专业[开发团队](https://doc.wangeditor.com/#%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98)维护，非个人单兵作战。
 
 想加入 wangEditor 研发团队，可申请加入 QQ 群，然后私聊群主。
 
