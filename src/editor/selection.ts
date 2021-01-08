@@ -223,6 +223,11 @@ class SelectionAndRange {
         if (toStart != null) {
             // 传入了 toStart 参数，折叠选区。如果没传入 toStart 参数，则忽略这一步
             range.collapse(toStart)
+
+            if (!toStart) {
+                this.saveRange(range)
+                this.editor.selection.moveCursor(elem)
+            }
         }
 
         // 存储 range
@@ -275,6 +280,16 @@ class SelectionAndRange {
         const selection = window.getSelection()
 
         return selection?.anchorOffset
+    }
+
+    /**
+     * 清除当前选区的Range,notice:不影响已保存的Range
+     */
+    public clearWindowSelectionRange(): void {
+        const selection = window.getSelection()
+        if (selection) {
+            selection.removeAllRanges()
+        }
     }
 }
 
