@@ -11,7 +11,7 @@ describe('test editor.txt.html()功能', () => {
         cy.get('#div1').contains('123456')
 
         cy.getEditor().then((editor: Editor) => {
-            const menusLen = editor.menus.menuList.length
+            const menusLen = editor.menus.menuList.length + 1
             cy.getByClass('toolbar')
                 .children()
                 .should('have.length', menusLen + 1)

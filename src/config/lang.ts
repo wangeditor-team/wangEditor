@@ -36,7 +36,7 @@ export default {
                         恢复: '恢复',
                         撤销: '撤销',
                         全屏: '全屏',
-                        代办事项: '代办事项',
+                        待办事项: '待办事项',
                     },
                     dropListMenu: {
                         设置标题: '设置标题',
@@ -164,7 +164,7 @@ export default {
                         恢复: 'undo',
                         撤销: 'redo',
                         全屏: 'fullscreen',
-                        代办事项: 'todo',
+                        待办事项: 'todo',
                     },
                     dropListMenu: {
                         设置标题: 'title',

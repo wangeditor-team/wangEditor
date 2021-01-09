@@ -9,7 +9,7 @@ import createTodo from './todo'
 class Todo extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu" data-title="代办事项">
+            `<div class="w-e-menu" data-title="待办事项">
                     <i class="w-e-icon-checkbox-checked"></i>
                 </div>`
         )
