@@ -60,6 +60,15 @@ class Head extends DropListMenu implements MenuActive {
             return
         }
 
+        // 选中内容包含序列，code，表格，分割线时不处理
+        if (
+            ['OL', 'UL', 'LI', 'TABLE', 'TH', 'TR', 'CODE', 'HR'].indexOf(
+                $($selectionElem).getNodeName()
+            ) > -1
+        ) {
+            return
+        }
+
         editor.cmd.do('formatBlock', value)
 
         // 标题设置成功且不是<p>正文标签就配置大纲id

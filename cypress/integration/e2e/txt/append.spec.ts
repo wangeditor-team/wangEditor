@@ -11,7 +11,7 @@ describe('test editor.txt.append()', () => {
         cy.get('#div1').contains('欢迎使用 wangEditor 富文本编辑器')
 
         cy.getEditor().then((editor: Editor) => {
-            const menusLen = editor.menus.menuList.length
+            const menusLen = editor.menus.menuList.length + 1
             cy.getByClass('toolbar')
                 .children()
                 .should('have.length', menusLen + 1)
