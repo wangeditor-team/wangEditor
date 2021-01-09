@@ -9,6 +9,7 @@ import Editor from '../../editor/index'
 import PanelMenu from '../menu-constructors/PanelMenu'
 import { MenuActive } from '../menu-constructors/Menu'
 import createPanelConf from './create-panel-conf'
+import bindEvent from './bind-event/index'
 
 class Video extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -18,6 +19,9 @@ class Video extends PanelMenu implements MenuActive {
             </div>`
         )
         super($elem, editor)
+
+        // 绑定事件 tootip
+        bindEvent(editor)
     }
 
     /**
