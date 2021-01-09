@@ -20,6 +20,7 @@ type TextEventHooks = {
     changeEvents: (() => void)[] // 内容修改时
     dropEvents: ((event: DragEvent) => unknown)[]
     clickEvents: EventHandler[]
+    keydownEvents: KeyBoardHandler[]
     keyupEvents: KeyBoardHandler[]
     /** tab 键（keyCode === ）Up 时 */
     tabUpEvents: KeyBoardHandler[]
@@ -71,6 +72,7 @@ class Text {
             changeEvents: [],
             dropEvents: [],
             clickEvents: [],
+            keydownEvents: [],
             keyupEvents: [],
             tabUpEvents: [],
             tabDownEvents: [],
@@ -326,6 +328,12 @@ class Text {
         $textElem.on('keyup', (e: KeyboardEvent) => {
             const keyupEvents = eventHooks.keyupEvents
             keyupEvents.forEach(fn => fn(e))
+        })
+
+        // 键盘 down 时的 hooks
+        $textElem.on('keydown', (e: KeyboardEvent) => {
+            const keydownEvents = eventHooks.keydownEvents
+            keydownEvents.forEach(fn => fn(e))
         })
 
         // delete 键 up 时 hooks
