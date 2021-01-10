@@ -4,9 +4,10 @@ import disableInit from '../../../src/editor/disable'
 
 let editor: Editor
 
+let id = 1
 describe('Editor disable', () => {
     beforeEach(() => {
-        editor = createEditor(document, 'div1')
+        editor = createEditor(document, `div${id++}`)
     })
 
     test('编辑器可以被禁用', () => {

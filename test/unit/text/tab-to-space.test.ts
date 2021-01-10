@@ -7,10 +7,12 @@ import $ from '../../../src/utils/dom-core'
 import createEditor from '../../helpers/create-editor'
 import mockCommand from '../../helpers/command-mock'
 
+let id = 1
+
 describe('editor.text event-hooks tab-to-space test', () => {
     test('能绑定一个处理 tab 的函数', () => {
         const fn: Function[] = []
-        const editor = createEditor(document, 'div1')
+        const editor = createEditor(document, `div${id++}`)
 
         tabHandler(editor, fn)
 
@@ -21,7 +23,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
         mockCommand(document)
 
         const fn: Function[] = []
-        const editor = createEditor(document, 'div1')
+        const editor = createEditor(document, `div${id++}`)
 
         jest.spyOn(editor.cmd, 'queryCommandSupported').mockImplementation(() => false)
 
@@ -38,7 +40,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
         mockCommand(document)
 
         const fn: Function[] = []
-        const editor = createEditor(document, 'div1')
+        const editor = createEditor(document, `div${id++}`)
 
         jest.spyOn(editor.cmd, 'queryCommandSupported').mockImplementation(() => true)
         jest.spyOn(editor.selection, 'getSelectionContainerElem').mockImplementation(
@@ -58,7 +60,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
         mockCommand(document)
 
         const fn: Function[] = []
-        const editor = createEditor(document, 'div1')
+        const editor = createEditor(document, `div${id++}`)
 
         jest.spyOn(editor.cmd, 'queryCommandSupported').mockImplementation(() => true)
         const container = $('<p><br></p>')
@@ -84,7 +86,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
         let fn: Function[] = []
 
         beforeEach(() => {
-            editor = createEditor(document, `div${id++}`)
+            editor = createEditor(document, `div1${id++}`)
 
             tabHandler(editor, fn)
 

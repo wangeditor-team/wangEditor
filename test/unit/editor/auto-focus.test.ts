@@ -11,14 +11,15 @@ const $SPAN = $(`<span>${TEXT}</span>`)
 const $P = $('<p></p>')
 $P.append($SPAN)
 
+let id = 1
 test('auto-focus: false', () => {
-    createEditor(document, 'div1', '', { focus: false })
+    createEditor(document, `div${id++}`, '', { focus: false })
     const rangeCount = window?.getSelection()?.rangeCount
     expect(rangeCount).toBe(0)
 })
 
 test('auto-focus: true', () => {
-    createEditor(document, 'div1')
+    createEditor(document, `div${id++}`)
     const rangeCount = window?.getSelection()?.rangeCount
     expect(rangeCount).toBe(1)
 })

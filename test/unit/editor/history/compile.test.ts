@@ -34,10 +34,11 @@ function generateCompileData(mutationList: MutationRecord[]) {
 }
 
 const originalValue = UA.isFirefox
+let id = 1
 
 describe('Editor history compile', () => {
     beforeEach(() => {
-        editor = createEditor(document, 'div1')
+        editor = createEditor(document, `div${id++}`)
     })
 
     afterEach(() => {
@@ -74,7 +75,7 @@ describe('Editor history compile', () => {
         const observer = new MutationObserver((mutationList: MutationRecord[]) => {
             const compileData = compile(mutationList)
             expect(compileData instanceof Array).toBeTruthy()
-            expect(compileData.length).toBe(4)
+            expect(compileData.length).toBe(5)
             done()
         })
 

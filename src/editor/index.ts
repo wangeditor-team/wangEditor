@@ -16,6 +16,7 @@ import bindEvent from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
 import initFullScreen, { setUnFullScreen, setFullScreen } from './init-fns/set-full-screen'
 import scrollToHead from './init-fns/scroll-to-head'
+import validateSelectorParams from './init-fns/validate-selector-params'
 import ZIndex from './z-index'
 import Change from './change/index'
 import History from './history/index'
@@ -49,6 +50,7 @@ class Editor {
     public $toolbarElem: DomElement
     public $textContainerElem: DomElement
     public $textElem: DomElement
+    public $containerElem: DomElement[]
     public toolbarElemId: string
     public textElemId: string
     public isFocus: boolean
@@ -79,21 +81,21 @@ class Editor {
      * @param textSelector 文本区域 DOM selector
      */
     constructor(toolbarSelector: DomElementSelector, textSelector?: DomElementSelector) {
+        // 校验传入的 DOM selector 参数
+        validateSelectorParams(toolbarSelector, textSelector)
+
         // id，用以区分单个页面不同的编辑器对象
         this.id = `wangEditor-${EDITOR_ID++}`
 
         this.toolbarSelector = toolbarSelector
         this.textSelector = textSelector
 
-        if (toolbarSelector == null) {
-            throw new Error('错误：初始化编辑器时候未传入任何参数，请查阅文档')
-        }
-
         // 属性的默认值，后面可能会再修改
         // 默认配置 - 当一个页面有多个编辑器的时候，因为 JS 的特性(引用类型)会导致多个编辑器的 config 引用是同一个，所以需要 深度克隆 断掉引用
         this.config = deepClone(defaultConfig)
         this.$toolbarElem = $('<div></div>')
         this.$textContainerElem = $('<div></div>')
+        this.$containerElem = [this.$toolbarElem]
         this.$textElem = $('<div></div>')
         this.toolbarElemId = ''
         this.textElemId = ''

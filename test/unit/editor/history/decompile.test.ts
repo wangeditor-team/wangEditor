@@ -9,10 +9,11 @@ import compile from '../../../../src/editor/history/data/node/compile'
 import { restore, revoke } from '../../../../src/editor/history/data/node/decompilation'
 
 let editor: Editor
+let id = 1
 
 describe('Editor history decompile', () => {
     beforeEach(() => {
-        editor = createEditor(document, 'div1')
+        editor = createEditor(document, `div${id++}`)
     })
 
     test('可以通过revoke方法撤销编辑器设置的html', done => {

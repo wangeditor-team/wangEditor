@@ -8,9 +8,10 @@ import HtmlCache from '../../../../src/editor/history/data/html'
 
 let editor: Editor
 let htmlCache: HtmlCache
+let id = 1
 describe('Editor history html cache', () => {
     beforeEach(() => {
-        editor = createEditor(document, 'div1', '', {
+        editor = createEditor(document, `div${id++}`, '', {
             compatibleMode: () => true,
         })
 

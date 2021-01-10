@@ -11,6 +11,7 @@ import * as pasteEvents from '../../../../src/text/paste/paste-event'
 
 const mockFiles = [mockFile({ name: 'test.png', size: 200, mimeType: 'image/png' })]
 const mockUploadImg = jest.fn()
+let id = 1
 
 jest.mock('../../../../src/menus/img/upload-img', () => {
     return jest.fn().mockImplementation(() => {
@@ -26,7 +27,7 @@ describe('Img menu paste-img', () => {
     })
 
     test('调用 bindPasteImgEvent 方法给编辑器绑定paste事件', () => {
-        const editor = createEditor(document, 'div1')
+        const editor = createEditor(document, `div${id++}`)
 
         bindPasteImgEvent(editor)
 
@@ -40,7 +41,7 @@ describe('Img menu paste-img', () => {
 
         mock.mockReturnValue(mockFiles)
 
-        const editor = createEditor(document, 'div1')
+        const editor = createEditor(document, `div${id++}`)
 
         bindPasteImgEvent(editor)
 
@@ -65,7 +66,7 @@ describe('Img menu paste-img', () => {
 
         mock.mockReturnValue([])
 
-        const editor = createEditor(document, 'div1')
+        const editor = createEditor(document, `div${id++}`)
 
         bindPasteImgEvent(editor)
 
@@ -89,7 +90,7 @@ describe('Img menu paste-img', () => {
 
         mock.mockReturnValue(mockFiles)
 
-        const editor = createEditor(document, 'div1')
+        const editor = createEditor(document, `div${id++}`)
 
         bindPasteImgEvent(editor)
 
@@ -113,7 +114,7 @@ describe('Img menu paste-img', () => {
 
         mock.mockReturnValue(mockFiles)
 
-        const editor = createEditor(document, 'div1')
+        const editor = createEditor(document, `div${id++}`)
 
         bindPasteImgEvent(editor)
 

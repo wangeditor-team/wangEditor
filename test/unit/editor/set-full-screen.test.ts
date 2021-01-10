@@ -7,9 +7,10 @@ let editor: Editor
 const FULLSCREEN_MENU_CLASS_SELECTOR = '.w-e-icon-fullscreen'
 const EDIT_CONTAINER_FULLSCREEN_CLASS = 'w-e-full-screen-editor'
 
+let id = 1
 describe('设置全屏', () => {
     beforeEach(() => {
-        editor = createEditor(document, 'div1')
+        editor = createEditor(document, `div${id++}`)
     })
 
     test('编辑器默认初始化全屏菜单', () => {
@@ -20,7 +21,7 @@ describe('设置全屏', () => {
     })
 
     test('编辑器区和菜单分离的编辑器不初始化全屏菜单', () => {
-        const seprateModeEditor = createEditor(document, 'div1', 'div2')
+        const seprateModeEditor = createEditor(document, `div${id++}`, `div${id++}`)
         const toolbarSelector = seprateModeEditor.$toolbarElem.selector as string
         const fullMenuEl = $(toolbarSelector).find(FULLSCREEN_MENU_CLASS_SELECTOR)
 
@@ -28,7 +29,9 @@ describe('设置全屏', () => {
     })
 
     test('编辑器配置 showFullScreen 为false时不初始化全屏菜单', () => {
-        const seprateModeEditor = createEditor(document, 'div1', '', { showFullScreen: false })
+        const seprateModeEditor = createEditor(document, `div${id++}`, '', {
+            showFullScreen: false,
+        })
         const toolbarSelector = seprateModeEditor.$toolbarElem.selector as string
         const fullMenuEl = $(toolbarSelector).find(FULLSCREEN_MENU_CLASS_SELECTOR)
 
@@ -40,7 +43,7 @@ describe('设置全屏', () => {
 
         const toolbarSelector = editor.$toolbarElem.elems[0].className
         const $iconElem = $(`.${toolbarSelector}`).children().last().find('i')
-        const $editorParent = $(`.${toolbarSelector}`).parent().get(0)
+        const $editorParent = editor.$containerElem[0].elems[0]
         const $textContainerElem = editor.$textContainerElem
 
         expect($iconElem.get(0).className).toContain('w-e-icon-fullscreen_exit')
@@ -58,7 +61,7 @@ describe('设置全屏', () => {
 
         const toolbarSelector = editor.$toolbarElem.elems[0].className
         const $iconElem = $(`.${toolbarSelector}`).children().last().find('i')
-        const $editorParent = $(`.${toolbarSelector}`).parent().get(0)
+        const $editorParent = editor.$containerElem[0].elems[0]
         const $textContainerElem = editor.$textContainerElem
 
         expect($iconElem.get(0).className).toContain('w-e-icon-fullscreen')
