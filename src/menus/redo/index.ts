@@ -22,7 +22,17 @@ class Redo extends BtnMenu implements MenuActive {
      * 点击事件
      */
     public clickHandler(): void {
-        this.editor.history.restore()
+        const editor = this.editor
+        editor.history.restore()
+
+        // 重新创建 range，是处理当初始化编辑器，API插入内容后撤销，range 不在编辑器内部的问题
+        const children = editor.$textElem.children()
+
+        if (!children?.length) return
+
+        const $last = children.last()
+        editor.selection.createRangeByElem($last, false, true)
+        editor.selection.restoreSelection()
     }
 
     /**

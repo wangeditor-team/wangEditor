@@ -40,6 +40,9 @@ class FontStyle extends DropListMenu implements MenuActive {
         const isEmptySelection = editor.selection.isSelectionEmpty()
 
         const $selectionElem = editor.selection.getSelectionContainerElem()?.elems[0]
+
+        if ($selectionElem == null) return
+
         const isFont = $selectionElem?.nodeName.toLowerCase() !== 'p'
         const isSameValue = $selectionElem?.getAttribute('face') === value
 

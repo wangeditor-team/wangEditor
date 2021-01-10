@@ -24,7 +24,7 @@ class splitLine extends BtnMenu implements MenuActive {
         const range = editor.selection.getRange()
 
         const $selectionElem = editor.selection.getSelectionContainerElem()
-        if (!$selectionElem) return
+        if (!$selectionElem?.length) return
 
         const $DomElement = $($selectionElem.elems[0])
         const $tableDOM = $DomElement.parentUntil('TABLE', $selectionElem.elems[0])

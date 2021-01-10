@@ -42,7 +42,7 @@ class SelectionAndRange {
 
         // 获取选区范围的 DOM 元素
         const $containerElem = this.getSelectionContainerElem(range)
-        if (!$containerElem) {
+        if (!$containerElem?.length) {
             // 当 选区范围内没有 DOM元素 则抛出
             return
         }
