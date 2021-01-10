@@ -47,6 +47,9 @@ class LineHeight extends DropListMenu implements MenuActive {
         //恢复焦点
         editor.selection.restoreSelection()
         const $selectionElem = $(editor.selection.getSelectionContainerElem())
+
+        if (!$selectionElem?.length) return
+
         const $selectionAll = $(editor.selection.getSelectionContainerElem())
         // let dom:HTMLElement= $selectionElem.elems[0]
         let dom: HTMLElement = $(editor.selection.getSelectionStartElem()).elems[0]
@@ -275,6 +278,9 @@ class LineHeight extends DropListMenu implements MenuActive {
             return
         }
         let dom: DomElement | HTMLElement = $(editor.selection.getSelectionStartElem())
+        // 有些情况下 dom 可能为空，比如编辑器初始化
+        if (dom.length === 0) return
+
         dom = this.getDom(dom.elems[0])
         let style: string | null = dom.getAttribute('style') ? dom.getAttribute('style') : ''
 

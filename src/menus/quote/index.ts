@@ -52,6 +52,9 @@ class Quote extends BtnMenu implements MenuActive {
             $quote.insertAfter($topNodeElem)
             this.delSelectNode(topNodeElem)
             const moveNode = $quote.childNodes()?.last().getNode() as Node
+
+            if (moveNode == null) return
+
             // 兼容firefox（firefox下空行情况下选区会在br后，造成自动换行的问题）
             moveNode.textContent
                 ? editor.selection.moveCursor(moveNode)
