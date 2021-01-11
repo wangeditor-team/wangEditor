@@ -26,7 +26,7 @@ class Justify extends DropListMenu implements MenuActive {
                             ${editor.i18next.t('menus.dropListMenu.justify.靠左')}
                         </p>`
                     ),
-                    value: 'justifyLeft',
+                    value: 'left',
                 },
                 {
                     $elem: $(
@@ -35,7 +35,7 @@ class Justify extends DropListMenu implements MenuActive {
                             ${editor.i18next.t('menus.dropListMenu.justify.居中')}
                         </p>`
                     ),
-                    value: 'justifyCenter',
+                    value: 'center',
                 },
                 {
                     $elem: $(
@@ -44,7 +44,7 @@ class Justify extends DropListMenu implements MenuActive {
                             ${editor.i18next.t('menus.dropListMenu.justify.靠右')}
                         </p>`
                     ),
-                    value: 'justifyRight',
+                    value: 'right',
                 },
                 {
                     $elem: $(
@@ -53,7 +53,7 @@ class Justify extends DropListMenu implements MenuActive {
                             ${editor.i18next.t('menus.dropListMenu.justify.两端')}
                         </p>`
                     ),
-                    value: 'justifyFull',
+                    value: 'justify',
                 },
             ],
             clickHandler: (value: string) => {
@@ -71,30 +71,46 @@ class Justify extends DropListMenu implements MenuActive {
         const editor = this.editor
         const selection = editor.selection
         const $selectionElem = selection.getSelectionContainerElem()
+
         // 保存选区
         selection.saveRange()
-        // 定义对齐方式的type
-        type justifyType = {
-            [key: string]: string
-        }
-        // 数据项
-        const justifyClass: justifyType = {
-            justifyLeft: 'left',
-            justifyCenter: 'center',
-            justifyRight: 'right',
-            justifyFull: 'justify',
-        }
+
         // 获取顶级元素
         const $elems = editor.selection.getSelectionRangeTopNodes(editor)
-        if ($selectionElem) {
-            // 获取在css中对应style的值
-            const justifyValue = justifyClass[value]
-            $elems.forEach((el: DomElement) => {
-                el.css('text-align', justifyValue)
-            })
+        if ($selectionElem?.length) {
+            // list 在chrome下默认多包裹一个 p，导致不能通过顶层元素判断，所以单独加个判断
+            if (this.isSpecialNode($selectionElem) || this.isSpecialTopNode($elems[0])) {
+                $selectionElem.css('text-align', value)
+            } else {
+                $elems.forEach((el: DomElement) => {
+                    el.css('text-align', value)
+                })
+            }
         }
         //恢复选区
         selection.restoreSelection()
+    }
+
+    /**
+     * 当选区元素是某些特殊元素时，只需要修改子元素的对齐样式的元素
+     * @param el DomElement
+     */
+    private isSpecialNode(el: DomElement) {
+        const selectionNode = el.elems[0]
+        // 如果以后有类似的元素要这样处理，直接修改这个数组即可
+        const specialNodeLists = ['LI']
+        return specialNodeLists.indexOf(selectionNode?.nodeName) !== -1
+    }
+
+    /**
+     * 当选区 top 元素为某些特殊元素时，只需要修改子元素的对齐样式的元素
+     * @param el DomElement
+     */
+    private isSpecialTopNode(topEl: DomElement) {
+        const selectionNode = topEl.elems[0]
+        // 如果以后有类似的元素要这样处理，直接修改这个数组即可
+        const specialNodeLists = ['BLOCKQUOTE', 'UL']
+        return specialNodeLists.indexOf(selectionNode?.nodeName) !== -1
     }
 
     /**
@@ -102,15 +118,7 @@ class Justify extends DropListMenu implements MenuActive {
      * 默认左对齐,若选择其他对其方式对active进行高亮否则unActive
      * ?考虑优化的话 是否可以对具体选中的进行高亮
      */
-    public tryChangeActive(): void {
-        // const editor = this.editor
-        // let isjustify = ['justifyCenter', 'justifyRight'].some(e => editor.cmd.queryCommandState(e))
-        // if (isjustify) {
-        //     this.active()
-        // } else {
-        //     this.unActive()
-        // }
-    }
+    public tryChangeActive(): void {}
 }
 
 export default Justify
