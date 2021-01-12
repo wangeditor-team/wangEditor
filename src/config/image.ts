@@ -25,6 +25,10 @@ export type UploadImageHooksType = {
 }
 
 export default {
+    // 网络图片校验的配置函数
+    linkImgCheck: function (src: string): string | boolean {
+        return true
+    },
     // 显示“插入网络图片”
     showLinkImg: true,
 

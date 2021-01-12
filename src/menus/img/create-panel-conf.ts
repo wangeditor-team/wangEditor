@@ -8,7 +8,6 @@ import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
 import UploadImg from './upload-img'
-import { imgRegex } from '../../utils/const'
 
 export default function (editor: Editor): PanelConf {
     const config = editor.config
@@ -30,29 +29,11 @@ export default function (editor: Editor): PanelConf {
      * @param linkImg 网络图片链接
      */
     function checkLinkImg(src: string): boolean {
-        //编辑器进行正常校验，图片合规则使指针为true，不合规为false
-        let flag = true
-        if (!imgRegex.test(src)) {
-            flag = false
-        }
-
         //查看开发者自定义配置的返回值
         const check = config.linkImgCheck(src)
-        if (check === undefined) {
-            //用户未能通过开发者的校验，且开发者不希望编辑器提示用户
-            if (flag === false) console.log(t('您刚才插入的图片链接未通过编辑器校验', 'validate.'))
-        } else if (check === true) {
-            //用户通过了开发者的校验
-            if (flag === false) {
-                config.customAlert(
-                    `${t('您插入的网络图片无法识别', 'validate.')}，${t(
-                        '请替换为支持的图片类型',
-                        'validate.'
-                    )}：jpg | png | gif ...`,
-                    'warning'
-                )
-            } else return true
-        } else {
+        if (check === true) {
+            return true
+        } else if (typeof check === 'string') {
             //用户未能通过开发者的校验，开发者希望我们提示这一字符串
             config.customAlert(check, 'error')
         }
