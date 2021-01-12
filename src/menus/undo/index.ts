@@ -11,7 +11,7 @@ import { MenuActive } from '../menu-constructors/Menu'
 class Undo extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
-            `<div class="w-e-menu" data-title="恢复">
+            `<div class="w-e-menu" data-title="撤销">
                 <i class="w-e-icon-undo"></i>
             </div>`
         )
