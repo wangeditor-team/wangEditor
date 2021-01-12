@@ -76,29 +76,19 @@ describe('Justify Menu', () => {
     test('justify 菜单：设置对齐方式，如果当前选区是 blockquote，则只修改当前选区的元素对其样式', () => {
         const justifyClasses = ['left', 'right', 'center', 'justify']
 
-        const mockGetSelectionRangeTopNodes = (tagString: string) => {
-            const domArr = [$(tagString)]
-            jest.spyOn(editor.selection, 'getSelectionRangeTopNodes').mockImplementation(
-                () => domArr
-            )
-            return domArr
-        }
+        const $p = $('<p>123</p>')
+        const blockquote = $('<blockquote></blockquote>')
+        blockquote.append($p)
 
-        const mockGetSelectionRangeContainer = (tagString: string) => {
-            const dom = $(tagString)
-            jest.spyOn(editor.selection, 'getSelectionContainerElem').mockImplementation(() => dom)
-            return dom
-        }
-
-        const topElems = mockGetSelectionRangeTopNodes('<blockquote><p>123</p></blockquote>')
-        const containerElems = mockGetSelectionRangeContainer('<p>123</p>')
+        jest.spyOn(editor.selection, 'getSelectionRangeTopNodes').mockImplementation(() => [
+            blockquote,
+        ])
+        jest.spyOn(editor.selection, 'getSelectionContainerElem').mockImplementation(() => $p)
 
         for (let value of justifyClasses) {
             justifyMenu.command(value)
-            topElems.forEach((el: DomElement) => {
-                expect(el.elems[0]).not.toHaveStyle(`text-align:${value}`)
-            })
-            expect(containerElems.elems[0]).toHaveStyle(`text-align:${value}`)
+            expect(blockquote.elems[0]).not.toHaveStyle(`text-align:${value}`)
+            expect($p.elems[0]).toHaveStyle(`text-align:${value}`)
         }
     })
 })
