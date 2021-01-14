@@ -27,7 +27,7 @@ class Quote extends BtnMenu implements MenuActive {
     public clickHandler(): void {
         const editor = this.editor
         const isSelectEmpty = editor.selection.isSelectionEmpty()
-        const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes(editor)
+        const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes()
         const $topNodeElem: DomElement = topNodeElem[topNodeElem.length - 1]
         const nodeName = this.getTopNodeName()
         // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
@@ -78,7 +78,7 @@ class Quote extends BtnMenu implements MenuActive {
      */
     public tryChangeActive(): void {
         const editor = this.editor
-        const cmdValue = editor.selection.getSelectionRangeTopNodes(editor)[0]?.getNodeName()
+        const cmdValue = editor.selection.getSelectionRangeTopNodes()[0]?.getNodeName()
         if (cmdValue === 'BLOCKQUOTE') {
             this.active()
         } else {
@@ -93,7 +93,7 @@ class Quote extends BtnMenu implements MenuActive {
      */
     private getTopNodeName(): string {
         const editor = this.editor
-        const $topNodeElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
+        const $topNodeElem = editor.selection.getSelectionRangeTopNodes()[0]
         const nodeName = $topNodeElem?.getNodeName()
 
         return nodeName

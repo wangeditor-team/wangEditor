@@ -13,7 +13,7 @@ function isTodo($topSelectElem: DomElement) {
  * @param editor 编辑器对象
  */
 function isAllTodo(editor: Editor): boolean | undefined {
-    const $topSelectElems = editor.selection.getSelectionRangeTopNodes(editor)
+    const $topSelectElems = editor.selection.getSelectionRangeTopNodes()
     // 排除为[]的情况
     if ($topSelectElems.length === 0) return
 

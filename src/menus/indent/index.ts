@@ -62,7 +62,7 @@ class Indent extends DropListMenu implements MenuActive {
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
             // 当 当前选区 等于 textElem 时
             // 代表 当前选区 可能是一个选择了一个完整的段落或者多个段落
-            const $elems = editor.selection.getSelectionRangeTopNodes(editor)
+            const $elems = editor.selection.getSelectionRangeTopNodes()
             if ($elems.length > 0) {
                 $elems.forEach((item: any) => {
                     operateElement($(item), value, editor)
