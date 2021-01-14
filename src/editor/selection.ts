@@ -9,16 +9,9 @@ import Editor from './index'
 class SelectionAndRange {
     public editor: Editor
     private _currentRange: Range | null | undefined = null
-    public $nodeList: DomElement[]
-    public $startElem: DomElement | undefined
-    public $endElem: DomElement | undefined
 
     constructor(editor: Editor) {
         this.editor = editor
-
-        this.$nodeList = []
-        this.$startElem = $(this.getSelectionStartElem()).getNodeTop(this.editor)
-        this.$endElem = $(this.getSelectionEndElem()).getNodeTop(this.editor)
     }
 
     /**
@@ -263,14 +256,14 @@ class SelectionAndRange {
      */
     public getSelectionRangeTopNodes(): DomElement[] {
         // 清空，防止叠加元素
-        this.$nodeList = []
-        // 重复执行 避免初始化未初始赋值$startElem  $endElem
-        this.$startElem = $(this.getSelectionStartElem()).getNodeTop(this.editor)
-        this.$endElem = $(this.getSelectionEndElem()).getNodeTop(this.editor)
+        let $nodeList: DomElement[]
 
-        this.recordSelectionNodes($(this.$startElem))
+        const $startElem = this.getSelectionStartElem()?.getNodeTop(this.editor)
+        const $endElem = this.getSelectionEndElem()?.getNodeTop(this.editor)
 
-        return this.$nodeList
+        $nodeList = this.recordSelectionNodes($($startElem), $($endElem))
+
+        return $nodeList
     }
 
     /**
@@ -325,14 +318,23 @@ class SelectionAndRange {
      * 记录节点 - 从选区开始节点开始 一直到匹配到选区结束节点为止
      * @param $node 节点
      */
-    public recordSelectionNodes($node: DomElement): void {
-        const $elem = $node.getNodeTop(this.editor)
-        if ($elem.length > 0) {
-            this.$nodeList.push($($node))
-            if (!this.$endElem?.equal($elem)) {
-                this.recordSelectionNodes($elem.getNextSibling())
+    public recordSelectionNodes($node: DomElement, $endElem: DomElement): DomElement[] {
+        let $list: DomElement[] = []
+        let $NODE: DomElement = $node
+        let isEnd = true
+        while (isEnd) {
+            const $elem = $NODE.getNodeTop(this.editor)
+            if ($elem.getNodeName() === 'BODY') isEnd = false // 兜底
+            if ($elem.length > 0) {
+                $list.push($($NODE))
+                if ($endElem?.equal($elem)) {
+                    isEnd = false
+                } else {
+                    $NODE = $elem.getNextSibling()
+                }
             }
         }
+        return $list
     }
 }
 
