@@ -179,7 +179,6 @@ class Editor {
     public destroy(): void {
         // 调用钩子函数
         this.beforeDestroyHooks.forEach(fn => fn.call(this))
-
         // 销毁 DOM 节点
         this.$toolbarElem.remove()
         this.$textContainerElem.remove()

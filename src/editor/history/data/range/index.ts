@@ -109,12 +109,16 @@ export default class RangeCache extends Cache<[RangeItem, RangeItem]> {
      * @param range 缓存的 Range 数据
      */
     public set(range: RangeItem | undefined) {
-        if (range) {
-            const handle = this.rangeHandle
-            handle.setStart(...range.start)
-            handle.setEnd(...range.end)
-            this.editor.menus.changeActive()
-            return true
+        try {
+            if (range) {
+                const handle = this.rangeHandle
+                handle.setStart(...range.start)
+                handle.setEnd(...range.end)
+                this.editor.menus.changeActive()
+                return true
+            }
+        } catch (err) {
+            return false
         }
         return false
     }

@@ -9,13 +9,13 @@ editor.txt.append('<p>abc</p><p>test</p>')
 test('设置todo功能', () => {
     boldMenu.clickHandler()
     expect(editor.txt.html()).toEqual(
-        `<p><br></p><p>abc</p><ul class="w-e-todo"><li><span contenteditable="false"><input type="checkbox"></span>test</li></ul>`
+        `<p>abc</p><ul class="w-e-todo"><li><span contenteditable="false"><input type="checkbox"></span>test</li></ul>`
     )
 })
 
 test('取消todo功能', () => {
     boldMenu.clickHandler()
-    expect(editor.txt.html()).toEqual(`<p><br></p><p>abc</p><p>test</p>`)
+    expect(editor.txt.html()).toEqual(`<p>abc</p><p>test</p>`)
 })
 
 test('在第一行设置todo', () => {

@@ -12,7 +12,7 @@ import imageConfig, { UploadImageHooksType } from './image'
 import textConfig from './text'
 import langConfig from './lang'
 import historyConfig from './history'
-import videoConfig from './video'
+import videoConfig, { UploadVideoHooksType } from './video'
 
 // 字典类型
 export type DicType = {
@@ -76,6 +76,20 @@ export type ConfigType = {
 
     onlineVideoCheck: Function
     onlineVideoCallback: Function
+
+    showLinkVideo: Boolean
+    uploadVideoAccept: string[]
+    uploadVideoServer: string
+    uploadVideoMaxSize: number
+    uploadVideoName: string
+    uploadVideoParams: DicType
+    uploadVideoParamsWithUrl: boolean
+    uploadVideoHeaders: DicType
+    uploadVideoHooks: UploadVideoHooksType
+    uploadVideoTimeout: number
+    withVideoCredentials: boolean
+    customUploadVideo: Function | null
+    customInsertVideo: Function | null
 }
 
 export type Resource = {
@@ -108,12 +122,6 @@ const defaultConfig = Object.assign(
     //链接校验的配置函数
     {
         linkCheck: function (text: string, link: string): string | boolean {
-            return true
-        },
-    },
-    //网络图片校验的配置函数
-    {
-        linkImgCheck: function (src: string): string | boolean {
             return true
         },
     }

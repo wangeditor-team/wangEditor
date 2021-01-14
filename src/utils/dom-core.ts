@@ -89,13 +89,15 @@ function _styleArrTrim(style: string | string[]): string[] {
 export type DomElementSelector =
     | string
     | DomElement
-    | HTMLElement
-    | Element
     | Document
-    | HTMLCollection
     | Node
     | NodeList
+    | ChildNode
+    | ChildNode[]
+    | Element
+    | HTMLElement
     | HTMLElement[]
+    | HTMLCollection
     | EventTarget
     | null
     | undefined
@@ -107,6 +109,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     length: number
     elems: HTMLElement[]
     dataSource: Map<string, any>
+    prior?: DomElement // 通过 getNodeTop 获取顶级段落的时候，可以通过 prior 去回溯来源的子节点
 
     /**
      * 构造函数
@@ -805,15 +808,25 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
      * @param editor 富文本实例
      */
     getNodeTop(editor: Editor): DomElement {
+        // 异常抛出，空的 DomElement 直接返回
         if (this.length < 1) {
             return this
         }
 
+        // 获取父级元素，并判断是否是 编辑区域
+        // 如果是则返回当前节点
         const $parent = this.parent()
         if (editor.$textElem.equal($parent)) {
             return this
         }
 
+        // 到了此处，即代表当前节点不是顶级段落
+        // 将当前节点存放于父节点的 prior 字段下
+        // 主要用于 回溯 子节点
+        // 例如：ul ol 等标签
+        // 实际操作的节点是 li 但是一个 ul ol 的子节点可能有多个
+        // 所以需要对其进行 回溯 找到对应的子节点
+        $parent.prior = this
         return $parent.getNodeTop(editor)
     }
 

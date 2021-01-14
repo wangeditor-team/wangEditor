@@ -7,7 +7,7 @@ import Editor from '../../editor/index'
 
 function isActive(editor: Editor): boolean {
     const $selectionELem = editor.selection.getSelectionContainerElem()
-    if (!$selectionELem) {
+    if (!$selectionELem?.length) {
         return false
     }
     if (

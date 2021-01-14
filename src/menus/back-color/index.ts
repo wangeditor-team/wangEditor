@@ -43,13 +43,16 @@ class BackColor extends DropListMenu implements MenuActive {
         const editor = this.editor
         const isEmptySelection = editor.selection.isSelectionEmpty()
         const $selectionElem = editor.selection.getSelectionContainerElem()?.elems[0]
+
+        if ($selectionElem == null) return
+
         const isSpan = $selectionElem?.nodeName.toLowerCase() !== 'p'
         const bgColor = $selectionElem?.style.backgroundColor
         const isSameColor = hexToRgb(value) === bgColor
 
         if (isEmptySelection) {
             if (isSpan && !isSameColor) {
-                const $elems = editor.selection.getSelectionRangeTopNodes(editor)
+                const $elems = editor.selection.getSelectionRangeTopNodes()
                 editor.selection.createRangeByElem($elems[0])
                 editor.selection.moveCursor($elems[0].elems[0])
             }

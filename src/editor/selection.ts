@@ -42,7 +42,7 @@ class SelectionAndRange {
 
         // 获取选区范围的 DOM 元素
         const $containerElem = this.getSelectionContainerElem(range)
-        if (!$containerElem) {
+        if (!$containerElem?.length) {
             // 当 选区范围内没有 DOM元素 则抛出
             return
         }
@@ -223,6 +223,11 @@ class SelectionAndRange {
         if (toStart != null) {
             // 传入了 toStart 参数，折叠选区。如果没传入 toStart 参数，则忽略这一步
             range.collapse(toStart)
+
+            if (!toStart) {
+                this.saveRange(range)
+                this.editor.selection.moveCursor(elem)
+            }
         }
 
         // 存储 range
@@ -233,8 +238,8 @@ class SelectionAndRange {
      * 获取 当前 选取范围的 顶级(段落) 元素
      * @param $editor
      */
-    public getSelectionRangeTopNodes(editor: Editor): DomElement[] {
-        const item = new SelectionRangeTopNodes(editor)
+    public getSelectionRangeTopNodes(): DomElement[] {
+        const item = new SelectionRangeTopNodes(this.editor)
         item.init()
         return item.getSelectionNodes()
     }
@@ -275,6 +280,16 @@ class SelectionAndRange {
         const selection = window.getSelection()
 
         return selection?.anchorOffset
+    }
+
+    /**
+     * 清除当前选区的Range,notice:不影响已保存的Range
+     */
+    public clearWindowSelectionRange(): void {
+        const selection = window.getSelection()
+        if (selection) {
+            selection.removeAllRanges()
+        }
     }
 }
 

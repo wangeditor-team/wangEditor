@@ -27,7 +27,7 @@ class Quote extends BtnMenu implements MenuActive {
     public clickHandler(): void {
         const editor = this.editor
         const isSelectEmpty = editor.selection.isSelectionEmpty()
-        const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes(editor)
+        const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes()
         const $topNodeElem: DomElement = topNodeElem[topNodeElem.length - 1]
         const nodeName = this.getTopNodeName()
         // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
@@ -52,6 +52,9 @@ class Quote extends BtnMenu implements MenuActive {
             $quote.insertAfter($topNodeElem)
             this.delSelectNode(topNodeElem)
             const moveNode = $quote.childNodes()?.last().getNode() as Node
+
+            if (moveNode == null) return
+
             // 兼容firefox（firefox下空行情况下选区会在br后，造成自动换行的问题）
             moveNode.textContent
                 ? editor.selection.moveCursor(moveNode)
@@ -75,7 +78,7 @@ class Quote extends BtnMenu implements MenuActive {
      */
     public tryChangeActive(): void {
         const editor = this.editor
-        const cmdValue = editor.selection.getSelectionRangeTopNodes(editor)[0]?.getNodeName()
+        const cmdValue = editor.selection.getSelectionRangeTopNodes()[0]?.getNodeName()
         if (cmdValue === 'BLOCKQUOTE') {
             this.active()
         } else {
@@ -90,7 +93,7 @@ class Quote extends BtnMenu implements MenuActive {
      */
     private getTopNodeName(): string {
         const editor = this.editor
-        const $topNodeElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
+        const $topNodeElem = editor.selection.getSelectionRangeTopNodes()[0]
         const nodeName = $topNodeElem?.getNodeName()
 
         return nodeName

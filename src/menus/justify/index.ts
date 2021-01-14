@@ -8,6 +8,9 @@ import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 
+const SPECIAL_NODE_LIST = ['LI']
+const SPECIAL_TOP_NODE_LIST = ['UL', 'BLOCKQUOTE']
+
 class Justify extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
@@ -26,7 +29,7 @@ class Justify extends DropListMenu implements MenuActive {
                             ${editor.i18next.t('menus.dropListMenu.justify.靠左')}
                         </p>`
                     ),
-                    value: 'justifyLeft',
+                    value: 'left',
                 },
                 {
                     $elem: $(
@@ -35,7 +38,7 @@ class Justify extends DropListMenu implements MenuActive {
                             ${editor.i18next.t('menus.dropListMenu.justify.居中')}
                         </p>`
                     ),
-                    value: 'justifyCenter',
+                    value: 'center',
                 },
                 {
                     $elem: $(
@@ -44,7 +47,7 @@ class Justify extends DropListMenu implements MenuActive {
                             ${editor.i18next.t('menus.dropListMenu.justify.靠右')}
                         </p>`
                     ),
-                    value: 'justifyRight',
+                    value: 'right',
                 },
                 {
                     $elem: $(
@@ -53,7 +56,7 @@ class Justify extends DropListMenu implements MenuActive {
                             ${editor.i18next.t('menus.dropListMenu.justify.两端')}
                         </p>`
                     ),
-                    value: 'justifyFull',
+                    value: 'justify',
                 },
             ],
             clickHandler: (value: string) => {
@@ -71,30 +74,73 @@ class Justify extends DropListMenu implements MenuActive {
         const editor = this.editor
         const selection = editor.selection
         const $selectionElem = selection.getSelectionContainerElem()
+
         // 保存选区
         selection.saveRange()
-        // 定义对齐方式的type
-        type justifyType = {
-            [key: string]: string
-        }
-        // 数据项
-        const justifyClass: justifyType = {
-            justifyLeft: 'left',
-            justifyCenter: 'center',
-            justifyRight: 'right',
-            justifyFull: 'justify',
-        }
+
         // 获取顶级元素
-        const $elems = editor.selection.getSelectionRangeTopNodes(editor)
-        if ($selectionElem) {
-            // 获取在css中对应style的值
-            const justifyValue = justifyClass[value]
-            $elems.forEach((el: DomElement) => {
-                el.css('text-align', justifyValue)
-            })
+        const $elems = editor.selection.getSelectionRangeTopNodes()
+        if ($selectionElem?.length) {
+            // list 在chrome下默认多包裹一个 p，导致不能通过顶层元素判断，所以单独加个判断
+            if (this.isSpecialNode($selectionElem, $elems[0]) || this.isSpecialTopNode($elems[0])) {
+                const el = this.getSpecialNodeUntilTop($selectionElem, $elems[0])
+                if (el == null) return
+
+                $(el).css('text-align', value)
+            } else {
+                $elems.forEach((el: DomElement) => {
+                    el.css('text-align', value)
+                })
+            }
         }
         //恢复选区
         selection.restoreSelection()
+    }
+
+    /**
+     * 获取选区中的特殊元素，如果不存在，则直接返回顶层元素子元素
+     * @param el DomElement
+     * @param topEl DomElement
+     */
+    private getSpecialNodeUntilTop(el: DomElement, topEl: DomElement) {
+        let parentNode: Node | null = el.elems[0]
+        const topNode = topEl.elems[0]
+        // 可能出现嵌套的情况，所以一级一级向上找，是否是特殊元素
+        while (parentNode != null) {
+            if (SPECIAL_NODE_LIST.indexOf(parentNode?.nodeName) !== -1) {
+                return parentNode
+            }
+            // 如果再到 top 元素之前还没找到特殊元素，直接返回元素
+            if (parentNode.parentNode === topNode) {
+                return parentNode
+            }
+            parentNode = parentNode.parentNode
+        }
+        return parentNode
+    }
+
+    /**
+     * 当选区元素或者顶层元素是某些特殊元素时，只需要修改子元素的对齐样式的元素
+     * @param el DomElement
+     * @param topEl DomElement
+     */
+    private isSpecialNode(el: DomElement, topEl: DomElement) {
+        // 如果以后有类似的元素要这样处理，直接修改这个数组即可
+        const parentNode = this.getSpecialNodeUntilTop(el, topEl)
+
+        if (parentNode == null) return false
+
+        return SPECIAL_NODE_LIST.indexOf(parentNode.nodeName) !== -1
+    }
+
+    /**
+     * 当选区 top 元素为某些特殊元素时，只需要修改子元素的对齐样式的元素
+     * @param el DomElement
+     */
+    private isSpecialTopNode(topEl: DomElement) {
+        if (topEl == null) return false
+
+        return SPECIAL_TOP_NODE_LIST.indexOf(topEl.elems[0]?.nodeName) !== -1
     }
 
     /**
@@ -102,15 +148,7 @@ class Justify extends DropListMenu implements MenuActive {
      * 默认左对齐,若选择其他对其方式对active进行高亮否则unActive
      * ?考虑优化的话 是否可以对具体选中的进行高亮
      */
-    public tryChangeActive(): void {
-        // const editor = this.editor
-        // let isjustify = ['justifyCenter', 'justifyRight'].some(e => editor.cmd.queryCommandState(e))
-        // if (isjustify) {
-        //     this.active()
-        // } else {
-        //     this.unActive()
-        // }
-    }
+    public tryChangeActive(): void { }
 }
 
 export default Justify

@@ -111,7 +111,7 @@ describe('Editor Text test', () => {
     test('编辑器初始化后，调用 txt append 方法 能追加 html', () => {
         editor.txt.append('12345<span>1234</span>')
 
-        expect(editor.txt.html()).toEqual('<p><br></p><p>12345<span>1234</span></p>')
+        expect(editor.txt.html()).toEqual('<p>12345<span>1234</span></p>')
     })
 
     test('编辑器初始化后，编辑器区域会绑定 keyup 事件，触发保存range和激活菜单函数', () => {

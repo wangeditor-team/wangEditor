@@ -13,9 +13,10 @@ import getHtmlByNodeList from './getHtmlByNodeList'
 /** 按键函数 */
 type KeyBoardHandler = (event: KeyboardEvent) => unknown
 /** 普通事件回调 */
-type EventHandler = (event: Event) => unknown
+type EventHandler = (event?: Event) => unknown
 // 各个事件钩子函数
 type TextEventHooks = {
+    onBlurEvents: EventHandler[]
     changeEvents: (() => void)[] // 内容修改时
     dropEvents: ((event: DragEvent) => unknown)[]
     clickEvents: EventHandler[]
@@ -54,6 +55,8 @@ type TextEventHooks = {
     dropListMenuHoverEvents: (() => void)[]
     /** 点击分割线时 */
     splitLineEvents: ((e: DomElement) => void)[]
+    /** 视频点击事件 */
+    videoClickEvents: ((e: DomElement) => void)[]
 }
 
 class Text {
@@ -64,6 +67,7 @@ class Text {
         this.editor = editor
 
         this.eventHooks = {
+            onBlurEvents: [],
             changeEvents: [],
             dropEvents: [],
             clickEvents: [],
@@ -85,6 +89,7 @@ class Text {
             menuClickEvents: [],
             dropListMenuHoverEvents: [],
             splitLineEvents: [],
+            videoClickEvents: [],
         }
     }
 
@@ -229,11 +234,18 @@ class Text {
     public append(html: string): void {
         const editor = this.editor
         const $textElem = editor.$textElem
+        const blankLineReg = /(<p><br><\/p>)+$/g
         if (html.indexOf('<') !== 0) {
             // 普通字符串，用 <p> 包裹
             html = `<p>${html}</p>`
         }
-        $textElem.append($(html))
+        if (blankLineReg.test($textElem.html().trim())) {
+            // 如果有多个空行替换最后一个 <p><br></p>
+            const insertHtml = $textElem.html().replace(/(.*)<p><br><\/p>/, '$1' + html)
+            this.html(insertHtml)
+        } else {
+            $textElem.append($(html))
+        }
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
@@ -550,6 +562,27 @@ class Text {
             if (e.keyCode !== 13) return
             const enterDownEvents = eventHooks.enterDownEvents
             enterDownEvents.forEach(fn => fn(e))
+        })
+
+        // 视频 click
+        $textElem.on('click', (e: Event) => {
+            // 存储视频
+            let $video: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+
+            //处理视频点击 简单的video 标签
+            if ($target.getNodeName() === 'VIDEO') {
+                // 当前点击的就是视频
+                e.stopPropagation()
+                $video = $target
+            }
+
+            if (!$video) return // 没有点击视频，则返回
+
+            const videoClickEvents = eventHooks.videoClickEvents
+            videoClickEvents.forEach(fn => fn($video as DomElement))
         })
     }
 }

@@ -43,6 +43,7 @@ test('点击 tooltip', () => {
 })
 
 test('tooltip 显示和隐藏', () => {
+    tooltip.create()
     expect(tooltip.isShow).toBe(true)
 
     tooltip.remove()
