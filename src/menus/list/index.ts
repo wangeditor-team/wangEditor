@@ -191,7 +191,7 @@ class List extends DropListMenu implements MenuActive {
         return false
     }
 
-    public tryChangeActive(): void { }
+    public tryChangeActive(): void {}
 }
 
 export default List

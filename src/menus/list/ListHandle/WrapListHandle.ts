@@ -40,7 +40,7 @@ export default class WrapListHandle extends ListHandle implements Exec {
             (!$start?.prev().length && !$end?.next().length)
         ) {
             // 获取当前序列下的所有 li 标签
-            ; ($selectionElem?.children() as DomElement).forEach(($node: HTMLElement) => {
+            ;($selectionElem?.children() as DomElement).forEach(($node: HTMLElement) => {
                 $nodes.push($($node))
             })
 

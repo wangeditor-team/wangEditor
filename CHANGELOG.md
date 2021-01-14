@@ -1,3 +1,24 @@
+## [4.6.3](https://github.com/wangeditor-team/wangEditor/compare/v4.6.2...v4.6.3) (2021-01-14)
+
+
+### Bug Fixes
+
+* 标题按钮设置异常,错别字修复 ([37addbc](https://github.com/wangeditor-team/wangEditor/commit/37addbc081a7989bebe996c839ed78eb577758fc))
+* 撤销和恢复按钮的tooltip描述不正确 ([af6fddc](https://github.com/wangeditor-team/wangEditor/commit/af6fddc374629fb1922cff106839aa0ddb2bbeee))
+* 内容为空时append多出空行&createPanelConf 修改支持异步返回 ([bde84fd](https://github.com/wangeditor-team/wangEditor/commit/bde84fd6976fb77ee6174dd28d79b78970d7c1b9))
+* 去掉在线图片和视频插入的校验限制 ([9e2f14a](https://github.com/wangeditor-team/wangEditor/commit/9e2f14ab1cc39bea43ea393ae4f5bfa75f57abbb))
+* 失去焦点tooltip不消失 ([3c48acf](https://github.com/wangeditor-team/wangEditor/commit/3c48acfe41acb74bdce63f70d34358a953681dd0))
+* 完善对齐 ([1b22c2a](https://github.com/wangeditor-team/wangEditor/commit/1b22c2a782ecef455db35ae172f2e6f95e248d5f))
+* 修复撤销功能在某些极端情况下报错 ([578c3ce](https://github.com/wangeditor-team/wangEditor/commit/578c3ced5bda396b2d8c8a76dc95042b18cddbef))
+* 修复初始化编辑器调用 API 插入内容，快捷键撤销报错的问题 ([3e2c375](https://github.com/wangeditor-team/wangEditor/commit/3e2c375275465e97544593e69dcc6e5982a382fb))
+* 修复了列表对齐的问题 ([a4e43fd](https://github.com/wangeditor-team/wangEditor/commit/a4e43fd1f3111b1869c6c47895d221cc64dc7a9a))
+* 修复eidtor.txt.append和editor.txt.html光标移动不正确问题 ([045782b](https://github.com/wangeditor-team/wangEditor/commit/045782be1138e197ee638a9b9b168d714b923de4))
+
+
+### Features
+
+* 新增上传视频功能 ([c9e5446](https://github.com/wangeditor-team/wangEditor/commit/c9e5446f08acf80487ba36adebe679a4c45adda6))
+
 ## [4.6.2](https://github.com/wangeditor-team/wangEditor/compare/v4.6.1...v4.6.2) (2021-01-07)
 
 
