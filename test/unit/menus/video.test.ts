@@ -70,12 +70,10 @@ test('video onlineVideoCheck 自定义检查', () => {
     videoMenu.clickHandler()
     editor.config.onlineVideoCheck = function (video: string) {
         if (video === '测试') {
-            return '测试禁止插入'
+            return false
         }
         return true
     }
-    const fn3 = jest.fn()
-    editor.config.customAlert = fn3
 
     const panel = videoMenu.panel as Panel
     const panelElem = panel.$container.elems[0]
@@ -91,7 +89,6 @@ test('video onlineVideoCheck 自定义检查', () => {
     $videoIFrame.val(video)
     $btnInsert.click()
 
-    expect(fn3).toBeCalled()
     expect(editor.$textElem.html().indexOf(video)).toBe(-1)
 })
 
