@@ -670,10 +670,20 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
 
     /**
      * 当前元素后一个兄弟节点
+     * 不包括文本节点、注释节点）
      */
     next(): DomElement {
         const elem = this.elems[0]
         return $(elem.nextElementSibling)
+    }
+
+    /**
+     * 获取当前节点的下一个兄弟节点
+     * 包括文本节点、注释节点即回车、换行、空格、文本等等）
+     */
+    getNextSibling(): DomElement {
+        const elem = this.elems[0]
+        return $(elem.nextSibling)
     }
 
     /**

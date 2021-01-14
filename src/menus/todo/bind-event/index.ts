@@ -18,7 +18,7 @@ function bindEvent(editor: Editor) {
         if (isAllTodo(editor)) {
             e.preventDefault()
             const selection = editor.selection
-            const $topSelectElem = selection.getSelectionRangeTopNodes(editor)[0]
+            const $topSelectElem = selection.getSelectionRangeTopNodes()[0]
             const $li = $topSelectElem.childNodes()?.get(0)
             const selectionNode = window.getSelection()?.anchorNode as Node
             const range = selection.getRange()
@@ -95,7 +95,7 @@ function bindEvent(editor: Editor) {
     function delDown(e: Event) {
         if (isAllTodo(editor)) {
             const selection = editor.selection
-            const $topSelectElem = selection.getSelectionRangeTopNodes(editor)[0]
+            const $topSelectElem = selection.getSelectionRangeTopNodes()[0]
             const $li = $topSelectElem.childNodes()?.getNode()
             const $p = $(`<p></p>`)
             const p = $p.getNode()
@@ -136,7 +136,7 @@ function bindEvent(editor: Editor) {
      */
     function deleteUp() {
         const selection = editor.selection
-        const $topSelectElem = selection.getSelectionRangeTopNodes(editor)[0]
+        const $topSelectElem = selection.getSelectionRangeTopNodes()[0]
         if (isTodo($topSelectElem)) {
             if ($topSelectElem.text() === '') {
                 $(`<p><br></p>`).insertAfter($topSelectElem)

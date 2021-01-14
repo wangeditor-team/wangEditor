@@ -3,7 +3,7 @@ import $, { DomElement } from '../../../utils/dom-core'
 function bindEvent(editor: Editor) {
     function quoteEnter(e: Event) {
         const $selectElem = editor.selection.getSelectionContainerElem() as DomElement
-        const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
+        const $topSelectElem = editor.selection.getSelectionRangeTopNodes()[0]
         // 对quote的enter进行特殊处理
         //最后一行为<p><br></p>时再按会出跳出blockquote
         if ($topSelectElem?.getNodeName() === 'BLOCKQUOTE') {
