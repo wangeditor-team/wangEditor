@@ -5,14 +5,20 @@
 import $, { DomElement } from '../utils/dom-core'
 import { UA } from '../utils/util'
 import Editor from './index'
-import SelectionRangeTopNodes from './selection-range-top-nodes/index'
 
 class SelectionAndRange {
     public editor: Editor
     private _currentRange: Range | null | undefined = null
+    public $nodeList: DomElement[]
+    public $startElem: DomElement | undefined
+    public $endElem: DomElement | undefined
 
     constructor(editor: Editor) {
         this.editor = editor
+
+        this.$nodeList = []
+        this.$startElem = $(this.getSelectionStartElem()).getNodeTop(this.editor)
+        this.$endElem = $(this.getSelectionEndElem()).getNodeTop(this.editor)
     }
 
     /**
@@ -256,9 +262,15 @@ class SelectionAndRange {
      * @param $editor
      */
     public getSelectionRangeTopNodes(): DomElement[] {
-        const item = new SelectionRangeTopNodes(this.editor)
-        item.init()
-        return item.getSelectionNodes()
+        // 清空，防止叠加元素
+        this.$nodeList = []
+        // 重复执行 避免初始化未初始赋值$startElem  $endElem
+        this.$startElem = $(this.getSelectionStartElem()).getNodeTop(this.editor)
+        this.$endElem = $(this.getSelectionEndElem()).getNodeTop(this.editor)
+
+        this.recordSelectionNodes($(this.$startElem))
+
+        return this.$nodeList
     }
 
     /**
@@ -306,6 +318,20 @@ class SelectionAndRange {
         const selection = window.getSelection()
         if (selection) {
             selection.removeAllRanges()
+        }
+    }
+
+    /**
+     * 记录节点 - 从选区开始节点开始 一直到匹配到选区结束节点为止
+     * @param $node 节点
+     */
+    public recordSelectionNodes($node: DomElement): void {
+        const $elem = $node.getNodeTop(this.editor)
+        if ($elem.length > 0) {
+            this.$nodeList.push($($node))
+            if (!this.$endElem?.equal($elem)) {
+                this.recordSelectionNodes($elem.getNextSibling())
+            }
         }
     }
 }
