@@ -28,6 +28,7 @@ export type ConfigType = {
     excludeMenus: string[]
     fontNames: string[]
     lineHeights: string[]
+    showMenuTooltips: boolean
     indentation: IndentationType
     fontSizes: FontSizeConfType
     colors: string[]
