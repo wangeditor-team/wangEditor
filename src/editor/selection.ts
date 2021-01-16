@@ -198,7 +198,24 @@ class SelectionAndRange {
             // 部分情况下会报错，兼容一下
         }
     }
-
+    /**
+     * 重新设置选区
+     * @param startDom 选区开始的元素
+     * @param endDom 选区结束的元素
+     */
+    public createRangeByElems(startDom: Node, endDom: Node): void {
+        let selection = window.getSelection ? window.getSelection() : document.getSelection()
+        //清除所有的选区
+        selection?.removeAllRanges()
+        const range = document.createRange()
+        range.setStart(startDom, 0)
+        // 设置多行标签之后，第二个参数会被h标签内的b、font标签等影响range范围的选取
+        range.setEnd(endDom, endDom.childNodes.length || 1)
+        // 保存设置好的选区
+        this.saveRange(range)
+        //恢复选区
+        this.restoreSelection()
+    }
     /**
      * 根据 DOM 元素设置选区
      * @param $elem DOM 元素
