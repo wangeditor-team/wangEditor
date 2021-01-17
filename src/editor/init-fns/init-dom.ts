@@ -22,17 +22,12 @@ export default function (editor: Editor): void {
     const height = config.height
     const i18next = editor.i18next
 
-    let $toolbarElem: DomElement
-    let $textContainerElem: DomElement
+    const $toolbarElem: DomElement = $('<div></div>')
+    const $textContainerElem: DomElement = $('<div></div>')
     let $textElem: DomElement
     let $children: DomElement | null
-    let toolbarElemId: string
 
     if (textSelector == null) {
-        // 只有 toolbarSelector ，即是容器的选择器或元素，toolbar 和 text 的元素自行创建
-        $toolbarElem = $('<div></div>')
-        $textContainerElem = $('<div></div>')
-
         // 将编辑器区域原有的内容，暂存起来
         $children = $toolbarSelector.children()
 
@@ -48,16 +43,12 @@ export default function (editor: Editor): void {
             .css('border', styleSettings.border)
             .css('border-top', 'none')
             .css('height', `${height}px`)
-        // 当只有 toolbarSelector 时，toolbarElemId 自行创建
-        toolbarElemId = getRandom('toolbar-elem')
     } else {
         // toolbarSelector 和 textSelector 都有
-        $toolbarElem = $toolbarSelector
-        $textContainerElem = $(textSelector)
+        $toolbarSelector.append($toolbarElem)
+        $(textSelector).append($textContainerElem)
         // 将编辑器区域原有的内容，暂存起来
         $children = $textContainerElem.children()
-        // 都有时，toolbarElemId 使用用户自定义的
-        toolbarElemId = $toolbarSelector.attr('id') || getRandom('toolbar-elem')
     }
 
     // 编辑区域
@@ -90,6 +81,7 @@ export default function (editor: Editor): void {
     $textElem.addClass('w-e-text')
 
     // 添加 ID
+    const toolbarElemId = getRandom('toolbar-elem')
     $toolbarElem.attr('id', toolbarElemId)
     const textElemId = getRandom('text-elem')
     $textElem.attr('id', textElemId)
