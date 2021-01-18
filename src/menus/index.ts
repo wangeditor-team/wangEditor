@@ -42,21 +42,39 @@ class Menus {
 
         config.menus.forEach(menuKey => {
             const MenuConstructor = this.constructorList[menuKey] // 暂用 any ，后面再替换
-            if (MenuConstructor == null || typeof MenuConstructor !== 'function') {
-                // 必须是 class
-                return
-            }
-            // 创建 menu 实例，并放到 menuList 中
-            const m = new MenuConstructor(this.editor)
-            m.key = menuKey
-            this.menuList.push(m)
+            this._initMenuList(menuKey, MenuConstructor)
         })
+
+        // 全局注册
+        for (let [menuKey, menuFun] of Object.entries(Editor.globalCustomMenuConstructorList)) {
+            const MenuConstructor = menuFun // 暂用 any ，后面再替换
+            this._initMenuList(menuKey, MenuConstructor)
+        }
 
         // 渲染 DOM
         this._addToToolbar()
 
         // 添加菜单栏tooltips
         this._bindMenuTooltips()
+    }
+
+    /**
+     * 创建 menu 实例，并放到 menuList 中
+     * @param menuKey 菜单 key ，和 editor.config.menus 对应
+     * @param MenuConstructor 菜单构造函数
+     */
+    private _initMenuList(menuKey: String, MenuConstructor: any): void {
+        if (MenuConstructor == null || typeof MenuConstructor !== 'function') {
+            // 必须是 class
+            return
+        }
+        if (this.menuList.some(menu => menu.key === menuKey)) {
+            console.warn('菜单名称重复:' + menuKey)
+        } else {
+            const m = new MenuConstructor(this.editor)
+            m.key = menuKey
+            this.menuList.push(m)
+        }
     }
 
     // 绑定菜单栏tooltips

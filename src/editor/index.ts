@@ -22,6 +22,7 @@ import History from './history/index'
 import disableInit from './disable'
 
 // 创建菜单的 class
+import { MenuListType } from '../menus/menu-list'
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
 import DropList from '../menus/menu-constructors/DropList'
 import DropListMenu from '../menus/menu-constructors/DropListMenu'
@@ -41,6 +42,7 @@ class Editor {
     static Panel = Panel
     static PanelMenu = PanelMenu
     static Tooltip = Tooltip
+    static globalCustomMenuConstructorList: MenuListType = {}
 
     public id: string
     public toolbarSelector: DomElementSelector
@@ -204,6 +206,16 @@ class Editor {
      */
     public scrollToHead(id: string): void {
         scrollToHead(this, id)
+    }
+
+    /**
+     * 自定义添加菜单
+     * @param key 菜单 key
+     * @param Menu 菜单构造函数
+     */
+    static registerMenu(key: string, Menu: any) {
+        if (!Menu || typeof Menu !== 'function') return
+        Editor.globalCustomMenuConstructorList[key] = Menu
     }
 }
 
