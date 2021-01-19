@@ -55,8 +55,10 @@ class Menus {
         // 渲染 DOM
         this._addToToolbar()
 
-        // 添加菜单栏tooltips
-        this._bindMenuTooltips()
+        if (config.showMenuTooltips) {
+            // 添加菜单栏tooltips
+            this._bindMenuTooltips()
+        }
     }
 
     // 绑定菜单栏tooltips

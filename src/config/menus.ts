@@ -250,4 +250,6 @@ export default {
     undoLimit: 20,
 
     indentation: '2em',
+
+    showMenuTooltips: true,
 }
