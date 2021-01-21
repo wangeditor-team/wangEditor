@@ -5,7 +5,6 @@
 import $, { DomElement } from '../utils/dom-core'
 import { UA } from '../utils/util'
 import Editor from './index'
-import SelectionRangeTopNodes from './selection-range-top-nodes/index'
 
 class SelectionAndRange {
     public editor: Editor
@@ -198,7 +197,24 @@ class SelectionAndRange {
             // 部分情况下会报错，兼容一下
         }
     }
-
+    /**
+     * 重新设置选区
+     * @param startDom 选区开始的元素
+     * @param endDom 选区结束的元素
+     */
+    public createRangeByElems(startDom: Node, endDom: Node): void {
+        let selection = window.getSelection ? window.getSelection() : document.getSelection()
+        //清除所有的选区
+        selection?.removeAllRanges()
+        const range = document.createRange()
+        range.setStart(startDom, 0)
+        // 设置多行标签之后，第二个参数会被h标签内的b、font标签等影响range范围的选取
+        range.setEnd(endDom, endDom.childNodes.length || 1)
+        // 保存设置好的选区
+        this.saveRange(range)
+        //恢复选区
+        this.restoreSelection()
+    }
     /**
      * 根据 DOM 元素设置选区
      * @param $elem DOM 元素
@@ -239,9 +255,15 @@ class SelectionAndRange {
      * @param $editor
      */
     public getSelectionRangeTopNodes(): DomElement[] {
-        const item = new SelectionRangeTopNodes(this.editor)
-        item.init()
-        return item.getSelectionNodes()
+        // 清空，防止叠加元素
+        let $nodeList: DomElement[]
+
+        const $startElem = this.getSelectionStartElem()?.getNodeTop(this.editor)
+        const $endElem = this.getSelectionEndElem()?.getNodeTop(this.editor)
+
+        $nodeList = this.recordSelectionNodes($($startElem), $($endElem))
+
+        return $nodeList
     }
 
     /**
@@ -290,6 +312,29 @@ class SelectionAndRange {
         if (selection) {
             selection.removeAllRanges()
         }
+    }
+
+    /**
+     * 记录节点 - 从选区开始节点开始 一直到匹配到选区结束节点为止
+     * @param $node 节点
+     */
+    public recordSelectionNodes($node: DomElement, $endElem: DomElement): DomElement[] {
+        let $list: DomElement[] = []
+        let $NODE: DomElement = $node
+        let isEnd = true
+        while (isEnd) {
+            const $elem = $NODE.getNodeTop(this.editor)
+            if ($elem.getNodeName() === 'BODY') isEnd = false // 兜底
+            if ($elem.length > 0) {
+                $list.push($($NODE))
+                if ($endElem?.equal($elem)) {
+                    isEnd = false
+                } else {
+                    $NODE = $elem.getNextSibling()
+                }
+            }
+        }
+        return $list
     }
 }
 

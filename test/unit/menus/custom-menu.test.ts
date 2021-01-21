@@ -22,7 +22,7 @@ test('自定义菜单的 class', () => {
     expect(Editor.$).not.toBeNull()
 })
 
-test('扩展一个菜单', () => {
+test('实例注册扩展一个菜单', () => {
     // 创建 class
     class InsertABCMenu extends BtnMenu {
         constructor(editor: Editor) {
@@ -43,6 +43,31 @@ test('扩展一个菜单', () => {
     editor = createEditor(document, 'div1') // 赋值给全局变量，便于再扩展测试用例
     // 注册菜单
     editor.menus.extend('insertABC', InsertABCMenu)
+
+    expect(editor.menus.constructorList.insertABC).not.toBeNull()
+})
+
+test('全局注册扩展一个菜单', () => {
+    // 创建 class
+    class InsertABCMenu extends BtnMenu {
+        constructor(editor: Editor) {
+            const $elem = Editor.$(
+                `<div class="w-e-menu">
+                    <button>XYZ</button>
+                </div>`
+            )
+            super($elem, editor)
+        }
+        // 菜单点击事件
+        clickHandler() {}
+        // 菜单激活状态
+        tryChangeActive() {}
+    }
+
+    // 注册菜单
+    Editor.registerMenu('insertXYZ', InsertABCMenu)
+    // 创建编辑器实例
+    editor = createEditor(document, 'div1')
 
     expect(editor.menus.constructorList.insertABC).not.toBeNull()
 })
