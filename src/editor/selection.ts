@@ -157,7 +157,9 @@ class SelectionAndRange {
         const selection = window.getSelection()
         const r = this._currentRange
         if (selection && r) {
-            selection.removeAllRanges()
+            if (selection.rangeCount) {
+                selection.removeAllRanges()
+            }
             selection.addRange(r)
         }
     }

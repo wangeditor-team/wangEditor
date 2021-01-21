@@ -27,6 +27,8 @@ import Table from './table/index'
 import Code from './code'
 import SplitLine from './split-line/index'
 import Todo from './todo'
+import FontColorPicker from './font-color-picker'
+import BackColorPicker from './back-color-picker'
 
 export type MenuListType = {
     [key: string]: any
@@ -44,7 +46,9 @@ export default {
     justify: Justify,
     quote: Quote,
     backColor: BackColor,
+    backColorPicker: BackColorPicker,
     foreColor: FontColor,
+    foreColorPicker: FontColorPicker,
     video: Video,
     image: Image,
     indent: Indent,
