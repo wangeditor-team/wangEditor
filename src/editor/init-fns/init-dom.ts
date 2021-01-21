@@ -65,7 +65,7 @@ export default function (editor: Editor): void {
         // 编辑器有默认值的时候隐藏placeholder
         $placeholder.hide()
     } else {
-        $textElem.append($('<p><br></p>')) // 新增一行，方便继续编辑
+        $textElem.append($('<p data-we-empty-p><br></p>')) // 新增一行，方便继续编辑
     }
 
     // 编辑区域加入DOM

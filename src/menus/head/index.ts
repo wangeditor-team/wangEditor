@@ -154,7 +154,7 @@ class Head extends DropListMenu implements MenuActive {
         let endElem = $($selection.getSelectionEndElem())
         // 判断用户选中元素是否为最后一个空元素，如果是将endElem指向上一个元素
         if (
-            endElem.elems[0].outerHTML === $('<p><br></p>').elems[0].outerHTML &&
+            endElem.elems[0].outerHTML === $('<p data-we-empty-p><br></p>').elems[0].outerHTML &&
             !endElem.elems[0].nextSibling
         ) {
             endElem = endElem.prev()!

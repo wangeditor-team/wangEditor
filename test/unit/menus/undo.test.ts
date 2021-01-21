@@ -18,7 +18,7 @@ test('撤销', done => {
                 undo.clickHandler()
                 if (editor.isCompatibleMode) {
                     // 兼容模式
-                    expect(editor.$textElem.html()).toEqual('<p><br></p>')
+                    expect(editor.$textElem.html()).toEqual('<p data-we-empty-p=""><br></p>')
                 } else {
                     // 标准模式
                     expect(editor.history.size).toEqual([0, 1])

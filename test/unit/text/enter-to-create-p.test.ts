@@ -38,7 +38,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
         expect(downFns.length).toBe(1)
     })
 
-    test('当编辑器选区内容父元素为 <code><br></code> ，则移除内容， 插入 <p><br></p>', () => {
+    test('当编辑器选区内容父元素为 <code><br></code> ，则移除内容， 插入 <p data-we-empty-p=""><br></p>', () => {
         const upFns: Function[] = []
         const downFns: Function[] = []
 
@@ -52,7 +52,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
             fn()
         })
 
-        expect(editor.$textElem.elems[0].innerHTML).toEqual('<p><br></p>')
+        expect(editor.$textElem.elems[0].innerHTML).toEqual('<p data-we-empty-p=""><br></p>')
     })
 
     test('当编辑器选区内容的父元素不是 $textElm，则不处理', () => {

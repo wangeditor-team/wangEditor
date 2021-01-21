@@ -24,7 +24,7 @@ export default function (editor: Editor, video: string): PanelConf {
      * @param iframe html标签
      */
     function insertVideo(video: string): void {
-        editor.cmd.do('insertHTML', video + '<p><br></p>')
+        editor.cmd.do('insertHTML', video + '<p data-we-empty-p><br></p>')
 
         // video添加后的回调
         editor.config.onlineVideoCallback(video)

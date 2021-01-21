@@ -62,7 +62,7 @@ class Quote extends BtnMenu implements MenuActive {
             // 即时更新btn状态
             this.tryChangeActive()
             // 防止最后一行无法跳出
-            $(`<p><br></p>`).insertAfter($quote)
+            $('<p data-we-empty-p><br></p>').insertAfter($quote)
             return
         }
 

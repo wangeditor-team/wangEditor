@@ -28,7 +28,7 @@ describe('Editor history decompile', () => {
 
             revoke(compileData)
 
-            expect(editor.$textElem.html()).toEqual('<p><br></p>')
+            expect(editor.$textElem.html()).toEqual('<p data-we-empty-p=""><br></p>')
             done()
         })
 

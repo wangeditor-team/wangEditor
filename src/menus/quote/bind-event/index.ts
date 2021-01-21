@@ -5,7 +5,7 @@ function bindEvent(editor: Editor) {
         const $selectElem = editor.selection.getSelectionContainerElem() as DomElement
         const $topSelectElem = editor.selection.getSelectionRangeTopNodes()[0]
         // 对quote的enter进行特殊处理
-        //最后一行为<p><br></p>时再按会出跳出blockquote
+        //最后一行为<p data-we-empty-p><br></p>时再按会出跳出blockquote
         if ($topSelectElem?.getNodeName() === 'BLOCKQUOTE') {
             // firefox下点击引用按钮会选中外容器<blockquote></blockquote>
             if ($selectElem.getNodeName() === 'BLOCKQUOTE') {
@@ -15,7 +15,7 @@ function bindEvent(editor: Editor) {
             if ($selectElem.text() === '') {
                 e.preventDefault()
                 $selectElem.remove()
-                const $newLine = $('<p><br></p>')
+                const $newLine = $('<p data-we-empty-p><br></p>')
                 $newLine.insertAfter($topSelectElem)
                 // 将光标移动br前面
                 editor.selection.moveCursor($newLine.getNode(), 0)

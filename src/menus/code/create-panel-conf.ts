@@ -35,7 +35,7 @@ export default function (editor: Editor, text: string, languageType: string): Pa
 
         // 通过dom操作添加换行标签
         // @ts-ignore
-        $('<p><br></p>').insertAfter($codeElem)
+        $('<p data-we-empty-p><br></p>').insertAfter($codeElem)
     }
 
     /**

@@ -55,7 +55,7 @@ class CreateTable {
         const tableDom =
             `<table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>` +
             rowStr +
-            '</tbody></table><p><br></p>'
+            '</tbody></table><p data-we-empty-p><br></p>'
         return tableDom
     }
 }

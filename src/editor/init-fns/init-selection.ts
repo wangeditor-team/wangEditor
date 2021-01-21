@@ -16,7 +16,7 @@ function initSelection(editor: Editor, newLine?: boolean) {
     const $children = $textElem.children()
     if (!$children || !$children.length) {
         // 如果编辑器区域无内容，添加一个空行，重新设置选区
-        $textElem.append($('<p><br></p>'))
+        $textElem.append($('<p data-we-empty-p><br></p>'))
         initSelection(editor)
         return
     }
@@ -28,8 +28,8 @@ function initSelection(editor: Editor, newLine?: boolean) {
         const html = $last.html().toLowerCase()
         const nodeName = $last.getNodeName()
         if ((html !== '<br>' && html !== '<br/>') || nodeName !== 'P') {
-            // 最后一个元素不是 <p><br></p>，添加一个空行，重新设置选区
-            $textElem.append($('<p><br></p>'))
+            // 最后一个元素不是 <p data-we-empty-p><br></p>，添加一个空行，重新设置选区
+            $textElem.append($('<p data-we-empty-p><br></p>'))
             initSelection(editor)
             return
         }

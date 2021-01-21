@@ -123,7 +123,7 @@ class Text {
      * 清空内容
      */
     public clear(): void {
-        this.html('<p><br></p>')
+        this.html('<p data-we-empty-p><br></p>')
     }
 
     /**
@@ -139,12 +139,16 @@ class Text {
             let html = $textElem.html()
             // 未选中任何内容的时候点击“加粗”或者“斜体”等按钮，就得需要一个空的占位符 &#8203 ，这里替换掉
             html = html.replace(/\u200b/gm, '')
-            html = html.replace(/<p><\/p>/gim, '') // 去掉空行
-            html = html.replace(/<p><br\/?><\/p>$/gim, '') // 去掉最后的 <p><br><p>
+            // 去掉空行
+            html = html.replace(/<p><\/p>/gim, '')
+            // 去掉最后的 <p data-we-empty-p><br></p>
+            html = html.replace(/<p data-we-empty-p=""><br\/?><\/p>$/gim, '')
+            // 为了避免用户在最后生成的<p data-we-empty-p><br></p>标签中编辑数据, 最后产生多余标签, 去除所有p标签上的data-we-empty-p属性
+            html = html.replace(/<p data-we-empty-p="">/gim, '<p>')
 
             /**
              * 这里的代码为了处理火狐多余的空行标签,但是强制删除空行标签会带来其他问题
-             * html()方法返回的的值,"<p><br></p>"中pr会被删除,只留下<p>,点不进去,从而产生垃圾数据
+             * html()方法返回的的值,"<p data-we-empty-p><br></p>"中pr会被删除,只留下<p>,点不进去,从而产生垃圾数据
              * 目前在末位有多个空行的情况下执行撤销重做操作,会产生一种不记录末尾空行的错觉
              * 暂时注释, 等待进一步的兼容处理
              */
@@ -165,7 +169,7 @@ class Text {
         // 有 val ，则是设置 html
         val = val.trim()
         if (val === '') {
-            val = `<p><br></p>`
+            val = '<p data-we-empty-p><br></p>'
         }
         if (val.indexOf('<') !== 0) {
             // 内容用 p 标签包裹
@@ -235,19 +239,12 @@ class Text {
      */
     public append(html: string): void {
         const editor = this.editor
-        const $textElem = editor.$textElem
-        const blankLineReg = /(<p><br><\/p>)+$/g
         if (html.indexOf('<') !== 0) {
             // 普通字符串，用 <p> 包裹
             html = `<p>${html}</p>`
         }
-        if (blankLineReg.test($textElem.html().trim())) {
-            // 如果有多个空行替换最后一个 <p><br></p>
-            const insertHtml = $textElem.html().replace(/(.*)<p><br><\/p>/, '$1' + html)
-            this.html(insertHtml)
-        } else {
-            $textElem.append($(html))
-        }
+
+        this.html(this.html() + html)
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()

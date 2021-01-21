@@ -20,7 +20,7 @@ export default function bindEventJumpCodeBlock(editor: Editor) {
         const $lastNode = $textElem.children()?.last()
         if (node?.elems[0].tagName === 'XMP' && $lastNode?.elems[0].tagName === 'PRE') {
             // 就是最后一块是代码块的情况插入空p标签并光标移至p
-            const $emptyP = $('<p><br></p>')
+            const $emptyP = $('<p data-we-empty-p><br></p>')
             $textElem.append($emptyP)
         }
     })

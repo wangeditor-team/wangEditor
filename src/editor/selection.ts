@@ -59,7 +59,7 @@ class SelectionAndRange {
         const $textElem = editor.$textElem
         if ($textElem.isContain($containerElem)) {
             if ($textElem.elems[0] === $containerElem.elems[0]) {
-                if ($textElem.html().trim() === '<p><br></p>') {
+                if ($textElem.html().trim() === '<p data-we-empty-p=""><br></p>') {
                     const $children = $textElem.children()
                     const $last = $children?.last()
                     editor.selection.createRangeByElem($last as DomElement, true, true)
