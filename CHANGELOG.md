@@ -1,3 +1,20 @@
+## [4.6.4](https://github.com/wangeditor-team/wangEditor/compare/v4.6.3...v4.6.4) (2021-01-21)
+
+
+### Bug Fixes
+
+* 处理最后一个元素为代码块时的跳出问题 ([023b86b](https://github.com/wangeditor-team/wangEditor/commit/023b86b23dc8a5160a5112f4c6c4da5c12b82b92))
+* 工具栏tooltips开关配置 ([1c6d08c](https://github.com/wangeditor-team/wangEditor/commit/1c6d08c1c42f0668cdfe77f2f8250cdfe1631f2f))
+* 修复选中多行文本时无法设置head的问题 ([89a49cc](https://github.com/wangeditor-team/wangEditor/commit/89a49ccbc1ab07eaeb8f5fc508296f9dd3f7b187))
+* 优化粘贴 input 复制内容，多次粘贴会产生多余的html问题 ([f12d6ee](https://github.com/wangeditor-team/wangEditor/commit/f12d6ee6007f48fb4958f5538201468263f83757))
+* 粘贴样式配置失效处理 ([332c079](https://github.com/wangeditor-team/wangEditor/commit/332c0799d1d427aab94fc21d0add62baacc4fc94))
+* bar与text分离时,追加编辑器子节点 ([a6329f6](https://github.com/wangeditor-team/wangEditor/commit/a6329f66e59a1e2086186970d3958de930c79ddc))
+
+
+### Features
+
+*  扩展菜单注册太过繁琐 [#2493](https://github.com/wangeditor-team/wangEditor/issues/2493) ([9162b62](https://github.com/wangeditor-team/wangEditor/commit/9162b6283d5e82c84ac7c12bd8a6d5923ac58f54))
+
 ## [4.6.3](https://github.com/wangeditor-team/wangEditor/compare/v4.6.2...v4.6.3) (2021-01-14)
 
 
