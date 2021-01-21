@@ -147,8 +147,8 @@ SimpleHtmlParser.prototype = {
     parseAttributes: function (sTagName, s) {
         var oThis = this
         var attrs = []
-        s.replace(this.attrRe, function (a0, a1, a2, a3, a4, a5, a6) {
-            attrs.push(oThis.parseAttribute(sTagName, a0, a1, a2, a3, a4, a5, a6))
+        s.replace(this.attrRe, function (a0, a1, a2, a3, a4, a5, a6, a7) {
+            attrs.push(oThis.parseAttribute(sTagName, a0, a1, a2, a3, a4, a5, a6, a7))
         })
         return attrs
     },
