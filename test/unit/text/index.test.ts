@@ -415,7 +415,7 @@ describe('Editor Text test', () => {
 
         // 模拟表情点击的情况，不执行图片钩子函数
         const emotiomImg = $(
-            '<img class="eleImg" src="http://www.wangeditor.com/imgs/ali-pay.jpeg" />'
+            '<img class="eleImg" data-emoji="emoji" src="http://www.wangeditor.com/imgs/ali-pay.jpeg" />'
         )
 
         editor.$textElem.append(emotiomImg)

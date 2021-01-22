@@ -74,9 +74,11 @@ export default {
                             手势: '手势',
                         },
                         image: {
-                            图片链接: '图片链接',
                             上传图片: '上传图片',
                             网络图片: '网络图片',
+                            图片地址: '图片地址',
+                            图片文字说明: '图片文字说明',
+                            跳转链接: '跳转链接',
                         },
                         link: {
                             链接: '链接',
@@ -212,9 +214,11 @@ export default {
                             手势: 'gesture',
                         },
                         image: {
-                            图片链接: 'image link',
                             上传图片: 'upload image',
                             网络图片: 'network image',
+                            图片地址: 'image link',
+                            图片文字说明: 'image alt',
+                            跳转链接: 'hyperlink',
                         },
                         link: {
                             链接: 'link',

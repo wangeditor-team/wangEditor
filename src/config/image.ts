@@ -26,11 +26,17 @@ export type UploadImageHooksType = {
 
 export default {
     // 网络图片校验的配置函数
-    linkImgCheck: function (src: string): string | boolean {
+    linkImgCheck: function (src: string, alt?: string, href?: string): string | boolean {
         return true
     },
     // 显示“插入网络图片”
     showLinkImg: true,
+
+    // 显示“插入图片alt”
+    showLinkImgAlt: true,
+
+    // 显示“插入图片href”
+    showLinkImgHref: true,
 
     // 插入图片成功之后的回调函数
     linkImgCallback: EMPTY_FN,
