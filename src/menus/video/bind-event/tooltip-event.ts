@@ -24,10 +24,8 @@ export function createShowHideFn(editor: Editor) {
             {
                 $elem: $("<span class='w-e-icon-trash-o'></span>"),
                 onClick: (editor: Editor, $node: DomElement) => {
-                    // 选中video元素
-                    editor.selection.createRangeByElem($node)
-                    editor.selection.restoreSelection()
-                    editor.cmd.do('delete')
+                    // 选中video元素 删除
+                    $node.remove()
                     // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                     return true
                 },
