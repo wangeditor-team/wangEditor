@@ -130,7 +130,15 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 // 如果是段落，为了兼容 firefox 和 chrome差异，自定义插入
                 if (isParagraphHtml(html)) {
                     const $textEl = editor.$textElem
-                    $textEl.append($(html))
+                    // 全选的情况下覆盖原有内容
+                    if ($textEl.equal($selectionElem)) {
+                        editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`)
+                        // 更新选区
+                        editor.selection.createEmptyRange()
+                        return
+                    } else {
+                        $textEl.append($(html))
+                    }
                     // 如果选区是空段落，移除空段落
                     if (isEmptyParagraph($topElem)) {
                         $topElem.remove()
