@@ -58,7 +58,16 @@ class FontColor extends DropListMenu implements MenuActive {
             // 插入空白选区
             editor.selection.createEmptyRange()
         }
-
+        // 获取选区范围的文字
+        const $selectionText = editor.selection.getSelectionText()
+        // 如果设置的是 a 标签就特殊处理一下，避免回车换行设置颜色无效的情况
+        // 只处理选中a标签内全部文字的情况，因为选中部分文字不存在换行颜色失效的情况
+        if ($selectionElem.nodeName === 'A' && $selectionElem.textContent === $selectionText) {
+            // 创建一个相当于占位的元素
+            const _payloadElem = $('<span>&#8203;</span>').getNode()
+            // 添加到a标签之后
+            $selectionElem.appendChild(_payloadElem)
+        }
         editor.cmd.do('foreColor', value)
 
         if (isEmptySelection) {
