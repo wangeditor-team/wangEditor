@@ -10,6 +10,15 @@ import $ from '../../utils/dom-core'
 import '../../assets/style/create-panel-conf.less'
 import CreateTable from './create-table'
 
+/**
+ * 判断一个数值是否为正整数
+ * @param { number } n 被验证的值
+ */
+function isPositiveInteger(n: number): boolean {
+    //是否为正整数
+    return n > 0 && Number.isInteger(n)
+}
+
 export default function (editor: Editor): PanelConf {
     const createTable = new CreateTable(editor)
 
@@ -51,11 +60,14 @@ export default function (editor: Editor): PanelConf {
                         const colValue = Number($('#' + colId).val())
                         const rowValue = Number($('#' + rowId).val())
                         //校验是否传值
-                        if (colValue && rowValue) {
+                        if (isPositiveInteger(rowValue) && isPositiveInteger(colValue)) {
                             createTable.createAction(rowValue, colValue)
+                            return true
+                        } else {
+                            editor.config.customAlert('表格行列请输入正整数', 'warning')
+                            return false
                         }
                         // 返回 true 表示函数执行结束之后关闭 panel
-                        return true
                     },
                 },
             ],
