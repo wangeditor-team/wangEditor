@@ -321,13 +321,18 @@ class SelectionAndRange {
     public recordSelectionNodes($node: DomElement, $endElem: DomElement): DomElement[] {
         let $list: DomElement[] = []
         let $NODE: DomElement = $node
+        const $textElem = this.editor.$textElem
         let isEnd = true
+        // $NODE元素为空时不需要进行循环
         while (isEnd) {
-            const $elem = $NODE.getNodeTop(this.editor)
+            const $elem = $NODE?.getNodeTop(this.editor)
             if ($elem.getNodeName() === 'BODY') isEnd = false // 兜底
             if ($elem.length > 0) {
                 $list.push($($NODE))
-                if ($endElem?.equal($elem)) {
+                // 两个边界情况：
+                // 1. 当前元素就是我们要找的末尾元素
+                // 2. 当前元素已经是编辑区顶级元素（否则会找到编辑区的兄弟节点，比如placeholder元素）
+                if ($endElem?.equal($elem) || $textElem.equal($elem)) {
                     isEnd = false
                 } else {
                     $NODE = $elem.getNextSibling()

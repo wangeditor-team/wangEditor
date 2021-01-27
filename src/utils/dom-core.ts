@@ -826,7 +826,9 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
         // 获取父级元素，并判断是否是 编辑区域
         // 如果是则返回当前节点
         const $parent = this.parent()
-        if (editor.$textElem.equal($parent)) {
+
+        // fix：添加当前元素与编辑区元素的比较，防止传入的当前元素就是编辑区元素而造成的获取顶级元素为空的情况
+        if (editor.$textElem.equal(this) || editor.$textElem.equal($parent)) {
             return this
         }
 
