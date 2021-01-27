@@ -53,9 +53,9 @@ export default function (editor: Editor): ImgPanelConf {
     const fileMultipleAttr = config.uploadImgMaxLength === 1 ? '' : 'multiple="multiple"'
     const accepts: string = config.uploadImgAccept.map((item: string) => `image/${item}`).join(',')
     const getUploadImgTpl = (containerClass: string) =>
-        `<div class="${containerClass}">
+        `<div class="${containerClass}" data-title="图片">
             <div id="${upTriggerId}" class="w-e-up-btn">
-                <i class="w-e-icon-upload2"></i>
+                <i class="w-e-icon-image"></i>
             </div>
             <div style="display:none;">
                 <input id="${upFileId}" type="file" ${fileMultipleAttr} accept="${accepts}"/>
