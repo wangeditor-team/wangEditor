@@ -96,11 +96,14 @@
             span:nth-child(1) {
                 position: relative;
                 left: -18px;
-
                 input {
                     position: absolute;
-                    top: 0.3em;
                     margin-right:3px;
+                }
+                // 防止其他样式通过属性选择器重置input样式
+                input[type=checkbox] {
+                    top: 50%;
+                    margin-top: -6px;
                 }
             }
         }
