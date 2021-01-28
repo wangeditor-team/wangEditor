@@ -81,7 +81,7 @@ function saveFiles(req) {
                 fs.renameSync(tempFilePath, fullFileName)
                 // 存储链接
                 const url = `/server/${FILE_FOLDER}/` + fileName
-                imgLinks.push(url)
+                imgLinks.push({ url, alt: fileName, href: url })
             })
             console.log('imgLinks...', imgLinks)
 

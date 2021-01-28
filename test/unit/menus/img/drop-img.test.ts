@@ -66,7 +66,7 @@ describe('Img menu bind-event drop-img', () => {
             fn(mockDropEvent)
         })
 
-        expect(UploadImg).not.toBeCalled()
+        expect(UploadImg).toBeCalled()
         expect(mockUploadImg).not.toBeCalled()
     })
 })
