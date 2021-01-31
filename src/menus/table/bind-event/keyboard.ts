@@ -109,7 +109,7 @@ export default function bindEventKeyboardEvent(editor: Editor) {
                 const nextNodeHasBr = !!Array.prototype.slice
                     .call(nextCursorNode.childNodes)
                     .find(node => node.nodeName === 'BR')
-                // 如果跳到的下一行有多行元素，当上移则跳到最后一个子元素，下移跳转到一个子元素
+                // 如果跳到的下一行有多行元素，当上移则跳到最后一个子元素，下移跳转到第一个子元素
                 if (nextNodeHasBr) {
                     const { firstChild, lastChild } = nextCursorNode
                     nextCursorNode = (offset === -1 ? lastChild : firstChild) ?? nextCursorNode
