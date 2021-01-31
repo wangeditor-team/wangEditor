@@ -4,6 +4,7 @@
  */
 import Editor from '../../../editor/index'
 import GetNode from './event/getNode'
+import { UA } from '../../../utils/util'
 
 /**
  * 获取表格所有的行
@@ -45,15 +46,24 @@ export default function bindEventKeyboardEvent(editor: Editor) {
                 }
             }
 
+            // 火狐行为正常，不需要处理
+            if (UA.isFirefox) return
+
             const key = e.key
             const isArrowKey = key === 'ArrowUp' || key === 'ArrowDown'
 
             if (!$topElem?.elems.length) return
 
             if ($topElem.getNodeName() === 'TABLE' && isArrowKey) {
-                e.preventDefault()
+                const selection = window.getSelection()
+                const anchorNode = selection?.anchorNode
 
                 const containerElem = $selectionContainerElem.elems[0]
+                const containerChildren = containerElem.childNodes
+                const hasBr = !!Array.prototype.slice
+                    .call(containerChildren)
+                    .find(node => node.nodeName === 'BR')
+
                 const topElem = $topElem.elems[0]
                 if (containerElem == null || topElem == null) return
 
@@ -69,6 +79,20 @@ export default function bindEventKeyboardEvent(editor: Editor) {
 
                 // 光标下一个需要移动到的dom
                 const offset = key === 'ArrowUp' ? -1 : 1
+
+                // 单元格有多行元素，1.如果是上移，并且光标位置不是第一个子元素 2.如果是下移，并且光标位置不是最后一个子元素，直接返回
+                if (hasBr) {
+                    if (
+                        (offset === -1 && anchorNode !== containerChildren[0]) ||
+                        (offset === 1 &&
+                            anchorNode !== containerChildren[containerChildren.length - 1])
+                    ) {
+                        return
+                    }
+                }
+
+                // 接下来阻止默认行为，自定义光标移动行为
+                e.preventDefault()
                 const nextRow = tableRows[rowIndex + offset]
 
                 if (nextRow == null) {
@@ -81,7 +105,15 @@ export default function bindEventKeyboardEvent(editor: Editor) {
                     return
                 }
 
-                const nextCursorNode = nextRow.childNodes[colIndex]
+                let nextCursorNode = nextRow.childNodes[colIndex]
+                const nextNodeHasBr = !!Array.prototype.slice
+                    .call(nextCursorNode.childNodes)
+                    .find(node => node.nodeName === 'BR')
+                // 如果跳到的下一行有多行元素，当上移则跳到最后一个子元素，下移跳转到一个子元素
+                if (nextNodeHasBr) {
+                    const { firstChild, lastChild } = nextCursorNode
+                    nextCursorNode = (offset === -1 ? lastChild : firstChild) ?? nextCursorNode
+                }
                 editor.selection.moveCursor(nextCursorNode)
             }
         }
