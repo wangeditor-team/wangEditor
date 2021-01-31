@@ -32,17 +32,14 @@ const showTooltip = (editorId: string) => {
         fn(fakeDom)
     })
 }
+const editor = createEditor(document, 'div1')
 
 describe('Table Tooltip Event', () => {
     test('创建编辑器表格菜单会绑定 tooltip event', () => {
-        const editor = createEditor(document, 'div1')
-
         expect(editor.txt.eventHooks.tableClickEvents.length).toBeGreaterThanOrEqual(1)
     })
 
     test('执行 tooltip event 函数会展示 table tooltip', () => {
-        const editor = createEditor(document, 'div2')
-
         const fns = editor.txt.eventHooks.tableClickEvents
         const fakeDom = $('<p></p>')
         document.body.appendChild(fakeDom.elems[0])
@@ -56,17 +53,7 @@ describe('Table Tooltip Event', () => {
     })
 
     test('展示 table tooltip 后，点击其它地方会隐藏 tooltip', () => {
-        const editor = createEditor(document, 'div3')
-
-        const fns = editor.txt.eventHooks.tableClickEvents
-        const fakeDom = $('<p></p>')
-        document.body.appendChild(fakeDom.elems[0])
-
-        fns.forEach(fn => {
-            fn(fakeDom)
-        })
-
-        $('#div3').elems[0].click()
+        editor.$textElem.elems[0].click()
 
         const tooltip = $('.w-e-tooltip')
         expect(tooltip.elems.length).toEqual(0)
