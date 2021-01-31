@@ -53,7 +53,7 @@ function _bindFocusAndBlur(editor: Editor): void {
 
         if (!isChild) {
             // 若为选择工具栏中的功能，则不视为成 blur 操作
-            if (isToolbar && !isMenu) {
+            if ((isToolbar && !isMenu) || !editor.isFocus) {
                 return
             }
             _blurHandler(editor)
