@@ -30,7 +30,7 @@ class getNode {
      * @param $node 当前table
      * @param $dmo 当前行节点
      */
-    public getCurrentRowIndex($node: HTMLElement, $dom: HTMLElement): Number {
+    public getCurrentRowIndex($node: HTMLElement, $dom: HTMLElement): number {
         let _index: number = 0
         let $nodeChild = $node.childNodes[0]
         //粘贴的table 最后一个节点才是tbody
