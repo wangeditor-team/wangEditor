@@ -47,8 +47,7 @@ describe('设置全屏', () => {
         expect($editorParent.className).toContain(EDIT_CONTAINER_FULLSCREEN_CLASS)
         expect(+$editorParent.style.zIndex).toEqual(editor.config.zIndexFullScreen)
         const bar = editor.$toolbarElem.getBoundingClientRect()
-        const h = window.innerHeight - bar.height
-        expect($textContainerElem.elems[0].style.height).toBe(`${h}px`)
+        expect($textContainerElem.elems[0].style.height).toBe(`calc(100% - ${bar.height}px)`)
     })
 
     test('调用 setUnFullScreen 取消编辑器全屏模式', () => {
