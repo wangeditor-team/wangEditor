@@ -16,7 +16,7 @@ describe('插入分割线', () => {
 
         cy.getByClass('toolbar').children().eq(pos).as('hrMenu').click()
 
-        cy.get('@Editable').children().should('have.length', 2).contains(text)
+        cy.get('@Editable').children().should('have.length', 3).contains(text)
         cy.get('@Editable').find('hr').should('be.visible')
     })
 })
