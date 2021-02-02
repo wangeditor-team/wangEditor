@@ -159,6 +159,15 @@ class Text {
              */
             // html = formatCodeHtml(editor, html)
 
+            // 将没有自闭和的标签过滤为自闭和
+            const selfCloseHtmls: RegExpMatchArray | null = html.match(/<(img|br|hr|input)[^>]*>/gi)
+            if (selfCloseHtmls !== null) {
+                selfCloseHtmls.forEach(item => {
+                    if (!item.match(/\/>/)) {
+                        html = html.replace(item, item.substring(0, item.length - 1) + '/>')
+                    }
+                })
+            }
             return html
         }
 
