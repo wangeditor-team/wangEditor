@@ -52,10 +52,19 @@ export default function (editor: Editor): ImgPanelConf {
     // tabs 配置 -----------------------------------------
     const fileMultipleAttr = config.uploadImgMaxLength === 1 ? '' : 'multiple="multiple"'
     const accepts: string = config.uploadImgAccept.map((item: string) => `image/${item}`).join(',')
-    const getUploadImgTpl = (containerClass: string) =>
-        `<div class="${containerClass}" data-title="图片">
+
+    /**
+     * 设置模板的类名和icon图标
+     * w-e-menu是作为button菜单的模板
+     * w-e-up-img-container是做为panel菜单的窗口内容的模板
+     * @param containerClass 模板最外层的类名
+     * @param iconClass 模板中icon的类名
+     * @param titleName 模板中标题的名称 需要则设置不需要则设为空字符
+     */
+    const getUploadImgTpl = (containerClass: string, iconClass: string, titleName: string) =>
+        `<div class="${containerClass}" data-title="${titleName}">
             <div id="${upTriggerId}" class="w-e-up-btn">
-                <i class="w-e-icon-image"></i>
+                <i class="${iconClass}"></i>
             </div>
             <div style="display:none;">
                 <input id="${upFileId}" type="file" ${fileMultipleAttr} accept="${accepts}"/>
@@ -133,7 +142,7 @@ export default function (editor: Editor): ImgPanelConf {
             // 标题
             title: t('上传图片'),
             // 模板
-            tpl: getUploadImgTpl('w-e-up-img-container'),
+            tpl: getUploadImgTpl('w-e-up-img-container', 'w-e-icon-upload2', ''),
             // 事件绑定
             events: uploadEvents,
         }, // first tab end
@@ -191,7 +200,7 @@ export default function (editor: Editor): ImgPanelConf {
         height: 0,
         tabs: [],
         onlyUploadConf: {
-            $elem: $(getUploadImgTpl('w-e-menu')),
+            $elem: $(getUploadImgTpl('w-e-menu', 'w-e-icon-image', '图片')),
             events: uploadEvents,
         },
     }
