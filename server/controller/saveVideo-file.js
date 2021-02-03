@@ -6,11 +6,12 @@
 const os = require('os')
 const fs = require('fs')
 const path = require('path')
-const formidable = require('formidable')
+const multiparty = require('multiparty')
 const { objForEach } = require('../util')
 const FILE_FOLDER = 'upload-files'
 const isWindows = os.type().toLowerCase().indexOf('windows') >= 0
 const TMP_FOLDER = 'upload-files-tmp'
+const fse = require('fs-extra');
 
 /**
  * 获取随机数
@@ -45,7 +46,7 @@ function genRandomFileName(fileName = '') {
 function saveFiles(req) {
     return new Promise((resolve, reject) => {
         const videoLinks = []
-        const form = formidable({ multiples: true })
+        const multipart = new multiparty.Form();
 
         // windows 系统，处理 rename 报错
         if (isWindows) {
@@ -53,10 +54,10 @@ function saveFiles(req) {
             if (!fs.existsSync(tmpPath)) {
                 fs.mkdirSync(tmpPath)
             }
-            form.uploadDir = TMP_FOLDER
+
         }
 
-        form.parse(req, function (err, fields, files) {
+        multipart.parse(req, function (err, fields, files) {
             if (err) {
                 reject('formidable, form.parse err', err.stack)
             }
@@ -67,20 +68,22 @@ function saveFiles(req) {
             }
 
             // 遍历所有上传来的视频
-            objForEach(files, (name, file) => {
+            objForEach(files, async (name, file) => {
                 console.log('name...', name)
-
+                console.log('file.path...', file)
                 // 视频临时位置
-                const tempFilePath = file.path
+                const tempFilePath = file[0].path
+                console.log('tempFilePath...', tempFilePath)
                 // 视频名称和路径
                 const fileName = genRandomFileName(name) // 为文件名增加一个随机数，防止同名文件覆盖
                 console.log('fileName...', fileName)
                 const fullFileName = path.join(storePath, fileName)
                 console.log('fullFileName...', fullFileName)
                 // 将临时文件保存为正式文件
-                fs.renameSync(tempFilePath, fullFileName)
+                fse.moveSync(tempFilePath, fullFileName);
                 // 存储链接
                 const url = `/server/${FILE_FOLDER}/` + fileName
+                console.log('url...', url)
                 videoLinks.push(url)
             })
             console.log('videoLinks...', videoLinks)
