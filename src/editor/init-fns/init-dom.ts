@@ -45,6 +45,11 @@ export default function (editor: Editor): void {
             .css('height', `${height}px`)
     } else {
         // toolbarSelector 和 textSelector 都有
+        const $customToolbar = $toolbarSelector.children()
+        // 有自定义的菜单，将自定义的菜单添加到菜单栏中
+        if ($customToolbar && $customToolbar.length) {
+            $toolbarElem.append($customToolbar)
+        }
         $toolbarSelector.append($toolbarElem)
         $(textSelector).append($textContainerElem)
         // 将编辑器区域原有的内容，暂存起来
