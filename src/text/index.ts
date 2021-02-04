@@ -295,9 +295,9 @@ class Text {
             if (startOffset !== endOffset && endContainer != null) {
                 range?.setStart(endContainer, endOffset)
             }
-
-            saveRange()
-
+            if(e.button===0){
+                saveRange()
+            }
             // 在编辑器区域之内完成点击，取消鼠标滑动到编辑区外面的事件
             $textElem.off('mouseleave', saveRange)
         })
