@@ -261,7 +261,7 @@ class Text {
             $textElem.on('mouseleave', saveRange)
         })
 
-        $textElem.on('mouseup', () => {
+        $textElem.on('mouseup', (e: MouseEvent) => {
             const selection = editor.selection
             const range = selection.getRange()
 
@@ -270,7 +270,7 @@ class Text {
             const { startOffset, endOffset } = range
             let endContainer: Node | undefined = range?.endContainer
             // 修复当selection结束时，点击编辑器内部，保存选区异常的情况
-            if (startOffset !== endOffset && endContainer != null) {
+            if (startOffset !== endOffset && endContainer != null && e.button === 0) {
                 range?.setStart(endContainer, endOffset)
             }
 
