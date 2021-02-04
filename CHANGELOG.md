@@ -1,3 +1,19 @@
+## [4.6.6](https://github.com/wangeditor-team/wangEditor/compare/v4.6.5...v4.6.6) (2021-02-04)
+
+
+### Bug Fixes
+
+* 保证table后面始终有dom ([b9f8ff0](https://github.com/wangeditor-team/wangEditor/commit/b9f8ff08ba9d398c7e1eeda7d9e1b5ea257a0265))
+* 全屏编辑区域高度自适应 ([1c110e3](https://github.com/wangeditor-team/wangEditor/commit/1c110e33b7dc58fd0c4d37ff5eebebbc59ec3463))
+* 失去焦点的时候判断 flag 是否为 失去焦点状态 如果是 则不重复触发 ([f302827](https://github.com/wangeditor-team/wangEditor/commit/f3028270d7cf1c6ae26521745fc9e8bf08ffe6af))
+* 修复视频无法删除 ([33f39be](https://github.com/wangeditor-team/wangEditor/commit/33f39becbc1059f148c9d756549b6d24cad20acd))
+* 修复图片上次icon生成不正确的错误 ([b261b0b](https://github.com/wangeditor-team/wangEditor/commit/b261b0b845f9ab1ac9b0140d2deae972803aaeff))
+* 修复由于某些操作导致的控制台报undefined的错误 ([ded969d](https://github.com/wangeditor-team/wangEditor/commit/ded969d56b5f2a5aed833888e1c92362b4e1e014))
+* 修复todo样式冲突问题 ([c829b9e](https://github.com/wangeditor-team/wangEditor/commit/c829b9ee4d7674c055b81cba7f89e959fe44c5ae))
+* 修改 table 的测试用例 ([c366a5e](https://github.com/wangeditor-team/wangEditor/commit/c366a5ee3aedfce6049fc1acd3638ce437a8cfca))
+* issue-2872 ([2cb50c5](https://github.com/wangeditor-team/wangEditor/commit/2cb50c5059a47968256c8119a2362b85477d76cc))
+* txt.html()获取的内容中将没有自闭和的标签输出为自闭和标签 ([5769044](https://github.com/wangeditor-team/wangEditor/commit/57690447ed725c9eccab02497781725a7f6bee79))
+
 ## [4.6.5](https://github.com/wangeditor-team/wangEditor/compare/v4.6.4...v4.6.5) (2021-01-28)
 
 
