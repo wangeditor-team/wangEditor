@@ -20,6 +20,7 @@ type TextEventHooks = {
     changeEvents: (() => void)[] // 内容修改时
     dropEvents: ((event: DragEvent) => unknown)[]
     clickEvents: EventHandler[]
+    keydownEvents: KeyBoardHandler[]
     keyupEvents: KeyBoardHandler[]
     /** tab 键（keyCode === ）Up 时 */
     tabUpEvents: KeyBoardHandler[]
@@ -71,6 +72,7 @@ class Text {
             changeEvents: [],
             dropEvents: [],
             clickEvents: [],
+            keydownEvents: [],
             keyupEvents: [],
             tabUpEvents: [],
             tabDownEvents: [],
@@ -169,7 +171,7 @@ class Text {
             // 内容用 p 标签包裹
             val = `<p>${val}</p>`
         }
-
+        val = val.replace(/\s+</g, '<')
         $textElem.html(val)
 
         // 初始化选区，将光标定位到内容尾部
@@ -328,6 +330,12 @@ class Text {
             keyupEvents.forEach(fn => fn(e))
         })
 
+        // 键盘 down 时的 hooks
+        $textElem.on('keydown', (e: KeyboardEvent) => {
+            const keydownEvents = eventHooks.keydownEvents
+            keydownEvents.forEach(fn => fn(e))
+        })
+
         // delete 键 up 时 hooks
         $textElem.on('keyup', (e: KeyboardEvent) => {
             if (e.keyCode !== 8) return
@@ -459,13 +467,8 @@ class Text {
             const target = e.target as HTMLElement
             const $target = $(target)
 
-            //处理图片点击 判断是否是表情 根据 不存在class或者className!==eleImg、没有alt属性
-            if (
-                $target.getNodeName() === 'IMG' &&
-                (!$target.elems[0].getAttribute('class') ||
-                    $target.elems[0].getAttribute('class') !== 'eleImg') &&
-                !$target.elems[0].getAttribute('alt')
-            ) {
+            //处理图片点击 去除掉emoji图片的情况
+            if ($target.getNodeName() === 'IMG' && !$target.elems[0].getAttribute('data-emoji')) {
                 // 当前点击的就是img
                 e.stopPropagation()
                 $img = $target

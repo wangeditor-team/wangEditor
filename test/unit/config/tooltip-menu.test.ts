@@ -9,6 +9,7 @@ import dispatchEvent from '../../helpers/mock-dispatch-event'
 import $ from '../../../src/utils/dom-core'
 
 let editor: Editor
+let editor2: Editor
 
 describe('tooltip menu', () => {
     test('初始化编辑器', () => {
@@ -33,5 +34,14 @@ describe('tooltip menu', () => {
             }, 20)
             done()
         }, 300)
+    })
+})
+
+describe('tooltip配置', () => {
+    test('关闭显示tooltip', () => {
+        editor2 = createEditor(document, 'div2', '', { showMenuTooltips: false })
+        expect(editor2.txt).not.toBeNull()
+        const tooltipMenuEl = $(editor2.$toolbarElem).find('.w-e-menu-tooltip')
+        expect(tooltipMenuEl.length).toBe(0)
     })
 })

@@ -72,7 +72,13 @@ class Command {
         } else if (range.insertNode) {
             // IE
             range.deleteContents()
-            range.insertNode($(html).elems[0])
+            if ($(html).elems.length > 0) {
+                range.insertNode($(html).elems[0])
+            } else {
+                let newNode = document.createElement('p')
+                newNode.appendChild(document.createTextNode(html))
+                range.insertNode(newNode)
+            }
             editor.selection.collapseRange()
         }
         // else if (range.pasteHTML) {

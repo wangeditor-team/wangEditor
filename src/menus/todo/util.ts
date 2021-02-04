@@ -6,7 +6,11 @@ import Editor from '../../editor'
  * @param editor 编辑器对象
  */
 function isTodo($topSelectElem: DomElement) {
-    return $topSelectElem.attr('class') === 'w-e-todo'
+    if ($topSelectElem.length) {
+        return $topSelectElem.attr('class') === 'w-e-todo'
+    }
+
+    return false
 }
 /**
  * 判断选中的内容是不是都是todo

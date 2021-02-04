@@ -28,6 +28,7 @@ export type ConfigType = {
     excludeMenus: string[]
     fontNames: string[]
     lineHeights: string[]
+    showMenuTooltips: boolean
     indentation: IndentationType
     fontSizes: FontSizeConfType
     colors: string[]
@@ -47,6 +48,8 @@ export type ConfigType = {
     zIndexFullScreen: number
     showFullScreen: boolean
     showLinkImg: boolean
+    showLinkImgAlt: boolean
+    showLinkImgHref: boolean
     uploadImgAccept: string[]
     uploadImgServer: string
     uploadImgShowBase64: boolean

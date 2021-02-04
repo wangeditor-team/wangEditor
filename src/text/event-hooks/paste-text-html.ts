@@ -7,6 +7,7 @@ import Editor from '../../editor/index'
 import { getPasteText, getPasteHtml } from '../paste/paste-event'
 import { isFunction } from '../../utils/util'
 import { urlRegex } from '../../utils/const'
+import $, { DomElement } from '../../utils/dom-core'
 
 /**
  * 格式化html
@@ -32,6 +33,33 @@ function formatCode(val: string) {
     let pasteText = val.replace(/<br>|<br\/>/gm, '\n').replace(/<[^>]+>/gm, '')
 
     return pasteText
+}
+
+/**
+ * 判断html是否使用P标签包裹
+ * @param html 粘贴的html
+ * @author luochao
+ */
+function isParagraphHtml(html: string): boolean {
+    if (html === '') return false
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+
+    return container.firstChild?.nodeName === 'P'
+}
+
+/**
+ * 判断当前选区是否是空段落
+ * @param topElem 选区顶层元素
+ * @author luochao
+ */
+function isEmptyParagraph(topElem: DomElement | undefined): boolean {
+    if (!topElem?.length) return false
+
+    const dom = topElem.elems[0]
+
+    return dom.nodeName === 'P' && dom.innerHTML === '<br>'
 }
 
 /**
@@ -95,10 +123,33 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
             // 粘贴的html的是否是css的style样式
             let isCssStyle: boolean = /[\.\#\@]?\w+[^{]+\{[^}]*\}/.test(pasteHtml) // eslint-disable-line
             // 经过处理后还是包含暴露的css样式则直接插入它的text
-            if (isCssStyle) {
+            if (isCssStyle && pasteFilterStyle) {
                 editor.cmd.do('insertHTML', `${formatHtml(pasteText)}`) // text
             } else {
-                editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`) // html
+                const html = formatHtml(pasteHtml)
+                // 如果是段落，为了兼容 firefox 和 chrome差异，自定义插入
+                if (isParagraphHtml(html)) {
+                    const $textEl = editor.$textElem
+                    // 全选的情况下覆盖原有内容
+                    if ($textEl.equal($selectionElem)) {
+                        editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`)
+                        // 更新选区
+                        editor.selection.createEmptyRange()
+                        return
+                    } else {
+                        $textEl.append($(html))
+                    }
+                    // 如果选区是空段落，移除空段落
+                    if (isEmptyParagraph($topElem)) {
+                        $topElem.remove()
+                    }
+                    // 移动光标到编辑器最后的位置
+                    const lastEl = $textEl.last()
+                    if (!lastEl?.length) return
+                    editor.selection.moveCursor(lastEl.elems[0])
+                } else {
+                    editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`) // html
+                }
             }
         } catch (ex) {
             // 此时使用 pasteText 来兼容一下

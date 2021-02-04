@@ -1,3 +1,37 @@
+## [4.6.5](https://github.com/wangeditor-team/wangEditor/compare/v4.6.4...v4.6.5) (2021-01-28)
+
+
+### Bug Fixes
+
+* 全选情况下不能正常覆盖内容 ([5faff48](https://github.com/wangeditor-team/wangEditor/commit/5faff48536abcb562154ad444cce96428148e9d5))
+* 修复图片只有上传本地图片时提示文字不显示的问题 ([b8ae515](https://github.com/wangeditor-team/wangEditor/commit/b8ae515b9cf4e0da9fb4ca066512705e7b4cd558))
+* 修复a标签设置颜色，按下回车后颜色值失效的问题 ([bbdf429](https://github.com/wangeditor-team/wangEditor/commit/bbdf4294bc579bf5efc1c7df1b357d81923c018c))
+* table check ol and ul reach editor ([6b2325d](https://github.com/wangeditor-team/wangEditor/commit/6b2325d32498056c04c9ec09a2b881ebf3b5d9ed))
+* table rowValue colValue is positive integer ([1599e15](https://github.com/wangeditor-team/wangEditor/commit/1599e1542ffa48d43a179b36c224cc1503648e2a))
+* todo list remove error ([400fa34](https://github.com/wangeditor-team/wangEditor/commit/400fa341c6e23b43e98dd51a75c190c9786ebfce))
+
+
+### Features
+
+* 图片支持添加alt，超链接，当仅有上传图片功能时点击菜单直接弹出选择文件弹窗 ([6808c48](https://github.com/wangeditor-team/wangEditor/commit/6808c4865f6a6b5af58d109263c25760ef908808))
+
+## [4.6.4](https://github.com/wangeditor-team/wangEditor/compare/v4.6.3...v4.6.4) (2021-01-21)
+
+
+### Bug Fixes
+
+* 处理最后一个元素为代码块时的跳出问题 ([023b86b](https://github.com/wangeditor-team/wangEditor/commit/023b86b23dc8a5160a5112f4c6c4da5c12b82b92))
+* 工具栏tooltips开关配置 ([1c6d08c](https://github.com/wangeditor-team/wangEditor/commit/1c6d08c1c42f0668cdfe77f2f8250cdfe1631f2f))
+* 修复选中多行文本时无法设置head的问题 ([89a49cc](https://github.com/wangeditor-team/wangEditor/commit/89a49ccbc1ab07eaeb8f5fc508296f9dd3f7b187))
+* 优化粘贴 input 复制内容，多次粘贴会产生多余的html问题 ([f12d6ee](https://github.com/wangeditor-team/wangEditor/commit/f12d6ee6007f48fb4958f5538201468263f83757))
+* 粘贴样式配置失效处理 ([332c079](https://github.com/wangeditor-team/wangEditor/commit/332c0799d1d427aab94fc21d0add62baacc4fc94))
+* bar与text分离时,追加编辑器子节点 ([a6329f6](https://github.com/wangeditor-team/wangEditor/commit/a6329f66e59a1e2086186970d3958de930c79ddc))
+
+
+### Features
+
+*  扩展菜单注册太过繁琐 [#2493](https://github.com/wangeditor-team/wangEditor/issues/2493) ([9162b62](https://github.com/wangeditor-team/wangEditor/commit/9162b6283d5e82c84ac7c12bd8a6d5923ac58f54))
+
 ## [4.6.3](https://github.com/wangeditor-team/wangEditor/compare/v4.6.2...v4.6.3) (2021-01-14)
 
 

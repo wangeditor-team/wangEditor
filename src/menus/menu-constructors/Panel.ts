@@ -8,7 +8,7 @@ import PanelMenu from './PanelMenu'
 import { EMPTY_FN } from '../../utils/const'
 
 // Panel 配置格式
-type _TabEventConf = {
+export type TabEventConf = {
     selector: string
     type: string
     fn: Function
@@ -16,7 +16,7 @@ type _TabEventConf = {
 export type PanelTabConf = {
     title: string
     tpl: string
-    events: _TabEventConf[]
+    events: TabEventConf[]
 }
 export type PanelConf = {
     width: number | 0
@@ -154,7 +154,7 @@ class Panel {
                 return
             }
             const events = tab.events || []
-            events.forEach((event: _TabEventConf) => {
+            events.forEach((event: TabEventConf) => {
                 const selector = event.selector
                 const type = event.type
                 const fn = event.fn || EMPTY_FN

@@ -164,7 +164,6 @@ describe('text utils getPasteImgs test', () => {
         })
 
         expect(mockPasteTextHandle).toBeCalledWith('<div>1234</div>')
-        expect(document.execCommand).toBeCalledWith('insertHTML', false, '<p>123</p><p><br></p>')
     })
 
     test('如果复制内容有 html， 第一次插入 html 报错会使用 pasteText 再执行一次', () => {
@@ -198,7 +197,22 @@ describe('text utils getPasteImgs test', () => {
         })
 
         expect(mockPasteTextHandle).toBeCalledWith('<div>1234</div>')
-        expect(mockPasteTextHandle).toBeCalledWith('<div>12345</div>')
-        expect(document.execCommand).toBeCalledWith('insertHTML', false, '<p>123</p><p><br></p>')
+    })
+
+    test('如果复制的内容是段落，则不通过 cmd 插入，自定义插入内容到编辑器', () => {
+        mockCommand(document)
+
+        jest.spyOn(pasteEvents, 'getPasteHtml').mockImplementation(() => '<p>1234</p>')
+
+        const editor = createEditor(document, 'div4')
+        const pasteEventList: Function[] = []
+        pasteTextHtml(editor, pasteEventList)
+
+        pasteEventList.forEach(fn => {
+            fn(new Event(''))
+        })
+
+        expect(document.execCommand).not.toHaveBeenCalled()
+        expect(editor.$textElem.elems[0].innerHTML.indexOf('<p>1234</p>')).toBeGreaterThanOrEqual(0)
     })
 })

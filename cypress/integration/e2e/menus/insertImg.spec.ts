@@ -11,6 +11,8 @@ describe('插入网络图片', () => {
     })
 
     const imgUrl = 'http://www.wangeditor.com/imgs/ali-pay.jpeg'
+    const alt = 'zfb'
+    const clickUrl = 'https://baidu.com'
 
     it('点击菜单打开插入图片的面板', () => {
         cy.getByClass('toolbar').children().eq(pos).as('imgMenu').click()
@@ -35,7 +37,14 @@ describe('插入网络图片', () => {
         cy.get('@Editable').find('img').should('not.exist')
 
         cy.getByClass('toolbar').children().eq(pos).as('imgMenu').click()
-        cy.get('@imgMenu').find('.w-e-panel-container').as('Panel').find('input').type(imgUrl)
+        cy.get('@imgMenu').find('.w-e-panel-container').as('Panel').find('input').eq(0).type(imgUrl)
+        cy.get('@imgMenu').find('.w-e-panel-container').as('Panel').find('input').eq(1).type(alt)
+        cy.get('@imgMenu')
+            .find('.w-e-panel-container')
+            .as('Panel')
+            .find('input')
+            .eq(2)
+            .type(clickUrl)
         cy.get('@Panel').find('.w-e-button-container button').click()
 
         cy.get('@Editable')
@@ -44,6 +53,8 @@ describe('插入网络图片', () => {
             .then($img => {
                 const img = $img.get(0)
                 expect(img.src).to.eq(imgUrl)
+                expect(img.alt).to.eq(alt)
+                expect(img.dataset.href).to.eq(encodeURIComponent(clickUrl))
             })
     })
 })
