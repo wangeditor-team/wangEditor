@@ -19,12 +19,14 @@
             <img src="http://www.wangeditor.com/imgs/logo.jpeg" />
         </p>
     </div>
+    <button id="btn">获取html内容</button>
 
     <script src="../dist/wangEditor.js"></script>
     <script>
         // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
         var E = window.wangEditor
         var editor = new E('#div1')
+        editor.config.uploadImgServer = '/api/upload-img'
 
         editor.config.onchange = function (newHtml) {
             console.log('onchange', newHtml)
@@ -33,6 +35,9 @@
         editor.config.showFullScreen = true
         editor.create()
         editor.txt.html("<p>123</p><p>456</p>")
+        document.getElementById('btn').onclick = function () {
+          console.log(editor.txt.html())
+        }
     </script>
 </body>
 
