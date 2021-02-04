@@ -180,7 +180,7 @@ class Text {
             // 内容用 p 标签包裹
             val = `<p>${val}</p>`
         }
-
+        val = val.replace(/\s+</g, '<')
         $textElem.html(val)
 
         // 初始化选区，将光标定位到内容尾部
