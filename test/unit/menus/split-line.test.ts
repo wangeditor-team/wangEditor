@@ -27,7 +27,7 @@ describe('split-line menu', () => {
 
         splitLineMenu.clickHandler()
 
-        expect((editor.txt.html() as string).indexOf('<hr>')).toBeGreaterThanOrEqual(0)
+        expect((editor.txt.html() as string).indexOf('<hr/>')).toBeGreaterThanOrEqual(0)
     })
 
     test('执行 splitLineEvents 里面的钩子函数会展示 tooltip 菜单，点击其它地方会隐藏tooptip', () => {
@@ -52,7 +52,7 @@ describe('split-line menu', () => {
 
         splitLineMenu.clickHandler()
 
-        expect((editor.txt.html() as string).indexOf('<hr>')).toBeGreaterThanOrEqual(0)
+        expect((editor.txt.html() as string).indexOf('<hr/>')).toBeGreaterThanOrEqual(0)
 
         editor.txt.eventHooks.splitLineEvents.forEach(fn => {
             fn(splitLineMenu.$elem)

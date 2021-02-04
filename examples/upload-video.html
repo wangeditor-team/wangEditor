@@ -61,9 +61,7 @@
         editor.config.uploadVideoName = '';
 
         // 上传视频自定义参数
-        editor.config.uploadVideoParams = {
-            name: 'v2',
-        };
+        editor.config.uploadVideoParams = {};
 
         // 自定义参数拼接到 url 中
         editor.config.uploadVideoParamsWithUrl = true;
@@ -117,7 +115,7 @@
         editor.config.withVideoCredentials = false;
 
         // 自定义alert
-        editor.config.customAlert = (s) => {
+        editor.config.customAlert = function(s){
             console.log('customAlert: ' + s)
         }
 

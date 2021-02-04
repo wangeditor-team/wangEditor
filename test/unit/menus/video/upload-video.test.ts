@@ -71,7 +71,7 @@ describe('upload video', () => {
         expect(document.execCommand).toBeCalledWith(
             'insertHTML',
             false,
-            `<p><video src="${videoUrl}" controls="controls" style="max-width:100%"></video></p><p><br></p>`
+            `<video src="${videoUrl}" controls="controls" style="max-width:100%"></video><p><br></p>`
         )
     })
 
@@ -89,7 +89,7 @@ describe('upload video', () => {
         expect(document.execCommand).toBeCalledWith(
             'insertHTML',
             false,
-            `<p><video src="${videoUrl}" controls="controls" style="max-width:100%"></video></p><p><br></p>`
+            `<video src="${videoUrl}" controls="controls" style="max-width:100%"></video><p><br></p>`
         )
     })
 

@@ -28,8 +28,7 @@ export const setFullScreen = (editor: Editor) => {
     $editorParent.addClass(classfullScreenEditor)
     $editorParent.css('z-index', config.zIndexFullScreen)
     const bar = $toolbarElem.getBoundingClientRect()
-    const h = window.innerHeight - bar.height
-    $textContainerElem.css('height', `${h}px`)
+    $textContainerElem.css('height', `calc(100% - ${bar.height}px)`)
 }
 
 /**
