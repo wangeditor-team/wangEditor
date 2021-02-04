@@ -283,7 +283,7 @@ class Text {
             $textElem.on('mouseleave', saveRange)
         })
 
-        $textElem.on('mouseup', () => {
+        $textElem.on('mouseup', (e: MouseEvent) => {
             const selection = editor.selection
             const range = selection.getRange()
 
@@ -295,7 +295,7 @@ class Text {
             if (startOffset !== endOffset && endContainer != null) {
                 range?.setStart(endContainer, endOffset)
             }
-            if(e.button===0){
+            if (e.button === 0) {
                 saveRange()
             }
             // 在编辑器区域之内完成点击，取消鼠标滑动到编辑区外面的事件
