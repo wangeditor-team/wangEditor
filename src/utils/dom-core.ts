@@ -673,10 +673,20 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
 
     /**
      * 当前元素后一个兄弟节点
+     * 不包括文本节点、注释节点）
      */
     next(): DomElement {
         const elem = this.elems[0]
         return $(elem.nextElementSibling)
+    }
+
+    /**
+     * 获取当前节点的下一个兄弟节点
+     * 包括文本节点、注释节点即回车、换行、空格、文本等等）
+     */
+    getNextSibling(): DomElement {
+        const elem = this.elems[0]
+        return $(elem.nextSibling)
     }
 
     /**
@@ -816,7 +826,9 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
         // 获取父级元素，并判断是否是 编辑区域
         // 如果是则返回当前节点
         const $parent = this.parent()
-        if (editor.$textElem.equal($parent)) {
+
+        // fix：添加当前元素与编辑区元素的比较，防止传入的当前元素就是编辑区元素而造成的获取顶级元素为空的情况
+        if (editor.$textElem.equal(this) || editor.$textElem.equal($parent)) {
             return this
         }
 

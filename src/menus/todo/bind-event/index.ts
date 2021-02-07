@@ -137,7 +137,7 @@ function bindEvent(editor: Editor) {
     function deleteUp() {
         const selection = editor.selection
         const $topSelectElem = selection.getSelectionRangeTopNodes()[0]
-        if (isTodo($topSelectElem)) {
+        if ($topSelectElem && isTodo($topSelectElem)) {
             if ($topSelectElem.text() === '') {
                 $('<p data-we-empty-p><br></p>').insertAfter($topSelectElem)
                 $topSelectElem.remove()

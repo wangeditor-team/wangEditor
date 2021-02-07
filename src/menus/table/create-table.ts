@@ -23,8 +23,8 @@ class CreateTable {
 
         //不允许在有序列表中添加table
         let $selectionElem = $(editor.selection.getSelectionContainerElem())
-        const $ul = $($selectionElem.elems[0]).parentUntil('UL', $selectionElem.elems[0])
-        const $ol = $($selectionElem.elems[0]).parentUntil('OL', $selectionElem.elems[0])
+        const $ul = $($selectionElem.elems[0]).parentUntilEditor('UL', editor)
+        const $ol = $($selectionElem.elems[0]).parentUntilEditor('OL', editor)
         if ($ul || $ol) {
             return
         }

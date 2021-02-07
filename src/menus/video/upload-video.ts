@@ -251,7 +251,7 @@ class UploadVideo {
         if (!config.customInsertVideo) {
             editor.cmd.do(
                 'insertHTML',
-                `<p><video src="${url}" controls="controls" style="max-width:100%"></video></p><p data-we-empty-p><br></p>`
+                `<video src="${url}" controls="controls" style="max-width:100%"></video><p data-we-empty-p><br></p>`
             )
         } else {
             config.customInsertVideo(url)

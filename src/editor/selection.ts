@@ -5,7 +5,6 @@
 import $, { DomElement } from '../utils/dom-core'
 import { UA } from '../utils/util'
 import Editor from './index'
-import SelectionRangeTopNodes from './selection-range-top-nodes/index'
 
 class SelectionAndRange {
     public editor: Editor
@@ -256,9 +255,15 @@ class SelectionAndRange {
      * @param $editor
      */
     public getSelectionRangeTopNodes(): DomElement[] {
-        const item = new SelectionRangeTopNodes(this.editor)
-        item.init()
-        return item.getSelectionNodes()
+        // 清空，防止叠加元素
+        let $nodeList: DomElement[]
+
+        const $startElem = this.getSelectionStartElem()?.getNodeTop(this.editor)
+        const $endElem = this.getSelectionEndElem()?.getNodeTop(this.editor)
+
+        $nodeList = this.recordSelectionNodes($($startElem), $($endElem))
+
+        return $nodeList
     }
 
     /**
@@ -307,6 +312,34 @@ class SelectionAndRange {
         if (selection) {
             selection.removeAllRanges()
         }
+    }
+
+    /**
+     * 记录节点 - 从选区开始节点开始 一直到匹配到选区结束节点为止
+     * @param $node 节点
+     */
+    public recordSelectionNodes($node: DomElement, $endElem: DomElement): DomElement[] {
+        let $list: DomElement[] = []
+        let $NODE: DomElement = $node
+        const $textElem = this.editor.$textElem
+        let isEnd = true
+        // $NODE元素为空时不需要进行循环
+        while (isEnd) {
+            const $elem = $NODE?.getNodeTop(this.editor)
+            if ($elem.getNodeName() === 'BODY') isEnd = false // 兜底
+            if ($elem.length > 0) {
+                $list.push($($NODE))
+                // 两个边界情况：
+                // 1. 当前元素就是我们要找的末尾元素
+                // 2. 当前元素已经是编辑区顶级元素（否则会找到编辑区的兄弟节点，比如placeholder元素）
+                if ($endElem?.equal($elem) || $textElem.equal($elem)) {
+                    isEnd = false
+                } else {
+                    $NODE = $elem.getNextSibling()
+                }
+            }
+        }
+        return $list
     }
 }
 

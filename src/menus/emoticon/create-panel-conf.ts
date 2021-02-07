@@ -24,7 +24,7 @@ export default function (editor: Editor): PanelConf {
             res = ele.content.map((con: EmotionsContentType | string) => {
                 if (typeof con == 'string') return ''
                 return `<span  title="${con.alt}">
-                    <img class="eleImg" style src="${con.src}" alt="[${con.alt}]">
+                    <img class="eleImg" data-emoji="${con.alt}" style src="${con.src}" alt="[${con.alt}]">
                 </span>`
             })
             res = res.filter((s: string) => s !== '')

@@ -12,6 +12,7 @@ on:
       - 'feature-*'
       - 'fix-*'
       - 'hotfix-*'
+      - 'refactor-*'
     paths:
       - '.github/workflows/*'
       - 'src/**'
