@@ -46,9 +46,9 @@ export default {
         'indent',
         'lineHeight',
         'foreColor',
-        // 'foreColorPicker',
         'backColor',
-        // 'backColorPicker',
+        // 'foreColorPicker',   // 调色板 - 字体颜色
+        // 'backColorPicker',   // 调色板 - 背景颜色
         'link',
         'list',
         'todo',
