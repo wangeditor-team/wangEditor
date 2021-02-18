@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>基础示例</h2>
+    <div id="edit1"></div>
+    <h2>多语言 + 自定义颜色列表</h2>
+    <div id="edit2"></div>
+    <script src="../dist/wangEditor.js"></script>
+    <script src="https://unpkg.com/i18next/dist/umd/i18next.js"></script>
+    <script>
+        const E = window.wangEditor
+        const edit1 = new E('#edit1')
+        edit1.config.menus = edit1.config.menus.map(function(menu) {
+            if (menu === 'foreColor') {
+                return 'foreColorPicker'
+            }
+            if (menu === 'backColor') {
+                return 'backColorPicker'
+            }
+            return menu
+        })
+        edit1.create()
+
+        const edit2 = new E('#edit2')
+        edit2.config.lang = 'en'
+        edit2.i18next = window.i18next
+
+        // 替换原来的颜色菜单
+        edit2.config.menus = edit2.config.menus.map(function(menu) {
+            // 替换字体颜色
+            if (menu === 'foreColor') {
+                return 'foreColorPicker'
+            }
+            // 替换背景色
+            if (menu === 'backColor') {
+                return 'backColorPicker'
+            }
+            return menu
+        })
+
+        // 配置颜色选择器
+        edit2.config.colorPicker = {
+            // 禁用内置颜色列表
+            builtIn: false,
+            // 禁用历史选色列表
+            // history: false,
+            // 自定义颜色列表（颜色分组，组与组之间的间隙较大）
+            custom: [
+                ['#f00', '#ff0', '#ff0000', '#ffaffa', '#ffb000', '#fae', '#0acccc', '#222', '#999'],
+                ['#fae', '#0acccc', '#222', '#999', '#ccc', '#eee', '#c29', '#af9090', '#9f9', '#cc3', '#00f', '#9028ff', '#33a', '#999', '#af3', '#87a', '#229']
+            ],
+            // 自定义颜色列表（颜色不分组）
+            // custom: ['#f00', '#ff0', '#ff0000', '#ffaffa', '#ffb000', '#fae', '#0acccc', '#222', '#999']
+        }
+        edit2.create()
+    </script>
+</body>
+
+</html>

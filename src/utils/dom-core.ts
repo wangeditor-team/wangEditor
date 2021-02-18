@@ -4,7 +4,11 @@
  */
 
 import Editor from '../editor/index'
-import { toArray } from './util'
+import { arrForEach, toArray } from './util'
+
+export interface $refs {
+    [propName: string]: DomElement
+}
 
 // 记录元素基于上一个相对&绝对定位的位置信息
 type OffsetDataType = {
@@ -745,6 +749,26 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
 
         // 继续查找，递归
         return this.parentUntilEditor(selector, editor, parent)
+    }
+
+    /**
+     * 查找子元素中指定 ref 值的节点
+     * @param attr 节点属性 ref 的值
+     */
+    $ref(attr: string) {
+        return this.find(`[ref="${attr}"]`)
+    }
+
+    /**
+     * 查找子元素中绑定了特定 ref attribute 的节点
+     */
+    $refs() {
+        const temp: $refs = {}
+        const refs = this.elems[0].querySelectorAll(`[ref]`)
+        arrForEach(refs, el => {
+            temp[el.getAttribute('ref') as string] = $(el)
+        })
+        return temp
     }
 
     /**
