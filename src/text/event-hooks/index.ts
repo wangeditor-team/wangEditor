@@ -21,7 +21,7 @@ function initTextHooks(text: Text): void {
     // 回车时，保证生成的是 <p> 标签
     enterToCreateP(editor, eventHooks.enterUpEvents, eventHooks.enterDownEvents)
 
-    // 删除时，保留 <p><br></p>
+    // 删除时，保留 EMPTY_P
     deleteToKeepP(editor, eventHooks.deleteUpEvents, eventHooks.deleteDownEvents)
 
     // tab 转换为空格

@@ -3,6 +3,7 @@ import $ from '../../../utils/dom-core'
 import { getCursorNextNode, isAllTodo } from '../util'
 import createTodo from '../todo'
 import { dealTextNode, isTodo } from '../util'
+import { EMPTY_P } from '../../../utils/const'
 
 /**
  * todolist 内部逻辑
@@ -56,7 +57,7 @@ function bindEvent(editor: Editor) {
 
             // 回车时内容为空时，删去此行
             if ($topSelectElem.text() === '') {
-                const $p = $(`<p><br></p>`)
+                const $p = $(EMPTY_P)
                 $p.insertAfter($topSelectElem)
                 selection.moveCursor($p.getNode())
                 $topSelectElem.remove()
@@ -106,7 +107,7 @@ function bindEvent(editor: Editor) {
             // 处理内容为空的情况
             if ($topSelectElem.text() === '') {
                 e.preventDefault()
-                const $newP = $(`<p><br></p>`)
+                const $newP = $(EMPTY_P)
                 $newP.insertAfter($topSelectElem)
                 $topSelectElem.remove()
                 selection.moveCursor($newP.getNode(), 0)
@@ -139,7 +140,7 @@ function bindEvent(editor: Editor) {
         const $topSelectElem = selection.getSelectionRangeTopNodes()[0]
         if ($topSelectElem && isTodo($topSelectElem)) {
             if ($topSelectElem.text() === '') {
-                $(`<p><br></p>`).insertAfter($topSelectElem)
+                $(EMPTY_P).insertAfter($topSelectElem)
                 $topSelectElem.remove()
             }
         }

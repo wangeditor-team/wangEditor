@@ -7,6 +7,7 @@ import Editor from '../../editor/index'
 import { arrForEach, forEach } from '../../utils/util'
 import post from '../../editor/upload/upload-core'
 import Progress from '../../editor/upload/progress'
+import { EMPTY_P } from '../../utils/const'
 
 type ResData = {
     url: string
@@ -251,7 +252,7 @@ class UploadVideo {
         if (!config.customInsertVideo) {
             editor.cmd.do(
                 'insertHTML',
-                `<video src="${url}" controls="controls" style="max-width:100%"></video><p><br></p>`
+                `<video src="${url}" controls="controls" style="max-width:100%"></video>${EMPTY_P}`
             )
         } else {
             config.customInsertVideo(url)

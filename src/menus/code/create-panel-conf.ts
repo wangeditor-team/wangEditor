@@ -8,6 +8,7 @@ import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $, { DomElement } from '../../utils/dom-core'
 import isActive from './is-active'
+import { EMPTY_P } from '../../utils/const'
 
 export default function (editor: Editor, text: string, languageType: string): PanelConf {
     // panel 中需要用到的id
@@ -35,7 +36,7 @@ export default function (editor: Editor, text: string, languageType: string): Pa
 
         // 通过dom操作添加换行标签
         // @ts-ignore
-        $('<p><br></p>').insertAfter($codeElem)
+        $(EMPTY_P).insertAfter($codeElem)
     }
 
     /**

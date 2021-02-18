@@ -6,6 +6,7 @@ import createEditor from '../../helpers/create-editor'
 import Undo from '../../../src/menus/undo/index'
 import mockCmdFn from '../../helpers/command-mock'
 import { getMenuInstance } from '../../helpers/menus'
+import { EMPTY_P } from '../../../src/utils/const'
 
 test('撤销', done => {
     let count = 0
@@ -18,7 +19,7 @@ test('撤销', done => {
                 undo.clickHandler()
                 if (editor.isCompatibleMode) {
                     // 兼容模式
-                    expect(editor.$textElem.html()).toEqual('<p><br></p>')
+                    expect(editor.$textElem.html()).toEqual(EMPTY_P)
                 } else {
                     // 标准模式
                     expect(editor.history.size).toEqual([0, 1])

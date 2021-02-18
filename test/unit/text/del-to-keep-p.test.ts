@@ -3,6 +3,7 @@
  * @author luochao
  */
 import delToKeepP from '../../../src/text/event-hooks/del-to-keep-p'
+import { EMPTY_P } from '../../../src/utils/const'
 import createEditor from '../../helpers/create-editor'
 
 describe('editor.text event-hooks tab-to-space test', () => {
@@ -17,7 +18,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
         expect(downFns.length).toBe(1)
     })
 
-    test('当编辑器内容为空时，执行 up 函数，则会插入 <p><br></p> 内容', () => {
+    test('当编辑器内容为空时，执行 up 函数，则会插入 EMPTY_P 内容', () => {
         const upFns: Function[] = []
         const downFns: Function[] = []
         const editor = createEditor(document, 'div2')
@@ -30,10 +31,10 @@ describe('editor.text event-hooks tab-to-space test', () => {
             fn()
         })
 
-        expect(editor.$textElem.elems[0].innerHTML).toEqual('<p><br></p>')
+        expect(editor.$textElem.html()).toEqual(EMPTY_P)
     })
 
-    test('当编辑器内容只有 <br> 时，执行 up 函数，则会插入 <p><br></p> 内容', () => {
+    test('当编辑器内容只有 <br> 时，执行 up 函数，则会插入 EMPTY_P 内容', () => {
         const upFns: Function[] = []
         const downFns: Function[] = []
         const editor = createEditor(document, 'div3')
@@ -46,17 +47,17 @@ describe('editor.text event-hooks tab-to-space test', () => {
             fn()
         })
 
-        expect(editor.$textElem.elems[0].innerHTML).toEqual(' <p><br></p>')
+        expect(editor.$textElem.html()).toEqual(` ${EMPTY_P}`)
     })
 
-    test('当编辑器内容清空到只剩下 <p><br></p> 内容时，则不允许再删除', () => {
+    test('当编辑器内容清空到只剩下 EMPTY_P 内容时，则不允许再删除', () => {
         const upFns: Function[] = []
         const downFns: Function[] = []
         const editor = createEditor(document, 'div4')
 
         delToKeepP(editor, upFns, downFns)
 
-        editor.txt.html('<p><br></p>')
+        editor.txt.html(EMPTY_P)
 
         const e = new KeyboardEvent('mousedown')
         const mockPreventDefault = jest.fn()
@@ -66,7 +67,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
             fn(e)
         })
 
-        expect(editor.$textElem.elems[0].innerHTML).toEqual('<p><br></p>')
+        expect(editor.$textElem.html()).toEqual(EMPTY_P)
         expect(mockPreventDefault).toBeCalled()
     })
 })

@@ -8,6 +8,7 @@ import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event/index'
 import { UA } from '../../utils/util'
+import { EMPTY_P } from '../../utils/const'
 class splitLine extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
@@ -53,7 +54,7 @@ class splitLine extends BtnMenu implements MenuActive {
      */
     private createSplitLine(): void {
         // 防止插入分割线时没有占位元素的尴尬
-        let splitLineDOM: string = '<hr/><p><br/></p>'
+        let splitLineDOM: string = `<hr/>${EMPTY_P}`
         // 火狐浏览器不需要br标签占位
         if (UA.isFirefox) {
             splitLineDOM = '<hr/><p></p>'
