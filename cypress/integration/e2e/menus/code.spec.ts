@@ -54,7 +54,12 @@ describe('插入代码', () => {
 
         cy.get('@Panel').find('.w-e-panel-tab-content .w-e-button-container button').click()
 
-        cy.get('@Editable').find('pre').contains(bashCode).and('have.attr', 'type', 'Bash')
+        cy.get('@Editable')
+            .find('pre')
+            .contains(bashCode)
+            .children()
+            .first()
+            .should('have.class', 'Bash')
     })
 
     it('可以插入代码，指定支持的编程语言', () => {
@@ -66,6 +71,11 @@ describe('插入代码', () => {
 
         cy.get('@Panel').find('.w-e-panel-tab-content .w-e-button-container button').click()
 
-        cy.get('@Editable').find('pre').contains(jsCode).and('have.attr', 'type', 'JavaScript')
+        cy.get('@Editable')
+            .find('pre')
+            .contains(jsCode)
+            .children()
+            .first()
+            .should('have.class', 'JavaScript')
     })
 })
