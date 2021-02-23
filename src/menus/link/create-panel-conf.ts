@@ -8,6 +8,7 @@ import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $, { DomElement } from '../../utils/dom-core'
 import isActive from './is-active'
+import { insertHtml } from './util'
 
 export default function (editor: Editor, text: string, link: string): PanelConf {
     // panel 中需要用到的id
@@ -125,12 +126,35 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                         selector: '#' + btnOkId,
                         type: 'click',
                         fn: () => {
+                            // 获取选取
+                            editor.selection.restoreSelection()
+                            const topNode = editor.selection
+                                .getSelectionRangeTopNodes()[0]
+                                .getNode()
+                            const selection = window.getSelection()
                             // 执行插入链接
                             const $link = $('#' + inputLinkId)
                             const $text = $('#' + inputTextId)
                             let link = $link.val().trim()
                             let text = $text.val().trim()
 
+                            let html: string = ''
+                            if (selection && !selection?.isCollapsed)
+                                html = insertHtml(selection, topNode)?.trim()
+
+                            // 去除html的tag标签
+                            let htmlText = html?.replace(/<.*?>/g, '')
+                            let htmlTextLen = htmlText?.length ?? 0
+                            // 当input中的text的长度大于等于选区的文字时
+                            // 需要判断两者相同的长度的text内容是否相同
+                            // 相同则只需把多余的部分添加上去即可，否则使用input中的内容
+                            if (htmlTextLen <= text.length) {
+                                let startText = text.substring(0, htmlTextLen)
+                                let endText = text.substring(htmlTextLen)
+                                if (htmlText === startText) {
+                                    text = html + endText
+                                }
+                            }
                             // 链接为空，则不插入
                             if (!link) return
                             // 文本为空，则用链接代替
