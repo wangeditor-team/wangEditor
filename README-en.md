@@ -43,7 +43,7 @@ It support most of modern browsers: Chrome, Firefox, Safar, Edge, QQ-browser, IE
 
 It doesn't support mobile browsers.
 
-![Product Name Screen Shot](./docs/imgs/demo.png)
+![Product Name Screen Shot](./docs/imgs/demo-en.png)
 
 ## Usage
 
