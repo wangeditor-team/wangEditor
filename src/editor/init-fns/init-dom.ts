@@ -26,6 +26,7 @@ export default function (editor: Editor): void {
     const $textContainerElem: DomElement = $('<div></div>')
     let $textElem: DomElement
     let $children: DomElement | null
+    let $subChildren: DomElement | null = null
 
     if (textSelector == null) {
         // 将编辑器区域原有的内容，暂存起来
@@ -46,6 +47,8 @@ export default function (editor: Editor): void {
     } else {
         // toolbarSelector 和 textSelector 都有
         $toolbarSelector.append($toolbarElem)
+        // 菜单分离后，文本区域内容暂存
+        $subChildren = $(textSelector).children()
         $(textSelector).append($textContainerElem)
         // 将编辑器区域原有的内容，暂存起来
         $children = $textContainerElem.children()
@@ -66,6 +69,13 @@ export default function (editor: Editor): void {
         $placeholder.hide()
     } else {
         $textElem.append($('<p><br></p>')) // 新增一行，方便继续编辑
+    }
+
+    // 菜单分离后，文本区域有标签的带入编辑器内
+    if ($subChildren && $subChildren.length) {
+        $textElem.append($subChildren)
+        // 编辑器有默认值的时候隐藏placeholder
+        $placeholder.hide()
     }
 
     // 编辑区域加入DOM

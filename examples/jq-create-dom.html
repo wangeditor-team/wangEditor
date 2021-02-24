@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+</head>
+
+<body>
+    <h1>jq create dom</h1>
+    <div class="wangEditor">
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        var editorAreaDOM = $('.wangEditor'); //为包裹编辑器的DIV
+        var editor = null;
+        function createEditor(html) {
+            var editorArea = '#text-container', editorToolbar = '#toolbar-container', toolbar, textContent, E;
+            if (editor != null) {
+                editor.destroy();
+                editor = null;
+                $(editorToolbar).remove();
+                $(editorArea).remove();
+            }
+            toolbar = $('<div id="' + editorToolbar.substring(1) + '" class="toolbar"></div>');
+            textContent = $('<div id="' + editorArea.substring(1) + '" class="text" style="min-height:600px;max-height:1200px"></div>');
+            if (typeof html == 'string') {
+                $(html).appendTo(textContent);
+            }
+            $(toolbar).appendTo(editorAreaDOM);
+            $(textContent).appendTo(editorAreaDOM);
+            $(editorArea).html(`<p>测试</p>`)
+            E = window.wangEditor;
+            editor = new E(editorToolbar, editorArea);
+            editor.config.placeholder = '这里是我加的placeholder';
+            editor.config.zIndex = 10;
+            editor.config.uploadVideoServer = '/api/upload-video';
+            editor.config.uploadImgServer = '/upload/document/images';
+            editor.config.uploadImgParams = {
+                identify: 'online_image'
+            }
+            editor.config.height = 600;
+            editor.create();
+            return editor;
+        }
+        createEditor()
+    </script>
+</body>
+
+</html>
