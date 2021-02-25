@@ -66,8 +66,10 @@ const initFullScreen = (editor: Editor) => {
     $elem.on('click', function (e: MouseEvent) {
         const $elemIcon = $(e.currentTarget).find('i')
         if ($elemIcon.hasClass(iconFullScreenText)) {
+            $elem.attr('data-title', '取消全屏')
             setFullScreen(editor)
         } else {
+            $elem.attr('data-title', '全屏')
             setUnFullScreen(editor)
         }
     })
