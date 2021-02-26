@@ -8,7 +8,7 @@ describe('test editor.txt.append()', () => {
     const text = 'test123'
 
     it('editor.txt.append()功能光标位置是否正常', () => {
-        cy.get('#div1').contains('欢迎使用 wangEditor 富文本编辑器')
+        cy.get('#div1').contains('富文本编辑器')
 
         cy.getEditor().then((editor: Editor) => {
             const menusLen = editor.menus.menuList.length + 1
