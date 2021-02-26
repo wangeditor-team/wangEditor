@@ -1,6 +1,6 @@
 {
   "name": "wangeditor",
-  "version": "4.6.6",
+  "version": "4.6.7",
   "description": "wangEditor - 轻量级 web 富文本编辑器，配置方便，使用简单，开源免费",
   "homepage": "http://www.wangeditor.com/",
   "keywords": [
@@ -37,7 +37,7 @@
     "url": "git+https://github.com/wangeditor-team/wangEditor.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/wangeditor-team/wangEditor/issues"
   },

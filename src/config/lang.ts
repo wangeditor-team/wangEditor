@@ -36,6 +36,7 @@ export default {
                         恢复: '恢复',
                         撤销: '撤销',
                         全屏: '全屏',
+                        取消全屏: '取消全屏',
                         待办事项: '待办事项',
                     },
                     dropListMenu: {
@@ -176,6 +177,7 @@ export default {
                         恢复: 'undo',
                         撤销: 'redo',
                         全屏: 'fullscreen',
+                        取消全屏: 'cancel fullscreen',
                         待办事项: 'todo',
                     },
                     dropListMenu: {

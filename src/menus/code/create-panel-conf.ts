@@ -127,7 +127,7 @@ export default function (editor: Editor, text: string, languageType: string): Pa
                                 return false
                             } else {
                                 //增加pre标签
-                                codeDom = `<pre type="${languageType}"><code>${formatCode}</code></pre>`
+                                codeDom = `<pre><code class="${languageType}">${formatCode}</code></pre>`
 
                                 // @ts-ignore
                                 insertCode(codeDom)

@@ -7,7 +7,7 @@ import Editor from '../../editor/index'
 import { getPasteText, getPasteHtml } from '../paste/paste-event'
 import { isFunction } from '../../utils/util'
 import { urlRegex } from '../../utils/const'
-import $, { DomElement } from '../../utils/dom-core'
+import { DomElement } from '../../utils/dom-core'
 
 /**
  * 格式化html
@@ -130,14 +130,12 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 // 如果是段落，为了兼容 firefox 和 chrome差异，自定义插入
                 if (isParagraphHtml(html)) {
                     const $textEl = editor.$textElem
+                    editor.cmd.do('insertHTML', html)
                     // 全选的情况下覆盖原有内容
                     if ($textEl.equal($selectionElem)) {
-                        editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`)
                         // 更新选区
                         editor.selection.createEmptyRange()
                         return
-                    } else {
-                        $textEl.append($(html))
                     }
                     // 如果选区是空段落，移除空段落
                     if (isEmptyParagraph($topElem)) {
@@ -148,7 +146,7 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                     if (!lastEl?.length) return
                     editor.selection.moveCursor(lastEl.elems[0])
                 } else {
-                    editor.cmd.do('insertHTML', `${formatHtml(pasteHtml)}`) // html
+                    editor.cmd.do('insertHTML', html) // html
                 }
             }
         } catch (ex) {
