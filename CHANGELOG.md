@@ -1,3 +1,12 @@
+## [4.6.7](https://github.com/wangeditor-team/wangEditor/compare/v4.6.6...v4.6.7) (2021-02-26)
+
+
+### Bug Fixes
+
+* 全屏的时候提示取消全屏 ([1f03358](https://github.com/wangeditor-team/wangEditor/commit/1f033581905896b657b5fa0b6d4e204a44eb45af))
+* 为code标签添加类名，为标签内的语言类型。去除pre标签的type行内属性. ([b9c787d](https://github.com/wangeditor-team/wangEditor/commit/b9c787df68eee71fd2226bb79e8edc5248c0d7e8))
+* 修复文字粘贴后光标会移至编辑器最底下的bug ([b4560fd](https://github.com/wangeditor-team/wangEditor/commit/b4560fd18c2ff0e5464412c38f29976d02cdcabf))
+
 ## [4.6.6](https://github.com/wangeditor-team/wangEditor/compare/v4.6.5...v4.6.6) (2021-02-04)
 
 
