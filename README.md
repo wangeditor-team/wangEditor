@@ -91,6 +91,9 @@ editor.create();
 - 710646022
 - 901247714（人已满）
 
+提交 bug 或建议
+- [github issues](https://github.com/wangeditor-team/wangeditor/issues) 提交问题
+
 ## 开发团队
 
 有专业[开发团队](http://www.wangeditor.com/doc/#%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98)维护，非个人单兵作战。
