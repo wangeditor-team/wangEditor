@@ -27,7 +27,7 @@ function customAlert(alertInfo: string, alertType: string, debugInfo?: string): 
 export default {
     onchangeTimeout: 200,
 
-    onchange: EMPTY_FN,
+    onchange: null,
     onfocus: EMPTY_FN,
     onblur: EMPTY_FN,
 
