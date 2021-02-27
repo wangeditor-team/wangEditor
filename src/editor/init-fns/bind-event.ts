@@ -22,10 +22,13 @@ function bindEvent(editor: Editor): void {
  * @param editor 编辑器实例
  */
 function _bindChange(editor: Editor): void {
-    const { onchange } = editor.config
     editor.txt.eventHooks.changeEvents.push(function () {
-        let html = editor.txt.html() || ''
-        onchange(html)
+        const { onchange } = editor.config
+        if (onchange) {
+            const html = editor.txt.html() || ''
+            onchange(html)
+        }
+
         editor.txt.togglePlaceholder()
     })
 }
