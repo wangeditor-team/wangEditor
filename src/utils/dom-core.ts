@@ -557,15 +557,6 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     }
 
     /**
-     * 获取当前元素的尺寸和位置信息
-     */
-    getSizeData(): DOMRect {
-        const elem = this.elems[0]
-        // 可得到 bottom height left right top width 的数据
-        return elem.getBoundingClientRect()
-    }
-
-    /**
      * 获取当前元素 nodeName
      */
     getNodeName(): string {
@@ -582,22 +573,6 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
         elem = this.elems[n]
         return elem
     }
-
-    /**
-     * 获取当前元素可视高度
-     */
-    getClientHeight(): number {
-        const elem = this.elems[0]
-        return elem.clientHeight
-    }
-
-    /**
-     * 获取当前元素可视宽度
-     */
-    // getClientWidth(): number {
-    //     const elem = this.elems[0]
-    //     return elem.clientWidth
-    // }
 
     /**
      * 查询
