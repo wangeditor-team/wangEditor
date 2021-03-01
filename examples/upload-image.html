@@ -19,7 +19,7 @@
     <script>
         const E = window.wangEditor
         const editor = new E('#div1')
-
+        editor.config.uploadImgAccept = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'jfif']
         editor.config.uploadImgServer = '/api/upload-img'
         // editor.config.showLinkImgAlt = true
         // editor.config.showLinkImgHref =  true
