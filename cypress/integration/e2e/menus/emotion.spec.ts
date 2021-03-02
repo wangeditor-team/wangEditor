@@ -1,4 +1,8 @@
 import menus from '../../../../src/config/menus'
+// 表情panel中的分类数量
+// 当前只有表情、手势两个类型
+const panelType = ['表情', '手势']
+const length = panelType.length
 // 按钮位置
 const pos = menus.menus.indexOf('emoticon')
 describe('表情', () => {
@@ -19,13 +23,13 @@ describe('表情', () => {
         cy.getByClass('toolbar').children().eq(pos).as('emotionMenu').click()
 
         cy.get('@emotionMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
-        cy.get('@Panel').find('.w-e-panel-tab-title').children().should('have.length', 4)
+        cy.get('@Panel').find('.w-e-panel-tab-title').children().should('have.length', length)
         cy.get('@Panel')
             .find('.w-e-panel-tab-title')
             .children()
             .eq(0)
             .should('have.class', 'w-e-active')
-            .and('contain.text', '默认')
+            .and('contain.text', panelType[0])
     })
 
     it('点击表情选择面板关闭按钮可以关闭面板', () => {
@@ -47,20 +51,24 @@ describe('表情', () => {
         cy.getByClass('toolbar').children().eq(pos).as('emotionMenu').click()
 
         cy.get('@emotionMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
-        cy.get('@Panel').find('.w-e-panel-tab-title').children().should('have.length', 4)
-        cy.get('@Panel').find('.w-e-panel-tab-title').children().eq(2).click()
+        cy.get('@Panel').find('.w-e-panel-tab-title').children().should('have.length', length)
+        cy.get('@Panel')
+            .find('.w-e-panel-tab-title')
+            .children()
+            .eq(length - 1)
+            .click()
 
         cy.get('@Panel')
             .find('.w-e-panel-tab-title')
             .children()
-            .eq(2)
+            .eq(length - 1)
             .should('have.class', 'w-e-active')
-            .and('contain.text', 'emoji')
+            .and('contain.text', panelType[length - 1])
 
         cy.get('@Panel')
             .find('.w-e-panel-tab-content')
             .children()
-            .eq(2)
+            .eq(length - 1)
             .children()
             .as('emotionList')
 
