@@ -23,10 +23,9 @@ class Image extends PanelMenu implements MenuActive {
         if (imgPanelConfig.onlyUploadConf) {
             $elem = imgPanelConfig.onlyUploadConf.$elem
             imgPanelConfig.onlyUploadConf.events.map(event => {
-                const selector = event.selector
                 const type = event.type
                 const fn = event.fn || EMPTY_FN
-                $elem.find(selector).on(type, (e: Event) => {
+                $elem.on(type, (e: Event) => {
                     e.stopPropagation()
                     fn(e)
                 })
