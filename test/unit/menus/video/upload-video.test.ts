@@ -172,7 +172,7 @@ describe('upload video', () => {
 
         const upload = createUploadVideoInstance({
             uploadVideoServer,
-            uploadVideoMaxSize: 5 * 1024 * 1024,
+            uploadVideoMaxSize: 5 * 1024,
             customAlert: fn,
         })
 
