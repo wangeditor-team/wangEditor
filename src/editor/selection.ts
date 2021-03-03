@@ -342,6 +342,17 @@ class SelectionAndRange {
         }
         return $list
     }
+
+    /**
+     * 将当前 range 设置到 container 元素并初始化位置
+     * 解决编辑器内容为空时，菜单不生效的问题
+     * @param node 元素节点
+     */
+    public setRangeToContainerElem(node: Node): void {
+        const range = this.getRange()
+        range?.setStart(node, 0)
+        range?.setEnd(node, 0)
+    }
 }
 
 export default SelectionAndRange
