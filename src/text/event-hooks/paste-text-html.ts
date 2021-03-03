@@ -141,10 +141,16 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                     if (isEmptyParagraph($topElem)) {
                         $topElem.remove()
                     }
+
+                    // 当复制粘贴的内容是 段落 的时候
+                    // 这里会将光标移动到编辑区域的末端
+                    // 如果是作为重置光标来使用的，应该是将光标移动到插入的 html 的末端才对
+                    // 注释后并没有发现光标的位置不正常
+
                     // 移动光标到编辑器最后的位置
-                    const lastEl = $textEl.last()
-                    if (!lastEl?.length) return
-                    editor.selection.moveCursor(lastEl.elems[0])
+                    // const lastEl = $textEl.last()
+                    // if (!lastEl?.length) return
+                    // editor.selection.moveCursor(lastEl.elems[0])
                 } else {
                     editor.cmd.do('insertHTML', html) // html
                 }
