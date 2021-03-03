@@ -8,6 +8,7 @@ import mockFile from '../../../helpers/mock-file'
 import mockXHR from '../../../helpers/mock-xhr'
 import Editor from '../../../../src/editor'
 import UploadVideo from '../../../../src/menus/video/upload-video'
+import { EMPTY_P } from '../../../../src/utils/const'
 
 let editor: Editor
 let id = 1
@@ -71,7 +72,7 @@ describe('upload video', () => {
         expect(document.execCommand).toBeCalledWith(
             'insertHTML',
             false,
-            `<video src="${videoUrl}" controls="controls" style="max-width:100%"></video><p><br></p>`
+            `<video src="${videoUrl}" controls="controls" style="max-width:100%"></video>${EMPTY_P}`
         )
     })
 
@@ -89,7 +90,7 @@ describe('upload video', () => {
         expect(document.execCommand).toBeCalledWith(
             'insertHTML',
             false,
-            `<video src="${videoUrl}" controls="controls" style="max-width:100%"></video><p><br></p>`
+            `<video src="${videoUrl}" controls="controls" style="max-width:100%"></video>${EMPTY_P}`
         )
     })
 

@@ -6,6 +6,7 @@ import createEditor from '../../helpers/create-editor'
 import $ from '../../../src/utils/dom-core'
 import dispatchEvent from '../../helpers/mock-dispatch-event'
 import { UA } from '../../../src/utils/util'
+import { EMPTY_P } from '../../../src/utils/const'
 
 let editor: ReturnType<typeof createEditor>
 let id = 1
@@ -73,13 +74,13 @@ describe('Editor Text test', () => {
         expect(editor.$textContainerElem.find('.placeholder').elems[0]).toHaveStyle('display:none')
     })
 
-    test('编辑器初始化后，调用 txt clear 方法，清空编辑内容，只留下 p><br></p>', () => {
+    test('编辑器初始化后，调用 txt clear 方法，清空编辑内容，只留下 EMPTY_P', () => {
         editor.txt.html('<p>123</p>')
 
         editor.txt.clear()
 
         expect(editor.txt.html()).toBe('')
-        expect(editor.$textElem.elems[0].innerHTML).toBe('<p><br></p>')
+        expect(editor.$textElem.elems[0].innerHTML).toBe(EMPTY_P)
     })
 
     test('编辑器初始化后，调用 txt setJSON 方法将 JSON 内容设置成 html', () => {

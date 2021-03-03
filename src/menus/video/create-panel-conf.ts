@@ -8,6 +8,7 @@ import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $ from '../../utils/dom-core'
 import UploadVideo from './upload-video'
+import { EMPTY_P } from '../../utils/const'
 
 export default function (editor: Editor, video: string): PanelConf {
     const config = editor.config
@@ -24,7 +25,7 @@ export default function (editor: Editor, video: string): PanelConf {
      * @param iframe html标签
      */
     function insertVideo(video: string): void {
-        editor.cmd.do('insertHTML', video + '<p><br></p>')
+        editor.cmd.do('insertHTML', video + EMPTY_P)
 
         // video添加后的回调
         editor.config.onlineVideoCallback(video)

@@ -6,6 +6,7 @@
 import Editor from '../index'
 import $, { DomElement } from '../../utils/dom-core'
 import { getRandom } from '../../utils/util'
+import { EMPTY_P } from '../../utils/const'
 
 const styleSettings = {
     border: '1px solid #c9d8db',
@@ -65,7 +66,7 @@ export default function (editor: Editor): void {
         // 编辑器有默认值的时候隐藏placeholder
         $placeholder.hide()
     } else {
-        $textElem.append($('<p><br></p>')) // 新增一行，方便继续编辑
+        $textElem.append($(EMPTY_P)) // 新增一行，方便继续编辑
     }
 
     // 编辑区域加入DOM

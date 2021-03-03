@@ -9,6 +9,7 @@ import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 import { getRandomCode } from '../../utils/util'
 import { TCatalog } from '../../config/events'
+import { EMPTY_P } from '../../utils/const'
 
 class Head extends DropListMenu implements MenuActive {
     oldCatalogs: TCatalog[] | undefined
@@ -154,7 +155,7 @@ class Head extends DropListMenu implements MenuActive {
         let endElem = $($selection.getSelectionEndElem())
         // 判断用户选中元素是否为最后一个空元素，如果是将endElem指向上一个元素
         if (
-            endElem.elems[0].outerHTML === $('<p><br></p>').elems[0].outerHTML &&
+            endElem.elems[0].outerHTML === $(EMPTY_P).elems[0].outerHTML &&
             !endElem.elems[0].nextSibling
         ) {
             endElem = endElem.prev()!

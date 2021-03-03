@@ -40,8 +40,8 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEven
         }
 
         const nodeName = $selectionElem.getNodeName()
-        if (nodeName === 'P') {
-            // 当前的标签是 P ，不用做处理
+        if (nodeName === 'P' && $selectionElem.attr('data-we-empty-p') === null) {
+            // 当前的标签是 P 且不为 editor 生成的空白占位 p 标签，不用做处理
             return
         }
 

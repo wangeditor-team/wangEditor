@@ -7,6 +7,7 @@ import createEditor from '../../../helpers/create-editor'
 import Editor from '../../../../src/editor'
 import compile from '../../../../src/editor/history/data/node/compile'
 import { restore, revoke } from '../../../../src/editor/history/data/node/decompilation'
+import { EMPTY_P } from '../../../../src/utils/const'
 
 let editor: Editor
 
@@ -28,7 +29,7 @@ describe('Editor history decompile', () => {
 
             revoke(compileData)
 
-            expect(editor.$textElem.html()).toEqual('<p><br></p>')
+            expect(editor.$textElem.html()).toEqual(EMPTY_P)
             done()
         })
 

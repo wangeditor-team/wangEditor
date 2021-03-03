@@ -23,7 +23,7 @@ test('重做 兼容模式', done => {
                 const redo = getMenuInstance(editor, Redo) as Redo
                 redo.clickHandler()
                 // 兼容模式
-                expect(editor.$textElem.html()).toEqual('<p><br><span>123</span></p>')
+                expect(editor.txt.html()).toEqual('<p><br/><span>123</span></p>')
             }
             done()
         },

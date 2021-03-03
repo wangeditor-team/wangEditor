@@ -5,6 +5,7 @@
 import $, { DomElement } from '../utils/dom-core'
 import { UA } from '../utils/util'
 import Editor from './index'
+import { EMPTY_P } from '../utils/const'
 
 class SelectionAndRange {
     public editor: Editor
@@ -58,7 +59,7 @@ class SelectionAndRange {
         const $textElem = editor.$textElem
         if ($textElem.isContain($containerElem)) {
             if ($textElem.elems[0] === $containerElem.elems[0]) {
-                if ($textElem.html().trim() === '<p><br></p>') {
+                if ($textElem.html().trim() === EMPTY_P) {
                     const $children = $textElem.children()
                     const $last = $children?.last()
                     editor.selection.createRangeByElem($last as DomElement, true, true)
