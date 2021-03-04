@@ -1,3 +1,19 @@
+## [4.6.8](https://github.com/wangeditor-team/wangEditor/compare/v4.6.7...v4.6.8) (2021-03-04)
+
+
+### Bug Fixes
+
+* 菜单分离后禁止编辑器内容不显示 ([97fd71e](https://github.com/wangeditor-team/wangEditor/commit/97fd71e151a1df83d88e3c3446d367dc6c7c8286))
+* 默认设置空行由<p><br></p>改成<p data-we-empty-p=""><br></p> ([68e29ba](https://github.com/wangeditor-team/wangEditor/commit/68e29ba16166f6ed83575d48c191af1f076e174e))
+* 修复右键取消选区bug ([b80f396](https://github.com/wangeditor-team/wangEditor/commit/b80f396f60d03ba253ef7a29afc5a0cdff872bf1))
+* 修复在不显示上传网络图片时，点击toolbar的上传图片按钮非icon区域无法打开文件选择的bug ([d8c3267](https://github.com/wangeditor-team/wangEditor/commit/d8c32678fe1dae25dbe91eef53e423263ad75ba9))
+* 粘贴内容为段落的时候不再把光标移动到编辑区域末端 ([792ed51](https://github.com/wangeditor-team/wangEditor/commit/792ed51b91a352bf7f899bb27a7dde1c31e2b688))
+
+
+### Performance Improvements
+
+* 不传入config.onchange时，避免不必要的Text.html调用 ([f130083](https://github.com/wangeditor-team/wangEditor/commit/f1300837b19f62a9979b9ac35d81040c8056f84b))
+
 ## [4.6.7](https://github.com/wangeditor-team/wangEditor/compare/v4.6.6...v4.6.7) (2021-02-26)
 
 
