@@ -34,7 +34,7 @@ export type ConfigType = {
     colors: string[]
     emotions: EmotionsType[]
     zIndex: number
-    onchange: Function
+    onchange: Function | null
     onfocus: Function
     onblur: Function
     onchangeTimeout: number

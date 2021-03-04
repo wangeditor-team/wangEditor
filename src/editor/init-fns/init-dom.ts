@@ -6,6 +6,7 @@
 import Editor from '../index'
 import $, { DomElement } from '../../utils/dom-core'
 import { getRandom } from '../../utils/util'
+import { EMPTY_P } from '../../utils/const'
 
 const styleSettings = {
     border: '1px solid #c9d8db',
@@ -65,7 +66,7 @@ export default function (editor: Editor): void {
         // 编辑器有默认值的时候隐藏placeholder
         $placeholder.hide()
     } else {
-        $textElem.append($('<p><br></p>')) // 新增一行，方便继续编辑
+        $textElem.append($(EMPTY_P)) // 新增一行，方便继续编辑
     }
 
     // 编辑区域加入DOM
@@ -87,8 +88,8 @@ export default function (editor: Editor): void {
     $textElem.attr('id', textElemId)
 
     // 判断编辑区与容器高度是否一致
-    const textContainerCliheight = $textContainerElem.getClientHeight()
-    const textElemClientHeight = $textElem.getClientHeight()
+    const textContainerCliheight = $textContainerElem.getBoundingClientRect().height
+    const textElemClientHeight = $textElem.getBoundingClientRect().height
     if (textContainerCliheight !== textElemClientHeight) {
         $textElem.css('min-height', textContainerCliheight + 'px')
     }

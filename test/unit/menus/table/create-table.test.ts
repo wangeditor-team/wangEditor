@@ -6,6 +6,7 @@ import CreateTable from '../../../../src/menus/table/create-table'
 import createEditor from '../../../helpers/create-editor'
 import mockCommand from '../../../helpers/command-mock'
 import $ from '../../../../src/utils/dom-core'
+import { EMPTY_P } from '../../../../src/utils/const'
 
 let editor: ReturnType<typeof createEditor>
 let createTableInstance: CreateTable
@@ -26,7 +27,7 @@ describe('Create Table Util', () => {
         expect(document.execCommand).toBeCalledWith(
             'insertHTML',
             false,
-            `<table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><th></th></tr><tr><td></td></tr></tbody></table><p><br></p>`
+            `<table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><th></th></tr><tr><td></td></tr></tbody></table>${EMPTY_P}`
         )
     })
 

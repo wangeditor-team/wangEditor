@@ -3,6 +3,7 @@
  * @author lichunlin
  */
 
+import { EMPTY_P } from '../../utils/const'
 import Editor from '../../editor/index'
 import $ from '../../utils/dom-core'
 
@@ -55,7 +56,7 @@ class CreateTable {
         const tableDom =
             `<table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody>` +
             rowStr +
-            '</tbody></table><p><br></p>'
+            `</tbody></table>${EMPTY_P}`
         return tableDom
     }
 }

@@ -64,7 +64,7 @@ class Tooltip {
 
         if (this._isInsertTextContainer) {
             // 父容器的高度
-            const targetParentElemHeight = targetParentElem.getClientHeight()
+            const targetParentElemHeight = targetParentElem.getBoundingClientRect().height
             // 相对于父容器的位置信息
             const { top: offsetTop, left: offsetLeft, height: offsetHeight } = targetOffset
             // 元素基于父容器的 绝对top信息

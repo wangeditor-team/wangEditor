@@ -9,6 +9,7 @@ import BtnMenu from '../menu-constructors/BtnMenu'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event'
 import createQuote from './create-quote-node'
+import { EMPTY_P } from '../../utils/const'
 
 class Quote extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -62,7 +63,7 @@ class Quote extends BtnMenu implements MenuActive {
             // 即时更新btn状态
             this.tryChangeActive()
             // 防止最后一行无法跳出
-            $(`<p><br></p>`).insertAfter($quote)
+            $(EMPTY_P).insertAfter($quote)
             return
         }
 

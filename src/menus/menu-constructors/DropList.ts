@@ -105,7 +105,7 @@ class DropList {
             $container.show()
         } else {
             // 加入 DOM 之前先定位位置
-            const menuHeight = $menuELem.getSizeData().height || 0
+            const menuHeight = $menuELem.getBoundingClientRect().height || 0
             const width = this.conf.width || 100 // 默认为 100
             $container.css('margin-top', menuHeight + 'px').css('width', width + 'px')
 

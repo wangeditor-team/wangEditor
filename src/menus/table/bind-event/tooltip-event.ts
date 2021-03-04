@@ -11,6 +11,7 @@ import Editor from '../../../editor/index'
 import operatingEvent from './event/operating-event'
 
 import getNode from './event/getNode'
+import { EMPTY_P } from '../../../utils/const'
 
 /**
  * 生成 Tooltip 的显示隐藏函数
@@ -38,7 +39,7 @@ function createShowHideFn(editor: Editor) {
                     // 选中img元素
                     editor.selection.createRangeByElem($node)
                     editor.selection.restoreSelection()
-                    editor.cmd.do('insertHTML', '<p><br></p>')
+                    editor.cmd.do('insertHTML', EMPTY_P)
                     // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                     return true
                 },
@@ -104,7 +105,7 @@ function createShowHideFn(editor: Editor) {
                     editor.selection.restoreSelection()
 
                     if (trLength === 0) {
-                        newdom = '<p><br></p>'
+                        newdom = EMPTY_P
                     } else {
                         newdom = getnode.getTableHtml(
                             operatingEvent.DeleteRow($(htmlStr), index).elems[0]
@@ -166,7 +167,7 @@ function createShowHideFn(editor: Editor) {
                     editor.selection.restoreSelection()
 
                     if (tdLength === 1) {
-                        newdom = '<p><br></p>'
+                        newdom = EMPTY_P
                     } else {
                         newdom = getnode.getTableHtml(
                             operatingEvent.DeleteCol($(htmlStr), index).elems[0]
