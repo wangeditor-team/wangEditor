@@ -50,7 +50,7 @@ class UploadVideo {
         let uploadVideoServer = config.uploadVideoServer
         // 上传视频的最大体积，默认 1024M
         const maxSize = config.uploadVideoMaxSize
-        const uploadVideoMaxSize = maxSize / 1024 / 1024
+        const uploadVideoMaxSize = maxSize / 1024
         // 一次最多上传多少个视频
         // const uploadVideoMaxLength = config.uploadVideoMaxLength
         // 自定义上传视频的名称
