@@ -16,7 +16,7 @@ describe('插入序列', () => {
     it('可以插入无序列表', () => {
         cy.get('@Editable').type(text1)
 
-        cy.getByClass('toolbar').children().eq(pos).trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).trigger('click')
 
         cy.wait(200)
 
@@ -53,7 +53,7 @@ describe('插入序列', () => {
     it('可以插入有序列表', () => {
         cy.get('@Editable').type(text1)
 
-        cy.getByClass('toolbar').children().eq(pos).trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).trigger('click')
 
         cy.wait(200)
 

@@ -38,7 +38,7 @@ class DropListMenu extends Menu {
 
         // 绑定事件
         $elem
-            .on('mouseenter', () => {
+            .on('click', () => {
                 if (editor.selection.getRange() == null) {
                     return
                 }
@@ -46,9 +46,7 @@ class DropListMenu extends Menu {
                 // 触发 droplist 悬浮事件
                 editor.txt.eventHooks.dropListMenuHoverEvents.forEach(fn => fn())
                 // 显示
-                dropList.showTimeoutId = window.setTimeout(() => {
-                    dropList.show()
-                }, 200)
+                dropList.show()
             })
             .on('mouseleave', () => {
                 $elem.css('z-index', 'auto')

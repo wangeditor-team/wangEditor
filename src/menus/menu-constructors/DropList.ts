@@ -28,11 +28,9 @@ class DropList {
     private _show: boolean
 
     public hideTimeoutId: number
-    public showTimeoutId: number
 
     constructor(menu: DropListMenu, conf: DropListConf) {
         this.hideTimeoutId = 0
-        this.showTimeoutId = 0
         this.menu = menu
         this.conf = conf
 
@@ -60,8 +58,11 @@ class DropList {
             if ($elem) {
                 $li.append($elem)
                 $list.append($li)
-                $li.on('click', () => {
+                $li.on('click', (e: Event) => {
                     clickHandler(value)
+
+                    // 阻止冒泡
+                    e.stopPropagation()
 
                     // item 点击之后，隐藏 list
                     this.hideTimeoutId = window.setTimeout(() => {
@@ -122,11 +123,6 @@ class DropList {
      * 隐藏 DropList
      */
     public hide() {
-        if (this.showTimeoutId) {
-            // 清除之前的定时显示
-            clearTimeout(this.showTimeoutId)
-        }
-
         const $container = this.$container
         if (!this._show) {
             return

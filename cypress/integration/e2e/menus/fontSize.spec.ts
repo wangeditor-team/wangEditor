@@ -15,7 +15,7 @@ describe('设置文字大小', () => {
     const dropItemIndex = 6
 
     it('点击菜单能打开设置文字大小的下拉菜单', () => {
-        cy.getByClass('toolbar').children().eq(menuIndex).as('fontSize').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(menuIndex).as('fontSize').trigger('click')
 
         cy.wait(200)
 
@@ -41,7 +41,7 @@ describe('设置文字大小', () => {
 
         cy.saveRange()
 
-        cy.getByClass('toolbar').children().eq(menuIndex).as('fontSize').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(menuIndex).as('fontSize').trigger('click')
 
         cy.wait(200)
 
