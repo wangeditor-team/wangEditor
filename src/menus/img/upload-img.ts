@@ -129,7 +129,11 @@ class UploadImg {
                 return
             }
 
-            if (/\.(jpg|jpeg|png|bmp|gif|webp)$/i.test(name) === false) {
+            // 将uploadImgAccept数组转换为正则对象
+            const imgType = editor.config.uploadImgAccept.join('|')
+            const imgTypeRuleStr = `.(${imgType})$`
+            const uploadImgAcceptRule = new RegExp(imgTypeRuleStr, 'i')
+            if (uploadImgAcceptRule.test(name) === false) {
                 // 后缀名不合法，不是图片
                 errInfos.push(`【${name}】${t('不是图片')}`)
                 return
