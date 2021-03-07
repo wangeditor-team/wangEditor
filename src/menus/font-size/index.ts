@@ -45,19 +45,17 @@ class FontSize extends DropListMenu implements MenuActive {
 
         const isFont = $selectionElem?.nodeName.toLowerCase() !== 'p'
         const isSameSize = $selectionElem?.getAttribute('size') === value
-
         if (isEmptySelection) {
             if (isFont && !isSameSize) {
                 const $elems = editor.selection.getSelectionRangeTopNodes()
                 editor.selection.createRangeByElem($elems[0])
                 editor.selection.moveCursor($elems[0].elems[0])
             }
+            editor.selection.setRangeToContainerElem($selectionElem)
             // 插入空白选区
             editor.selection.createEmptyRange()
         }
-
         editor.cmd.do('fontSize', value)
-
         if (isEmptySelection) {
             // 需要将选区范围折叠起来
             editor.selection.collapseRange()
