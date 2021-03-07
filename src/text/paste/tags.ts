@@ -12,7 +12,6 @@ export const IGNORE_TAGS = new Set([
     'meta',
     'body',
     'script',
-    'style',
     'link',
     'frame',
     'iframe',
