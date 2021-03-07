@@ -16,6 +16,12 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEven
     function insertEmptyP($selectionElem: DomElement) {
         const $p = $('<p><br></p>')
         $p.insertBefore($selectionElem)
+        if ($selectionElem.html().indexOf('<img') >= 0) {
+            // 有图片的回车键弹起时
+            $p.remove()
+            return
+        }
+
         editor.selection.createRangeByElem($p, true, true)
         editor.selection.restoreSelection()
         $selectionElem.remove()
