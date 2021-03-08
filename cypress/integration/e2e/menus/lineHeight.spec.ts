@@ -16,7 +16,7 @@ describe('行高', () => {
         '这是一段很长很长很长很长很长很长很长很长的文本这是一段很长很长很长很长很长很长很长很长的文本这是一段很长很长很长很长很长很长很长很长的文本这是一段很长很长很长很长很长很长很长很长的文本这是一段很长很长很长很长很长很长很长很长的文本这是一段很长很长很长很长很长很长很长很长的文本这是一段很长很长很长很长很长'
 
     it('可以点击菜单打开设置行高的下拉菜单', () => {
-        cy.getByClass('toolbar').children().eq(pos).as('lineHeightMenu').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).as('lineHeightMenu').trigger('click')
         cy.wait(200)
 
         cy.get('@lineHeightMenu').find('.w-e-droplist').as('droplist').should('be.visible')
@@ -30,7 +30,7 @@ describe('行高', () => {
     it('可以选择指定的行高项给选中的文本添加对应的行高样式', () => {
         cy.get('@Editable').type(text)
 
-        cy.getByClass('toolbar').children().eq(pos).as('lineHeightMenu').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).as('lineHeightMenu').trigger('click')
         cy.wait(200)
 
         cy.get('@lineHeightMenu')

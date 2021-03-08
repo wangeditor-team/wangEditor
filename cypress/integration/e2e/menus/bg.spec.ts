@@ -28,7 +28,7 @@ describe('背景颜色', () => {
     const dropItemIndex = 2
 
     it('点击菜单能打开设置文字背景颜色的下拉', () => {
-        cy.getByClass('toolbar').children().eq(menuIndex).as('bgColor').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(menuIndex).as('bgColor').trigger('click')
 
         cy.wait(200)
 
@@ -54,7 +54,7 @@ describe('背景颜色', () => {
 
         cy.saveRange()
 
-        cy.getByClass('toolbar').children().eq(menuIndex).as('bgColor').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(menuIndex).as('bgColor').trigger('click')
 
         cy.wait(200)
 

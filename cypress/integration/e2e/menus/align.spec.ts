@@ -18,7 +18,7 @@ describe('对齐方式', () => {
 
         cy.get('@Editable').find('p').should('not.have.css', 'text-align', 'center')
 
-        cy.getByClass('toolbar').children().eq(pos).trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).trigger('click')
         cy.wait(200)
 
         cy.getByClass('toolbar')
@@ -49,7 +49,7 @@ describe('对齐方式', () => {
 
         cy.get('@Editable').find('p').should('not.have.css', 'text-align', 'left')
 
-        cy.getByClass('toolbar').children().eq(pos).trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).trigger('click')
         cy.wait(200)
 
         cy.getByClass('toolbar')
@@ -78,7 +78,7 @@ describe('对齐方式', () => {
             .contains('居中')
             .click()
 
-        cy.getByClass('toolbar').children().eq(pos).trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).trigger('click')
         cy.wait(200)
 
         cy.get('@droplist').find('.w-e-list').children().eq(0).click()
@@ -92,7 +92,7 @@ describe('对齐方式', () => {
 
         cy.get('@Editable').find('p').should('not.have.css', 'text-align', 'right')
 
-        cy.getByClass('toolbar').children().eq(pos).trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).trigger('click')
         cy.wait(200)
 
         cy.getByClass('toolbar')
@@ -123,7 +123,7 @@ describe('对齐方式', () => {
 
         cy.get('@Editable').find('p').should('not.have.css', 'text-align', 'justify')
 
-        cy.getByClass('toolbar').children().eq(pos).trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).trigger('click')
         cy.wait(200)
 
         cy.getByClass('toolbar')
