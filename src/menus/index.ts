@@ -83,13 +83,18 @@ class Menus {
     private _bindMenuTooltips(): void {
         const editor = this.editor
         const $toolbarElem = editor.$toolbarElem
+        const config = editor.config
+
+        // 若isTooltipShowTop为true则伪元素为下三角，反之为上三角
+        const menuTooltipPosition = config.menuTooltipPosition
         const $tooltipEl = $(
-            `<div class="w-e-menu-tooltip w-e-menu-tooltip-up">
+            `<div class="w-e-menu-tooltip w-e-menu-tooltip-${menuTooltipPosition}">
             <div class="w-e-menu-tooltip-item-wrapper">
               <div></div>
             </div>
           </div>`
         )
+
         $tooltipEl.css('visibility', 'hidden')
         $toolbarElem.append($tooltipEl)
         // 设置 z-index
@@ -146,7 +151,14 @@ class Menus {
                     const left =
                         targetOffset.left + targetOffset.width / 2 - tooltipOffset.width / 2
                     $tooltipEl.css('left', `${left}px`)
-                    $tooltipEl.css('top', `${targetOffset.height * -1}px`)
+
+                    // 2. 高度设置
+                    if (menuTooltipPosition === 'up') {
+                        $tooltipEl.css('top', `${targetOffset.top - tooltipOffset.height - 8}px`)
+                    } else if (menuTooltipPosition === 'down') {
+                        $tooltipEl.css('top', `${targetOffset.top + targetOffset.height + 8}px`)
+                    }
+
                     showTimeoutId = window.setTimeout(() => {
                         $tooltipEl.css('visibility', 'visible')
                     }, 200)

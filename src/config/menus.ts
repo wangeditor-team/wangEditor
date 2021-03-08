@@ -29,6 +29,9 @@ export interface IndentationOptions {
 }
 export type IndentationType = string | IndentationOptions
 
+// tooltip-position类型
+export type tooltipPositionType = 'up' | 'down'
+
 /*表情菜单数据结构类型END*/
 export default {
     menus: [
@@ -191,4 +194,7 @@ export default {
     indentation: '2em',
 
     showMenuTooltips: true,
+
+    // 菜单栏tooltip为上标还是下标
+    menuTooltipPosition: 'up',
 }
