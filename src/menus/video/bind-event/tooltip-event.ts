@@ -6,6 +6,7 @@
 import $, { DomElement } from '../../../utils/dom-core'
 import Tooltip, { TooltipConfType } from '../../menu-constructors/Tooltip'
 import Editor from '../../../editor/index'
+import setAlignment from './video-alignment'
 
 /**
  * 生成 Tooltip 的显示隐藏函数
@@ -63,6 +64,33 @@ export function createShowHideFn(editor: Editor) {
                     $node.removeAttr('width')
                     $node.removeAttr('height')
 
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
+            },
+            {
+                $elem: $(`<span>${t('menus.justify.靠左')}</span>`),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    // 获取顶级元素
+                    setAlignment($node, 'left')
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
+            },
+            {
+                $elem: $(`<span>${t('menus.justify.居中')}</span>`),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    // 获取顶级元素
+                    setAlignment($node, 'center')
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
+            },
+            {
+                $elem: $(`<span>${t('menus.justify.靠右')}</span>`),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    // 获取顶级元素
+                    setAlignment($node, 'right')
                     // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                     return true
                 },
