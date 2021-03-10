@@ -67,6 +67,33 @@ export function createShowHideFn(editor: Editor) {
                     return true
                 },
             },
+            {
+                $elem: $(`<span>${t('menus.justify.靠左')}</span>`),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    // 获取顶级元素
+                    setAlignment($node, 'left')
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
+            },
+            {
+                $elem: $(`<span>${t('menus.justify.居中')}</span>`),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    // 获取顶级元素
+                    setAlignment($node, 'center')
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
+            },
+            {
+                $elem: $(`<span>${t('menus.justify.靠右')}</span>`),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    // 获取顶级元素
+                    setAlignment($node, 'right')
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
+            },
         ]
 
         tooltip = new Tooltip(editor, $node, conf)
@@ -81,6 +108,18 @@ export function createShowHideFn(editor: Editor) {
         if (tooltip) {
             tooltip.remove()
             tooltip = null
+        }
+    }
+
+    // 设置布局方式
+    function setAlignment($node: DomElement, value: string) {
+        // 设置顶级元素匹配
+        const NODENAME = ['P']
+        // 获取匹配得顶级元素
+        const topNode = editor.selection.getSelectedTopNode($node, NODENAME)
+        // 判断是否存在
+        if (topNode) {
+            $(topNode).css('text-align', value)
         }
     }
 

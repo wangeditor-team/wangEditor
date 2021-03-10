@@ -268,6 +268,27 @@ class SelectionAndRange {
     }
 
     /**
+     * 获取选中的元素的顶级元素
+     * @params el 选中的元素
+     * @params tag 匹配顶级的元素 如 P LI ....
+     */
+    public getSelectedTopNode(el: DomElement, tag: string[]): Node | null {
+        let parentNode: Node | null = el.elems[0]
+        // 可能出现嵌套的情况，所以一级一级向上找，找到指定得顶级元素
+        while (parentNode != null) {
+            if (tag.indexOf(parentNode?.nodeName) !== -1) {
+                return parentNode
+            }
+            // 兜底 body
+            if (parentNode?.parentNode?.nodeName === 'BODY') {
+                return null
+            }
+            parentNode = parentNode.parentNode
+        }
+        return parentNode
+    }
+
+    /**
      * 移动光标位置,默认情况下在尾部
      * 有一个特殊情况是firefox下的文本节点会自动补充一个br元素，会导致自动换行
      * 所以默认情况下在firefox下的文本节点会自动移动到br前面

@@ -4,8 +4,23 @@
  */
 
 import createEditor from '../../../helpers/create-editor'
-import $ from '../../../../src/utils/dom-core'
+import $, { DomElement } from '../../../../src/utils/dom-core'
 import bindTooltipEvent, * as tooltipEvent from '../../../../src/menus/video/bind-event/tooltip-event'
+import mockCommand from '../../../helpers/command-mock'
+import dispatchEvent from '../../../helpers/mock-dispatch-event'
+import Editor from '../../../../src/editor'
+
+const showTooltip = (editorId: string) => {
+    const editor = createEditor(document, editorId)
+    const fns = editor.txt.eventHooks.videoClickEvents
+    const fakeDom = $('<p></p>')
+    document.body.appendChild(fakeDom.elems[0])
+
+    fns.forEach(fn => {
+        fn(fakeDom)
+    })
+    return editor
+}
 
 describe('Video menu tooltip-event', () => {
     test('绑定 tooltip-event 事件', () => {
@@ -36,7 +51,14 @@ describe('Video menu tooltip-event', () => {
         })
 
         expect($('.w-e-tooltip').elems[0]).not.toBeUndefined()
-        expect($('.w-e-tooltip').elems[0].childNodes.length).toBe(5)
+        expect($('.w-e-tooltip').elems[0].childNodes.length).toBe(8)
+
+        // 关掉tooltip，以防影响后的测试
+        const clickEvents = editor.txt.eventHooks.clickEvents
+        clickEvents.forEach(fn => {
+            // @ts-ignore
+            fn()
+        })
     })
 
     test('绑定 tooltip-event 事件，执行视频之外的其它点击事件会隐藏tooltip', () => {
@@ -57,5 +79,60 @@ describe('Video menu tooltip-event', () => {
         })
 
         expect($('#div5 .w-e-tooltip').elems[0]).toBeUndefined()
+    })
+
+    describe('点击视频 tooltip 事件', () => {
+        let id = 6
+        let editor: Editor
+
+        beforeEach(() => {
+            mockCommand(document)
+            document.queryCommandSupported = jest.fn().mockReturnValue(true)
+
+            editor = showTooltip(`div${id++}`)
+        })
+
+        afterEach(() => {
+            $(`#div${id - 1}`).elems[0].click()
+        })
+
+        const getSelectedTopNode = (el: DomElement) => {
+            const container = el
+            container.append($('<p>123</p>'))
+            jest.spyOn(editor.selection, 'getSelectedTopNode').mockImplementation(
+                () => container.elems[0]
+            )
+            return container.elems[0]
+        }
+
+        test('点击 tooltip 靠左', () => {
+            const tooltipChildren = $('.w-e-tooltip').elems[0].childNodes
+
+            const el = getSelectedTopNode($('<p>123</p>'))
+
+            dispatchEvent($(tooltipChildren[5]).children()!, 'click')
+
+            expect($(el).elems[0].getAttribute('style')).toContain('text-align:left')
+        })
+
+        test('点击 tooltip 居中', () => {
+            const tooltipChildren = $('.w-e-tooltip').elems[0].childNodes
+
+            const el = getSelectedTopNode($('<p>123</p>'))
+
+            dispatchEvent($(tooltipChildren[6]).children()!, 'click')
+
+            expect($(el).elems[0].getAttribute('style')).toContain('text-align:center')
+        })
+
+        test('点击 tooltip 靠右', () => {
+            const tooltipChildren = $('.w-e-tooltip').elems[0].childNodes
+
+            const el = getSelectedTopNode($('<p>123</p>'))
+
+            dispatchEvent($(tooltipChildren[7]).children()!, 'click')
+
+            expect($(el).elems[0].getAttribute('style')).toContain('text-align:right')
+        })
     })
 })
