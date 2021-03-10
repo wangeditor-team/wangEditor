@@ -25,13 +25,34 @@ function _haveTextOrHtml(editor: Editor, e: ClipboardEvent): boolean {
 }
 
 /**
+ * 剪切板是否有 Files
+ * @param editor 编辑器对象
+ * @param e 粘贴事件参数
+ */
+function _haveFiles(editor: Editor, e: ClipboardEvent): boolean {
+    const types = e.clipboardData?.types || []
+
+    for (let i = 0; i < types.length; i++) {
+        const type = types[i]
+        if (type === 'Files') {
+            return true
+        }
+    }
+
+    return false
+}
+/**
  * 粘贴图片事件方法
  * @param e 事件参数
  */
 function pasteImgHandler(e: ClipboardEvent, editor: Editor): void {
-    if (_haveTextOrHtml(editor, e)) {
-        // 粘贴过来的有 text 或者 html ，则不执行粘贴图片逻辑
-        return
+
+    // 粘贴过来的没有 file 时，判断 text 或者 html
+    if (!_haveFiles(editor, e)) {
+        if (_haveTextOrHtml(editor, e)) {
+            // 粘贴过来的有 text 或者 html ，则不执行粘贴图片逻辑
+            return
+        }
     }
 
     // 获取粘贴的图片列表

@@ -19,11 +19,15 @@
     <script>
         const E = window.wangEditor
         const editor = new E('#div1')
-        editor.config.uploadImgAccept = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'jfif']
-        editor.config.uploadImgServer = '/api/upload-img'
+        // editor.config.uploadImgAccept = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'jfif']
+
+        // 忽略粘贴内容中的图片
+        editor.config.pasteIgnoreImg = true
+
+        // editor.config.uploadImgServer = '/api/upload-img'
         // editor.config.showLinkImgAlt = true
         // editor.config.showLinkImgHref =  true
-        editor.config.showLinkImg = false
+        // editor.config.showLinkImg = false
         // editor.config.uploadImgShowBase64 = true
         // editor.config.linkImgCallback = function (url) {
         //     console.log('linkImgCallback', url)
@@ -66,12 +70,15 @@
         //     },
         //     customInsert: function (insertImgFn, result) {
         //         console.log('customInsert', result)
-        //         insertImgFn(result.data[0]) // 只插入一个图片，多了忽略
+        //         insertImgFn(result.data[0].url) // 只插入一个图片，多了忽略
         //     }
         // }
-        // editor.config.customUploadImg = function (resultFiles, insertImgFn) {
-        //     console.log('customUploadImg', resultFiles)
-        // }
+        editor.config.customUploadImg = function (resultFiles, insertImgFn) {
+            console.log('customUploadImg', resultFiles)
+            Array.from(resultFiles).forEach(file => {
+                insertImgFn(URL.createObjectURL(file))
+            })
+        }
 
         editor.create()
     </script>
