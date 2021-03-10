@@ -16,7 +16,8 @@ function createEditor(
     document: Document,
     toolbarId: string,
     textId?: string,
-    config?: any
+    config?: any,
+    htmlStr?: string
 ): Editor {
     const toolbarElem = document.createElement('div')
     toolbarElem.id = toolbarId
@@ -28,15 +29,18 @@ function createEditor(
         const textElem = document.createElement('div')
         textElem.id = textId
         $('body').append($(textElem))
+        if (htmlStr) {
+            textElem.innerHTML = htmlStr
+        }
         editor = new Editor(`#${toolbarId}`, `#${textId}`)
+    } else {
+        editor = new Editor(`#${toolbarId}`)
     }
-
-    editor = new Editor(`#${toolbarId}`)
 
     if (config) {
         for (const key in config) {
             if (Object.prototype.hasOwnProperty.call(config, key)) {
-                ;(editor.config as any)[key] = config[key]
+                ; (editor.config as any)[key] = config[key]
             }
         }
     }
