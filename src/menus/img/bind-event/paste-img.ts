@@ -46,7 +46,6 @@ function _haveFiles(editor: Editor, e: ClipboardEvent): boolean {
  * @param e 事件参数
  */
 function pasteImgHandler(e: ClipboardEvent, editor: Editor): void {
-
     // 粘贴过来的没有 file 时，判断 text 或者 html
     if (!_haveFiles(editor, e)) {
         if (_haveTextOrHtml(editor, e)) {

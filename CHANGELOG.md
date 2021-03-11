@@ -1,3 +1,18 @@
+## [4.6.9](https://github.com/wangeditor-team/wangEditor/compare/v4.6.8...v4.6.9) (2021-03-11)
+
+
+### Bug Fixes
+
+* 复制图片-粘贴-走自定义上传逻辑 ([83b9297](https://github.com/wangeditor-team/wangEditor/commit/83b9297ebcdb54489ca0471084493d390ffd68e2))
+* 将hover引起droplist菜单显示改为click ([b672e16](https://github.com/wangeditor-team/wangEditor/commit/b672e16a16b14166a757803b1ae255f46443d51f))
+* 图片回车被删除的问题解决 ([3bf78b3](https://github.com/wangeditor-team/wangEditor/commit/3bf78b3ae2958c98ea4d72f686486e27e6439ba6))
+* 修复内容为空时，菜单失效的问题 ([6c36f04](https://github.com/wangeditor-team/wangEditor/commit/6c36f04fe21e8926c9ab4242e02032823e1906c7))
+* 修复上传图片格式的验证配置 ([dc24b75](https://github.com/wangeditor-team/wangEditor/commit/dc24b752798a37a65f99735be85702cbeadab916))
+* 修复textSelector中带标签的内容不能带入编辑器内 ([4dbd023](https://github.com/wangeditor-team/wangEditor/commit/4dbd023fd53ed3f7cc285f622b4f9c56d3efeb65))
+* 修改文件大小换算错误问题 ([42497b7](https://github.com/wangeditor-team/wangEditor/commit/42497b70839758e7d4b3d15fd6af5917296016bb))
+* 在ie编辑器外部mouseup,选区保存错误 ([8aca308](https://github.com/wangeditor-team/wangEditor/commit/8aca3089b3bf77a9fa987e01d57e0b85a1143458))
+* 增加默认表情 ([810bc90](https://github.com/wangeditor-team/wangEditor/commit/810bc90f2f6ead2f78c5861914202278b08a6bdd))
+
 ## [4.6.8](https://github.com/wangeditor-team/wangEditor/compare/v4.6.7...v4.6.8) (2021-03-04)
 
 

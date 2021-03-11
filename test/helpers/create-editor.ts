@@ -40,7 +40,7 @@ function createEditor(
     if (config) {
         for (const key in config) {
             if (Object.prototype.hasOwnProperty.call(config, key)) {
-                ; (editor.config as any)[key] = config[key]
+                ;(editor.config as any)[key] = config[key]
             }
         }
     }
