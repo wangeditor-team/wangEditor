@@ -3,9 +3,6 @@
  * @author wangfupeng
  */
 
-const SINA_PATH1 = 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal'
-const SINA_PATH2 = 'http://img.t.sinajs.cn/t35/style/images/common/face/ext/normal'
-
 // 表情菜单数据结构类型
 export type EmotionsContentType = {
     alt: string
@@ -167,53 +164,13 @@ export default {
     emotions: [
         {
             // tab 的标题
-            title: '默认',
-            // type -> 'emoji' / 'image'
-            type: 'image',
-            // content -> 数组
-            content: [
-                {
-                    alt: '[坏笑]',
-                    src: `${SINA_PATH1}/50/pcmoren_huaixiao_org.png`,
-                },
-                {
-                    alt: '[舔屏]',
-                    src: `${SINA_PATH1}/40/pcmoren_tian_org.png`,
-                },
-                {
-                    alt: '[污]',
-                    src: `${SINA_PATH1}/3c/pcmoren_wu_org.png`,
-                },
-            ],
-        },
-        {
-            // tab 的标题
-            title: '新浪',
-            // type -> 'emoji' / 'image'
-            type: 'image',
-            // content -> 数组
-            content: [
-                {
-                    src: `${SINA_PATH2}/7a/shenshou_thumb.gif`,
-                    alt: '[草泥马]',
-                },
-                {
-                    src: `${SINA_PATH2}/60/horse2_thumb.gif`,
-                    alt: '[神马]',
-                },
-                {
-                    src: `${SINA_PATH2}/bc/fuyun_thumb.gif`,
-                    alt: '[浮云]',
-                },
-            ],
-        },
-        {
-            // tab 的标题
-            title: 'emoji',
+            title: '表情',
             // type -> 'emoji' / 'image'
             type: 'emoji',
             // content -> 数组
-            content: '😀 😃 😄 😁 😆 😅 😂 😊 😇 🙂 🙃 😉 😓 😪 😴 🙄 🤔 😬 🤐'.split(/\s/),
+            content: '😀 😃 😄 😁 😆 😅 😂 🤣 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😛 😝 😜 🤓 😎 😏 😒 😞 😔 😟 😕 🙁 😣 😖 😫 😩 😢 😭 😤 😠 😡 😳 😱 😨 🤗 🤔 😶 😑 😬 🙄 😯 😴 😷 🤑 😈 🤡 💩 👻 💀 👀 👣'.split(
+                /\s/
+            ),
         },
         {
             // tab 的标题
@@ -221,27 +178,9 @@ export default {
             // type -> 'emoji' / 'image'
             type: 'emoji',
             // content -> 数组
-            content: [
-                '🙌',
-                '👏',
-                '👋',
-                '👍',
-                '👎',
-                '👊',
-                '✊',
-                '️👌',
-                '✋',
-                '👐',
-                '💪',
-                '🙏',
-                '️👆',
-                '👇',
-                '👈',
-                '👉',
-                '🖕',
-                '🖐',
-                '🤘',
-            ],
+            content: '👐 🙌 👏 🤝 👍 👎 👊 ✊ 🤛 🤜 🤞 ✌️ 🤘 👌 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐 🖖 👋 🤙 💪 🖕 ✍️ 🙏'.split(
+                /\s/
+            ),
         },
     ],
 

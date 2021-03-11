@@ -16,7 +16,7 @@ describe('字体', () => {
     const dropItemIndex = 6
 
     it('点击菜单能打开设置文体的下拉菜单', () => {
-        cy.getByClass('toolbar').children().eq(menuIndex).as('fontFamily').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(menuIndex).as('fontFamily').trigger('click')
 
         cy.wait(200)
 
@@ -42,7 +42,7 @@ describe('字体', () => {
 
         cy.saveRange()
 
-        cy.getByClass('toolbar').children().eq(menuIndex).as('fontFamily').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(menuIndex).as('fontFamily').trigger('click')
 
         cy.wait(200)
 

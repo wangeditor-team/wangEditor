@@ -210,9 +210,7 @@ export default {
                     },
                     panelMenus: {
                         emoticon: {
-                            默认: 'default',
-                            新浪: 'sina',
-                            emoji: 'emoji',
+                            表情: 'emoji',
                             手势: 'gesture',
                         },
                         image: {

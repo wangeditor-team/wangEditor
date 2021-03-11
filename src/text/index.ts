@@ -264,6 +264,7 @@ class Text {
     private _saveRange(): void {
         const editor = this.editor
         const $textElem = editor.$textElem
+        const $document = $(document)
 
         // 保存当前的选区
         function saveRange() {
@@ -283,28 +284,25 @@ class Text {
         }
         $textElem.on('click', onceClickSaveRange)
 
+        function handleMouseUp() {
+            // 在编辑器区域之内完成点击，取消鼠标滑动到编辑区外面的事件
+            $textElem.off('mouseleave', saveRange)
+
+            $document.off('mouseup', handleMouseUp)
+        }
         $textElem.on('mousedown', () => {
             // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
             $textElem.on('mouseleave', saveRange)
+            $document.on('mouseup', handleMouseUp)
         })
 
         $textElem.on('mouseup', (e: MouseEvent) => {
             const selection = editor.selection
             const range = selection.getRange()
 
-            if (range == null) return
-
-            const { startOffset, endOffset } = range
-            let endContainer: Node | undefined = range?.endContainer
-            // 修复当selection结束时，点击编辑器内部，保存选区异常的情况
-            if (startOffset !== endOffset && endContainer != null && e.button === 0) {
-                range?.setStart(endContainer, endOffset)
-            }
+            if (range === null) return
 
             saveRange()
-
-            // 在编辑器区域之内完成点击，取消鼠标滑动到编辑区外面的事件
-            $textElem.off('mouseleave', saveRange)
         })
     }
 

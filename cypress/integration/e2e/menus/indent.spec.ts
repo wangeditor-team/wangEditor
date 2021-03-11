@@ -15,7 +15,7 @@ describe('缩进', () => {
     const text = '这是一段文本'
 
     it('可以点击菜单打开设置缩进的下拉菜单', () => {
-        cy.getByClass('toolbar').children().eq(pos).as('indentMenu').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).as('indentMenu').trigger('click')
         cy.wait(200)
 
         cy.get('@indentMenu').find('.w-e-droplist').as('droplist').should('be.visible')
@@ -29,7 +29,7 @@ describe('缩进', () => {
     it('可以给选中的文本添加对应的缩进样式，并且多次点击会叠加indent样式', () => {
         cy.get('@Editable').type(text)
 
-        cy.getByClass('toolbar').children().eq(pos).as('indentMenu').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).as('indentMenu').trigger('click')
         cy.wait(200)
 
         cy.get('@indentMenu')
@@ -53,7 +53,7 @@ describe('缩进', () => {
                         expect($p.get(0).style.paddingLeft).to.eq(`${clickCount * basePadding}em`)
                     })
 
-                cy.getByClass('toolbar').children().eq(pos).as('indentMenu').trigger('mouseenter')
+                cy.getByClass('toolbar').children().eq(pos).as('indentMenu').trigger('click')
                 cy.wait(200)
 
                 cy.get('@addIndentBtn')
@@ -75,7 +75,7 @@ describe('缩进', () => {
     it('可以给选中的文本减少对应的缩进样式', () => {
         cy.get('@Editable').type(text)
 
-        cy.getByClass('toolbar').children().eq(pos).as('indentMenu').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(pos).as('indentMenu').trigger('click')
         cy.wait(200)
 
         cy.get('@indentMenu')
@@ -105,7 +105,7 @@ describe('缩进', () => {
                         expect($p.get(0).style.paddingLeft).to.eq(`${clickCount * basePadding}em`)
                     })
 
-                cy.getByClass('toolbar').children().eq(pos).as('indentMenu').trigger('mouseenter')
+                cy.getByClass('toolbar').children().eq(pos).as('indentMenu').trigger('click')
                 cy.wait(200)
 
                 cy.get('@decreaseIndentBtn')

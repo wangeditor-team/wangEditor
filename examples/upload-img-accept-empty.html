@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <p>
+        wangEditor demo upload image
+    </p>
+    <div id="div1"></div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        const E = window.wangEditor
+        const editor = new E('#div1')
+        editor.config.uploadImgAccept = []
+        editor.config.uploadImgServer = '/api/upload-img'
+        // editor.config.showLinkImgAlt = true
+        // editor.config.showLinkImgHref =  true
+        editor.config.showLinkImg = false
+        // editor.config.uploadImgShowBase64 = true
+        // editor.config.linkImgCallback = function (url) {
+        //     console.log('linkImgCallback', url)
+        // }
+        // editor.config.uploadImgMaxSize = 10 * 1024 // 10kb
+        // editor.config.customAlert = function (s) {
+        //     console.log('customAlert: ' + s)
+        // }
+        // editor.config.uploadImgMaxLength = 2
+        // editor.config.uploadFileName = 'my-file-name'
+        // editor.config.uploadImgParams = {
+        //     x: 100,
+        //     y: 'abc'
+        // }
+        // editor.config.uploadImgParamsWithUrl = true
+        // editor.config.uploadImgHeaders = {
+        //     a: 100,
+        //     b: 'xyz'
+        // }
+        // editor.config.uploadImgTimeout = 5 * 1000
+        // editor.config.uploadImgHooks = {
+        //     before: function (xhr) {
+        //         console.log(xhr)
+        //         // return {
+        //         //     prevent: true,
+        //         //     msg: '阻拦 xhr 发送'
+        //         // }
+        //     },
+        //     success: function (xhr) {
+        //         console.log('success', xhr)
+        //     },
+        //     fail: function (xhr, editor, resData) {
+        //         console.log('fail', resData)
+        //     },
+        //     error: function (xhr, editor, resData) {
+        //         console.log('error', xhr, resData)
+        //     },
+        //     timeout: function (xhr) {
+        //         console.log('timeout')
+        //     },
+        //     customInsert: function (insertImgFn, result) {
+        //         console.log('customInsert', result)
+        //         insertImgFn(result.data[0]) // 只插入一个图片，多了忽略
+        //     }
+        // }
+        // editor.config.customUploadImg = function (resultFiles, insertImgFn) {
+        //     console.log('customUploadImg', resultFiles)
+        // }
+
+        editor.create()
+    </script>
+</body>
+
+</html>

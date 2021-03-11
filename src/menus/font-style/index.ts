@@ -52,6 +52,7 @@ class FontStyle extends DropListMenu implements MenuActive {
                 editor.selection.createRangeByElem($elems[0])
                 editor.selection.moveCursor($elems[0].elems[0])
             }
+            editor.selection.setRangeToContainerElem($selectionElem)
             // 插入空白选区
             editor.selection.createEmptyRange()
         }

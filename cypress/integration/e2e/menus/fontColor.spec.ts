@@ -17,7 +17,7 @@ describe('文字颜色', () => {
     const dropItemIndex = 2
 
     it('点击菜单能打开设置文字颜色的下拉', () => {
-        cy.getByClass('toolbar').children().eq(menuIndex).as('textColor').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(menuIndex).as('textColor').trigger('click')
 
         cy.wait(200)
 
@@ -43,7 +43,7 @@ describe('文字颜色', () => {
 
         cy.saveRange()
 
-        cy.getByClass('toolbar').children().eq(menuIndex).as('textColor').trigger('mouseenter')
+        cy.getByClass('toolbar').children().eq(menuIndex).as('textColor').trigger('click')
 
         cy.wait(200)
 

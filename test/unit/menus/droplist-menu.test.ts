@@ -42,10 +42,10 @@ describe('dropList menu', () => {
         expect(droplistMenu.dropList instanceof DropList).toBeTruthy()
     })
 
-    test('初始化基本的下拉菜单，模拟菜单mouseenter事件会展开下来菜单', done => {
+    test('初始化基本的下拉菜单，模拟菜单click事件会展开下来菜单', done => {
         expect.assertions(2)
 
-        dispatchEvent(menuEl, 'mouseenter', 'MouseEvent')
+        dispatchEvent(menuEl, 'click')
 
         setTimeout(() => {
             expect(droplistMenu.dropList.isShow).toBeTruthy()
@@ -57,7 +57,7 @@ describe('dropList menu', () => {
     test('初始化基本的下拉菜单，模拟菜单mouseleave事件会隐藏菜单', done => {
         expect.assertions(3)
 
-        dispatchEvent(menuEl, 'mouseenter', 'MouseEvent')
+        dispatchEvent(menuEl, 'click')
 
         setTimeout(() => {
             expect(droplistMenu.dropList.isShow).toBeTruthy()
@@ -72,11 +72,11 @@ describe('dropList menu', () => {
         }, 300)
     })
 
-    test('初始化基本的下拉菜单，模拟菜单mouseenter事件如果编辑器当前的range为空，则直接返回', () => {
+    test('初始化基本的下拉菜单，模拟菜单click事件如果编辑器当前的range为空，则直接返回', () => {
         const mockGetRage = jest.spyOn(editor.selection, 'getRange')
         mockGetRage.mockImplementation(() => null)
 
-        dispatchEvent(menuEl, 'mouseenter', 'MouseEvent')
+        dispatchEvent(menuEl, 'click')
 
         expect(droplistMenu.dropList.isShow).toBeFalsy()
     })
