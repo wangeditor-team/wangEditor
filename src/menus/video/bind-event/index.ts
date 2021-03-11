@@ -5,6 +5,7 @@
 
 import Editor from '../../../editor/index'
 import bindTooltipVideo from './tooltip-event'
+import bindEventKeyboardEvent from './keyboard'
 
 /**
  * 绑定事件
@@ -13,6 +14,7 @@ import bindTooltipVideo from './tooltip-event'
 function bindEvent(editor: Editor): void {
     //Tooltip
     bindTooltipVideo(editor)
+    bindEventKeyboardEvent(editor)
 }
 
 export default bindEvent
