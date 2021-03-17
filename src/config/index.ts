@@ -3,7 +3,12 @@
  * @author wangfupeng
  */
 
-import menusConfig, { EmotionsType, FontSizeConfType, IndentationType } from './menus'
+import menusConfig, {
+    EmotionsType,
+    FontSizeConfType,
+    IndentationType,
+    tooltipPositionType,
+} from './menus'
 import eventsConfig from './events'
 import styleConfig from './style'
 import pasteConfig from './paste'
@@ -93,6 +98,8 @@ export type ConfigType = {
     withVideoCredentials: boolean
     customUploadVideo: Function | null
     customInsertVideo: Function | null
+
+    menuTooltipPosition: tooltipPositionType
 }
 
 export type Resource = {
