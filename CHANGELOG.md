@@ -1,3 +1,13 @@
+## [4.6.10](https://github.com/wangeditor-team/wangEditor/compare/v4.6.9...v4.6.10) (2021-03-18)
+
+
+### Bug Fixes
+
+* 菜单tooptip上标下标自定义配置 ([3d98863](https://github.com/wangeditor-team/wangEditor/commit/3d988632c47fc63a6a88a776d09043ffa62a9f1c))
+* 过滤 word 复制的无用标签 ([74ec31f](https://github.com/wangeditor-team/wangEditor/commit/74ec31fc25c25b8962e6f32ef4ae1922e0ca64be))
+* 修复代码块作为最后一个元素时,用户无法输入的问题 ([c899d98](https://github.com/wangeditor-team/wangEditor/commit/c899d983a58b5924b14b5b9809956f9051feb558))
+* 修复a标签样式重置 ([dafee8f](https://github.com/wangeditor-team/wangEditor/commit/dafee8fd79f67f73e0a0f1a718b80999b98477bd))
+
 ## [4.6.9](https://github.com/wangeditor-team/wangEditor/compare/v4.6.8...v4.6.9) (2021-03-11)
 
 
