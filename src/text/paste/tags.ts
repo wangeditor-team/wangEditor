@@ -19,6 +19,7 @@ export const IGNORE_TAGS = new Set([
     'title',
     'svg', // 暂时忽略，有需要再修改
     'center',
+    'o:p', // 复制 word 内容包含 o:p 标签
 ])
 
 // 指定标签必要的属性
