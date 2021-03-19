@@ -9,6 +9,7 @@ import mockXHR from '../../../helpers/mock-xhr'
 import Editor from '../../../../src/editor'
 import UploadVideo from '../../../../src/menus/video/upload-video'
 import { EMPTY_P } from '../../../../src/utils/const'
+import { UA } from '../../../../src//utils/util'
 
 let editor: Editor
 let id = 1
@@ -53,6 +54,8 @@ const createMockFilse = (fileList: any[] = deaultFiles) => {
 describe('upload video', () => {
     beforeEach(() => {
         editor = createEditor(document, `div${id++}`)
+        // 假装不在火狐浏览器下
+        UA.isFirefox = false
     })
 
     test('能够初始化基本的UploadVideo类', () => {
@@ -62,7 +65,7 @@ describe('upload video', () => {
         expect(uploadVideo.insertVideo instanceof Function).toBeTruthy()
     })
 
-    test('调用 insertVideo 可以网编辑器里插入视频', () => {
+    test('调用 insertVideo 可以往编辑器里插入视频', () => {
         const uploadVideo = new UploadVideo(editor)
 
         mockSupportCommand()

@@ -8,6 +8,7 @@ import { arrForEach, forEach } from '../../utils/util'
 import post from '../../editor/upload/upload-core'
 import Progress from '../../editor/upload/progress'
 import { EMPTY_P } from '../../utils/const'
+import { UA } from '../../utils/util'
 
 type ResData = {
     url: string
@@ -250,10 +251,17 @@ class UploadVideo {
 
         // 判断用户是否自定义插入视频
         if (!config.customInsertVideo) {
-            editor.cmd.do(
-                'insertHTML',
-                `<video src="${url}" controls="controls" style="max-width:100%"></video>${EMPTY_P}`
-            )
+            if (UA.isFirefox) {
+                editor.cmd.do(
+                    'insertHTML',
+                    `<p data-we-video-p="true"><video src="${url}" controls="controls" style="max-width:100%"></video></p><p>&#8203</p>`
+                )
+            } else {
+                editor.cmd.do(
+                    'insertHTML',
+                    `<video src="${url}" controls="controls" style="max-width:100%"></video>${EMPTY_P}`
+                )
+            }
         } else {
             config.customInsertVideo(url)
             return
