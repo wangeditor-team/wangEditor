@@ -27,6 +27,12 @@
 
         editor.config.focus = false
 
+        editor.config.onfocus = function () {
+            console.log('触发focus事件')
+        }
+        editor.config.onblur = function () {
+            console.log('触发blur事件')
+        }
         editor.create()
     </script>
 </body>
