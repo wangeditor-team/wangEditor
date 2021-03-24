@@ -67,6 +67,7 @@ function createShowHideFn(editor: Editor) {
                     let newdom: string = getnode.getTableHtml(
                         operatingEvent.ProcessingRow($(htmlStr), index).elems[0]
                     )
+                    newdom = _isEmptyP($node, newdom)
                     // 选中table
                     editor.selection.createRangeByElem($node)
                     editor.selection.restoreSelection()
@@ -111,6 +112,7 @@ function createShowHideFn(editor: Editor) {
                             operatingEvent.DeleteRow($(htmlStr), index).elems[0]
                         )
                     }
+                    newdom = _isEmptyP($node, newdom)
                     editor.cmd.do('insertHTML', newdom)
 
                     return true
@@ -134,6 +136,7 @@ function createShowHideFn(editor: Editor) {
                     let newdom: string = getnode.getTableHtml(
                         operatingEvent.ProcessingCol($(htmlStr), index).elems[0]
                     )
+                    newdom = _isEmptyP($node, newdom)
                     // 选中table
                     editor.selection.createRangeByElem($node)
                     editor.selection.restoreSelection()
@@ -173,7 +176,7 @@ function createShowHideFn(editor: Editor) {
                             operatingEvent.DeleteCol($(htmlStr), index).elems[0]
                         )
                     }
-
+                    newdom = _isEmptyP($node, newdom)
                     editor.cmd.do('insertHTML', newdom)
 
                     return true
@@ -206,6 +209,7 @@ function createShowHideFn(editor: Editor) {
                     let newdom: string = getnode.getTableHtml(
                         operatingEvent.setTheHeader($(htmlStr), index, 'th').elems[0]
                     )
+                    newdom = _isEmptyP($node, newdom)
                     // 选中table
                     editor.selection.createRangeByElem($node)
                     editor.selection.restoreSelection()
@@ -237,6 +241,7 @@ function createShowHideFn(editor: Editor) {
                     let newdom: string = getnode.getTableHtml(
                         operatingEvent.setTheHeader($(htmlStr), index, 'td').elems[0]
                     )
+                    newdom = _isEmptyP($node, newdom)
                     // 选中table
                     editor.selection.createRangeByElem($node)
                     editor.selection.restoreSelection()
@@ -298,4 +303,16 @@ export default function bindTooltipEvent(editor: Editor) {
     editor.txt.eventHooks.toolbarClickEvents.push(hideTableTooltip)
     editor.txt.eventHooks.menuClickEvents.push(hideTableTooltip)
     editor.txt.eventHooks.textScrollEvents.push(hideTableTooltip)
+}
+
+/**
+ * 判断表格的下一个节点是否是空行
+ */
+function _isEmptyP($node: DomElement, newdom: string): string {
+    // 当表格的下一个兄弟节点是空行时，在 newdom 后添加 EMPTY_P
+    let nextNode = $node.elems[0].nextSibling as HTMLElement
+    if (nextNode.innerHTML === '<br>') {
+        newdom += `${EMPTY_P}`
+    }
+    return newdom
 }
