@@ -7,6 +7,10 @@ const path = require('path')
 const webpack = require('webpack')
 const { srcPath } = require('./myPath')
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+
 module.exports = {
     entry: {
         wangEditor: path.join(srcPath, 'wangEditor.ts'),
@@ -19,12 +23,8 @@ module.exports = {
                 include: /src/,
             },
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader'],
-            },
-            {
-                test: /\.less$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
+                test: /\.(less|css)$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader'],
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -52,5 +52,18 @@ module.exports = {
             ENV: JSON.stringify('dev1'),
             ENV1: JSON.stringify(process.env.NODE_ENV),
         }),
+        new MiniCssExtractPlugin({
+            filename: 'css/main.css',
+        }),
     ],
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true,
+            }),
+            new OptimizeCSSAssetsPlugin(),
+        ],
+    },
 }
