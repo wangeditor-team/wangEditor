@@ -8,8 +8,6 @@ const webpack = require('webpack')
 const { srcPath } = require('./myPath')
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 module.exports = {
     entry: {
@@ -55,15 +53,5 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: 'css/main.css',
         }),
-    ],
-    optimization: {
-        minimizer: [
-            new UglifyJsPlugin({
-                cache: true,
-                parallel: true,
-                sourceMap: true,
-            }),
-            new OptimizeCSSAssetsPlugin(),
-        ],
-    },
+    ]
 }
