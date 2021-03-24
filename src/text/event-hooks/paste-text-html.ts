@@ -121,7 +121,7 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 pasteHtml = '' + (pasteTextHandle(pasteHtml) || '') // html
             }
             // 粘贴的html的是否是css的style样式
-            let isCssStyle: boolean = /[\.\#\@]?\w+[^{]+\{[^}]*\}/.test(pasteHtml) // eslint-disable-line
+            let isCssStyle: boolean = /[\.\#\@]?\w+[ ]+\{[^}]*\}/.test(pasteHtml) // eslint-disable-line
             // 经过处理后还是包含暴露的css样式则直接插入它的text
             if (isCssStyle && pasteFilterStyle) {
                 editor.cmd.do('insertHTML', `${formatHtml(pasteText)}`) // text
