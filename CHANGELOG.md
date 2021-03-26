@@ -1,3 +1,5 @@
+## [4.6.12](https://github.com/wangeditor-team/wangEditor/compare/v4.6.11...v4.6.12) (2021-03-26)
+
 ## [4.6.11](https://github.com/wangeditor-team/wangEditor/compare/v4.6.10...v4.6.11) (2021-03-25)
 
 
