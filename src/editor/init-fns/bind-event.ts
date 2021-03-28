@@ -91,9 +91,11 @@ function _bindInput(editor: Editor) {
     editor.$textElem
         .on('compositionstart', () => {
             editor.isComposing = true
+            editor.txt.togglePlaceholder()
         })
         .on('compositionend', () => {
             editor.isComposing = false
+            editor.txt.togglePlaceholder()
         })
 }
 
