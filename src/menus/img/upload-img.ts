@@ -289,6 +289,8 @@ class UploadImg {
 
         // ------------------------------ 显示 base64 格式 ------------------------------
         if (uploadImgShowBase64) {
+            const len = files.length
+            let num = 0
             arrForEach(files, file => {
                 const _this = this
                 const reader = new FileReader()
@@ -297,6 +299,20 @@ class UploadImg {
                     if (!this.result) return
                     const imgLink = this.result.toString()
                     _this.insertImg(imgLink, imgLink)
+                    num++
+                    if (num === len) {
+                        // 本地图片添加成功之后，清空 input 的值，防止多次上传相同文件无效
+                        const list = editor.menus.menuList
+                        for (let i = 0; i < list.length; i++) {
+                            if (list[i].key === 'image') {
+                                const el = list[i].$elem.elems[0].querySelector('input')
+                                if (el) {
+                                    el.value = ''
+                                }
+                                break
+                            }
+                        }
+                    }
                 }
             })
         }
