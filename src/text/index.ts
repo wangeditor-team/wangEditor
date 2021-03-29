@@ -185,7 +185,11 @@ class Text {
             // 内容用 p 标签包裹
             val = `<p>${val}</p>`
         }
-        val = val.replace(/\s+</g, '<')
+        let reg = /<table[\w\W]*?>[\w\W]*?<\/table>/g
+        val = val.replace(reg, function (str) {
+            str = str.replace(/\n/g, '').replace(/\s+(<\/?\w+?)/g, '$1')
+            return str
+        })
         $textElem.html(val)
 
         // 初始化选区，将光标定位到内容尾部

@@ -311,7 +311,7 @@ export default function bindTooltipEvent(editor: Editor) {
 function _isEmptyP($node: DomElement, newdom: string): string {
     // 当表格的下一个兄弟节点是空行时，在 newdom 后添加 EMPTY_P
     let nextNode = $node.elems[0].nextSibling as HTMLElement
-    if (nextNode.innerHTML === '<br>') {
+    if (nextNode && nextNode.innerHTML === '<br>') {
         newdom += `${EMPTY_P}`
     }
     return newdom
