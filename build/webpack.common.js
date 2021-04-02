@@ -7,8 +7,6 @@ const path = require('path')
 const webpack = require('webpack')
 const { srcPath } = require('./myPath')
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
 module.exports = {
     entry: {
         wangEditor: path.join(srcPath, 'wangEditor.ts'),
@@ -21,8 +19,12 @@ module.exports = {
                 include: /src/,
             },
             {
-                test: /\.(less|css)$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader'],
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader', 'postcss-loader'],
+            },
+            {
+                test: /\.less$/,
+                use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -49,9 +51,6 @@ module.exports = {
         new webpack.DefinePlugin({
             ENV: JSON.stringify('dev1'),
             ENV1: JSON.stringify(process.env.NODE_ENV),
-        }),
-        new MiniCssExtractPlugin({
-            filename: 'css/main.css',
         }),
     ],
 }

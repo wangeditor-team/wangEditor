@@ -1,6 +1,6 @@
 {
   "name": "wangeditor",
-  "version": "4.6.11",
+  "version": "4.6.13",
   "description": "wangEditor - 轻量级 web 富文本编辑器，配置方便，使用简单，开源免费",
   "homepage": "http://www.wangeditor.com/",
   "keywords": [
@@ -88,11 +88,9 @@
     "less": "^3.11.1",
     "less-loader": "^6.0.0",
     "lint-staged": "^10.2.2",
-    "mini-css-extract-plugin": "^1.3.9",
     "multiparty": "^4.2.2",
     "nodemon": "^2.0.6",
     "nyc": "^15.1.0",
-    "optimize-css-assets-webpack-plugin": "^5.0.4",
     "postcss-loader": "^3.0.0",
     "prepend-file": "^2.0.0",
     "prettier": "^2.0.5",
