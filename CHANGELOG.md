@@ -1,3 +1,18 @@
+## [4.6.13](https://github.com/wangeditor-team/wangEditor/compare/v4.6.12...v4.6.13) (2021-04-02)
+
+
+### Bug Fixes
+
+* 回车切换字号失效 ([5969bba](https://github.com/wangeditor-team/wangEditor/commit/5969bba505130f039343cb36789b08b0d157cbc8))
+* 输入中文时，placeholder 不消失 ([a5d3d41](https://github.com/wangeditor-team/wangEditor/commit/a5d3d415bbc01b20b4a9f94d7945d431af22433d))
+* 修复直接复制粘贴链接，不会触发自定义pasteTextHandle ([54d7d21](https://github.com/wangeditor-team/wangEditor/commit/54d7d21e66d423cebcd6c3b0d53f47b439da6ab7))
+* 修改 togglePlaceholder 判断逻辑 ([34981fc](https://github.com/wangeditor-team/wangEditor/commit/34981fcf5b892a6c2e7de3bbd64842ef86b1557f))
+
+
+### Features
+
+* 视频新增对齐方式 ([706ce15](https://github.com/wangeditor-team/wangEditor/commit/706ce1513fb7269dc21e60dfd1ea9f63b0431288))
+
 ## [4.6.12](https://github.com/wangeditor-team/wangEditor/compare/v4.6.11...v4.6.12) (2021-03-26)
 
 ## [4.6.11](https://github.com/wangeditor-team/wangEditor/compare/v4.6.10...v4.6.11) (2021-03-25)
