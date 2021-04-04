@@ -14,13 +14,13 @@ jobs:
         id: changelog
         uses: liuqh0609/changelog-generator@main
         with:
-          myToken: ${{ secrets.NPM_TOKEN }} # 这里用的是npm-publish脚本中的token
+          myToken: ${{ secrets.WFP_GITHUB_TOKEN_FOR_RELEASE }} # 这里用的是npm-publish脚本中的token
       # 发布 Release
       - name: Create Release # 创建Release，可以在仓库看到一个个版本
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.NPM_TOKEN }} # 这里用的是npm-publish脚本中的token
+          GITHUB_TOKEN: ${{ secrets.WFP_GITHUB_TOKEN_FOR_RELEASE }} # 这里用的是npm-publish脚本中的token
         with:
           tag_name: ${{ github.ref }} # (tag)标签名称
           release_name: ${{ github.ref }}
