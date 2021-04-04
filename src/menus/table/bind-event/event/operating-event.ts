@@ -9,12 +9,12 @@ function ProcessingRow($node: DomElement, _index: number): DomElement {
     //执行获取tbody节点
     let $dom = generateDomAction($node)
     //取出所有的行
-    let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
+    let domArray: HTMLElement[] = Array.prototype.slice.apply($dom.children)
     //列的数量
-    const childNodesLenght = domArray[0].childNodes.length
+    const childrenLength = domArray[0].children.length
     //创建新tr
     let tr = document.createElement('tr')
-    for (let i = 0; i < childNodesLenght; i++) {
+    for (let i = 0; i < childrenLength; i++) {
         const td = document.createElement('td')
         tr.appendChild(td)
     }
@@ -34,17 +34,17 @@ function ProcessingCol($node: DomElement, _index: number): DomElement {
     //执行获取tbody节点
     let $dom = generateDomAction($node)
     //取出所有的行
-    let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
+    let domArray: HTMLElement[] = Array.prototype.slice.apply($dom.children)
     //创建td
     for (let i = 0; i < domArray.length; i++) {
         let cArray: Node[] = []
         //取出所有的列
-        domArray[i].childNodes.forEach(item => {
+        Array.from(domArray[i].children).forEach(item => {
             cArray.push(item)
         })
         //移除行的旧的子节点
-        while (domArray[i].childNodes.length !== 0) {
-            domArray[i].removeChild(domArray[i].childNodes[0])
+        while (domArray[i].children.length !== 0) {
+            domArray[i].removeChild(domArray[i].children[0])
         }
         //列分th td
         let td =
@@ -72,7 +72,7 @@ function DeleteRow($node: DomElement, _index: number): DomElement {
     //执行获取tbody节点
     let $dom = generateDomAction($node)
     //取出所有的行
-    let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
+    let domArray: HTMLElement[] = Array.prototype.slice.apply($dom.children)
     //删除行
     domArray.splice(_index, 1)
     //移除、新增节点事件
@@ -89,17 +89,17 @@ function DeleteCol($node: DomElement, _index: number): DomElement {
     //执行获取tbody节点
     let $dom = generateDomAction($node)
     //取出所有的行
-    let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
+    let domArray: HTMLElement[] = Array.prototype.slice.apply($dom.children)
     //创建td
     for (let i = 0; i < domArray.length; i++) {
         let cArray: Node[] = []
         //取出所有的列
-        domArray[i].childNodes.forEach(item => {
+        Array.from(domArray[i].children).forEach(item => {
             cArray.push(item)
         })
         //移除行的旧的子节点
-        while (domArray[i].childNodes.length !== 0) {
-            domArray[i].removeChild(domArray[i].childNodes[0])
+        while (domArray[i].children.length !== 0) {
+            domArray[i].removeChild(domArray[i].children[0])
         }
         cArray.splice(_index, 1)
         //插入新的子节点
@@ -122,15 +122,15 @@ function setTheHeader($node: DomElement, _index: number, type: string): DomEleme
     //执行获取tbody节点
     let $dom = generateDomAction($node)
     //取出所有的行
-    let domArray: Node[] = Array.prototype.slice.apply($dom.childNodes)
+    let domArray: HTMLElement[] = Array.prototype.slice.apply($dom.children)
     //列的数量
-    const childNodesLenght = domArray[_index].childNodes
+    const childrenLength = domArray[_index].children
     //创建新tr
     let tr = document.createElement('tr')
-    for (let i = 0; i < childNodesLenght.length; i++) {
+    for (let i = 0; i < childrenLength.length; i++) {
         //替换td为th
         const th = document.createElement(type)
-        childNodesLenght[i].childNodes.forEach(item => {
+        Array.from(childrenLength[i].children).forEach(item => {
             th.appendChild(item)
         })
         tr.appendChild(th)
@@ -147,10 +147,10 @@ function setTheHeader($node: DomElement, _index: number, type: string): DomEleme
  * @param $dom tbody节点
  * @param domArray  所有的行
  */
-function removeAndInsertAction($dom: ChildNode, domArray: Node[]) {
+function removeAndInsertAction($dom: Element, domArray: Node[]) {
     //移除所有的旧的子节点
-    while ($dom.childNodes.length !== 0) {
-        $dom.removeChild($dom.childNodes[0])
+    while ($dom.children.length !== 0) {
+        $dom.removeChild($dom.children[0])
     }
     //插入新的子节点
     for (let i = 0; i < domArray.length; i++) {
@@ -163,10 +163,10 @@ function removeAndInsertAction($dom: ChildNode, domArray: Node[]) {
  * 粘贴的table 第一个节点是<colgroup> 最后的节点<tbody>
  * @param dom
  */
-function generateDomAction($node: DomElement): ChildNode {
-    let $dom: ChildNode = $node.elems[0].childNodes[0]
+function generateDomAction($node: DomElement) {
+    let $dom = $node.elems[0].children[0]
     if ($dom.nodeName === 'COLGROUP') {
-        $dom = $node.elems[0].childNodes[$node.elems[0].childNodes.length - 1]
+        $dom = $node.elems[0].children[$node.elems[0].children.length - 1]
     }
     return $dom
 }
