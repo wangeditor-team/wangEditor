@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <p>
+        wangEditor demo
+    </p>
+    <div id="div1">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+        <p>
+            <img src="http://www.wangeditor.com/imgs/logo.jpeg" />
+        </p>
+    </div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
+        var E = window.wangEditor
+        var editor = new E('#div1')
+
+        // editor.config.showLinkImg = false
+        editor.config.uploadImgFromMedia = function () {
+          // 做任调起媒体库UI等的事情
+          // 举个栗子，假设通过confirm方法来模拟调用媒体库
+          const img = confirm('调用媒体库')
+          if (img) {
+            // 通过editor.cmd.do方法将媒体库回调的链接插入编辑器内
+            editor.cmd.do(
+              'insertHTML',
+              `<img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fwallpaper%2F1212%2F10%2Fc1%2F16491670_1355126816487.jpg&refer=http%3A%2F%2Fimg.pconline.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1618886462&t=4cec62f521891b1c09c760914d2b87ff" style="max-width:100%;"/>`
+            )
+          } else {
+            console.log('cancel.')
+          }
+        }
+        editor.create()
+    </script>
+</body>
+
+</html>

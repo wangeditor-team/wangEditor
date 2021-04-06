@@ -76,6 +76,11 @@ export default function (editor: Editor): ImgPanelConf {
             selector: '#' + upTriggerId,
             type: 'click',
             fn: () => {
+                const uploadImgFromMedia = config.uploadImgFromMedia
+                if (uploadImgFromMedia && typeof uploadImgFromMedia === 'function') {
+                    uploadImgFromMedia()
+                    return true
+                }
                 const $file = $('#' + upFileId)
                 const fileElem = $file.elems[0]
                 if (fileElem) {
@@ -207,7 +212,10 @@ export default function (editor: Editor): ImgPanelConf {
     // 显示“上传图片”
     if (
         window.FileReader &&
-        (config.uploadImgShowBase64 || config.uploadImgServer || config.customUploadImg)
+        (config.uploadImgShowBase64 ||
+            config.uploadImgServer ||
+            config.customUploadImg ||
+            config.uploadImgFromMedia)
     ) {
         conf.tabs.push(tabsConf[0])
     }
