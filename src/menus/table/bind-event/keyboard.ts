@@ -3,6 +3,21 @@
  * @author yanbiao(86driver)
  */
 import Editor from '../../../editor/index'
+import { DomElement } from '../../../utils/dom-core'
+
+/**
+ * @description 是否是空行
+ * @param topElem
+ */
+function isEmptyLine(topElem: DomElement): boolean {
+    if (!topElem.length) {
+        return false
+    }
+
+    const dom = topElem.elems[0]
+
+    return dom.nodeName === 'P' && dom.innerHTML === '<br>'
+}
 
 export default function bindEventKeyboardEvent(editor: Editor) {
     const { txt, selection } = editor
@@ -19,14 +34,28 @@ export default function bindEventKeyboardEvent(editor: Editor) {
                     ? $topElem.prev()
                     : null
                 : null
-            if ($preElem && $preElem.getNodeName() === 'TABLE') {
-                // 光标处于选区开头
-                if (selection.getCursorPos() === 0) {
-                    // 按下delete键阻止默认行为
-                    if (e.keyCode === 8) {
-                        e.preventDefault()
-                    }
+
+            // 删除时，选区前面是table，且选区没有选中文本，阻止默认行为
+            if (
+                $preElem &&
+                $preElem.getNodeName() === 'TABLE' &&
+                selection.isSelectionEmpty() &&
+                selection.getCursorPos() === 0 &&
+                e.keyCode === 8
+            ) {
+                const $nextElem = $topElem.next()
+                const hasNext = !!$nextElem.length
+
+                /**
+                 * 如果当前是空行，并且当前行下面还有内容，删除当前行
+                 * 浏览器默认行为不会删除掉当前行的<br>标签
+                 * 因此阻止默认行为，特殊处理
+                 */
+                if (hasNext && isEmptyLine($topElem)) {
+                    $topElem.remove()
+                    editor.selection.setRangeToElem($nextElem.elems[0])
                 }
+                e.preventDefault()
             }
         }
     })
