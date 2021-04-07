@@ -30,7 +30,8 @@
     "just-try-release": "release-it --dry-run",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "cypress:coverage": "nyc report --reporter=text-summary"
+    "cypress:coverage": "nyc report --reporter=text-summary",
+    "size": "npm run build && size-limit"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,7 @@
     "@babel/preset-env": "^7.11.5",
     "@cypress/code-coverage": "^3.8.3",
     "@release-it/conventional-changelog": "^2.0.0",
+    "@size-limit/preset-app": "^4.10.2",
     "@testing-library/jest-dom": "^5.11.6",
     "@types/jest": "^25.2.1",
     "@types/jquery": "^3.3.38",
@@ -95,6 +97,7 @@
     "prepend-file": "^2.0.0",
     "prettier": "^2.0.5",
     "release-it": "^14.2.0",
+    "size-limit": "^4.10.2",
     "style-loader": "^1.2.1",
     "ts-jest": "^25.4.0",
     "ts-loader": "^7.0.2",
@@ -127,5 +130,11 @@
     "commitizen": {
       "path": "node_modules/cz-customizable"
     }
-  }
+  },
+  "size-limit": [
+    {
+      "path": "dist/wangEditor.min.js",
+      "limit": "100 kB"
+    }
+  ]
 }
