@@ -117,6 +117,7 @@ class Text {
         const html = this.html()
         const $placeholder = this.editor.$textContainerElem.find('.placeholder')
         $placeholder.hide()
+        if (this.editor.isComposing) return
         if (!html || html === ' ') $placeholder.show()
     }
 
@@ -285,18 +286,25 @@ class Text {
         $textElem.on('click', onceClickSaveRange)
 
         function handleMouseUp() {
-            // 在编辑器区域之内完成点击，取消鼠标滑动到编辑区外面的事件
-            $textElem.off('mouseleave', saveRange)
-
+            // 在编辑器区域之外完成抬起，保存此时编辑区内的新选区，取消此时鼠标抬起事件
+            saveRange()
             $document.off('mouseup', handleMouseUp)
         }
-        $textElem.on('mousedown', () => {
-            // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
-            $textElem.on('mouseleave', saveRange)
+        function listenMouseLeave() {
+            // 当鼠标移动到外面，要监听鼠标抬起操作
             $document.on('mouseup', handleMouseUp)
+            // 首次移出时即接触leave监听，防止用户不断移入移出多次注册handleMouseUp
+            $textElem.off('mouseleave', listenMouseLeave)
+        }
+        $textElem.on('mousedown', () => {
+            // mousedown 状态下，要坚听鼠标滑动到编辑区域外面
+            $textElem.on('mouseleave', listenMouseLeave)
         })
 
         $textElem.on('mouseup', (e: MouseEvent) => {
+            // 记得移除$textElem的mouseleave事件, 避免内存泄露
+            $textElem.off('mouseleave', listenMouseLeave)
+
             const selection = editor.selection
             const range = selection.getRange()
 

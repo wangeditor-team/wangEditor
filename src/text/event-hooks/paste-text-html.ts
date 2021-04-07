@@ -104,6 +104,12 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
         // 如果用户开启闭粘贴样式注释则将复制进来为url的直接转为链接 否则不转换
         //  在群中有用户提到关闭样式粘贴复制的文字进来后链接直接转为文字了，不符合预期，这里优化下
         if (urlRegex.test(pasteText) && pasteFilterStyle) {
+            //当复制的内容为链接时，也应该判断用户是否定义了处理粘贴的事件
+            if (pasteTextHandle && isFunction(pasteTextHandle)) {
+                // 用户自定义过滤处理粘贴内容
+                pasteText = '' + (pasteTextHandle(pasteText) || '') // html
+            }
+
             return editor.cmd.do(
                 'insertHTML',
                 `<a href="${pasteText}" target="_blank">${pasteText}</a>`
@@ -121,7 +127,7 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 pasteHtml = '' + (pasteTextHandle(pasteHtml) || '') // html
             }
             // 粘贴的html的是否是css的style样式
-            let isCssStyle: boolean = /[\.\#\@]?\w+[^{]+\{[^}]*\}/.test(pasteHtml) // eslint-disable-line
+            let isCssStyle: boolean = /[\.\#\@]?\w+[ ]+\{[^}]*\}/.test(pasteHtml) // eslint-disable-line
             // 经过处理后还是包含暴露的css样式则直接插入它的text
             if (isCssStyle && pasteFilterStyle) {
                 editor.cmd.do('insertHTML', `${formatHtml(pasteText)}`) // text

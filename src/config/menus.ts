@@ -122,6 +122,7 @@ export default {
 
     colors: [
         '#000000',
+        '#ffffff',
         '#eeece0',
         '#1c487f',
         '#4d80bf',
@@ -130,7 +131,6 @@ export default {
         '#7b5ba1',
         '#46acc8',
         '#f9963b',
-        '#ffffff',
     ],
 
     //插入代码语言配置

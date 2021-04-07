@@ -1,3 +1,33 @@
+## [4.6.13](https://github.com/wangeditor-team/wangEditor/compare/v4.6.12...v4.6.13) (2021-04-02)
+
+
+### Bug Fixes
+
+* 回车切换字号失效 ([5969bba](https://github.com/wangeditor-team/wangEditor/commit/5969bba505130f039343cb36789b08b0d157cbc8))
+* 输入中文时，placeholder 不消失 ([a5d3d41](https://github.com/wangeditor-team/wangEditor/commit/a5d3d415bbc01b20b4a9f94d7945d431af22433d))
+* 修复直接复制粘贴链接，不会触发自定义pasteTextHandle ([54d7d21](https://github.com/wangeditor-team/wangEditor/commit/54d7d21e66d423cebcd6c3b0d53f47b439da6ab7))
+* 修改 togglePlaceholder 判断逻辑 ([34981fc](https://github.com/wangeditor-team/wangEditor/commit/34981fcf5b892a6c2e7de3bbd64842ef86b1557f))
+
+
+### Features
+
+* 视频新增对齐方式 ([706ce15](https://github.com/wangeditor-team/wangEditor/commit/706ce1513fb7269dc21e60dfd1ea9f63b0431288))
+
+## [4.6.12](https://github.com/wangeditor-team/wangEditor/compare/v4.6.11...v4.6.12) (2021-03-26)
+
+## [4.6.11](https://github.com/wangeditor-team/wangEditor/compare/v4.6.10...v4.6.11) (2021-03-25)
+
+
+### Bug Fixes
+
+* 兼容火狐浏览器video标签存在时光标无法输入问题 ([452a494](https://github.com/wangeditor-team/wangEditor/commit/452a4941dd6e961b90ec72b1f78d9502fe64403f))
+* 文字颜色和背景颜色中的白色不容易辨别, 调整位置 ([6f0390b](https://github.com/wangeditor-team/wangEditor/commit/6f0390b44994bf4f026180ab10655317c45e6d57))
+* 修复取消表头后，空行被删除 ([82e47df](https://github.com/wangeditor-team/wangEditor/commit/82e47dff61e094c87babeeda89ba00c17085252c))
+* 修复设置isFocus为false的情况下，初始化完成后依旧触发blur事件的问题 ([96e7a1e](https://github.com/wangeditor-team/wangEditor/commit/96e7a1e56909a8695d670e925a0ce6010f123a46))
+* 修复鼠标移出编辑区后获取选区异常 ([967e612](https://github.com/wangeditor-team/wangEditor/commit/967e612fc07013efcaf3699cee5afa8b173a2b40))
+* 粘贴图片性能问题 ([45db80b](https://github.com/wangeditor-team/wangEditor/commit/45db80bf89fdd2786f2057606e5249fe0e5abd2e))
+* wps粘贴问题 ([772d704](https://github.com/wangeditor-team/wangEditor/commit/772d704bfd5d4f4ebdad566711112e4a93663414))
+
 ## [4.6.10](https://github.com/wangeditor-team/wangEditor/compare/v4.6.9...v4.6.10) (2021-03-18)
 
 

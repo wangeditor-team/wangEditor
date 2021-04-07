@@ -69,10 +69,12 @@ function _bindFocusAndBlur(editor: Editor): void {
             editor.isFocus = true
         }
     }
-    if (document.activeElement === editor.$textElem.elems[0]) {
+    // fix: 增加判断条件，防止当用户设置isFocus=false时，初始化完成后点击其他元素依旧会触发blur事件的问题
+    if (document.activeElement === editor.$textElem.elems[0] && editor.config.focus) {
         _focusHandler(editor)
         editor.isFocus = true
     }
+    // 绑定监听事件
     $(document).on('click', listener)
     // 全局事件在编辑器实例销毁的时候进行解绑
     editor.beforeDestroy(function () {
@@ -89,9 +91,11 @@ function _bindInput(editor: Editor) {
     editor.$textElem
         .on('compositionstart', () => {
             editor.isComposing = true
+            editor.txt.togglePlaceholder()
         })
         .on('compositionend', () => {
             editor.isComposing = false
+            editor.txt.togglePlaceholder()
         })
 }
 
