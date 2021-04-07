@@ -304,13 +304,13 @@ class Text {
         $textElem.on('mouseup', (e: MouseEvent) => {
             // 记得移除$textElem的mouseleave事件, 避免内存泄露
             $textElem.off('mouseleave', listenMouseLeave)
-
-            const selection = editor.selection
-            const range = selection.getRange()
-
-            if (range === null) return
-
-            saveRange()
+            // fix：避免当选中一段文字之后，再次点击文字中间位置无法更新selection问题。issue#3096
+            setTimeout(() => {
+                const selection = editor.selection
+                const range = selection.getRange()
+                if (range === null) return
+                saveRange()
+            }, 0)
         })
     }
 
