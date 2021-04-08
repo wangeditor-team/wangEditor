@@ -79,4 +79,7 @@ export default {
 
     // 自定义上传
     customUploadImg: null,
+
+    // 从媒体库上传
+    uploadImgFromMedia: null,
 }
