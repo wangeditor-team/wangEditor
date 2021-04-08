@@ -32,12 +32,12 @@ class getNode {
      */
     public getCurrentRowIndex($node: HTMLElement, $dom: HTMLElement): Number {
         let _index: number = 0
-        let $nodeChild = $node.childNodes[0]
+        let $nodeChild = $node.children[0]
         //粘贴的table 最后一个节点才是tbody
         if ($nodeChild.nodeName === 'COLGROUP') {
-            $nodeChild = $node.childNodes[$node.childNodes.length - 1]
+            $nodeChild = $node.children[$node.children.length - 1]
         }
-        $nodeChild.childNodes.forEach((item, index) => {
+        Array.from($nodeChild.children).forEach((item, index) => {
             item === $dom ? (_index = index) : ''
         })
         return _index
@@ -56,7 +56,7 @@ class getNode {
                 ? $node
                 : $($node).parentUntil('TD', $node)?.elems[0]
         let colDom = $(rowDom).parent()
-        colDom.elems[0].childNodes.forEach((item, index) => {
+        Array.from(colDom.elems[0].children).forEach((item, index) => {
             item === rowDom ? (_index = index) : ''
         })
         return _index
