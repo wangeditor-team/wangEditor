@@ -1,3 +1,17 @@
+## [4.6.14](https://github.com/wangeditor-team/wangEditor/compare/v4.6.13...v4.6.14) (2021-04-08)
+
+
+### Bug Fixes
+
+* 表格下面的标签无法删除 ([2f744b5](https://github.com/wangeditor-team/wangEditor/commit/2f744b5f72166752fdd5616485847cf088b947c1))
+* 图片媒体库回调 ([bfc8484](https://github.com/wangeditor-team/wangEditor/commit/bfc84848a661d901a873b6992a7d8f88f62eac85))
+* 修复鼠标选中文字之后，再选择文字中间位置插入图片导致选中文字消失的问题 ([eaeb816](https://github.com/wangeditor-team/wangEditor/commit/eaeb8169dd055c53b288125d4e062d9ae51157c9))
+
+
+### Features
+
+* 修复了append 时意外清除空格的问题 ([7b8273e](https://github.com/wangeditor-team/wangEditor/commit/7b8273eb60d184369698bb4f493b0b0b045f9a26))
+
 ## [4.6.13](https://github.com/wangeditor-team/wangEditor/compare/v4.6.12...v4.6.13) (2021-04-02)
 
 

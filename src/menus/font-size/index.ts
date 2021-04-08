@@ -53,7 +53,7 @@ class FontSize extends DropListMenu implements MenuActive {
                 editor.selection.moveCursor(focusElem)
                 selectionElem = focusElem
             }
-            editor.selection.setRangeToContainerElem(selectionElem)
+            editor.selection.setRangeToElem(selectionElem)
             // 插入空白选区
             editor.selection.createEmptyRange()
         }
