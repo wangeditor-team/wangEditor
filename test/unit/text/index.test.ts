@@ -138,7 +138,7 @@ describe('Editor Text test', () => {
         expect(saveRangeFn).not.toBeCalled()
     })
 
-    test('编辑器初始化后，编辑器区域会绑定 mouseup mousedown 事件，对存在的range进行处理', () => {
+    test('编辑器初始化后，编辑器区域会绑定 mouseup mousedown 事件，对存在的range进行处理', (done: jest.DoneCallback) => {
         const saveRangeFn = jest.fn()
 
         const getRangeFn = jest.fn(() => ({
@@ -155,7 +155,10 @@ describe('Editor Text test', () => {
         dispatchEvent(editor.$textElem, 'mousedown', 'MouseEvent')
         dispatchEvent(editor.$textElem, 'mouseup', 'MouseEvent')
 
-        expect(saveRangeFn).toBeCalled()
+        setTimeout(() => {
+            expect(saveRangeFn).toBeCalled()
+            done()
+        }, 0)
     })
 
     test('编辑器初始化后，编辑器区域会绑定 click 事件，触发执行eventsHook clickEvent的函数执行', () => {
