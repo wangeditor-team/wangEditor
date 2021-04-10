@@ -26,6 +26,8 @@ function _bindChange(editor: Editor): void {
         const { onchange } = editor.config
         if (onchange) {
             const html = editor.txt.html() || ''
+            // onchange触发时，是focus状态
+            editor.isFocus = true
             onchange(html)
         }
 
@@ -56,7 +58,7 @@ function _bindFocusAndBlur(editor: Editor): void {
 
         if (!isChild) {
             // 若为选择工具栏中的功能，则不视为成 blur 操作
-            if (isToolbar && !isMenu) {
+            if ((isToolbar && !isMenu) || !editor.isFocus) {
                 return
             }
             _blurHandler(editor)
