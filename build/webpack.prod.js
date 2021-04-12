@@ -9,6 +9,7 @@ const CommonConf = require('./webpack.common')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const { distPath } = require('./myPath')
+const UglifyPlugin = require('uglifyjs-webpack-plugin')
 
 // 包体积分析
 const isAnalyzer = process.env.NODE_ENV === 'production_analyzer'
@@ -29,4 +30,14 @@ module.exports = smart(CommonConf, {
     },
     plugins,
     devtool: 'source-map',
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new UglifyPlugin({
+                parallel: true,
+                cache: true,
+                extractComments: false,
+            }),
+        ],
+    },
 })

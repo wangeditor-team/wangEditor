@@ -117,6 +117,7 @@ class Text {
         const html = this.html()
         const $placeholder = this.editor.$textContainerElem.find('.placeholder')
         $placeholder.hide()
+        if (this.editor.isComposing) return
         if (!html || html === ' ') $placeholder.show()
     }
 
@@ -185,7 +186,6 @@ class Text {
             // 内容用 p 标签包裹
             val = `<p>${val}</p>`
         }
-        val = val.replace(/\s+</g, '<')
         $textElem.html(val)
 
         // 初始化选区，将光标定位到内容尾部
@@ -303,13 +303,13 @@ class Text {
         $textElem.on('mouseup', (e: MouseEvent) => {
             // 记得移除$textElem的mouseleave事件, 避免内存泄露
             $textElem.off('mouseleave', listenMouseLeave)
-
-            const selection = editor.selection
-            const range = selection.getRange()
-
-            if (range === null) return
-
-            saveRange()
+            // fix：避免当选中一段文字之后，再次点击文字中间位置无法更新selection问题。issue#3096
+            setTimeout(() => {
+                const selection = editor.selection
+                const range = selection.getRange()
+                if (range === null) return
+                saveRange()
+            }, 0)
         })
     }
 

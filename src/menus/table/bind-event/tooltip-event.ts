@@ -98,7 +98,7 @@ function createShowHideFn(editor: Editor) {
                     let htmlStr = getnode.getTableHtml($node.elems[0])
                     //获取新生成的table 判断是否是最后一行被删除 是 删除整个table
                     const trLength: number = operatingEvent.DeleteRow($(htmlStr), index).elems[0]
-                        .childNodes[0].childNodes.length
+                        .children[0].children.length
                     //生成新的table
                     let newdom: string = ''
                     // 选中table
@@ -162,7 +162,7 @@ function createShowHideFn(editor: Editor) {
                     let htmlStr = getnode.getTableHtml($node.elems[0])
                     //获取新生成的table 判断是否是最后一列被删除 是 删除整个table
                     const tdLength: number = operatingEvent.DeleteCol($(htmlStr), index).elems[0]
-                        .childNodes[0].childNodes[0].childNodes.length
+                        .children[0].children[0].children.length
                     //生成新的table
                     let newdom: string = ''
                     // 选中table
@@ -311,7 +311,7 @@ export default function bindTooltipEvent(editor: Editor) {
 function _isEmptyP($node: DomElement, newdom: string): string {
     // 当表格的下一个兄弟节点是空行时，在 newdom 后添加 EMPTY_P
     let nextNode = $node.elems[0].nextSibling as HTMLElement
-    if (nextNode.innerHTML === '<br>') {
+    if (!nextNode || nextNode.innerHTML === '<br>') {
         newdom += `${EMPTY_P}`
     }
     return newdom

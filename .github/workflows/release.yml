@@ -1,0 +1,29 @@
+name: Create release message
+on:
+  push:
+    tags:
+      - "v*.*.*" # 触发条件与npm-publish一致，带有版本发布的标签
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      # 生成changelog信息
+      - name: Generate changelog
+        id: changelog
+        uses: liuqh0609/changelog-generator@main
+        with:
+          myToken: ${{ secrets.WFP_GITHUB_TOKEN_FOR_RELEASE }} # 这里用的是npm-publish脚本中的token
+      # 发布 Release
+      - name: Create Release # 创建Release，可以在仓库看到一个个版本
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.WFP_GITHUB_TOKEN_FOR_RELEASE }} # 这里用的是npm-publish脚本中的token
+        with:
+          tag_name: ${{ github.ref }} # (tag)标签名称
+          release_name: ${{ github.ref }}
+          body: ${{ steps.changelog.outputs.changelog }} # 将changelog显示在body中
+          draft: false # 是否是草稿
+          prerelease: false
