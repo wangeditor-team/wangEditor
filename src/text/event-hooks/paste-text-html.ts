@@ -110,9 +110,12 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 pasteText = '' + (pasteTextHandle(pasteText) || '') // html
             }
 
+            const insertUrl = urlRegex.exec(pasteText)![0]
+            const otherText = pasteText.replace(urlRegex, '')
+
             return editor.cmd.do(
                 'insertHTML',
-                `<a href="${pasteText}" target="_blank">${pasteText}</a>`
+                `<a href="${insertUrl}" target="_blank">${insertUrl}</a>${otherText}`
             ) // html
         }
         // table 中（td、th），待开发。。。
