@@ -161,7 +161,13 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                     // if (!lastEl?.length) return
                     // editor.selection.moveCursor(lastEl.elems[0])
                 } else {
-                    editor.cmd.do('insertHTML', html) // html
+                    // 如果用户从百度等网站点击复制得到的图片是一串img标签且待src的http地址
+                    // 见 https://github.com/wangeditor-team/wangEditor/issues/3119
+                    // 如果是走用户定义的图片上传逻辑
+                    const isHasOnlyImgEleReg = /^<img [^>]*src=['"]([^'"]+)[^>]*>$/g
+                    if (!isHasOnlyImgEleReg.test(html)) {
+                        editor.cmd.do('insertHTML', html)
+                    }
                 }
             }
         } catch (ex) {
