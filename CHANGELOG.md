@@ -1,3 +1,16 @@
+## [4.6.15](https://github.com/wangeditor-team/wangEditor/compare/v4.6.14...v4.6.15) (2021-04-15)
+
+
+### Bug Fixes
+
+* 插入链接内容错误 ([d2be13a](https://github.com/wangeditor-team/wangEditor/commit/d2be13a210f24e2395acc7bf7636b8db5fe69c4b))
+* 设置showLinkImg=false & uploadImgShowBase64=true 后，无法两次上传同一张图片 ([860fc52](https://github.com/wangeditor-team/wangEditor/commit/860fc5218e94829749599ba314392d817152fd17))
+* 添加issue地址 ([90a5e45](https://github.com/wangeditor-team/wangEditor/commit/90a5e451c9f9b6f81207aaf61b6ad47b4c117ce8))
+* 修复插入代码异常问题 ([b5fb553](https://github.com/wangeditor-team/wangEditor/commit/b5fb55350cd43715d210e4f78707aca83952106e))
+* 修复从浏览器点击复制后图片粘贴到编辑器图片出现2个bug ([899748b](https://github.com/wangeditor-team/wangEditor/commit/899748b97f43aa883e536e7aab8d32e04e7578ab))
+* 修复删除所有内容后无法触发blur的问题 ([1c5869f](https://github.com/wangeditor-team/wangEditor/commit/1c5869f27b4cd8d713bdb61f8d8788e356736d44))
+* 修复长按删除键，失去焦点不触发blur的bug ([9530e28](https://github.com/wangeditor-team/wangEditor/commit/9530e282fc4deef7e7c1365262f8151b9cce3294))
+
 ## [4.6.14](https://github.com/wangeditor-team/wangEditor/compare/v4.6.13...v4.6.14) (2021-04-08)
 
 

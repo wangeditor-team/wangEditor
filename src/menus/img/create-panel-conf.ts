@@ -109,6 +109,12 @@ export default function (editor: Editor): ImgPanelConf {
                     uploadImg.uploadImg(fileList)
                 }
 
+                // 判断用于打开文件的input，有没有值，如果有就清空，以防上传同一张图片时，不会触发change事件
+                // input的功能只是单单为了打开文件而已，获取到需要的文件参数，当文件数据获取到后，可以清空。
+                if (fileElem) {
+                    fileElem.value = ''
+                }
+
                 // 返回 true 可关闭 panel
                 return true
             },
