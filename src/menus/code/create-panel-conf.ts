@@ -29,6 +29,10 @@ export default function (editor: Editor, text: string, languageType: string): Pa
             selectCodeElem()
         }
 
+        const content = editor.selection.getSelectionStartElem()?.elems[0].innerHTML
+        if (content) {
+            editor.cmd.do('insertHTML', EMPTY_P)
+        }
         editor.cmd.do('insertHTML', text)
 
         const $code = editor.selection.getSelectionStartElem()
