@@ -27,8 +27,14 @@ function i18nextInit(editor: Editor) {
 
     // 没有引入 i18next 的替代品
     editor.i18next = {
-        t(str: string) {
+        t(str: string, isPlaceholderText: boolean = false) {
+            // 若是placeholder文本，无需split #3172
+            if (isPlaceholderText) {
+                return str
+            }
+
             const strArr = str.split('.')
+
             return strArr[strArr.length - 1]
         },
     }

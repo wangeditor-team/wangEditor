@@ -60,7 +60,8 @@ export default function (editor: Editor): void {
     $textElem.attr('contenteditable', 'true').css('width', '100%').css('height', '100%')
 
     // 添加 placeholder
-    const $placeholder = $(`<div>${i18next.t(editor.config.placeholder)}</div>`)
+    const $placeholder = $(`<div>${i18next.t(editor.config.placeholder, true)}</div>`)
+
     $placeholder.addClass('placeholder')
 
     // 初始化编辑区域内容
