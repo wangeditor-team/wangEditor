@@ -26,6 +26,8 @@ function _bindChange(editor: Editor): void {
         const { onchange } = editor.config
         if (onchange) {
             const html = editor.txt.html() || ''
+            // onchange触发时，是focus状态，详见https://github.com/wangeditor-team/wangEditor/issues/3034
+            editor.isFocus = true
             onchange(html)
         }
 
