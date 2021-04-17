@@ -22,6 +22,16 @@ export type FontSizeConfType = {
     }
 }
 
+// liuWei 2020-04-17 对于字体增加扩展类型
+// font-style 类型
+export type FontStyleType = Array<
+    | {
+          name: string
+          value: string
+      }
+    | string
+>
+
 // indent
 export interface IndentationOptions {
     value: number
@@ -77,6 +87,7 @@ export default {
         'Times New Roman',
         'Courier New',
     ],
+    //  fontNames: [{ name: '宋体', value: '宋体' }],
 
     fontSizes: {
         'x-small': {

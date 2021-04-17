@@ -8,6 +8,7 @@ import menusConfig, {
     FontSizeConfType,
     IndentationType,
     tooltipPositionType,
+    FontStyleType,
 } from './menus'
 import eventsConfig from './events'
 import styleConfig from './style'
@@ -31,7 +32,7 @@ export type ConfigType = {
     languageTab: string
     menus: string[]
     excludeMenus: string[]
-    fontNames: string[]
+    fontNames: FontStyleType
     lineHeights: string[]
     showMenuTooltips: boolean
     indentation: IndentationType
