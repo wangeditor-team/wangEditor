@@ -3,12 +3,16 @@
  * @author wangfupeng
  */
 
-import createEditor from '../../helpers/create-editor'
+import createEditor, { selector } from '../../helpers/create-editor'
 import Editor from '../../../src/wangEditor'
 
 const { BtnMenu, DropListMenu, PanelMenu, DropList, Panel, Tooltip } = Editor
 
 let editor: Editor
+
+beforeEach(() => {
+    editor = createEditor(document, selector())
+})
 
 // 创建 menu 的各个 class
 test('自定义菜单的 class', () => {
@@ -39,8 +43,6 @@ test('实例注册扩展一个菜单', () => {
         tryChangeActive() {}
     }
 
-    // 创建编辑器实例
-    editor = createEditor(document, 'div1') // 赋值给全局变量，便于再扩展测试用例
     // 注册菜单
     editor.menus.extend('insertABC', InsertABCMenu)
 
@@ -66,8 +68,6 @@ test('全局注册扩展一个菜单', () => {
 
     // 注册菜单
     Editor.registerMenu('insertXYZ', InsertABCMenu)
-    // 创建编辑器实例
-    editor = createEditor(document, 'div1')
 
     expect(editor.menus.constructorList.insertABC).not.toBeNull()
 })

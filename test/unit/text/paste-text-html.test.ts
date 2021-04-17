@@ -3,14 +3,14 @@
  * @author luochao
  */
 import pasteTextHtml from '../../../src/text/event-hooks/paste-text-html'
-import createEditor from '../../helpers/create-editor'
+import createEditor, { selector } from '../../helpers/create-editor'
 import * as pasteEvents from '../../../src/text/paste/paste-event'
 import $ from '../../../src/utils/dom-core'
 import mockCommand from '../../helpers/command-mock'
 
 describe('text utils getPasteImgs test', () => {
     test('执行函数会绑定一个 pasteEvents handler', () => {
-        const editor = createEditor(document, 'div1')
+        const editor = createEditor(document, selector())
         const pasteEvents: Function[] = []
         pasteTextHtml(editor, pasteEvents)
 
@@ -18,7 +18,7 @@ describe('text utils getPasteImgs test', () => {
     })
 
     test('如果当前选区所在元素不存在，执行 pasteEvents 的函数直接返回', () => {
-        const editor = createEditor(document, 'div2')
+        const editor = createEditor(document, selector())
         const pasteEventList: Function[] = []
 
         pasteTextHtml(editor, pasteEventList)
@@ -41,7 +41,7 @@ describe('text utils getPasteImgs test', () => {
         jest.spyOn(document, 'queryCommandSupported').mockImplementation(() => true)
 
         const mockPasteTextHandle = jest.fn(() => 'mock123<br>')
-        const editor = createEditor(document, 'div3', '', {
+        const editor = createEditor(document, selector(), '', {
             pasteTextHandle: mockPasteTextHandle,
         })
 
@@ -68,7 +68,7 @@ describe('text utils getPasteImgs test', () => {
 
         jest.spyOn(document, 'queryCommandSupported').mockImplementation(() => true)
 
-        const editor = createEditor(document, 'div4')
+        const editor = createEditor(document, selector())
 
         const pasteEventList: Function[] = []
 
@@ -98,7 +98,7 @@ describe('text utils getPasteImgs test', () => {
 
         jest.spyOn(document, 'queryCommandSupported').mockImplementation(() => true)
 
-        const editor = createEditor(document, 'div4')
+        const editor = createEditor(document, selector())
 
         const pasteEventList: Function[] = []
 
@@ -121,7 +121,7 @@ describe('text utils getPasteImgs test', () => {
 
         jest.spyOn(document, 'queryCommandSupported').mockImplementation(() => true)
 
-        const editor = createEditor(document, 'div4')
+        const editor = createEditor(document, selector())
 
         const pasteEventList: Function[] = []
 
@@ -145,7 +145,7 @@ describe('text utils getPasteImgs test', () => {
         jest.spyOn(document, 'queryCommandSupported').mockImplementation(() => true)
 
         const mockPasteTextHandle = jest.fn(() => '<div>123</div><p></p>')
-        const editor = createEditor(document, 'div3', '', {
+        const editor = createEditor(document, selector(), '', {
             pasteTextHandle: mockPasteTextHandle,
         })
 
@@ -178,7 +178,7 @@ describe('text utils getPasteImgs test', () => {
 
         const mockPasteTextHandle = jest.fn(() => '<div>123</div><p></p>')
 
-        const editor = createEditor(document, 'div3', '', {
+        const editor = createEditor(document, selector(), '', {
             pasteTextHandle: mockPasteTextHandle,
         })
 
@@ -204,7 +204,7 @@ describe('text utils getPasteImgs test', () => {
 
         jest.spyOn(pasteEvents, 'getPasteHtml').mockImplementation(() => '<p>1234</p>')
 
-        const editor = createEditor(document, 'div4')
+        const editor = createEditor(document, selector())
         const pasteEventList: Function[] = []
         pasteTextHtml(editor, pasteEventList)
 

@@ -3,10 +3,10 @@
  * @author wangfupeng
  */
 
-import createEditor from '../../helpers/create-editor'
+import createEditor, { selector } from '../../helpers/create-editor'
 
 test('菜单数量', () => {
-    const editor = createEditor(document, 'div1')
+    const editor = createEditor(document, selector())
     const menus = editor.config.menus
     const $toolbarChildren = editor.$toolbarElem.childNodes() || []
     let childrenLen = $toolbarChildren.length - 1
@@ -17,7 +17,7 @@ test('菜单数量', () => {
 
 // 各个菜单的配置，随后开发的时候再加
 test('菜单 exclude', () => {
-    const editor = createEditor(document, 'div1', '', {
+    const editor = createEditor(document, selector(), '', {
         excludeMenus: ['bold'],
     })
     const menus = editor.config.menus

@@ -2,12 +2,15 @@
  * @description Img menu paste-img
  * @author luochao
  */
-import createEditor from '../../../helpers/create-editor'
+import createEditor, { selector } from '../../../helpers/create-editor'
 import bindPasteImgEvent from '../../../../src/menus/img/bind-event/paste-img'
 import UploadImg from '../../../../src/menus/img/upload-img'
 import mockFile from '../../../helpers/mock-file'
 import mockCmdFn from '../../../helpers/command-mock'
 import * as pasteEvents from '../../../../src/text/paste/paste-event'
+import Editor from '../../../../src/editor'
+
+let editor: Editor
 
 const mockFiles = [mockFile({ name: 'test.png', size: 200, mimeType: 'image/png' })]
 const mockUploadImg = jest.fn()
@@ -23,11 +26,10 @@ describe('Img menu paste-img', () => {
         // @ts-ignore
         UploadImg.mockClear()
         mockUploadImg.mockClear()
+        editor = createEditor(document, selector())
     })
 
     test('调用 bindPasteImgEvent 方法给编辑器绑定paste事件', () => {
-        const editor = createEditor(document, 'div1')
-
         bindPasteImgEvent(editor)
 
         expect(editor.txt.eventHooks.pasteEvents.length).toBeGreaterThanOrEqual(1)
@@ -39,8 +41,6 @@ describe('Img menu paste-img', () => {
         const mock = jest.spyOn(pasteEvents, 'getPasteImgs')
 
         mock.mockReturnValue(mockFiles)
-
-        const editor = createEditor(document, 'div1')
 
         bindPasteImgEvent(editor)
 
@@ -65,8 +65,6 @@ describe('Img menu paste-img', () => {
 
         mock.mockReturnValue([])
 
-        const editor = createEditor(document, 'div1')
-
         bindPasteImgEvent(editor)
 
         const mockGetData = jest.fn().mockImplementation(() => '')
@@ -89,8 +87,6 @@ describe('Img menu paste-img', () => {
 
         mock.mockReturnValue(mockFiles)
 
-        const editor = createEditor(document, 'div1')
-
         bindPasteImgEvent(editor)
 
         const mockGetData = jest.fn().mockImplementation(() => '<span></span>')
@@ -112,8 +108,6 @@ describe('Img menu paste-img', () => {
         const mock = jest.spyOn(pasteEvents, 'getPasteImgs')
 
         mock.mockReturnValue(mockFiles)
-
-        const editor = createEditor(document, 'div1')
 
         bindPasteImgEvent(editor)
 
