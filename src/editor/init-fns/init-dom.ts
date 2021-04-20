@@ -111,3 +111,49 @@ export default function (editor: Editor): void {
     editor.toolbarElemId = toolbarElemId
     editor.textElemId = textElemId
 }
+
+/**
+ * 工具栏/文本区域 DOM selector 有效性验证
+ * @param editor 编辑器实例
+ */
+export function selectorValidator(editor: Editor) {
+    const name = 'data-we-id'
+    const regexp = /^wangEditor-\d+$/
+    const { textSelector, toolbarSelector } = editor
+
+    const $el = {
+        bar: $('<div></div>'),
+        text: $('<div></div>'),
+    }
+
+    if (toolbarSelector == null) {
+        throw new Error('错误：初始化编辑器时候未传入任何参数，请查阅文档')
+    } else {
+        $el.bar = $(toolbarSelector)
+        if (!$el.bar.elems.length) {
+            throw new Error(`无效的节点选择器：${toolbarSelector}`)
+        }
+        if (regexp.test($el.bar.attr(name))) {
+            throw new Error('初始化节点已存在编辑器实例，无法重复创建编辑器')
+        }
+    }
+    if (textSelector) {
+        $el.text = $(textSelector)
+        if (!$el.text.elems.length) {
+            throw new Error(`无效的节点选择器：${textSelector}`)
+        }
+        if (regexp.test($el.text.attr(name))) {
+            throw new Error('初始化节点已存在编辑器实例，无法重复创建编辑器')
+        }
+    }
+
+    // 给节点做上标记
+    $el.bar.attr(name, editor.id)
+    $el.text.attr(name, editor.id)
+
+    // 在编辑器销毁前取消标记
+    editor.beforeDestroy(function () {
+        $el.bar.removeAttr(name)
+        $el.text.removeAttr(name)
+    })
+}

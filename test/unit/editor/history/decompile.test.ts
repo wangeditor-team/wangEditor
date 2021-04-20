@@ -3,7 +3,7 @@
  * @author luochao
  */
 
-import createEditor from '../../../helpers/create-editor'
+import createEditor, { selector } from '../../../helpers/create-editor'
 import Editor from '../../../../src/editor'
 import compile from '../../../../src/editor/history/data/node/compile'
 import { restore, revoke } from '../../../../src/editor/history/data/node/decompilation'
@@ -13,7 +13,7 @@ let editor: Editor
 
 describe('Editor history decompile', () => {
     beforeEach(() => {
-        editor = createEditor(document, 'div1')
+        editor = createEditor(document, selector())
     })
 
     test('可以通过revoke方法撤销编辑器设置的html', done => {

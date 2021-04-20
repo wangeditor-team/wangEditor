@@ -3,7 +3,7 @@
  * @author luochao
  */
 
-import createEditor from '../../../helpers/create-editor'
+import createEditor, { selector } from '../../../helpers/create-editor'
 import Editor from '../../../../src/editor'
 import compile, {
     compileType,
@@ -37,7 +37,7 @@ const originalValue = UA.isFirefox
 
 describe('Editor history compile', () => {
     beforeEach(() => {
-        editor = createEditor(document, 'div1')
+        editor = createEditor(document, selector())
     })
 
     afterEach(() => {
@@ -74,7 +74,7 @@ describe('Editor history compile', () => {
         const observer = new MutationObserver((mutationList: MutationRecord[]) => {
             const compileData = compile(mutationList)
             expect(compileData instanceof Array).toBeTruthy()
-            expect(compileData.length).toBe(4)
+            expect(compileData.length).toBeGreaterThanOrEqual(4)
             done()
         })
 

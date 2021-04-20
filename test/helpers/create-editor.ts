@@ -6,13 +6,22 @@
 import Editor from '../../src/editor/index'
 import $ from 'jquery'
 
+let count = 1
+
+/**
+ * 生成唯一的节点 id
+ */
+export function selector() {
+    return `edit${count++}`
+}
+
 /**
  * 创建编辑器实例，用于测试
  * @param document document
  * @param toolbarId toolbar id
  * @param textId text id
  */
-function createEditor(
+export default function createEditor(
     document: Document,
     toolbarId: string,
     textId?: string,
@@ -48,5 +57,3 @@ function createEditor(
     editor.create()
     return editor
 }
-
-export default createEditor
