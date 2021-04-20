@@ -69,6 +69,14 @@
         const editor = new E('#div1')
         editor.menus.extend('insertXYZ', InsertXYZMenu)
         editor.config.menus.push('insertXYZ')
+
+        // 配置菜单栏，设置不需要的菜单
+        editor.config.excludeMenus = [
+            'emoticon',
+            'video',
+            'insertABC' 
+        ] 
+        
         editor.create()
 
         //创建编辑器2

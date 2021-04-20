@@ -22,25 +22,14 @@
 
     <script src="../dist/wangEditor.js"></script>
     <script>
-        // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
         var E = window.wangEditor
         var editor = new E('#div1')
-
-        editor.config.onchange = function (newHtml) {
-            console.log('onchange', newHtml)
-        }
-        editor.config.onblur = function (newHtml) {
-            console.log('onblur', newHtml)
-        }
-        // editor.config.onfocus = function (newHtml) {
-        //     console.log('onfocus', newHtml)
-        // }
-        // editor.config.fontNames = [
-        //     '宋体',
-        //     '微软雅黑',
-        // ]
-
-        editor.config.showFullScreen = true
+        
+       editor.config.fontNames=[
+           {name:"黑体",value:"黑体3"},
+           {name:"绝绝字体",value:"Times New Roman"}
+        ]
+       // editor.config.fontNames=["黑体"]
         editor.create()
     </script>
 </body>

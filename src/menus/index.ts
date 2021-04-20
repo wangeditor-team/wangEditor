@@ -40,6 +40,13 @@ class Menus {
         if (Array.isArray(excludeMenus) === false) excludeMenus = []
         config.menus = config.menus.filter(key => excludeMenus.includes(key) === false)
 
+        // 排除自扩展中exclude包含的菜单
+        let CustomMenuKeysList: string[] = Object.keys(Editor.globalCustomMenuConstructorList)
+        CustomMenuKeysList = CustomMenuKeysList.filter(key => excludeMenus.includes(key))
+        CustomMenuKeysList.forEach((key: string) => {
+            delete Editor.globalCustomMenuConstructorList[key]
+        })
+
         config.menus.forEach(menuKey => {
             const MenuConstructor = this.constructorList[menuKey] // 暂用 any ，后面再替换
             this._initMenuList(menuKey, MenuConstructor)
