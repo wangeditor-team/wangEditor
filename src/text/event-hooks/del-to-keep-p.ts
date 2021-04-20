@@ -16,7 +16,8 @@ import $ from '../../utils/dom-core'
 function deleteToKeepP(editor: Editor, deleteUpEvents: Function[], deleteDownEvents: Function[]) {
     function upFn() {
         const $textElem = editor.$textElem
-        const txtHtml = $textElem.html().toLowerCase().trim()
+        // 增加.replace(/<.*\><br><\/.*>/g, '') 为了解决粘贴内容时增加的<xxx><br></xxx>格式的内容无法删除，导致出现无法删除干净内容的问题。
+        const txtHtml = $textElem.html().toLowerCase().trim().replace(/<.*\><br><\/.*>/g, '')
 
         // firefox 时用 txtHtml === '<br>' 判断，其他用 !txtHtml 判断
         if (!txtHtml || txtHtml === '<br>') {
