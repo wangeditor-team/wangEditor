@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+</head>
+
+<body>
+    <p>
+        wangEditor demo
+    </p>
+
+    <div id="div1">
+        <ul class="w-e-todo">
+            <li><span contenteditable="false"><input type="checkbox"/></span>写代码</li>
+        </ul>
+        <ul class="w-e-todo">
+            <li><span contenteditable="false"><input type="checkbox"/></span>睡觉</li>
+        </ul>
+        <ul class="w-e-todo">
+            <li><span contenteditable="false"><input type="checkbox"/></span>打豆豆</li>
+        </ul>
+    </div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
+        var E = window.wangEditor
+        var editor = new E('#div1')
+
+        editor.config.onchange = function (newHtml) {
+            console.log('onchange', newHtml)
+        }
+        editor.config.onblur = function (newHtml) {
+            console.log('onblur', newHtml)
+        }
+
+        editor.create()
+    </script>
+</body>
+
+</html>
