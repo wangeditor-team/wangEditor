@@ -49,13 +49,13 @@ function makeHtmlString(node: Node, content: string): string {
  */
 function createPartHtml(topText: string, node: Node, startPos: number, endPost?: number): string {
     let selectionContent = node.textContent?.substring(startPos, endPost)
-    let pointerNode = node
+    let pointerNode: Node | null = node
     let content = ''
     do {
         content = makeHtmlString(pointerNode, selectionContent ?? '')
         selectionContent = content
-        if (pointerNode.parentElement) pointerNode = pointerNode?.parentElement
-    } while (pointerNode.textContent !== topText)
+        pointerNode = pointerNode?.parentElement
+    } while (pointerNode && pointerNode.textContent !== topText)
 
     return content
 }

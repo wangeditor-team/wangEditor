@@ -1,4 +1,4 @@
-import createEditor from '../../helpers/create-editor'
+import createEditor, { selector } from '../../helpers/create-editor'
 import Editor from '../../../src/editor/index'
 import disableInit from '../../../src/editor/disable'
 
@@ -6,7 +6,7 @@ let editor: Editor
 
 describe('Editor disable', () => {
     beforeEach(() => {
-        editor = createEditor(document, 'div1')
+        editor = createEditor(document, selector())
     })
 
     test('编辑器可以被禁用', () => {
