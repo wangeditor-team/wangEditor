@@ -5,7 +5,7 @@
 
 import Text from '../index'
 import enterToCreateP from './enter-to-create-p'
-import deleteToKeepP from './del-to-keep-p'
+import deleteToKeepP, { cutToKeepP } from './del-to-keep-p'
 import tabToSpan from './tab-to-space'
 import pasteTextHtml from './paste-text-html'
 import imgClickActive from './img-click-active'
@@ -23,6 +23,9 @@ function initTextHooks(text: Text): void {
 
     // 删除时，保留 EMPTY_P
     deleteToKeepP(editor, eventHooks.deleteUpEvents, eventHooks.deleteDownEvents)
+
+    // 剪切时, 保留p
+    cutToKeepP(editor, eventHooks.keyupEvents)
 
     // tab 转换为空格
     tabToSpan(editor, eventHooks.tabDownEvents)

@@ -2,7 +2,7 @@
  * @description Editor history data html cache
  * @author luochao
  */
-import createEditor from '../../../helpers/create-editor'
+import createEditor, { selector } from '../../../helpers/create-editor'
 import Editor from '../../../../src/editor'
 import HtmlCache from '../../../../src/editor/history/data/html'
 
@@ -10,7 +10,7 @@ let editor: Editor
 let htmlCache: HtmlCache
 describe('Editor history html cache', () => {
     beforeEach(() => {
-        editor = createEditor(document, 'div1', '', {
+        editor = createEditor(document, selector(), '', {
             compatibleMode: () => true,
         })
 

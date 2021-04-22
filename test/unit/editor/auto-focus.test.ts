@@ -3,7 +3,7 @@
  * @author tonghan
  */
 
-import createEditor from '../../helpers/create-editor'
+import createEditor, { selector } from '../../helpers/create-editor'
 import $ from '../../../src/utils/dom-core'
 
 const TEXT = '我是一行文字'
@@ -12,13 +12,13 @@ const $P = $('<p></p>')
 $P.append($SPAN)
 
 test('auto-focus: false', () => {
-    createEditor(document, 'div1', '', { focus: false })
+    createEditor(document, selector(), '', { focus: false })
     const rangeCount = window?.getSelection()?.rangeCount
     expect(rangeCount).toBe(0)
 })
 
 test('auto-focus: true', () => {
-    createEditor(document, 'div1')
+    createEditor(document, selector())
     const rangeCount = window?.getSelection()?.rangeCount
     expect(rangeCount).toBe(1)
 })

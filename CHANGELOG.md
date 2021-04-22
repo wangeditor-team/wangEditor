@@ -1,3 +1,17 @@
+## [4.6.16](https://github.com/wangeditor-team/wangEditor/compare/v4.6.15...v4.6.16) (2021-04-22)
+
+
+### Bug Fixes
+
+* 火狐浏览器剪切后保留p标签的bug. ([5e044e3](https://github.com/wangeditor-team/wangEditor/commit/5e044e3351349aaa900af5d6b960f41462edaff0))
+* 使用em样式时会继承上层节点的font-size ([0fa62c2](https://github.com/wangeditor-team/wangEditor/commit/0fa62c2db525668f6b6555f8566de2cd8212042d))
+* 同一节点只能绑定一个编辑器实例 ([935d03f](https://github.com/wangeditor-team/wangEditor/commit/935d03faed90cf5ee54aa5ab6b07a9776a655857))
+* 修复表格最后2列会一起删除 ([f86aeba](https://github.com/wangeditor-team/wangEditor/commit/f86aebaa66ab5e5e09fcbcbf4859d42d3b765958))
+* 修复排除自扩展菜单 ([66ebc43](https://github.com/wangeditor-team/wangEditor/commit/66ebc4357fe30ff05daa3c5de36c46431a66b0e8))
+* 选中图片插入链接,页面卡死 ([df3f464](https://github.com/wangeditor-team/wangEditor/commit/df3f464791140e6fa34009528b895dea10cc41d4))
+* 粘贴pdf内容卡死 ([f57674c](https://github.com/wangeditor-team/wangEditor/commit/f57674c440b59aca44ea749686505941c5462e97))
+* 字体配置类型扩展 ([a0c30c1](https://github.com/wangeditor-team/wangEditor/commit/a0c30c13bbea8e376c10d93c59c7852bc0235f78))
+
 ## [4.6.15](https://github.com/wangeditor-team/wangEditor/compare/v4.6.14...v4.6.15) (2021-04-15)
 
 

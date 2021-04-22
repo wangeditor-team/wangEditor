@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <p>
+        wangEditor demo
+    </p>
+    <div id="div1">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+        <p>
+            <img src="http://www.wangeditor.com/imgs/logo.jpeg" />
+        </p>
+    </div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        var E = window.wangEditor
+        var editor = new E('#div1')
+        
+       editor.config.fontNames=[
+           {name:"黑体",value:"黑体3"},
+           {name:"绝绝字体",value:"Times New Roman"}
+        ]
+       // editor.config.fontNames=["黑体"]
+        editor.create()
+    </script>
+</body>
+
+</html>

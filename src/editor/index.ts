@@ -10,7 +10,7 @@ import SelectionAndRangeAPI from './selection'
 import CommandAPI from './command'
 import Text from '../text/index'
 import Menus from '../menus/index'
-import initDom from './init-fns/init-dom'
+import initDom, { selectorValidator } from './init-fns/init-dom'
 import initSelection from './init-fns/init-selection'
 import bindEvent from './init-fns/bind-event'
 import i18nextInit from './init-fns/i18next-init'
@@ -87,9 +87,7 @@ class Editor {
         this.toolbarSelector = toolbarSelector
         this.textSelector = textSelector
 
-        if (toolbarSelector == null) {
-            throw new Error('错误：初始化编辑器时候未传入任何参数，请查阅文档')
-        }
+        selectorValidator(this)
 
         // 属性的默认值，后面可能会再修改
         // 默认配置 - 当一个页面有多个编辑器的时候，因为 JS 的特性(引用类型)会导致多个编辑器的 config 引用是同一个，所以需要 深度克隆 断掉引用
