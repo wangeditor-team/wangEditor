@@ -597,6 +597,17 @@ class Text {
             const videoClickEvents = eventHooks.videoClickEvents
             videoClickEvents.forEach(fn => fn($video as DomElement))
         })
+
+        // todo click
+        $textElem.on('click', (e: Event) => {
+            if (e.target instanceof HTMLInputElement && e.target.type === 'checkbox') {
+                if (e.target.checked) {
+                    e.target.setAttribute('checked', 'true')
+                } else {
+                    e.target.removeAttribute('checked')
+                }
+            }
+        })
     }
 }
 
