@@ -83,7 +83,7 @@ describe('upload img', () => {
         expect(document.execCommand).toBeCalledWith(
             'insertHTML',
             false,
-            `<img src="${imgUrl}" style="max-width:100%;"/>`
+            `<img src="${imgUrl}" style="max-width:100%;" contenteditable="false"/>`
         )
     })
 
@@ -101,7 +101,7 @@ describe('upload img', () => {
         expect(document.execCommand).toBeCalledWith(
             'insertHTML',
             false,
-            `<img src="${imgUrl}" style="max-width:100%;"/>`
+            `<img src="${imgUrl}" style="max-width:100%;" contenteditable="false"/>`
         )
         expect(callback).toBeCalledWith(imgUrl, undefined, undefined)
     })
