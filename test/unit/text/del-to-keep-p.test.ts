@@ -31,7 +31,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
             fn()
         })
 
-        expect(editor.$textElem.html()).toEqual(EMPTY_P)
+        expect(editor.$textElem.html()).toEqual(` ${EMPTY_P}`)
     })
 
     test('当编辑器内容只有 <br> 时，执行 up 函数，则会插入 EMPTY_P 内容', () => {
