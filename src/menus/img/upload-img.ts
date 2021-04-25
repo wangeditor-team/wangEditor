@@ -121,7 +121,7 @@ class UploadImg {
         const resultFiles: File[] = []
         const errInfos: string[] = []
         arrForEach(files, file => {
-            const name = file.name
+            const name = file.name || file.type.replace('/', '.') // 兼容低版本chrome 没有name
             const size = file.size
 
             // chrome 低版本 name === undefined
