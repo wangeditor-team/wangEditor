@@ -169,6 +169,7 @@ function parseHtml(html: string, filterStyle: boolean = true, ignoreImg: boolean
         },
         comment(str: string) {
             /* 注释，不做处理 */
+            markTagStart(str)
         },
     })
 
