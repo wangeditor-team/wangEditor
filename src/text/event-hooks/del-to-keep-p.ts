@@ -16,14 +16,14 @@ import $ from '../../utils/dom-core'
 function deleteToKeepP(editor: Editor, deleteUpEvents: Function[], deleteDownEvents: Function[]) {
     function upFn() {
         const $textElem = editor.$textElem
-        const txtHtml = $textElem.html().toLowerCase().trim()
 
-        // firefox 时用 txtHtml === '<br>' 判断，其他用 !txtHtml 判断
-        if (!txtHtml || txtHtml === '<br>') {
+        // 编辑器中的字符是""或空白，说明内容为空
+        if (/^\s*$/.test(editor.$textElem.text())) {
             // 内容空了
             const $p = $(EMPTY_P)
             $textElem.html(' ') // 一定要先清空，否则在 firefox 下有问题
             $textElem.append($p)
+
             editor.selection.createRangeByElem($p, false, true)
             editor.selection.restoreSelection()
             // 设置折叠后的光标位置，在firebox等浏览器下
