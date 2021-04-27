@@ -70,6 +70,7 @@ export default {
         'splitLine',
         'undo',
         'redo',
+        'replace',
     ],
 
     fontNames: [

@@ -38,6 +38,7 @@ export default {
                         全屏: '全屏',
                         取消全屏: '取消全屏',
                         待办事项: '待办事项',
+                        替换: '替换',
                     },
                     dropListMenu: {
                         设置标题: '设置标题',
@@ -110,6 +111,11 @@ export default {
                             修改代码: '修改代码',
                             插入代码: '插入代码',
                         },
+                        replace: {
+                            替换: '替换',
+                            查找: '查找',
+                            全部替换: '全部替换',
+                        },
                     },
                 },
                 validate: {
@@ -179,6 +185,7 @@ export default {
                         全屏: 'fullscreen',
                         取消全屏: 'cancel fullscreen',
                         待办事项: 'todo',
+                        替换: 'replace',
                     },
                     dropListMenu: {
                         设置标题: 'title',
@@ -248,6 +255,11 @@ export default {
                             删除代码: 'delete code',
                             修改代码: 'edit code',
                             插入代码: 'insert code',
+                        },
+                        replace: {
+                            替换: 'replacement',
+                            查找: 'finding',
+                            全部替换: 'replace all',
                         },
                     },
                 },

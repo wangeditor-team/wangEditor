@@ -102,14 +102,12 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                             class="block"
                             value="${text}"
                             placeholder="${editor.i18next.t('menus.panelMenus.link.链接文字')}"/>
-                        </td>
                         <input
                             id="${inputLinkId}"
                             type="text"
                             class="block"
                             value="${link}"
                             placeholder="${editor.i18next.t('如')} https://..."/>
-                        </td>
                         <div class="w-e-button-container">
                             <button type="button" id="${btnOkId}" class="right">
                                 ${editor.i18next.t('插入')}
