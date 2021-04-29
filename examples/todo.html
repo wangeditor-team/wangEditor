@@ -5,19 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>wangEditor example</title>
-    <style>
-    </style>
 </head>
 
 <body>
     <p>
         wangEditor demo
     </p>
+
     <div id="div1">
-        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
-        <p>
-            <img src="http://www.wangeditor.com/imgs/logo.jpeg" />
-        </p>
+        <ul class="w-e-todo">
+            <li><span contenteditable="false"><input type="checkbox"/></span>写代码</li>
+        </ul>
+        <ul class="w-e-todo">
+            <li><span contenteditable="false"><input type="checkbox"/></span>睡觉</li>
+        </ul>
+        <ul class="w-e-todo">
+            <li><span contenteditable="false"><input type="checkbox"/></span>打豆豆</li>
+        </ul>
     </div>
 
     <script src="../dist/wangEditor.js"></script>
@@ -32,16 +36,7 @@
         editor.config.onblur = function (newHtml) {
             console.log('onblur', newHtml)
         }
-        editor.config.placeholder = '请输入...'
-        // editor.config.onfocus = function (newHtml) {
-        //     console.log('onfocus', newHtml)
-        // }
-        // editor.config.fontNames = [
-        //     '宋体',
-        //     '微软雅黑',
-        // ]
 
-        editor.config.showFullScreen = true
         editor.create()
     </script>
 </body>

@@ -41,7 +41,7 @@ class UploadImg {
         // 先插入图片，无论是否能成功
         editor.cmd.do(
             'insertHTML',
-            `<img src="${src}" ${altText}${hrefText}style="max-width:100%;"/>`
+            `<img src="${src}" ${altText}${hrefText}style="max-width:100%;" contenteditable="false"/>`
         )
         // 执行回调函数
         config.linkImgCallback(src, alt, href)
@@ -121,7 +121,7 @@ class UploadImg {
         const resultFiles: File[] = []
         const errInfos: string[] = []
         arrForEach(files, file => {
-            const name = file.name
+            const name = file.name || file.type.replace('/', '.') // 兼容低版本chrome 没有name
             const size = file.size
 
             // chrome 低版本 name === undefined

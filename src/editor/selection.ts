@@ -321,24 +321,32 @@ class SelectionAndRange {
      */
     public recordSelectionNodes($node: DomElement, $endElem: DomElement): DomElement[] {
         let $list: DomElement[] = []
-        let $NODE: DomElement = $node
-        const $textElem = this.editor.$textElem
         let isEnd = true
-        // $NODE元素为空时不需要进行循环
-        while (isEnd) {
-            const $elem = $NODE?.getNodeTop(this.editor)
-            if ($elem.getNodeName() === 'BODY') isEnd = false // 兜底
-            if ($elem.length > 0) {
-                $list.push($($NODE))
-                // 两个边界情况：
-                // 1. 当前元素就是我们要找的末尾元素
-                // 2. 当前元素已经是编辑区顶级元素（否则会找到编辑区的兄弟节点，比如placeholder元素）
-                if ($endElem?.equal($elem) || $textElem.equal($elem)) {
-                    isEnd = false
-                } else {
-                    $NODE = $elem.getNextSibling()
+        /**  
+        @author:lw
+        @description 解决ctrl+a全选报错的bug $elem.getNodeName()可能会触发$elem[0]未定义
+        **/
+        try {
+            let $NODE: DomElement = $node
+            const $textElem = this.editor.$textElem
+            // $NODE元素为空时不需要进行循环
+            while (isEnd) {
+                const $elem = $NODE?.getNodeTop(this.editor)
+                if ($elem.getNodeName() === 'BODY') isEnd = false // 兜底
+                if ($elem.length > 0) {
+                    $list.push($($NODE))
+                    // 两个边界情况：
+                    // 1. 当前元素就是我们要找的末尾元素
+                    // 2. 当前元素已经是编辑区顶级元素（否则会找到编辑区的兄弟节点，比如placeholder元素）
+                    if ($endElem?.equal($elem) || $textElem.equal($elem)) {
+                        isEnd = false
+                    } else {
+                        $NODE = $elem.getNextSibling()
+                    }
                 }
             }
+        } catch (e) {
+            isEnd = false
         }
         return $list
     }

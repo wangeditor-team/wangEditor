@@ -7,7 +7,7 @@ import Editor from '../index'
 import $, { DomElement } from '../../utils/dom-core'
 import { getRandom } from '../../utils/util'
 import { EMPTY_P } from '../../utils/const'
-
+import CONFIG from '../../config/text'
 const styleSettings = {
     border: '1px solid #c9d8db',
     toolbarBgColor: '#FFF',
@@ -60,7 +60,13 @@ export default function (editor: Editor): void {
     $textElem.attr('contenteditable', 'true').css('width', '100%').css('height', '100%')
 
     // 添加 placeholder
-    const $placeholder = $(`<div>${i18next.t(editor.config.placeholder)}</div>`)
+    let $placeholder: DomElement
+    const placeholder = editor.config.placeholder
+    if (placeholder !== CONFIG.placeholder) {
+        $placeholder = $(`<div>${placeholder}</div>`)
+    } else {
+        $placeholder = $(`<div>${i18next.t(placeholder)}</div>`)
+    }
     $placeholder.addClass('placeholder')
 
     // 初始化编辑区域内容

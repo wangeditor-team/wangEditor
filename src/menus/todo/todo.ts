@@ -12,22 +12,12 @@ export class todo {
     }
 
     public init() {
-        const $input = this.getInput()
         const $child = this.$child
         const $inputContainer = this.getInputContainer()
 
         if ($child) {
             $child.insertAfter($inputContainer)
         }
-
-        $input.on('click', () => {
-            if (this.checked) {
-                $input?.removeAttr('checked')
-            } else {
-                $input?.attr('checked', '')
-            }
-            this.checked = !this.checked
-        })
     }
 
     public getInput(): DomElement {

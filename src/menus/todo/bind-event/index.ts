@@ -145,9 +145,27 @@ function bindEvent(editor: Editor) {
             }
         }
     }
+
+    /**
+     * input 的点击事件（ input 默认不会产生 attribute 的改变 ）
+     * @param e 事件属性
+     */
+    function inputClick(e?: Event): void {
+        if (e && e.target instanceof HTMLInputElement) {
+            if (e.target.type === 'checkbox') {
+                if (e.target.checked) {
+                    e.target.setAttribute('checked', 'true')
+                } else {
+                    e.target.removeAttribute('checked')
+                }
+            }
+        }
+    }
+
     editor.txt.eventHooks.enterDownEvents.push(todoEnter)
     editor.txt.eventHooks.deleteUpEvents.push(deleteUp)
     editor.txt.eventHooks.deleteDownEvents.push(delDown)
+    editor.txt.eventHooks.clickEvents.push(inputClick)
 }
 
 export default bindEvent

@@ -348,14 +348,14 @@ class Text {
 
         // delete 键 up 时 hooks
         $textElem.on('keyup', (e: KeyboardEvent) => {
-            if (e.keyCode !== 8) return
+            if (e.keyCode !== 8 && e.keyCode !== 46) return
             const deleteUpEvents = eventHooks.deleteUpEvents
             deleteUpEvents.forEach(fn => fn(e))
         })
 
         // delete 键 down 时 hooks
         $textElem.on('keydown', (e: KeyboardEvent) => {
-            if (e.keyCode !== 8) return
+            if (e.keyCode !== 8 && e.keyCode !== 46) return
             const deleteDownEvents = eventHooks.deleteDownEvents
             deleteDownEvents.forEach(fn => fn(e))
         })
