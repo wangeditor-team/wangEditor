@@ -44,8 +44,10 @@ describe('Editor disable', () => {
         disabledObj.disable()
 
         expect(editor.$textElem.elems[0].style.display).toBe('none')
+        expect(editor.isEnable).toBe(false)
 
         disabledObj.enable()
+        expect(editor.isEnable).toBe(true)
 
         expect(editor.$textElem.elems[0].style.display).toBe('block')
     })
