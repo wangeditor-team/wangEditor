@@ -1,3 +1,23 @@
+## [4.6.17](https://github.com/wangeditor-team/wangEditor/compare/v4.6.16...v4.6.17) (2021-04-29)
+
+
+### Bug Fixes
+
+* 低版本谷歌粘贴图片报错 ([46dc441](https://github.com/wangeditor-team/wangEditor/commit/46dc44112067a44e555a2592a6827be5d3c8602b))
+* 解决全选后删除光标停留触发控制error的bug ([ad61531](https://github.com/wangeditor-team/wangEditor/commit/ad61531d1dd13280b883a0b23c9839098c8dc1d3))
+* 修复默认todo不触发change的问题 ([08696c9](https://github.com/wangeditor-team/wangEditor/commit/08696c9e37277be9adbe17d3b0a42ab51d683c42))
+* 修复全选删除文本无法删除干净的问题 ([cb6a9c9](https://github.com/wangeditor-team/wangEditor/commit/cb6a9c960e80488f2e2fcf6fb7abc75fe4123642))
+* 修复图片插入后修改样式后的光标位置 ([00539db](https://github.com/wangeditor-team/wangEditor/commit/00539db4cad2e5b2a3fa2902485b96ebcc2184e9))
+* 修复placeholder中不能设置.的问题 ([e7aaf2d](https://github.com/wangeditor-team/wangEditor/commit/e7aaf2d764f2d5ac154bbb814e56b5195f839d23))
+* lint ([c3e93eb](https://github.com/wangeditor-team/wangEditor/commit/c3e93eb23698973f5c65a1150367bb0695b43dbe))
+
+
+### Performance Improvements
+
+* entrypoint from 261kb to 219kb ([809559b](https://github.com/wangeditor-team/wangEditor/commit/809559b08b8729e1f5e0d1063c0a74425a13db77))
+* entrypoint from 261kb to 219kb ([fc107b3](https://github.com/wangeditor-team/wangEditor/commit/fc107b36749db2396dcfb198dc8d5dee4b05bf50))
+* entrypoint from 261kb to 219kb ([24a6fb0](https://github.com/wangeditor-team/wangEditor/commit/24a6fb0278bec002eb407a651731536385302c09))
+
 ## [4.6.16](https://github.com/wangeditor-team/wangEditor/compare/v4.6.15...v4.6.16) (2021-04-22)
 
 
