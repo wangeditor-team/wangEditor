@@ -48,15 +48,14 @@ class Menus {
         })
 
         config.menus.forEach(menuKey => {
-            const MenuConstructor = this.constructorList[menuKey] // 暂用 any ，后面再替换
-            this._initMenuList(menuKey, MenuConstructor)
+            if(Object.keys(Editor.globalCustomMenuConstructorList).includes(menuKey)){//自定义工具列表
+                const MenuConstructor = Editor.globalCustomMenuConstructorList[menuKey] // 暂用 any ，后面再替换
+                this._initMenuList(menuKey, MenuConstructor)
+            }else if(!excludeMenus.includes(menuKey)){
+                const MenuConstructor = this.constructorList[menuKey] // 暂用 any ，后面再替换
+                this._initMenuList(menuKey, MenuConstructor)
+            }
         })
-
-        // 全局注册
-        for (let [menuKey, menuFun] of Object.entries(Editor.globalCustomMenuConstructorList)) {
-            const MenuConstructor = menuFun // 暂用 any ，后面再替换
-            this._initMenuList(menuKey, MenuConstructor)
-        }
 
         // 渲染 DOM
         this._addToToolbar()
