@@ -67,7 +67,7 @@ export default class WrapListHandle extends ListHandle implements Exec {
 
                 // 因为是转换，所以 li 元素可以直接使用
                 $nodes.forEach($node => {
-                    $containerFragment.append($node.elems[0])
+                    $containerFragment.appendChild($node.elems[0])
                 })
             }
 
