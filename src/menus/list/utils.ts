@@ -124,7 +124,7 @@ export function createElementFragment(
     $nodes.forEach(($node: DomElement) => {
         const $list = createElement(tag)
         $list.innerHTML = $node.html()
-        $fragment.append($list)
+        $fragment.appendChild($list)
         $node.remove()
     })
     return $fragment
