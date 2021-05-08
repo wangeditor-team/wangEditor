@@ -3,7 +3,7 @@
  * @author yanbiao(86driver)
  */
 import Editor from '../../../editor/index'
-import { DomElement } from '../../../utils/dom-core'
+import $, { DomElement } from '../../../utils/dom-core'
 
 /**
  * @description 是否是空行
@@ -18,8 +18,34 @@ function isEmptyLine(topElem: DomElement): boolean {
 
     return dom.nodeName === 'P' && dom.innerHTML === '<br>'
 }
+export function bindClickEvent(editor: Editor) {
+    function handleTripleClick($dom: DomElement, e: MouseEvent) {
+        // 处理三击事件，此时选区可能离开table，修正回来
+        if (e.detail >= 3) {
+            const selection = window.getSelection()
+            if (selection) {
+                const { focusNode, anchorNode } = selection
+                const $anchorNode = $(anchorNode?.parentElement)
+                // 当focusNode离开了table
+                if (!$dom.isContain($(focusNode))) {
+                    const $td =
+                        $anchorNode.elems[0].tagName === 'TD'
+                            ? $anchorNode
+                            : $anchorNode.parentUntilEditor('td', editor)
+                    if ($td) {
+                        const range = editor.selection.getRange()
+                        range?.setEnd($td.elems[0], $td.elems[0].childNodes.length)
+                        editor.selection.restoreSelection()
+                    }
+                }
+            }
+        }
+    }
 
-export default function bindEventKeyboardEvent(editor: Editor) {
+    editor.txt.eventHooks.tableClickEvents.push(handleTripleClick)
+}
+
+export function bindEventKeyboardEvent(editor: Editor) {
     const { txt, selection } = editor
     const { keydownEvents } = txt.eventHooks
 

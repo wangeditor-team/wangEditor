@@ -5,7 +5,7 @@
 
 import Editor from '../../../editor/index'
 import bindTooltip from './tooltip-event'
-import bindEventKeyboardEvent from './keyboard'
+import { bindEventKeyboardEvent, bindClickEvent } from './table-event'
 
 /**
  * 绑定事件
@@ -16,6 +16,8 @@ function bindEvent(editor: Editor): void {
     bindTooltip(editor)
 
     bindEventKeyboardEvent(editor)
+
+    bindClickEvent(editor)
 }
 
 export default bindEvent
