@@ -36,7 +36,7 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEven
         if ($parentElem.html() === '<code><br></code>') {
             // 回车之前光标所在一个 <p><code>.....</code></p> ，忽然回车生成一个空的 <p><code><br></code></p>
             // 而且继续回车跳不出去，因此只能特殊处理
-            insertEmptyP($selectionElem)
+            insertEmptyP($selectionElem.parent())
             return
         }
 
