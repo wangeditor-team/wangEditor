@@ -22,31 +22,24 @@
 
     <script src="../dist/wangEditor.js"></script>
     <script>
+        function test (editor, config) {
+            console.log(`我进来了：${JSON.stringify(config)}`)
+        }
+
         // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
         var E = window.wangEditor
         var editor = new E('#div1')
 
-        editor.config.onchange = function (newHtml) {
-            console.log('onchange', newHtml)
-        }
-        editor.config.onblur = function (newHtml) {
-            console.log('onblur', newHtml)
-        }
-        editor.config.placeholder = '请输入...'
-        // editor.config.onfocus = function (newHtml) {
-        //     console.log('onfocus', newHtml)
-        // }
-        // editor.config.fontNames = [
-        //     '宋体',
-        //     '微软雅黑',
-        // ]
+        E.registerPlugin('global', {
+            intention: test,
+            config: '我是全局注册'
+        })
 
-        // 这行代码用来测试不同屏幕宽度，panel菜单的位置
-        // editor.config.menus = [
-        //     'image'
-        // ] 
-
-        editor.config.showFullScreen = true
+        editor.registerPlugin('local', {
+            intention: test,
+            config: '我是局部注册'
+        })
+        
         editor.create()
     </script>
 </body>

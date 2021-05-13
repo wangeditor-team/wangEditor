@@ -29,7 +29,8 @@ const showTooltip = (editorId: string) => {
     document.body.appendChild(fakeDom.elems[0])
 
     fns.forEach(fn => {
-        fn(fakeDom)
+        const e = new MouseEvent('click')
+        fn(fakeDom, e)
     })
 }
 const editor = createEditor(document, 'div1')
@@ -45,7 +46,8 @@ describe('Table Tooltip Event', () => {
         document.body.appendChild(fakeDom.elems[0])
 
         fns.forEach(fn => {
-            fn(fakeDom)
+            const e = new MouseEvent('click')
+            fn(fakeDom, e)
         })
 
         const tooltip = $('.w-e-tooltip')

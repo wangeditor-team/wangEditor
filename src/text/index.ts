@@ -50,7 +50,7 @@ type TextEventHooks = {
     /** 图片拖拽MouseDown */
     imgDragBarMouseDownEvents: (() => void)[]
     /** 表格点击 */
-    tableClickEvents: ((e: DomElement) => void)[]
+    tableClickEvents: (($dom: DomElement, e: MouseEvent) => void)[]
     /** 每个菜单被点击时，按理说这个不属于 txt 的，先暂时在这放着吧 */
     menuClickEvents: (() => void)[]
     /** droplist 菜单悬浮事件。暂时放这里 */
@@ -554,7 +554,7 @@ class Text {
         })
 
         //table click
-        $textElem.on('click', (e: Event) => {
+        $textElem.on('click', (e: MouseEvent) => {
             // 存储元素
             let $dom: DomElement | null = null
 
@@ -567,7 +567,7 @@ class Text {
             if (!$dom) return
 
             const tableClickEvents = eventHooks.tableClickEvents
-            tableClickEvents.forEach(fn => fn($dom as DomElement))
+            tableClickEvents.forEach(fn => fn($dom as DomElement, e))
         })
 
         // enter 键 down
