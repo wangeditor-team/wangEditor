@@ -31,7 +31,7 @@ test('indent 菜单：增加缩进', () => {
 
     editor.selection.createRangeByElem($h, true, true)
     indentMenu.command('increase')
-    expect($h.elems[0].style['paddingLeft']).toBe('')
+    expect($h.elems[0].style['paddingLeft']).toBe('2em')
 
     editor.selection.createRangeByElem($p, true, true)
     indentMenu.command('increase')
@@ -42,6 +42,10 @@ test('indent 菜单：减少缩进', () => {
     editor.selection.createRangeByElem($p, false, true)
     indentMenu.command('decrease')
     expect($p.elems[0].style['paddingLeft']).toBe('')
+
+    editor.selection.createRangeByElem($h, false, true)
+    indentMenu.command('decrease')
+    expect($h.elems[0].style['paddingLeft']).toBe('')
 })
 
 test('indent 菜单：叠加缩进', () => {
@@ -49,4 +53,9 @@ test('indent 菜单：叠加缩进', () => {
     indentMenu.command('increase')
     indentMenu.command('increase')
     expect($p.elems[0].style['paddingLeft']).toBe('4em')
+
+    editor.selection.createRangeByElem($h, true, true)
+    indentMenu.command('increase')
+    indentMenu.command('increase')
+    expect($h.elems[0].style['paddingLeft']).toBe('4em')
 })
