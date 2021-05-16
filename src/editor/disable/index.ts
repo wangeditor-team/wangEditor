@@ -37,6 +37,7 @@ export default function disableInit(editor: Editor) {
         $menuDom = $(`<div class="w-e-menue-mantle" style="z-index:${menuZindexValue}"></div>`)
         editor.$toolbarElem.append($menuDom)
         isCurtain = true
+        editor.isEnable = false
     }
 
     // 销毁幕布并显示可编辑区域
@@ -46,6 +47,7 @@ export default function disableInit(editor: Editor) {
         $menuDom.remove()
         editor.$textElem.show()
         isCurtain = false
+        editor.isEnable = true
     }
 
     return { disable, enable }

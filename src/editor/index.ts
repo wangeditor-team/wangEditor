@@ -21,6 +21,8 @@ import Change from './change/index'
 import History from './history/index'
 import disableInit from './disable'
 
+import initPlugins, { RegisterOptions, pluginsListType, registerPlugin } from '../plugins'
+
 // 创建菜单的 class
 import { MenuListType } from '../menus/menu-list'
 import BtnMenu from '../menus/menu-constructors/BtnMenu'
@@ -43,6 +45,8 @@ class Editor {
     static PanelMenu = PanelMenu
     static Tooltip = Tooltip
     static globalCustomMenuConstructorList: MenuListType = {}
+    static globalPluginsFunctionList: pluginsListType = {}
+    public pluginsFunctionList: pluginsListType = {}
 
     public id: string
     public toolbarSelector: DomElementSelector
@@ -65,6 +69,7 @@ class Editor {
     public zIndex: ZIndex
     public change: Change
     public history: History
+    public isEnable: Boolean
 
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
@@ -112,6 +117,7 @@ class Editor {
         const { disable, enable } = disableInit(this)
         this.disable = disable
         this.enable = enable
+        this.isEnable = true
     }
 
     /**
@@ -162,6 +168,9 @@ class Editor {
         this.change.observe()
 
         this.history.observe()
+
+        // 初始化插件
+        initPlugins(this)
     }
 
     /**
@@ -214,6 +223,24 @@ class Editor {
     static registerMenu(key: string, Menu: any) {
         if (!Menu || typeof Menu !== 'function') return
         Editor.globalCustomMenuConstructorList[key] = Menu
+    }
+
+    /**
+     * 自定义添加插件
+     * @param { string } name 插件的名称
+     * @param { RegisterOptions } options 插件的选项
+     */
+    public registerPlugin(name: string, options: RegisterOptions) {
+        registerPlugin(name, options, this.pluginsFunctionList)
+    }
+
+    /**
+     * 自定义添加插件
+     * @param { string } name 插件的名称
+     * @param { RegisterOptions } options 插件的选项
+     */
+    static registerPlugin(name: string, options: RegisterOptions) {
+        registerPlugin(name, options, Editor.globalPluginsFunctionList)
     }
 }
 

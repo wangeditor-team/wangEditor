@@ -62,7 +62,18 @@ class Panel {
         const rect = menu.editor.$toolbarElem.getBoundingClientRect()
         const menuRect = menu.$elem.getBoundingClientRect()
         const top = rect.height + rect.top - menuRect.top
-        const left = (rect.width - width) / 2 + rect.left - menuRect.left
+        let left = (rect.width - width) / 2 + rect.left - menuRect.left
+        const offset = 300 // icon与panel菜单距离偏移量暂定 300
+        if (Math.abs(left) > offset) {
+            // panel菜单离工具栏icon过远时，让panel菜单出现在icon正下方，处理边界逻辑
+            if (menuRect.left < document.documentElement.clientWidth / 2) {
+                // icon在左侧
+                left = -menuRect.width / 2
+            } else {
+                // icon在右侧
+                left = -width + menuRect.width / 2
+            }
+        }
 
         $container
             .css('width', width + 'px')

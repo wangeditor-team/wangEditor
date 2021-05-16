@@ -62,10 +62,6 @@ class LineHeight extends DropListMenu implements MenuActive {
         //选中多行操作
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
             let isIE = UA.isIE()
-            if (isIE) {
-                // ie下禁止多行操作 避免多行造成除第一行外的段落内容都被删除
-                return
-            }
             //获取range 开头结束的dom在 祖父元素的下标
             let indexStore: Array<number> = []
             let arrayDom_a: Array<HTMLElement> = []
@@ -125,27 +121,27 @@ class LineHeight extends DropListMenu implements MenuActive {
             arrayDom_a.forEach(item => {
                 style = item.getAttribute('style')
                 styleList = style ? style.split(';') : []
-                styleStr = ''
+                styleStr = this.styleProcessing(styleList)
+
                 if ($(item).getNodeName() === 'P') {
                     //判断是否 点击默认
-                    value
-                        ? (styleStr = this.styleProcessing(styleList) + `line-height:${value};`)
-                        : (styleStr = this.styleProcessing(styleList))
-                    st =
-                        st +
-                        `<${$(item).getNodeName().toLowerCase()} style="${styleStr}">${
-                            item.innerHTML
-                        }</${$(item).getNodeName().toLowerCase()}>`
+                    if (value) {
+                        styleStr += value ? `line-height:${value};` : ''
+                    }
+                }
+
+                if (!isIE) {
+                    st += `<${$(item).getNodeName().toLowerCase()} style="${styleStr}">${
+                        item.innerHTML
+                    }</${$(item).getNodeName().toLowerCase()}>`
                 } else {
-                    styleStr = this.styleProcessing(styleList)
-                    st =
-                        st +
-                        `<${$(item).getNodeName().toLowerCase()} style="${styleStr}">${
-                            item.innerHTML
-                        }</${$(item).getNodeName().toLowerCase()}>`
+                    $(item).css('line-height', value)
                 }
             })
-            this.action(st, editor)
+
+            if (st) {
+                this.action(st, editor)
+            }
 
             //恢复已选择的选区
             dom = $selectionAll.elems[0]
@@ -194,8 +190,8 @@ class LineHeight extends DropListMenu implements MenuActive {
             .getNodeName()
             .toLowerCase()}>`
 
-        //防止BLOCKQUOTE叠加
-        if ($(dom).getNodeName() === 'BLOCKQUOTE') {
+        //防止BLOCKQUOTE叠加 or IE下导致P嵌套出现误删
+        if ($(dom).getNodeName() === 'BLOCKQUOTE' || UA.isIE()) {
             $(dom).css('line-height', value)
         } else {
             this.action(st, editor)
