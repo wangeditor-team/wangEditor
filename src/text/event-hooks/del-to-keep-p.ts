@@ -16,9 +16,13 @@ import $ from '../../utils/dom-core'
 function deleteToKeepP(editor: Editor, deleteUpEvents: Function[], deleteDownEvents: Function[]) {
     function upFn() {
         const $textElem = editor.$textElem
+        const html = editor.$textElem.html()
+        const text = editor.$textElem.text()
+        const txtHtml = html.trim()
 
+        const emptyTags: string[] = ['<p><br></p>', '<br>', EMPTY_P]
         // 编辑器中的字符是""或空白，说明内容为空
-        if (/^\s*$/.test(editor.$textElem.text())) {
+        if (/^\s*$/.test(text) && (!txtHtml || emptyTags.includes(txtHtml))) {
             // 内容空了
             const $p = $(EMPTY_P)
             $textElem.html(' ') // 一定要先清空，否则在 firefox 下有问题
