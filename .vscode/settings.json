@@ -1,0 +1,37 @@
+{
+    "editor.formatOnSave": true,
+    "cSpell.words": [
+      "bodyparser",
+      "chmod",
+      "compositionend",
+      "compositionstart",
+      "config",
+      "contenteditable",
+      "elems",
+      "img",
+      "js",
+      "keyscan",
+      "middlewares",
+      "mkdir",
+      "next",
+      "prettier",
+      "prettierrc",
+      "snabbdom",
+      "src",
+      "team",
+      "tecent",
+      "ts",
+      "wangeditor",
+      "wangfupeng",
+      "we",
+      "write"
+    ],
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "eslint.validate": ["javascript"],
+
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2
+}
