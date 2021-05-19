@@ -6,8 +6,9 @@ import resolve from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import { terser } from 'rollup-plugin-terser'
+import replace from '@rollup/plugin-replace'
 
-const env = process.env.NODE_ENV
+const env = process.env.NODE_ENV || 'production'
 
 function genSingleConfig(distDir, options) {
   const { name = 'index', format, suffix = 'js', plugins = [] } = options
@@ -32,6 +33,9 @@ function genSingleConfig(distDir, options) {
         tsconfig: path.resolve(__dirname, './tsconfig.json'),
       }),
       resolve(),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(env),
+      }),
       commonjs(),
       cleanup({
         comments: 'none',

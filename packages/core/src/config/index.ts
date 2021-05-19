@@ -6,11 +6,16 @@
 import { Range, NodeEntry } from 'slate'
 
 export interface IConfig {
+  toolbarId?: string
+  showToolbar: boolean
+
   onChange?: () => void
+
   placeholder?: string
   readOnly?: boolean
   autoFocus?: boolean
   decorate?: (nodeEntry: NodeEntry) => Range[]
+
   toolbarKeys: Array<string | string[]>
   toolButtonConf: {
     [key: string]: any
@@ -22,6 +27,7 @@ export interface IConfig {
  */
 function getDefaultConfig(): IConfig {
   return {
+    showToolbar: true,
     readOnly: false,
     autoFocus: true,
     decorate: () => [],
@@ -31,7 +37,7 @@ function getDefaultConfig(): IConfig {
 }
 
 // 生成配置
-export function genConfig(userConfig: IConfig): IConfig {
+export function genConfig(userConfig: IConfig | {}): IConfig {
   // 默认配置
   const defaultConfig = getDefaultConfig()
 
