@@ -1,0 +1,197 @@
+/**
+ * @description 监听 onKeydown 事件
+ * @author wangfupeng
+ */
+
+import { Editor, Transforms, Range } from 'slate'
+import { IDomEditor } from '../../editor/dom-editor'
+import TextArea from '../TextArea'
+import Hotkeys from '../../utils/hotkeys'
+import { hasEditableTarget } from '../helpers'
+import { HAS_BEFORE_INPUT_SUPPORT } from '../../utils/ua'
+
+function preventDefault(event: Event) {
+  event.preventDefault()
+}
+
+function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
+  const event = e as KeyboardEvent
+  const { editorConfig } = textarea
+  const { selection } = editor
+
+  if (editorConfig.readOnly) return
+  if (!hasEditableTarget(editor, event.target)) return
+
+  // tab
+  if (Hotkeys.isTab(event)) {
+    preventDefault(event)
+    editor.handleTab()
+    return
+  }
+
+  // COMPAT: Since we prevent the default behavior on
+  // `beforeinput` events, the browser doesn't think there's ever
+  // any history stack to undo or redo, so we have to manage these
+  // hotkeys ourselves. (2019/11/06)
+  if (Hotkeys.isRedo(event)) {
+    preventDefault(event)
+    // @ts-ignore
+    if (typeof editor.redo === 'function') {
+      // @ts-ignore
+      editor.redo()
+    }
+    return
+  }
+  if (Hotkeys.isUndo(event)) {
+    preventDefault(event)
+    // @ts-ignore
+    if (typeof editor.undo === 'function') {
+      // @ts-ignore
+      editor.undo()
+    }
+    return
+  }
+
+  // COMPAT: Certain browsers don't handle the selection updates
+  // properly. In Chrome, the selection isn't properly extended.
+  // And in Firefox, the selection isn't properly collapsed.
+  // (2017/10/17)
+  if (Hotkeys.isMoveLineBackward(event)) {
+    preventDefault(event)
+    Transforms.move(editor, { unit: 'line', reverse: true }) // Transforms.move 修改 selection
+    return
+  }
+  if (Hotkeys.isMoveLineForward(event)) {
+    preventDefault(event)
+    Transforms.move(editor, { unit: 'line' })
+    return
+  }
+
+  if (Hotkeys.isExtendLineBackward(event)) {
+    preventDefault(event)
+    Transforms.move(editor, { unit: 'line', edge: 'focus', reverse: true })
+    return
+  }
+  if (Hotkeys.isExtendLineForward(event)) {
+    preventDefault(event)
+    Transforms.move(editor, { unit: 'line', edge: 'focus' })
+    return
+  }
+
+  // COMPAT: If a void node is selected, or a zero-width text node
+  // adjacent to an inline is selected, we need to handle these
+  // hotkeys manually because browsers won't be able to skip over
+  // the void node with the zero-width space not being an empty
+  // string.
+  if (Hotkeys.isMoveBackward(event)) {
+    preventDefault(event)
+
+    if (selection && Range.isCollapsed(selection)) {
+      Transforms.move(editor, { reverse: true })
+    } else {
+      Transforms.collapse(editor, { edge: 'start' })
+    }
+    return
+  }
+  if (Hotkeys.isMoveForward(event)) {
+    preventDefault(event)
+
+    if (selection && Range.isCollapsed(selection)) {
+      Transforms.move(editor)
+    } else {
+      Transforms.collapse(editor, { edge: 'end' })
+    }
+    return
+  }
+
+  if (Hotkeys.isMoveWordBackward(event)) {
+    preventDefault(event)
+    Transforms.move(editor, { unit: 'word', reverse: true })
+    return
+  }
+  if (Hotkeys.isMoveWordForward(event)) {
+    preventDefault(event)
+    Transforms.move(editor, { unit: 'word' })
+    return
+  }
+
+  // COMPAT: Certain browsers don't support the `beforeinput` event, so we
+  // fall back to guessing at the input intention for hotkeys.
+  // COMPAT: In iOS, some of these hotkeys are handled in the
+  if (!HAS_BEFORE_INPUT_SUPPORT) {
+    // 这里是兼容不完全支持 beforeInput 的浏览器。对于支持 beforeInput 的浏览器，会用 beforeinput 事件处理
+    // 这里兼容了 beforeInput 的一些功能键（如回车、删除等）没有文本输入。文本输入使用 keypress 兼容。
+
+    // We don't have a core behavior for these, but they change the
+    // DOM if we don't prevent them, so we have to.
+    if (Hotkeys.isBold(event) || Hotkeys.isItalic(event) || Hotkeys.isTransposeCharacter(event)) {
+      preventDefault(event)
+      return
+    }
+
+    if (Hotkeys.isSplitBlock(event)) {
+      preventDefault(event)
+      Editor.insertBreak(editor)
+      return
+    }
+
+    if (Hotkeys.isDeleteBackward(event)) {
+      preventDefault(event)
+      if (selection && Range.isExpanded(selection)) {
+        Editor.deleteFragment(editor)
+      } else {
+        Editor.deleteBackward(editor)
+      }
+      return
+    }
+    if (Hotkeys.isDeleteForward(event)) {
+      preventDefault(event)
+      if (selection && Range.isExpanded(selection)) {
+        Editor.deleteFragment(editor)
+      } else {
+        Editor.deleteForward(editor)
+      }
+      return
+    }
+
+    if (Hotkeys.isDeleteLineBackward(event)) {
+      preventDefault(event)
+      if (selection && Range.isExpanded(selection)) {
+        Editor.deleteFragment(editor)
+      } else {
+        Editor.deleteBackward(editor, { unit: 'line' })
+      }
+      return
+    }
+    if (Hotkeys.isDeleteLineForward(event)) {
+      preventDefault(event)
+      if (selection && Range.isExpanded(selection)) {
+        Editor.deleteFragment(editor)
+      } else {
+        Editor.deleteForward(editor, { unit: 'line' })
+      }
+      return
+    }
+
+    if (Hotkeys.isDeleteWordBackward(event)) {
+      preventDefault(event)
+      if (selection && Range.isExpanded(selection)) {
+        Editor.deleteFragment(editor)
+      } else {
+        Editor.deleteBackward(editor, { unit: 'word' })
+      }
+      return
+    }
+    if (Hotkeys.isDeleteWordForward(event)) {
+      preventDefault(event)
+      if (selection && Range.isExpanded(selection)) {
+        Editor.deleteFragment(editor)
+      } else {
+        Editor.deleteForward(editor, { unit: 'word' })
+      }
+      return
+    }
+  }
+}
+
+export default handleOnKeydown

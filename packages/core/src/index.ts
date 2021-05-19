@@ -3,14 +3,8 @@
  * @author wangfupeng
  */
 
-import { Editor } from 'slate'
+// 注册 formats
+export * from './formats/index'
 
-console.log('core index', Editor)
-
-export default {
-  core: 'name',
-}
-
-export function fn() {
-  console.log('core fn')
-}
+// editor 接口和 command
+export * from './editor/dom-editor'

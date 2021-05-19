@@ -1,6 +1,7 @@
 {
     "editor.formatOnSave": true,
     "cSpell.words": [
+      "beforeinput",
       "bodyparser",
       "chmod",
       "compositionend",
@@ -21,6 +22,8 @@
       "team",
       "tecent",
       "ts",
+      "vdom",
+      "vnode",
       "wangeditor",
       "wangfupeng",
       "we",
