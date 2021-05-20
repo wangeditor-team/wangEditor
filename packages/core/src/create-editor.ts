@@ -35,11 +35,17 @@ function genDefaultInitialContent() {
  */
 function create(containerId: string, config: IConfig | {} = {}, content?: Node[]) {
   // 创建实例
-  const editor = withHistory(withDOM(createEditor()))
+  let editor = withHistory(withDOM(createEditor()))
 
   // 处理配置
   const editorConfig = genConfig(config || {})
   EDITOR_TO_CONFIG.set(editor, editorConfig)
+
+  // editor plugins
+  const { plugins = [] } = editorConfig
+  plugins.forEach(plugin => {
+    editor = plugin(editor)
+  })
 
   // 处理 DOM
   let textarea: TextArea

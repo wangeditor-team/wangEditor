@@ -48,10 +48,13 @@ class ToolbarItemButton implements IToolbarItem {
     this.setDisabled()
 
     // click
-    this.$elem.on('click', this.onClick.bind(this))
+    this.$elem.on('mousedown', (e: Event) => {
+      e.preventDefault()
+      this.trigger()
+    })
   }
 
-  private onClick() {
+  private trigger() {
     if (this.disabled) return
 
     const editor = getEditorInstance(this)
@@ -114,8 +117,10 @@ class ToolbarItemSelect implements IToolbarItem {
     if (tag !== 'select') throw new Error(`Invalid tag '${tag}', expected 'select'`)
 
     // 初始化 dom
-    const optionsHtml = options.map((option, i) => {
-      return `<option value="${option.value}" ${i === 0 ? 'selected' : ''}>${option.text}</option>`
+    const optionsHtml = options.map(option => {
+      return `<option value="${option.value}" ${option.selected ? 'selected' : ''}>
+        ${option.text}
+      </option>`
     })
     const $elem = $(`<select>${optionsHtml}</select>`)
 
@@ -135,9 +140,8 @@ class ToolbarItemSelect implements IToolbarItem {
     if (this.disabled) return
 
     const editor = getEditorInstance(this)
-    const menuItem = this.menuItem
-    const value = menuItem.getValue(editor)
-    menuItem.cmd(editor, value)
+    const value = this.$elem.val()
+    this.menuItem.cmd(editor, value)
   }
 
   private setValue() {

@@ -6,7 +6,7 @@
 import { Element as SlateElement } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor } from '../../editor/dom-editor'
-import { RENDER_ELEM_CONF, RenderFnType } from '../index'
+import { RENDER_ELEM_CONF, RenderElemFnType } from '../index'
 
 /**
  * 默认的 render elem
@@ -31,7 +31,7 @@ function defaultRender(
  * 根据 elemNode.type 获取 renderElement 函数
  * @param type elemNode.type
  */
-function getRenderFn(type: string): RenderFnType {
+function getRenderFn(type: string): RenderElemFnType {
   const fn = RENDER_ELEM_CONF[type]
   return fn || defaultRender
 }

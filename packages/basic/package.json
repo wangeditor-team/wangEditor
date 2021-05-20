@@ -37,6 +37,7 @@
     "url": "https://github.com/wangeditor-team/we-2021/issues"
   },
   "peerDependencies": {
+    "@wangeditor/core": "^0.0.1",
     "slate": "^0.63.0",
     "snabbdom": "^3.0.1",
     "dom7": "^3.0.0",

@@ -3,14 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor } from 'slate'
+import bold from './bold'
+import header from './header'
 
-console.log('basic index', Editor)
-
-export default {
-  name: 'basic',
-}
-
-export function fn() {
-  console.log('basic fn')
-}
+export { bold, header }

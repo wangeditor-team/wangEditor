@@ -8,6 +8,7 @@ import { IDomEditor } from '../editor/dom-editor'
 type OptionType = {
   value: string
   text: string
+  selected?: boolean
 }
 
 export interface IMenuItem {
@@ -29,13 +30,14 @@ export const MENU_ITEM_FACTORIES: {
 
 /**
  * 注册 menu item 工厂函数
- * @param key menu item key 不可重复
- * @param fn 工厂函数
+ * @param conf { key, factory } ，各个 menu key 不能重复
  */
-export function registerMenuItemFactory(key: string, fn: () => IMenuItem) {
+export function registerMenuItemFactory(conf: { key: string; factory: () => IMenuItem }) {
+  const { key, factory } = conf
+
   if (MENU_ITEM_FACTORIES[key] != null) {
     throw new Error(`Duplicated key '${key}' in menu items`)
   }
 
-  MENU_ITEM_FACTORIES[key] = fn
+  MENU_ITEM_FACTORIES[key] = factory
 }

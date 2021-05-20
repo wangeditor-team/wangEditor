@@ -3,7 +3,9 @@
  * @author wangfupeng
  */
 
-import { Range, NodeEntry } from 'slate'
+import { Editor, Range, NodeEntry } from 'slate'
+
+type PluginFnType = <T extends Editor>(editor: T) => T
 
 export interface IConfig {
   toolbarId?: string
@@ -20,6 +22,8 @@ export interface IConfig {
   toolButtonConf: {
     [key: string]: any
   }
+
+  plugins: Array<PluginFnType>
 }
 
 /**
@@ -33,6 +37,7 @@ function getDefaultConfig(): IConfig {
     decorate: () => [],
     toolbarKeys: [],
     toolButtonConf: {},
+    plugins: [],
   }
 }
 
