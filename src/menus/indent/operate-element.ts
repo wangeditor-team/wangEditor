@@ -42,7 +42,7 @@ function parseIndentation(editor: Editor): IndentationOptions {
 
 function operateElement($node: DomElement, type: String, editor: Editor): void {
     const $elem = $node.getNodeTop(editor)
-    const reg = /^P$/i
+    const reg = /^(P|H[0-9]*)$/
 
     if (reg.test($elem.getNodeName())) {
         if (type === 'increase') increaseIndentStyle($elem, parseIndentation(editor))

@@ -116,24 +116,29 @@ function DeleteCol($node: DomElement, _index: number): DomElement {
  * 处理设置/取消表头
  * @param $node
  * @param _index
- * @type 替换的列 th 还是td
+ * @type 替换的标签 th还是td
  */
 function setTheHeader($node: DomElement, _index: number, type: string): DomElement {
-    //执行获取tbody节点
+    // 执行获取tbody节点
     let $dom = generateDomAction($node)
-    //取出所有的行
+    // 取出所有的行
     let domArray: HTMLElement[] = Array.prototype.slice.apply($dom.children)
-    //列的数量
-    const childrenLength = domArray[_index].children
-    //创建新tr
+    // 列的数量
+    const cols = domArray[_index].children
+    // 创建新tr
     let tr = document.createElement('tr')
-    for (let i = 0; i < childrenLength.length; i++) {
-        //替换td为th
-        const th = document.createElement(type)
-        Array.from(childrenLength[i].children).forEach(item => {
-            th.appendChild(item)
+    for (let i = 0; i < cols.length; i++) {
+        // 根据type(td 或者 th)生成对应的el
+        const el = document.createElement(type)
+        const col = cols[i]
+        /**
+         * 没有使用children是因为谷歌纯文本内容children数组就为空，而火狐纯文本内容是“xxx<br>”使用children只能获取br
+         * 当然使用childNodes也涵盖支持我们表头使用表情，代码块等，不管是设置还是取消都会保留第一行
+         */
+        Array.from(col.childNodes).forEach(item => {
+            el.appendChild(item)
         })
-        tr.appendChild(th)
+        tr.appendChild(el)
     }
     //插入集合中
     domArray.splice(_index, 1, tr)
