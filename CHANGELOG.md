@@ -1,3 +1,12 @@
+## [4.7.1](https://github.com/wangeditor-team/wangEditor/compare/v4.7.0...v4.7.1) (2021-05-20)
+
+
+### Bug Fixes
+
+* 设置/取消表头不删除第一行 ([d9fd913](https://github.com/wangeditor-team/wangEditor/commit/d9fd9139a2943b87193e6f37266fde94cbddab8e))
+* 文本删完后存在的图片会消失 ([5b14868](https://github.com/wangeditor-team/wangEditor/commit/5b14868cc5ef2534476b9f81b35178108cf74b81))
+* indent 缩进时, 增加对 head 的处理 ([8d506e4](https://github.com/wangeditor-team/wangEditor/commit/8d506e43afa016dcb7d618cbbf4c99658af0c670))
+
 # [4.7.0](https://github.com/wangeditor-team/wangEditor/compare/v4.6.17...v4.7.0) (2021-05-13)
 
 
