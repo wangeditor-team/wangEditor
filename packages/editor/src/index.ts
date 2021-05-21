@@ -11,33 +11,38 @@ import {
   registerRenderElemConf,
   registerMenuItemFactory,
 } from '@wangeditor/core'
-import { bold, header } from '@wangeditor/basic'
+import { textStyle, header, p } from '@wangeditor/basic'
 
 const plugins = []
 
-// --------------------- 注册 bold module ---------------------
-if (bold.addTextStyle) {
-  registerTextStyleHandler(bold.addTextStyle)
+// --------------------- 注册 p ---------------------
+if (p.renderElems && p.renderElems.length) {
+  p.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
-if (bold.renderElemConfArr && bold.renderElemConfArr.length) {
-  bold.renderElemConfArr.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+
+// --------------------- 注册 textStyle module ---------------------
+if (textStyle.addTextStyle) {
+  registerTextStyleHandler(textStyle.addTextStyle)
 }
-if (bold.menuConf) {
-  registerMenuItemFactory(bold.menuConf)
+if (textStyle.renderElems && textStyle.renderElems.length) {
+  textStyle.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
-if (bold.editorPlugin) {
-  plugins.push(bold.editorPlugin)
+if (textStyle.menus && textStyle.menus.length) {
+  textStyle.menus.forEach(menuConf => registerMenuItemFactory(menuConf))
+}
+if (textStyle.editorPlugin) {
+  plugins.push(textStyle.editorPlugin)
 }
 
 // --------------------- 注册 header module ---------------------
 if (header.addTextStyle) {
   registerTextStyleHandler(header.addTextStyle)
 }
-if (header.renderElemConfArr && header.renderElemConfArr.length) {
-  header.renderElemConfArr.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+if (header.renderElems && header.renderElems.length) {
+  header.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
-if (header.menuConf) {
-  registerMenuItemFactory(header.menuConf)
+if (header.menus && header.menus.length) {
+  header.menus.forEach(menuConf => registerMenuItemFactory(menuConf))
 }
 if (header.editorPlugin) {
   plugins.push(header.editorPlugin)
@@ -45,7 +50,7 @@ if (header.editorPlugin) {
 
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor('editor-container', {
-  toolbarKeys: ['bold', 'header'],
+  toolbarKeys: ['header', ['bold', 'underline', 'italic', 'through'], 'code'],
   onChange() {
     console.log('selection', editor.selection)
   },

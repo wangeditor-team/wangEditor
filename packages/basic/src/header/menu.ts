@@ -45,16 +45,12 @@ class HeaderMenu implements IMenuItem {
       // @ts-ignore
       match: n => {
         // @ts-ignore
-        const { type } = n
+        const { type = '' } = n
 
-        // 检测是否在代码块
-        if (type === 'pre') return true
-
-        // 检测是否在 table
-        if (type === 'table') return true
-
-        // TODO 检测是否 void
-
+        // 只可用于 p 和 header
+        if (type !== 'paragraph' && type.startsWith('header')) {
+          return true
+        }
         return false
       },
       universal: true,

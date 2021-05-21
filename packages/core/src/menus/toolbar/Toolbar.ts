@@ -36,9 +36,16 @@ class Toolbar {
 
     const curKeys = keys || toolbarKeys
 
-    curKeys.forEach(keyOrGroup => {
+    curKeys.forEach((keyOrGroup, i) => {
       if (typeof keyOrGroup === 'string') {
         // 单个菜单，如 'a'
+
+        if (i >= 1 && Array.isArray(curKeys[i - 1])) {
+          // 前一个是组，则插入分割线
+          const $divider = genDividerElem()
+          $toolbar.append($divider)
+        }
+
         const key = keyOrGroup
         this.registerSingleItem(key)
       } else if (Array.isArray(keyOrGroup)) {

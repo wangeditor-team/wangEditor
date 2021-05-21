@@ -25,12 +25,14 @@ interface IRenderElemConf {
   type: string
   renderFn: RenderElemFnType
 }
+interface IMenuConf {
+  key: string
+  factory: () => IMenuItem
+  config?: any
+}
 export interface IModuleConf {
   addTextStyle?: TextStyleFnType
-  renderElemConfArr?: Array<IRenderElemConf>
-  menuConf?: {
-    key: string
-    factory: () => IMenuItem
-  }
+  renderElems?: Array<IRenderElemConf>
+  menus?: Array<IMenuConf>
   editorPlugin?: <T extends Editor>(editor: T) => T
 }

@@ -3,7 +3,8 @@
  * @author wangfupeng
  */
 
-import bold from './bold'
+import p from './paragraph'
+import textStyle from './text-style'
 import header from './header'
 
-export { bold, header }
+export { textStyle, header, p }

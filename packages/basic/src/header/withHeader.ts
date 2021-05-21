@@ -3,18 +3,35 @@
  * @author wangfupeng
  */
 
-import { Editor } from 'slate'
+import { Editor, Transforms } from 'slate'
 
 // 可重写 editor API ，参考 @wangeditor/core -> src/editor/with-dom.ts
 function withHeader<T extends Editor>(editor: T): T {
   const { insertBreak } = editor
   const newEditor = editor
 
-  // 重写 insertBreak ，header 末尾回车时要插入 paragraph
+  // 重写 insertBreak - header 末尾回车时要插入 paragraph
   newEditor.insertBreak = () => {
-    // TODO header 末尾回车时要插入 paragraph
+    const [match] = Editor.nodes(newEditor, {
+      match: n => {
+        // @ts-ignore
+        const { type = '' } = n
+        return type.startsWith('header') // 匹配 node.type 是 header 开头的 node
+      },
+      universal: true,
+    })
+    if (!match) {
+      // 未匹配到
+      insertBreak()
+      return
+    }
 
-    insertBreak() // 最后，执行默认的函数 ，重要！
+    // const [n] = match
+
+    // TODO 需判断是否是 header 末尾
+    // 插入一个空 p
+    const p = { type: 'paragraph', children: [{ text: '' }] }
+    Transforms.insertNodes(newEditor, p, { mode: 'highest' })
   }
 
   // 返回 editor ，重要！
