@@ -62,14 +62,15 @@ function create(containerId: string, config: IConfig | {} = {}, content?: Node[]
     if (showToolbar) {
       // 要显示 toolbar
       const newToolbarId = genRandomStr('w-e-toolbar')
-      const $toolbar = $(`<div id="${newToolbarId}"></div>`)
+      const $toolbar = $(`<div id="${newToolbarId}" class="w-e-toolbar"></div>`)
       $container.append($toolbar)
       toolbar = new Toolbar(newToolbarId)
       editorConfig.toolbarId = newToolbarId
     }
 
     const newContainerId = genRandomStr('w-e-text-container')
-    const $textContainer = $(`<div id="${newContainerId}"></div>`)
+    const $textContainer = $(`<div id="${newContainerId}" class="w-e-text-container"></div>`)
+    $textContainer.css('height', '300px') // TODO height 可配置
     $container.append($textContainer)
     textarea = new TextArea(newContainerId)
   }

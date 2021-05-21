@@ -3,6 +3,8 @@
  * @author wangfupeng
  */
 
+import './assets/index.less'
+
 import {
   createEditor,
   registerTextStyleHandler,

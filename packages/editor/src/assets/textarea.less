@@ -1,0 +1,46 @@
+.w-e-text-container {
+  background-color: #fff;
+}
+
+.w-e-text-container [data-slate-editor] {
+  outline: 0;
+  white-space: pre-wrap; /* 【重要】可以显示空格，在连续多空格的情况下 */
+  word-wrap: break-word;
+  padding: 0 10px;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  p {
+    margin: 10px 0;
+  }
+  h1,h2,h3,h4,h5 {
+    margin: 20px 0 10px 0;
+  }
+
+  img {
+    margin: 0 3px;
+  }
+
+  code {
+    font-family: monospace;
+    background-color: #eee;
+    padding: 3px;
+    border-radius: 3px;
+  }
+
+  pre>code {
+    display: block;
+    background-color: #fff;
+    border: 1px solid #ccc;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+  td {
+    border: 1px solid #ccc;
+    padding: 3px 5px;
+    width: 50px;
+  }
+}

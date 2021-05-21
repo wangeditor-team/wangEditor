@@ -9,7 +9,7 @@ import { MENU_ITEM_FACTORIES } from '../index'
 import { promiseResolveThen } from '../../utils/util'
 import { TOOLBAR_TO_EDITOR, TOOLBAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import { IDomEditor } from '../../editor/dom-editor'
-import { IToolbarItem, createToolbarItem } from './ToolbarItem'
+import { IToolbarItem, createToolbarItem } from './item/index'
 
 function genDividerElem() {
   return $('<div class="w-e-toolbar-divider"></div>')

@@ -1,0 +1,58 @@
+.w-e-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  background-color: #fff;
+  border-bottom: 1px solid #EEE;
+}
+
+.w-e-toolbar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4px;
+
+  button {
+    border: none;
+    background: transparent;
+    min-width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: #595959;
+    font-size: 14px;
+
+    svg {
+      fill: #595959;
+      width: 14px !important;
+      height: 14px !important;
+    }
+
+    &:hover {
+      background-color: #f1f1f1;
+      color: #333;
+  
+      svg {
+        fill: #333;
+      }
+    }
+  }
+
+  select {
+    border: none;
+    background: transparent;
+    min-width: 32px;
+    height: 32px;
+    color: #595959;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f1f1f1;
+      color: #333;
+    }
+  }
+}

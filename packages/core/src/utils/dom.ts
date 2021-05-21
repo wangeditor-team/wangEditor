@@ -21,6 +21,7 @@ import {
   val,
   text,
   removeAttr,
+  children,
 } from 'dom7'
 export { Dom7Array } from 'dom7'
 
@@ -40,6 +41,7 @@ $.fn.is = is
 $.fn.dataset = dataset
 $.fn.val = val
 $.fn.text = text
+$.fn.children = children
 
 export default $
 

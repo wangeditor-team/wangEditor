@@ -13,7 +13,7 @@ type OptionType = {
 
 export interface IMenuItem {
   title: string
-  iconClass: string
+  iconSvg: string
 
   tag: string // 'button' / 'select'
   options?: OptionType[] // select -> option
