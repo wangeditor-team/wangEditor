@@ -25,7 +25,7 @@ class ToolbarItemSelect implements IToolbarItem {
       </option>`
     })
     const $select = $(`<select>${optionsHtml}</select>`)
-    const $elem = $(`<span class="w-e-toolbar-item" tooltip="${title}"></span>`)
+    const $elem = $(`<div class="w-e-toolbar-item" tooltip="${title}"></div>`)
     $elem.append($select)
 
     this.$elem = $elem
@@ -61,11 +61,14 @@ class ToolbarItemSelect implements IToolbarItem {
     const menuItem = this.menuItem
     const disabled = menuItem.isDisabled(editor)
 
-    const $elem = this.$elem
+    const $select = this.$select
+    const className = 'disabled'
     if (disabled) {
-      $elem.attr('disabled', 'true')
+      $select.attr('disabled', 'true')
+      $select.addClass(className)
     } else {
-      $elem.removeAttr('disabled')
+      $select.removeAttr('disabled')
+      $select.removeClass(className)
     }
 
     this.disabled = disabled // 记录下来

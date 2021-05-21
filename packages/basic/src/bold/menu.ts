@@ -30,10 +30,13 @@ class BoldMenu implements IMenuItem {
       // @ts-ignore
       match: n => {
         // @ts-ignore
-        const { type } = n
+        const { type = '' } = n
 
-        // 检测是否在代码块
+        // 代码
         if (type === 'pre') return true
+
+        // header
+        if (type.startsWith('header')) return true
 
         // TODO 检测是否 void
 

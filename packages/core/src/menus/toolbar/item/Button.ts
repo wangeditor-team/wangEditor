@@ -25,7 +25,7 @@ class ToolbarItemButton implements IToolbarItem {
     clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
     const $button = $(`<button></button>`)
     $button.append($svg)
-    const $elem = $(`<span class="w-e-toolbar-item" tooltip="${title}"></span>`)
+    const $elem = $(`<div class="w-e-toolbar-item" tooltip="${title}"></div>`)
     $elem.append($button)
 
     this.$elem = $elem
@@ -55,33 +55,33 @@ class ToolbarItemButton implements IToolbarItem {
 
   private setActive() {
     const editor = getEditorInstance(this)
-    const $elem = this.$elem
+    const $button = this.$button
     const menuItem = this.menuItem
     const value = menuItem.getValue(editor)
 
     const className = 'active'
     if (value) {
       // 设置为 active
-      $elem.addClass(className)
+      $button.addClass(className)
     } else {
       // 取消 active
-      $elem.removeClass(className)
+      $button.removeClass(className)
     }
   }
 
   private setDisabled() {
     const editor = getEditorInstance(this)
-    const $elem = this.$elem
+    const $button = this.$button
     const menuItem = this.menuItem
     const disabled = menuItem.isDisabled(editor)
 
     const className = 'disabled'
     if (disabled) {
       // 设置为 disabled
-      $elem.addClass(className)
+      $button.addClass(className)
     } else {
       // 取消 disabled
-      $elem.removeClass(className)
+      $button.removeClass(className)
     }
 
     this.disabled = disabled // 记录下来
