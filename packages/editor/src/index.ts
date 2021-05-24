@@ -11,7 +11,7 @@ import {
   registerRenderElemConf,
   registerMenuItemFactory,
 } from '@wangeditor/core'
-import { textStyle, header, p } from '@wangeditor/basic'
+import { simpleStyle, header, p } from '@wangeditor/basic'
 
 const plugins = []
 
@@ -20,18 +20,18 @@ if (p.renderElems && p.renderElems.length) {
   p.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
 
-// --------------------- 注册 textStyle module ---------------------
-if (textStyle.addTextStyle) {
-  registerTextStyleHandler(textStyle.addTextStyle)
+// --------------------- 注册 simpleStyle module ---------------------
+if (simpleStyle.addTextStyle) {
+  registerTextStyleHandler(simpleStyle.addTextStyle)
 }
-if (textStyle.renderElems && textStyle.renderElems.length) {
-  textStyle.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+if (simpleStyle.renderElems && simpleStyle.renderElems.length) {
+  simpleStyle.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
-if (textStyle.menus && textStyle.menus.length) {
-  textStyle.menus.forEach(menuConf => registerMenuItemFactory(menuConf))
+if (simpleStyle.menus && simpleStyle.menus.length) {
+  simpleStyle.menus.forEach(menuConf => registerMenuItemFactory(menuConf))
 }
-if (textStyle.editorPlugin) {
-  plugins.push(textStyle.editorPlugin)
+if (simpleStyle.editorPlugin) {
+  plugins.push(simpleStyle.editorPlugin)
 }
 
 // --------------------- 注册 header module ---------------------

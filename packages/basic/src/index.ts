@@ -4,7 +4,7 @@
  */
 
 import p from './paragraph'
-import textStyle from './text-style'
+import simpleStyle from './simple-style'
 import header from './header'
 
-export { textStyle, header, p }
+export { simpleStyle, header, p }
