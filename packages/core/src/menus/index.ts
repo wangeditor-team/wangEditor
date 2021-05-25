@@ -5,10 +5,11 @@
 
 import { IDomEditor } from '../editor/dom-editor'
 
-type OptionType = {
+export interface IOption {
   value: string
   text: string
   selected?: boolean
+  styleForRenderMenuList?: { [key: string]: string } // 渲染菜单 list 时的样式
 }
 
 export interface IMenuItem {
@@ -16,7 +17,8 @@ export interface IMenuItem {
   iconSvg: string
 
   tag: string // 'button' / 'select'
-  options?: OptionType[] // select -> option
+  options?: IOption[] // select -> option
+  width?: number
 
   getValue: (editor: IDomEditor) => string | boolean
   isDisabled: (editor: IDomEditor) => boolean

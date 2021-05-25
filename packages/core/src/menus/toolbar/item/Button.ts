@@ -9,26 +9,27 @@ import { IToolbarItem, getEditorInstance } from './index'
 import { clearSvgStyle } from '../../helpers'
 
 class ToolbarItemButton implements IToolbarItem {
-  $elem: Dom7Array
+  $elem: Dom7Array = $(`<div class="w-e-toolbar-item"></div>`)
   private $button: Dom7Array
   menuItem: IMenuItem
   private disabled = false
 
   constructor(menuItem: IMenuItem) {
     // 验证 tag
-    const { tag } = menuItem
+    const { tag, width } = menuItem
     if (tag !== 'button') throw new Error(`Invalid tag '${tag}', expected 'button'`)
 
     // 初始化 dom
     const { title, iconSvg } = menuItem
     const $svg = $(iconSvg)
     clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
-    const $button = $(`<button></button>`)
+    const $button = $(`<button tooltip="${title}"></button>`)
     $button.append($svg)
-    const $elem = $(`<div class="w-e-toolbar-item" tooltip="${title}"></div>`)
-    $elem.append($button)
+    if (width) {
+      $button.css('width', `${width}px`)
+    }
+    this.$elem.append($button)
 
-    this.$elem = $elem
     this.$button = $button
     this.menuItem = menuItem
   }

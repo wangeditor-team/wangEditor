@@ -5,6 +5,13 @@
   background-color: #fff;
   border-bottom: 1px solid #F0F0F0;
   height: 40px;
+  padding: 0 5px;
+  font-size: 14px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 .w-e-toolbar-divider {
@@ -33,12 +40,9 @@
     justify-content: center;
     align-items: center;
     color: #595959;
-    font-size: 14px;
 
     svg {
       fill: #595959;
-      width: 14px !important;
-      height: 14px !important;
     }
 
     &:hover {
@@ -51,17 +55,11 @@
     }
   }
 
-  select {
-    border: none;
-    background: transparent;
-    min-width: 32px;
-    height: 32px;
-    color: #595959;
-    cursor: pointer;
+  .select-button {
+    padding: 0 5px;
 
-    &:hover {
-      background-color: #f1f1f1;
-      color: #333;
+    svg {
+      margin-left: 3px;
     }
   }
 
@@ -84,6 +82,43 @@
   
       svg {
         fill: #999;
+      }
+    }
+  }
+}
+
+.w-e-select-list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #fff;
+  border: 1px solid #f1f1f1;
+  border-right-color: #ccc;
+  border-bottom-color: #ccc;
+  margin-top: 40px;
+  min-width: 100px;
+
+  ul {
+    list-style: none;
+    line-height: 1;
+
+    .selected {
+      background-color: #f1f1f1;
+    }
+    li {
+      cursor: pointer;
+      padding: 7px 0 7px 25px;
+      position: relative;
+      text-align: left;
+
+      &:hover {
+        background-color: #f1f1f1;
+      }
+
+      svg {
+        position: absolute;
+        left: 0;
+        margin-left: 5px;
       }
     }
   }

@@ -13,6 +13,7 @@ import {
   focus,
   attr,
   hide,
+  show,
   scrollTop,
   offset,
   parents,
@@ -22,6 +23,8 @@ import {
   text,
   removeAttr,
   children,
+  html,
+  remove,
 } from 'dom7'
 export { Dom7Array } from 'dom7'
 
@@ -34,6 +37,7 @@ $.fn.focus = focus
 $.fn.attr = attr
 $.fn.removeAttr = removeAttr
 $.fn.hide = hide
+$.fn.show = show
 $.fn.scrollTop = scrollTop
 $.fn.offset = offset
 $.fn.parents = parents
@@ -41,7 +45,9 @@ $.fn.is = is
 $.fn.dataset = dataset
 $.fn.val = val
 $.fn.text = text
+$.fn.html = html
 $.fn.children = children
+$.fn.remove = remove
 
 export default $
 

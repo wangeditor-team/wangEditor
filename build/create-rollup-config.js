@@ -38,6 +38,7 @@ function genSingleConfig(distDir, options) {
       resolve(),
       replace({
         'process.env.NODE_ENV': JSON.stringify(env),
+        preventAssignment: true,
       }),
       commonjs(),
       cleanup({
