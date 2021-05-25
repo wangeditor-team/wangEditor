@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import $, { Dom7Array } from '../../../utils/dom'
+import { Dom7Array } from '../../../utils/dom'
 import { IMenuItem } from '../../index'
 import { IDomEditor } from '../../../editor/dom-editor'
 import { TOOLBAR_ITEM_TO_EDITOR } from '../../../utils/weak-maps'

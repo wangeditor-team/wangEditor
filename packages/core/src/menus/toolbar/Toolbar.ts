@@ -11,7 +11,7 @@ import { TOOLBAR_TO_EDITOR, TOOLBAR_ITEM_TO_EDITOR } from '../../utils/weak-maps
 import { IDomEditor } from '../../editor/dom-editor'
 import { IToolbarItem, createToolbarItem } from './item/index'
 
-function genDividerElem() {
+function gen$divider() {
   return $('<div class="w-e-toolbar-divider"></div>')
 }
 
@@ -29,39 +29,21 @@ class Toolbar {
   }
 
   // 注册 toolbarItems
-  private registerItems(keys?: Array<string | string[]>) {
+  private registerItems() {
     const $toolbar = this.$toolbar
     const editor = this.getEditorInstance()
-    const { toolbarKeys } = editor.getConfig() // 格式如 ['a', ['b', 'c'], 'd']
+    const { toolbarKeys } = editor.getConfig() // 格式如 ['a', '|', 'b', 'c', '|', 'd']
 
-    const curKeys = keys || toolbarKeys
-
-    curKeys.forEach((keyOrGroup, i) => {
-      if (typeof keyOrGroup === 'string') {
-        // 单个菜单，如 'a'
-
-        if (i >= 1 && Array.isArray(curKeys[i - 1])) {
-          // 前一个是组，则插入分割线
-          const $divider = genDividerElem()
-          $toolbar.append($divider)
-        }
-
-        const key = keyOrGroup
-        this.registerSingleItem(key)
-      } else if (Array.isArray(keyOrGroup)) {
-        // 一组菜单，如 ['b', 'c']
-
-        // 添加分割线
-        const $divider = genDividerElem()
+    toolbarKeys.forEach(key => {
+      if (key === '|') {
+        // 分割线
+        const $divider = gen$divider()
         $toolbar.append($divider)
-
-        // 继续注册单个菜单
-        const group = keyOrGroup
-        this.registerItems(group)
-      } else {
-        // 其他形式，报错
-        throw new Error(`Invalid keys form: ${JSON.stringify(curKeys)}`)
+        return
       }
+
+      // 正常菜单
+      this.registerSingleItem(key)
     })
   }
 

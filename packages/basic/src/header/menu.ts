@@ -54,6 +54,8 @@ class HeaderMenu implements IMenuItem {
     return n.type
   }
   isDisabled(editor: IDomEditor): boolean {
+    if (editor.selection == null) return true
+
     const [match] = Editor.nodes(editor, {
       // @ts-ignore
       match: n => {

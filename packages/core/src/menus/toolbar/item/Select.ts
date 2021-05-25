@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { IMenuItem } from '@wangeditor/core'
+import { IMenuItem } from '../../index'
 import $, { Dom7Array } from '../../../utils/dom'
 import { IToolbarItem, getEditorInstance } from './index'
 import { IOption } from '../../index'

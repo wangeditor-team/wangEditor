@@ -18,7 +18,7 @@ export interface IConfig {
   autoFocus?: boolean
   decorate?: (nodeEntry: NodeEntry) => Range[]
 
-  toolbarKeys: Array<string | string[]>
+  toolbarKeys: string[]
   toolButtonConf: {
     [key: string]: any
   }

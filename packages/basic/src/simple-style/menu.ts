@@ -32,6 +32,8 @@ class TextStyleMenu implements IMenuItem {
     return !!match
   }
   isDisabled(editor: IDomEditor): boolean {
+    if (editor.selection == null) return true
+
     const mark = this.mark
     const [match] = Editor.nodes(editor, {
       // @ts-ignore

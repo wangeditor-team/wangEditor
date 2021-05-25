@@ -50,7 +50,7 @@ if (header.editorPlugin) {
 
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor('editor-container', {
-  toolbarKeys: ['header', ['bold', 'underline', 'italic', 'through'], 'code'],
+  toolbarKeys: ['header', '|', 'bold', 'underline', 'italic', 'through', '|', 'code'],
   onChange() {
     console.log('selection', editor.selection)
   },
