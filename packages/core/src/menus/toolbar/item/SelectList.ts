@@ -4,8 +4,8 @@
  */
 
 import { debounce } from 'lodash-es'
-import $, { Dom7Array } from '../utils/dom'
-import { IOption } from './index'
+import $, { Dom7Array } from '../../../utils/dom'
+import { IOption } from '../../index'
 
 // 存储所有的 selectList 实例
 const ALL_SELECT_LIST = new Set<SelectList>()

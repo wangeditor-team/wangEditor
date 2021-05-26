@@ -17,6 +17,7 @@ export interface IMenuItem {
   iconSvg: string
 
   tag: string // 'button' / 'select'
+  withDownArrow?: boolean // button 是否需要一个箭头 icon ，如文字颜色、背景色
   options?: IOption[] // select -> option
   width?: number
 

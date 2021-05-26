@@ -11,7 +11,7 @@ import {
   registerRenderElemConf,
   registerMenuItemFactory,
 } from '@wangeditor/core'
-import { simpleStyle, header, p } from '@wangeditor/basic'
+import { simpleStyle, header, p, color } from '@wangeditor/basic'
 
 const plugins = []
 
@@ -24,14 +24,8 @@ if (p.renderElems && p.renderElems.length) {
 if (simpleStyle.addTextStyle) {
   registerTextStyleHandler(simpleStyle.addTextStyle)
 }
-if (simpleStyle.renderElems && simpleStyle.renderElems.length) {
-  simpleStyle.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
-}
 if (simpleStyle.menus && simpleStyle.menus.length) {
   simpleStyle.menus.forEach(menuConf => registerMenuItemFactory(menuConf))
-}
-if (simpleStyle.editorPlugin) {
-  plugins.push(simpleStyle.editorPlugin)
 }
 
 // --------------------- 注册 header module ---------------------
@@ -48,9 +42,29 @@ if (header.editorPlugin) {
   plugins.push(header.editorPlugin)
 }
 
+// --------------------- 注册 color module ---------------------
+if (color.addTextStyle) {
+  registerTextStyleHandler(color.addTextStyle)
+}
+if (color.menus && color.menus.length) {
+  color.menus.forEach(menuConf => registerMenuItemFactory(menuConf))
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor('editor-container', {
-  toolbarKeys: ['header', '|', 'bold', 'underline', 'italic', 'through', '|', 'code'],
+  toolbarKeys: [
+    'header',
+    '|',
+    'bold',
+    'underline',
+    'italic',
+    'through',
+    '|',
+    'color',
+    'bgColor',
+    '|',
+    'code',
+  ],
   onChange() {
     console.log('selection', editor.selection)
   },

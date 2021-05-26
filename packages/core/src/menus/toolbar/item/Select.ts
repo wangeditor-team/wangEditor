@@ -7,15 +7,8 @@ import { IMenuItem } from '../../index'
 import $, { Dom7Array } from '../../../utils/dom'
 import { IToolbarItem, getEditorInstance } from './index'
 import { IOption } from '../../index'
-import SelectList from '../../SelectList'
-
-// 箭头图标 svg
-function gen$downArrow() {
-  const $downArrow = $(
-    `<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M512 729.86624c-13.70112 0-27.40224-5.23264-37.84704-15.6672l-328.69376-328.704c-20.91008-20.91008-20.91008-54.80448 0-75.70432 20.89984-20.89984 54.79424-20.89984 75.70432 0L512 600.63744l290.83648-290.83648c20.91008-20.89984 54.80448-20.89984 75.70432 0 20.91008 20.89984 20.91008 54.79424 0 75.70432l-328.69376 328.704C539.40224 724.64384 525.70112 729.86624 512 729.86624z"></path></svg>`
-  )
-  return $downArrow
-}
+import SelectList from './SelectList'
+import { gen$downArrow } from '../../helpers'
 
 // 根据 option value 获取 text
 function getOptionText(options: IOption[], value: string): string {

@@ -6,8 +6,7 @@
 import { IMenuItem } from '../../index'
 import $, { Dom7Array } from '../../../utils/dom'
 import { IToolbarItem, getEditorInstance } from './index'
-import { clearSvgStyle } from '../../helpers'
-
+import { clearSvgStyle, gen$downArrow } from '../../helpers'
 class ToolbarItemButton implements IToolbarItem {
   $elem: Dom7Array = $(`<div class="w-e-toolbar-item"></div>`)
   private $button: Dom7Array
@@ -16,7 +15,7 @@ class ToolbarItemButton implements IToolbarItem {
 
   constructor(menuItem: IMenuItem) {
     // 验证 tag
-    const { tag, width } = menuItem
+    const { tag, width, withDownArrow } = menuItem
     if (tag !== 'button') throw new Error(`Invalid tag '${tag}', expected 'button'`)
 
     // 初始化 dom
@@ -25,6 +24,10 @@ class ToolbarItemButton implements IToolbarItem {
     clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
     const $button = $(`<button tooltip="${title}"></button>`)
     $button.append($svg)
+    if (withDownArrow) {
+      const $arrow = gen$downArrow()
+      $button.append($arrow)
+    }
     if (width) {
       $button.css('width', `${width}px`)
     }

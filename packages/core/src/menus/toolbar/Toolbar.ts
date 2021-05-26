@@ -33,7 +33,6 @@ class Toolbar {
     const $toolbar = this.$toolbar
     const editor = this.getEditorInstance()
     const { toolbarKeys } = editor.getConfig() // 格式如 ['a', '|', 'b', 'c', '|', 'd']
-
     toolbarKeys.forEach(key => {
       if (key === '|') {
         // 分割线
@@ -54,6 +53,10 @@ class Toolbar {
     const factory = MENU_ITEM_FACTORIES[key]
     if (factory == null) {
       throw new Error(`Not found menu item factory by key '${key}'`)
+      return
+    }
+    if (typeof factory !== 'function') {
+      throw new Error(`Menu item factory (key='${key}') is not a function`)
       return
     }
 
@@ -81,7 +84,6 @@ class Toolbar {
    * editor onChange 时触发（涉及 DOM 操作，加防抖）
    */
   onEditorChange = debounce(() => {
-    const editor = this.getEditorInstance()
     this.toolbarItems.forEach(toolbarItem => {
       toolbarItem.onSelectionChange()
     })
