@@ -176,6 +176,17 @@ class Menus {
             .on('mouseleave', () => {
                 hide()
             })
+            //菜单栏点击是否禁止
+            .on('mousedown', (e: MouseEvent) => {
+                const editor = this.editor
+                const target = e.target as HTMLElement
+                const $target = $(target)
+                const $parent = $target.parentUntil('.w-e-menu') ?? $target
+                // 查看HTML源代码状态下当再次点击HTML源代码菜单时isEditorHtmlMode恢复初始值
+                if (!$parent.hasClass('w-e-disabled') && $parent.hasClass('w-e-active')) {
+                    editor.isEditorHtmlMode = false
+                }
+            })
     }
     // 添加到菜单栏
     private _addToToolbar(): void {

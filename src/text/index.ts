@@ -132,7 +132,7 @@ class Text {
      * 设置/获取 html
      * @param val html 字符串
      */
-    public html(val?: string): void | string {
+    public html(val?: string, innerType: number = 1): void | string {
         const editor = this.editor
         const $textElem = editor.$textElem
 
@@ -186,7 +186,7 @@ class Text {
             // 内容用 p 标签包裹
             val = `<p>${val}</p>`
         }
-        $textElem.html(val)
+        $textElem.html(val, innerType)
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()

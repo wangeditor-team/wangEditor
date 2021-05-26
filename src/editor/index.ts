@@ -70,6 +70,7 @@ class Editor {
     public change: Change
     public history: History
     public isEnable: Boolean
+    public isEditorHtmlMode: boolean
 
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
@@ -118,6 +119,7 @@ class Editor {
         this.disable = disable
         this.enable = enable
         this.isEnable = true
+        this.isEditorHtmlMode = false
     }
 
     /**

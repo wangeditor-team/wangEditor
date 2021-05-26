@@ -258,7 +258,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
             const agentFn: listener = function (e) {
                 const target = e.target as HTMLElement
                 if (target.matches(selector as string)) {
-                    ;(fn as listener).call(target, e)
+                    ; (fn as listener).call(target, e)
                 }
             }
             elem.addEventListener(type, agentFn)
@@ -606,17 +606,18 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     /**
      * 设置/获取 元素 html
      * @param val html 值
+     * @param innerType 参数: 2为innerText显示 1默认为innerHTML显示
      */
     html(): string
-    html(val: string): DomElement
-    html(val?: string): DomElement | string {
+    html(val: string, innerType?: number): DomElement
+    html(val?: string, innerType: number = 1): DomElement | string {
         const elem = this.elems[0]
         if (!val) {
             // 获取 html
             return elem.innerHTML
         } else {
             // 设置 html
-            elem.innerHTML = val
+            innerType == 1 ? (elem.innerHTML = val) : (elem.innerText = val)
             return this
         }
     }

@@ -39,6 +39,10 @@ class DropListMenu extends Menu {
         // 绑定事件
         $elem
             .on('click', () => {
+                // 点击HTML源代码菜单时禁止触发下拉菜单事件
+                if (editor.isEditorHtmlMode) {
+                    return
+                }
                 if (editor.selection.getRange() == null) {
                     return
                 }

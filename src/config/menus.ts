@@ -26,9 +26,9 @@ export type FontSizeConfType = {
 // font-style 类型
 export type FontStyleType = Array<
     | {
-          name: string
-          value: string
-      }
+        name: string
+        value: string
+    }
     | string
 >
 
@@ -70,6 +70,7 @@ export default {
         'splitLine',
         'undo',
         'redo',
+        'toHtml',
     ],
 
     fontNames: [

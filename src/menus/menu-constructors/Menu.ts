@@ -27,6 +27,9 @@ class Menu {
 
         // 绑定菜单点击事件
         $elem.on('click', (e: Event) => {
+            // 点击HTML源代码菜单时禁止触发菜单事件
+            if (editor.isEditorHtmlMode) return
+
             Panel.hideCurAllPanels() // 隐藏当前的所有 Panel
 
             // 触发菜单点击的钩子
@@ -44,7 +47,7 @@ class Menu {
      * 菜单点击事件，子类可重写
      * @param e event
      */
-    protected clickHandler(e: Event): void {}
+    protected clickHandler(e: Event): void { }
 
     /**
      * 激活菜单，高亮显示
@@ -67,6 +70,13 @@ class Menu {
      */
     public get isActive() {
         return this._active
+    }
+
+    /**
+     * 是否禁用菜单
+     */
+    public isDisabled(disabled: boolean): void {
+        disabled ? this.$elem.addClass('w-e-disabled') : this.$elem.removeClass('w-e-disabled')
     }
 }
 
