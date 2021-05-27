@@ -24,15 +24,13 @@ function deleteToKeepP(editor: Editor, deleteUpEvents: Function[], deleteDownEve
         // 编辑器中的字符是""或空白，说明内容为空
         if (/^\s*$/.test(text) && (!txtHtml || emptyTags.includes(txtHtml))) {
             // 内容空了
-            const $p = $(EMPTY_P)
-            $textElem.html(' ') // 一定要先清空，否则在 firefox 下有问题
-            $textElem.append($p)
+            $textElem.html(EMPTY_P)
 
-            editor.selection.createRangeByElem($p, false, true)
+            editor.selection.createRangeByElem($textElem, false, true)
             editor.selection.restoreSelection()
             // 设置折叠后的光标位置，在firebox等浏览器下
             // 光标设置在end位置会自动换行
-            editor.selection.moveCursor($p.getNode(), 0)
+            editor.selection.moveCursor($textElem.getNode(), 0)
         }
     }
     deleteUpEvents.push(upFn)
