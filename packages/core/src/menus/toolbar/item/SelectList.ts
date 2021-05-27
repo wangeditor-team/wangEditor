@@ -3,20 +3,9 @@
  * @author wangfupeng
  */
 
-import { debounce } from 'lodash-es'
 import $, { Dom7Array } from '../../../utils/dom'
-import { IOption } from '../../index'
-
-// 存储所有的 selectList 实例
-const ALL_SELECT_LIST = new Set<SelectList>()
-
-// 统一 hide
-$('body').on(
-  'click',
-  debounce(() => {
-    ALL_SELECT_LIST.forEach(selectList => selectList.hide())
-  }, 100)
-)
+import { IOption, IPanel } from '../../index'
+import { gatherPanel } from '../../helpers'
 
 // “对号”icon
 function gen$SelectedIcon() {
@@ -25,12 +14,13 @@ function gen$SelectedIcon() {
   )
 }
 
-class SelectList {
+class SelectList implements IPanel {
   $elem: Dom7Array = $(`<div class="w-e-select-list"></div>`)
   isShow: boolean = false
 
   constructor() {
-    ALL_SELECT_LIST.add(this)
+    // 收集实例，以便可以统一 hide
+    gatherPanel(this)
   }
 
   /**

@@ -8,7 +8,7 @@ import $, { Dom7Array } from '../../../utils/dom'
 import { IToolbarItem, getEditorInstance } from './index'
 import { IOption } from '../../index'
 import SelectList from './SelectList'
-import { gen$downArrow } from '../../helpers'
+import { gen$downArrow, hideAllPanels } from '../../helpers'
 
 // 根据 option value 获取 text
 function getOptionText(options: IOption[], value: string): string {
@@ -67,6 +67,7 @@ class ToolbarItemSelect implements IToolbarItem {
     // click
     this.$button.on('click', (e: Event) => {
       e.stopPropagation()
+      hideAllPanels() // 隐藏当前的各种 panel
       this.trigger()
     })
   }
@@ -113,7 +114,7 @@ class ToolbarItemSelect implements IToolbarItem {
 
   private onChange(value: string) {
     const editor = getEditorInstance(this)
-    this.menuItem.cmd(editor, value)
+    this.menuItem.cmd(editor, value, this.$elem)
   }
 
   private setSelectedValue() {

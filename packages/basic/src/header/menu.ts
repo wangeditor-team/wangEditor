@@ -80,7 +80,7 @@ class HeaderMenu implements IMenuItem {
    * @param editor editor
    * @param value node.type
    */
-  cmd(editor: IDomEditor, value?: string | boolean) {
+  cmd(editor: IDomEditor, value: string | boolean) {
     if (!value) return
 
     // @ts-ignore 修改 options ，修改 selected

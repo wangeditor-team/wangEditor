@@ -3,7 +3,9 @@
  * @author wangfupeng
  */
 
+import { debounce } from 'lodash-es'
 import $, { Dom7Array } from '../utils/dom'
+import { IPanel } from '../index'
 
 /**
  * 清理 svg 的样式
@@ -32,3 +34,20 @@ export function gen$downArrow() {
   )
   return $downArrow
 }
+
+const ALL_PANELS = new Set<IPanel>()
+
+/**
+ * 收集 dropPanel selectList 等
+ */
+export function gatherPanel(panel: IPanel) {
+  ALL_PANELS.add(panel)
+}
+
+/**
+ * 统一隐藏 dropPanel selectList 等
+ */
+export function hideAllPanels() {
+  ALL_PANELS.forEach(panel => panel.hide())
+}
+$('body').on('click', debounce(hideAllPanels, 100))

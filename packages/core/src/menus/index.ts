@@ -4,6 +4,16 @@
  */
 
 import { IDomEditor } from '../editor/dom-editor'
+import { Dom7Array } from '../utils/dom'
+import { registerGlobalMenuConf } from '../config/index'
+
+export { DropPanel } from './DropPanel'
+
+export interface IPanel {
+  $elem: Dom7Array
+  show: () => {}
+  hide: () => {}
+}
 
 export interface IOption {
   value: string
@@ -23,7 +33,7 @@ export interface IMenuItem {
 
   getValue: (editor: IDomEditor) => string | boolean
   isDisabled: (editor: IDomEditor) => boolean
-  cmd: (editor: IDomEditor, value?: string | boolean) => void // button click 或 select change 时触发
+  cmd: (editor: IDomEditor, value: string | boolean, $menuElem?: Dom7Array) => void // button click 或 select change 时触发
 }
 
 // menu item 的工厂函数 - 集合
@@ -35,7 +45,7 @@ export const MENU_ITEM_FACTORIES: {
  * 注册 menu item 工厂函数
  * @param conf { key, factory } ，各个 menu key 不能重复
  */
-export function registerMenuItemFactory(conf: { key: string; factory: () => IMenuItem }) {
+function registerMenuItemFactory(conf: { key: string; factory: () => IMenuItem }) {
   const { key, factory } = conf
 
   if (MENU_ITEM_FACTORIES[key] != null) {
@@ -43,4 +53,27 @@ export function registerMenuItemFactory(conf: { key: string; factory: () => IMen
   }
 
   MENU_ITEM_FACTORIES[key] = factory
+}
+
+/**
+ * 注册 menu item 配置
+ * @param conf { key, config }  ，各个 menu key 不能重复
+ */
+function registerMenuItemConfig(conf: { key: string; config?: { [key: string]: any } }) {
+  const { key, config } = conf
+  registerGlobalMenuConf(key, config)
+}
+
+/**
+ * 注册菜单配置
+ * @param conf { key, factory, config } ，各个 menu key 不能重复
+ */
+export function registerMenuItem(conf: {
+  key: string
+  factory: () => IMenuItem
+  config?: { [key: string]: any }
+}) {
+  const { key, factory, config } = conf
+  registerMenuItemFactory({ key, factory })
+  registerMenuItemConfig({ key, config })
 }

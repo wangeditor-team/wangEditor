@@ -6,7 +6,7 @@
 import { IMenuItem } from '../../index'
 import $, { Dom7Array } from '../../../utils/dom'
 import { IToolbarItem, getEditorInstance } from './index'
-import { clearSvgStyle, gen$downArrow } from '../../helpers'
+import { clearSvgStyle, gen$downArrow, hideAllPanels } from '../../helpers'
 class ToolbarItemButton implements IToolbarItem {
   $elem: Dom7Array = $(`<div class="w-e-toolbar-item"></div>`)
   private $button: Dom7Array
@@ -43,7 +43,9 @@ class ToolbarItemButton implements IToolbarItem {
     this.setDisabled()
 
     // click
-    this.$button.on('click', () => {
+    this.$button.on('click', e => {
+      e.stopPropagation()
+      hideAllPanels() // 隐藏当前的各种 panel
       this.trigger()
     })
   }
@@ -54,7 +56,7 @@ class ToolbarItemButton implements IToolbarItem {
     const editor = getEditorInstance(this)
     const menuItem = this.menuItem
     const value = menuItem.getValue(editor)
-    menuItem.cmd(editor, value)
+    menuItem.cmd(editor, value, this.$elem)
   }
 
   private setActive() {

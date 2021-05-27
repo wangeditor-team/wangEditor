@@ -28,7 +28,7 @@ interface IRenderElemConf {
 interface IMenuConf {
   key: string
   factory: () => IMenuItem
-  config?: any
+  config?: { [key: string]: any }
 }
 export interface IModuleConf {
   addTextStyle?: TextStyleFnType

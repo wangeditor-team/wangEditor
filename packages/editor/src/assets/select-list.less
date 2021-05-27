@@ -1,0 +1,38 @@
+.w-e-select-list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #fff;
+  border: 1px solid #f1f1f1;
+  border-right-color: #ccc;
+  border-bottom-color: #ccc;
+  margin-top: 40px;
+  min-width: 100px;
+
+  ul {
+    list-style: none;
+    line-height: 1;
+
+    .selected {
+      background-color: #f1f1f1;
+    }
+    li {
+      cursor: pointer;
+      padding: 7px 0 7px 25px;
+      position: relative;
+      text-align: left;
+
+      &:hover {
+        background-color: #f1f1f1;
+      }
+
+      svg {
+        position: absolute;
+        left: 0;
+        margin-left: 5px;
+        top: 50%;
+        margin-top: -7px;
+      }
+    }
+  }
+}

@@ -3,10 +3,23 @@
  * @author wangfupeng
  */
 
+import { cloneDeep } from 'lodash-es'
 import { Editor, Range, NodeEntry } from 'slate'
 
-type PluginFnType = <T extends Editor>(editor: T) => T
+// 全局的菜单配置
+const GLOBAL_MENU_CONF: { [key: string]: any } = {}
 
+/**
+ * 注册全局菜单配置
+ * @param key menu key
+ * @param config config
+ */
+export function registerGlobalMenuConf(key: string, config?: { [key: string]: any }) {
+  if (config == null) return
+  GLOBAL_MENU_CONF[key] = config
+}
+
+type PluginFnType = <T extends Editor>(editor: T) => T
 export interface IConfig {
   toolbarId?: string
   showToolbar: boolean
@@ -19,7 +32,7 @@ export interface IConfig {
   decorate?: (nodeEntry: NodeEntry) => Range[]
 
   toolbarKeys: string[]
-  toolButtonConf: {
+  menuConf: {
     [key: string]: any
   }
 
@@ -30,13 +43,15 @@ export interface IConfig {
  * 默认配置
  */
 function getDefaultConfig(): IConfig {
+  const menuConf = cloneDeep(GLOBAL_MENU_CONF)
+
   return {
     showToolbar: true,
     readOnly: false,
     autoFocus: true,
     decorate: () => [],
     toolbarKeys: [],
-    toolButtonConf: {},
+    menuConf,
     plugins: [],
   }
 }

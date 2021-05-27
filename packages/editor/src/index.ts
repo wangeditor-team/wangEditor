@@ -9,7 +9,7 @@ import {
   createEditor,
   registerTextStyleHandler,
   registerRenderElemConf,
-  registerMenuItemFactory,
+  registerMenuItem,
 } from '@wangeditor/core'
 import { simpleStyle, header, p, color } from '@wangeditor/basic'
 
@@ -25,7 +25,7 @@ if (simpleStyle.addTextStyle) {
   registerTextStyleHandler(simpleStyle.addTextStyle)
 }
 if (simpleStyle.menus && simpleStyle.menus.length) {
-  simpleStyle.menus.forEach(menuConf => registerMenuItemFactory(menuConf))
+  simpleStyle.menus.forEach(menuConf => registerMenuItem(menuConf))
 }
 
 // --------------------- 注册 header module ---------------------
@@ -36,7 +36,7 @@ if (header.renderElems && header.renderElems.length) {
   header.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
 if (header.menus && header.menus.length) {
-  header.menus.forEach(menuConf => registerMenuItemFactory(menuConf))
+  header.menus.forEach(menuConf => registerMenuItem(menuConf))
 }
 if (header.editorPlugin) {
   plugins.push(header.editorPlugin)
@@ -47,7 +47,7 @@ if (color.addTextStyle) {
   registerTextStyleHandler(color.addTextStyle)
 }
 if (color.menus && color.menus.length) {
-  color.menus.forEach(menuConf => registerMenuItemFactory(menuConf))
+  color.menus.forEach(menuConf => registerMenuItem(menuConf))
 }
 
 // --------------------- 创建 editor 实例 ---------------------
