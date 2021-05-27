@@ -66,7 +66,7 @@ class TextStyleMenu implements IMenuItem {
    * @param editor editor
    * @param value 是否有 mark
    */
-  cmd(editor: IDomEditor, value: string | boolean) {
+  exec(editor: IDomEditor, value: string | boolean) {
     const mark = this.mark
     if (value) {
       // 已，则取消

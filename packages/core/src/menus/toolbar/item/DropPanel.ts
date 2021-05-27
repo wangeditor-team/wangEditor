@@ -3,11 +3,11 @@
  * @author wangfupeng
  */
 
-import $, { Dom7Array } from '../utils/dom'
-import { gatherPanel } from './helpers'
-import { IPanel } from './index'
+import $, { Dom7Array } from '../../../utils/dom'
+import { gatherPanel } from '../../helpers'
+import { IPanel } from '../../index'
 
-export class DropPanel implements IPanel {
+class DropPanel implements IPanel {
   $elem: Dom7Array = $(`<div class="w-e-drop-panel"></div>`)
   isShow: boolean = false
 
@@ -43,3 +43,5 @@ export class DropPanel implements IPanel {
     this.isShow = false
   }
 }
+
+export default DropPanel

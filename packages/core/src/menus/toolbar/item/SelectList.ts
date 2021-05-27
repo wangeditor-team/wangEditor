@@ -47,7 +47,7 @@ class SelectList implements IPanel {
         $li.addClass('selected')
       }
 
-      $li.append($(`<span>${text}</span>`))
+      $li.append($(`<span data-value="${value}">${text}</span>`))
       $list.append($li)
     })
     $elem.append($list)

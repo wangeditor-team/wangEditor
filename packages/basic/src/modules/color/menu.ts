@@ -4,16 +4,16 @@
  */
 
 import { Editor, Text } from 'slate'
-import { IMenuItem, IDomEditor, DropPanel } from '@wangeditor/core'
+import { IMenuItem, IDomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../utils/dom'
 
 class ColorMenu implements IMenuItem {
   title: string
   iconSvg: string
   tag = 'button'
-  withDownArrow = true // menu button 显示一个箭头
-  mark: string
-  private dropPanel: DropPanel | null = null
+  showDropPanel = true // 点击 button 时显示 dropPanel
+  private mark: string
+  private $content: Dom7Array | null = null
 
   constructor(mark: string, title: string, iconSvg: string) {
     this.mark = mark
@@ -53,60 +53,43 @@ class ColorMenu implements IMenuItem {
     return false
   }
 
-  cmd(editor: IDomEditor, value: string | boolean, $menuElem?: Dom7Array) {
-    if ($menuElem == null) return
-    const mark = this.mark
+  getPanelContentElem(editor: IDomEditor): Dom7Array {
+    if (this.$content == null) {
+      // 第一次渲染
+      const $content = $('<ul class="w-e-panel-content-color"></ul>')
 
-    if (this.dropPanel == null) {
-      // 初次创建
-      const dropPanel = new DropPanel()
-      const $content = this.genPanelContent(editor)
-      dropPanel.renderContent($content)
-      dropPanel.appendTo($menuElem)
-      dropPanel.show()
-
-      // 设置宽度
-      const { $elem } = dropPanel
-      $elem.css('width', '262px')
-
-      // 初次创建，绑定事件
-      $elem.on('mousedown', 'li', (e: Event) => {
+      // 绑定事件（只在第一次绑定，不要重复绑定）
+      const mark = this.mark
+      $content.on('mousedown', 'li', (e: Event) => {
         e.preventDefault()
         // @ts-ignore
         const $li = $(e.target)
         const val = $li.attr('data-value')
         Editor.addMark(editor, mark, val)
       })
-    } else {
-      // 不是初次创建
-      const dropPanel = this.dropPanel
-      if (dropPanel.isShow) {
-        // 当前处于显示状态，则隐藏
-        dropPanel.hide()
-      } else {
-        // 当前未处于显示状态，则重新渲染内容 ，并显示
-        const $content = this.genPanelContent(editor)
-        dropPanel.renderContent($content)
-        dropPanel.show()
-      }
+
+      this.$content = $content
     }
-  }
+    const $content = this.$content
+    if ($content == null) return $()
+    $content.html('') // 清空之后再重置内容
 
-  private genPanelContent(editor: IDomEditor): Dom7Array {
-    const $content = $('<ul></ul>')
-
+    // 当前选中文本的颜色之
     const selectedColor = this.getValue(editor)
 
+    // 获取菜单配置
     const colorConf = this.getConfig(editor)
     const { colors = [] } = colorConf
-
+    // 根据菜单配置生成 panel content
     colors.forEach((color: string) => {
-      const $li = $(`<li data-value="${color}"></li>`)
-      $li.css('background-color', color)
+      const $block = $(`<div class="color-block" data-value="${color}"></div>`)
+      $block.css('background-color', color)
 
+      const $li = $(`<li data-value="${color}"></li>`)
       if (selectedColor === color) {
-        $li.css('border-color', '#666')
+        $li.addClass('active')
       }
+      $li.append($block)
 
       $content.append($li)
     })

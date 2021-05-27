@@ -7,8 +7,6 @@ import { IDomEditor } from '../editor/dom-editor'
 import { Dom7Array } from '../utils/dom'
 import { registerGlobalMenuConf } from '../config/index'
 
-export { DropPanel } from './DropPanel'
-
 export interface IPanel {
   $elem: Dom7Array
   show: () => void
@@ -27,13 +25,15 @@ export interface IMenuItem {
   iconSvg: string
 
   tag: string // 'button' / 'select'
-  withDownArrow?: boolean // button 是否需要一个箭头 icon ，如文字颜色、背景色
-  options?: IOption[] // select -> option
-  width?: number
+  showDropPanel?: boolean // 点击 'button' 显示 dropPanel
+  options?: IOption[] // select -> options
+  width?: number // 设置 button 宽度
 
   getValue: (editor: IDomEditor) => string | boolean
   isDisabled: (editor: IDomEditor) => boolean
-  cmd: (editor: IDomEditor, value: string | boolean, $menuElem?: Dom7Array) => void // button click 或 select change 时触发
+
+  exec?: (editor: IDomEditor, value: string | boolean) => void // button click 或 select change 时触发
+  getPanelContentElem?: (editor: IDomEditor) => Dom7Array // showDropPanel 情况下，获取 content elem
 }
 
 // menu item 的工厂函数 - 集合

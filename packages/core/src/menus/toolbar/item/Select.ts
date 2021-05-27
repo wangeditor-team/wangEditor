@@ -114,7 +114,8 @@ class ToolbarItemSelect implements IToolbarItem {
 
   private onChange(value: string) {
     const editor = getEditorInstance(this)
-    this.menuItem.cmd(editor, value, this.$elem)
+    const menuItem = this.menuItem
+    menuItem.exec && menuItem.exec(editor, value)
   }
 
   private setSelectedValue() {
