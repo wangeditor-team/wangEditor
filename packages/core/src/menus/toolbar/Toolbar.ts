@@ -20,7 +20,10 @@ class Toolbar {
   private toolbarItems: IToolbarItem[] = []
 
   constructor(toolbarId: string) {
-    this.$toolbar = $(`#${toolbarId}`)
+    const $toolbar = $(`#${toolbarId}`)
+    $toolbar.on('mousedown', e => e.preventDefault())
+
+    this.$toolbar = $toolbar
 
     // 注册 items 。异步，否则拿不到 editor 实例
     promiseResolveThen(() => {

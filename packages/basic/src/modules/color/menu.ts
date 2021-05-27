@@ -5,7 +5,7 @@
 
 import { Editor, Text } from 'slate'
 import { IMenuItem, IDomEditor, DropPanel } from '@wangeditor/core'
-import $, { Dom7Array } from '../_utils/dom'
+import $, { Dom7Array } from '../../utils/dom'
 
 class ColorMenu implements IMenuItem {
   title: string

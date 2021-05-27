@@ -16,6 +16,9 @@ const env = process.env.NODE_ENV || 'production'
 function genSingleConfig(distDir, options) {
   const { name = 'index', format, suffix = 'js', plugins = [] } = options
 
+  // 开发环境不压缩 css
+  const postcssPlugins = env !== 'development' ? [autoprefixer(), cssnano()] : [autoprefixer()]
+
   return {
     input: path.resolve(__dirname, './src/index.ts'),
     output: {
@@ -46,8 +49,8 @@ function genSingleConfig(distDir, options) {
         extensions: ['.ts'],
       }),
       postcss({
-        plugins: [autoprefixer(), cssnano()],
-        // extract: 'css/index.css',
+        plugins: postcssPlugins,
+        extract: 'css/style.css',
       }),
       ...plugins,
     ],

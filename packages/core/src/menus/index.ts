@@ -11,8 +11,8 @@ export { DropPanel } from './DropPanel'
 
 export interface IPanel {
   $elem: Dom7Array
-  show: () => {}
-  hide: () => {}
+  show: () => void
+  hide: () => void
 }
 
 export interface IOption {

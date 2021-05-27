@@ -3,7 +3,10 @@
  * @author wangfupeng
  */
 
+// 引入必要的 css
 import './assets/index.less'
+import '@wangeditor/core/css/style.css'
+import '@wangeditor/basic/css/style.css'
 
 import {
   createEditor,

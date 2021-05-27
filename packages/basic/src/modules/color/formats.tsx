@@ -5,7 +5,7 @@
 
 import { Text as SlateText, Element as SlateElement } from 'slate'
 import { jsx, VNode } from 'snabbdom'
-import { addVnodeStyle } from '../_utils/vdom'
+import { addVnodeStyle } from '../../utils/vdom'
 
 /**
  * 添加文本样式

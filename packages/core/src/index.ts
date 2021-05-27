@@ -3,6 +3,8 @@
  * @author wangfupeng
  */
 
+import './assets/index.less'
+
 import { Editor } from 'slate'
 import create from './create-editor'
 import { TextStyleFnType, RenderElemFnType } from './formats/index'

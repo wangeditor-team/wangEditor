@@ -5,6 +5,7 @@
     "test": "jest",
     "test-c": "jest --coverage",
     "dev": "lerna run --parallel dev",
+    "dev-watch": "lerna run --parallel dev-watch",
     "build": "lerna exec --parallel -- 'yarn build'",
     "bootstrap": "lerna bootstrap --use-workspaces",
     "release": "lerna version --conventional-commits",
