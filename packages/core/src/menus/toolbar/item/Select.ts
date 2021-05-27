@@ -86,7 +86,7 @@ class ToolbarItemSelect implements IToolbarItem {
       // 初次创建，渲染 list 并显示
       this.selectList = new SelectList()
       const selectList = this.selectList
-      selectList.renderList(newOptions, 'list')
+      selectList.renderList(newOptions)
       selectList.appendTo(this.$elem)
       selectList.show()
 
@@ -106,7 +106,7 @@ class ToolbarItemSelect implements IToolbarItem {
         selectList.hide()
       } else {
         // 当前未处于显示状态，则重新渲染 list ，并显示
-        selectList.renderList(newOptions, 'list')
+        selectList.renderList(newOptions)
         selectList.show()
       }
     }

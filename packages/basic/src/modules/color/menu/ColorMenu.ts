@@ -3,9 +3,9 @@
  * @author wangfupeng
  */
 
-import { Editor, Text } from 'slate'
+import { Editor } from 'slate'
 import { IMenuItem, IDomEditor } from '@wangeditor/core'
-import $, { Dom7Array } from '../../utils/dom'
+import $, { Dom7Array } from '../../../utils/dom'
 
 class ColorMenu implements IMenuItem {
   title: string
@@ -65,7 +65,13 @@ class ColorMenu implements IMenuItem {
         // @ts-ignore
         const $li = $(e.target)
         const val = $li.attr('data-value')
-        Editor.addMark(editor, mark, val)
+
+        // 修改文本样式
+        if (val === '0') {
+          Editor.removeMark(editor, mark)
+        } else {
+          Editor.addMark(editor, mark, val)
+        }
       })
 
       this.$content = $content
@@ -94,6 +100,15 @@ class ColorMenu implements IMenuItem {
       $content.append($li)
     })
 
+    // 清除颜色
+    const $clearLi = $(`
+      <li data-value="0" class="clear">
+        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2335" width="200" height="200"><path d="M512 620.544l253.3376 253.3376a76.6976 76.6976 0 1 0 108.544-108.544L620.6464 512l253.2352-253.3376a76.6976 76.6976 0 1 0-108.544-108.544L512 403.3536 258.6624 150.1184a76.6976 76.6976 0 1 0-108.544 108.544L403.3536 512 150.1184 765.3376a76.6976 76.6976 0 1 0 108.544 108.544L512 620.6464z"></path></svg>
+        清除颜色
+      </li>
+    `)
+    $content.prepend($clearLi)
+
     return $content
   }
 
@@ -105,51 +120,4 @@ class ColorMenu implements IMenuItem {
   }
 }
 
-function genMenuConf(mark: string, title: string, iconSvg: string) {
-  return {
-    key: mark,
-    factory() {
-      return new ColorMenu(mark, title, iconSvg)
-    },
-
-    // 默认的菜单菜单配置，可以通过 editor.getConfig().menuConf[key] 拿到
-    // 用户也可以修改这个配置
-    config: {
-      colors: [
-        '#000000',
-        '#262626',
-        '#595959',
-        '#8c8c8c',
-        '#bfbfbf',
-        '#d9d9d9',
-        '#e9e9e9e',
-        '#f5f5f5',
-        '#fafafa',
-        '#ffffff', // 一行
-        '#e13c39',
-        '#e75f33',
-        '#eb903a',
-        '#f5db4d',
-        '#72c040',
-        '#59bfc0',
-        '#4290f7',
-        '#3658e2',
-        '#6a39c9',
-        '#d84493', // 一行
-        '#fbe9e6',
-        '#fcede1',
-        '#fcefd4',
-        '#fcfbcf',
-        '#e7f6d5',
-        '#daf4f0',
-        '#d9edfa',
-        '#e0e8fa',
-        '#ede1f8',
-        '#f6e2ea', // 一行
-        // TODO 参考语雀编辑器，继续补充其他颜色
-      ],
-    },
-  }
-}
-
-export default genMenuConf
+export default ColorMenu

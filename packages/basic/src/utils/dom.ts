@@ -7,6 +7,7 @@ import {
   $,
   css,
   append,
+  prepend,
   addClass,
   removeClass,
   on,
@@ -26,6 +27,7 @@ export { Dom7Array } from 'dom7'
 
 $.fn.css = css
 $.fn.append = append
+$.fn.prepend = prepend
 $.fn.addClass = addClass
 $.fn.removeClass = removeClass
 $.fn.on = on

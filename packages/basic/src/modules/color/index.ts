@@ -5,7 +5,7 @@
 
 import { IModuleConf } from '@wangeditor/core'
 import { addTextStyle } from './formats'
-import genMenuConf from './menu'
+import { genMenuConf } from './menu/index'
 
 const colorIconSvg = `<svg t="1621942496957" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3823" width="200" height="200"><path d="M64 864h896v96H64zM360.58 576h302.85l81.53 224h102.16L579.24 64H444.77L176.89 800h102.16l81.53-224zM512 159.96L628.49 480H395.52L512 159.96z" p-id="3824"></path></svg>`
 const colorMenu = genMenuConf('color', '字体颜色', colorIconSvg)

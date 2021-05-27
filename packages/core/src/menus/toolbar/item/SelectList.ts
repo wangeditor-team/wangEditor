@@ -26,13 +26,12 @@ class SelectList implements IPanel {
   /**
    * 渲染 list
    * @param options select options
-   * @param type 'list'/ 'grid'
    */
-  renderList(options: IOption[], type: string = 'list') {
+  renderList(options: IOption[]) {
     const $elem = this.$elem
     $elem.html('') // 先清空内容，再重新渲染
 
-    const $list = $(`<ul class="${type === 'list' ? 'list' : 'grid'}"></ul>`)
+    const $list = $(`<ul></ul>`)
     options.forEach(opt => {
       const { value, text, selected, styleForRenderMenuList } = opt
       const $li = $(`<li data-value="${value}"></li>`) // 【注意】必须用 <li> 必须用 data-value！！！
