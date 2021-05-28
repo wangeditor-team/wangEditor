@@ -16,6 +16,7 @@ import {
   show,
   scrollTop,
   offset,
+  width,
   parents,
   is,
   dataset,
@@ -40,6 +41,7 @@ $.fn.hide = hide
 $.fn.show = show
 $.fn.scrollTop = scrollTop
 $.fn.offset = offset
+$.fn.width = width
 $.fn.parents = parents
 $.fn.is = is
 $.fn.dataset = dataset

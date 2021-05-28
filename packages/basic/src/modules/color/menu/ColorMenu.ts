@@ -54,12 +54,13 @@ class ColorMenu implements IMenuItem {
   }
 
   getPanelContentElem(editor: IDomEditor): Dom7Array {
+    const mark = this.mark
+
     if (this.$content == null) {
       // 第一次渲染
       const $content = $('<ul class="w-e-panel-content-color"></ul>')
 
       // 绑定事件（只在第一次绑定，不要重复绑定）
-      const mark = this.mark
       $content.on('mousedown', 'li', (e: Event) => {
         e.preventDefault()
         // @ts-ignore
@@ -101,10 +102,13 @@ class ColorMenu implements IMenuItem {
     })
 
     // 清除颜色
+    let clearText = ''
+    if (mark === 'color') clearText = '默认颜色'
+    if (mark === 'bgColor') clearText = '清除背景色'
     const $clearLi = $(`
       <li data-value="0" class="clear">
-        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2335" width="200" height="200"><path d="M512 620.544l253.3376 253.3376a76.6976 76.6976 0 1 0 108.544-108.544L620.6464 512l253.2352-253.3376a76.6976 76.6976 0 1 0-108.544-108.544L512 403.3536 258.6624 150.1184a76.6976 76.6976 0 1 0-108.544 108.544L403.3536 512 150.1184 765.3376a76.6976 76.6976 0 1 0 108.544 108.544L512 620.6464z"></path></svg>
-        清除颜色
+        <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M236.8 128L896 787.2V128H236.8z m614.4 704L192 172.8V832h659.2zM192 64h704c38.4 0 64 25.6 64 64v704c0 38.4-25.6 64-64 64H192c-38.4 0-64-25.6-64-64V128c0-38.4 25.6-64 64-64z"></path></svg>
+        ${clearText}
       </li>
     `)
     $content.prepend($clearLi)

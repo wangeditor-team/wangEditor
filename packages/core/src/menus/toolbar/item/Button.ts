@@ -99,6 +99,32 @@ class ToolbarItemButton implements IToolbarItem {
         dropPanel.show()
       }
     }
+
+    // 判断 dropPanel 的位置：在菜单右侧/左侧
+    const dropPanel = this.dropPanel
+    if (dropPanel.isShow) {
+      const $menu = this.$elem
+      const { left } = $menu.offset() // 菜单元素 left
+
+      const $toolbar = $menu.parents('.w-e-toolbar')
+      const { left: toolbarLeft } = $toolbar.offset() // toolbar left
+      const toolbarWidth = $toolbar.width() // toolbar width
+      const halfToolbarWidth = toolbarWidth / 2 // toolbar width 的 1/2
+
+      if (left - toolbarLeft >= halfToolbarWidth) {
+        // 菜单在 toolbar 的右半部分，则 dropPanel 要显示在菜单左侧
+        dropPanel.$elem.css({
+          left: 'none',
+          right: '0',
+        })
+      } else {
+        // 菜单在 toolbar 左半部分，则 dropPanel 显示在菜单右侧
+        dropPanel.$elem.css({
+          left: '0',
+          right: 'none',
+        })
+      }
+    }
   }
 
   private setActive() {
