@@ -30,6 +30,11 @@ class Link extends PanelMenu implements MenuActive {
         const editor = this.editor
         let $linkElem
 
+        const $selectionElem = editor.selection.getSelectionContainerElem()
+        // 判断是否是多行 多行则退出 否则会出现问题
+        if ($selectionElem && editor.$textElem.equal($selectionElem)) {
+            return
+        }
         if (this.isActive) {
             // 菜单被激活，说明选区在链接里
             $linkElem = editor.selection.getSelectionContainerElem()
