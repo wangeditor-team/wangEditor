@@ -25,7 +25,7 @@ function getTopNode(node: Node, topText: string): Node {
 function makeHtmlString(node: Node, content: string): string {
     let tagName = node.nodeName
     let attr = ''
-    if (node.nodeType === 3) {
+    if (node.nodeType === 3 || /^(h|H)[1-6]$/.test(tagName)) {
         return content
     }
     if (node.nodeType === 1) {

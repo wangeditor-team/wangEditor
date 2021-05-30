@@ -39,6 +39,10 @@ describe('插入超链接', () => {
     // 采用模拟的方式测试链接跳转，当然你也可以使用其他方式模拟，下面链接里有官方的一些推荐方式
     // reference https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/testing-dom__tab-handling-links/cypress/integration/tab_handling_anchor_links_spec.js
     it('插入的超链接可以进行链接跳转', () => {
+        cy.get('@Editable').type(text)
+
+        cy.get('@Editable').contains(text)
+
         cy.getByClass('toolbar').children().eq(pos).click()
 
         cy.getByClass('panel-container').as('Panel').should('be.visible')
@@ -62,6 +66,10 @@ describe('插入超链接', () => {
     })
 
     it('点击超链接弹窗tooptip，点击“取消链接”可以移除链接', () => {
+        cy.get('@Editable').type(text)
+
+        cy.get('@Editable').contains(text)
+
         cy.getByClass('toolbar').children().eq(pos).click()
 
         cy.getByClass('panel-container').as('Panel').should('be.visible')
