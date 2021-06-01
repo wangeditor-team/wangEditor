@@ -4,8 +4,8 @@
  */
 
 import $, { Dom7Array } from '../../../utils/dom'
-import { IOption, IPanel } from '../../index'
-import { gatherPanel } from '../../helpers'
+import { IOption, IPanel } from '../../interface'
+import { gatherPanelAndModal } from '../../helpers'
 
 // “对号”icon
 function gen$SelectedIcon() {
@@ -20,7 +20,7 @@ class SelectList implements IPanel {
 
   constructor() {
     // 收集实例，以便可以统一 hide
-    gatherPanel(this)
+    gatherPanelAndModal(this)
   }
 
   /**

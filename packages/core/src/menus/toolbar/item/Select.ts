@@ -3,12 +3,11 @@
  * @author wangfupeng
  */
 
-import { IMenuItem } from '../../index'
 import $, { Dom7Array } from '../../../utils/dom'
 import { IToolbarItem, getEditorInstance } from './index'
-import { IOption } from '../../index'
+import { IOption, IMenuItem } from '../../interface'
 import SelectList from './SelectList'
-import { gen$downArrow, hideAllPanels } from '../../helpers'
+import { gen$downArrow, hideAllPanelsAndModals } from '../../helpers'
 
 // 根据 option value 获取 text
 function getOptionText(options: IOption[], value: string): string {
@@ -67,7 +66,7 @@ class ToolbarItemSelect implements IToolbarItem {
     // click
     this.$button.on('click', (e: Event) => {
       e.stopPropagation()
-      hideAllPanels() // 隐藏当前的各种 panel
+      hideAllPanelsAndModals() // 隐藏当前的各种 panel
       this.trigger()
     })
   }

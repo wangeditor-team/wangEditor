@@ -5,7 +5,7 @@
 
 import { debounce } from 'lodash-es'
 import $, { Dom7Array } from '../../utils/dom'
-import { MENU_ITEM_FACTORIES } from '../index'
+import { MENU_ITEM_FACTORIES } from '../register'
 import { promiseResolveThen } from '../../utils/util'
 import { TOOLBAR_TO_EDITOR, TOOLBAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import { IDomEditor } from '../../editor/dom-editor'

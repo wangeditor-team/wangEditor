@@ -4,7 +4,7 @@
  */
 
 import { Dom7Array } from '../../../utils/dom'
-import { IMenuItem } from '../../index'
+import { IMenuItem } from '../../interface'
 import { IDomEditor } from '../../../editor/dom-editor'
 import { TOOLBAR_ITEM_TO_EDITOR } from '../../../utils/weak-maps'
 import ToolbarItemButton from './Button'

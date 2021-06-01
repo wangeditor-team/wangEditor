@@ -3,9 +3,9 @@
  * @author wangfupeng
  */
 
-import $, { Dom7Array } from '../../../utils/dom'
-import { gatherPanel } from '../../helpers'
-import { IPanel } from '../../index'
+import $, { Dom7Array } from '../../utils/dom'
+import { gatherPanelAndModal } from '../helpers'
+import { IPanel } from '../interface'
 
 class DropPanel implements IPanel {
   $elem: Dom7Array = $(`<div class="w-e-drop-panel"></div>`)
@@ -13,7 +13,7 @@ class DropPanel implements IPanel {
 
   constructor() {
     // 收集实例，以便可以统一 hide
-    gatherPanel(this)
+    gatherPanelAndModal(this)
   }
 
   renderContent($content: Dom7Array) {

@@ -17,6 +17,7 @@ import {
   NODE_TO_KEY,
   NODE_TO_PARENT,
   CHANGING_NODE_PATH,
+  EDITOR_TO_SELECTION,
 } from '../utils/weak-maps'
 import {
   DOMElement,
@@ -518,5 +519,13 @@ export const DomEditor = {
   isChangingPath(editor: IDomEditor, path: Path): boolean {
     const curPath = CHANGING_NODE_PATH.get(editor) || []
     return isEqual(curPath, path)
+  },
+
+  restoreSelection(editor: IDomEditor) {
+    const selection = EDITOR_TO_SELECTION.get(editor)
+    if (selection == null) return
+
+    this.focus(editor)
+    Transforms.select(editor, selection)
   },
 }

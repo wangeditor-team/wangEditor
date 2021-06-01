@@ -11,6 +11,7 @@ import {
   addClass,
   removeClass,
   on,
+  focus,
   attr,
   hide,
   show,

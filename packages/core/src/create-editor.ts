@@ -10,6 +10,7 @@ import TextArea from './text-area/TextArea'
 import Toolbar from './menus/toolbar/Toolbar'
 import { IConfig, genConfig } from './config/index'
 import {
+  EDITOR_TO_TEXTAREA,
   TEXTAREA_TO_EDITOR,
   TOOLBAR_TO_EDITOR,
   EDITOR_TO_ON_CHANGE,
@@ -74,6 +75,7 @@ function create(containerId: string, config: IConfig | {} = {}, content?: Node[]
     $container.append($textContainer)
     textarea = new TextArea(newContainerId)
   }
+  EDITOR_TO_TEXTAREA.set(editor, textarea)
   TEXTAREA_TO_EDITOR.set(textarea, editor)
   toolbar && TOOLBAR_TO_EDITOR.set(toolbar, editor)
 

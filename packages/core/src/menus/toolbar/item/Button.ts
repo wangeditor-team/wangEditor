@@ -3,17 +3,26 @@
  * @author wangfupeng
  */
 
-import { IMenuItem } from '../../index'
+import { IMenuItem } from '../../interface'
 import $, { Dom7Array } from '../../../utils/dom'
 import { IToolbarItem, getEditorInstance } from './index'
-import { clearSvgStyle, gen$downArrow, hideAllPanels } from '../../helpers'
-import DropPanel from './DropPanel'
+import {
+  clearSvgStyle,
+  gen$downArrow,
+  hideAllPanelsAndModals,
+  getModalPosition,
+} from '../../helpers'
+import DropPanel from '../DropPanel'
+import Modal from '../Modal'
+import { EDITOR_TO_TEXTAREA } from '../../../utils/weak-maps'
+
 class ToolbarItemButton implements IToolbarItem {
   $elem: Dom7Array = $(`<div class="w-e-toolbar-item"></div>`)
   private $button: Dom7Array
   menuItem: IMenuItem
   private disabled = false
   private dropPanel: DropPanel | null = null
+  private modal: Modal | null = null
 
   constructor(menuItem: IMenuItem) {
     // 验证 tag
@@ -47,7 +56,7 @@ class ToolbarItemButton implements IToolbarItem {
     // click
     this.$button.on('click', e => {
       e.stopPropagation()
-      hideAllPanels() // 隐藏当前的各种 panel
+      hideAllPanelsAndModals() // 隐藏当前的各种 panel
       this.trigger()
     })
   }
@@ -68,6 +77,11 @@ class ToolbarItemButton implements IToolbarItem {
     if (menuItem.showDropPanel) {
       // 显示/隐藏 dropPanel
       this.handleDropPanel()
+    }
+
+    if (menuItem.showModal) {
+      // 显示/隐藏 modal
+      this.handleModal()
     }
   }
 
@@ -123,6 +137,43 @@ class ToolbarItemButton implements IToolbarItem {
           left: '0',
           right: 'none',
         })
+      }
+    }
+  }
+
+  private handleModal() {
+    const editor = getEditorInstance(this)
+    const menuItem = this.menuItem
+    if (menuItem.getModalContentElem == null) return
+
+    const textarea = EDITOR_TO_TEXTAREA.get(editor)
+    if (textarea == null) return
+
+    if (this.modal == null) {
+      // 初次创建
+      const modal = new Modal()
+      const $content = menuItem.getModalContentElem(editor)
+      modal.renderContent($content)
+      const positionStyle = getModalPosition(editor) // 获取 modal position
+      modal.setStyle(positionStyle)
+      modal.appendTo(textarea.$textAreaContainer)
+      modal.show()
+
+      // 记录下来，防止重复创建
+      this.modal = modal
+    } else {
+      // 不是初次创建
+      const modal = this.modal
+      if (modal.isShow) {
+        // 当前处于显示状态，则隐藏
+        modal.hide()
+      } else {
+        // 当前未处于显示状态，则重新渲染内容 ，并显示
+        const $content = menuItem.getModalContentElem(editor)
+        modal.renderContent($content)
+        const positionStyle = getModalPosition(editor) // 获取 modal position
+        modal.setStyle(positionStyle)
+        modal.show()
       }
     }
   }

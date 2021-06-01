@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor } from 'slate'
+import { Editor, Range } from 'slate'
 import { IMenuItem, IDomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 
@@ -63,6 +63,11 @@ class ColorMenu implements IMenuItem {
       // 绑定事件（只在第一次绑定，不要重复绑定）
       $content.on('mousedown', 'li', (e: Event) => {
         e.preventDefault()
+
+        const { selection } = editor
+        if (selection == null) return
+        if (Range.isCollapsed(selection)) return
+
         // @ts-ignore
         const $li = $(e.target)
         const val = $li.attr('data-value')

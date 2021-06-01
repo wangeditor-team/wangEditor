@@ -5,7 +5,12 @@
 
 import { Editor, Node, Path, Operation, Transforms, Range } from 'slate'
 import { IDomEditor, DomEditor } from './dom-editor'
-import { EDITOR_TO_ON_CHANGE, NODE_TO_KEY, EDITOR_TO_CONFIG } from '../utils/weak-maps'
+import {
+  EDITOR_TO_ON_CHANGE,
+  NODE_TO_KEY,
+  EDITOR_TO_CONFIG,
+  EDITOR_TO_SELECTION,
+} from '../utils/weak-maps'
 import { Key } from '../utils/key'
 import { isDOMText, getPlainText } from '../utils/dom'
 import { IConfig } from '../config/index'
@@ -192,6 +197,12 @@ export const withDOM = <T extends Editor>(editor: T) => {
 
   // 重写 onchange API
   e.onChange = () => {
+    // 记录当前选区
+    const { selection } = e
+    if (selection != null) {
+      EDITOR_TO_SELECTION.set(e, selection)
+    }
+
     // 触发配置的 onchange 事件
     const onContextChange = EDITOR_TO_ON_CHANGE.get(e)
     if (onContextChange) {

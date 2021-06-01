@@ -14,7 +14,7 @@ import {
   registerRenderElemConf,
   registerMenuItem,
 } from '@wangeditor/core'
-import { simpleStyle, header, p, color } from '@wangeditor/basic'
+import { simpleStyle, header, p, color, link } from '@wangeditor/basic'
 
 const plugins = []
 
@@ -45,6 +45,17 @@ if (header.editorPlugin) {
   plugins.push(header.editorPlugin)
 }
 
+// --------------------- 注册 link module ---------------------
+if (link.renderElems && link.renderElems.length) {
+  link.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (link.menus && link.menus.length) {
+  link.menus.forEach(menuConf => registerMenuItem(menuConf))
+}
+if (link.editorPlugin) {
+  plugins.push(link.editorPlugin)
+}
+
 // --------------------- 注册 color module ---------------------
 if (color.addTextStyle) {
   registerTextStyleHandler(color.addTextStyle)
@@ -65,6 +76,8 @@ let editor = createEditor('editor-container', {
     '|',
     'color',
     'bgColor',
+    '|',
+    'insertLink',
     '|',
     'code',
   ],
