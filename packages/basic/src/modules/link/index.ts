@@ -6,11 +6,16 @@
 import { IModuleConf } from '@wangeditor/core'
 import withLink from './withLink'
 import { renderLinkConf } from './formats'
-import { insertLinkMenuConf } from './menu/index'
+import {
+  insertLinkMenuConf,
+  updateLinkMenuConf,
+  unLinkMenuConf,
+  viewLinkMenuConf,
+} from './menu/index'
 
 const link: IModuleConf = {
   renderElems: [renderLinkConf],
-  menus: [insertLinkMenuConf],
+  menus: [insertLinkMenuConf, updateLinkMenuConf, unLinkMenuConf, viewLinkMenuConf],
   editorPlugin: withLink,
 }
 

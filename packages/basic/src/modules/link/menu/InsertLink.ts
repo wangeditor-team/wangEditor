@@ -7,10 +7,7 @@ import { Editor, Transforms, Range } from 'slate'
 import { IMenuItem, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
-
-function genLabelContainer(): Dom7Array {
-  return $('<label class="babel-container"></label>')
-}
+import { getInputElems, getButtonElems } from './helpers'
 
 /**
  * 生成唯一的 DOM ID
@@ -31,16 +28,8 @@ class InsertLink implements IMenuItem {
   private buttonId = genDomID()
 
   getValue(editor: IDomEditor): string | boolean {
-    const [nodeEntry] = Editor.nodes(editor, {
-      match: n => {
-        // @ts-ignore
-        return n.type === 'link'
-      },
-      universal: true,
-    })
-
-    if (nodeEntry == null) return false
-    return true
+    // 任何时候，都不用激活 menu
+    return false
   }
 
   isDisabled(editor: IDomEditor): boolean {
@@ -74,22 +63,10 @@ class InsertLink implements IMenuItem {
     const { selection } = editor
     const { textInputId, urlInputId, buttonId } = this
 
-    // 文本 input elem
-    const $textContainer = genLabelContainer()
-    $textContainer.append('<span>链接文本</span>')
-    const $inputText = $(`<input type="text" id="${textInputId}">`)
-    $textContainer.append($inputText)
-
-    // 链接网址 input elem
-    const $urlContainer = genLabelContainer()
-    $urlContainer.append($('<span>链接网址</span>'))
-    const $inputUrl = $(`<input type="text" id="${urlInputId}">`)
-    $urlContainer.append($inputUrl)
-
-    // button
-    const $buttonContainer = $('<div class="button-container"></div>')
-    const $button = $(`<button id="${buttonId}">插入链接</button>`)
-    $buttonContainer.append($button)
+    // 获取 input button elem
+    const [$textContainer, $inputText] = getInputElems('链接文本', textInputId)
+    const [$urlContainer, $inputUrl] = getInputElems('链接网址', urlInputId)
+    const [$buttonContainer] = getButtonElems(buttonId, '确定')
 
     if (this.$content == null) {
       // 第一次渲染
@@ -149,6 +126,10 @@ class InsertLink implements IMenuItem {
 
     // 还原选区
     DomEditor.restoreSelection(editor)
+
+    if (this.isDisabled(editor)) return
+
+    // 判断选区是否折叠
     const { selection } = editor
     if (selection == null) return
     const isCollapsed = Range.isCollapsed(selection)
