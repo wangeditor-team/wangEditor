@@ -4,8 +4,7 @@
  */
 
 import $, { Dom7Array } from '../../utils/dom'
-import { gatherPanelAndModal } from '../helpers'
-import { IPanel } from '../interface'
+import { IPanel, gatherPanelAndModal } from '../panel-and-modal/index'
 
 class DropPanel implements IPanel {
   $elem: Dom7Array = $(`<div class="w-e-drop-panel"></div>`)

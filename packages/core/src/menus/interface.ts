@@ -6,19 +6,6 @@
 import { IDomEditor } from '../editor/dom-editor'
 import { Dom7Array } from '../utils/dom'
 
-export interface IPositionStyle {
-  top?: string
-  left?: string
-  right?: string
-  bottom?: string
-}
-
-export interface IPanel {
-  $elem: Dom7Array
-  show: () => void
-  hide: () => void
-}
-
 export interface IOption {
   value: string
   text: string

@@ -65,30 +65,35 @@ if (color.menus && color.menus.length) {
 }
 
 // --------------------- 创建 editor 实例 ---------------------
-let editor = createEditor('editor-container', {
-  toolbarKeys: [
-    'header',
-    '|',
-    'bold',
-    'underline',
-    'italic',
-    'through',
-    '|',
-    'color',
-    'bgColor',
-    '|',
-    'insertLink',
-    'updateLink',
-    'unLink',
-    'viewLink',
-    '|',
-    'code',
-  ],
-  onChange() {
-    console.log('selection', editor.selection)
+let editor = createEditor(
+  'editor-container',
+  {
+    toolbarKeys: [
+      'header',
+      '|',
+      'bold',
+      'underline',
+      'italic',
+      'through',
+      '|',
+      'color',
+      'bgColor',
+      '|',
+      'insertLink',
+      'updateLink',
+      'unLink',
+      'viewLink',
+      '|',
+      'code',
+    ],
+    onChange() {
+      console.log('selection', editor.selection)
+    },
+    plugins,
   },
-  plugins,
-})
+  // @ts-ignore
+  window.content
+)
 
 // console.log('editor', editor)
 // console.log('editor.config', editor.getConfig())

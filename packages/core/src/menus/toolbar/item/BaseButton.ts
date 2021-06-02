@@ -6,7 +6,8 @@
 import { IButtonMenu, IDropPanelMenu, IModalMenu } from '../../interface'
 import $, { Dom7Array } from '../../../utils/dom'
 import { IToolbarItem, getEditorInstance } from './index'
-import { clearSvgStyle, hideAllPanelsAndModals } from '../../helpers'
+import { clearSvgStyle } from '../../helpers'
+import { hideAllPanelsAndModals } from '../../panel-and-modal/index'
 
 abstract class BaseButton implements IToolbarItem {
   $elem: Dom7Array = $(`<div class="w-e-toolbar-item"></div>`)

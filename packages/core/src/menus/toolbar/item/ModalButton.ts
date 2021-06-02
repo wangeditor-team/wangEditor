@@ -5,7 +5,7 @@
 
 import { IModalMenu } from '../../interface'
 import BaseButton from './BaseButton'
-import Modal from '../Modal'
+import Modal from '../../panel-and-modal/Modal'
 import { EDITOR_TO_TEXTAREA } from '../../../utils/weak-maps'
 import { getEditorInstance } from './index'
 import { getModalPosition } from '../../helpers'

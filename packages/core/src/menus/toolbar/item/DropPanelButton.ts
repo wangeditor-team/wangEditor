@@ -5,7 +5,7 @@
 
 import { IDropPanelMenu } from '../../interface'
 import BaseButton from './BaseButton'
-import DropPanel from '../DropPanel'
+import DropPanel from '../../panel-and-modal/DropPanel'
 import { gen$downArrow } from '../../helpers'
 import { getEditorInstance } from './index'
 
