@@ -3,9 +3,37 @@
  * @author wangfupeng
  */
 
-import insertLinkMenuConf from './InsertLink'
-import updateLinkMenuConf from './UpdateLink'
-import unLinkMenuConf from './UnLink'
-import viewLinkMenuConf from './ViewLink'
+import InsertLink from './InsertLink'
+import UpdateLink from './UpdateLink'
+import UnLink from './UnLink'
+import ViewLink from './ViewLink'
+
+const insertLinkMenuConf = {
+  key: 'insertLink',
+  factory() {
+    return new InsertLink()
+  },
+}
+
+const updateLinkMenuConf = {
+  key: 'updateLink',
+  factory() {
+    return new UpdateLink()
+  },
+}
+
+const unLinkMenuConf = {
+  key: 'unLink',
+  factory() {
+    return new UnLink()
+  },
+}
+
+const viewLinkMenuConf = {
+  key: 'viewLink',
+  factory() {
+    return new ViewLink()
+  },
+}
 
 export { insertLinkMenuConf, updateLinkMenuConf, unLinkMenuConf, viewLinkMenuConf }

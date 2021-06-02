@@ -4,10 +4,10 @@
  */
 
 import { Editor, Range } from 'slate'
-import { IMenuItem, IDomEditor } from '@wangeditor/core'
+import { IDropPanelMenu, IDomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 
-class ColorMenu implements IMenuItem {
+class ColorMenu implements IDropPanelMenu {
   title: string
   iconSvg: string
   tag = 'button'
@@ -21,12 +21,22 @@ class ColorMenu implements IMenuItem {
     this.iconSvg = iconSvg
   }
 
+  exec(editor: IDomEditor, value: string | boolean) {
+    // 点击菜单时，弹出 droPanel 之前，不需要执行其他代码
+    // 此处空着即可
+  }
+
   getValue(editor: IDomEditor): string | boolean {
     const mark = this.mark
     const curMarks = Editor.marks(editor)
     // @ts-ignore
     if (curMarks && curMarks[mark]) return curMarks[mark]
     return ''
+  }
+
+  isActive(editor: IDomEditor): boolean {
+    const color = this.getValue(editor)
+    return !!color
   }
 
   isDisabled(editor: IDomEditor): boolean {

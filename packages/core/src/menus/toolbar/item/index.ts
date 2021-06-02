@@ -4,11 +4,13 @@
  */
 
 import { Dom7Array } from '../../../utils/dom'
-import { IMenuItem } from '../../interface'
+import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../../interface'
 import { IDomEditor } from '../../../editor/dom-editor'
 import { TOOLBAR_ITEM_TO_EDITOR } from '../../../utils/weak-maps'
-import ToolbarItemButton from './Button'
-import ToolbarItemSelect from './Select'
+import SimpleButton from './SimpleButton'
+import DropPanelButton from './DropPanelButton'
+import ModalButton from './ModalButton'
+import Select from './Select'
 
 export function getEditorInstance(item: IToolbarItem): IDomEditor {
   const editor = TOOLBAR_ITEM_TO_EDITOR.get(item)
@@ -18,23 +20,34 @@ export function getEditorInstance(item: IToolbarItem): IDomEditor {
 
 export interface IToolbarItem {
   $elem: Dom7Array
-  menuItem: IMenuItem
+  menu: IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
   init: () => void
   onSelectionChange: () => void
 }
 
 /**
  * 创建 toolbar button/select
- * @param menuItem menuItem
+ * @param menu menu
  * @param editor editor
  */
-export function createToolbarItem(menuItem: IMenuItem): IToolbarItem {
-  const { tag } = menuItem
+export function createToolbarItem(
+  menu: IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
+): IToolbarItem {
+  const { tag } = menu
   if (tag === 'button') {
-    return new ToolbarItemButton(menuItem)
+    // @ts-ignore
+    if (menu.showDropPanel) {
+      return new DropPanelButton(menu as IDropPanelMenu)
+    }
+    // @ts-ignore
+    if (menu.showModal) {
+      return new ModalButton(menu as IModalMenu)
+    }
+
+    return new SimpleButton(menu)
   }
   if (tag === 'select') {
-    return new ToolbarItemSelect(menuItem)
+    return new Select(menu as ISelectMenu)
   }
-  throw new Error(`Invalid tag in menuItem ${JSON.stringify(menuItem)}`)
+  throw new Error(`Invalid tag in menu ${JSON.stringify(menu)}`)
 }

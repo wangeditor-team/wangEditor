@@ -12,7 +12,7 @@ import {
   createEditor,
   registerTextStyleHandler,
   registerRenderElemConf,
-  registerMenuItem,
+  registerMenu,
 } from '@wangeditor/core'
 import { simpleStyle, header, p, color, link } from '@wangeditor/basic'
 
@@ -28,7 +28,7 @@ if (simpleStyle.addTextStyle) {
   registerTextStyleHandler(simpleStyle.addTextStyle)
 }
 if (simpleStyle.menus && simpleStyle.menus.length) {
-  simpleStyle.menus.forEach(menuConf => registerMenuItem(menuConf))
+  simpleStyle.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
 // --------------------- 注册 header module ---------------------
@@ -39,7 +39,7 @@ if (header.renderElems && header.renderElems.length) {
   header.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
 if (header.menus && header.menus.length) {
-  header.menus.forEach(menuConf => registerMenuItem(menuConf))
+  header.menus.forEach(menuConf => registerMenu(menuConf))
 }
 if (header.editorPlugin) {
   plugins.push(header.editorPlugin)
@@ -50,7 +50,7 @@ if (link.renderElems && link.renderElems.length) {
   link.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
 if (link.menus && link.menus.length) {
-  link.menus.forEach(menuConf => registerMenuItem(menuConf))
+  link.menus.forEach(menuConf => registerMenu(menuConf))
 }
 if (link.editorPlugin) {
   plugins.push(link.editorPlugin)
@@ -61,7 +61,7 @@ if (color.addTextStyle) {
   registerTextStyleHandler(color.addTextStyle)
 }
 if (color.menus && color.menus.length) {
-  color.menus.forEach(menuConf => registerMenuItem(menuConf))
+  color.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
 // --------------------- 创建 editor 实例 ---------------------

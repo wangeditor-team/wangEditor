@@ -26,23 +26,40 @@ export interface IOption {
   styleForRenderMenuList?: { [key: string]: string } // 渲染菜单 list 时的样式
 }
 
-export interface IMenuItem {
+interface IBaseMenu {
   title: string
   iconSvg: string
 
-  tag: string // 'button' / 'select'
-  options?: IOption[] // select -> options
+  tag: string // 'button' | 'select'
   width?: number // 设置 button 宽度
 
-  showDropPanel?: boolean // 点击 'button' 显示 dropPanel
-  showModal?: boolean // 点击 'button' 显示 modal
+  getValue: (editor: IDomEditor) => string | boolean // 获取菜单相关的 val 。如是否加粗、颜色值、h1/h2/h3 等
+  isActive: (editor: IDomEditor) => boolean // 是否激活菜单，如选区处于加粗文本时，激活 bold
+  isDisabled: (editor: IDomEditor) => boolean // 是否禁用菜单，如选区处于 code-block 时，禁用 bold 等样式操作
 
-  getValue: (editor: IDomEditor) => string | boolean
-  isDisabled: (editor: IDomEditor) => boolean
+  exec: (editor: IDomEditor, value: string | boolean) => void // button click 或 select change 时触发
+}
 
-  exec?: (editor: IDomEditor, value: string | boolean) => void // button click 或 select change 时触发
-  getPanelContentElem?: (editor: IDomEditor) => Dom7Array // showDropPanel 情况下，获取 content elem
-  getModalContentElem?: (editor: IDomEditor) => Dom7Array // showModal 情况下，获取 content elem
+export interface IButtonMenu extends IBaseMenu {}
 
-  // TODO 该接口需要拆分，不能混合在一起
+export interface ISelectMenu extends IBaseMenu {
+  options: IOption[] // select -> options
+}
+
+export interface IDropPanelMenu extends IBaseMenu {
+  showDropPanel: boolean // 点击 'button' 显示 dropPanel
+  getPanelContentElem: (editor: IDomEditor) => Dom7Array // showDropPanel 情况下，获取 content elem
+}
+
+export interface IModalMenu extends IBaseMenu {
+  showModal: boolean // 点击 'button' 显示 modal
+  getModalContentElem: (editor: IDomEditor) => Dom7Array // showModal 情况下，获取 content elem
+}
+
+export type MenuFactoryType = () => IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
+
+export interface IMenuConf {
+  key: string
+  factory: MenuFactoryType
+  config?: { [key: string]: any }
 }

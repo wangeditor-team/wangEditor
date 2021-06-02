@@ -3,6 +3,6 @@
  * @author wangfupeng
  */
 
-export { registerMenuItem } from './register'
-export { IMenuItem } from './interface'
+export { registerMenu } from './register'
+export { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu, IMenuConf } from './interface'
 export { hideAllPanelsAndModals } from './helpers'

@@ -4,8 +4,8 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import withLink from './withLink'
-import { renderLinkConf } from './formats'
+import withLink from './plugin'
+import { renderLinkConf } from './render-elem'
 import {
   insertLinkMenuConf,
   updateLinkMenuConf,

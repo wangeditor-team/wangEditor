@@ -4,9 +4,9 @@
  */
 
 import { Editor } from 'slate'
-import { IMenuItem, IDomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor } from '@wangeditor/core'
 
-class TextStyleMenu implements IMenuItem {
+class TextStyleMenu implements IButtonMenu {
   mark: string
   title: string
   iconSvg: string
@@ -31,6 +31,12 @@ class TextStyleMenu implements IMenuItem {
     })
     return !!match
   }
+
+  isActive(editor: IDomEditor): boolean {
+    const isMark = this.getValue(editor)
+    return !!isMark
+  }
+
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
@@ -78,13 +84,4 @@ class TextStyleMenu implements IMenuItem {
   }
 }
 
-function genMenuConf(mark: string, title: string, iconSvg: string) {
-  return {
-    key: mark,
-    factory() {
-      return new TextStyleMenu(mark, title, iconSvg)
-    },
-  }
-}
-
-export default genMenuConf
+export default TextStyleMenu

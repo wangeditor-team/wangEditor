@@ -22,9 +22,9 @@ class DropPanel implements IPanel {
     $elem.append($content)
   }
 
-  appendTo($menuItem: Dom7Array) {
+  appendTo($menuElem: Dom7Array) {
     const $elem = this.$elem
-    $menuItem.append($elem)
+    $menuElem.append($elem)
   }
 
   show() {

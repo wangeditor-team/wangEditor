@@ -5,7 +5,7 @@
 
 import $, { Dom7Array } from '../../../utils/dom'
 import { IToolbarItem, getEditorInstance } from './index'
-import { IOption, IMenuItem } from '../../interface'
+import { IOption, ISelectMenu } from '../../interface'
 import SelectList from './SelectList'
 import { gen$downArrow, hideAllPanelsAndModals } from '../../helpers'
 
@@ -39,13 +39,13 @@ function genOptions(options: IOption[], selectedValue: string): IOption[] {
 class ToolbarItemSelect implements IToolbarItem {
   $elem: Dom7Array = $(`<div class="w-e-toolbar-item"></div>`)
   private $button: Dom7Array
-  menuItem: IMenuItem
+  menu: ISelectMenu
   private disabled = false
   private selectList: SelectList | null = null
 
-  constructor(menuItem: IMenuItem) {
+  constructor(menu: ISelectMenu) {
     // 验证 tag
-    const { tag, title, width } = menuItem
+    const { tag, title, width } = menu
     if (tag !== 'select') throw new Error(`Invalid tag '${tag}', expected 'select'`)
 
     // 初始化 dom
@@ -56,7 +56,7 @@ class ToolbarItemSelect implements IToolbarItem {
     this.$elem.append($button)
 
     this.$button = $button
-    this.menuItem = menuItem
+    this.menu = menu
   }
 
   init() {
@@ -75,9 +75,9 @@ class ToolbarItemSelect implements IToolbarItem {
     if (this.disabled) return
 
     const editor = getEditorInstance(this)
-    const menuItem = this.menuItem
-    const { options = [] } = menuItem
-    const value = menuItem.getValue(editor)
+    const menu = this.menu
+    const { options = [] } = menu
+    const value = menu.getValue(editor)
     const newOptions = genOptions(options, value.toString()) // 根据 value 重新生成 options（value 可能会随时变化）
 
     // 显示下拉列表
@@ -113,16 +113,16 @@ class ToolbarItemSelect implements IToolbarItem {
 
   private onChange(value: string) {
     const editor = getEditorInstance(this)
-    const menuItem = this.menuItem
-    menuItem.exec && menuItem.exec(editor, value)
+    const menu = this.menu
+    menu.exec && menu.exec(editor, value)
   }
 
   private setSelectedValue() {
     const editor = getEditorInstance(this)
-    const menuItem = this.menuItem
-    const value = menuItem.getValue(editor)
+    const menu = this.menu
+    const value = menu.getValue(editor)
 
-    const { options = [] } = menuItem
+    const { options = [] } = menu
     const optText = getOptionText(options, value.toString())
 
     const $button = this.$button
@@ -134,8 +134,8 @@ class ToolbarItemSelect implements IToolbarItem {
 
   private setDisabled() {
     const editor = getEditorInstance(this)
-    const menuItem = this.menuItem
-    const disabled = menuItem.isDisabled(editor)
+    const menu = this.menu
+    const disabled = menu.isDisabled(editor)
     const $button = this.$button
 
     const className = 'disabled'

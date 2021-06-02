@@ -3,8 +3,8 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Node } from 'slate'
-import { IMenuItem, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
+import { Transforms } from 'slate'
+import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { getInputElems, getButtonElems, getLinkNode, checkLink } from './helpers'
@@ -16,7 +16,7 @@ function genDomID(): string {
   return genRandomStr('w-e-update-link')
 }
 
-class UpdateLink implements IMenuItem {
+class UpdateLink implements IModalMenu {
   title = '修改链接'
   iconSvg =
     '<svg viewBox="0 0 1024 1024"><path d="M850.622159 29.124904c-31.331849-33.126756-82.334296-33.126756-113.660501 0L672.525631 97.602293l151.494653 160.582075 64.441672-68.454812c31.676155-33.143689 31.676155-87.019116 0-120.168449l-37.839797-40.436203z m-208.683321 100.514783l-421.684577 447.919568V587.01356h36.411774v36.417418h36.417418v36.417418h36.417418v36.411774h36.411774V748.318113l427.882085-458.090707-151.855892-160.587719zM183.836843 616.516635l-15.663103 16.379936-57.166089 219.238276 223.21755-69.555462 12.378084-13.484379h-17.102414v-36.411774h-36.417418v-36.417418h-36.417418v-36.411774h-36.411774v-36.417418H183.836843v-6.919987z m-43.704289 338.672958v68.810407h758.528762v-68.810407H140.132554z"></path></svg>'
@@ -37,6 +37,16 @@ class UpdateLink implements IMenuItem {
       return linkNode.url || ''
     }
     return ''
+  }
+
+  isActive(editor: IDomEditor): boolean {
+    const url = this.getValue(editor)
+    return !!url
+  }
+
+  exec(editor: IDomEditor, value: string | boolean) {
+    // 点击菜单时，弹出 modal 之前，不需要执行其他代码
+    // 此处空着即可
   }
 
   isDisabled(editor: IDomEditor): boolean {
@@ -121,9 +131,4 @@ class UpdateLink implements IMenuItem {
   }
 }
 
-export default {
-  key: 'updateLink',
-  factory() {
-    return new UpdateLink()
-  },
-}
+export default UpdateLink

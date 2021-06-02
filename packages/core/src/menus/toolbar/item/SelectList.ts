@@ -52,9 +52,9 @@ class SelectList implements IPanel {
     $elem.append($list)
   }
 
-  appendTo($menuItem: Dom7Array) {
+  appendTo($menuElem: Dom7Array) {
     const $elem = this.$elem
-    $menuItem.append($elem)
+    $menuElem.append($elem)
   }
 
   show() {

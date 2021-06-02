@@ -4,7 +4,7 @@
  */
 
 import { Editor, Transforms, Range } from 'slate'
-import { IMenuItem, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
+import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { getInputElems, getButtonElems } from './helpers'
@@ -16,7 +16,7 @@ function genDomID(): string {
   return genRandomStr('w-e-insert-link')
 }
 
-class InsertLink implements IMenuItem {
+class InsertLink implements IModalMenu {
   title = '插入链接'
   iconSvg =
     '<svg viewBox="0 0 1024 1024"><path d="M255.754083 385.598463c106.236311-106.236311 275.427474-102.301633 381.663784 0 23.608069 27.542747 23.608069 62.954851 0 86.56292-27.542747 23.608069-62.954851 23.608069-86.56292 0-27.542747-27.542747-66.889529-43.28146-106.236311-43.28146-43.28146 0-78.693564 15.738713-106.236311 43.28146l-177.060519 177.060519c-59.020173 59.020173-59.020173 153.45245 0 212.472622 31.477426 27.542747 66.889529 43.28146 106.236311 43.281461 43.28146 0 78.693564-15.738713 106.236311-43.281461l74.758886-74.758885c23.608069-23.608069 59.020173-23.608069 86.56292-3.934678 23.608069 27.542747 23.608069 62.954851 0 86.56292L460.357349 944.322767c-106.236311 106.236311-275.427474 106.236311-381.663785 0-106.236311-106.236311-102.301633-275.427474 0-381.663785l177.060519-177.060519z" p-id="6444"></path><path d="M562.658982 78.693564C668.895293-27.542747 838.086455-23.608069 944.322767 78.693564c106.236311 102.301633 106.236311 275.427474 0 381.663785l-177.060519 177.060518c-106.236311 106.236311-275.427474 106.236311-381.663785 0l-3.934678-3.934678c-19.673391-23.608069-19.673391-59.020173 3.934678-78.693564 27.542747-23.608069 62.954851-23.608069 86.56292 0 27.542747 27.542747 66.889529 43.28146 106.236312 43.28146 43.28146 0 78.693564-15.738713 106.236311-43.28146l177.060518-177.060518c59.020173-59.020173 59.020173-153.45245 0-212.472623-27.542747-27.542747-66.889529-43.28146-106.236311-43.28146-43.28146 0-78.693564 15.738713-106.236311 43.28146l-74.758886 74.758886c-27.542747 23.608069-62.954851 23.608069-86.56292 0-23.608069-27.542747-23.608069-62.954851 0-86.56292L562.658982 78.693564z"></path></svg>'
@@ -28,8 +28,18 @@ class InsertLink implements IMenuItem {
   private buttonId = genDomID()
 
   getValue(editor: IDomEditor): string | boolean {
+    // 插入菜单，不需要 value
+    return ''
+  }
+
+  isActive(editor: IDomEditor): boolean {
     // 任何时候，都不用激活 menu
     return false
+  }
+
+  exec(editor: IDomEditor, value: string | boolean) {
+    // 点击菜单时，弹出 modal 之前，不需要执行其他代码
+    // 此处空着即可
   }
 
   isDisabled(editor: IDomEditor): boolean {
@@ -154,9 +164,4 @@ class InsertLink implements IMenuItem {
   }
 }
 
-export default {
-  key: 'insertLink',
-  factory() {
-    return new InsertLink()
-  },
-}
+export default InsertLink

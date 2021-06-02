@@ -4,8 +4,8 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { addTextStyle } from './formats'
-import genMenuConf from './menu'
+import { addTextStyle } from './text-style'
+import { genMenuConf } from './menu/index'
 
 const boldMenuConf = genMenuConf(
   'bold',

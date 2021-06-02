@@ -3,19 +3,19 @@
  * @author wangfupeng
  */
 
-import { IMenuItem } from './interface'
+import { MenuFactoryType, IMenuConf } from './interface'
 import { registerGlobalMenuConf } from '../config/index'
 
 // menu item 的工厂函数 - 集合
 export const MENU_ITEM_FACTORIES: {
-  [key: string]: () => IMenuItem
+  [key: string]: MenuFactoryType
 } = {}
 
 /**
- * 注册 menu item 工厂函数
+ * 注册 menu 工厂函数
  * @param conf { key, factory } ，各个 menu key 不能重复
  */
-function registerMenuItemFactory(conf: { key: string; factory: () => IMenuItem }) {
+function registerMenuFactory(conf: { key: string; factory: MenuFactoryType }) {
   const { key, factory } = conf
 
   if (MENU_ITEM_FACTORIES[key] != null) {
@@ -26,10 +26,10 @@ function registerMenuItemFactory(conf: { key: string; factory: () => IMenuItem }
 }
 
 /**
- * 注册 menu item 配置
+ * 注册 menu 配置
  * @param conf { key, config }  ，各个 menu key 不能重复
  */
-function registerMenuItemConfig(conf: { key: string; config?: { [key: string]: any } }) {
+function registerMenuConfig(conf: { key: string; config?: { [key: string]: any } }) {
   const { key, config } = conf
   registerGlobalMenuConf(key, config)
 }
@@ -38,12 +38,8 @@ function registerMenuItemConfig(conf: { key: string; config?: { [key: string]: a
  * 注册菜单配置
  * @param conf { key, factory, config } ，各个 menu key 不能重复
  */
-export function registerMenuItem(conf: {
-  key: string
-  factory: () => IMenuItem
-  config?: { [key: string]: any }
-}) {
+export function registerMenu(conf: IMenuConf) {
   const { key, factory, config } = conf
-  registerMenuItemFactory({ key, factory })
-  registerMenuItemConfig({ key, config })
+  registerMenuFactory({ key, factory })
+  registerMenuConfig({ key, config })
 }

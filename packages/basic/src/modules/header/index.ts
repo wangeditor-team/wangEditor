@@ -4,13 +4,13 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { renderHeader1Conf, renderHeader2Conf, renderHeader3Conf } from './formats'
-import menuConf from './menu'
-import withHeader from './withHeader'
+import { renderHeader1Conf, renderHeader2Conf, renderHeader3Conf } from './render-elem'
+import { headerMenuConf } from './menu/index'
+import withHeader from './plugin'
 
 const bold: IModuleConf = {
   renderElems: [renderHeader1Conf, renderHeader2Conf, renderHeader3Conf],
-  menus: [menuConf],
+  menus: [headerMenuConf],
   editorPlugin: withHeader,
 }
 

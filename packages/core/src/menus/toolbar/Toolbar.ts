@@ -64,8 +64,8 @@ class Toolbar {
     }
 
     // 创建 toolbarItem 并记录下
-    const menuItem = factory()
-    const toolbarItem = createToolbarItem(menuItem)
+    const menu = factory()
+    const toolbarItem = createToolbarItem(menu)
     this.toolbarItems.push(toolbarItem)
 
     // 保存 toolbarItem 和 editor 的关系
@@ -90,7 +90,7 @@ class Toolbar {
     this.toolbarItems.forEach(toolbarItem => {
       toolbarItem.onSelectionChange()
     })
-  })
+  }, 100)
 }
 
 export default Toolbar

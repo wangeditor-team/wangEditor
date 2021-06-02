@@ -4,7 +4,7 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { renderParagraphConf } from './formats'
+import { renderParagraphConf } from './render-elem'
 
 const p: IModuleConf = {
   renderElems: [renderParagraphConf],

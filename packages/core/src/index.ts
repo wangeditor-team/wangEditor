@@ -8,7 +8,7 @@ import './assets/index.less'
 import { Editor } from 'slate'
 import create from './create-editor'
 import { TextStyleFnType, RenderElemFnType } from './formats/index'
-import { IMenuItem } from './menus/index'
+import { IMenuConf } from './menus/index'
 
 // 创建编辑器
 export const createEditor = create
@@ -27,11 +27,7 @@ interface IRenderElemConf {
   type: string
   renderFn: RenderElemFnType
 }
-interface IMenuConf {
-  key: string
-  factory: () => IMenuItem
-  config?: { [key: string]: any }
-}
+
 export interface IModuleConf {
   addTextStyle?: TextStyleFnType
   renderElems?: Array<IRenderElemConf>
