@@ -4,7 +4,8 @@
  */
 
 import { cloneDeep } from 'lodash-es'
-import { Editor, Range, NodeEntry } from 'slate'
+import { Editor, Range, NodeEntry, Node } from 'slate'
+import { IDomEditor } from '../editor/dom-editor'
 
 // 全局的菜单配置
 const GLOBAL_MENU_CONF: { [key: string]: any } = {}
@@ -19,22 +20,33 @@ export function registerGlobalMenuConf(key: string, config?: { [key: string]: an
   GLOBAL_MENU_CONF[key] = config
 }
 
+interface IHoverbarConf {
+  match: (editor: IDomEditor, n: Node) => boolean // 匹配成功，才显示 hoverbar
+  menuKeys: string[]
+}
+
 type PluginFnType = <T extends Editor>(editor: T) => T
 export interface IConfig {
-  toolbarId?: string
-  showToolbar: boolean
-
   onChange?: () => void
 
+  // edit state
   placeholder?: string
   readOnly?: boolean
   autoFocus?: boolean
   decorate?: (nodeEntry: NodeEntry) => Range[]
+  // TODO 开发 changeState API ，通过 API 修改 edit state
 
-  toolbarKeys: string[]
+  // 各个 menu 的配置汇总，可以通过 key 获取单个 menu 的配置
   menuConf: {
     [key: string]: any
   }
+
+  // 传统菜单栏的 menu
+  toolbarId?: string
+  toolbarKeys: string[]
+  // 悬浮菜单栏 menu
+  hoverbarKeys: Array<IHoverbarConf>
+  // TODO 右键菜单栏 menu
 
   plugins: Array<PluginFnType>
 }
@@ -46,12 +58,12 @@ function getDefaultConfig(): IConfig {
   const menuConf = cloneDeep(GLOBAL_MENU_CONF)
 
   return {
-    showToolbar: true,
     readOnly: false,
     autoFocus: true,
     decorate: () => [],
-    toolbarKeys: [],
     menuConf,
+    toolbarKeys: [],
+    hoverbarKeys: [],
     plugins: [],
   }
 }

@@ -6,7 +6,7 @@
 import $, { Dom7Array } from '../utils/dom'
 import { IDomEditor, DomEditor } from '../editor/dom-editor'
 import { EDITOR_TO_TEXTAREA } from '../utils/weak-maps'
-import { IPositionStyle } from './panel-and-modal/index'
+import { IPositionStyle } from './interface'
 
 /**
  * 清理 svg 的样式
@@ -37,10 +37,17 @@ export function gen$downArrow() {
 }
 
 /**
- * 计算 modal position style
+ * bar item 分割线
+ */
+export function gen$barItemDivider() {
+  return $('<div class="w-e-bar-divider"></div>')
+}
+
+/**
+ * 根据选区，计算定位（用于 modal hoverbar）
  * @param editor editor
  */
-export function getModalPosition(editor: IDomEditor): IPositionStyle {
+export function getPositionBySelection(editor: IDomEditor): IPositionStyle {
   // 默认情况下 { top: 0, left: 0 }
   const defaultStyle = { top: '0', left: '0' }
 

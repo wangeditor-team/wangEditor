@@ -6,6 +6,13 @@
 import { IDomEditor } from '../editor/dom-editor'
 import { Dom7Array } from '../utils/dom'
 
+export interface IPositionStyle {
+  top?: string
+  left?: string
+  right?: string
+  bottom?: string
+}
+
 export interface IOption {
   value: string
   text: string

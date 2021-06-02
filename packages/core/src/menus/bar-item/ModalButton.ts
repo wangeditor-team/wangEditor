@@ -3,14 +3,14 @@
  * @author wangfupeng
  */
 
-import { IModalMenu } from '../../interface'
+import { IModalMenu } from '../interface'
 import BaseButton from './BaseButton'
-import Modal from '../../panel-and-modal/Modal'
-import { EDITOR_TO_TEXTAREA } from '../../../utils/weak-maps'
+import Modal from '../panel-and-modal/Modal'
+import { EDITOR_TO_TEXTAREA } from '../../utils/weak-maps'
 import { getEditorInstance } from './index'
-import { getModalPosition } from '../../helpers'
+import { getPositionBySelection } from '../helpers'
 
-class ToolbarItemModalButton extends BaseButton {
+class ModalButton extends BaseButton {
   private modal: Modal | null = null
   menu: IModalMenu
 
@@ -39,7 +39,7 @@ class ToolbarItemModalButton extends BaseButton {
       const modal = new Modal()
       const $content = menu.getModalContentElem(editor)
       modal.renderContent($content)
-      const positionStyle = getModalPosition(editor) // 获取 modal position
+      const positionStyle = getPositionBySelection(editor) // 获取 modal position
       modal.setStyle(positionStyle)
       modal.appendTo(textarea.$textAreaContainer)
       modal.show()
@@ -56,7 +56,7 @@ class ToolbarItemModalButton extends BaseButton {
         // 当前未处于显示状态，则重新渲染内容 ，并显示
         const $content = menu.getModalContentElem(editor)
         modal.renderContent($content)
-        const positionStyle = getModalPosition(editor) // 获取 modal position
+        const positionStyle = getPositionBySelection(editor) // 获取 modal position
         modal.setStyle(positionStyle)
         modal.show()
       }
@@ -64,4 +64,4 @@ class ToolbarItemModalButton extends BaseButton {
   }
 }
 
-export default ToolbarItemModalButton
+export default ModalButton

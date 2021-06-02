@@ -1,38 +1,38 @@
 /**
- * @description toolbar item
+ * @description bar item
  * @author wangfupeng
  */
 
-import { Dom7Array } from '../../../utils/dom'
-import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../../interface'
-import { IDomEditor } from '../../../editor/dom-editor'
-import { TOOLBAR_ITEM_TO_EDITOR } from '../../../utils/weak-maps'
+import { Dom7Array } from '../../utils/dom'
+import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../interface'
+import { IDomEditor } from '../../editor/dom-editor'
+import { BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import SimpleButton from './SimpleButton'
 import DropPanelButton from './DropPanelButton'
 import ModalButton from './ModalButton'
 import Select from './Select'
 
-export function getEditorInstance(item: IToolbarItem): IDomEditor {
-  const editor = TOOLBAR_ITEM_TO_EDITOR.get(item)
-  if (editor == null) throw new Error('Can not get editor instance')
-  return editor
-}
-
-export interface IToolbarItem {
+export interface IBarItem {
   $elem: Dom7Array
   menu: IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
   init: () => void
   onSelectionChange: () => void
 }
 
+export function getEditorInstance(item: IBarItem): IDomEditor {
+  const editor = BAR_ITEM_TO_EDITOR.get(item)
+  if (editor == null) throw new Error('Can not get editor instance')
+  return editor
+}
+
 /**
- * 创建 toolbar button/select
+ * 创建 bar button/select
  * @param menu menu
  * @param editor editor
  */
-export function createToolbarItem(
+export function createBarItem(
   menu: IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
-): IToolbarItem {
+): IBarItem {
   const { tag } = menu
   if (tag === 'button') {
     // @ts-ignore

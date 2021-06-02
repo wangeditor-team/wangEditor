@@ -4,7 +4,8 @@
  */
 
 import $, { Dom7Array } from '../../utils/dom'
-import { IPositionStyle, IPanel, gatherPanelAndModal } from '../panel-and-modal/index'
+import { IPanel, gatherPanelAndModal } from '../panel-and-modal/index'
+import { IPositionStyle } from '../interface'
 
 class Modal implements IPanel {
   $elem: Dom7Array = $(`<div class="w-e-modal"></div>`)

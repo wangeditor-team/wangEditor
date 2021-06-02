@@ -6,13 +6,6 @@
 import { debounce } from 'lodash-es'
 import $, { Dom7Array } from '../../utils/dom'
 
-export interface IPositionStyle {
-  top?: string
-  left?: string
-  right?: string
-  bottom?: string
-}
-
 export interface IPanel {
   $elem: Dom7Array
   show: () => void

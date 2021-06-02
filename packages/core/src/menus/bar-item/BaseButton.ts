@@ -3,14 +3,14 @@
  * @author wangfupeng
  */
 
-import { IButtonMenu, IDropPanelMenu, IModalMenu } from '../../interface'
-import $, { Dom7Array } from '../../../utils/dom'
-import { IToolbarItem, getEditorInstance } from './index'
-import { clearSvgStyle } from '../../helpers'
-import { hideAllPanelsAndModals } from '../../panel-and-modal/index'
+import { IButtonMenu, IDropPanelMenu, IModalMenu } from '../interface'
+import $, { Dom7Array } from '../../utils/dom'
+import { IBarItem, getEditorInstance } from './index'
+import { clearSvgStyle } from '../helpers'
+import { hideAllPanelsAndModals } from '../panel-and-modal/index'
 
-abstract class BaseButton implements IToolbarItem {
-  $elem: Dom7Array = $(`<div class="w-e-toolbar-item"></div>`)
+abstract class BaseButton implements IBarItem {
+  $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
   protected $button: Dom7Array
   menu: IButtonMenu | IDropPanelMenu | IModalMenu
   private disabled = false

@@ -3,13 +3,13 @@
  * @author wangfupeng
  */
 
-import { IDropPanelMenu } from '../../interface'
+import { IDropPanelMenu } from '../interface'
 import BaseButton from './BaseButton'
-import DropPanel from '../../panel-and-modal/DropPanel'
-import { gen$downArrow } from '../../helpers'
+import DropPanel from '../panel-and-modal/DropPanel'
+import { gen$downArrow } from '../helpers'
 import { getEditorInstance } from './index'
 
-class ToolbarItemDropPanelButton extends BaseButton {
+class DropPanelButton extends BaseButton {
   private dropPanel: DropPanel | null = null
   menu: IDropPanelMenu
 
@@ -66,7 +66,7 @@ class ToolbarItemDropPanelButton extends BaseButton {
       const $menu = this.$elem
       const { left } = $menu.offset() // 菜单元素 left
 
-      const $toolbar = $menu.parents('.w-e-toolbar')
+      const $toolbar = $menu.parents('.w-e-bar')
       const { left: toolbarLeft } = $toolbar.offset() // toolbar left
       const toolbarWidth = $toolbar.width() // toolbar width
       const halfToolbarWidth = toolbarWidth / 2 // toolbar width 的 1/2
@@ -88,4 +88,4 @@ class ToolbarItemDropPanelButton extends BaseButton {
   }
 }
 
-export default ToolbarItemDropPanelButton
+export default DropPanelButton

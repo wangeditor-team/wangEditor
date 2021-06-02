@@ -3,10 +3,10 @@
  * @author wangfupeng
  */
 
-import { IButtonMenu } from '../../interface'
+import { IButtonMenu } from '../interface'
 import BaseButton from './BaseButton'
 
-class ToolbarItemButton extends BaseButton {
+class SimpleButton extends BaseButton {
   constructor(menu: IButtonMenu) {
     super(menu)
   }
@@ -16,4 +16,4 @@ class ToolbarItemButton extends BaseButton {
   }
 }
 
-export default ToolbarItemButton
+export default SimpleButton

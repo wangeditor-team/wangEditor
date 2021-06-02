@@ -8,7 +8,9 @@ import './assets/index.less'
 import '@wangeditor/core/css/style.css'
 import '@wangeditor/basic/css/style.css'
 
+import { Node, Range, Text } from 'slate'
 import {
+  IDomEditor,
   createEditor,
   registerTextStyleHandler,
   registerRenderElemConf,
@@ -68,6 +70,7 @@ if (color.menus && color.menus.length) {
 let editor = createEditor(
   'editor-container',
   {
+    // 传统菜单栏
     toolbarKeys: [
       'header',
       '|',
@@ -86,9 +89,33 @@ let editor = createEditor(
       '|',
       'code',
     ],
+
+    // hover bar
+    hoverbarKeys: [
+      // 选中文字 hover bar
+      {
+        match: (editor: IDomEditor, n: Node) => {
+          const { selection } = editor
+          if (selection == null) return false // 无选区
+          if (Range.isCollapsed(selection)) return false // 未选中文字，选区的是折叠的
+          if (Text.isText(n)) return true // 是 text node
+          return false
+        },
+        menuKeys: ['header', '|', 'bold', 'underline', '|', 'color'],
+      },
+      // link hover bar
+      {
+        // @ts-ignore
+        match: (editor, n) => n.type === 'link', // 是 link node
+        menuKeys: ['updateLink', 'unLink', 'viewLink'],
+      },
+      // other hover bar ...
+    ],
+
     onChange() {
-      console.log('selection', editor.selection)
+      // console.log('selection', editor.selection)
     },
+
     plugins,
   },
   // @ts-ignore

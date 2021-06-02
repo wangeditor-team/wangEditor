@@ -3,9 +3,9 @@
  * @author wangfupeng
  */
 
-import $, { Dom7Array } from '../../../utils/dom'
-import { IOption } from '../../interface'
-import { IPanel, gatherPanelAndModal } from '../../panel-and-modal/index'
+import $, { Dom7Array } from '../../utils/dom'
+import { IOption } from '../interface'
+import { IPanel, gatherPanelAndModal } from '../panel-and-modal/index'
 
 // “对号”icon
 function gen$SelectedIcon() {

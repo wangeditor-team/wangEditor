@@ -1,14 +1,14 @@
 /**
- * @description ToolbarItemSelect
+ * @description select
  * @author wangfupeng
  */
 
-import $, { Dom7Array } from '../../../utils/dom'
-import { IToolbarItem, getEditorInstance } from './index'
-import { IOption, ISelectMenu } from '../../interface'
+import $, { Dom7Array } from '../../utils/dom'
+import { IBarItem, getEditorInstance } from './index'
+import { IOption, ISelectMenu } from '../interface'
 import SelectList from './SelectList'
-import { gen$downArrow } from '../../helpers'
-import { hideAllPanelsAndModals } from '../../panel-and-modal/index'
+import { gen$downArrow } from '../helpers'
+import { hideAllPanelsAndModals } from '../panel-and-modal/index'
 
 // 根据 option value 获取 text
 function getOptionText(options: IOption[], value: string): string {
@@ -37,8 +37,8 @@ function genOptions(options: IOption[], selectedValue: string): IOption[] {
   })
 }
 
-class ToolbarItemSelect implements IToolbarItem {
-  $elem: Dom7Array = $(`<div class="w-e-toolbar-item"></div>`)
+class BarItemSelect implements IBarItem {
+  $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
   private $button: Dom7Array
   menu: ISelectMenu
   private disabled = false
@@ -157,4 +157,4 @@ class ToolbarItemSelect implements IToolbarItem {
   }
 }
 
-export default ToolbarItemSelect
+export default BarItemSelect

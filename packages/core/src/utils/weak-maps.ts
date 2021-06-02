@@ -7,17 +7,21 @@ import { VNode } from 'snabbdom'
 import { Node, Ancestor, Editor, Path, Range } from 'slate'
 import { IDomEditor } from '../editor/dom-editor'
 import TextArea from '../text-area/TextArea'
-import Toolbar from '../menus/toolbar/Toolbar'
-import { IToolbarItem } from '../menus/toolbar/item/index'
+import Toolbar from '../menus/bar/Toolbar'
+import HoverBar from '../menus/bar/HoverBar'
+import { IBarItem } from '../menus/bar-item/index'
 import { Key } from './key'
 import { PatchFn } from '../utils/vdom'
 import { IConfig } from '../config/index'
 
-// textarea toolbar - editor
+// textarea - editor
 export const EDITOR_TO_TEXTAREA = new WeakMap<IDomEditor, TextArea>()
 export const TEXTAREA_TO_EDITOR = new WeakMap<TextArea, IDomEditor>()
+
+// bar - editor
 export const TOOLBAR_TO_EDITOR = new WeakMap<Toolbar, IDomEditor>()
-export const TOOLBAR_ITEM_TO_EDITOR = new WeakMap<IToolbarItem, IDomEditor>()
+export const HOVER_BAR_TO_EDITOR = new WeakMap<HoverBar, IDomEditor>()
+export const BAR_ITEM_TO_EDITOR = new WeakMap<IBarItem, IDomEditor>()
 
 // config
 export const EDITOR_TO_CONFIG = new WeakMap<IDomEditor, IConfig>()

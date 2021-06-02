@@ -7,17 +7,14 @@ import { debounce } from 'lodash-es'
 import $, { Dom7Array } from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'
 import { promiseResolveThen } from '../../utils/util'
-import { TOOLBAR_TO_EDITOR, TOOLBAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
+import { TOOLBAR_TO_EDITOR, BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import { IDomEditor } from '../../editor/dom-editor'
-import { IToolbarItem, createToolbarItem } from './item/index'
-
-function gen$divider() {
-  return $('<div class="w-e-toolbar-divider"></div>')
-}
+import { IBarItem, createBarItem } from '../bar-item/index'
+import { gen$barItemDivider } from '../helpers'
 
 class Toolbar {
   private $toolbar: Dom7Array
-  private toolbarItems: IToolbarItem[] = []
+  private toolbarItems: IBarItem[] = []
 
   constructor(toolbarId: string) {
     const $toolbar = $(`#${toolbarId}`)
@@ -39,7 +36,7 @@ class Toolbar {
     toolbarKeys.forEach(key => {
       if (key === '|') {
         // 分割线
-        const $divider = gen$divider()
+        const $divider = gen$barItemDivider()
         $toolbar.append($divider)
         return
       }
@@ -65,11 +62,11 @@ class Toolbar {
 
     // 创建 toolbarItem 并记录下
     const menu = factory()
-    const toolbarItem = createToolbarItem(menu)
+    const toolbarItem = createBarItem(menu)
     this.toolbarItems.push(toolbarItem)
 
     // 保存 toolbarItem 和 editor 的关系
-    TOOLBAR_ITEM_TO_EDITOR.set(toolbarItem, editor)
+    BAR_ITEM_TO_EDITOR.set(toolbarItem, editor)
     toolbarItem.init() // 初始化
 
     // 添加 DOM
@@ -90,7 +87,7 @@ class Toolbar {
     this.toolbarItems.forEach(toolbarItem => {
       toolbarItem.onSelectionChange()
     })
-  }, 100)
+  }, 200)
 }
 
 export default Toolbar
