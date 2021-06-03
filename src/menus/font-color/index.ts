@@ -46,19 +46,6 @@ class FontColor extends DropListMenu implements MenuActive {
 
         if ($selectionElem == null) return
 
-        const isFont = $selectionElem?.nodeName.toLowerCase() !== 'p'
-        const isSameColor = $selectionElem?.getAttribute('color') === value
-
-        if (isEmptySelection) {
-            if (isFont && !isSameColor) {
-                const $elems = editor.selection.getSelectionRangeTopNodes()
-                editor.selection.createRangeByElem($elems[0])
-                editor.selection.moveCursor($elems[0].elems[0])
-            }
-            editor.selection.setRangeToElem($selectionElem)
-            // 插入空白选区
-            editor.selection.createEmptyRange()
-        }
         // 获取选区范围的文字
         const $selectionText = editor.selection.getSelectionText()
         // 如果设置的是 a 标签就特殊处理一下，避免回车换行设置颜色无效的情况
