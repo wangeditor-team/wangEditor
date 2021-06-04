@@ -12,5 +12,6 @@ import color from './modules/color'
 import link from './modules/link'
 import image from './modules/image'
 import blockquote from './modules/blockquote'
+import emotion from './modules/emotion'
 
-export { simpleStyle, header, p, color, link, image, blockquote }
+export { simpleStyle, header, p, color, link, image, blockquote, emotion }
