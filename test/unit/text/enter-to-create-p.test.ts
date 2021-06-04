@@ -143,7 +143,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
             fn()
         })
 
-        expect(editor.$textElem.elems[0].innerHTML.indexOf('<p><br></p>')).toBeGreaterThanOrEqual(0)
+        expect(editor.$textElem.elems[0].innerHTML.indexOf(EMPTY_P)).toBeGreaterThanOrEqual(0)
     })
 
     test('当编辑器选区内容 $textElm，执行enter down，插入 <p><br></p>', () => {

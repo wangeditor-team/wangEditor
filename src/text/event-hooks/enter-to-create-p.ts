@@ -4,6 +4,7 @@
  */
 
 import Editor from '../../editor/index'
+import { EMPTY_P } from '../../utils/const'
 import $, { DomElement } from '../../utils/dom-core'
 
 /**
@@ -14,7 +15,7 @@ import $, { DomElement } from '../../utils/dom-core'
  */
 function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEvents: Function[]) {
     function insertEmptyP($selectionElem: DomElement) {
-        const $p = $('<p><br></p>')
+        const $p = $(EMPTY_P)
         $p.insertBefore($selectionElem)
         if ($selectionElem.html().indexOf('<img') >= 0) {
             // 有图片的回车键弹起时
@@ -36,7 +37,17 @@ function enterToCreateP(editor: Editor, enterUpEvents: Function[], enterDownEven
         if ($parentElem.html() === '<code><br></code>') {
             // 回车之前光标所在一个 <p><code>.....</code></p> ，忽然回车生成一个空的 <p><code><br></code></p>
             // 而且继续回车跳不出去，因此只能特殊处理
-            insertEmptyP($selectionElem)
+            insertEmptyP($parentElem)
+            return
+        }
+
+        if (
+            $selectionElem.getNodeName() === 'FONT' &&
+            $selectionElem.text() === '' &&
+            $selectionElem.attr('face') === 'monospace'
+        ) {
+            // 行内code回车时会产生一个<font face="monospace"><br></font>，导致样式问题
+            insertEmptyP($parentElem)
             return
         }
 

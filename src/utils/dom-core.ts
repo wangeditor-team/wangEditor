@@ -748,7 +748,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
         }
         return this.forEach(elem => {
             const parent = referenceNode.parentNode as Node
-            parent.insertBefore(elem, referenceNode)
+            parent?.insertBefore(elem, referenceNode)
         })
     }
 

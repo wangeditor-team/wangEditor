@@ -17,9 +17,8 @@ export default function (editor: Editor, text: string, languageType: string): Pa
     const btnOkId = getRandom('btn-ok')
 
     /**
-     * 插入链接
+     * 插入代码块
      * @param text 文字
-     * @param code 链接
      */
     function insertCode(text: string): void {
         // 选区处于链接中，则选中整个菜单，再执行 insertHTML
@@ -39,8 +38,10 @@ export default function (editor: Editor, text: string, languageType: string): Pa
         const $codeElem = $code?.getNodeTop(editor)
 
         // 通过dom操作添加换行标签
-        // @ts-ignore
-        $(EMPTY_P).insertAfter($codeElem)
+        if ($codeElem?.getNextSibling().elems.length === 0) {
+            // @ts-ignore
+            $(EMPTY_P).insertAfter($codeElem)
+        }
     }
 
     /**
