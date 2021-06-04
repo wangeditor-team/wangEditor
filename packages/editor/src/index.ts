@@ -16,7 +16,7 @@ import {
   registerRenderElemConf,
   registerMenu,
 } from '@wangeditor/core'
-import { simpleStyle, header, p, color, link, image } from '@wangeditor/basic'
+import { simpleStyle, header, p, color, link, image, blockquote } from '@wangeditor/basic'
 
 const plugins = []
 
@@ -69,6 +69,17 @@ if (image.editorPlugin) {
   plugins.push(image.editorPlugin)
 }
 
+// --------------------- 注册 blockquote module ---------------------
+if (blockquote.renderElems && blockquote.renderElems.length) {
+  blockquote.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (blockquote.menus && blockquote.menus.length) {
+  blockquote.menus.forEach(menuConf => registerMenu(menuConf))
+}
+if (blockquote.editorPlugin) {
+  plugins.push(blockquote.editorPlugin)
+}
+
 // --------------------- 注册 color module ---------------------
 if (color.addTextStyle) {
   registerTextStyleHandler(color.addTextStyle)
@@ -90,6 +101,7 @@ let editor = createEditor(
       'italic',
       'through',
       'code',
+      'blockquote',
       '|',
       'color',
       'bgColor',

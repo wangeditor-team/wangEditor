@@ -75,6 +75,7 @@ class HeaderMenu implements ISelectMenu {
         return false
       },
       universal: true,
+      mode: 'highest', // 匹配最高层级
     })
 
     // 匹配到 p header ，不禁用
