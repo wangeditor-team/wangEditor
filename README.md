@@ -38,3 +38,5 @@
 - `yarn build` 生产环境打包，压缩代码，产出 mjs
 
 注意合理使用 `peerDependencies` 和 `dependencies` ，不要重复打包一个第三方库
+
+执行 `lerna add ...` 之后，需要重新 `lerna link` 建立内部连接

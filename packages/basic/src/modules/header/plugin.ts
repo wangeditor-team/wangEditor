@@ -4,9 +4,9 @@
  */
 
 import { Editor, Transforms } from 'slate'
+import { IDomEditor } from '@wangeditor/core'
 
-// 可重写 editor API ，参考 @wangeditor/core -> src/editor/with-dom.ts
-function withHeader<T extends Editor>(editor: T): T {
+function withHeader<T extends IDomEditor>(editor: T): T {
   const { insertBreak } = editor
   const newEditor = editor
 

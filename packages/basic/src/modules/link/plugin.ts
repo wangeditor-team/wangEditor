@@ -3,9 +3,9 @@
  * @author wangfupeng
  */
 
-import { Editor } from 'slate'
+import { IDomEditor } from '@wangeditor/core'
 
-function withLink<T extends Editor>(editor: T): T {
+function withLink<T extends IDomEditor>(editor: T): T {
   const { isInline } = editor
   const newEditor = editor
 

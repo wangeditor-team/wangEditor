@@ -1,5 +1,5 @@
 /**
- * @description insert link menu
+ * @description insert image menu
  * @author wangfupeng
  */
 
@@ -8,23 +8,24 @@ import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wang
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
-import { LINK_SVG } from '../../_helpers/icon-svg'
+import { IMAGE_SVG } from '../../_helpers/icon-svg'
 
 /**
  * 生成唯一的 DOM ID
  */
 function genDomID(): string {
-  return genRandomStr('w-e-insert-link')
+  return genRandomStr('w-e-insert-image')
 }
 
-class InsertLink implements IModalMenu {
-  title = '插入链接'
-  iconSvg = LINK_SVG
+class InsertImage implements IModalMenu {
+  title = '网络图片'
+  iconSvg = IMAGE_SVG
   tag = 'button'
   showModal = true // 点击 button 时显示 modal
   modalWidth = 300
   private $content: Dom7Array | null = null
-  private textInputId = genDomID()
+  private srcInputId = genDomID()
+  private altInputId = genDomID()
   private urlInputId = genDomID()
   private buttonId = genDomID()
 
@@ -44,7 +45,9 @@ class InsertLink implements IModalMenu {
   }
 
   isDisabled(editor: IDomEditor): boolean {
-    if (editor.selection == null) return true
+    const { selection } = editor
+    if (selection == null) return true
+    if (!Range.isCollapsed(selection)) return true // 选区非折叠，禁用
 
     const [match] = Editor.nodes(editor, {
       // @ts-ignore
@@ -52,14 +55,13 @@ class InsertLink implements IModalMenu {
         // @ts-ignore
         const { type = '' } = n
 
-        // 代码
-        if (type === 'pre') return true
-
-        // void
-        if (Editor.isVoid(editor, n)) return true
-
-        // 当前处于链接之内
-        if (type === 'link') return true
+        if (type === 'code') return true // 行内代码
+        if (type === 'pre') return true // 代码块
+        if (type === 'link') return true // 链接
+        if (type.startsWith('header')) return true // 标题
+        if (['ul', 'ol', 'li'].includes(type)) return true // 列表
+        if (Editor.isVoid(editor, n)) return true // void
+        // TODO 引用块，禁用
 
         return false
       },
@@ -75,12 +77,12 @@ class InsertLink implements IModalMenu {
   }
 
   getModalContentElem(editor: IDomEditor): Dom7Array {
-    const { selection } = editor
-    const { textInputId, urlInputId, buttonId } = this
+    const { srcInputId, altInputId, urlInputId, buttonId } = this
 
     // 获取 input button elem
-    const [$textContainer, $inputText] = genModalInputElems('链接文本', textInputId)
-    const [$urlContainer, $inputUrl] = genModalInputElems('链接网址', urlInputId)
+    const [$srcContainer, $inputSrc] = genModalInputElems('图片地址', srcInputId)
+    const [$altContainer, $inputAlt] = genModalInputElems('描述文字', altInputId)
+    const [$urlContainer, $inputUrl] = genModalInputElems('图片链接', urlInputId)
     const [$buttonContainer] = genModalButtonElems(buttonId, '确定')
 
     if (this.$content == null) {
@@ -90,9 +92,10 @@ class InsertLink implements IModalMenu {
       // 绑定事件（第一次渲染时绑定，不要重复绑定）
       $content.on('click', `#${buttonId}`, e => {
         e.preventDefault()
-        const text = $(`#${textInputId}`).val()
+        const src = $(`#${srcInputId}`).val()
+        const alt = $(`#${altInputId}`).val()
         const url = $(`#${urlInputId}`).val()
-        this.insertLink(editor, text, url)
+        this.insertImage(editor, src, alt, url)
       })
 
       // 记录属性，重要
@@ -103,70 +106,51 @@ class InsertLink implements IModalMenu {
     $content.html('') // 先清空内容
 
     // append inputs and button
-    $content.append($textContainer)
+    $content.append($srcContainer)
+    $content.append($altContainer)
     $content.append($urlContainer)
     $content.append($buttonContainer)
 
     // 设置 input val
-    if (selection == null || Range.isCollapsed(selection)) {
-      // 选区无内容
-      $inputText.val('')
-    } else {
-      // 选区有内容
-      const selectionText = Editor.string(editor, selection)
-      $inputText.val(selectionText)
-    }
+    $inputSrc.val('')
+    $inputAlt.val('')
     $inputUrl.val('')
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {
-      $(`#${textInputId}`).focus()
+      $(`#${srcInputId}`).focus()
     })
 
     return $content
   }
 
-  /**
-   * 插入 link
-   * @param editor editor
-   * @param text text
-   * @param url url
-   */
-  private insertLink(editor: IDomEditor, text: string, url: string) {
-    if (!url) {
+  private insertImage(editor: IDomEditor, src: string, alt: string = '', url: string = '') {
+    if (!src) {
       hideAllPanelsAndModals() // 隐藏 modal
       return
     }
-    if (!text) text = url // 无 text 则用 url 代替
 
     // 还原选区
     DomEditor.restoreSelection(editor)
 
     if (this.isDisabled(editor)) return
 
-    // 判断选区是否折叠
-    const { selection } = editor
-    if (selection == null) return
-    const isCollapsed = Range.isCollapsed(selection)
-
-    // 新建一个 link node
-    const linkNode = {
-      type: 'link',
+    // 新建一个 image node
+    const image = {
+      type: 'image',
+      src,
       url,
-      children: isCollapsed ? [{ text }] : [],
+      alt,
+      style: {},
+      children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children
     }
 
-    // 执行：插入链接
-    if (isCollapsed) {
-      Transforms.insertNodes(editor, linkNode)
-    } else {
-      Transforms.wrapNodes(editor, linkNode, { split: true })
-      Transforms.collapse(editor, { edge: 'end' })
-    }
+    // 插入图片
+    Transforms.insertNodes(editor, image)
 
     // 隐藏 modal
     hideAllPanelsAndModals()
   }
 }
 
-export default InsertLink
+export default InsertImage

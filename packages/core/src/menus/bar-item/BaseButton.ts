@@ -6,7 +6,7 @@
 import { IButtonMenu, IDropPanelMenu, IModalMenu } from '../interface'
 import $, { Dom7Array } from '../../utils/dom'
 import { IBarItem, getEditorInstance } from './index'
-import { clearSvgStyle } from '../helpers'
+import { clearSvgStyle } from '../helpers/helpers'
 import { hideAllPanelsAndModals } from '../panel-and-modal/index'
 
 abstract class BaseButton implements IBarItem {
@@ -42,7 +42,8 @@ abstract class BaseButton implements IBarItem {
 
     // click
     this.$button.on('click', e => {
-      e.stopPropagation()
+      e.stopPropagation() // 阻止冒泡，避免隐藏 panel 和 modal
+
       hideAllPanelsAndModals() // 隐藏当前的各种 panel
 
       if (this.disabled) return

@@ -16,7 +16,7 @@ import {
   registerRenderElemConf,
   registerMenu,
 } from '@wangeditor/core'
-import { simpleStyle, header, p, color, link } from '@wangeditor/basic'
+import { simpleStyle, header, p, color, link, image } from '@wangeditor/basic'
 
 const plugins = []
 
@@ -58,6 +58,17 @@ if (link.editorPlugin) {
   plugins.push(link.editorPlugin)
 }
 
+// --------------------- 注册 image module ---------------------
+if (image.renderElems && image.renderElems.length) {
+  image.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (image.menus && image.menus.length) {
+  image.menus.forEach(menuConf => registerMenu(menuConf))
+}
+if (image.editorPlugin) {
+  plugins.push(image.editorPlugin)
+}
+
 // --------------------- 注册 color module ---------------------
 if (color.addTextStyle) {
   registerTextStyleHandler(color.addTextStyle)
@@ -78,6 +89,7 @@ let editor = createEditor(
       'underline',
       'italic',
       'through',
+      'code',
       '|',
       'color',
       'bgColor',
@@ -87,7 +99,10 @@ let editor = createEditor(
       'unLink',
       'viewLink',
       '|',
-      'code',
+      'insertImage',
+      'deleteImage',
+      'editImage',
+      'viewImageLink',
     ],
 
     // hover bar
@@ -98,7 +113,7 @@ let editor = createEditor(
           const { selection } = editor
           if (selection == null) return false // 无选区
           if (Range.isCollapsed(selection)) return false // 未选中文字，选区的是折叠的
-          if (Text.isText(n)) return true // 是 text node
+          if (Text.isText(n)) return true // 匹配 text node
           return false
         },
         menuKeys: ['header', '|', 'bold', 'underline', '|', 'color'],
@@ -106,8 +121,14 @@ let editor = createEditor(
       // link hover bar
       {
         // @ts-ignore
-        match: (editor, n) => n.type === 'link', // 是 link node
+        match: (editor, n) => n.type === 'link', // 匹配 link node
         menuKeys: ['updateLink', 'unLink', 'viewLink'],
+      },
+      // image hover bar
+      {
+        // @ts-ignore
+        match: (editor, n) => n.type === 'image', // 匹配 image node
+        menuKeys: ['deleteImage', 'editImage', 'viewImageLink'],
       },
       // other hover bar ...
     ],

@@ -3,11 +3,13 @@
  * @author wangfupeng
  */
 
-import { Transforms } from 'slate'
+import { Transforms, Node } from 'slate'
 import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
-import { getInputElems, getButtonElems, getLinkNode, checkLink } from './helpers'
+import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
+import { checkNodeType, getSelectedNodeByType } from '../../_helpers/node'
+import { EDIT_SVG } from '../../_helpers/icon-svg'
 
 /**
  * 生成唯一的 DOM ID
@@ -18,10 +20,11 @@ function genDomID(): string {
 
 class UpdateLink implements IModalMenu {
   title = '修改链接'
-  iconSvg =
-    '<svg viewBox="0 0 1024 1024"><path d="M850.622159 29.124904c-31.331849-33.126756-82.334296-33.126756-113.660501 0L672.525631 97.602293l151.494653 160.582075 64.441672-68.454812c31.676155-33.143689 31.676155-87.019116 0-120.168449l-37.839797-40.436203z m-208.683321 100.514783l-421.684577 447.919568V587.01356h36.411774v36.417418h36.417418v36.417418h36.417418v36.411774h36.411774V748.318113l427.882085-458.090707-151.855892-160.587719zM183.836843 616.516635l-15.663103 16.379936-57.166089 219.238276 223.21755-69.555462 12.378084-13.484379h-17.102414v-36.411774h-36.417418v-36.417418h-36.417418v-36.411774h-36.411774v-36.417418H183.836843v-6.919987z m-43.704289 338.672958v68.810407h758.528762v-68.810407H140.132554z"></path></svg>'
+  iconSvg = EDIT_SVG
   tag = 'button'
   showModal = true // 点击 button 时显示 modal
+  modalWidth = 300
+
   private $content: Dom7Array | null = null
   private urlInputId = genDomID()
   private buttonId = genDomID()
@@ -31,7 +34,7 @@ class UpdateLink implements IModalMenu {
    * @param editor editor
    */
   getValue(editor: IDomEditor): string | boolean {
-    const linkNode = getLinkNode(editor)
+    const linkNode = getSelectedNodeByType(editor, 'link')
     if (linkNode) {
       // @ts-ignore
       return linkNode.url || ''
@@ -52,23 +55,27 @@ class UpdateLink implements IModalMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const linkNode = getLinkNode(editor)
+    const linkNode = getSelectedNodeByType(editor, 'link')
 
     // 未匹配到 link node 则禁用
     if (linkNode == null) return true
     return false
   }
 
+  getModalPositionNode(editor: IDomEditor): Node | null {
+    return getSelectedNodeByType(editor, 'link')
+  }
+
   getModalContentElem(editor: IDomEditor): Dom7Array {
     const { urlInputId, buttonId } = this
 
     // 获取 input button elem
-    const [$urlContainer, $inputUrl] = getInputElems('链接网址', urlInputId)
-    const [$buttonContainer] = getButtonElems(buttonId, '确定')
+    const [$urlContainer, $inputUrl] = genModalInputElems('链接网址', urlInputId)
+    const [$buttonContainer] = genModalButtonElems(buttonId, '确定')
 
     if (this.$content == null) {
       // 第一次渲染
-      const $content = $('<div style="width: 300px;"></div>')
+      const $content = $('<div></div>')
 
       // 绑定事件（第一次渲染时绑定，不要重复绑定）
       $content.on('click', 'button', e => {
@@ -122,7 +129,7 @@ class UpdateLink implements IModalMenu {
       // @ts-ignore
       { url },
       {
-        match: checkLink,
+        match: n => checkNodeType(n, 'link'),
       }
     )
 

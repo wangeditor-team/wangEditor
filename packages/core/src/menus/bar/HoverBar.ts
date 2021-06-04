@@ -4,14 +4,15 @@
  */
 
 import { debounce } from 'lodash-es'
-import { Editor, Node, Element } from 'slate'
-import $, { Dom7Array } from '../../utils/dom'
+import { Editor, Node, Element, Text } from 'slate'
+import $ from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'
 import { promiseResolveThen } from '../../utils/util'
 import { IDomEditor } from '../../editor/dom-editor'
 import { HOVER_BAR_TO_EDITOR, EDITOR_TO_TEXTAREA, BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import { IBarItem, createBarItem } from '../bar-item/index'
-import { gen$barItemDivider, getPositionBySelection } from '../helpers'
+import { gen$barItemDivider } from '../helpers/helpers'
+import { getPositionBySelection, getPositionByNode, correctPosition } from '../helpers/position'
 
 class HoverBar {
   private $elem = $('<div class="w-e-bar w-e-bar-hidden w-e-hover-bar"></div>')
@@ -28,7 +29,7 @@ class HoverBar {
     })
   }
 
-  private hide() {
+  private hideAndClean() {
     const $elem = this.$elem
     $elem.removeClass('w-e-bar-show').addClass('w-e-bar-hidden')
 
@@ -90,20 +91,22 @@ class HoverBar {
     const $elem = this.$elem
     $elem.attr('style', '') // 先清空 style ，再重新设置
 
-    let isInline = true // 默认 inline: true ，如 text node
     if (Element.isElement(node)) {
-      // elem node 重新判断 inline
-      isInline = editor.isInline(node)
+      // 根据 elem node 定位
+      const positionStyle = getPositionByNode(editor, node, 'bar')
+      $elem.css(positionStyle)
+      correctPosition(editor, $elem) // 修正 position 避免超出 textContainer 边界
+      return
     }
-
-    if (isInline) {
-      // inline node ，根据选区定位
+    if (Text.isText(node)) {
+      // text node ，根据选区定位
       const positionStyle = getPositionBySelection(editor)
       $elem.css(positionStyle)
-    } else {
-      // TODO  非 inline node 根据 elem 计算定位
-      // 根据 inline 判断，还是根据 text 判断？？？
+      correctPosition(editor, $elem) // 修正 position 避免超出 textContainer 边界
+      return
     }
+    // 其他情况，非 elem 非 text ，不处理
+    throw new Error('hoverbar.setPosition error, current selected node is not elem nor text')
   }
 
   /**
@@ -149,7 +152,7 @@ class HoverBar {
    * editor onChange 时触发（涉及 DOM 操作，加防抖）
    */
   onEditorChange = debounce(() => {
-    this.hide() // 先隐藏
+    this.hideAndClean() // 先隐藏
     this.tryMatchNodes() // 尝试匹配，重新渲染 hover bar
   }, 200)
 

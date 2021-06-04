@@ -5,10 +5,10 @@
 
 import './assets/index.less'
 
-import { Editor } from 'slate'
 import create from './create-editor'
 import { TextStyleFnType, RenderElemFnType } from './formats/index'
 import { IMenuConf } from './menus/index'
+import { IDomEditor } from './editor/dom-editor'
 
 // 创建编辑器
 export const createEditor = create
@@ -32,5 +32,5 @@ export interface IModuleConf {
   addTextStyle?: TextStyleFnType
   renderElems?: Array<IRenderElemConf>
   menus?: Array<IMenuConf>
-  editorPlugin?: <T extends Editor>(editor: T) => T
+  editorPlugin?: <T extends IDomEditor>(editor: T) => T
 }

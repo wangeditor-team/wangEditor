@@ -3,6 +3,7 @@
  * @author wangfupeng
  */
 
+import { htmlVoidElements } from 'html-void-elements'
 import {
   $,
   css,
@@ -211,4 +212,25 @@ export const getPlainText = (domNode: DOMNode) => {
   }
 
   return text
+}
+
+/**
+ * 从 elem.children 中找到 void elem
+ * @param elem elem
+ */
+export function getVoidChild(elem: DOMElement): DOMElement | null {
+  const children = elem.children
+  const length = children.length
+  for (let i = 0; i < length; i++) {
+    const child = children[i]
+    const { nodeName, nodeType } = child
+    if (nodeType === 1) {
+      const name = nodeName.toLowerCase()
+      if (htmlVoidElements.includes(name)) {
+        // 是 void node ，如 image
+        return child
+      }
+    }
+  }
+  return null
 }

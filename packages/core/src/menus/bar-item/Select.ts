@@ -7,7 +7,7 @@ import $, { Dom7Array } from '../../utils/dom'
 import { IBarItem, getEditorInstance } from './index'
 import { IOption, ISelectMenu } from '../interface'
 import SelectList from './SelectList'
-import { gen$downArrow } from '../helpers'
+import { gen$downArrow } from '../helpers/helpers'
 import { hideAllPanelsAndModals } from '../panel-and-modal/index'
 
 // 根据 option value 获取 text

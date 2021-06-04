@@ -1,16 +1,16 @@
 /**
- * @description unlink menu
+ * @description delete image menu
  * @author wangfupeng
  */
 
 import { Transforms } from 'slate'
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
 import { checkNodeType, getSelectedNodeByType } from '../../_helpers/node'
-import { UN_LINK_SVG } from '../../_helpers/icon-svg'
+import { TRASH_SVG } from '../../_helpers/icon-svg'
 
-class UnLink implements IButtonMenu {
-  title = '取消链接'
-  iconSvg = UN_LINK_SVG
+class DeleteImage implements IButtonMenu {
+  title = '删除图片'
+  iconSvg = TRASH_SVG
   tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
@@ -19,9 +19,9 @@ class UnLink implements IButtonMenu {
   }
 
   isActive(editor: IDomEditor): boolean {
-    const linkNode = getSelectedNodeByType(editor, 'link')
-    if (linkNode) {
-      // 选区处于 link node
+    const imageNode = getSelectedNodeByType(editor, 'image')
+    if (imageNode) {
+      // 选区处于 image node
       return true
     }
     return false
@@ -30,9 +30,9 @@ class UnLink implements IButtonMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const linkNode = getSelectedNodeByType(editor, 'link')
-    if (linkNode == null) {
-      // 选区未处于 link node ，则禁用
+    const imageNode = getSelectedNodeByType(editor, 'image')
+    if (imageNode == null) {
+      // 选区未处于 image node ，则禁用
       return true
     }
     return false
@@ -41,11 +41,11 @@ class UnLink implements IButtonMenu {
   exec(editor: IDomEditor, value: string | boolean) {
     if (this.isDisabled(editor)) return
 
-    // 取消链接
-    Transforms.unwrapNodes(editor, {
-      match: n => checkNodeType(n, 'link'),
+    // 删除图片
+    Transforms.removeNodes(editor, {
+      match: n => checkNodeType(n, 'image'),
     })
   }
 }
 
-export default UnLink
+export default DeleteImage

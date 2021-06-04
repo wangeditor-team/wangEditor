@@ -3,6 +3,7 @@
  * @author wangfupeng
  */
 
+import { Node } from 'slate'
 import { IDomEditor } from '../editor/dom-editor'
 import { Dom7Array } from '../utils/dom'
 
@@ -47,7 +48,9 @@ export interface IDropPanelMenu extends IBaseMenu {
 
 export interface IModalMenu extends IBaseMenu {
   showModal: boolean // 点击 'button' 显示 modal
+  modalWidth: number
   getModalContentElem: (editor: IDomEditor) => Dom7Array // showModal 情况下，获取 content elem
+  getModalPositionNode: (editor: IDomEditor) => Node | null // 获取 modal 定位的 node ，null 即依据选区定位
 }
 
 export type MenuFactoryType = () => IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu

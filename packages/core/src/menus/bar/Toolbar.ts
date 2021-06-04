@@ -10,7 +10,7 @@ import { promiseResolveThen } from '../../utils/util'
 import { TOOLBAR_TO_EDITOR, BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import { IDomEditor } from '../../editor/dom-editor'
 import { IBarItem, createBarItem } from '../bar-item/index'
-import { gen$barItemDivider } from '../helpers'
+import { gen$barItemDivider } from '../helpers/helpers'
 
 class Toolbar {
   private $toolbar: Dom7Array

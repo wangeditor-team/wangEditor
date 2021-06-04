@@ -10,5 +10,6 @@ import simpleStyle from './modules/simple-style'
 import header from './modules/header'
 import color from './modules/color'
 import link from './modules/link'
+import image from './modules/image'
 
-export { simpleStyle, header, p, color, link }
+export { simpleStyle, header, p, color, link, image }
