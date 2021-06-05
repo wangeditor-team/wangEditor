@@ -16,7 +16,17 @@ import {
   registerRenderElemConf,
   registerMenu,
 } from '@wangeditor/core'
-import { simpleStyle, header, p, color, link, image, blockquote, emotion } from '@wangeditor/basic'
+import {
+  simpleStyle,
+  header,
+  p,
+  color,
+  link,
+  image,
+  blockquote,
+  emotion,
+  fontSizeAndFamily,
+} from '@wangeditor/basic'
 
 const plugins = []
 
@@ -93,6 +103,14 @@ if (color.menus && color.menus.length) {
   color.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
+// --------------------- 注册 fontSizeAndFamily module ---------------------
+if (fontSizeAndFamily.addTextStyle) {
+  registerTextStyleHandler(fontSizeAndFamily.addTextStyle)
+}
+if (fontSizeAndFamily.menus && fontSizeAndFamily.menus.length) {
+  fontSizeAndFamily.menus.forEach(menuConf => registerMenu(menuConf))
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor(
   'editor-container',
@@ -107,6 +125,9 @@ let editor = createEditor(
       'through',
       'code',
       'blockquote',
+      '|',
+      'fontSize',
+      'fontFamily',
       '|',
       'color',
       'bgColor',

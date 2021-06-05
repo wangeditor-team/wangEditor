@@ -6,11 +6,12 @@
 import { Editor } from 'slate'
 import { IDropPanelMenu, IDomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
-import { EMOTION_DVG } from '../../_helpers/icon-svg'
+import { EMOTION_SVG } from '../../_helpers/icon-svg'
+import { getMenuConf } from '../../_helpers/menu'
 
 class EmotionMenu implements IDropPanelMenu {
   title = '表情'
-  iconSvg = EMOTION_DVG
+  iconSvg = EMOTION_SVG
   tag = 'button'
   showDropPanel = true // 点击 button 时显示 dropPanel
   private $content: Dom7Array | null = null
@@ -77,7 +78,7 @@ class EmotionMenu implements IDropPanelMenu {
     $content.html('') // 清空之后再重置内容
 
     // 获取菜单配置
-    const colorConf = this.getConfig(editor)
+    const colorConf = getMenuConf(editor, 'emotion')
     const { emotions = [] } = colorConf
     // 根据菜单配置生成 panel content
     emotions.forEach((emotion: string) => {
@@ -86,12 +87,6 @@ class EmotionMenu implements IDropPanelMenu {
     })
 
     return $content
-  }
-
-  private getConfig(editor: IDomEditor): { [key: string]: any } {
-    const { menuConf } = editor.getConfig()
-    const colorConf = menuConf['emotion']
-    return colorConf || {}
   }
 }
 

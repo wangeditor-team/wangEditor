@@ -4,7 +4,7 @@
  */
 
 import { Editor, Transforms } from 'slate'
-import { ISelectMenu, IDomEditor } from '@wangeditor/core'
+import { ISelectMenu, IDomEditor, IOption } from '@wangeditor/core'
 import { HEADER_SVG } from '../../_helpers/icon-svg'
 
 class HeaderMenu implements ISelectMenu {
@@ -12,25 +12,41 @@ class HeaderMenu implements ISelectMenu {
   iconSvg = HEADER_SVG
   tag = 'select'
   width = 60
-  options = [
-    // value 和 elemNode.type 对应
-    {
-      value: 'header1',
-      text: 'H1',
-      styleForRenderMenuList: { 'font-size': '32px', 'font-weight': 'bold' },
-    },
-    {
-      value: 'header2',
-      text: 'H2',
-      styleForRenderMenuList: { 'font-size': '24px', 'font-weight': 'bold' },
-    },
-    {
-      value: 'header3',
-      text: 'H3',
-      styleForRenderMenuList: { 'font-size': '18px', 'font-weight': 'bold' },
-    },
-    { value: 'paragraph', text: '正文', selected: true },
-  ]
+
+  getOptions(editor: IDomEditor): IOption[] {
+    // 基本的 options 列表
+    const options = [
+      // value 和 elemNode.type 对应
+      {
+        value: 'header1',
+        text: 'H1',
+        styleForRenderMenuList: { 'font-size': '32px', 'font-weight': 'bold' },
+      },
+      {
+        value: 'header2',
+        text: 'H2',
+        styleForRenderMenuList: { 'font-size': '24px', 'font-weight': 'bold' },
+      },
+      {
+        value: 'header3',
+        text: 'H3',
+        styleForRenderMenuList: { 'font-size': '18px', 'font-weight': 'bold' },
+      },
+      { value: 'paragraph', text: '正文' },
+    ]
+
+    // 获取 value ，设置 selected
+    const curValue = this.getValue(editor).toString()
+    options.forEach((opt: IOption) => {
+      if (opt.value === curValue) {
+        opt.selected = true
+      } else {
+        delete opt.selected
+      }
+    })
+
+    return options
+  }
 
   isActive(editor: IDomEditor): boolean {
     // select menu 会显示 selected value ，用不到 active
@@ -93,17 +109,6 @@ class HeaderMenu implements ISelectMenu {
    */
   exec(editor: IDomEditor, value: string | boolean) {
     if (!value) return
-
-    // @ts-ignore 修改 options ，修改 selected
-    this.options = this.options.map(opt => {
-      const { value: val, text, styleForRenderMenuList } = opt
-      if (val === value) {
-        // 选中的 opt
-        return { value, text, styleForRenderMenuList, selected: true }
-      }
-      // 未选中的 opt
-      return { value: val, text, styleForRenderMenuList }
-    })
 
     // 执行命令
     Transforms.setNodes(editor, {

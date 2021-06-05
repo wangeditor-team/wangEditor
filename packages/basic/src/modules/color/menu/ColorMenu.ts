@@ -7,6 +7,7 @@ import { Editor, Range } from 'slate'
 import { IDropPanelMenu, IDomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { CLEAN_SVG } from '../../_helpers/icon-svg'
+import { getMenuConf } from '../../_helpers/menu'
 
 class ColorMenu implements IDropPanelMenu {
   title: string
@@ -101,7 +102,7 @@ class ColorMenu implements IDropPanelMenu {
     const selectedColor = this.getValue(editor)
 
     // 获取菜单配置
-    const colorConf = this.getConfig(editor)
+    const colorConf = getMenuConf(editor, mark)
     const { colors = [] } = colorConf
     // 根据菜单配置生成 panel content
     colors.forEach((color: string) => {
@@ -130,13 +131,6 @@ class ColorMenu implements IDropPanelMenu {
     $content.prepend($clearLi)
 
     return $content
-  }
-
-  private getConfig(editor: IDomEditor): { [key: string]: any } {
-    const key = this.mark
-    const { menuConf } = editor.getConfig()
-    const colorConf = menuConf[key]
-    return colorConf || {}
   }
 }
 

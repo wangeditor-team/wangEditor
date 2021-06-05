@@ -4,6 +4,7 @@
  */
 
 import $, { Dom7Array } from '../../utils/dom'
+import { IDomEditor } from '@wangeditor/core'
 
 /**
  * 生成 modal input elems
@@ -48,4 +49,15 @@ export function genModalButtonElems(buttonId: string, buttonText: string): Dom7A
   $buttonContainer.append($button)
 
   return [$buttonContainer, $button]
+}
+
+/**
+ * 获取 menu config
+ * @param editor editor
+ * @param menuKey menuKey
+ */
+export function getMenuConf(editor: IDomEditor, menuKey: string): { [key: string]: any } {
+  const { menuConf } = editor.getConfig()
+  const colorConf = menuConf[menuKey]
+  return colorConf || {}
 }

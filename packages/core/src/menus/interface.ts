@@ -38,7 +38,7 @@ interface IBaseMenu {
 export interface IButtonMenu extends IBaseMenu {}
 
 export interface ISelectMenu extends IBaseMenu {
-  options: IOption[] // select -> options
+  getOptions: (editor: IDomEditor) => IOption[] // select -> options
 }
 
 export interface IDropPanelMenu extends IBaseMenu {

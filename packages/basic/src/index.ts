@@ -13,5 +13,6 @@ import link from './modules/link'
 import image from './modules/image'
 import blockquote from './modules/blockquote'
 import emotion from './modules/emotion'
+import fontSizeAndFamily from './modules/font-size-family'
 
-export { simpleStyle, header, p, color, link, image, blockquote, emotion }
+export { simpleStyle, header, p, color, link, image, blockquote, emotion, fontSizeAndFamily }

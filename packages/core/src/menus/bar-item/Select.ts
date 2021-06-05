@@ -24,18 +24,18 @@ function getOptionText(options: IOption[], value: string): string {
   return text
 }
 
-// 根据 selectedValue 重新生成 options
-function genOptions(options: IOption[], selectedValue: string): IOption[] {
-  return options.map(opt => {
-    const { value, text, styleForRenderMenuList } = opt
-    if (value === selectedValue) {
-      // 选中的 opt
-      return { value, text, styleForRenderMenuList, selected: true }
-    }
-    // 未选中的 opt
-    return { value, text, styleForRenderMenuList }
-  })
-}
+// // 根据 selectedValue 重新生成 options
+// function genOptions(options: IOption[], selectedValue: string): IOption[] {
+//   return options.map(opt => {
+//     const { value, text, styleForRenderMenuList } = opt
+//     if (value === selectedValue) {
+//       // 选中的 opt
+//       return { value, text, styleForRenderMenuList, selected: true }
+//     }
+//     // 未选中的 opt
+//     return { value, text, styleForRenderMenuList }
+//   })
+// }
 
 class BarItemSelect implements IBarItem {
   $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
@@ -77,16 +77,17 @@ class BarItemSelect implements IBarItem {
 
     const editor = getEditorInstance(this)
     const menu = this.menu
-    const { options = [] } = menu
-    const value = menu.getValue(editor)
-    const newOptions = genOptions(options, value.toString()) // 根据 value 重新生成 options（value 可能会随时变化）
+    // const options = menu.getOptions(editor)
+    // const value = menu.getValue(editor)
+    // const newOptions = genOptions(options, value.toString()) // 根据 value 重新生成 options（value 可能会随时变化）
 
     // 显示下拉列表
     if (this.selectList == null) {
       // 初次创建，渲染 list 并显示
       this.selectList = new SelectList()
       const selectList = this.selectList
-      selectList.renderList(newOptions)
+      const options = menu.getOptions(editor)
+      selectList.renderList(options)
       selectList.appendTo(this.$elem)
       selectList.show()
 
@@ -106,7 +107,8 @@ class BarItemSelect implements IBarItem {
         selectList.hide()
       } else {
         // 当前未处于显示状态，则重新渲染 list ，并显示
-        selectList.renderList(newOptions)
+        const options = menu.getOptions(editor) // 每次都要重新获取 options ，因为选中项可能会变化
+        selectList.renderList(options)
         selectList.show()
       }
     }
@@ -123,7 +125,7 @@ class BarItemSelect implements IBarItem {
     const menu = this.menu
     const value = menu.getValue(editor)
 
-    const { options = [] } = menu
+    const options = menu.getOptions(editor)
     const optText = getOptionText(options, value.toString())
 
     const $button = this.$button
