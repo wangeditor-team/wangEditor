@@ -4,19 +4,27 @@
  */
 
 import ColorMenu from './ColorMenu'
-import { getColors } from './config'
+import BgColorMenu from './BgColorMenu'
+import { genColors, genBgColors } from './config'
 
-export function genMenuConf(mark: string, title: string, iconSvg: string) {
-  return {
-    key: mark,
-    factory() {
-      return new ColorMenu(mark, title, iconSvg)
-    },
+export const colorMenuConf = {
+  key: 'color',
+  factory() {
+    return new ColorMenu()
+  },
+  // 默认的菜单菜单配置，可以通过 editor.getConfig().menuConf[key] 拿到
+  // 用户也可以修改这个配置
+  config: {
+    colors: genColors(),
+  },
+}
 
-    // 默认的菜单菜单配置，可以通过 editor.getConfig().menuConf[key] 拿到
-    // 用户也可以修改这个配置
-    config: {
-      colors: getColors(),
-    },
-  }
+export const bgColorMenuConf = {
+  key: 'bgColor',
+  factory() {
+    return new BgColorMenu()
+  },
+  config: {
+    colors: genBgColors(),
+  },
 }

@@ -3,20 +3,43 @@
  * @author wangfupeng
  */
 
-import TextStyleMenu from './TextStyleMenu'
+import BoldMenu from './BoldMenu'
+import CodeMenu from './CodeMenu'
+import ItalicMenu from './ItalicMenu'
+import ThroughMenu from './ThroughMenu'
+import UnderlineMenu from './UnderlineMenu'
 
-/**
- * 生成 menu config
- * @param mark mark 如 'bold' 'italic' 等
- * @param title menu title
- * @param iconSvg menu icon svg
- * @returns menu config
- */
-export function genMenuConf(mark: string, title: string, iconSvg: string) {
-  return {
-    key: mark,
-    factory() {
-      return new TextStyleMenu(mark, title, iconSvg)
-    },
-  }
+export const boldMenuConf = {
+  key: 'bold',
+  factory() {
+    return new BoldMenu()
+  },
+}
+
+export const codeMenuConf = {
+  key: 'code',
+  factory() {
+    return new CodeMenu()
+  },
+}
+
+export const italicMenuConf = {
+  key: 'italic',
+  factory() {
+    return new ItalicMenu()
+  },
+}
+
+export const throughMenuConf = {
+  key: 'through',
+  factory() {
+    return new ThroughMenu()
+  },
+}
+
+export const underlineMenuConf = {
+  key: 'underline',
+  factory() {
+    return new UnderlineMenu()
+  },
 }

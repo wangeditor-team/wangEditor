@@ -1,22 +1,16 @@
 /**
- * @description text style menu
+ * @description simply style base menu
  * @author wangfupeng
  */
 
 import { Editor } from 'slate'
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
 
-class TextStyleMenu implements IButtonMenu {
-  mark: string
-  title: string
-  iconSvg: string
+abstract class BaseMenu implements IButtonMenu {
+  abstract mark: string
+  abstract title: string
+  abstract iconSvg: string
   tag = 'button'
-
-  constructor(mark: string, title: string, iconSvg: string) {
-    this.mark = mark
-    this.title = title
-    this.iconSvg = iconSvg
-  }
 
   /**
    * 获取：是否有 mark
@@ -47,22 +41,20 @@ class TextStyleMenu implements IButtonMenu {
         // @ts-ignore
         const { type = '' } = n
 
-        // 代码
-        if (type === 'pre') return true
+        if (type === 'pre') return true // 代码块
+        if (Editor.isVoid(editor, n)) return true // void node
 
         if (mark === 'bold') {
           // header 中禁用 bold
           if (type.startsWith('header')) return true
         }
 
-        // void
-        if (Editor.isVoid(editor, n)) return true
-
         return false
       },
       universal: true,
     })
 
+    // 命中，则禁用
     if (match) return true
     return false
   }
@@ -84,4 +76,4 @@ class TextStyleMenu implements IButtonMenu {
   }
 }
 
-export default TextStyleMenu
+export default BaseMenu
