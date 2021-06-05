@@ -21,7 +21,7 @@ class FontSizeMenu extends BaseMenu {
 
     // 生成 options
     options.push({
-      text: '默认',
+      text: '默认字号',
       value: '', // this.getValue(editor) 未找到结果时，会返回 '' ，正好对应到这里
     })
     fontSizeList.forEach((size: string) => {

@@ -11,7 +11,7 @@ abstract class BaseMenu implements ISelectMenu {
   abstract iconSvg: string
   abstract mark: string // 'fontSize'/'fontFamily'
   tag = 'select'
-  width = 60
+  width = 80
 
   abstract getOptions(editor: IDomEditor): IOption[]
 
