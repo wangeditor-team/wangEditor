@@ -5,6 +5,7 @@
 
 import menusConfig, {
     EmotionsType,
+    CharactersType,
     FontSizeConfType,
     IndentationType,
     tooltipPositionType,
@@ -39,6 +40,7 @@ export type ConfigType = {
     fontSizes: FontSizeConfType
     colors: string[]
     emotions: EmotionsType[]
+    characters: CharactersType[]
     zIndex: number
     onchange: Function | null
     onfocus: Function
