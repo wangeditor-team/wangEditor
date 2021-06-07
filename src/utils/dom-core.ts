@@ -127,7 +127,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
 
         // 原本就是 DomElement 实例，则直接返回
         if (selector instanceof DomElement) {
-            return selector
+            return selector as DomElement<T>
         }
 
         let selectorResult: HTMLElement[] = [] // 存储查询结果
@@ -141,7 +141,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
             selectorResult = toArray(selector)
         } else if (selector instanceof Array) {
             // Element 数组（其他数据类型，暂时忽略）
-            selectorResult = selector
+            selectorResult = selector as HTMLElement[]
         } else if (typeof selector === 'string') {
             // 字符串
             const tmpSelector = selector.replace('/\n/mg', '').trim()

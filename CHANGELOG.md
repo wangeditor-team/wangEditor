@@ -1,3 +1,14 @@
+## [4.7.2](https://github.com/wangeditor-team/wangEditor/compare/v4.7.1...v4.7.2) (2021-06-03)
+
+
+### Bug Fixes
+
+* 禁修复多行插入链接造成页面卡死,止多行插入链链接 ([110b37a](https://github.com/wangeditor-team/wangEditor/commit/110b37a8bb3b6bd5d87e1d831c8dab6f52e2b6df))
+* 设置字体大小和颜色时，光标跳到行首 ([8fc7e04](https://github.com/wangeditor-team/wangEditor/commit/8fc7e04272ab222416e2cbfbaa57eb2565a8f87a))
+* 修复给标题加超链接的问题 ([0d7a05e](https://github.com/wangeditor-team/wangEditor/commit/0d7a05e8c922bc48dc655bee90b8192a816057f9))
+* 修复删除全部内容后EMPTY_P前有个空格 ([1811f8c](https://github.com/wangeditor-team/wangEditor/commit/1811f8c417f8466df5d458a6c215fad1e4b2b7c3))
+* ts 构建错误 ([4603677](https://github.com/wangeditor-team/wangEditor/commit/46036774c73f909dae99c950b0ffcc67f7414b9f))
+
 ## [4.7.1](https://github.com/wangeditor-team/wangEditor/compare/v4.7.0...v4.7.1) (2021-05-20)
 
 
