@@ -15,11 +15,11 @@ import { addVnodeStyle } from '../../utils/vdom'
  */
 export function addTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
   // @ts-ignore
-  const { indent } = node // 如 '32px'
+  const { textAlign } = node
   let styleVnode: VNode = vnode
 
-  if (indent) {
-    addVnodeStyle(styleVnode, { paddingLeft: indent })
+  if (textAlign) {
+    addVnodeStyle(styleVnode, { textAlign })
   }
 
   return styleVnode

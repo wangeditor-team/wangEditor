@@ -12,16 +12,20 @@ abstract class BaseMenu implements IButtonMenu {
   tag = 'button'
 
   /**
-   * 获取：是否有 node.indent 属性
+   * 获取 node.indent 的值，如 '32px'
    * @param editor editor
    */
   getValue(editor: IDomEditor): string | boolean {
-    const [match] = Editor.nodes(editor, {
+    const [nodeEntry] = Editor.nodes(editor, {
       // @ts-ignore
       match: n => !!n.indent,
       universal: true,
     })
-    return !!match
+
+    if (nodeEntry == null) return ''
+    const [n] = nodeEntry
+    // @ts-ignore
+    return n.indent || ''
   }
 
   isActive(editor: IDomEditor): boolean {

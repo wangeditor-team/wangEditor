@@ -13,23 +13,19 @@ class IncreaseIndentMenu extends BaseMenu {
   iconSvg = INDENT_RIGHT_SVG
 
   isDisabled(editor: IDomEditor): boolean {
-    const matchNode = this.getMatchNode(editor)
-    if (matchNode == null) return true // 未匹配 p header 等，则禁用
-
-    // @ts-ignore
-    const { indent } = matchNode
-    if (indent) {
-      // 当前已经有 indent ，则禁用
-      return true
-    }
-
-    return false // 其他情况，不禁用
+    // 一直不禁用
+    return false
   }
 
   exec(editor: IDomEditor, value: string | boolean): void {
+    let indentNum = parseInt(value.toString(), 10)
+    if (!indentNum) indentNum = 0
+
+    let newNum = indentNum + 32 // 增加缩进，增加 32px
+
     Transforms.setNodes(editor, {
       // @ts-ignore
-      indent: true,
+      indent: `${newNum}px`,
     })
   }
 }

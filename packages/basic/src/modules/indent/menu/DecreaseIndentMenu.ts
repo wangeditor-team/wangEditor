@@ -27,9 +27,15 @@ class DecreaseIndentMenu extends BaseMenu {
   }
 
   exec(editor: IDomEditor, value: string | boolean): void {
+    if (!value) return
+
+    const indentNum = parseInt(value.toString(), 10)
+    let newNum = indentNum - 32 // 减少缩进，减少 32px
+    if (newNum < 0) newNum = 0
+
     Transforms.setNodes(editor, {
       // @ts-ignore
-      indent: null,
+      indent: newNum === 0 ? null : `${newNum}px`,
     })
   }
 }
