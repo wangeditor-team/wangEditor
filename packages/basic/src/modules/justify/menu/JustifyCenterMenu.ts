@@ -13,10 +13,14 @@ class JustifyCenterMenu extends BaseMenu {
   iconSvg = JUSTIFY_CENTER_SVG
 
   exec(editor: IDomEditor, value: string | boolean): void {
-    Transforms.setNodes(editor, {
-      // @ts-ignore
-      textAlign: 'center',
-    })
+    Transforms.setNodes(
+      editor,
+      {
+        // @ts-ignore
+        textAlign: 'center',
+      },
+      { mode: 'highest' }
+    )
   }
 }
 

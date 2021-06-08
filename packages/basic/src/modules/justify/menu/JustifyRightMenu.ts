@@ -13,10 +13,14 @@ class JustifyRightMenu extends BaseMenu {
   iconSvg = JUSTIFY_RIGHT_SVG
 
   exec(editor: IDomEditor, value: string | boolean): void {
-    Transforms.setNodes(editor, {
-      // @ts-ignore
-      textAlign: 'right',
-    })
+    Transforms.setNodes(
+      editor,
+      {
+        // @ts-ignore
+        textAlign: 'right',
+      },
+      { mode: 'highest' }
+    )
   }
 }
 

@@ -28,6 +28,7 @@ import {
   fontSizeAndFamily,
   indent,
   justify,
+  lineHeight,
 } from '@wangeditor/basic'
 import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG } from './constants/svg'
 
@@ -130,6 +131,14 @@ if (justify.menus && justify.menus.length) {
   justify.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
+// --------------------- 注册 lineHeight module ---------------------
+if (lineHeight.addTextStyle) {
+  registerTextStyleHandler(lineHeight.addTextStyle)
+}
+if (lineHeight.menus && lineHeight.menus.length) {
+  lineHeight.menus.forEach(menuConf => registerMenu(menuConf))
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor(
   'editor-container',
@@ -147,6 +156,7 @@ let editor = createEditor(
       '|',
       'fontSize',
       'fontFamily',
+      'lineHeight',
       '|',
       'color',
       'bgColor',

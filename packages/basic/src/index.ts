@@ -16,6 +16,7 @@ import emotion from './modules/emotion'
 import fontSizeAndFamily from './modules/font-size-family'
 import indent from './modules/indent'
 import justify from './modules/justify'
+import lineHeight from './modules/line-height'
 
 export {
   simpleStyle,
@@ -29,4 +30,5 @@ export {
   fontSizeAndFamily,
   indent,
   justify,
+  lineHeight,
 }
