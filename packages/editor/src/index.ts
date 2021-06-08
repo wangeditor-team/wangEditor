@@ -26,7 +26,9 @@ import {
   blockquote,
   emotion,
   fontSizeAndFamily,
+  indent,
 } from '@wangeditor/basic'
+import { INDENT_RIGHT_SVG } from './constants/svg'
 
 const plugins = []
 
@@ -111,6 +113,14 @@ if (fontSizeAndFamily.menus && fontSizeAndFamily.menus.length) {
   fontSizeAndFamily.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
+// --------------------- 注册 indent module ---------------------
+if (indent.addTextStyle) {
+  registerTextStyleHandler(indent.addTextStyle)
+}
+if (indent.menus && indent.menus.length) {
+  indent.menus.forEach(menuConf => registerMenu(menuConf))
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor(
   'editor-container',
@@ -133,6 +143,11 @@ let editor = createEditor(
       'bgColor',
       '|',
       'emotion',
+      {
+        title: '缩进',
+        iconSvg: INDENT_RIGHT_SVG,
+        menuKeys: ['indent', 'delIndent'],
+      },
       '|',
       'insertLink',
       'updateLink',

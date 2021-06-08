@@ -7,6 +7,12 @@ import { Node } from 'slate'
 import { IDomEditor } from '../editor/dom-editor'
 import { Dom7Array } from '../utils/dom'
 
+export interface IMenuGroup {
+  title: string
+  iconSvg: string
+  menuKeys: string[]
+}
+
 export interface IPositionStyle {
   top?: string
   left?: string

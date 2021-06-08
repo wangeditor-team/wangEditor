@@ -6,6 +6,7 @@
 import { cloneDeep } from 'lodash-es'
 import { Editor, Range, NodeEntry, Node } from 'slate'
 import { IDomEditor } from '../editor/dom-editor'
+import { IMenuGroup } from '../menus/interface'
 
 // 全局的菜单配置
 const GLOBAL_MENU_CONF: { [key: string]: any } = {}
@@ -43,7 +44,7 @@ export interface IConfig {
 
   // 传统菜单栏的 menu
   toolbarId?: string
-  toolbarKeys: string[]
+  toolbarKeys: Array<string | IMenuGroup>
   // 悬浮菜单栏 menu
   hoverbarKeys: Array<IHoverbarConf>
   // TODO 右键菜单栏 menu

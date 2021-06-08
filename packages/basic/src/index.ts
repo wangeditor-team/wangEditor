@@ -14,5 +14,17 @@ import image from './modules/image'
 import blockquote from './modules/blockquote'
 import emotion from './modules/emotion'
 import fontSizeAndFamily from './modules/font-size-family'
+import indent from './modules/indent'
 
-export { simpleStyle, header, p, color, link, image, blockquote, emotion, fontSizeAndFamily }
+export {
+  simpleStyle,
+  header,
+  p,
+  color,
+  link,
+  image,
+  blockquote,
+  emotion,
+  fontSizeAndFamily,
+  indent,
+}

@@ -9,8 +9,9 @@ import { MENU_ITEM_FACTORIES } from '../register'
 import { promiseResolveThen } from '../../utils/util'
 import { TOOLBAR_TO_EDITOR, BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import { IDomEditor } from '../../editor/dom-editor'
-import { IBarItem, createBarItem } from '../bar-item/index'
+import { IBarItem, createBarItem, createBarItemGroup } from '../bar-item/index'
 import { gen$barItemDivider } from '../helpers/helpers'
+import { IMenuGroup } from '../interface'
 
 class Toolbar {
   private $toolbar: Dom7Array
@@ -42,22 +43,44 @@ class Toolbar {
       }
 
       // 正常菜单
-      this.registerSingleItem(key)
+      if (typeof key === 'string') {
+        this.registerSingleItem(key, $toolbar)
+        return
+      }
+
+      // 菜单组
+      this.registerGroup(key)
     })
   }
 
+  // 注册菜单组
+  private registerGroup(menu: IMenuGroup) {
+    const $toolbar = this.$toolbar
+    const group = createBarItemGroup(menu)
+    const { menuKeys = [] } = menu
+
+    // 注册子菜单
+    menuKeys.forEach(key => {
+      this.registerSingleItem(
+        key,
+        group.$container // 将子菜单，添加到自己的 container 中
+      )
+    })
+
+    // 添加到 DOM
+    $toolbar.append(group.$elem)
+  }
+
   // 注册单个 toolbarItem
-  private registerSingleItem(key: string) {
+  private registerSingleItem(key: string, $container: Dom7Array) {
     const editor = this.getEditorInstance()
 
     const factory = MENU_ITEM_FACTORIES[key]
     if (factory == null) {
       throw new Error(`Not found menu item factory by key '${key}'`)
-      return
     }
     if (typeof factory !== 'function') {
       throw new Error(`Menu item factory (key='${key}') is not a function`)
-      return
     }
 
     // 创建 toolbarItem 并记录下
@@ -70,8 +93,7 @@ class Toolbar {
     toolbarItem.init() // 初始化
 
     // 添加 DOM
-    const $toolbar = this.$toolbar
-    $toolbar.append(toolbarItem.$elem)
+    $container.append(toolbarItem.$elem)
   }
 
   private getEditorInstance(): IDomEditor {

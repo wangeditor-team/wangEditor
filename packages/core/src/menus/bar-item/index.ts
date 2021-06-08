@@ -4,13 +4,14 @@
  */
 
 import { Dom7Array } from '../../utils/dom'
-import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../interface'
+import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu, IMenuGroup } from '../interface'
 import { IDomEditor } from '../../editor/dom-editor'
 import { BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import SimpleButton from './SimpleButton'
 import DropPanelButton from './DropPanelButton'
 import ModalButton from './ModalButton'
 import Select from './Select'
+import GroupButton from './GroupButton'
 
 export interface IBarItem {
   $elem: Dom7Array
@@ -50,4 +51,8 @@ export function createBarItem(
     return new Select(menu as ISelectMenu)
   }
   throw new Error(`Invalid tag in menu ${JSON.stringify(menu)}`)
+}
+
+export function createBarItemGroup(menu: IMenuGroup): GroupButton {
+  return new GroupButton(menu)
 }

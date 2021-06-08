@@ -6,6 +6,10 @@
   margin: 0 5px;
 }
 
+.w-e-bar-item-title {
+  display: none; /* 默认隐藏菜单标题 */
+}
+
 .w-e-bar-item {
   position: relative;
   display: flex;
@@ -58,6 +62,31 @@
       svg {
         fill: #999;
       }
+    }
+  }
+
+  .w-e-bar-item-menus-container {
+    display: none; /* 默认隐藏 */
+
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid #e8e8e8;
+    border-radius: 2px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    margin-top: 40px;
+    z-index: 1;
+
+    .w-e-bar-item-title {
+      display: inline-block; /* 显示菜单标题 */
+      margin-left: 5px;
+    }
+  }
+  &:hover {
+    /* hover 时显示 */
+    .w-e-bar-item-menus-container {
+      display: block;
     }
   }
 }
