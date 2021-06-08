@@ -18,6 +18,7 @@ import indent from './modules/indent'
 import justify from './modules/justify'
 import lineHeight from './modules/line-height'
 import undoRedo from './modules/undo-redo'
+import list from './modules/list'
 
 export {
   simpleStyle,
@@ -33,4 +34,5 @@ export {
   justify,
   lineHeight,
   undoRedo,
+  list,
 }

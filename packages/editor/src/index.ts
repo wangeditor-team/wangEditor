@@ -30,6 +30,7 @@ import {
   justify,
   lineHeight,
   undoRedo,
+  list,
 } from '@wangeditor/basic'
 import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG } from './constants/svg'
 
@@ -145,6 +146,17 @@ if (undoRedo.menus && undoRedo.menus.length) {
   undoRedo.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
+// --------------------- 注册 list module ---------------------
+if (list.renderElems && list.renderElems.length) {
+  list.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (list.menus && list.menus.length) {
+  list.menus.forEach(menuConf => registerMenu(menuConf))
+}
+if (list.editorPlugin) {
+  plugins.push(list.editorPlugin)
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor(
   'editor-container',
@@ -178,6 +190,8 @@ let editor = createEditor(
         iconSvg: JUSTIFY_LEFT_SVG,
         menuKeys: ['justifyLeft', 'justifyRight', 'justifyCenter'],
       },
+      'bulletedList',
+      'numberedList',
       '|',
       'insertLink',
       'updateLink',
