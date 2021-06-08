@@ -29,6 +29,7 @@ import {
   indent,
   justify,
   lineHeight,
+  undoRedo,
 } from '@wangeditor/basic'
 import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG } from './constants/svg'
 
@@ -139,6 +140,11 @@ if (lineHeight.menus && lineHeight.menus.length) {
   lineHeight.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
+// --------------------- 注册 undoRedo module ---------------------
+if (undoRedo.menus && undoRedo.menus.length) {
+  undoRedo.menus.forEach(menuConf => registerMenu(menuConf))
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor(
   'editor-container',
@@ -182,6 +188,9 @@ let editor = createEditor(
       'deleteImage',
       'editImage',
       'viewImageLink',
+      '|',
+      'undo',
+      'redo',
     ],
 
     // hover bar

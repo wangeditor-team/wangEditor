@@ -17,6 +17,7 @@ import fontSizeAndFamily from './modules/font-size-family'
 import indent from './modules/indent'
 import justify from './modules/justify'
 import lineHeight from './modules/line-height'
+import undoRedo from './modules/undo-redo'
 
 export {
   simpleStyle,
@@ -31,4 +32,5 @@ export {
   indent,
   justify,
   lineHeight,
+  undoRedo,
 }
