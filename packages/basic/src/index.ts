@@ -15,6 +15,7 @@ import blockquote from './modules/blockquote'
 import emotion from './modules/emotion'
 import fontSizeAndFamily from './modules/font-size-family'
 import indent from './modules/indent'
+import justify from './modules/justify'
 
 export {
   simpleStyle,
@@ -27,4 +28,5 @@ export {
   emotion,
   fontSizeAndFamily,
   indent,
+  justify,
 }

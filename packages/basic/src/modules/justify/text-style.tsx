@@ -15,7 +15,7 @@ import { addVnodeStyle } from '../../utils/vdom'
  */
 export function addTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
   // @ts-ignore
-  const { textAlign } = node
+  const { textAlign } = node // 如 'left'/'right'/'center' 等
   let styleVnode: VNode = vnode
 
   if (textAlign) {

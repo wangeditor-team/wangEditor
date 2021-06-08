@@ -27,8 +27,9 @@ import {
   emotion,
   fontSizeAndFamily,
   indent,
+  justify,
 } from '@wangeditor/basic'
-import { INDENT_RIGHT_SVG } from './constants/svg'
+import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG } from './constants/svg'
 
 const plugins = []
 
@@ -121,6 +122,14 @@ if (indent.menus && indent.menus.length) {
   indent.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
+// --------------------- 注册 justify module ---------------------
+if (justify.addTextStyle) {
+  registerTextStyleHandler(justify.addTextStyle)
+}
+if (justify.menus && justify.menus.length) {
+  justify.menus.forEach(menuConf => registerMenu(menuConf))
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor(
   'editor-container',
@@ -147,6 +156,11 @@ let editor = createEditor(
         title: '缩进',
         iconSvg: INDENT_RIGHT_SVG,
         menuKeys: ['indent', 'delIndent'],
+      },
+      {
+        title: '对齐',
+        iconSvg: JUSTIFY_LEFT_SVG,
+        menuKeys: ['justifyLeft', 'justifyRight', 'justifyCenter'],
       },
       '|',
       'insertLink',
