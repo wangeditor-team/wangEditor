@@ -32,6 +32,7 @@ import {
   undoRedo,
   list,
   divider,
+  video,
 } from '@wangeditor/basic'
 import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG } from './constants/svg'
 
@@ -169,6 +170,17 @@ if (divider.editorPlugin) {
   plugins.push(divider.editorPlugin)
 }
 
+// --------------------- 注册 video module ---------------------
+if (video.renderElems && video.renderElems.length) {
+  video.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (video.menus && video.menus.length) {
+  video.menus.forEach(menuConf => registerMenu(menuConf))
+}
+if (video.editorPlugin) {
+  plugins.push(video.editorPlugin)
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor(
   'editor-container',
@@ -176,22 +188,21 @@ let editor = createEditor(
     // 传统菜单栏
     toolbarKeys: [
       'header',
+      'blockquote',
       '|',
       'bold',
       'underline',
       'italic',
       'through',
       'code',
-      'blockquote',
+      '|',
+      'color',
+      'bgColor',
       '|',
       'fontSize',
       'fontFamily',
       'lineHeight',
       '|',
-      'color',
-      'bgColor',
-      '|',
-      'emotion',
       {
         title: '缩进',
         iconSvg: INDENT_RIGHT_SVG,
@@ -205,17 +216,19 @@ let editor = createEditor(
       'bulletedList',
       'numberedList',
       '|',
+      'emotion',
       'insertLink',
-      'updateLink',
-      'unLink',
-      'viewLink',
-      '|',
+      // 'updateLink',
+      // 'unLink',
+      // 'viewLink',
       'insertImage',
-      'deleteImage',
-      'editImage',
-      'viewImageLink',
-      '|',
+      // 'deleteImage',
+      // 'editImage',
+      // 'viewImageLink',
+      'insertVideo',
+      // 'deleteVideo',
       'divider',
+      '|',
       'undo',
       'redo',
     ],
@@ -244,6 +257,12 @@ let editor = createEditor(
         // @ts-ignore
         match: (editor, n) => n.type === 'image', // 匹配 image node
         menuKeys: ['deleteImage', 'editImage', 'viewImageLink'],
+      },
+      // video hover bar
+      {
+        // @ts-ignore
+        match: (editor, n) => n.type === 'video',
+        menuKeys: ['deleteVideo'],
       },
       // other hover bar ...
     ],

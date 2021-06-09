@@ -20,6 +20,7 @@ import lineHeight from './modules/line-height'
 import undoRedo from './modules/undo-redo'
 import list from './modules/list'
 import divider from './modules/divider'
+import video from './modules/video'
 
 export {
   simpleStyle,
@@ -37,4 +38,5 @@ export {
   undoRedo,
   list,
   divider,
+  video,
 }

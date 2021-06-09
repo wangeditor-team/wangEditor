@@ -1,5 +1,5 @@
 /**
- * @description insert image menu
+ * @description insert video menu
  * @author wangfupeng
  */
 
@@ -8,25 +8,23 @@ import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wang
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
-import { IMAGE_SVG } from '../../_helpers/icon-svg'
+import { VIDEO_SVG } from '../../_helpers/icon-svg'
 
 /**
  * 生成唯一的 DOM ID
  */
 function genDomID(): string {
-  return genRandomStr('w-e-insert-image')
+  return genRandomStr('w-e-insert-video')
 }
 
-class InsertImage implements IModalMenu {
-  title = '网络图片'
-  iconSvg = IMAGE_SVG
+class InsertVideoMenu implements IModalMenu {
+  title = '插入视频'
+  iconSvg = VIDEO_SVG
   tag = 'button'
   showModal = true // 点击 button 时显示 modal
   modalWidth = 300
   private $content: Dom7Array | null = null
   private srcInputId = genDomID()
-  private altInputId = genDomID()
-  private urlInputId = genDomID()
   private buttonId = genDomID()
 
   getValue(editor: IDomEditor): string | boolean {
@@ -49,26 +47,6 @@ class InsertImage implements IModalMenu {
     if (selection == null) return true
     if (!Range.isCollapsed(selection)) return true // 选区非折叠，禁用
 
-    const [match] = Editor.nodes(editor, {
-      // @ts-ignore
-      match: n => {
-        // @ts-ignore
-        const { type = '' } = n
-
-        if (type === 'code') return true // 行内代码
-        if (type === 'pre') return true // 代码块
-        if (type === 'link') return true // 链接
-        if (type === 'list-item') return true // list
-        if (type.startsWith('header')) return true // 标题
-        if (type === 'blockquote') return true // 引用
-        if (Editor.isVoid(editor, n)) return true // void
-
-        return false
-      },
-      universal: true,
-    })
-
-    if (match) return true
     return false
   }
 
@@ -77,12 +55,14 @@ class InsertImage implements IModalMenu {
   }
 
   getModalContentElem(editor: IDomEditor): Dom7Array {
-    const { srcInputId, altInputId, urlInputId, buttonId } = this
+    const { srcInputId, buttonId } = this
 
     // 获取 input button elem
-    const [$srcContainer, $inputSrc] = genModalInputElems('图片地址', srcInputId)
-    const [$altContainer, $inputAlt] = genModalInputElems('描述文字', altInputId)
-    const [$urlContainer, $inputUrl] = genModalInputElems('图片链接', urlInputId)
+    const [$srcContainer, $inputSrc] = genModalInputElems(
+      '视频地址',
+      srcInputId,
+      'mp4 网址，或第三方 <iframe>...'
+    )
     const [$buttonContainer] = genModalButtonElems(buttonId, '确定')
 
     if (this.$content == null) {
@@ -93,9 +73,7 @@ class InsertImage implements IModalMenu {
       $content.on('click', `#${buttonId}`, e => {
         e.preventDefault()
         const src = $(`#${srcInputId}`).val().trim()
-        const alt = $(`#${altInputId}`).val().trim()
-        const url = $(`#${urlInputId}`).val().trim()
-        this.insertImage(editor, src, alt, url)
+        this.insertVideo(editor, src)
       })
 
       // 记录属性，重要
@@ -107,14 +85,10 @@ class InsertImage implements IModalMenu {
 
     // append inputs and button
     $content.append($srcContainer)
-    $content.append($altContainer)
-    $content.append($urlContainer)
     $content.append($buttonContainer)
 
     // 设置 input val
     $inputSrc.val('')
-    $inputAlt.val('')
-    $inputUrl.val('')
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {
@@ -124,7 +98,7 @@ class InsertImage implements IModalMenu {
     return $content
   }
 
-  private insertImage(editor: IDomEditor, src: string, alt: string = '', url: string = '') {
+  private insertVideo(editor: IDomEditor, src: string) {
     if (!src) {
       hideAllPanelsAndModals() // 隐藏 modal
       return
@@ -135,22 +109,19 @@ class InsertImage implements IModalMenu {
 
     if (this.isDisabled(editor)) return
 
-    // 新建一个 image node
-    const image = {
-      type: 'image',
+    // 新建一个 video node
+    const video = {
+      type: 'video',
       src,
-      url,
-      alt,
-      style: {},
       children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children
     }
 
     // 插入图片
-    Transforms.insertNodes(editor, image)
+    Transforms.insertNodes(editor, video)
 
     // 隐藏 modal
     hideAllPanelsAndModals()
   }
 }
 
-export default InsertImage
+export default InsertVideoMenu

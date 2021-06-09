@@ -26,6 +26,7 @@ function renderImage(elemNode: SlateElement, children: VNode[] | null, editor: I
   const selected = isNodeSelected(editor, elemNode, 'image')
   renderStyle.boxShadow = selected ? '0 0 0 3px #B4D5FF' : 'none'
   // TODO 选中时，显示拖拽框（不要在这里渲染，考虑一个独立的插件）
+  // TODO 抽离选中样式
 
   // 尺寸
   if (width) renderStyle.width = width

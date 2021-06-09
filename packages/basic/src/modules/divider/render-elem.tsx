@@ -18,7 +18,7 @@ function renderDivider(
   // 是否选中
   const selected = isNodeSelected(editor, elemNode, 'divider')
   renderStyle.boxShadow = selected ? '0 0 0 3px #B4D5FF' : 'none'
-  // TODO 选中时，显示拖拽框（不要在这里渲染，考虑一个独立的插件）
+  // TODO 抽离选中样式
 
   const vnode = <div className="w-e-textarea-divider" style={renderStyle}></div>
   // 【注意】void node 中，renderElem 不用处理 children 。core 会统一处理。
