@@ -34,6 +34,7 @@ import {
   divider,
   video,
 } from '@wangeditor/basic'
+import { codeBlockModule } from '@wangeditor/code-block-color'
 import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG } from './constants/svg'
 
 const plugins = []
@@ -181,6 +182,20 @@ if (video.editorPlugin) {
   plugins.push(video.editorPlugin)
 }
 
+// --------------------- 注册 codeBlockModule module ---------------------
+if (codeBlockModule.addTextStyle) {
+  registerTextStyleHandler(codeBlockModule.addTextStyle)
+}
+if (codeBlockModule.renderElems && codeBlockModule.renderElems.length) {
+  codeBlockModule.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (codeBlockModule.menus && codeBlockModule.menus.length) {
+  codeBlockModule.menus.forEach(menuConf => registerMenu(menuConf))
+}
+if (codeBlockModule.editorPlugin) {
+  plugins.push(codeBlockModule.editorPlugin)
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor(
   'editor-container',
@@ -227,6 +242,8 @@ let editor = createEditor(
       // 'viewImageLink',
       'insertVideo',
       // 'deleteVideo',
+      'codeBlock',
+      // 'codeSelectLang',
       'divider',
       '|',
       'undo',
@@ -238,6 +255,8 @@ let editor = createEditor(
       // 选中文字 hover bar
       {
         match: (editor: IDomEditor, n: Node) => {
+          // @ts-ignore
+          const { type } = n
           const { selection } = editor
           if (selection == null) return false // 无选区
           if (Range.isCollapsed(selection)) return false // 未选中文字，选区的是折叠的
@@ -264,6 +283,12 @@ let editor = createEditor(
         match: (editor, n) => n.type === 'video',
         menuKeys: ['deleteVideo'],
       },
+      // code-block hover bar
+      {
+        // @ts-ignore
+        match: (editor, n) => n.type === 'pre',
+        menuKeys: ['codeBlock', 'codeSelectLang'],
+      },
       // other hover bar ...
     ],
 
@@ -272,6 +297,8 @@ let editor = createEditor(
     },
 
     plugins,
+
+    // decorate
   },
   // @ts-ignore
   window.content

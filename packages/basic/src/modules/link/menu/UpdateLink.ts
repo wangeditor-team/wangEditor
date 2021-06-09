@@ -9,7 +9,7 @@ import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
 import { checkNodeType, getSelectedNodeByType } from '../../_helpers/node'
-import { EDIT_SVG } from '../../_helpers/icon-svg'
+import { PENCIL_SVG } from '../../_helpers/icon-svg'
 
 /**
  * 生成唯一的 DOM ID
@@ -20,7 +20,7 @@ function genDomID(): string {
 
 class UpdateLink implements IModalMenu {
   title = '修改链接'
-  iconSvg = EDIT_SVG
+  iconSvg = PENCIL_SVG
   tag = 'button'
   showModal = true // 点击 button 时显示 modal
   modalWidth = 300

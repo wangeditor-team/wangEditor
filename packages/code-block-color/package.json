@@ -1,7 +1,7 @@
 {
-  "name": "@wangeditor/editor",
+  "name": "@wangeditor/code-block-color",
   "version": "0.0.1",
-  "description": "editor entry",
+  "description": "wangEditor code-block-color module",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
@@ -37,13 +37,17 @@
   "bugs": {
     "url": "https://github.com/wangeditor-team/we-2021/issues"
   },
-  "dependencies": {
-    "@wangeditor/basic": "^0.0.1",
-    "@wangeditor/code-block-color": "^0.0.1",
+  "peerDependencies": {
     "@wangeditor/core": "^0.0.1",
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
     "slate": "^0.63.0",
     "snabbdom": "^3.0.1"
+  },
+  "dependencies": {
+    "prismjs": "^1.23.0"
+  },
+  "devDependencies": {
+    "@types/prismjs": "^1.16.5"
   }
 }
