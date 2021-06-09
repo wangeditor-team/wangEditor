@@ -19,6 +19,7 @@ import justify from './modules/justify'
 import lineHeight from './modules/line-height'
 import undoRedo from './modules/undo-redo'
 import list from './modules/list'
+import divider from './modules/divider'
 
 export {
   simpleStyle,
@@ -35,4 +36,5 @@ export {
   lineHeight,
   undoRedo,
   list,
+  divider,
 }

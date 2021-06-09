@@ -31,6 +31,7 @@ import {
   lineHeight,
   undoRedo,
   list,
+  divider,
 } from '@wangeditor/basic'
 import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG } from './constants/svg'
 
@@ -157,6 +158,17 @@ if (list.editorPlugin) {
   plugins.push(list.editorPlugin)
 }
 
+// --------------------- 注册 divider module ---------------------
+if (divider.renderElems && divider.renderElems.length) {
+  divider.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (divider.menus && divider.menus.length) {
+  divider.menus.forEach(menuConf => registerMenu(menuConf))
+}
+if (divider.editorPlugin) {
+  plugins.push(divider.editorPlugin)
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor(
   'editor-container',
@@ -203,6 +215,7 @@ let editor = createEditor(
       'editImage',
       'viewImageLink',
       '|',
+      'divider',
       'undo',
       'redo',
     ],

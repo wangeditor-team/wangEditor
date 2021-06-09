@@ -13,7 +13,9 @@ class IncreaseIndentMenu extends BaseMenu {
   iconSvg = INDENT_RIGHT_SVG
 
   isDisabled(editor: IDomEditor): boolean {
-    // 一直不禁用
+    const matchNode = this.getMatchNode(editor)
+    if (matchNode == null) return true // 未匹配 p header 等，则禁用
+
     return false
   }
 
