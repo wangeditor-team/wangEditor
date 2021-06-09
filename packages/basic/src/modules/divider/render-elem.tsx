@@ -20,7 +20,11 @@ function renderDivider(
   renderStyle.boxShadow = selected ? '0 0 0 3px #B4D5FF' : 'none'
   // TODO 抽离选中样式
 
-  const vnode = <div className="w-e-textarea-divider" style={renderStyle}></div>
+  const vnode = (
+    <div className="w-e-textarea-divider" style={renderStyle}>
+      <hr />
+    </div>
+  )
   // 【注意】void node 中，renderElem 不用处理 children 。core 会统一处理。
 
   return vnode
