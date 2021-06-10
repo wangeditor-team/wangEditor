@@ -13,6 +13,7 @@
     <p>
         wangEditor demo
     </p>
+    <button onclick="insertLinkImg()">插入带有超链接的图片</button>
     <div id="div1">
         <p><br/></p>
         <p><br/></p>
@@ -41,7 +42,9 @@
     <script>
         const E = window.wangEditor
         const editor = new E('#div1')
-
+        function insertLinkImg () {
+            editor.cmd.do( 'insertHTML', '<a href="https://www.baidu.com/"><img src="https://user-images.githubusercontent.com/37204782/119621908-3ebe3c00-be39-11eb-924d-82308460d461.png" style="max-width:100%;"/></a>' )
+        }
         editor.create()
     </script>
 </body>
