@@ -24,7 +24,7 @@
         // 忽略粘贴内容中的图片
         editor.config.pasteIgnoreImg = true
 
-        // editor.config.uploadImgServer = '/api/upload-img'
+        editor.config.uploadImgServer = 'http://106.12.198.214:3000/api/upload-img'
         // editor.config.showLinkImgAlt = true
         // editor.config.showLinkImgHref =  true
         // editor.config.showLinkImg = false
@@ -73,12 +73,12 @@
         //         insertImgFn(result.data[0].url) // 只插入一个图片，多了忽略
         //     }
         // }
-        editor.config.customUploadImg = function (resultFiles, insertImgFn) {
-            console.log('customUploadImg', resultFiles)
-            Array.from(resultFiles).forEach(file => {
-                insertImgFn(URL.createObjectURL(file))
-            })
-        }
+        // editor.config.customUploadImg = function (resultFiles, insertImgFn) {
+        //     console.log('customUploadImg', resultFiles)
+        //     Array.from(resultFiles).forEach(file => {
+        //         insertImgFn(URL.createObjectURL(file))
+        //     })
+        // }
 
         editor.create()
     </script>
