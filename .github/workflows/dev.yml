@@ -2,7 +2,7 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 # github actions 中文文档 https://docs.github.com/cn/actions/getting-started-with-github-actions
 
-name: deploy to tecent server - example page
+name: deploy to baidu server - example page
 
 on:
   push:
