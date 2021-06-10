@@ -38,7 +38,7 @@ jobs:
         mkdir -p ~/.ssh/
         echo "${{secrets.WFP_ID_RSA}}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan ${{secrets.TECENT_SERVER}} >> ~/.ssh/known_hosts
+        ssh-keyscan ${{secrets.BAIDU_SERVER}} >> ~/.ssh/known_hosts
     - name: scp test files # 拷贝测试页面，到远程服务器
       run: |
         ## 获取当前分支名称，并创建一个同名的文件夹
@@ -51,7 +51,7 @@ jobs:
 
         ## 将该文件夹，及其所有文件，上传到服务器
         echo current branch name is: $currentBranchName
-        ssh work@${{secrets.TECENT_SERVER}} "rm -rf /home/work/wangEditor-team/example-pages/$currentBranchName"
-        scp -r ./$currentBranchName work@${{secrets.TECENT_SERVER}}:/home/work/wangEditor-team/example-pages/$currentBranchName
+        ssh work@${{secrets.BAIDU_SERVER}} "rm -rf /home/work/wangEditor-team/v4-examples/$currentBranchName"
+        scp -r ./$currentBranchName work@${{secrets.BAIDU_SERVER}}:/home/work/wangEditor-team/v4-examples/$currentBranchName
     - name: delete ssh key # 删除 ssh key
       run: rm -rf ~/.ssh/id_rsa
