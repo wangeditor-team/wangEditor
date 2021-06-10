@@ -40,7 +40,6 @@ npm run start
 
 - `master` 主干分支，当前正在运行的代码。**不可**直接往 `master` 提交代码。
 - `dev` 开发分支，当前正在开发、但尚未发布的代码。**不可**直接往 `dev` 提交代码，但可以合并其他分支。
-- `server` 开发分支，用于部署 server 端功能，**不可**直接往 `server` 提交代码，但可以合并其他分支。
 - `feature-xxx` 开发新功能
 - `fix-xxx` bug 修复
 - `hotfix-xxx` 高优紧急 bug 修复，修复完需紧急上线
