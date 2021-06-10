@@ -1,3 +1,11 @@
+## [4.7.3](https://github.com/wangeditor-team/wangEditor/compare/v4.7.2...v4.7.3) (2021-06-10)
+
+
+### Bug Fixes
+
+* 特殊情况下无法通过backspace删除图片 ([0648a93](https://github.com/wangeditor-team/wangEditor/commit/0648a9340a7c156dbc16b83e955f684854cb8c76))
+* 优化粘贴时过滤meta的行为 ([313665c](https://github.com/wangeditor-team/wangEditor/commit/313665c5a656314477f8973e0cdff9c4ba125aeb))
+
 ## [4.7.2](https://github.com/wangeditor-team/wangEditor/compare/v4.7.1...v4.7.2) (2021-06-03)
 
 
