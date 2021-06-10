@@ -52,7 +52,7 @@ export function getPasteHtml(
     pasteHtml = pasteHtml.replace(/<(\d)/gm, (_, num) => '&lt;' + num)
 
     // pdf复制只会有一个meta标签，parseHtml中的过滤meta标签会导致后面内容丢失
-    pasteHtml = pasteHtml.replace(/<meta.*charset=("|').*("|').*?>/gim, '')
+    pasteHtml = pasteHtml.replace(/<(\/?meta.*?)>/gim, '')
 
     // 剔除多余的标签、属性
     pasteHtml = parseHtml(pasteHtml, filterStyle, ignoreImg)

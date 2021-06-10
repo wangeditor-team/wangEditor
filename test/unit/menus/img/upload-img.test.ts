@@ -13,8 +13,8 @@ let id = 1
 
 const imgUrl = 'http://www.wangeditor.com/imgs/logo.jpeg'
 const errorUrl = 'error.jpeg'
-const uploadImgServer = 'http://localhost:8881/api/upload-img'
-const uploadImgServerWithHash = 'http://localhost:8881/api/upload-img#/123'
+const uploadImgServer = 'http://106.12.198.214:3000/api/upload-img'
+const uploadImgServerWithHash = 'http://106.12.198.214:3000/api/upload-img#/123'
 
 const defaultRes = {
     status: 200,

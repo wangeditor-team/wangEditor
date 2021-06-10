@@ -26,7 +26,7 @@
         // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
         var E = window.wangEditor
         var editor = new E('#div1')
-        editor.config.uploadImgServer = '/api/upload-img'
+        editor.config.uploadImgServer = 'http://106.12.198.214:3000/api/upload-img'
 
         editor.config.onchange = function (newHtml) {
             console.log('onchange', newHtml)

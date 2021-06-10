@@ -16,7 +16,7 @@ let id = 1
 
 const videoUrl =
     'https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4'
-const uploadVideoServer = 'http://localhost:8881/api/upload-video'
+const uploadVideoServer = 'http://106.12.198.214:3000/api/upload-video'
 
 const defaultRes = {
     status: 200,

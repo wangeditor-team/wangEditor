@@ -37,7 +37,7 @@ jobs:
           mkdir -p ~/.ssh/
           echo "${{secrets.WFP_ID_RSA}}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan ${{secrets.TECENT_SERVER}} >> ~/.ssh/known_hosts
+          ssh-keyscan ${{secrets.BAIDU_SERVER}} >> ~/.ssh/known_hosts
       - name: rebuild we-demo and scp
         run: |
           ## 下载 demo ，安装最新的插件，并重新打包
@@ -52,5 +52,5 @@ jobs:
 
           ## 将 dist 文件夹，重命名为 publish-npm-test ，并上传到服务器
           mv dist publish-npm-test
-          ssh work@${{secrets.TECENT_SERVER}} "rm -rf /home/work/wangEditor-team/example-pages/publish-npm-test"
-          scp -r ./publish-npm-test work@${{secrets.TECENT_SERVER}}:/home/work/wangEditor-team/example-pages/publish-npm-test
+          ssh work@${{secrets.BAIDU_SERVER}} "rm -rf /home/work/wangEditor-team/v4-examples/publish-npm-test"
+          scp -r ./publish-npm-test work@${{secrets.BAIDU_SERVER}}:/home/work/wangEditor-team/v4-examples/publish-npm-test
