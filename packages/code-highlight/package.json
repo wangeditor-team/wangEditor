@@ -1,7 +1,7 @@
 {
-  "name": "@wangeditor/code-block-color",
+  "name": "@wangeditor/code-highlight",
   "version": "0.0.1",
-  "description": "wangEditor code-block-color module",
+  "description": "wangEditor code-highlight module",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",

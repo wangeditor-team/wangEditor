@@ -48,7 +48,7 @@ export const DomEditor = {
    * Find a key for a Slate node.
    * key 即一个累加不重复的 id ，每一个 slate node 都对对应一个 key ，意思相当于 node.id
    */
-  findKey(editor: IDomEditor, node: Node): Key {
+  findKey(editor: IDomEditor | null, node: Node): Key {
     let key = NODE_TO_KEY.get(node)
 
     // 如果没绑定，就立马新建一个 key 来绑定
@@ -64,7 +64,7 @@ export const DomEditor = {
    * Find the path of Slate node.
    * path 是一个数组，代表 slate node 的位置 https://docs.slatejs.org/concepts/03-locations#path
    */
-  findPath(editor: IDomEditor, node: Node): Path {
+  findPath(editor: IDomEditor | null, node: Node): Path {
     const path: Path = []
     let child = node
 
@@ -103,7 +103,7 @@ export const DomEditor = {
    * @param editor editor
    * @param node cur node
    */
-  getParentNode(editor: IDomEditor, node: Node): Ancestor | null {
+  getParentNode(editor: IDomEditor | null, node: Node): Ancestor | null {
     return NODE_TO_PARENT.get(node) || null
   },
 
@@ -317,7 +317,7 @@ export const DomEditor = {
   /**
    * Find a Slate node from a native DOM `element`.
    */
-  toSlateNode(editor: IDomEditor, domNode: DOMNode): Node {
+  toSlateNode(editor: IDomEditor | null, domNode: DOMNode): Node {
     let domEl = isDOMElement(domNode) ? domNode : domNode.parentElement
 
     if (domEl && !domEl.hasAttribute('data-slate-node')) {

@@ -16,6 +16,8 @@ import {
   registerRenderElemConf,
   registerMenu,
 } from '@wangeditor/core'
+
+// 基础功能模块
 import {
   simpleStyle,
   header,
@@ -33,8 +35,13 @@ import {
   list,
   divider,
   video,
+  codeBlock,
 } from '@wangeditor/basic'
-import { codeBlockModule } from '@wangeditor/code-block-color'
+
+// 代码高亮
+import { codeHighlightModule, codeHighLightDecorate } from '@wangeditor/code-highlight'
+import '@wangeditor/code-highlight/css/style.css'
+
 import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG } from './constants/svg'
 
 const plugins = []
@@ -182,18 +189,23 @@ if (video.editorPlugin) {
   plugins.push(video.editorPlugin)
 }
 
-// --------------------- 注册 codeBlockModule module ---------------------
-if (codeBlockModule.addTextStyle) {
-  registerTextStyleHandler(codeBlockModule.addTextStyle)
+// --------------------- 注册 codeBlock module ---------------------
+if (codeBlock.renderElems && codeBlock.renderElems.length) {
+  codeBlock.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
-if (codeBlockModule.renderElems && codeBlockModule.renderElems.length) {
-  codeBlockModule.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+if (codeBlock.menus && codeBlock.menus.length) {
+  codeBlock.menus.forEach(menuConf => registerMenu(menuConf))
 }
-if (codeBlockModule.menus && codeBlockModule.menus.length) {
-  codeBlockModule.menus.forEach(menuConf => registerMenu(menuConf))
+if (codeBlock.editorPlugin) {
+  plugins.push(codeBlock.editorPlugin)
 }
-if (codeBlockModule.editorPlugin) {
-  plugins.push(codeBlockModule.editorPlugin)
+
+// --------------------- 代码高亮 ---------------------
+if (codeHighlightModule.addTextStyle) {
+  registerTextStyleHandler(codeHighlightModule.addTextStyle)
+}
+if (codeHighlightModule.menus && codeHighlightModule.menus.length) {
+  codeHighlightModule.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
 // --------------------- 创建 editor 实例 ---------------------
@@ -243,7 +255,7 @@ let editor = createEditor(
       'insertVideo',
       // 'deleteVideo',
       'codeBlock',
-      // 'codeSelectLang',
+      'codeSelectLang',
       'divider',
       '|',
       'undo',
@@ -298,7 +310,7 @@ let editor = createEditor(
 
     plugins,
 
-    // decorate
+    decorate: codeHighLightDecorate,
   },
   // @ts-ignore
   window.content

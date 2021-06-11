@@ -5,10 +5,8 @@
 
 import { Editor, Transforms, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
-import { CODE_BLOCK_SVG } from '../../constants/svg'
-import { getSelectedNodeByType } from '../_helpers/node'
-
-const DEFAULT_LANG = 'Javascript' // 默认语言
+import { CODE_BLOCK_SVG } from '../../_helpers/icon-svg'
+import { getSelectedNodeByType } from '../../_helpers/node'
 
 class CodeBlockMenu implements IButtonMenu {
   title = '代码块'
@@ -31,10 +29,10 @@ class CodeBlockMenu implements IButtonMenu {
    */
   getValue(editor: IDomEditor): string | boolean {
     const node = this.getSelectCodeNode(editor)
-    if (node == null) return DEFAULT_LANG
+    if (node == null) return ''
 
     // @ts-ignore
-    return node.language || DEFAULT_LANG
+    return node.language || ''
   }
 
   isActive(editor: IDomEditor): boolean {

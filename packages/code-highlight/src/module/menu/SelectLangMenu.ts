@@ -1,5 +1,5 @@
 /**
- * @description code-block select lang
+ * @description code-highlight select lang
  * @author wangfupeng
  */
 
@@ -8,8 +8,6 @@ import { ISelectMenu, IDomEditor, IOption, DomEditor } from '@wangeditor/core'
 import { JS_SVG } from '../../constants/svg'
 import { getSelectedNodeByType, checkNodeType } from '../_helpers/node'
 import { getMenuConf } from '../_helpers/menu'
-
-const DEFAULT_LANG = 'Javascript' // 默认语言
 
 class SelectLangMenu implements ISelectMenu {
   title = '选择语言'
@@ -23,16 +21,17 @@ class SelectLangMenu implements ISelectMenu {
     // 获取配置，参考 './config.ts'
     const { codeLangs = [] } = getMenuConf(editor, 'codeSelectLang') // 第二个参数 menu key
 
-    codeLangs.forEach((lang: string) => {
-      options.push({
-        text: lang,
-        value: lang,
-      })
+    options.push({
+      text: 'plain text',
+      value: '', // getValue 默认会返回 ''
+    })
+    codeLangs.forEach((lang: { text: string; value: string }) => {
+      const { text, value } = lang
+      options.push({ text, value })
     })
 
     // 设置 selected
     const curValue = this.getValue(editor)
-    console.log('curValue', curValue)
     options.forEach(opt => {
       if (opt.value === curValue) {
         opt.selected = true
@@ -55,10 +54,10 @@ class SelectLangMenu implements ISelectMenu {
    */
   getValue(editor: IDomEditor): string | boolean {
     const node = this.getSelectCodeNode(editor)
-    if (node == null) return DEFAULT_LANG
+    if (node == null) return ''
 
     // @ts-ignore
-    return node.language || DEFAULT_LANG
+    return node.language || ''
   }
 
   isDisabled(editor: IDomEditor): boolean {

@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@wangeditor/basic": "^0.0.1",
-    "@wangeditor/code-block-color": "^0.0.1",
+    "@wangeditor/code-highlight": "^0.0.1",
     "@wangeditor/core": "^0.0.1",
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",

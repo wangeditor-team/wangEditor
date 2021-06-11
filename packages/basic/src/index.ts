@@ -21,6 +21,7 @@ import undoRedo from './modules/undo-redo'
 import list from './modules/list'
 import divider from './modules/divider'
 import video from './modules/video'
+import codeBlock from './modules/code-block'
 
 export {
   simpleStyle,
@@ -39,4 +40,5 @@ export {
   list,
   divider,
   video,
+  codeBlock,
 }
