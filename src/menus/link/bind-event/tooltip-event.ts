@@ -36,9 +36,24 @@ function createShowHideFn(editor: Editor) {
                     editor.selection.createRangeByElem($link)
                     editor.selection.restoreSelection()
 
-                    // 用文字，替换链接
-                    const selectionText = $link.text()
-                    editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
+                    const $childNodes = $link.childNodes()
+                    // 如果链接是图片
+                    if ($childNodes?.getNodeName() === 'IMG') {
+                        // 获取选中的图片
+                        const $selectIMG = editor.selection.getSelectionContainerElem()?.children()
+                            ?.elems[0].children[0]
+                        // 插入图片
+                        editor.cmd.do(
+                            'insertHTML',
+                            `<img 
+                                src=${$selectIMG?.getAttribute('src')} 
+                                style=${$selectIMG?.getAttribute('style')}>`
+                        )
+                    } else {
+                        // 用文字，替换链接
+                        const selectionText = $link.text()
+                        editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
+                    }
 
                     // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
                     return true

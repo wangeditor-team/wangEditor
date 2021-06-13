@@ -40,7 +40,6 @@ npm run start
 
 - `master` 主干分支，当前正在运行的代码。**不可**直接往 `master` 提交代码。
 - `dev` 开发分支，当前正在开发、但尚未发布的代码。**不可**直接往 `dev` 提交代码，但可以合并其他分支。
-- `server` 开发分支，用于部署 server 端功能，**不可**直接往 `server` 提交代码，但可以合并其他分支。
 - `feature-xxx` 开发新功能
 - `fix-xxx` bug 修复
 - `hotfix-xxx` 高优紧急 bug 修复，修复完需紧急上线
@@ -106,7 +105,7 @@ npm run start
 
 当提交完自己的分支之后，github actions 会自动触发部署到腾讯云测试机。
 查看 [actions 列表](https://github.com/wangeditor-team/wangEditor/actions)，待所有任务运行完成之后。
-打开浏览器访问 `http://106.55.153.217:8881/<你的分支名>/examples/index.html` ，这就是你本次分支代码的远程测试环境。
+打开浏览器访问 `http://106.12.198.214:8881/<你的分支名>/examples/index.html` ，这就是你本次分支代码的远程测试环境。
 
 要保证这一步成功，再进行下一步。
 
