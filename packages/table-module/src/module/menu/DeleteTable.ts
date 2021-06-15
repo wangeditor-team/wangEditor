@@ -6,11 +6,11 @@
 import { Transforms } from 'slate'
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
 import { getSelectedNodeByType } from '../_helpers/node'
-import { REMOVE_SVG } from '../../constants/svg'
+import { TRASH_SVG } from '../../constants/svg'
 
 class DeleteTable implements IButtonMenu {
   title = '删除表格'
-  iconSvg = REMOVE_SVG
+  iconSvg = TRASH_SVG
   tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {

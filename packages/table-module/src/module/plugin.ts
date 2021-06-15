@@ -78,13 +78,11 @@ function withTable<T extends IDomEditor>(editor: T): T {
     const nextNode = topLevelNodes[path[0] + 1] || {}
     // @ts-ignore
     const { type: nextNodeType = '' } = nextNode
-    console.log('nextNodeType', nextNodeType)
     if (
       nextNodeType !== 'paragraph' &&
       nextNodeType !== 'blockquote' &&
       !nextNodeType.startsWith('header')
     ) {
-      console.log('123123')
       // table node 后面不是 p 或 header ，则插入一个空 p
       const p = { type: 'paragraph', children: [{ text: '' }] }
       const insertPath = [path[0] + 1]

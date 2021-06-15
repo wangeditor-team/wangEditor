@@ -325,7 +325,13 @@ let editor = createEditor(
       {
         // @ts-ignore
         match: (editor, n) => n.type === 'table',
-        menuKeys: ['deleteTable'],
+        menuKeys: [
+          'insertTableRow',
+          'deleteTableRow',
+          'insertTableCol',
+          'deleteTableCol',
+          'deleteTable',
+        ],
       },
       // other hover bar ...
     ],
