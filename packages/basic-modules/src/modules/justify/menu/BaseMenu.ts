@@ -47,6 +47,8 @@ abstract class BaseMenu implements IButtonMenu {
   }
 
   isDisabled(editor: IDomEditor): boolean {
+    if (editor.selection == null) return true
+
     const [nodeEntry] = Editor.nodes(editor, {
       match: n => {
         // @ts-ignore
