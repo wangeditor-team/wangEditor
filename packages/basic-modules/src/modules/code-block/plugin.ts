@@ -36,6 +36,24 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
     }
   }
 
+  // 重写 normalizeNode - code node 不能是顶层，否则替换为 p
+  newEditor.normalizeNode = ([node, path]) => {
+    // @ts-ignore
+    const { type } = node
+    if (type !== 'code' || path.length > 1) {
+      return normalizeNode([node, path])
+    }
+
+    Transforms.setNodes(
+      newEditor,
+      {
+        // @ts-ignore
+        type: 'paragraph',
+      },
+      { at: path }
+    )
+  }
+
   // 返回 editor ，重要！
   return newEditor
 }
