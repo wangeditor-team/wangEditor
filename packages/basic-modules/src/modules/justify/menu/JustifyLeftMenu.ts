@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Transforms } from 'slate'
+import { Transforms, Element } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
 import { JUSTIFY_LEFT_SVG } from '../../_helpers/icon-svg'
@@ -19,7 +19,7 @@ class JustifyLeftMenu extends BaseMenu {
         // @ts-ignore
         textAlign: 'left',
       },
-      { mode: 'highest' }
+      { match: n => Element.isElement(n) }
     )
   }
 }

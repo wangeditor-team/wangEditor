@@ -10,6 +10,7 @@ import {
   append,
   addClass,
   removeClass,
+  hasClass,
   on,
   focus,
   attr,
@@ -28,6 +29,8 @@ import {
   children,
   html,
   remove,
+  find,
+  each,
 } from 'dom7'
 export { Dom7Array } from 'dom7'
 
@@ -35,6 +38,7 @@ $.fn.css = css
 $.fn.append = append
 $.fn.addClass = addClass
 $.fn.removeClass = removeClass
+$.fn.hasClass = hasClass
 $.fn.on = on
 $.fn.focus = focus
 $.fn.attr = attr
@@ -53,6 +57,8 @@ $.fn.text = text
 $.fn.html = html
 $.fn.children = children
 $.fn.remove = remove
+$.fn.find = find
+$.fn.each = each
 
 export default $
 
