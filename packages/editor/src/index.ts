@@ -6,7 +6,9 @@
 // 引入必要的 css
 import './assets/index.less'
 import '@wangeditor/core/css/style.css'
-import '@wangeditor/basic/css/style.css'
+import '@wangeditor/basic-modules/css/style.css'
+import '@wangeditor/table-module/css/style.css'
+import '@wangeditor/list-module/css/style.css'
 
 import { Node, Range, Text } from 'slate'
 import {
@@ -32,11 +34,16 @@ import {
   justify,
   lineHeight,
   undoRedo,
-  list,
   divider,
-  video,
   codeBlock,
-} from '@wangeditor/basic'
+} from '@wangeditor/basic-modules'
+
+// list
+import { listModule } from '@wangeditor/list-module'
+// 视频
+import { videoModule } from '@wangeditor/video-module'
+// 表格
+import { tableModule } from '@wangeditor/table-module'
 
 // 代码高亮
 import { codeHighlightModule, codeHighLightDecorate } from '@wangeditor/code-highlight'
@@ -156,15 +163,15 @@ if (undoRedo.menus && undoRedo.menus.length) {
   undoRedo.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
-// --------------------- 注册 list module ---------------------
-if (list.renderElems && list.renderElems.length) {
-  list.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+// --------------------- 注册 listModule module ---------------------
+if (listModule.renderElems && listModule.renderElems.length) {
+  listModule.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
-if (list.menus && list.menus.length) {
-  list.menus.forEach(menuConf => registerMenu(menuConf))
+if (listModule.menus && listModule.menus.length) {
+  listModule.menus.forEach(menuConf => registerMenu(menuConf))
 }
-if (list.editorPlugin) {
-  plugins.push(list.editorPlugin)
+if (listModule.editorPlugin) {
+  plugins.push(listModule.editorPlugin)
 }
 
 // --------------------- 注册 divider module ---------------------
@@ -178,15 +185,15 @@ if (divider.editorPlugin) {
   plugins.push(divider.editorPlugin)
 }
 
-// --------------------- 注册 video module ---------------------
-if (video.renderElems && video.renderElems.length) {
-  video.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+// --------------------- 注册 videoModule module ---------------------
+if (videoModule.renderElems && videoModule.renderElems.length) {
+  videoModule.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
-if (video.menus && video.menus.length) {
-  video.menus.forEach(menuConf => registerMenu(menuConf))
+if (videoModule.menus && videoModule.menus.length) {
+  videoModule.menus.forEach(menuConf => registerMenu(menuConf))
 }
-if (video.editorPlugin) {
-  plugins.push(video.editorPlugin)
+if (videoModule.editorPlugin) {
+  plugins.push(videoModule.editorPlugin)
 }
 
 // --------------------- 注册 codeBlock module ---------------------
@@ -206,6 +213,17 @@ if (codeHighlightModule.addTextStyle) {
 }
 if (codeHighlightModule.menus && codeHighlightModule.menus.length) {
   codeHighlightModule.menus.forEach(menuConf => registerMenu(menuConf))
+}
+
+// --------------------- 注册 tableModule module ---------------------
+if (tableModule.renderElems && tableModule.renderElems.length) {
+  tableModule.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (tableModule.menus && tableModule.menus.length) {
+  tableModule.menus.forEach(menuConf => registerMenu(menuConf))
+}
+if (tableModule.editorPlugin) {
+  plugins.push(tableModule.editorPlugin)
 }
 
 // --------------------- 创建 editor 实例 ---------------------
@@ -255,8 +273,10 @@ let editor = createEditor(
       'insertVideo',
       // 'deleteVideo',
       'codeBlock',
-      'codeSelectLang',
+      // 'codeSelectLang',
       'divider',
+      'insertTable',
+      // 'deleteTable',
       '|',
       'undo',
       'redo',
@@ -300,6 +320,12 @@ let editor = createEditor(
         // @ts-ignore
         match: (editor, n) => n.type === 'pre',
         menuKeys: ['codeBlock', 'codeSelectLang'],
+      },
+      // table hover bar
+      {
+        // @ts-ignore
+        match: (editor, n) => n.type === 'table',
+        menuKeys: ['deleteTable'],
       },
       // other hover bar ...
     ],

@@ -1,7 +1,7 @@
 {
-  "name": "@wangeditor/editor",
+  "name": "@wangeditor/basic-modules",
   "version": "0.0.1",
-  "description": "editor entry",
+  "description": "editor basic modules",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
@@ -37,16 +37,14 @@
   "bugs": {
     "url": "https://github.com/wangeditor-team/we-2021/issues"
   },
-  "dependencies": {
-    "@wangeditor/basic-modules": "^0.0.1",
-    "@wangeditor/code-highlight": "^0.0.1",
+  "peerDependencies": {
     "@wangeditor/core": "^0.0.1",
-    "@wangeditor/list-module": "^0.0.1",
-    "@wangeditor/table-module": "^0.0.1",
-    "@wangeditor/video-module": "^0.0.1",
-    "dom7": "^3.0.0",
-    "is-hotkey": "^0.2.0",
     "slate": "^0.63.0",
-    "snabbdom": "^3.0.1"
+    "snabbdom": "^3.0.1",
+    "dom7": "^3.0.0",
+    "is-hotkey": "^0.2.0"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21"
   }
 }
