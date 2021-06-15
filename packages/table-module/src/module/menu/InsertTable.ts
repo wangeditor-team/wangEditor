@@ -29,6 +29,7 @@ function genTableNode(rowNum: number, colNum: number) {
 
   return {
     type: 'table',
+    withHeader: true,
     children: rows,
   }
 }
@@ -88,7 +89,7 @@ class InsertTable implements IDropPanelMenu {
     // 初始化
     const $content = $('<div class="w-e-panel-content-table"></div>')
 
-    // 渲染 10 * 10 table
+    // 渲染 10 * 10 table ，以快速创建表格
     const $table = $('<table></table>')
     for (let i = 0; i < 10; i++) {
       const $tr = $('<tr></tr>')

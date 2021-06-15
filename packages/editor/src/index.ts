@@ -326,6 +326,8 @@ let editor = createEditor(
         // @ts-ignore
         match: (editor, n) => n.type === 'table',
         menuKeys: [
+          'tableHeader',
+          'tableFullWidth',
           'insertTableRow',
           'deleteTableRow',
           'insertTableCol',

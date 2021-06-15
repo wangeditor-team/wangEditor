@@ -9,6 +9,8 @@ import InsertRow from './InsertRow'
 import DeleteRow from './DeleteRow'
 import InsertCol from './InsertCol'
 import DeleteCol from './DeleteCol'
+import TableHander from './TableHeader'
+import FullWidth from './FullWidth'
 
 export const insertTableMenuConf = {
   key: 'insertTable',
@@ -49,5 +51,19 @@ export const deleteTableColConf = {
   key: 'deleteTableCol',
   factory() {
     return new DeleteCol()
+  },
+}
+
+export const tableHeaderMenuConf = {
+  key: 'tableHeader',
+  factory() {
+    return new TableHander()
+  },
+}
+
+export const tableFullWidthMenuConf = {
+  key: 'tableFullWidth',
+  factory() {
+    return new FullWidth()
   },
 }

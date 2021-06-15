@@ -13,6 +13,8 @@ import {
   deleteTableRowConf,
   insertTableColConf,
   deleteTableColConf,
+  tableHeaderMenuConf,
+  tableFullWidthMenuConf,
 } from './menu/index'
 
 const table: IModuleConf = {
@@ -24,6 +26,8 @@ const table: IModuleConf = {
     deleteTableRowConf,
     insertTableColConf,
     deleteTableColConf,
+    tableHeaderMenuConf,
+    tableFullWidthMenuConf,
   ],
   editorPlugin: withTable,
 }
