@@ -1,3 +1,11 @@
+## [4.7.4](https://github.com/wangeditor-team/wangEditor/compare/v4.7.3...v4.7.4) (2021-06-17)
+
+
+### Bug Fixes
+
+* 修复行内code回车后导致样式及插入问题 ([cebf20a](https://github.com/wangeditor-team/wangEditor/commit/cebf20a79df1f979376f27eee128ae3c95a4a4eb))
+* 修复a标签包裹img的 取消链接 问题 ([23eb557](https://github.com/wangeditor-team/wangEditor/commit/23eb557a5dabcdc6201753695a8590dec539fe9e))
+
 ## [4.7.3](https://github.com/wangeditor-team/wangEditor/compare/v4.7.2...v4.7.3) (2021-06-10)
 
 
