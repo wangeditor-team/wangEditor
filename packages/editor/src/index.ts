@@ -44,12 +44,14 @@ import { listModule } from '@wangeditor/list-module'
 import { videoModule } from '@wangeditor/video-module'
 // 表格
 import { tableModule } from '@wangeditor/table-module'
+// 上传图片
+import { uploadImageModule } from '@wangeditor/upload-image-module'
 
 // 代码高亮
 import { codeHighlightModule, codeHighLightDecorate } from '@wangeditor/code-highlight'
 import '@wangeditor/code-highlight/css/style.css'
 
-import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG } from './constants/svg'
+import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG, IMAGE_SVG } from './constants/svg'
 
 const plugins = []
 
@@ -226,6 +228,14 @@ if (tableModule.editorPlugin) {
   plugins.push(tableModule.editorPlugin)
 }
 
+// --------------------- 注册 uploadImageModule module ---------------------
+if (uploadImageModule.menus && uploadImageModule.menus.length) {
+  uploadImageModule.menus.forEach(menuConf => registerMenu(menuConf))
+}
+if (uploadImageModule.editorPlugin) {
+  plugins.push(uploadImageModule.editorPlugin)
+}
+
 // --------------------- 创建 editor 实例 ---------------------
 let editor = createEditor(
   'editor-container',
@@ -266,7 +276,11 @@ let editor = createEditor(
       // 'updateLink',
       // 'unLink',
       // 'viewLink',
-      'insertImage',
+      {
+        title: '图片',
+        iconSvg: IMAGE_SVG,
+        menuKeys: ['insertImage', 'uploadImage'],
+      },
       // 'deleteImage',
       // 'editImage',
       // 'viewImageLink',

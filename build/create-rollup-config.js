@@ -1,8 +1,9 @@
 import path from 'path'
 import cleanup from 'rollup-plugin-cleanup'
+import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
-import resolve from '@rollup/plugin-node-resolve'
+import nodeResolve from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import { terser } from 'rollup-plugin-terser'
@@ -11,13 +12,13 @@ import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
 
-const env = process.env.NODE_ENV || 'production'
+const ENV = process.env.NODE_ENV || 'production'
 
 function genSingleConfig(distDir, options) {
   const { name = 'index', format, suffix = 'js', plugins = [] } = options
 
   // 开发环境不压缩 css
-  const postcssPlugins = env !== 'development' ? [autoprefixer(), cssnano()] : [autoprefixer()]
+  const postcssPlugins = ENV !== 'development' ? [autoprefixer(), cssnano()] : [autoprefixer()]
 
   return {
     input: path.resolve(__dirname, './src/index.ts'),
@@ -38,15 +39,22 @@ function genSingleConfig(distDir, options) {
         clean: true,
         tsconfig: path.resolve(__dirname, './tsconfig.json'),
       }),
-      resolve(),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify(env),
-        preventAssignment: true,
+      nodeResolve({
+        browser: true,
       }),
       commonjs(),
+      babel({
+        babelHelpers: 'bundled',
+        exclude: 'node_modules/**',
+      }),
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(ENV),
+        // 'process.pid': JSON.stringify(process.pid.toString()),
+        preventAssignment: true,
+      }),
       cleanup({
         comments: 'none',
-        extensions: ['.ts'],
+        extensions: ['.ts', '.tsx'],
       }),
       postcss({
         plugins: postcssPlugins,
@@ -62,12 +70,9 @@ function genSingleConfig(distDir, options) {
  * @param {string} distDir dirt dir
  */
 export default function createDefaultRollupConfig(distDir) {
-  // 开发环境下
-  let conf = [genSingleConfig(distDir, { format: 'umd' })]
-
   // 非开发环境下
-  if (env !== 'development') {
-    conf = [
+  if (ENV !== 'development') {
+    return [
       genSingleConfig(distDir, { format: 'umd', plugins: [terser()] }),
       genSingleConfig(distDir, {
         name: 'index.module',
@@ -77,5 +82,6 @@ export default function createDefaultRollupConfig(distDir) {
     ]
   }
 
-  return conf
+  // 开发环境
+  return genSingleConfig(distDir, { format: 'umd' })
 }
