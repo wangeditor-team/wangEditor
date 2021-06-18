@@ -48,6 +48,12 @@ class Quote extends BtnMenu implements MenuActive {
             // 即时更新btn状态
             this.tryChangeActive()
         } else {
+            // 编辑区只有一个空的p标签，则不需要创建quote
+            if (editor.$textElem.elems[0] === topNodeElem[0].elems[0]) {
+                editor.selection.collapseRange()
+                editor.selection.restoreSelection()
+                return
+            }
             // 将 P 转换为 quote
             const $quote = createQuote(topNodeElem)
             $quote.insertAfter($topNodeElem)
