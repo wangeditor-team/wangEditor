@@ -59,6 +59,8 @@ type TextEventHooks = {
     splitLineEvents: ((e: DomElement) => void)[]
     /** 视频点击事件 */
     videoClickEvents: ((e: DomElement) => void)[]
+    /** 视频点击事件 */
+    rangeChangeEvents: (() => void)[]
 }
 
 class Text {
@@ -93,6 +95,7 @@ class Text {
             dropListMenuHoverEvents: [],
             splitLineEvents: [],
             videoClickEvents: [],
+            rangeChangeEvents: [],
         }
     }
 

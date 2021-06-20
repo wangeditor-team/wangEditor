@@ -20,6 +20,7 @@ import ZIndex from './z-index'
 import Change from './change/index'
 import History from './history/index'
 import disableInit from './disable'
+import RangeChange from './range-change'
 
 import initPlugins, { RegisterOptions, pluginsListType, registerPlugin } from '../plugins'
 
@@ -70,6 +71,7 @@ class Editor {
     public change: Change
     public history: History
     public isEnable: Boolean
+    public rangeChange: RangeChange
 
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
@@ -113,6 +115,7 @@ class Editor {
         this.zIndex = new ZIndex()
         this.change = new Change(this)
         this.history = new History(this)
+        this.rangeChange = new RangeChange(this)
 
         const { disable, enable } = disableInit(this)
         this.disable = disable

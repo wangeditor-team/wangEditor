@@ -115,6 +115,9 @@ ISSUE1.md
 
 .idea/
 
+/.history
+
+
 package-lock.json
 
 # cypress
