@@ -6,7 +6,7 @@
 import post from '../../../src/editor/upload/upload-core'
 import mockXHR from '../../helpers/mock-xhr'
 
-const API_URL = 'http://localhost:8881/api/upload-img'
+const API_URL = 'http://106.12.198.214:3000/api/upload-img'
 
 const origilaXHR = window.XMLHttpRequest
 const deaultResponse = { status: 200, res: JSON.stringify({ data: ['url1'], errno: 0 }) }

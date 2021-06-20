@@ -41,9 +41,10 @@ export default function bindEventJumpCodeBlock(editor: Editor) {
             if ($preElem.length && $preElem?.getNodeName() === 'PRE' && $nextElem.length === 0) {
                 // 光标处于选区开头
                 if (selection.getCursorPos() === 0) {
-                    // 按下delete键阻止默认行为
+                    // 按下delete键时末尾追加空行
                     if (e.keyCode === 8) {
-                        e.preventDefault()
+                        const $emptyP = $(EMPTY_P)
+                        $textElem.append($emptyP)
                     }
                 }
             }
