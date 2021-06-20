@@ -115,6 +115,7 @@ class HoverBar {
   private tryMatchNodes() {
     const editor = this.getEditorInstance()
     const { selection } = editor
+
     if (selection == null) return // 无选区，则隐藏
 
     // 获取 hover bar 配置
