@@ -12,6 +12,7 @@ export type TabEventConf = {
     selector: string
     type: string
     fn: Function
+    bindEnter?: Boolean // 一个tab最多绑定一个enter， 且当前的event对象的type为 'click'才触发
 }
 export type PanelTabConf = {
     title: string
@@ -170,14 +171,26 @@ class Panel {
                 const type = event.type
                 const fn = event.fn || EMPTY_FN
                 const $content = tabContentArr[index]
-                $content.find(selector).on(type, async (e: Event) => {
+                const bindEnter = event.bindEnter ?? false
+
+                const doneFn = async (e: Event) => {
                     e.stopPropagation()
                     const needToHide = await fn(e)
                     // 执行完事件之后，是否要关闭 panel
                     if (needToHide) {
                         this.remove()
                     }
-                })
+                }
+                // 给按钮绑定相应的事件
+                $content.find(selector).on(type, doneFn)
+                // 绑定enter键入事件
+                if (bindEnter && type === 'click') {
+                    $content.on('keyup', (e: KeyboardEvent) => {
+                        if (e.keyCode == 13) {
+                            doneFn(e)
+                        }
+                    })
+                }
             })
         })
 

@@ -166,6 +166,7 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                             return true
                         },
+                        bindEnter: true,
                     },
                     // 取消链接
                     {
