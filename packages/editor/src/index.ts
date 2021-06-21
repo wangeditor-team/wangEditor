@@ -10,7 +10,7 @@ import '@wangeditor/basic-modules/css/style.css'
 import '@wangeditor/table-module/css/style.css'
 import '@wangeditor/list-module/css/style.css'
 
-import { Node, Text, Location, Editor } from 'slate'
+import { Node, Text, Location, Editor, Range } from 'slate'
 import {
   IDomEditor,
   createEditor,
@@ -303,12 +303,12 @@ let editor = createEditor(
         match: (editor: IDomEditor, n: Node) => {
           const { selection } = editor
           if (selection == null) return false // 无选区
+          if (Range.isCollapsed(selection)) return false // 未选中文字，选区的是折叠的
 
-          // 对于一些特殊的 element，例如 code，选中文字不应该显示该 hoverbar
-          const disableElementKeys = ['code']
-          const [parent] = Editor.parent(editor, selection as Location)
-
-          if (disableElementKeys.includes((parent as any).type)) return false
+          const [parent] = Editor.parent(editor, selection)
+          // @ts-ignore
+          const { type: parentType = '' } = parent
+          if (parentType === 'code' || parentType === 'pre') return false // code-block 不允许
 
           if (Text.isText(n)) return true // 匹配 text node
           return false
