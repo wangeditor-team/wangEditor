@@ -37,6 +37,9 @@ describe('插入超链接', () => {
     })
 
     it('可以使用enter键入插入超链接', () => {
+        cy.get('@Editable').type(text)
+
+        cy.get('@Editable').contains(text)
         cy.getByClass('toolbar').children().eq(pos).click()
 
         cy.getByClass('panel-container').as('Panel').should('be.visible')
