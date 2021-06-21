@@ -36,6 +36,25 @@ describe('插入超链接', () => {
         cy.get('@Editable').find('a').should('have.attr', 'target', '_blank')
     })
 
+    it('可以使用enter键入插入超链接', () => {
+        cy.getByClass('toolbar').children().eq(pos).click()
+
+        cy.getByClass('panel-container').as('Panel').should('be.visible')
+
+        cy.get('@Panel').find('.w-e-panel-tab-title').contains('链接')
+
+        cy.get('@Panel').find('.w-e-panel-tab-content input').should('have.length', 2)
+        cy.get('@Panel').find('.w-e-panel-tab-content input').eq(0).type(linkText)
+        cy.get('@Panel')
+            .find('.w-e-panel-tab-content input')
+            .eq(1)
+            .type(link + '{enter}')
+
+        cy.get('@Editable').find('a').should('have.text', linkText)
+        cy.get('@Editable').find('a').should('have.attr', 'href', link)
+        cy.get('@Editable').find('a').should('have.attr', 'target', '_blank')
+    })
+
     // 采用模拟的方式测试链接跳转，当然你也可以使用其他方式模拟，下面链接里有官方的一些推荐方式
     // reference https://github.com/cypress-io/cypress-example-recipes/blob/master/examples/testing-dom__tab-handling-links/cypress/integration/tab_handling_anchor_links_spec.js
     it('插入的超链接可以进行链接跳转', () => {

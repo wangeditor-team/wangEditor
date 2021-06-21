@@ -199,6 +199,7 @@ export default function (editor: Editor): ImgPanelConf {
                         // 返回 true 表示函数执行结束之后关闭 panel
                         return true
                     },
+                    bindEnter: true,
                 },
             ],
         }, // second tab end
