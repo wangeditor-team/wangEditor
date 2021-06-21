@@ -305,9 +305,9 @@ let editor = createEditor(
           if (selection == null) return false // 无选区
           if (Range.isCollapsed(selection)) return false // 未选中文字，选区的是折叠的
 
-          const [parent] = Editor.parent(editor, selection)
+          const [parent] = Editor.parent(editor, selection, { edge: 'start' })
           // @ts-ignore
-          const { type: parentType = '' } = parent
+          const { type: parentType = '' } = parent || {}
           if (parentType === 'code' || parentType === 'pre') return false // code-block 不允许
 
           if (Text.isText(n)) return true // 匹配 text node
