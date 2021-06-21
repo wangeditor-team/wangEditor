@@ -42,11 +42,11 @@
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
     "slate": "^0.63.0",
-    "snabbdom": "^3.0.1"
+    "snabbdom": "^3.0.1",
+    "@uppy/core": "^1.19.1",
+    "@uppy/xhr-upload": "^1.7.4"
   },
   "dependencies": {
-    "@uppy/core": "^1.19.1",
-    "@uppy/xhr-upload": "^1.7.4",
     "lodash-es": "^4.17.21"
   }
 }
