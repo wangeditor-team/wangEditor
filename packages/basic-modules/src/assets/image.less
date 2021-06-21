@@ -1,0 +1,32 @@
+// 拖拽，修改图片尺寸
+.w-e-selected-image-container {
+  position: relative;
+  display: inline-block;
+
+  .w-e-image-dragger {
+    width: 7px;
+    height: 7px;
+    background-color: #4290f7;
+    position: absolute;
+  }
+  .left-top {
+    top: -4px;
+    left: 0;
+    cursor: nwse-resize;
+  }
+  .right-top {
+    top: -4px;
+    right: 0;
+    cursor: nesw-resize;
+  }
+  .left-bottom {
+    left: 0;
+    bottom: 0;
+    cursor: nesw-resize;
+  }
+  .right-bottom {
+    right: 0;
+    bottom: 0;
+    cursor: nwse-resize;
+  }
+}

@@ -357,7 +357,7 @@ let editor = createEditor(
     ],
 
     onChange() {
-      // console.log('selection', editor.selection)
+      // console.log('selection', editor.selection, editor.children)
     },
 
     plugins,

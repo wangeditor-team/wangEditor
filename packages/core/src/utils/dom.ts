@@ -225,8 +225,12 @@ export const getPlainText = (domNode: DOMNode) => {
  * @param elem elem
  */
 export function getVoidChild(elem: DOMElement): DOMElement | null {
-  const children = elem.children
+  // TODO 需要重写，用深度优先遍历
+
+  const children = elem.children || []
   const length = children.length
+  if (length === 0) return null
+
   for (let i = 0; i < length; i++) {
     const child = children[i]
     const { nodeName, nodeType } = child
@@ -235,6 +239,9 @@ export function getVoidChild(elem: DOMElement): DOMElement | null {
       if (htmlVoidElements.includes(name)) {
         // 是 void node ，如 image
         return child
+      } else {
+        // 递归下级节点
+        return getVoidChild(child)
       }
     }
   }

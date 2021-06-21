@@ -14,7 +14,7 @@ import {
   VNodeStyle,
   Props,
   Dataset,
-  // eventListenersModule
+  eventListenersModule,
 } from 'snabbdom'
 
 export type PatchFn = (oldVnode: VNode | Element, vnode: VNode) => VNode
@@ -30,7 +30,7 @@ export function genPatchFn(): PatchFn {
     propsModule, // for setting properties on DOM elements
     styleModule, // handles styling on elements with support for animations
     datasetModule,
-    // eventListenersModule, // attaches event listeners
+    eventListenersModule, // attaches event listeners
   ])
   return patch
 }
