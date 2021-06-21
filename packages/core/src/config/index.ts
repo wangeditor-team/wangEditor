@@ -47,6 +47,7 @@ export interface IConfig {
   toolbarKeys: Array<string | IMenuGroup>
   // 悬浮菜单栏 menu
   hoverbarKeys: Array<IHoverbarConf>
+
   // TODO 右键菜单栏 menu
 
   plugins: Array<PluginFnType>
