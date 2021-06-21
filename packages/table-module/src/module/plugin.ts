@@ -3,8 +3,9 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Point, Element, Descendant } from 'slate'
+import { Editor, Transforms, Point, Element } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
+import { getSelectedNodeByType } from './_helpers/node'
 
 // table cell 内部的删除处理
 function deleteHandler(newEditor: IDomEditor): boolean {
@@ -28,16 +29,13 @@ function deleteHandler(newEditor: IDomEditor): boolean {
 }
 
 function withTable<T extends IDomEditor>(editor: T): T {
-  const { insertBreak, deleteBackward, deleteForward, normalizeNode } = editor
+  const { insertBreak, deleteBackward, deleteForward, normalizeNode, insertData } = editor
   const newEditor = editor
 
   // 重写 insertBreak - cell 内换行，只换行文本，不拆分 node
   newEditor.insertBreak = () => {
-    const [nodeEntry] = Editor.nodes(newEditor, {
-      // @ts-ignore
-      match: n => n.type === 'table',
-    })
-    if (nodeEntry != null) {
+    const selectedNode = getSelectedNodeByType(newEditor, 'table')
+    if (selectedNode != null) {
       // 选中了 table ，则在 cell 内换行
       newEditor.insertText('\n')
       return
@@ -143,6 +141,19 @@ function withTable<T extends IDomEditor>(editor: T): T {
       })
       // table row 修复结束
     })
+  }
+
+  // 重写 insertData - 粘贴文本
+  newEditor.insertData = (data: DataTransfer) => {
+    const codeNode = getSelectedNodeByType(newEditor, 'table')
+    if (codeNode == null) {
+      insertData(data) // 执行默认的 insertData
+      return
+    }
+
+    // 获取文本，并插入到 cell
+    const text = data.getData('text/plain')
+    Editor.insertText(newEditor, text)
   }
 
   // 可继续修改其他 newEditor API ...

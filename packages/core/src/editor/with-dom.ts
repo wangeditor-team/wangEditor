@@ -156,7 +156,6 @@ export const withDOM = <T extends Editor>(editor: T) => {
 
   e.insertData = (data: DataTransfer) => {
     const fragment = data.getData('application/x-slate-fragment')
-
     if (fragment) {
       const decoded = decodeURIComponent(window.atob(fragment))
       const parsed = JSON.parse(decoded) as Node[]
@@ -165,6 +164,7 @@ export const withDOM = <T extends Editor>(editor: T) => {
     }
 
     const text = data.getData('text/plain')
+    // const html = data.getData('text/html')
 
     if (text) {
       const lines = text.split(/\r\n|\r|\n/)

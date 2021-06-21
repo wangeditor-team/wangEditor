@@ -9,6 +9,7 @@ import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
 import { LINK_SVG } from '../../_helpers/icon-svg'
+import { isMenuDisabled, insertLink } from '../helper'
 
 /**
  * 生成唯一的 DOM ID
@@ -17,7 +18,7 @@ function genDomID(): string {
   return genRandomStr('w-e-insert-link')
 }
 
-class InsertLink implements IModalMenu {
+class InsertLinkMenu implements IModalMenu {
   title = '插入链接'
   iconSvg = LINK_SVG
   tag = 'button'
@@ -44,30 +45,7 @@ class InsertLink implements IModalMenu {
   }
 
   isDisabled(editor: IDomEditor): boolean {
-    if (editor.selection == null) return true
-
-    const [match] = Editor.nodes(editor, {
-      // @ts-ignore
-      match: n => {
-        // @ts-ignore
-        const { type = '' } = n
-
-        // 代码
-        if (type === 'pre') return true
-
-        // void
-        if (Editor.isVoid(editor, n)) return true
-
-        // 当前处于链接之内
-        if (type === 'link') return true
-
-        return false
-      },
-      universal: true,
-    })
-
-    if (match) return true
-    return false
+    return isMenuDisabled(editor)
   }
 
   getModalPositionNode(editor: IDomEditor): Node | null {
@@ -92,7 +70,8 @@ class InsertLink implements IModalMenu {
         e.preventDefault()
         const text = $(`#${textInputId}`).val()
         const url = $(`#${urlInputId}`).val()
-        this.insertLink(editor, text, url)
+        insertLink(editor, text, url) // 插入链接
+        hideAllPanelsAndModals() // 隐藏 modal
       })
 
       // 记录属性，重要
@@ -125,48 +104,6 @@ class InsertLink implements IModalMenu {
 
     return $content
   }
-
-  /**
-   * 插入 link
-   * @param editor editor
-   * @param text text
-   * @param url url
-   */
-  private insertLink(editor: IDomEditor, text: string, url: string) {
-    if (!url) {
-      hideAllPanelsAndModals() // 隐藏 modal
-      return
-    }
-    if (!text) text = url // 无 text 则用 url 代替
-
-    // 还原选区
-    DomEditor.restoreSelection(editor)
-
-    if (this.isDisabled(editor)) return
-
-    // 判断选区是否折叠
-    const { selection } = editor
-    if (selection == null) return
-    const isCollapsed = Range.isCollapsed(selection)
-
-    // 新建一个 link node
-    const linkNode = {
-      type: 'link',
-      url,
-      children: isCollapsed ? [{ text }] : [],
-    }
-
-    // 执行：插入链接
-    if (isCollapsed) {
-      Transforms.insertNodes(editor, linkNode)
-    } else {
-      Transforms.wrapNodes(editor, linkNode, { split: true })
-      Transforms.collapse(editor, { edge: 'end' })
-    }
-
-    // 隐藏 modal
-    hideAllPanelsAndModals()
-  }
 }
 
-export default InsertLink
+export default InsertLinkMenu

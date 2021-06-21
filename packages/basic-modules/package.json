@@ -39,12 +39,16 @@
   },
   "peerDependencies": {
     "@wangeditor/core": "^0.0.1",
-    "slate": "^0.63.0",
-    "snabbdom": "^3.0.1",
     "dom7": "^3.0.0",
-    "is-hotkey": "^0.2.0"
+    "is-hotkey": "^0.2.0",
+    "slate": "^0.63.0",
+    "snabbdom": "^3.0.1"
   },
   "dependencies": {
+    "is-url": "^1.2.4",
     "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/is-url": "^1.2.29"
   }
 }
