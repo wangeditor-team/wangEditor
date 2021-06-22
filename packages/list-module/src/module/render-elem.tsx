@@ -14,7 +14,7 @@ function genTag(type: string): string {
   throw new Error(`list type '${type}' is invalid`)
 }
 
-function genRenderFn(type: string) {
+function genRenderElem(type: string) {
   /**
    * render header elem
    * @param elemNode slate elem
@@ -37,15 +37,15 @@ function genRenderFn(type: string) {
 
 const renderBulletedListConf = {
   type: 'bulleted-list', // 和 elemNode.type 一致
-  renderFn: genRenderFn('bulleted-list'),
+  renderElem: genRenderElem('bulleted-list'),
 }
 const renderNumberedListConf = {
   type: 'numbered-list',
-  renderFn: genRenderFn('numbered-list'),
+  renderElem: genRenderElem('numbered-list'),
 }
 const renderListItemConf = {
   type: 'list-item',
-  renderFn: genRenderFn('list-item'),
+  renderElem: genRenderElem('list-item'),
 }
 
 export { renderBulletedListConf, renderNumberedListConf, renderListItemConf }

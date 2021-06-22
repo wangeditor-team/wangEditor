@@ -25,5 +25,5 @@ function renderBlockQuote(
 
 export const renderBlockQuoteConf = {
   type: 'blockquote',
-  renderFn: renderBlockQuote,
+  renderElem: renderBlockQuote,
 }

@@ -28,7 +28,7 @@ function renderLink(elemNode: SlateElement, children: VNode[] | null, editor: ID
 
 const renderLinkConf = {
   type: 'link', // 和 elemNode.type 一致
-  renderFn: renderLink,
+  renderElem: renderLink,
 }
 
 export { renderLinkConf }

@@ -49,15 +49,15 @@ function renderTableCell(
 
 export const renderTableConf = {
   type: 'table',
-  renderFn: renderTable,
+  renderElem: renderTable,
 }
 
 export const renderTableRowConf = {
   type: 'table-row',
-  renderFn: renderTableRow,
+  renderElem: renderTableRow,
 }
 
 export const renderTableCellConf = {
   type: 'table-cell',
-  renderFn: renderTableCell,
+  renderElem: renderTableCell,
 }

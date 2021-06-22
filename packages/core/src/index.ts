@@ -25,7 +25,7 @@ export * from './menus/index'
 // 扩展模块的接口
 interface IRenderElemConf {
   type: string
-  renderFn: RenderElemFnType
+  renderElem: RenderElemFnType
 }
 
 export interface IModuleConf {

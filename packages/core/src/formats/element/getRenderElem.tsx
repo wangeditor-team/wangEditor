@@ -31,9 +31,9 @@ function defaultRender(
  * 根据 elemNode.type 获取 renderElement 函数
  * @param type elemNode.type
  */
-function getRenderFn(type: string): RenderElemFnType {
+function getRenderElem(type: string): RenderElemFnType {
   const fn = RENDER_ELEM_CONF[type]
   return fn || defaultRender
 }
 
-export default getRenderFn
+export default getRenderElem

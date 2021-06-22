@@ -32,7 +32,7 @@ function renderDivider(
 
 const renderDividerConf = {
   type: 'divider', // 和 elemNode.type 一致
-  renderFn: renderDivider,
+  renderElem: renderDivider,
 }
 
 export { renderDividerConf }

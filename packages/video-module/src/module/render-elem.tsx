@@ -49,7 +49,7 @@ function renderVideo(elemNode: SlateElement, children: VNode[] | null, editor: I
 
 const renderVideoConf = {
   type: 'video', // 和 elemNode.type 一致
-  renderFn: renderVideo,
+  renderElem: renderVideo,
 }
 
 export { renderVideoConf }

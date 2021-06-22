@@ -37,15 +37,15 @@ export const RENDER_ELEM_CONF: {
 
 /**
  * 注册 render elem 函数
- * @param conf { type, renderFn } ，type 即 node.type
+ * @param conf { type, renderElem } ，type 即 node.type
  */
-export function registerRenderElemConf(conf: { type: string; renderFn: RenderElemFnType }) {
-  const { type, renderFn } = conf
+export function registerRenderElemConf(conf: { type: string; renderElem: RenderElemFnType }) {
+  const { type, renderElem } = conf
   const key = type || ''
 
   if (!key || RENDER_ELEM_CONF[key] != null) {
     throw new Error(`duplicated key '${key}' in renderElemConf`)
   }
 
-  RENDER_ELEM_CONF[key] = renderFn
+  RENDER_ELEM_CONF[key] = renderElem
 }

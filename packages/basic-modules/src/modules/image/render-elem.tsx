@@ -150,7 +150,7 @@ function renderImage(elemNode: SlateElement, children: VNode[] | null, editor: I
 
 const renderImageConf = {
   type: 'image', // 和 elemNode.type 一致
-  renderFn: renderImage,
+  renderElem: renderImage,
 }
 
 export { renderImageConf }

@@ -20,10 +20,10 @@ function renderCode(elemNode: SlateElement, children: VNode[] | null, editor: ID
 
 export const renderPreConf = {
   type: 'pre',
-  renderFn: renderPre,
+  renderElem: renderPre,
 }
 
 export const renderCodeConf = {
   type: 'code',
-  renderFn: renderCode,
+  renderElem: renderCode,
 }

@@ -14,7 +14,7 @@ import {
   NODE_TO_INDEX,
   NODE_TO_PARENT,
 } from '../../utils/weak-maps'
-import getRenderFn from './getRenderFn'
+import getRenderElem from './getRenderElem'
 import addTextStyle from './addTextStyle'
 import { promiseResolveThen } from '../../utils/util'
 
@@ -43,7 +43,7 @@ function renderElement(elemNode: SlateElement, editor: IDomEditor): VNode {
   // 根据 type 生成 vnode 的函数
   // @ts-ignore
   const { type, children = [] } = elemNode
-  let genVnodeFn = getRenderFn(type)
+  let renderElem = getRenderElem(type)
 
   const childrenVnode = isVoid
     ? null // void 节点 render elem 时不传入 children
@@ -52,7 +52,7 @@ function renderElement(elemNode: SlateElement, editor: IDomEditor): VNode {
       })
 
   // 创建 vnode
-  let vnode = genVnodeFn(elemNode, childrenVnode, editor)
+  let vnode = renderElem(elemNode, childrenVnode, editor)
 
   // void node 要特殊处理
   if (isVoid) {

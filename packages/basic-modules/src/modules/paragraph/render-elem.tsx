@@ -25,5 +25,5 @@ function renderParagraph(
 
 export const renderParagraphConf = {
   type: 'paragraph',
-  renderFn: renderParagraph,
+  renderElem: renderParagraph,
 }
