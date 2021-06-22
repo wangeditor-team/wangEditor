@@ -418,8 +418,12 @@ let editor = createEditor(
 
     onChange() {
       // console.log('selection', editor.selection, editor.children)
-      console.log('getHtml--------\n', editor.getHtml())
+      // console.log('getHtml--------\n', editor.getHtml())
       // console.log('getText--------\n', editor.getText())
+
+      const html = editor.getHtml()
+      // @ts-ignore
+      document.getElementById('editor-content-view').innerHTML = html
     },
 
     plugins,

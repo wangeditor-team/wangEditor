@@ -13,7 +13,7 @@ function tableToHtml(elemNode: Element, childrenHtml: string, editor: IDomEditor
   let styleStr = ''
   if (fullWidth) styleStr += 'width: 100%;'
 
-  return `<table style="${fullWidth}"><tbody>${childrenHtml}\n</tbody></table>`
+  return `<table style="${styleStr}"><tbody>${childrenHtml}\n</tbody></table>`
 }
 
 function tableRowToHtml(elem: Element, childrenHtml: string, editor: IDomEditor): string {
