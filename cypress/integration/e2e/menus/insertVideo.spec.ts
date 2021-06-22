@@ -46,4 +46,16 @@ describe('插入视频', () => {
                 expect(video.src).to.eq(videoUrl)
             })
     })
+
+    it('enter键入插入网络视频', () => {
+        cy.getByClass('toolbar').children().eq(pos).as('imgMenu').click()
+        const videoEl = `<iframe src="${videoUrl}" controls></iframe>`
+        cy.get('@imgMenu')
+            .find('.w-e-panel-container')
+            .as('Panel')
+            .find('input')
+            .type(videoEl + '{enter}')
+
+        cy.get('.w-e-text-container iframe', { timeout: 10000 }).should('be.visible')
+    })
 })

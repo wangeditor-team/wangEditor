@@ -57,4 +57,15 @@ describe('插入表格', () => {
         cy.get('@Editable').find('table tr').should('have.length', 6)
         cy.get('@Editable').find('table tr').eq(0).find('th').should('have.length', 8)
     })
+
+    it('enter键入可以插入表格', () => {
+        cy.get('@Editable').find('table').should('not.exist')
+
+        cy.getByClass('toolbar').children().eq(pos).as('tableMenu').click()
+
+        cy.get('@tableMenu').find('.w-e-panel-container').as('Panel').should('be.visible')
+
+        cy.get('@Panel').find('.w-e-panel-tab-content .w-e-table input').eq(0).type('{enter}')
+        cy.get('@Editable').find('table').should('have.length', 1)
+    })
 })
