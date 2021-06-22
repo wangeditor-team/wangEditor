@@ -13,7 +13,7 @@ import { addVnodeStyle } from '../../utils/vdom'
  * @param vnode vnode
  * @returns vnode
  */
-export function addTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
+export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
   // @ts-ignore
   const { color, bgColor } = node
   let styleVnode: VNode = vnode

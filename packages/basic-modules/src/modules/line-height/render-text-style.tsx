@@ -13,16 +13,13 @@ import { addVnodeStyle } from '../../utils/vdom'
  * @param vnode vnode
  * @returns vnode
  */
-export function addTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
+export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
   // @ts-ignore
-  const { fontSize, fontFamily } = node
+  const { lineHeight } = node // 如 '1' '1.5'
   let styleVnode: VNode = vnode
 
-  if (fontSize) {
-    addVnodeStyle(styleVnode, { fontSize })
-  }
-  if (fontFamily) {
-    addVnodeStyle(styleVnode, { fontFamily })
+  if (lineHeight) {
+    addVnodeStyle(styleVnode, { lineHeight })
   }
 
   return styleVnode

@@ -9,16 +9,16 @@ import { IDomEditor } from '../editor/dom-editor'
 
 // ------------------------------------ 处理 text 样式 ------------------------------------
 
-export type TextStyleFnType = (node: SlateText | SlateElement, vnode: VNode) => VNode
+export type RenderTextStyleFnType = (node: SlateText | SlateElement, vnode: VNode) => VNode
 
 // 存储：处理文本样式的函数，如 b u color 等
-export const TEXT_STYLE_HANDLER_LIST: TextStyleFnType[] = []
+export const TEXT_STYLE_HANDLER_LIST: RenderTextStyleFnType[] = []
 
 /**
  * 注册处理文本样式的函数
  * @param fn 处理文本样式的函数
  */
-export function registerTextStyleHandler(fn: TextStyleFnType) {
+export function registerTextStyleHandler(fn: RenderTextStyleFnType) {
   TEXT_STYLE_HANDLER_LIST.push(fn)
 }
 
@@ -43,9 +43,6 @@ export function registerRenderElemConf(conf: { type: string; renderElem: RenderE
   const { type, renderElem } = conf
   const key = type || ''
 
-  if (!key || RENDER_ELEM_CONF[key] != null) {
-    throw new Error(`duplicated key '${key}' in renderElemConf`)
-  }
-
+  // 如果 key 重复了，就后者覆盖前者
   RENDER_ELEM_CONF[key] = renderElem
 }

@@ -4,7 +4,8 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { addTextStyle } from './text-style'
+import { renderTextStyle } from './text-style'
+import { textToHtml } from './text-to-html'
 import {
   boldMenuConf,
   underlineMenuConf,
@@ -14,8 +15,9 @@ import {
 } from './menu/index'
 
 const textStyle: IModuleConf = {
-  addTextStyle,
+  renderTextStyle,
   menus: [boldMenuConf, underlineMenuConf, italicMenuConf, throughMenuConf, codeMenuConf],
+  textToHtml,
 }
 
 export default textStyle

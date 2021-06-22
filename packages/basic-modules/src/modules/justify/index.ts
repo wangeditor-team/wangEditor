@@ -4,11 +4,13 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { addTextStyle } from './text-style'
+import { renderTextStyle } from './render-text-style'
+import { textStyleToHtml } from './text-style-to-html'
 import { justifyLeftMenuConf, justifyRightMenuConf, justifyCenterMenuConf } from './menu/index'
 
 const justify: IModuleConf = {
-  addTextStyle,
+  renderTextStyle,
+  textStyleToHtml,
   menus: [justifyLeftMenuConf, justifyRightMenuConf, justifyCenterMenuConf],
 }
 

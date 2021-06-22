@@ -4,11 +4,13 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { addTextStyle } from './text-style'
+import { renderTextStyle } from './render-text-style'
+import { textStyleToHtml } from './text-style-to-html'
 import { colorMenuConf, bgColorMenuConf } from './menu/index'
 
 const color: IModuleConf = {
-  addTextStyle,
+  renderTextStyle,
+  textStyleToHtml,
   menus: [colorMenuConf, bgColorMenuConf],
 }
 

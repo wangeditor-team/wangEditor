@@ -13,13 +13,13 @@ import { addVnodeStyle } from '../../utils/vdom'
  * @param vnode vnode
  * @returns vnode
  */
-export function addTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
+export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
   // @ts-ignore
-  const { indent } = node // 如 '32px'
+  const { textAlign } = node // 如 'left'/'right'/'center' 等
   let styleVnode: VNode = vnode
 
-  if (indent) {
-    addVnodeStyle(styleVnode, { paddingLeft: indent })
+  if (textAlign) {
+    addVnodeStyle(styleVnode, { textAlign })
   }
 
   return styleVnode

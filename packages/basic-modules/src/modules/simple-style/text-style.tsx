@@ -12,12 +12,12 @@ import { jsx, VNode } from 'snabbdom'
  * @param vnode vnode
  * @returns vnode
  */
-export function addTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
+export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
   // @ts-ignore
   const { bold, italic, underline, code, through } = node
   let styleVnode: VNode = vnode
 
-  // color bgColor
+  // color bgColor 在另外的菜单
 
   if (bold) {
     styleVnode = <strong>{styleVnode}</strong>

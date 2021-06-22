@@ -6,13 +6,7 @@
 import { Element as SlateElement } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor } from '@wangeditor/core'
-
-function genTag(type: string): string {
-  if (type === 'bulleted-list') return 'ul'
-  if (type === 'numbered-list') return 'ol'
-  if (type === 'list-item') return 'li'
-  throw new Error(`list type '${type}' is invalid`)
-}
+import { genTag } from './_helpers/node'
 
 function genRenderElem(type: string) {
   /**

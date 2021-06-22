@@ -12,7 +12,7 @@ import { TEXT_STYLE_HANDLER_LIST } from '../index'
  * @param node slate elem node
  * @param vnode elem Vnode
  */
-function addTextStyle(elem: SlateElement, vnode: VNode): VNode {
+function renderTextStyle(elem: SlateElement, vnode: VNode): VNode {
   let newVnode = vnode
 
   TEXT_STYLE_HANDLER_LIST.forEach(styleHandler => {
@@ -22,4 +22,4 @@ function addTextStyle(elem: SlateElement, vnode: VNode): VNode {
   return newVnode
 }
 
-export default addTextStyle
+export default renderTextStyle

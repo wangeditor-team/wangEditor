@@ -38,6 +38,8 @@ export interface IDomEditor extends Editor {
   setFragmentData: (data: DataTransfer) => void
   getConfig: () => IConfig
   handleTab: () => void
+  getHtml: () => string
+  getText: () => string
 }
 
 /**

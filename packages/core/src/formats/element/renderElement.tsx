@@ -15,7 +15,7 @@ import {
   NODE_TO_PARENT,
 } from '../../utils/weak-maps'
 import getRenderElem from './getRenderElem'
-import addTextStyle from './addTextStyle'
+import renderTextStyle from './renderTextStyle'
 import { promiseResolveThen } from '../../utils/util'
 
 interface IAttrs {
@@ -101,7 +101,7 @@ function renderElement(elemNode: SlateElement, editor: IDomEditor): VNode {
   // 添加文本相关的样式，如 text-align
   if (!isVoid && !isInline) {
     // 非 void + 非 inline
-    vnode = addTextStyle(elemNode, vnode)
+    vnode = renderTextStyle(elemNode, vnode)
   }
 
   // 更新 element 相关的 weakMap

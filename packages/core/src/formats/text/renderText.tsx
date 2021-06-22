@@ -8,7 +8,7 @@ import { jsx, VNode } from 'snabbdom'
 import { IDomEditor, DomEditor } from '../../editor/dom-editor'
 import { KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE } from '../../utils/weak-maps'
 import genTextVnode from './genVnode'
-import addTextVnodeStyle from './addStyle'
+import addTextVnodeStyle from './renderStyle'
 import { promiseResolveThen } from '../../utils/util'
 
 function renderText(textNode: SlateText, parent: Ancestor, editor: IDomEditor): VNode {

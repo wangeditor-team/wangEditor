@@ -14,6 +14,7 @@ import {
 import { Key } from '../utils/key'
 import { isDOMText, getPlainText } from '../utils/dom'
 import { IConfig } from '../config/index'
+import { node2html } from '../to-html/node2html'
 
 /**
  * `withDOM` adds DOM specific behaviors to the editor.
@@ -188,11 +189,6 @@ export const withDOM = <T extends Editor>(editor: T) => {
     return config
   }
 
-  // tab
-  e.handleTab = () => {
-    e.insertText('    ')
-  }
-
   // 重写 onchange API
   e.onChange = () => {
     // 记录当前选区
@@ -208,6 +204,23 @@ export const withDOM = <T extends Editor>(editor: T) => {
     }
 
     onChange()
+  }
+
+  // tab
+  e.handleTab = () => {
+    e.insertText('    ')
+  }
+
+  // 获取 html
+  e.getHtml = (): string => {
+    const { children = [] } = e
+    return children.map(child => node2html(child, e)).join('\n')
+  }
+
+  // 获取 text
+  e.getText = (): string => {
+    const { children = [] } = e
+    return children.map(child => Node.string(child)).join('\n')
   }
 
   // 最后要返回 editor 实例 - 重要！！！

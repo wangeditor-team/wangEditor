@@ -6,6 +6,7 @@
 import { IModuleConf } from '@wangeditor/core'
 import withTable from './plugin'
 import { renderTableConf, renderTableRowConf, renderTableCellConf } from './render-elem'
+import { tableToHtmlConf, tableRowToHtmlConf, tableCellToHtmlConf } from './elem-to-html'
 import {
   insertTableMenuConf,
   deleteTableMenuConf,
@@ -19,6 +20,7 @@ import {
 
 const table: IModuleConf = {
   renderElems: [renderTableConf, renderTableRowConf, renderTableCellConf],
+  elemsToHtml: [tableToHtmlConf, tableRowToHtmlConf, tableCellToHtmlConf],
   menus: [
     insertTableMenuConf,
     deleteTableMenuConf,

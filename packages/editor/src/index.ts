@@ -10,13 +10,22 @@ import '@wangeditor/basic-modules/css/style.css'
 import '@wangeditor/table-module/css/style.css'
 import '@wangeditor/list-module/css/style.css'
 
-import { Node, Text, Location, Editor, Range } from 'slate'
+import { Node, Text, Editor, Range } from 'slate'
 import {
   IDomEditor,
   createEditor,
+
+  // 注册菜单
+  registerMenu,
+
+  // 渲染 modal -> view
   registerTextStyleHandler,
   registerRenderElemConf,
-  registerMenu,
+
+  // to html
+  registerTextStyleToHtmlHandler,
+  registerTextToHtmlHandler,
+  registerElemToHtmlConf,
 } from '@wangeditor/core'
 
 // 基础功能模块
@@ -59,21 +68,30 @@ const plugins = []
 if (p.renderElems && p.renderElems.length) {
   p.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
+if (p.elemsToHtml && p.elemsToHtml.length) {
+  p.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
+}
 
 // --------------------- 注册 simpleStyle module ---------------------
-if (simpleStyle.addTextStyle) {
-  registerTextStyleHandler(simpleStyle.addTextStyle)
+if (simpleStyle.renderTextStyle) {
+  registerTextStyleHandler(simpleStyle.renderTextStyle)
+}
+if (simpleStyle.textToHtml) {
+  registerTextToHtmlHandler(simpleStyle.textToHtml)
 }
 if (simpleStyle.menus && simpleStyle.menus.length) {
   simpleStyle.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
 // --------------------- 注册 header module ---------------------
-if (header.addTextStyle) {
-  registerTextStyleHandler(header.addTextStyle)
+if (header.renderTextStyle) {
+  registerTextStyleHandler(header.renderTextStyle)
 }
 if (header.renderElems && header.renderElems.length) {
   header.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (header.elemsToHtml && header.elemsToHtml.length) {
+  header.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
 }
 if (header.menus && header.menus.length) {
   header.menus.forEach(menuConf => registerMenu(menuConf))
@@ -86,6 +104,9 @@ if (header.editorPlugin) {
 if (link.renderElems && link.renderElems.length) {
   link.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
+if (link.elemsToHtml && link.elemsToHtml.length) {
+  link.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
+}
 if (link.menus && link.menus.length) {
   link.menus.forEach(menuConf => registerMenu(menuConf))
 }
@@ -97,6 +118,9 @@ if (link.editorPlugin) {
 if (image.renderElems && image.renderElems.length) {
   image.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
+if (image.elemsToHtml && image.elemsToHtml.length) {
+  image.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
+}
 if (image.menus && image.menus.length) {
   image.menus.forEach(menuConf => registerMenu(menuConf))
 }
@@ -107,6 +131,9 @@ if (image.editorPlugin) {
 // --------------------- 注册 blockquote module ---------------------
 if (blockquote.renderElems && blockquote.renderElems.length) {
   blockquote.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (blockquote.elemsToHtml && blockquote.elemsToHtml.length) {
+  blockquote.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
 }
 if (blockquote.menus && blockquote.menus.length) {
   blockquote.menus.forEach(menuConf => registerMenu(menuConf))
@@ -121,40 +148,55 @@ if (emotion.menus && emotion.menus.length) {
 }
 
 // --------------------- 注册 color module ---------------------
-if (color.addTextStyle) {
-  registerTextStyleHandler(color.addTextStyle)
+if (color.renderTextStyle) {
+  registerTextStyleHandler(color.renderTextStyle)
+}
+if (color.textStyleToHtml) {
+  registerTextStyleToHtmlHandler(color.textStyleToHtml)
 }
 if (color.menus && color.menus.length) {
   color.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
 // --------------------- 注册 fontSizeAndFamily module ---------------------
-if (fontSizeAndFamily.addTextStyle) {
-  registerTextStyleHandler(fontSizeAndFamily.addTextStyle)
+if (fontSizeAndFamily.renderTextStyle) {
+  registerTextStyleHandler(fontSizeAndFamily.renderTextStyle)
+}
+if (fontSizeAndFamily.textStyleToHtml) {
+  registerTextStyleToHtmlHandler(fontSizeAndFamily.textStyleToHtml)
 }
 if (fontSizeAndFamily.menus && fontSizeAndFamily.menus.length) {
   fontSizeAndFamily.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
 // --------------------- 注册 indent module ---------------------
-if (indent.addTextStyle) {
-  registerTextStyleHandler(indent.addTextStyle)
+if (indent.renderTextStyle) {
+  registerTextStyleHandler(indent.renderTextStyle)
+}
+if (indent.textStyleToHtml) {
+  registerTextStyleToHtmlHandler(indent.textStyleToHtml)
 }
 if (indent.menus && indent.menus.length) {
   indent.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
 // --------------------- 注册 justify module ---------------------
-if (justify.addTextStyle) {
-  registerTextStyleHandler(justify.addTextStyle)
+if (justify.renderTextStyle) {
+  registerTextStyleHandler(justify.renderTextStyle)
+}
+if (justify.textStyleToHtml) {
+  registerTextStyleToHtmlHandler(justify.textStyleToHtml)
 }
 if (justify.menus && justify.menus.length) {
   justify.menus.forEach(menuConf => registerMenu(menuConf))
 }
 
 // --------------------- 注册 lineHeight module ---------------------
-if (lineHeight.addTextStyle) {
-  registerTextStyleHandler(lineHeight.addTextStyle)
+if (lineHeight.renderTextStyle) {
+  registerTextStyleHandler(lineHeight.renderTextStyle)
+}
+if (lineHeight.textStyleToHtml) {
+  registerTextStyleToHtmlHandler(lineHeight.textStyleToHtml)
 }
 if (lineHeight.menus && lineHeight.menus.length) {
   lineHeight.menus.forEach(menuConf => registerMenu(menuConf))
@@ -169,6 +211,9 @@ if (undoRedo.menus && undoRedo.menus.length) {
 if (listModule.renderElems && listModule.renderElems.length) {
   listModule.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
+if (listModule.elemsToHtml && listModule.elemsToHtml.length) {
+  listModule.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
+}
 if (listModule.menus && listModule.menus.length) {
   listModule.menus.forEach(menuConf => registerMenu(menuConf))
 }
@@ -179,6 +224,9 @@ if (listModule.editorPlugin) {
 // --------------------- 注册 divider module ---------------------
 if (divider.renderElems && divider.renderElems.length) {
   divider.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (divider.elemsToHtml && divider.elemsToHtml.length) {
+  divider.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
 }
 if (divider.menus && divider.menus.length) {
   divider.menus.forEach(menuConf => registerMenu(menuConf))
@@ -191,6 +239,9 @@ if (divider.editorPlugin) {
 if (videoModule.renderElems && videoModule.renderElems.length) {
   videoModule.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
+if (videoModule.elemsToHtml && videoModule.elemsToHtml.length) {
+  videoModule.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
+}
 if (videoModule.menus && videoModule.menus.length) {
   videoModule.menus.forEach(menuConf => registerMenu(menuConf))
 }
@@ -202,6 +253,9 @@ if (videoModule.editorPlugin) {
 if (codeBlock.renderElems && codeBlock.renderElems.length) {
   codeBlock.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
 }
+if (codeBlock.elemsToHtml && codeBlock.elemsToHtml.length) {
+  codeBlock.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
+}
 if (codeBlock.menus && codeBlock.menus.length) {
   codeBlock.menus.forEach(menuConf => registerMenu(menuConf))
 }
@@ -210,8 +264,11 @@ if (codeBlock.editorPlugin) {
 }
 
 // --------------------- 代码高亮 ---------------------
-if (codeHighlightModule.addTextStyle) {
-  registerTextStyleHandler(codeHighlightModule.addTextStyle)
+if (codeHighlightModule.renderTextStyle) {
+  registerTextStyleHandler(codeHighlightModule.renderTextStyle)
+}
+if (codeHighlightModule.elemsToHtml && codeHighlightModule.elemsToHtml.length) {
+  codeHighlightModule.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
 }
 if (codeHighlightModule.menus && codeHighlightModule.menus.length) {
   codeHighlightModule.menus.forEach(menuConf => registerMenu(menuConf))
@@ -220,6 +277,9 @@ if (codeHighlightModule.menus && codeHighlightModule.menus.length) {
 // --------------------- 注册 tableModule module ---------------------
 if (tableModule.renderElems && tableModule.renderElems.length) {
   tableModule.renderElems.forEach(renderElemConf => registerRenderElemConf(renderElemConf))
+}
+if (tableModule.elemsToHtml && tableModule.elemsToHtml.length) {
+  tableModule.elemsToHtml.forEach(toHtmlConf => registerElemToHtmlConf(toHtmlConf))
 }
 if (tableModule.menus && tableModule.menus.length) {
   tableModule.menus.forEach(menuConf => registerMenu(menuConf))
@@ -358,6 +418,8 @@ let editor = createEditor(
 
     onChange() {
       // console.log('selection', editor.selection, editor.children)
+      console.log('getHtml--------\n', editor.getHtml())
+      // console.log('getText--------\n', editor.getText())
     },
 
     plugins,

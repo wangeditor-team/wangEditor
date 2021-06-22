@@ -4,12 +4,14 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { addTextStyle } from './text-style'
+import { renderTextStyle } from './render-text-style'
 import { selectLangMenuConf } from './menu/index'
+import { codeToHtmlConf } from './elem-to-html'
 
 const codeHighlightModule: IModuleConf = {
-  addTextStyle,
+  renderTextStyle,
   menus: [selectLangMenuConf],
+  elemsToHtml: [codeToHtmlConf],
 }
 
 export default codeHighlightModule

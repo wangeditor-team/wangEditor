@@ -14,7 +14,7 @@ function renderVideo(elemNode: SlateElement, children: VNode[] | null, editor: I
 
   const renderStyle: any = {}
 
-  // 图片是否选中
+  // 是否选中
   const selected = isNodeSelected(editor, elemNode, 'video')
   renderStyle.boxShadow = selected ? '0 0 0 3px #B4D5FF' : 'none'
   // TODO 抽离选中样式

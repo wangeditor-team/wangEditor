@@ -14,7 +14,7 @@ import { prismTokenTypes } from '../vendor/prism'
  * @param vnode vnode
  * @returns vnode
  */
-export function addTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
+export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
   const leafNode = node as SlateText & { [key: string]: string }
   let styleVnode: VNode = vnode
 

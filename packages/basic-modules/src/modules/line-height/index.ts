@@ -4,11 +4,13 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { addTextStyle } from './text-style'
+import { renderTextStyle } from './render-text-style'
+import { textStyleToHtml } from './text-style-to-html'
 import { lineHeightMenuConf } from './menu/index'
 
 const lineHeight: IModuleConf = {
-  addTextStyle,
+  renderTextStyle,
+  textStyleToHtml,
   menus: [lineHeightMenuConf],
 }
 

@@ -6,10 +6,12 @@
 import { IModuleConf } from '@wangeditor/core'
 import withVideo from './plugin'
 import { renderVideoConf } from './render-elem'
+import { videoToHtmlConf } from './elem-to-html'
 import { insertVideoMenuConf, deleteVideoMenuConf } from './menu/index'
 
 const video: IModuleConf = {
   renderElems: [renderVideoConf],
+  elemsToHtml: [videoToHtmlConf],
   menus: [insertVideoMenuConf, deleteVideoMenuConf],
   editorPlugin: withVideo,
 }
