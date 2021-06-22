@@ -13,12 +13,17 @@ import ModalButton from './ModalButton'
 import Select from './Select'
 import GroupButton from './GroupButton'
 
+type MenuType = IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
+
 export interface IBarItem {
   $elem: Dom7Array
-  menu: IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
+  menu: MenuType
   init: () => void
   onSelectionChange: () => void
 }
+
+// menu -> barItem
+const MENU_TO_BAR_ITEM = new WeakMap<MenuType, IBarItem>()
 
 export function getEditorInstance(item: IBarItem): IDomEditor {
   const editor = BAR_ITEM_TO_EDITOR.get(item)
@@ -31,26 +36,34 @@ export function getEditorInstance(item: IBarItem): IDomEditor {
  * @param menu menu
  * @param editor editor
  */
-export function createBarItem(
-  menu: IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
-): IBarItem {
+export function createBarItem(menu: MenuType): IBarItem {
+  // 尝试从缓存获取
+  let barItem = MENU_TO_BAR_ITEM.get(menu)
+  if (barItem) return barItem
+
+  // 缓存没有则创建
   const { tag } = menu
   if (tag === 'button') {
     // @ts-ignore
-    if (menu.showDropPanel) {
-      return new DropPanelButton(menu as IDropPanelMenu)
+    const { showDropPanel, showModal } = menu
+    if (showDropPanel) {
+      barItem = new DropPanelButton(menu as IDropPanelMenu)
+    } else if (showModal) {
+      barItem = new ModalButton(menu as IModalMenu)
+    } else {
+      barItem = new SimpleButton(menu)
     }
-    // @ts-ignore
-    if (menu.showModal) {
-      return new ModalButton(menu as IModalMenu)
-    }
-
-    return new SimpleButton(menu)
   }
   if (tag === 'select') {
-    return new Select(menu as ISelectMenu)
+    barItem = new Select(menu as ISelectMenu)
   }
-  throw new Error(`Invalid tag in menu ${JSON.stringify(menu)}`)
+
+  if (barItem == null) throw new Error(`Invalid tag in menu ${JSON.stringify(menu)}`)
+
+  // 记录缓存
+  MENU_TO_BAR_ITEM.set(menu, barItem)
+
+  return barItem
 }
 
 export function createBarItemGroup(menu: IMenuGroup): GroupButton {

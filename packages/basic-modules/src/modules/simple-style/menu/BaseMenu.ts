@@ -10,6 +10,7 @@ abstract class BaseMenu implements IButtonMenu {
   abstract mark: string
   abstract title: string
   abstract iconSvg: string
+  abstract hotkey: string
   tag = 'button'
 
   /**

@@ -10,6 +10,7 @@ class ThroughMenu extends BaseMenu {
   mark = 'through'
   title = '删除线'
   iconSvg = THROUGH_SVG
+  hotkey = 'mod+shift+x'
 }
 
 export default ThroughMenu

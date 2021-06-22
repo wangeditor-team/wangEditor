@@ -10,6 +10,7 @@ class ItalicMenu extends BaseMenu {
   mark = 'italic'
   title = '斜体'
   iconSvg = ITALIC_SVG
+  hotkey = 'mod+i'
 }
 
 export default ItalicMenu

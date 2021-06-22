@@ -30,6 +30,7 @@ export interface IOption {
 interface IBaseMenu {
   title: string
   iconSvg: string
+  hotkey?: string // 快捷键，使用 https://www.npmjs.com/package/is-hotkey
 
   tag: string // 'button' | 'select'
   width?: number // 设置 button 宽度

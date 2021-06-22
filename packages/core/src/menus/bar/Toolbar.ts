@@ -12,9 +12,13 @@ import { IDomEditor } from '../../editor/dom-editor'
 import { IBarItem, createBarItem, createBarItemGroup } from '../bar-item/index'
 import { gen$barItemDivider } from '../helpers/helpers'
 import { IMenuGroup } from '../interface'
+import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../interface'
+
+type MenuType = IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
 
 class Toolbar {
   private $toolbar: Dom7Array
+  private menus: { [key: string]: MenuType } = {}
   private toolbarItems: IBarItem[] = []
 
   constructor(toolbarId: string) {
@@ -75,16 +79,25 @@ class Toolbar {
   private registerSingleItem(key: string, $container: Dom7Array) {
     const editor = this.getEditorInstance()
 
-    const factory = MENU_ITEM_FACTORIES[key]
-    if (factory == null) {
-      throw new Error(`Not found menu item factory by key '${key}'`)
-    }
-    if (typeof factory !== 'function') {
-      throw new Error(`Menu item factory (key='${key}') is not a function`)
+    // 尝试从缓存中获取
+    const { menus } = this
+    let menu = menus[key]
+
+    if (menu == null) {
+      // 缓存中没有，则创建
+      const factory = MENU_ITEM_FACTORIES[key]
+      if (factory == null) {
+        throw new Error(`Not found menu item factory by key '${key}'`)
+      }
+      if (typeof factory !== 'function') {
+        throw new Error(`Menu item factory (key='${key}') is not a function`)
+      }
+
+      // 创建 toolbarItem 并记录缓存
+      menu = factory()
+      menus[key] = menu
     }
 
-    // 创建 toolbarItem 并记录下
-    const menu = factory()
     const toolbarItem = createBarItem(menu)
     this.toolbarItems.push(toolbarItem)
 

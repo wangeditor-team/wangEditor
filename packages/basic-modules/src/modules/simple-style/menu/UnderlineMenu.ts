@@ -10,6 +10,7 @@ class UnderlineMenu extends BaseMenu {
   mark = 'underline'
   title = '下划线'
   iconSvg = UNDER_LINE_SVG
+  hotkey = 'mod+u'
 }
 
 export default UnderlineMenu

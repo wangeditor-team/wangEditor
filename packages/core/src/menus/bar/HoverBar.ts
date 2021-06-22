@@ -13,9 +13,13 @@ import { HOVER_BAR_TO_EDITOR, EDITOR_TO_TEXTAREA, BAR_ITEM_TO_EDITOR } from '../
 import { IBarItem, createBarItem } from '../bar-item/index'
 import { gen$barItemDivider } from '../helpers/helpers'
 import { getPositionBySelection, getPositionByNode, correctPosition } from '../helpers/position'
+import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../interface'
+
+type MenuType = IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
 
 class HoverBar {
   private $elem = $('<div class="w-e-bar w-e-bar-hidden w-e-hover-bar"></div>')
+  private menus: { [key: string]: MenuType } = {}
   private hoverbarItems: IBarItem[] = []
 
   constructor() {
@@ -62,18 +66,25 @@ class HoverBar {
   private registerSingleItem(key: string) {
     const editor = this.getEditorInstance()
 
-    const factory = MENU_ITEM_FACTORIES[key]
-    if (factory == null) {
-      throw new Error(`Not found menu item factory by key '${key}'`)
-      return
-    }
-    if (typeof factory !== 'function') {
-      throw new Error(`Menu item factory (key='${key}') is not a function`)
-      return
+    // 尝试从缓存中获取
+    const { menus } = this
+    let menu = menus[key]
+
+    if (menu == null) {
+      // 缓存获取失败，则重新创建
+      const factory = MENU_ITEM_FACTORIES[key]
+      if (factory == null) {
+        throw new Error(`Not found menu item factory by key '${key}'`)
+      }
+      if (typeof factory !== 'function') {
+        throw new Error(`Menu item factory (key='${key}') is not a function`)
+      }
+
+      // 创建 barItem 并记录缓存
+      menu = factory()
+      menus[key] = menu
     }
 
-    // 创建 barItem 并记录下
-    const menu = factory()
     const barItem = createBarItem(menu)
     this.hoverbarItems.push(barItem)
 
