@@ -102,9 +102,10 @@ function updateView(textarea: TextArea, editor: IDomEditor) {
 
   const textareaElem = document.getElementById(elemId) as HTMLElement
 
-  // focus - 无论是不是 firstPatch ，每次渲染都要判断 focus
+  // focus - 无论是不是 firstPatch ，每次渲染都要判断 focus，
+  // 必须添加 preventScroll 选项，否则弹窗或者编辑器失焦会导致编辑区域自动滚动到顶部
   if (config.autoFocus) {
-    ;(textareaElem as HTMLElement).focus()
+    ;(textareaElem as HTMLElement).focus({ preventScroll: true })
   }
 
   // 存储相关信息
