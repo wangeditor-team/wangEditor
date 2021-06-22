@@ -19,11 +19,7 @@ class DeleteVideoMenu implements IButtonMenu {
   }
 
   isActive(editor: IDomEditor): boolean {
-    const videoNode = getSelectedNodeByType(editor, 'video')
-    if (videoNode) {
-      // 选区处于 video node
-      return true
-    }
+    // 无需 active
     return false
   }
 

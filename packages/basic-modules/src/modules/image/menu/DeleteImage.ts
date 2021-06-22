@@ -19,11 +19,7 @@ class DeleteImage implements IButtonMenu {
   }
 
   isActive(editor: IDomEditor): boolean {
-    const imageNode = getSelectedNodeByType(editor, 'image')
-    if (imageNode) {
-      // 选区处于 image node
-      return true
-    }
+    // 无需 active
     return false
   }
 

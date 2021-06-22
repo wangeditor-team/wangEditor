@@ -43,8 +43,8 @@ class UpdateLink implements IModalMenu {
   }
 
   isActive(editor: IDomEditor): boolean {
-    const url = this.getValue(editor)
-    return !!url
+    // 无需 active
+    return false
   }
 
   exec(editor: IDomEditor, value: string | boolean) {

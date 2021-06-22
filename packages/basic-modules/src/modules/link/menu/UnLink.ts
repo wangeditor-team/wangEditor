@@ -19,11 +19,7 @@ class UnLink implements IButtonMenu {
   }
 
   isActive(editor: IDomEditor): boolean {
-    const linkNode = getSelectedNodeByType(editor, 'link')
-    if (linkNode) {
-      // 选区处于 link node
-      return true
-    }
+    // 无需 active
     return false
   }
 

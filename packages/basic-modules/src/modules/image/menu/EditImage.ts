@@ -40,8 +40,8 @@ class EditImage implements IModalMenu {
   }
 
   isActive(editor: IDomEditor): boolean {
-    const n = this.getImageNode(editor)
-    return !!n
+    // 无需 active
+    return false
   }
 
   exec(editor: IDomEditor, value: string | boolean) {

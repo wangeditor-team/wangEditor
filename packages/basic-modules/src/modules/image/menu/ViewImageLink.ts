@@ -22,8 +22,8 @@ class ViewImageLink implements IButtonMenu {
   }
 
   isActive(editor: IDomEditor): boolean {
-    const url = this.getValue(editor)
-    return !!url
+    // 无需 active
+    return false
   }
 
   isDisabled(editor: IDomEditor): boolean {
