@@ -33,6 +33,10 @@ class Toolbar {
     })
   }
 
+  getMenus() {
+    return this.menus
+  }
+
   // 注册 toolbarItems
   private registerItems() {
     const $toolbar = this.$toolbar

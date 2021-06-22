@@ -33,6 +33,10 @@ class HoverBar {
     })
   }
 
+  getMenus() {
+    return this.menus
+  }
+
   private hideAndClean() {
     const $elem = this.$elem
     $elem.removeClass('w-e-bar-show').addClass('w-e-bar-hidden')

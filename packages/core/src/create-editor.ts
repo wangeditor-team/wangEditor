@@ -14,9 +14,11 @@ import {
   EDITOR_TO_TEXTAREA,
   TEXTAREA_TO_EDITOR,
   TOOLBAR_TO_EDITOR,
+  EDITOR_TO_TOOLBAR,
   EDITOR_TO_ON_CHANGE,
   EDITOR_TO_CONFIG,
   HOVER_BAR_TO_EDITOR,
+  EDITOR_TO_HOVER_BAR,
 } from './utils/weak-maps'
 import { genRandomStr } from './utils/util'
 import $ from './utils/dom'
@@ -81,13 +83,17 @@ function create(containerId: string, config: IConfig | {} = {}, content?: Node[]
   }
   EDITOR_TO_TEXTAREA.set(editor, textarea)
   TEXTAREA_TO_EDITOR.set(textarea, editor)
-  toolbar && TOOLBAR_TO_EDITOR.set(toolbar, editor)
+  if (toolbar) {
+    TOOLBAR_TO_EDITOR.set(toolbar, editor)
+    EDITOR_TO_TOOLBAR.set(editor, toolbar)
+  }
 
   // hoverbar
   let hoverbar: HoverBar | null
   if (hoverbarKeys.length > 0) {
     hoverbar = new HoverBar()
     HOVER_BAR_TO_EDITOR.set(hoverbar, editor)
+    EDITOR_TO_HOVER_BAR.set(editor, hoverbar)
   }
 
   // 初始化内容

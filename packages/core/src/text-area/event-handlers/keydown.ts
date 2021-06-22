@@ -3,15 +3,39 @@
  * @author wangfupeng
  */
 
+import { isHotkey } from 'is-hotkey'
 import { Editor, Transforms, Range } from 'slate'
 import { IDomEditor } from '../../editor/dom-editor'
 import TextArea from '../TextArea'
 import Hotkeys from '../../utils/hotkeys'
 import { hasEditableTarget } from '../helpers'
 import { HAS_BEFORE_INPUT_SUPPORT } from '../../utils/ua'
+import { EDITOR_TO_TOOLBAR, EDITOR_TO_HOVER_BAR } from '../../utils/weak-maps'
 
 function preventDefault(event: Event) {
   event.preventDefault()
+}
+
+// 触发 menu 快捷键
+function triggerMenuHotKey(editor: IDomEditor, event: KeyboardEvent) {
+  const toolbar = EDITOR_TO_TOOLBAR.get(editor)
+  const toolbarMenus = toolbar && toolbar.getMenus()
+  const hoverbar = EDITOR_TO_HOVER_BAR.get(editor)
+  const hoverbarMenus = hoverbar && hoverbar.getMenus()
+
+  // 合并所有 menus
+  const allMenus = { ...toolbarMenus, ...hoverbarMenus }
+  for (let key in allMenus) {
+    const menu = allMenus[key]
+    const { hotkey } = menu
+    if (hotkey && isHotkey(hotkey, event)) {
+      const disabled = menu.isDisabled(editor)
+      if (!disabled) {
+        const val = menu.getValue(editor)
+        menu.exec(editor, val) // 执行 menu 命令
+      }
+    }
+  }
 }
 
 function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
@@ -21,6 +45,9 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   if (editorConfig.readOnly) return
   if (!hasEditableTarget(editor, event.target)) return
+
+  // 触发 menu 快捷键
+  triggerMenuHotKey(editor, event)
 
   // tab
   if (Hotkeys.isTab(event)) {

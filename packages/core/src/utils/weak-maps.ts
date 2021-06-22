@@ -20,7 +20,9 @@ export const TEXTAREA_TO_EDITOR = new WeakMap<TextArea, IDomEditor>()
 
 // bar - editor
 export const TOOLBAR_TO_EDITOR = new WeakMap<Toolbar, IDomEditor>()
+export const EDITOR_TO_TOOLBAR = new WeakMap<IDomEditor, Toolbar>()
 export const HOVER_BAR_TO_EDITOR = new WeakMap<HoverBar, IDomEditor>()
+export const EDITOR_TO_HOVER_BAR = new WeakMap<IDomEditor, HoverBar>()
 export const BAR_ITEM_TO_EDITOR = new WeakMap<IBarItem, IDomEditor>()
 
 // config

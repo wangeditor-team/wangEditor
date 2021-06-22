@@ -21,10 +21,11 @@ abstract class BaseButton implements IBarItem {
     if (tag !== 'button') throw new Error(`Invalid tag '${tag}', expected 'button'`)
 
     // 初始化 dom
-    const { title, iconSvg } = menu
+    const { title, hotkey, iconSvg } = menu
     const $svg = $(iconSvg)
     clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
-    const $button = $(`<button tooltip="${title}"></button>`)
+    const tooltip = hotkey ? `${title}\n${hotkey}` : title
+    const $button = $(`<button tooltip="${tooltip}"></button>`)
     $button.append($svg)
     $button.append($(`<span class="w-e-bar-item-title">${title}</span>`)) // menu title
     if (width) {
