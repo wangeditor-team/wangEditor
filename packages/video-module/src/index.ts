@@ -5,6 +5,6 @@
 
 import './assets/index.less'
 
-import videoModule from './module/index'
+import wangEditorVideoModule from './module/index'
 
-export { videoModule }
+export default wangEditorVideoModule

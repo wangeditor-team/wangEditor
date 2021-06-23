@@ -3,13 +3,14 @@
  * @author wangfupeng
  */
 
-import { createEditor, Node } from 'slate'
+import { createEditor, Node, Editor } from 'slate'
 import { withHistory } from 'slate-history'
 import { withDOM } from './editor/with-dom'
 import TextArea from './text-area/TextArea'
 import Toolbar from './menus/bar/Toolbar'
 import HoverBar from './menus/bar/HoverBar'
 import { IConfig, genConfig } from './config/index'
+import { IDomEditor } from './editor/dom-editor'
 import {
   EDITOR_TO_TEXTAREA,
   TEXTAREA_TO_EDITOR,
@@ -19,9 +20,19 @@ import {
   EDITOR_TO_CONFIG,
   HOVER_BAR_TO_EDITOR,
   EDITOR_TO_HOVER_BAR,
+  IS_READ_ONLY,
 } from './utils/weak-maps'
 import { genRandomStr } from './utils/util'
 import $ from './utils/dom'
+
+type PluginFnType = <T extends IDomEditor>(editor: T) => T
+
+interface ICreateOption {
+  containerId: string
+  config?: IConfig
+  content?: Node[]
+  plugins?: PluginFnType[]
+}
 
 function genDefaultInitialContent() {
   return [
@@ -34,11 +45,10 @@ function genDefaultInitialContent() {
 
 /**
  * 创建编辑器
- * @param containerId DOM 容器 ID
- * @param config editor config
- * @param content editor content
  */
-function create(containerId: string, config: IConfig | {} = {}, content?: Node[]) {
+function create(option: ICreateOption) {
+  const { containerId, config = {}, content, plugins = [] } = option
+
   // 创建实例
   let editor = withHistory(withDOM(createEditor()))
 
@@ -47,7 +57,6 @@ function create(containerId: string, config: IConfig | {} = {}, content?: Node[]
   EDITOR_TO_CONFIG.set(editor, editorConfig)
 
   // editor plugins
-  const { plugins = [] } = editorConfig
   plugins.forEach(plugin => {
     editor = plugin(editor)
   })
@@ -55,7 +64,7 @@ function create(containerId: string, config: IConfig | {} = {}, content?: Node[]
   // 处理 DOM
   let textarea: TextArea
   let toolbar: Toolbar | null = null
-  const { toolbarId, toolbarKeys, hoverbarKeys } = editorConfig
+  const { toolbarId, toolbarKeys = [], hoverbarKeys = [] } = editorConfig
   if (toolbarId) {
     // 手动指定了 toolbarId
     textarea = new TextArea(containerId)
@@ -111,8 +120,11 @@ function create(containerId: string, config: IConfig | {} = {}, content?: Node[]
     hoverbar && hoverbar.onEditorChange()
 
     // 触发用户配置的 onchange 函数
-    if (editorConfig.onChange) editorConfig.onChange()
+    if (editorConfig.onChange) editorConfig.onChange(editor)
   })
+
+  // 记录编辑状态
+  IS_READ_ONLY.set(editor, !!editorConfig.readOnly)
 
   return editor
 }

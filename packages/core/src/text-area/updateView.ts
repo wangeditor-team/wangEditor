@@ -30,7 +30,7 @@ function genElemId(id: number) {
 function genRootVnode(elemId: string, readOnly = false): VNode {
   return h(`div#${elemId}`, {
     props: {
-      contenteditable: readOnly ? false : true,
+      contentEditable: readOnly ? false : true,
       suppressContentEditableWarning: true,
     },
     datasets: {

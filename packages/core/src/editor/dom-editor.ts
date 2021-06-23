@@ -18,6 +18,7 @@ import {
   NODE_TO_PARENT,
   CHANGING_NODE_PATH,
   EDITOR_TO_SELECTION,
+  EDITOR_TO_TEXTAREA,
 } from '../utils/weak-maps'
 import {
   DOMElement,
@@ -37,6 +38,7 @@ export interface IDomEditor extends Editor {
   insertData: (data: DataTransfer) => void
   setFragmentData: (data: DataTransfer) => void
   getConfig: () => IConfig
+  setConfig: (newConfig: IConfig) => void
   handleTab: () => void
   getHtml: () => string
   getText: () => string
@@ -529,5 +531,12 @@ export const DomEditor = {
 
     this.focus(editor)
     Transforms.select(editor, selection)
+  },
+
+  // 获取 textarea 实例
+  getTextarea(editor: IDomEditor) {
+    const textarea = EDITOR_TO_TEXTAREA.get(editor)
+    if (textarea == null) throw new Error('Cannot find textarea instance by editor')
+    return textarea
   },
 }

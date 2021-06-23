@@ -9,6 +9,7 @@ import { IOption, ISelectMenu } from '../interface'
 import SelectList from './SelectList'
 import { gen$downArrow } from '../helpers/helpers'
 import { hideAllPanelsAndModals } from '../panel-and-modal/index'
+import { DomEditor } from '../../editor/dom-editor'
 
 // 根据 option value 获取 text
 function getOptionText(options: IOption[], value: string): string {
@@ -23,19 +24,6 @@ function getOptionText(options: IOption[], value: string): string {
   }
   return text
 }
-
-// // 根据 selectedValue 重新生成 options
-// function genOptions(options: IOption[], selectedValue: string): IOption[] {
-//   return options.map(opt => {
-//     const { value, text, styleForRenderMenuList } = opt
-//     if (value === selectedValue) {
-//       // 选中的 opt
-//       return { value, text, styleForRenderMenuList, selected: true }
-//     }
-//     // 未选中的 opt
-//     return { value, text, styleForRenderMenuList }
-//   })
-// }
 
 class BarItemSelect implements IBarItem {
   $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
@@ -73,13 +61,12 @@ class BarItemSelect implements IBarItem {
   }
 
   private trigger() {
+    const editor = getEditorInstance(this)
+
+    if (DomEditor.isReadOnly(editor)) return
     if (this.disabled) return
 
-    const editor = getEditorInstance(this)
     const menu = this.menu
-    // const options = menu.getOptions(editor)
-    // const value = menu.getValue(editor)
-    // const newOptions = genOptions(options, value.toString()) // 根据 value 重新生成 options（value 可能会随时变化）
 
     // 显示下拉列表
     if (this.selectList == null) {

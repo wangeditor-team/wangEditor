@@ -189,6 +189,11 @@ export const withDOM = <T extends Editor>(editor: T) => {
     return config
   }
 
+  // 修改配置
+  e.setConfig = (newConfig: IConfig) => {
+    EDITOR_TO_CONFIG.set(e, newConfig)
+  }
+
   // 重写 onchange API
   e.onChange = () => {
     // 记录当前选区

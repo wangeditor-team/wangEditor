@@ -5,7 +5,7 @@
 
 import './assets/index.less'
 
-import codeHighlightModule from './module/index'
-import codeHighLightDecorate from './decorate'
+import wangEditorCodeHighlightModule from './module/index'
+import wangEditorCodeHighLightDecorate from './decorate'
 
-export { codeHighlightModule, codeHighLightDecorate }
+export { wangEditorCodeHighlightModule, wangEditorCodeHighLightDecorate }

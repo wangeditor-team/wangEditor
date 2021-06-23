@@ -35,11 +35,16 @@ export const RENDER_ELEM_CONF: {
   [key: string]: RenderElemFnType // key 要和 node.type 对应 ！！！
 } = {}
 
+export interface IRenderElemConf {
+  type: string
+  renderElem: RenderElemFnType
+}
+
 /**
  * 注册 render elem 函数
  * @param conf { type, renderElem } ，type 即 node.type
  */
-export function registerRenderElemConf(conf: { type: string; renderElem: RenderElemFnType }) {
+export function registerRenderElemConf(conf: IRenderElemConf) {
   const { type, renderElem } = conf
   const key = type || ''
 

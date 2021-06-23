@@ -47,11 +47,16 @@ export const ELEM_TO_HTML_CONF: {
   [key: string]: ElemToHtmlFnType // key 要和 node.type 对应 ！！！
 } = {}
 
+export interface IElemToHtmlConf {
+  type: string
+  elemToHtml: ElemToHtmlFnType
+}
+
 /**
  * 注册 elem to html 函数
  * @param conf { type, elemToHtml } ，type 即 node.type
  */
-export function registerElemToHtmlConf(conf: { type: string; elemToHtml: ElemToHtmlFnType }) {
+export function registerElemToHtmlConf(conf: IElemToHtmlConf) {
   const { type, elemToHtml } = conf
   const key = type || ''
 

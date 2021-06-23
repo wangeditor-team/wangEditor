@@ -41,7 +41,7 @@ class Toolbar {
   private registerItems() {
     const $toolbar = this.$toolbar
     const editor = this.getEditorInstance()
-    const { toolbarKeys } = editor.getConfig() // 格式如 ['a', '|', 'b', 'c', '|', 'd']
+    const { toolbarKeys = [] } = editor.getConfig() // 格式如 ['a', '|', 'b', 'c', '|', 'd']
     toolbarKeys.forEach(key => {
       if (key === '|') {
         // 分割线

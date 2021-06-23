@@ -46,7 +46,7 @@ export function genModalButtonElems(buttonId: string, buttonText: string): Dom7A
  * @param menuKey menuKey
  */
 export function getMenuConf(editor: IDomEditor, menuKey: string): { [key: string]: any } {
-  const { menuConf } = editor.getConfig()
-  const colorConf = menuConf[menuKey]
+  const { menuConf = {} } = editor.getConfig()
+  const colorConf = menuConf[menuKey] || {}
   return colorConf || {}
 }

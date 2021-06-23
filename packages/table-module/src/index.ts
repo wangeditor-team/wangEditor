@@ -5,6 +5,6 @@
 
 import './assets/index.less'
 
-import tableModule from './module/index'
+import wangEditorTableModule from './module/index'
 
-export { tableModule }
+export default wangEditorTableModule

@@ -5,6 +5,6 @@
 
 import './assets/index.less'
 
-import uploadImageModule from './module/index'
+import wangEditorUploadImageModule from './module/index'
 
-export { uploadImageModule }
+export default wangEditorUploadImageModule

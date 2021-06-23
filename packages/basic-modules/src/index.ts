@@ -5,36 +5,36 @@
 
 import './assets/index.less'
 
-import p from './modules/paragraph'
-import simpleStyle from './modules/simple-style'
-import header from './modules/header'
-import color from './modules/color'
-import link from './modules/link'
-import image from './modules/image'
-import blockquote from './modules/blockquote'
-import emotion from './modules/emotion'
-import fontSizeAndFamily from './modules/font-size-family'
-import indent from './modules/indent'
-import justify from './modules/justify'
-import lineHeight from './modules/line-height'
-import undoRedo from './modules/undo-redo'
-import divider from './modules/divider'
-import codeBlock from './modules/code-block'
+import wangEditorParagraphModule from './modules/paragraph'
+import wangEditorTextStyleModule from './modules/text-style'
+import wangEditorHeaderModule from './modules/header'
+import wangEditorColorModule from './modules/color'
+import wangEditorLinkModule from './modules/link'
+import wangEditorImageModule from './modules/image'
+import wangEditorBlockQuoteModule from './modules/blockquote'
+import wangEditorEmotionModule from './modules/emotion'
+import wangEditorFontSizeAndFamilyModule from './modules/font-size-family'
+import wangEditorIndentModule from './modules/indent'
+import wangEditorJustifyModule from './modules/justify'
+import wangEditorLineHeightModule from './modules/line-height'
+import wangEditorUndoRedoModule from './modules/undo-redo'
+import wangEditorDividerModule from './modules/divider'
+import wangEditorCodeBlockModule from './modules/code-block'
 
-export {
-  simpleStyle,
-  header,
-  p,
-  color,
-  link,
-  image,
-  blockquote,
-  emotion,
-  fontSizeAndFamily,
-  indent,
-  justify,
-  lineHeight,
-  undoRedo,
-  divider,
-  codeBlock,
-}
+export default [
+  wangEditorTextStyleModule,
+  wangEditorHeaderModule,
+  wangEditorParagraphModule,
+  wangEditorColorModule,
+  wangEditorLinkModule,
+  wangEditorImageModule,
+  wangEditorBlockQuoteModule,
+  wangEditorEmotionModule,
+  wangEditorFontSizeAndFamilyModule,
+  wangEditorIndentModule,
+  wangEditorJustifyModule,
+  wangEditorLineHeightModule,
+  wangEditorUndoRedoModule,
+  wangEditorDividerModule,
+  wangEditorCodeBlockModule,
+]

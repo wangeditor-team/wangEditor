@@ -4,7 +4,7 @@
  */
 
 import { cloneDeep } from 'lodash-es'
-import { Editor, Range, NodeEntry, Node } from 'slate'
+import { Range, NodeEntry, Node } from 'slate'
 import { IDomEditor } from '../editor/dom-editor'
 import { IMenuGroup } from '../menus/interface'
 
@@ -26,31 +26,29 @@ interface IHoverbarConf {
   menuKeys: string[]
 }
 
-type PluginFnType = <T extends Editor>(editor: T) => T
 export interface IConfig {
-  onChange?: () => void
+  onChange?: (editor: IDomEditor) => void
+  // TODO 其他 onCreated beforeDestroy onChangeEditState
 
   // edit state
   placeholder?: string
   readOnly?: boolean
   autoFocus?: boolean
   decorate?: (nodeEntry: NodeEntry) => Range[]
-  // TODO 开发 changeState API ，通过 API 修改 edit state
+  // TODO 开发 changeEditState API ，通过 API 修改 edit state
 
   // 各个 menu 的配置汇总，可以通过 key 获取单个 menu 的配置
-  menuConf: {
+  menuConf?: {
     [key: string]: any
   }
 
   // 传统菜单栏的 menu
   toolbarId?: string
-  toolbarKeys: Array<string | IMenuGroup>
+  toolbarKeys?: Array<string | IMenuGroup>
   // 悬浮菜单栏 menu
-  hoverbarKeys: Array<IHoverbarConf>
+  hoverbarKeys?: Array<IHoverbarConf>
 
   // TODO 右键菜单栏 menu
-
-  plugins: Array<PluginFnType>
 }
 
 /**
@@ -66,7 +64,6 @@ function getDefaultConfig(): IConfig {
     menuConf,
     toolbarKeys: [],
     hoverbarKeys: [],
-    plugins: [],
   }
 }
 

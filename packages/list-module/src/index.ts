@@ -5,6 +5,6 @@
 
 import './assets/index.less'
 
-import listModule from './module/index'
+import wangEditorListModule from './module/index'
 
-export { listModule }
+export default wangEditorListModule
