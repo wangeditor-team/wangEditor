@@ -15,6 +15,9 @@ function bindEvent(editor: Editor): void {
 
     // 绑定 input 输入
     _bindInput(editor)
+
+    // 绑定range变化
+    _bindRangeChange(editor)
 }
 
 /**
@@ -32,6 +35,29 @@ function _bindChange(editor: Editor): void {
         }
 
         editor.txt.togglePlaceholder()
+    })
+}
+
+/**
+ * 绑定 rangeChange 事件
+ * @param editor 编辑器实例
+ */
+function _bindRangeChange(editor: Editor): void {
+    editor.txt.eventHooks.rangeChangeEvents.push(function () {
+        const { rangeChange } = editor.config
+        if (rangeChange) {
+            const selection = editor.selection
+            selection.saveRange()
+            if (!selection.isSelectionEmpty())
+                rangeChange({
+                    // 当前文本
+                    text: selection.getSelectionText(),
+                    // 当前的html
+                    html: selection.getSelectionContainerElem()?.elems[0].innerHTML,
+                    // select对象
+                    selection: selection,
+                })
+        }
     })
 }
 
