@@ -35,100 +35,29 @@
   <p>index page <button id="toggle-readOnly">toggle readOnly</button></p>
 
   <div id="editor-container"></div>
-
   <div id="editor-content-view"></div>
 
-  <!-- <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.core.min.js"></script> -->
-  <script>
-    // console.log('this is index.html')
-
-    window.content = [
-      {
-          type: 'header1',
-          textAlign: 'center',
-          children: [
-              {
-                  text: "一行标题",
-              },
-          ]
-      },
-
-      {
-          type: 'paragraph',
-          children: [
-              { text: "hello world ~~~ " },
-              { text: " " },
-              {
-                  type: 'link',
-                  url: 'https://www.slatejs.org/examples/links',
-                  children: [{ text: 'slate examples' }],
-              },
-              { text: '!' }
-          ]
-      },
-      {
-        type: 'pre',
-        children: [
-          {
-            type: 'code',
-            language: 'javascript',
-            children: [{ text: 'const a = 100;' }]
-          }
-        ]
-      },
-      {
-        type: 'paragraph',
-        children: [
-            { text: '图片' },
-            {
-              type: 'image',
-              src: 'http://www.wangeditor.com/imgs/logo.jpeg',
-              children: [{ text: '' }], // void node 要有一个空 text
-            },
-            { text: 'image' },
-        ]
-      },
-      {
-        type: 'paragraph',
-        children: [
-            { text: '结束' },
-        ]
-      },
-      {
-        type: 'paragraph',
-        children: [{ text: '一行文字' }]
-      },
-      {
-        type: 'paragraph',
-        children: [{ text: '一行文字' }]
-      },
-      {
-        type: 'paragraph',
-        children: [{ text: '一行文字' }]
-      },
-      {
-        type: 'blockquote',
-        children: [{ text: '一行文字' }]
-      },
-      {
-        type: 'paragraph',
-        children: [{ text: '一行文字' }]
-      },
-      {
-        type: 'divider',
-        children: [{text: ''}]
-      },
-      {
-        type: 'paragraph',
-        children: [{ text: '一行文字' }]
-      },
-      {
-        type: 'paragraph',
-        children: [{ text: '一行文字' }]
-      },
-    ]
-  </script>
-
+  <script src="js/init-content.js"></script>
   <script src="../packages/editor/dist/index.js"></script>
+  <script>
+    const editorView = new WangEditor(
+      'editor-container',
+      // @ts-ignore 初始化内容
+      window.initContent
+    )
+    // editorView.config.autoFocus = false
+    // editorView.config.readOnly = true
+    editorView.config.onChange = (editorCore) => {
+      const html = editorCore.getHtml()
+      // @ts-ignore
+      document.getElementById('editor-content-view').innerHTML = html
+    }
+    editorView.create()
+
+    // toggle readOnly
+    document.getElementById('toggle-readOnly')?.addEventListener('click', () => {
+      editorView.setConfig({ readOnly: !editorView.config.readOnly })
+    })
+  </script>
 </body>
 </html>

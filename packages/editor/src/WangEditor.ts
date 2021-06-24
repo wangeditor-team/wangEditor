@@ -137,8 +137,8 @@ class WangEditor {
   }
 
   // 全局 - 注册 menu
-  static registerMenu(menuConf: IMenuConf) {
-    registerMenu(menuConf)
+  static registerMenu(menuConf: IMenuConf, customConfig?: { [key: string]: any }) {
+    registerMenu(menuConf, customConfig)
   }
 
   // 全局 - 注册 renderElem

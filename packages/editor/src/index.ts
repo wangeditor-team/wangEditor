@@ -44,7 +44,7 @@ import registerModule from './register-module'
 basicModules.forEach(module => registerModule(module))
 registerModule(wangEditorListModule)
 registerModule(wangEditorTableModule)
-registerModule(wangEditorVideoModule)
+registerModule(wangEditorVideoModule) // TODO 第三方 module 需拆分出来
 registerModule(wangEditorUploadImageModule)
 registerModule(wangEditorCodeHighlightModule)
 
@@ -55,25 +55,4 @@ WangEditor.setConfig({
   decorate: wangEditorCodeHighLightDecorate, // 代码高亮
 })
 
-// export default WangEditor // TODO 要输出 WangEditor
-
-// -------------------------------------- 分割线 ------------------------------------
-
-const editorView = new WangEditor(
-  'editor-container',
-  // @ts-ignore
-  window.content
-)
-// editorView.config.autoFocus = false
-// editorView.config.readOnly = true
-editorView.config.onChange = (editorCore: IDomEditor) => {
-  const html = editorCore.getHtml()
-  // @ts-ignore
-  document.getElementById('editor-content-view').innerHTML = html
-}
-editorView.create()
-
-// toggle readOnly
-document.getElementById('toggle-readOnly')?.addEventListener('click', () => {
-  editorView.setConfig({ readOnly: !editorView.config.readOnly })
-})
+export default WangEditor

@@ -15,7 +15,7 @@ import cssnano from 'cssnano'
 const ENV = process.env.NODE_ENV || 'production'
 
 function genSingleConfig(distDir, options) {
-  const { name = 'index', format, suffix = 'js', plugins = [] } = options
+  const { name, format, suffix = 'js', plugins = [] } = options
 
   // 开发环境不压缩 css
   const postcssPlugins = ENV !== 'development' ? [autoprefixer(), cssnano()] : [autoprefixer()]
@@ -23,7 +23,7 @@ function genSingleConfig(distDir, options) {
   return {
     input: path.resolve(__dirname, './src/index.ts'),
     output: {
-      file: path.resolve(distDir, `${name}.${suffix}`),
+      file: path.resolve(distDir, `index.${suffix}`),
       format,
       name,
       sourcemap: true,
@@ -67,15 +67,16 @@ function genSingleConfig(distDir, options) {
 
 /**
  * 获取默认的 rollup 配置
+ * @param {string} bundleName umd 全局变量名字
  * @param {string} distDir dirt dir
  */
-export default function createDefaultRollupConfig(distDir) {
+export default function createDefaultRollupConfig(bundleName, distDir) {
   // 非开发环境下
   if (ENV !== 'development') {
     return [
-      genSingleConfig(distDir, { format: 'umd', plugins: [terser()] }),
+      genSingleConfig(distDir, { format: 'umd', name: bundleName, plugins: [terser()] }),
       genSingleConfig(distDir, {
-        name: 'index.module',
+        name: `${bundleName}.module`,
         format: 'es',
         suffix: 'mjs',
       }),
@@ -83,5 +84,5 @@ export default function createDefaultRollupConfig(distDir) {
   }
 
   // 开发环境
-  return genSingleConfig(distDir, { format: 'umd' })
+  return genSingleConfig(distDir, { format: 'umd', name: bundleName })
 }
