@@ -190,8 +190,12 @@ export const withDOM = <T extends Editor>(editor: T) => {
   }
 
   // 修改配置
-  e.setConfig = (newConfig: IConfig) => {
-    EDITOR_TO_CONFIG.set(e, newConfig)
+  e.setConfig = (newConfig: Partial<IConfig>) => {
+    const curConfig = e.getConfig()
+    EDITOR_TO_CONFIG.set(e, {
+      ...curConfig,
+      ...newConfig,
+    })
   }
 
   // 重写 onchange API

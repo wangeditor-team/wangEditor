@@ -23,6 +23,9 @@ class InsertDividerMenu implements IButtonMenu {
   }
 
   isDisabled(editor: IDomEditor): boolean {
+    const { selection } = editor
+    if (selection == null) return true
+
     const selectedNode = getSelectedNodeByType(editor, 'divider')
     if (selectedNode) {
       // 当前选中了 divider node ，则禁用

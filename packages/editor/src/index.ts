@@ -55,25 +55,25 @@ WangEditor.setConfig({
   decorate: wangEditorCodeHighLightDecorate, // 代码高亮
 })
 
-// export * as WangEditor from './WangEditor' // TODO 要输出 WangEditor
+// export default WangEditor // TODO 要输出 WangEditor
 
 // -------------------------------------- 分割线 ------------------------------------
 
-const e = new WangEditor(
+const editorView = new WangEditor(
   'editor-container',
   // @ts-ignore
   window.content
 )
-// e.config.autoFocus = false
-// e.config.readOnly = true
-e.config.onChange = (editor: IDomEditor) => {
-  const html = editor.getHtml()
+// editorView.config.autoFocus = false
+// editorView.config.readOnly = true
+editorView.config.onChange = (editorCore: IDomEditor) => {
+  const html = editorCore.getHtml()
   // @ts-ignore
   document.getElementById('editor-content-view').innerHTML = html
 }
-e.create()
+editorView.create()
 
 // toggle readOnly
 document.getElementById('toggle-readOnly')?.addEventListener('click', () => {
-  e.setConfig({ readOnly: !e.config.readOnly })
+  editorView.setConfig({ readOnly: !editorView.config.readOnly })
 })

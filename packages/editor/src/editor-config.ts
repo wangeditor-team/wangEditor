@@ -125,7 +125,7 @@ function getDefaultEditorConfig() {
       // other hover bar ...
     ],
 
-    onChange(editor: IDomEditor) {
+    onChange(editorCore: IDomEditor) {
       // console.log('selection', editor.selection, editor.children)
       // console.log('getHtml--------\n', editor.getHtml())
       // console.log('getText--------\n', editor.getText())

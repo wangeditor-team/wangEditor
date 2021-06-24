@@ -30,7 +30,7 @@ type PluginFnType = <T extends IDomEditor>(editor: T) => T
 interface ICreateOption {
   containerId: string
   config?: IConfig
-  content?: Node[]
+  initContent?: Node[]
   plugins?: PluginFnType[]
 }
 
@@ -47,7 +47,7 @@ function genDefaultInitialContent() {
  * 创建编辑器
  */
 function create(option: ICreateOption) {
-  const { containerId, config = {}, content, plugins = [] } = option
+  const { containerId, config = {}, initContent, plugins = [] } = option
 
   // 创建实例
   let editor = withHistory(withDOM(createEditor()))
@@ -106,8 +106,7 @@ function create(option: ICreateOption) {
   }
 
   // 初始化内容
-  let initialContent: Node[] = content && content.length > 0 ? content : genDefaultInitialContent()
-  editor.children = initialContent
+  editor.children = initContent && initContent.length > 0 ? initContent : genDefaultInitialContent()
   textarea.onEditorChange() // 初始化时触发一次，以便能初始化 textarea DOM 和 selection
 
   // 绑定 editor onchange

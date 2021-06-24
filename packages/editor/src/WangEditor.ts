@@ -4,7 +4,7 @@
  */
 
 // import $, { Dom7Array } from 'dom7'
-import { Node } from 'slate'
+import { Node, Transforms } from 'slate'
 import {
   IDomEditor,
   DomEditor,
@@ -32,19 +32,19 @@ import {
 
 type PluginType = <T extends IDomEditor>(editor: T) => T
 
-class EditorWrapper {
+class WangEditor {
   // private $container: Dom7Array
   private containerId: string
-  private content: Node[]
+  private initContent: Node[]
   config: IConfig = {}
-  private editor: IDomEditor | null = null // TODO 输出 editor API
+  editorCore: IDomEditor | null = null // TODO 输出 editor API
 
-  constructor(containerId: string, content?: Node[]) {
+  constructor(containerId: string, initContent?: Node[]) {
     this.containerId = containerId
-    this.content = content || []
+    this.initContent = initContent || []
 
     this.config = {
-      ...EditorWrapper.config, // 全局配置
+      ...WangEditor.config, // 全局配置
       ...this.config,
     }
   }
@@ -60,18 +60,18 @@ class EditorWrapper {
     const { menuConf } = config
     menuConf[menuKey] = newMenuConfig
 
-    this.tryReRenderEditorView()
+    this.tryReRenderWangEditor()
   }
 
   /**
-   * 创建 editor 实例
+   * 创建 editorCore 实例
    */
   create() {
-    const { containerId, config, content } = this
-    const { plugins } = EditorWrapper
+    const { containerId, config, initContent } = this
+    const { plugins } = WangEditor
 
-    const editor = createEditor({ containerId, config, content, plugins })
-    this.editor = editor
+    const editorCore = createEditor({ containerId, config, initContent, plugins })
+    this.editorCore = editorCore
   }
 
   /**
@@ -84,15 +84,15 @@ class EditorWrapper {
       ...newConfig,
     }
 
-    this.tryReRenderEditorView()
+    this.tryReRenderWangEditor()
   }
 
   /**
    * 销毁编辑器
    */
   destroy() {
-    const { editor } = this
-    if (editor == null) return
+    const { editorCore } = this
+    if (editorCore == null) return
 
     // TODO 销毁编辑器实例
   }
@@ -100,12 +100,22 @@ class EditorWrapper {
   /**
    * 尝试重新渲染编辑器视图
    */
-  private tryReRenderEditorView() {
-    const { editor } = this
-    if (editor != null) {
-      editor.setConfig(this.config) // 重新设置 config
-      const textarea = DomEditor.getTextarea(editor)
-      textarea.onEditorChange() // 触发 更新视图
+  private tryReRenderWangEditor() {
+    const { editorCore, config } = this
+    if (editorCore == null) return
+
+    // 取消选择
+    Transforms.deselect(editorCore)
+    // 重新设置 config ，重要！！！
+    editorCore.setConfig(config)
+
+    // 触发 更新视图
+    const textarea = DomEditor.getTextarea(editorCore)
+    textarea.onEditorChange()
+
+    // 尝试 focus
+    if (config.autoFocus !== false) {
+      DomEditor.focus(editorCore)
     }
   }
 
@@ -157,4 +167,4 @@ class EditorWrapper {
   }
 }
 
-export default EditorWrapper
+export default WangEditor
