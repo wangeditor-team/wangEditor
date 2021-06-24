@@ -1,8 +1,9 @@
 import path from 'path'
-import createDefaultRollupConfig from '../../build/create-rollup-config'
+import createRollupConfig from '../../build/create-rollup-config'
 
 const distDir = path.resolve(__dirname, './dist')
+const name = 'WangEditorTableModule'
 
-const conf = createDefaultRollupConfig('WangEditorTableModule', distDir)
+const configList = createRollupConfig(distDir, name)
 
-export default conf
+export default configList

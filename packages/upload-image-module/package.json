@@ -6,7 +6,7 @@
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
   "main": "dist/index.js",
-  "module": "dist/index.module.js",
+  "module": "dist/index.mjs",
   "browser": {
     "./dist/index.js": "./dist/index.js",
     "./dist/index.mjs": "./dist/index.mjs"

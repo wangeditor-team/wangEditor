@@ -78,7 +78,9 @@
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-visualizer": "^5.5.0",
     "ts-jest": "^25.4.0",
+    "tslib": "^2.3.0",
     "typescript": "^4.0.3"
   }
 }
