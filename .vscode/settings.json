@@ -31,7 +31,8 @@
       "wangeditor",
       "wangfupeng",
       "we",
-      "write"
+      "write",
+      "yuque"
     ],
     "typescript.tsdk": "node_modules/typescript/lib",
     "editor.codeActionsOnSave": {

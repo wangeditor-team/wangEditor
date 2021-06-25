@@ -42,6 +42,8 @@ export interface IDomEditor extends Editor {
   handleTab: () => void
   getHtml: () => string
   getText: () => string
+  focus: () => void
+  blur: () => void
 }
 
 /**
@@ -126,18 +128,6 @@ export const DomEditor = {
   },
 
   /**
-   * Blur the editor.
-   */
-  blur(editor: IDomEditor): void {
-    const el = DomEditor.toDOMNode(editor, editor)
-    IS_FOCUSED.set(editor, false)
-
-    if (window.document.activeElement === el) {
-      el.blur()
-    }
-  },
-
-  /**
    * Find the native DOM element from a Slate node or editor.
    */
   toDOMNode(editor: IDomEditor, node: Node): HTMLElement {
@@ -161,12 +151,14 @@ export const DomEditor = {
    * Focus the editor.
    */
   focus(editor: IDomEditor): void {
-    const el = DomEditor.toDOMNode(editor, editor)
-    IS_FOCUSED.set(editor, true)
+    editor.focus()
+  },
 
-    if (window.document.activeElement !== el) {
-      el.focus({ preventScroll: true })
-    }
+  /**
+   * Blur the editor.
+   */
+  blur(editor: IDomEditor): void {
+    editor.blur()
   },
 
   /**

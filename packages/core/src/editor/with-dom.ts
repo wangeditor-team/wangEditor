@@ -10,6 +10,7 @@ import {
   NODE_TO_KEY,
   EDITOR_TO_CONFIG,
   EDITOR_TO_SELECTION,
+  IS_FOCUSED,
 } from '../utils/weak-maps'
 import { Key } from '../utils/key'
 import { isDOMText, getPlainText } from '../utils/dom'
@@ -230,6 +231,26 @@ export const withDOM = <T extends Editor>(editor: T) => {
   e.getText = (): string => {
     const { children = [] } = e
     return children.map(child => Node.string(child)).join('\n')
+  }
+
+  // focus
+  e.focus = () => {
+    const el = DomEditor.toDOMNode(e, e)
+    IS_FOCUSED.set(e, true)
+
+    if (window.document.activeElement !== el) {
+      el.focus({ preventScroll: true })
+    }
+  }
+
+  // blur
+  e.blur = () => {
+    const el = DomEditor.toDOMNode(e, e)
+    IS_FOCUSED.set(e, false)
+
+    if (window.document.activeElement === el) {
+      el.blur()
+    }
   }
 
   // 最后要返回 editor 实例 - 重要！！！

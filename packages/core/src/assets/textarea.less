@@ -7,7 +7,7 @@
 .w-e-text-container .w-e-scroll {
   min-height: 40px;
   height: 100%;
-  // overflow-y: auto; // 在 js 中增加
+  // overflow-y: auto; // 在 js 中设置，根据 config 判断是否增加 scroll
   -webkit-overflow-scrolling: touch;
 }
 
@@ -17,6 +17,7 @@
   word-wrap: break-word;
   padding: 0 10px;
   border-top: 1px solid transparent; // 防止 margin-top 溢出
+  min-height: 100%;
 
   p {
     margin: 10px 0;

@@ -4,6 +4,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>we-2021 demo</title>
+<link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
 <style>
   /* 编辑器 dom */
   #container {
@@ -75,7 +76,6 @@
     // editorView.config.scroll = false
     editorView.config.onChange = (editorCore) => {
       const html = editorCore.getHtml()
-      // @ts-ignore
       document.getElementById('editor-content-view').innerHTML = html
     }
     editorView.create()
