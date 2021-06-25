@@ -112,7 +112,6 @@ class Toolbar {
 
     // 保存 toolbarItem 和 editor 的关系
     BAR_ITEM_TO_EDITOR.set(toolbarItem, editor)
-    toolbarItem.init() // 初始化
 
     // 添加 DOM
     $container.append(toolbarItem.$elem)

@@ -8,6 +8,7 @@ import $, { Dom7Array } from '../../utils/dom'
 import { IBarItem, getEditorInstance } from './index'
 import { clearSvgStyle } from '../helpers/helpers'
 import { hideAllPanelsAndModals } from '../panel-and-modal/index'
+import { promiseResolveThen } from '../../utils/util'
 
 abstract class BaseButton implements IBarItem {
   $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
@@ -35,9 +36,12 @@ abstract class BaseButton implements IBarItem {
 
     this.$button = $button
     this.menu = menu
+
+    // 异步绑定事件
+    promiseResolveThen(() => this.init())
   }
 
-  init() {
+  private init() {
     // 设置 button 属性
     this.setActive()
     this.setDisabled()

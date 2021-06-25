@@ -5,7 +5,7 @@
 
 import { Node, Text, Editor, Range } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
-import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG, IMAGE_SVG } from './constants/svg'
+import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG, IMAGE_SVG, PLUS_SVG } from './constants/svg'
 
 function getDefaultEditorConfig() {
   return {
@@ -19,6 +19,11 @@ function getDefaultEditorConfig() {
       'italic',
       'through',
       'code',
+      {
+        title: '更多样式',
+        iconSvg: PLUS_SVG,
+        menuKeys: ['through', 'code'],
+      },
       '|',
       'color',
       'bgColor',
@@ -82,7 +87,7 @@ function getDefaultEditorConfig() {
           if (Text.isText(n)) return true // 匹配 text node
           return false
         },
-        menuKeys: ['header', '|', 'bold', 'underline', '|', 'color'],
+        menuKeys: ['header', '|', 'bold', 'underline', 'through', '|', 'color'],
       },
       // link hover bar
       {

@@ -10,6 +10,7 @@ import SelectList from './SelectList'
 import { gen$downArrow } from '../helpers/helpers'
 import { hideAllPanelsAndModals } from '../panel-and-modal/index'
 import { DomEditor } from '../../editor/dom-editor'
+import { promiseResolveThen } from '../../utils/util'
 
 // 根据 option value 获取 text
 function getOptionText(options: IOption[], value: string): string {
@@ -46,9 +47,12 @@ class BarItemSelect implements IBarItem {
 
     this.$button = $button
     this.menu = menu
+
+    // 异步绑定事件
+    promiseResolveThen(() => this.init())
   }
 
-  init() {
+  private init() {
     // 设置 select 属性
     this.setSelectedValue()
 

@@ -94,7 +94,6 @@ class HoverBar {
 
     // 保存 barItem 和 editor 的关系
     BAR_ITEM_TO_EDITOR.set(barItem, editor)
-    barItem.init() // 初始化
 
     // 添加 DOM
     const $elem = this.$elem
