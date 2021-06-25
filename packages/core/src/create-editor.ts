@@ -33,7 +33,7 @@ interface ICreateOption {
   plugins?: PluginFnType[]
 }
 
-function genDefaultInitialContent() {
+function genDefaultContent() {
   return [
     {
       type: 'paragraph',
@@ -89,7 +89,11 @@ function create(option: ICreateOption) {
   }
 
   // 初始化内容
-  editor.children = initContent && initContent.length > 0 ? initContent : genDefaultInitialContent()
+  if (initContent && initContent.length) {
+    editor.children = initContent
+  } else {
+    editor.children = genDefaultContent()
+  }
   textarea.onEditorChange() // 初始化时触发一次，以便能初始化 textarea DOM 和 selection
 
   // 绑定 editor onchange

@@ -74,6 +74,7 @@
     // editorView.config.autoFocus = false
     // editorView.config.readOnly = true
     // editorView.config.scroll = false
+    editorView.config.placeholder = '请输入内容'
     editorView.config.onChange = (editorCore) => {
       const html = editorCore.getHtml()
       document.getElementById('editor-content-view').innerHTML = html

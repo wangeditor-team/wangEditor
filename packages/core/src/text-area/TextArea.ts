@@ -7,7 +7,8 @@ import { throttle, forEach } from 'lodash-es'
 import $, { Dom7Array } from '../utils/dom'
 import { TEXTAREA_TO_EDITOR, EDITOR_TO_CONFIG } from '../utils/weak-maps'
 import { IDomEditor } from '../editor/dom-editor'
-import updateView from './updateView'
+import updateView from './update-view'
+import handlePlaceholder from './place-holder'
 import { DOMElement } from '../utils/dom'
 import { editorSelectionToDOM, DOMSelectionToEditor } from './syncSelection'
 import { promiseResolveThen } from '../utils/util'
@@ -24,6 +25,8 @@ class TextArea {
   isComposing: boolean = false
   isUpdatingSelection: boolean = false
   latestElement: DOMElement | null = null
+  showPlaceholder = false
+  $placeholder: Dom7Array | null = null
 
   constructor(selector: string) {
     // id 不能重复
@@ -100,6 +103,9 @@ class TextArea {
 
     // 更新 DOM
     updateView(this, editor)
+
+    // 处理 placeholder
+    handlePlaceholder(this, editor)
 
     // 同步选区（异步，否则拿不到 DOM 渲染结果，vdom）
     promiseResolveThen(() => {

@@ -32,22 +32,32 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
     }
   }
 
-  // 重写 normalizeNode - code node 不能是顶层，否则替换为 p
+  // 重写 normalizeNode
   newEditor.normalizeNode = ([node, path]) => {
     // @ts-ignore
     const { type } = node
-    if (type !== 'code' || path.length > 1) {
-      return normalizeNode([node, path])
+
+    // -------------- code node 不能是顶层，否则替换为 p --------------
+    if (type === 'code' && path.length <= 1) {
+      Transforms.setNodes(
+        newEditor,
+        {
+          // @ts-ignore
+          type: 'paragraph',
+        },
+        { at: path }
+      )
+      return
     }
 
-    Transforms.setNodes(
-      newEditor,
-      {
-        // @ts-ignore
-        type: 'paragraph',
-      },
-      { at: path }
-    )
+    // -------------- pre 不能是 editor 第一个节点，否则前面插入 p
+    if (type === 'pre' && newEditor.children[0] === node) {
+      const p = { type: 'paragraph', children: [{ text: '' }] }
+      Transforms.insertNodes(newEditor, p, { at: path })
+    }
+
+    // 执行默认行为
+    return normalizeNode([node, path])
   }
 
   // 重写 insertData - 粘贴文本
