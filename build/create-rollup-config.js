@@ -9,7 +9,9 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import devConf from './config/dev'
 import prdConf from './config/prd'
 
+// 环境变量
 const ENV = process.env.NODE_ENV || 'production'
+const IS_PRD = ENV === 'production'
 
 /**
  * 生成单个 rollup 配置
@@ -19,7 +21,7 @@ function genSingleConfig(customConfig = {}) {
   const { input, output = {}, plugins = [] } = customConfig
 
   let config
-  if (ENV === 'production') {
+  if (IS_PRD) {
     config = prdConf
   } else {
     config = devConf
@@ -43,24 +45,13 @@ function genSingleConfig(customConfig = {}) {
 
 /**
  * 生成 rollup 配置
- * @param {string} distDir dist dir
- * @param {string} name output.name
- * @param {Array} plugins rollup plugins
+ * @param {object} opt { distDir, name, plugins, outputUmdOnDev }
  */
-function createRollupConfig(distDir, name, plugins = []) {
-  const configList = []
-
-  // 生成 umd 格式，对应 package.json main
-  const umdConf = genSingleConfig({
-    // input - 默认为 src/index.ts
-    output: {
-      file: path.resolve(distDir, 'index.js'),
-      format: 'umd',
-      name,
-    },
-    plugins,
-  })
-  configList.push(umdConf)
+function createRollupConfig(opt = {}) {
+  const { distDir, name, plugins = [], outputUmdOnDev = false } = opt
+  if (!distDir || !name) {
+    throw new Error(`Cannot find 'distDir' or 'name' when create rollup config`)
+  }
 
   // 生成 esm 格式，对应 package.json module
   const esmConf = genSingleConfig({
@@ -72,9 +63,31 @@ function createRollupConfig(distDir, name, plugins = []) {
     },
     plugins,
   })
-  configList.push(esmConf)
 
-  return configList
+  // 生成 umd 格式，对应 package.json main
+  const umdConf = genSingleConfig({
+    // input - 默认为 src/index.ts
+    output: {
+      file: path.resolve(distDir, 'index.js'),
+      format: 'umd',
+      name,
+    },
+    plugins,
+  })
+
+  // 返回结果
+  if (IS_PRD) {
+    // 生产环境下，全部输出
+    return [esmConf, umdConf]
+  } else {
+    // 开发环境，只输出一个即可，提高打包速度
+    if (outputUmdOnDev) {
+      // 强制输出 umd —— 某些 package 打包之后需要在浏览器中引用，如 packages/editor
+      return umdConf
+    }
+    // 默认输出 esm —— rollup 引用，默认只需要 mjs （对应 package.json module ）
+    return esmConf
+  }
 }
 
 export default createRollupConfig

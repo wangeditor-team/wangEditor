@@ -4,6 +4,6 @@ import createRollupConfig from '../../build/create-rollup-config'
 const distDir = path.resolve(__dirname, './dist')
 const name = 'WangEditorCodeHighLight'
 
-const configList = createRollupConfig(distDir, name)
+const configList = createRollupConfig({ distDir, name })
 
 export default configList

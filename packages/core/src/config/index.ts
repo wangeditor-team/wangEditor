@@ -43,7 +43,6 @@ export interface IConfig {
   }
 
   // 传统菜单栏的 menu
-  toolbarId?: string
   toolbarKeys?: Array<string | IMenuGroup>
   // 悬浮菜单栏 menu
   hoverbarKeys?: Array<IHoverbarConf>

@@ -24,13 +24,19 @@ class TextArea {
   isUpdatingSelection: boolean = false
   latestElement: DOMElement | null = null
 
-  constructor(textAreaContainerId: string) {
+  constructor(selector: string) {
     // id 不能重复
     this.id = ID++
 
     // 初始化 dom
-    const $textAreaContainer = $(`#${textAreaContainerId}`)
-    this.$textAreaContainer = $textAreaContainer
+    const $box = $(selector)
+    if ($box.length === 0) {
+      throw new Error(`Cannot find textarea DOM by selector '${selector}'`)
+    }
+    const $container = $(`<div class="w-e-text-container"></div>`)
+    $container.css('height', '300px') // TODO height 可配置
+    $box.append($container)
+    this.$textAreaContainer = $container
 
     // 监听 selection change
     window.document.addEventListener('selectionchange', this.onDOMSelectionChange)

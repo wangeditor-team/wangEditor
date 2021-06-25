@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { createEditor, Node, Editor } from 'slate'
+import { createEditor, Node } from 'slate'
 import { withHistory } from 'slate-history'
 import { withDOM } from './editor/with-dom'
 import TextArea from './text-area/TextArea'
@@ -22,13 +22,12 @@ import {
   EDITOR_TO_HOVER_BAR,
   IS_READ_ONLY,
 } from './utils/weak-maps'
-import { genRandomStr } from './utils/util'
-import $ from './utils/dom'
 
 type PluginFnType = <T extends IDomEditor>(editor: T) => T
 
 interface ICreateOption {
-  containerId: string
+  toolbarSelector?: string
+  textareaSelector: string
   config?: IConfig
   initContent?: Node[]
   plugins?: PluginFnType[]
@@ -47,7 +46,7 @@ function genDefaultInitialContent() {
  * 创建编辑器
  */
 function create(option: ICreateOption) {
-  const { containerId, config = {}, initContent, plugins = [] } = option
+  const { toolbarSelector, textareaSelector, config = {}, initContent, plugins = [] } = option
 
   // 创建实例
   let editor = withHistory(withDOM(createEditor()))
@@ -55,49 +54,33 @@ function create(option: ICreateOption) {
   // 处理配置
   const editorConfig = genConfig(config || {})
   EDITOR_TO_CONFIG.set(editor, editorConfig)
+  const { toolbarKeys = [], hoverbarKeys = [] } = editorConfig
 
   // editor plugins
   plugins.forEach(plugin => {
     editor = plugin(editor)
   })
 
-  // 处理 DOM
-  let textarea: TextArea
-  let toolbar: Toolbar | null = null
-  const { toolbarId, toolbarKeys = [], hoverbarKeys = [] } = editorConfig
-  if (toolbarId) {
-    // 手动指定了 toolbarId
-    textarea = new TextArea(containerId)
-    toolbar = new Toolbar(toolbarId)
-  } else {
-    // 未手动指定 toolbarId
-    const $container = $(`#${containerId}`)
-
-    if (toolbarKeys.length > 0) {
-      // 要显示 toolbar
-      const newToolbarId = genRandomStr('toolbar')
-      const $toolbar = $(
-        `<div id="${newToolbarId}" class="w-e-bar w-e-bar-show w-e-toolbar"></div>`
-      )
-      $container.append($toolbar)
-      toolbar = new Toolbar(newToolbarId)
-      editorConfig.toolbarId = newToolbarId
-    }
-
-    const newContainerId = genRandomStr('text-container')
-    const $textContainer = $(`<div id="${newContainerId}" class="w-e-text-container"></div>`)
-    $textContainer.css('height', '300px') // TODO height 可配置
-    $container.append($textContainer)
-    textarea = new TextArea(newContainerId)
-  }
+  // 创建 textarea DOM
+  const textarea = new TextArea(textareaSelector)
   EDITOR_TO_TEXTAREA.set(editor, textarea)
   TEXTAREA_TO_EDITOR.set(textarea, editor)
-  if (toolbar) {
+
+  // 创建 toolbar DOM
+  let toolbar: Toolbar | null = null
+  if (toolbarSelector) {
+    if (toolbarKeys.length === 0) {
+      console.warn(
+        `Cannot find 'toolbarKeys' in editor config\n在 editor config 中未找到 'toolbarKeys'`
+      )
+    }
+
+    toolbar = new Toolbar(toolbarSelector)
     TOOLBAR_TO_EDITOR.set(toolbar, editor)
     EDITOR_TO_TOOLBAR.set(editor, toolbar)
   }
 
-  // hoverbar
+  // 创建 hoverbar DOM
   let hoverbar: HoverBar | null
   if (hoverbarKeys.length > 0) {
     hoverbar = new HoverBar()

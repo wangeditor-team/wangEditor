@@ -1,50 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>we-2021 demo</title>
-  <style>
-    #editor-container {
-        border:  1px solid #ccc;
-        width: 800px;
-    }
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>we-2021 demo</title>
+<style>
+  /* 编辑器 dom */
+  #container {
+    width: 800px;
+  }
 
-    #editor-content-view {
-      border-top: 1px solid #ccc;
-      margin-top: 30px;
-    }
-    #editor-content-view td, #editor-content-view th {
-      border: 1px solid #ccc;
-      min-width: 50px;
-      height: 20px;
-    }
-    #editor-content-view th {
-      background-color: #f1f1f1;
-    }
-    #editor-content-view blockquote {
-      border-left: 8px solid #d0e5f2;
-      padding: 10px 10px;
-      margin: 10px 0;
-      background-color: #f1f1f1;
-    }
-  </style>
-  <link href="../packages/editor/dist/css/style.css" rel="stylesheet">
+  #editor-toolbar {
+    border: 1px solid #ccc;
+  }
+
+  #editor-text-area {
+    border: 1px solid #ccc;
+  }
+
+  /* 显示内容 */
+  #editor-content-view {
+    border-top: 1px solid #ccc;
+    margin-top: 30px;
+  }
+
+  #editor-content-view td,
+  #editor-content-view th {
+    border: 1px solid #ccc;
+    min-width: 50px;
+    height: 20px;
+  }
+
+  #editor-content-view th {
+    background-color: #f1f1f1;
+  }
+
+  #editor-content-view blockquote {
+    border-left: 8px solid #d0e5f2;
+    padding: 10px 10px;
+    margin: 10px 0;
+    background-color: #f1f1f1;
+  }
+</style>
+<link href="../packages/editor/dist/css/style.css" rel="stylesheet">
 </head>
+
 <body>
   <p>index page <button id="toggle-readOnly">toggle readOnly</button></p>
 
-  <div id="editor-container"></div>
+  <!-- 编辑器 -->
+  <div id="container">
+    <div id="editor-toolbar"></div>
+    <div style="height: 10px;"></div>
+    <div id="editor-text-area"></div>
+  </div>
+
+  <!-- 显示内容 -->
   <div id="editor-content-view"></div>
 
   <script src="js/init-content.js"></script>
   <script src="../packages/editor/dist/index.js"></script>
   <script>
-    const editorView = new WangEditor(
-      'editor-container',
-      // @ts-ignore 初始化内容
-      window.initContent
-    )
+    const editorView = new WangEditor({
+      toolbarSelector: '#editor-toolbar', // 可选
+      textareaSelector: '#editor-text-area',
+      initContent: window.initContent, // 可选
+    })
     // editorView.config.autoFocus = false
     // editorView.config.readOnly = true
     editorView.config.onChange = (editorCore) => {
@@ -60,4 +81,5 @@
     })
   </script>
 </body>
+
 </html>

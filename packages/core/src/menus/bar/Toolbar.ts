@@ -21,10 +21,15 @@ class Toolbar {
   private menus: { [key: string]: MenuType } = {}
   private toolbarItems: IBarItem[] = []
 
-  constructor(toolbarId: string) {
-    const $toolbar = $(`#${toolbarId}`)
+  constructor(selector: string) {
+    // 初始化 DOM
+    const $box = $(selector)
+    if ($box.length === 0) {
+      throw new Error(`Cannot find toolbar DOM by selector '${selector}'`)
+    }
+    const $toolbar = $(`<div class="w-e-bar w-e-bar-show w-e-toolbar"></div>`)
     $toolbar.on('mousedown', e => e.preventDefault())
-
+    $box.append($toolbar)
     this.$toolbar = $toolbar
 
     // 注册 items 。异步，否则拿不到 editor 实例

@@ -32,15 +32,30 @@ import {
 
 type PluginType = <T extends IDomEditor>(editor: T) => T
 
+interface IOption {
+  toolbarSelector?: string
+  textareaSelector: string
+  initContent?: Node[]
+}
+
 class WangEditor {
   // private $container: Dom7Array
-  private containerId: string
+  private toolbarSelector: string
+  private textareaSelector: string
   private initContent: Node[]
   config: IConfig = {}
   editorCore: IDomEditor | null = null // TODO 输出 editor API
 
-  constructor(containerId: string, initContent?: Node[]) {
-    this.containerId = containerId
+  constructor(opt: IOption) {
+    const { toolbarSelector = '', textareaSelector, initContent } = opt
+    if (!textareaSelector) {
+      throw new Error(
+        `Cannot find 'textareaSelector' when 'new WangEditor({...})'\n当 new WangEditor({...}) 时需要输入 'textareaSelector' `
+      )
+    }
+
+    this.toolbarSelector = toolbarSelector
+    this.textareaSelector = textareaSelector
     this.initContent = initContent || []
 
     this.config = {
@@ -67,10 +82,16 @@ class WangEditor {
    * 创建 editorCore 实例
    */
   create() {
-    const { containerId, config, initContent } = this
+    const { toolbarSelector, textareaSelector, config, initContent } = this
     const { plugins } = WangEditor
 
-    const editorCore = createEditor({ containerId, config, initContent, plugins })
+    const editorCore = createEditor({
+      toolbarSelector,
+      textareaSelector,
+      config,
+      initContent,
+      plugins,
+    })
     this.editorCore = editorCore
   }
 
