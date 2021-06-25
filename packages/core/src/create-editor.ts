@@ -22,6 +22,7 @@ import {
   EDITOR_TO_HOVER_BAR,
   IS_READ_ONLY,
 } from './utils/weak-maps'
+import { promiseResolveThen } from './utils/util'
 
 type PluginFnType = <T extends IDomEditor>(editor: T) => T
 
@@ -111,6 +112,17 @@ function create(option: ICreateOption) {
 
   // 记录编辑状态
   IS_READ_ONLY.set(editor, !!editorConfig.readOnly)
+
+  // 判断 textarea 最小高度，并给出提示
+  promiseResolveThen(() => {
+    const $textarea = textarea.$textArea
+    if ($textarea == null) return
+    if ($textarea.height() < 300) {
+      let info = '编辑区域高度 < 300px 这可能会导致 modal hoverbar 定位异常'
+      info += '\nTextarea height < 300px . This may be cause modal and hoverbar position error'
+      console.warn(info, $textarea)
+    }
+  })
 
   return editor
 }
