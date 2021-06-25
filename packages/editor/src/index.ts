@@ -5,7 +5,6 @@
 
 import './assets/index.less'
 import '@wangeditor/core/css/style.css'
-import { IDomEditor } from '@wangeditor/core'
 
 // basic-modules
 import '@wangeditor/basic-modules/css/style.css'

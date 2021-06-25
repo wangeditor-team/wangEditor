@@ -22,7 +22,7 @@ function handleOnFocus(event: Event, textarea: TextArea, editor: IDomEditor) {
 
   IS_FOCUSED.set(editor, true)
 
-  // TODO 触发用户配置的 onfocus 事件
+  // TODO 触发用户配置的 onfocus 事件，还有 editor.focus
 }
 
 export default handleOnFocus

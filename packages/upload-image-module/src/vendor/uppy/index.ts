@@ -11,7 +11,7 @@ export function genUppy(config: IUploadConfig) {
   // 获取配置
   const {
     server = '',
-    fieldName = 'wangeditor-uploaded-file',
+    fieldName = '',
     maxFileSize = 10 * 1024 * 1024, // 10M
     maxNumberOfFiles = 100,
     meta = {},
@@ -19,13 +19,25 @@ export function genUppy(config: IUploadConfig) {
     withCredentials = false,
     timeout = 10 * 1000, // 10s
     onBeforeUpload = files => files,
-    onSuccess = (file, res) => {},
+    onSuccess = (file, res) => {
+      /* on success */
+    },
     onError = (file, err, res) => {
       console.error(`${file.name} upload error`, err, res)
       alert(`${file.name} upload error`)
     },
-    onProgress = progress => {},
+    onProgress = progress => {
+      /* on progress */
+    },
   } = config
+
+  // 判断配置项
+  if (!server) {
+    throw new Error('Cannot get upload server address from menu config')
+  }
+  if (!fieldName) {
+    throw new Error('Cannot get fieldName from menu config')
+  }
 
   // 生成 uppy 实例
   const uppy = Uppy({

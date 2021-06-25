@@ -9,6 +9,7 @@ import {
   IDomEditor,
   DomEditor,
   IConfig,
+  genConfig,
   createEditor,
 
   // 注册菜单
@@ -59,8 +60,8 @@ class WangEditor {
     this.initContent = initContent || []
 
     this.config = {
+      ...genConfig({}), // @wangeditor/core default config
       ...WangEditor.config, // 全局配置
-      ...this.config,
     }
   }
 
@@ -73,7 +74,11 @@ class WangEditor {
     const { config } = this
     if (config.menuConf == null) config.menuConf = {}
     const { menuConf } = config
-    menuConf[menuKey] = newMenuConfig
+    // 合并配置
+    menuConf[menuKey] = {
+      ...(menuConf[menuKey] || {}),
+      ...(newMenuConfig || {}),
+    }
 
     this.tryReRenderWangEditor()
   }
@@ -92,6 +97,7 @@ class WangEditor {
       initContent,
       plugins,
     })
+    this.config = editorCore.getConfig() // TODO 重新覆盖 config —— 有点绕
     this.editorCore = editorCore
   }
 

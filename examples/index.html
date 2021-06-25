@@ -75,6 +75,10 @@
     // editorView.config.readOnly = true
     // editorView.config.scroll = false
     editorView.config.placeholder = '请输入内容'
+    editorView.setMenuConfig('uploadImage', {
+      server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
+      fieldName: 'index-fileName'
+    })
     editorView.config.onChange = (editorCore) => {
       const html = editorCore.getHtml()
       document.getElementById('editor-content-view').innerHTML = html

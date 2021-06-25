@@ -7,7 +7,7 @@ import { IUploadConfig } from '../../vendor/uppy/interface'
 
 export function genUploadImageConfig(): IUploadConfig {
   return {
-    server: 'http://106.12.198.214:3000/api/upload-img', // TODO 删掉这里，需用户配置
+    server: '', // server API 地址，需用户配置
 
     fieldName: 'wangeditor-uploaded-file', // formData 中，文件的 key
     maxFileSize: 2 * 1024 * 1024, // 2M
@@ -25,9 +25,17 @@ export function genUploadImageConfig(): IUploadConfig {
     timeout: 10 * 1000, // 10s
 
     onBeforeUpload: (files: any) => files, // 返回 false 则终止上传
-    onProgress: (progress: number) => {},
-    onSuccess: (file: any, res: any) => {},
-    onFailed: (file: any, res: any) => {},
-    onError: (file: any, err: any, res: any) => {},
+    onProgress: (progress: number) => {
+      /* on progress */
+    },
+    onSuccess: (file: any, res: any) => {
+      /* on success */
+    },
+    onFailed: (file: any, res: any) => {
+      /* on failed */
+    },
+    onError: (file: any, err: any, res: any) => {
+      /* on error */
+    },
   }
 }

@@ -9,6 +9,7 @@ import { UPLOAD_IMAGE_SVG } from '../../constants/svg'
 import { genUppy } from '../../vendor/uppy'
 import { getMenuConf, insertImage, isMenuDisabled } from '../_helpers/menu'
 import $ from '../../utils/dom'
+import { IUploadConfig } from '../../vendor/uppy/interface'
 
 class UploadImage implements IButtonMenu {
   title = '上传图片'
@@ -33,11 +34,11 @@ class UploadImage implements IButtonMenu {
 
   exec(editor: IDomEditor, value: string | boolean) {
     // 获取配置，见 `./config.js`
-    const { uploadImageConfig } = getMenuConf(editor, 'uploadImage')
-    const { allowedFileTypes, onSuccess, onFailed } = uploadImageConfig
+    const menuConfig = getMenuConf(editor, 'uploadImage') as IUploadConfig
+    const { allowedFileTypes, onSuccess, onFailed } = menuConfig
 
     // 设置选择文件类型
-    this.allowedFileTypes = allowedFileTypes
+    this.allowedFileTypes = allowedFileTypes || []
 
     // 上传完成之后
     const successHandler = (file: UppyFile, res: any) => {
@@ -63,7 +64,7 @@ class UploadImage implements IButtonMenu {
     // 创建 uppy 实例
     if (this.uppy == null) {
       this.uppy = genUppy({
-        ...uploadImageConfig,
+        ...menuConfig,
         onSuccess: successHandler,
       })
     }

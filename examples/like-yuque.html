@@ -101,6 +101,10 @@
     })
     editorView.config.placeholder = '请输入内容'
     editorView.config.scroll = false // 禁止编辑器滚动
+    editorView.setMenuConfig('uploadImage', {
+      server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
+      fieldName: 'like-yuque-fileName'
+    })
     editorView.config.onChange = (editorCore) => {
       // console.log('content', editorCore.children)
     }
