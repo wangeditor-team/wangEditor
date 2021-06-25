@@ -31,6 +31,7 @@ export interface IConfig {
   // TODO 其他 onCreated beforeDestroy onChangeEditState
 
   // edit state
+  scroll?: boolean
   placeholder?: string
   readOnly?: boolean
   autoFocus?: boolean
@@ -57,6 +58,7 @@ function getDefaultConfig(): IConfig {
   const menuConf = cloneDeep(GLOBAL_MENU_CONF)
 
   return {
+    scroll: true,
     readOnly: false,
     autoFocus: true,
     decorate: () => [],

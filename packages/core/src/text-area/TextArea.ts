@@ -19,6 +19,7 @@ let ID = 1
 class TextArea {
   id: number
   $textAreaContainer: Dom7Array
+  $scroll: Dom7Array
   $textArea: Dom7Array | null = null
   isComposing: boolean = false
   isUpdatingSelection: boolean = false
@@ -34,8 +35,10 @@ class TextArea {
       throw new Error(`Cannot find textarea DOM by selector '${selector}'`)
     }
     const $container = $(`<div class="w-e-text-container"></div>`)
-    $container.css('height', '300px') // TODO height 可配置
     $box.append($container)
+    const $scroll = $(`<div class="w-e-scroll"></div>`)
+    $container.append($scroll)
+    this.$scroll = $scroll
     this.$textAreaContainer = $container
 
     // 监听 selection change
@@ -81,6 +84,10 @@ class TextArea {
       })
       // TODO editor 销毁时，解绑事件
     })
+
+    // 设置 scroll
+    const { scroll } = this.editorConfig
+    if (scroll) this.$scroll.css('overflow-y', 'auto')
   }
 
   /**

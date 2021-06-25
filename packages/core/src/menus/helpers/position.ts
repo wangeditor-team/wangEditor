@@ -4,7 +4,7 @@
  */
 
 import { Node, Element } from 'slate'
-import { Dom7Array, getVoidChild } from '../../utils/dom'
+import { Dom7Array, getFirstVoidChild } from '../../utils/dom'
 import { IDomEditor, DomEditor } from '../../editor/dom-editor'
 import { EDITOR_TO_TEXTAREA, NODE_TO_ELEMENT } from '../../utils/weak-maps'
 import { IPositionStyle } from '../interface'
@@ -120,7 +120,7 @@ export function getPositionByNode(
   } = elem.getBoundingClientRect()
   if (isVoidElem) {
     // void node ，重新计算 top 和 height
-    const voidElem = getVoidChild(elem)
+    const voidElem = getFirstVoidChild(elem)
     if (voidElem != null) {
       const { top, height } = voidElem.getBoundingClientRect()
       elemTop = top

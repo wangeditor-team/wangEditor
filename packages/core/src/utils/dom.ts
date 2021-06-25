@@ -16,7 +16,8 @@ import {
   attr,
   hide,
   show,
-  scrollTop,
+  // scrollTop,
+  // scrollLeft,
   offset,
   width,
   height,
@@ -45,7 +46,8 @@ $.fn.attr = attr
 $.fn.removeAttr = removeAttr
 $.fn.hide = hide
 $.fn.show = show
-$.fn.scrollTop = scrollTop
+// $.fn.scrollTop = scrollTop
+// $.fn.scrollLeft = scrollLeft
 $.fn.offset = offset
 $.fn.width = width
 $.fn.height = height
@@ -221,29 +223,43 @@ export const getPlainText = (domNode: DOMNode) => {
 }
 
 /**
- * 从 elem.children 中找到 void elem
+ * 在下级节点中找到第一个 void elem
  * @param elem elem
  */
-export function getVoidChild(elem: DOMElement): DOMElement | null {
-  // TODO 需要重写，用深度优先遍历
+export function getFirstVoidChild(elem: DOMElement): DOMElement | null {
+  // 深度优先遍历
+  const stack: Array<DOMElement> = []
+  stack.push(elem)
 
-  const children = elem.children || []
-  const length = children.length
-  if (length === 0) return null
+  let num = 0
 
-  for (let i = 0; i < length; i++) {
-    const child = children[i]
-    const { nodeName, nodeType } = child
+  // 开始遍历
+  while (stack.length > 0) {
+    const curElem = stack.pop()
+    if (curElem == null) break
+
+    num++
+    if (num > 10000) break
+
+    const { nodeName, nodeType } = curElem
     if (nodeType === 1) {
       const name = nodeName.toLowerCase()
       if (htmlVoidElements.includes(name)) {
-        // 是 void node ，如 image
-        return child
-      } else {
-        // 递归下级节点
-        return getVoidChild(child)
+        return curElem // 得到 void elem 并返回
+      }
+
+      // 继续遍历子节点
+      const children = curElem.children || []
+      const length = children.length
+      if (length) {
+        for (let i = length - 1; i >= 0; i--) {
+          // 注意，需要**逆序**追加自节点
+          stack.push(children[i])
+        }
       }
     }
   }
+
+  // 未找到结果，返回 null
   return null
 }

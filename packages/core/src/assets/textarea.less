@@ -1,6 +1,14 @@
 .w-e-text-container {
   background-color: #fff;
   position: relative;
+  height: 100%;
+}
+
+.w-e-text-container .w-e-scroll {
+  min-height: 40px;
+  height: 100%;
+  // overflow-y: auto; // 在 js 中增加
+  -webkit-overflow-scrolling: touch;
 }
 
 .w-e-text-container [data-slate-editor] {
@@ -8,9 +16,7 @@
   white-space: pre-wrap; /* 【重要】可以显示空格，在连续多空格的情况下 */
   word-wrap: break-word;
   padding: 0 10px;
-  height: 100%;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  border-top: 1px solid transparent; // 防止 margin-top 溢出
 
   p {
     margin: 10px 0;

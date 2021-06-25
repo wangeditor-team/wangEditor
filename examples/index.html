@@ -16,6 +16,8 @@
 
   #editor-text-area {
     border: 1px solid #ccc;
+    height: 350px;
+    overflow: hidden;
   }
 
   /* 显示内容 */
@@ -51,7 +53,9 @@
   <!-- 编辑器 -->
   <div id="container">
     <div id="editor-toolbar"></div>
-    <div style="height: 10px;"></div>
+    <div style="height: 10px;">
+      <!-- 间隔 -->
+    </div>
     <div id="editor-text-area"></div>
   </div>
 
@@ -68,6 +72,7 @@
     })
     // editorView.config.autoFocus = false
     // editorView.config.readOnly = true
+    // editorView.config.scroll = false
     editorView.config.onChange = (editorCore) => {
       const html = editorCore.getHtml()
       // @ts-ignore
