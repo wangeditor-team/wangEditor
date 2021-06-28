@@ -5,17 +5,13 @@
 
 import { Editor, Node, Path, Operation, Transforms, Range } from 'slate'
 import { IDomEditor, DomEditor } from './dom-editor'
-import {
-  EDITOR_TO_ON_CHANGE,
-  NODE_TO_KEY,
-  EDITOR_TO_CONFIG,
-  EDITOR_TO_SELECTION,
-  IS_FOCUSED,
-} from '../utils/weak-maps'
+import { NODE_TO_KEY, EDITOR_TO_CONFIG, EDITOR_TO_SELECTION, IS_FOCUSED } from '../utils/weak-maps'
 import { Key } from '../utils/key'
 import { isDOMText, getPlainText } from '../utils/dom'
 import { IConfig } from '../config/index'
 import { node2html } from '../to-html/node2html'
+
+let ID = 1
 
 /**
  * `withDOM` adds DOM specific behaviors to the editor.
@@ -23,6 +19,8 @@ import { node2html } from '../to-html/node2html'
 export const withDOM = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
   const { apply, onChange } = e
+
+  e.id = `wangEditorCore-${ID++}`
 
   // 重写 apply 方法
   // apply 方法非常重要，它最终执行 operation https://docs.slatejs.org/concepts/05-operations
@@ -207,11 +205,8 @@ export const withDOM = <T extends Editor>(editor: T) => {
       EDITOR_TO_SELECTION.set(e, selection)
     }
 
-    // 触发配置的 onchange 事件
-    const onContextChange = EDITOR_TO_ON_CHANGE.get(e)
-    if (onContextChange) {
-      onContextChange()
-    }
+    // 触发配置的 change 事件
+    e.emit('change')
 
     onChange()
   }

@@ -3,6 +3,7 @@
  * @author wangfupeng
  */
 
+import { Emitter } from 'event-emitter'
 import { VNode } from 'snabbdom'
 import { Node, Ancestor, Editor, Path, Range } from 'slate'
 import { IDomEditor } from '../editor/dom-editor'
@@ -59,10 +60,10 @@ export const IS_FOCUSED: WeakMap<Editor, boolean> = new WeakMap()
 export const IS_DRAGGING: WeakMap<Editor, boolean> = new WeakMap()
 export const IS_CLICKING: WeakMap<Editor, boolean> = new WeakMap()
 
-/**
- * Weak map for associating the context `onChange` context with the plugin.
- */
-export const EDITOR_TO_ON_CHANGE = new WeakMap<Editor, () => void>()
+// /**
+//  * Weak map for associating the context `onChange` context with the plugin.
+//  */
+// export const EDITOR_TO_ON_CHANGE = new WeakMap<Editor, () => void>()
 
 // 正在更新，但尚未更新完的节点 path ，临时记录下
 // 例如，table 插入 col ，需要一行一行的插入，在更新期间，不能收到其他的（如 normalize）干扰
@@ -70,3 +71,6 @@ export const CHANGING_NODE_PATH: WeakMap<Editor, Path> = new WeakMap()
 
 // 保存 editor -> selection ，用于还原 editor 选区
 export const EDITOR_TO_SELECTION: WeakMap<Editor, Range> = new WeakMap()
+
+// editor -> eventEmitter 自定义事件
+export const EDITOR_TO_EMITTER: WeakMap<Editor, Emitter> = new WeakMap()

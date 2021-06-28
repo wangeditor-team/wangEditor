@@ -10,6 +10,7 @@ import Modal from '../panel-and-modal/Modal'
 import { EDITOR_TO_TEXTAREA } from '../../utils/weak-maps'
 import { getEditorInstance } from './index'
 import { getPositionBySelection, getPositionByNode, correctPosition } from '../helpers/position'
+import { DomEditor } from '../../editor/dom-editor'
 
 class ModalButton extends BaseButton {
   private modal: Modal | null = null
@@ -76,8 +77,7 @@ class ModalButton extends BaseButton {
     const menu = this.menu
     if (menu.getModalContentElem == null) return
 
-    const textarea = EDITOR_TO_TEXTAREA.get(editor)
-    if (textarea == null) return
+    const textarea = DomEditor.getTextarea(editor)
 
     const $content = menu.getModalContentElem(editor)
     modal.renderContent($content)

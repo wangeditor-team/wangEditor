@@ -28,7 +28,7 @@ function withHeader<T extends IDomEditor>(editor: T): T {
 
     // const [n] = match
 
-    // TODO 需判断是否是 header 末尾
+    // TODO 需判断是否是 header 末尾，参考 https://github.com/ianstormtaylor/slate/blob/main/packages/slate-react/src/utils/lines.ts
     // 插入一个空 p
     const p = { type: 'paragraph', children: [{ text: '' }] }
     Transforms.insertNodes(newEditor, p, { mode: 'highest' })

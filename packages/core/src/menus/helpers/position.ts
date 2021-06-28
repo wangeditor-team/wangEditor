@@ -20,8 +20,7 @@ export function getTextContainerRect(editor: IDomEditor): {
   width: number
   height: number
 } | null {
-  const textarea = EDITOR_TO_TEXTAREA.get(editor)
-  if (textarea == null) return null
+  const textarea = DomEditor.getTextarea(editor)
 
   // 获取 textareaContainer
   const $textareaContainer = textarea.$textAreaContainer

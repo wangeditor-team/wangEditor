@@ -3,10 +3,14 @@
  * @author wangfupeng
  */
 
+import ee, { Emitter } from 'event-emitter'
 import { isEqual } from 'lodash-es'
 import { Editor, Node, Path, Point, Range, Transforms, Ancestor } from 'slate'
 import { IConfig } from '../config/index'
 import { Key } from '../utils/key'
+import TextArea from '../text-area/TextArea'
+import Toolbar from '../menus/bar/Toolbar'
+import HoverBar from '../menus/bar/HoverBar'
 import {
   EDITOR_TO_ELEMENT,
   ELEMENT_TO_NODE,
@@ -19,6 +23,8 @@ import {
   CHANGING_NODE_PATH,
   EDITOR_TO_SELECTION,
   EDITOR_TO_TEXTAREA,
+  EDITOR_TO_TOOLBAR,
+  EDITOR_TO_HOVER_BAR,
 } from '../utils/weak-maps'
 import {
   DOMElement,
@@ -35,6 +41,7 @@ import {
  * 扩展 slate Editor 接口
  */
 export interface IDomEditor extends Editor {
+  id: string
   insertData: (data: DataTransfer) => void
   setFragmentData: (data: DataTransfer) => void
   getConfig: () => IConfig
@@ -44,6 +51,12 @@ export interface IDomEditor extends Editor {
   getText: () => string
   focus: () => void
   blur: () => void
+  destroy: () => void
+  // 自定义事件
+  on: (type: string, listener: ee.EventListener) => void
+  off: (type: string, listener: ee.EventListener) => void
+  once: (type: string, listener: ee.EventListener) => void
+  emit: (type: string) => void
 }
 
 /**
@@ -526,9 +539,19 @@ export const DomEditor = {
   },
 
   // 获取 textarea 实例
-  getTextarea(editor: IDomEditor) {
+  getTextarea(editor: IDomEditor): TextArea {
     const textarea = EDITOR_TO_TEXTAREA.get(editor)
     if (textarea == null) throw new Error('Cannot find textarea instance by editor')
     return textarea
+  },
+
+  // 获取 toolbar 实例
+  getToolbar(editor: IDomEditor): Toolbar | null {
+    return EDITOR_TO_TOOLBAR.get(editor) || null
+  },
+
+  // 获取 hoverbar 实例
+  getHoverbar(editor: IDomEditor): HoverBar | null {
+    return EDITOR_TO_HOVER_BAR.get(editor) || null
   },
 }

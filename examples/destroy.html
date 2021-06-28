@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>destroy demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <style>
+    /* 编辑器 dom */
+    #container {
+      width: 800px;
+    }
+
+    #editor-toolbar {
+      border: 1px solid #ccc;
+    }
+
+    #editor-text-area {
+      border: 1px solid #ccc;
+      height: 350px;
+      overflow: hidden;
+    }
+  </style>
+  <link href="../packages/editor/dist/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <p>执行大量循环，频繁执行 创建/销毁 ，监控内存是否明显增加</p>
+  <p>循环次数 <input id="input-num" type="number" value="100" /> <button id="btn-go">开始</button></p>
+  <p>可使用 Chrome devTools 的 Performance 和 Memory 工具来检测 js 内存</p>
+  <!-- 编辑器 -->
+  <div id="container">
+    <div id="editor-toolbar"></div>
+    <div style="height: 10px;">
+      <!-- 间隔 -->
+    </div>
+    <div id="editor-text-area"></div>
+  </div>
+</body>
+
+<script src="js/init-content.js"></script>
+<script src="../packages/editor/dist/index.js"></script>
+<script>
+  (function () {
+
+    document.getElementById('btn-go')?.addEventListener('click', () => {
+      // ----------------------------- 创建 editorView 实例 -----------------------------
+      const editorView = new WangEditor({
+        toolbarSelector: '#editor-toolbar', // 可选
+        textareaSelector: '#editor-text-area',
+        initContent: window.initContent, // 可选
+      })
+      editorView.config.placeholder = '请输入内容'
+      editorView.config.onCreated = (editorCore) => {
+        console.log('on created', editorCore.id)
+
+      }
+      editorView.config.onDestroyed = (editorCore) => {
+        console.log('on destroyed', editorCore.id)
+      }
+
+      // ----------------------------- 获取 循环次数 -----------------------------
+      const maxNum = parseInt(document.getElementById('input-num').value)
+      if (!maxNum) {
+        console.error('循环次数，值非法 ', maxNum)
+        return
+      }
+      if (maxNum >= 1000) {
+        console.error('循环次数太多，耗时会比较长！')
+        return
+      }
+
+      // ----------------------------- 开始循环 -----------------------------
+      console.log('go...')
+      let num = 0
+      const intervalId = setInterval(() => {
+        if (num >= maxNum) {
+          clearInterval(intervalId)
+          return
+        }
+
+        if (editorView.editorCore == null) {
+          console.log('createCore', num)
+          editorView.createCore()
+        } else {
+          console.log('destroyCore', num)
+          editorView.destroyCore()
+          num++ // 计数
+        }
+      }, 100)
+      console.log('end...')
+    })
+  })()
+</script>
+
+</html>

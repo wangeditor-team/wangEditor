@@ -45,7 +45,7 @@ class WangEditor {
   private textareaSelector: string
   private initContent: Node[]
   config: IConfig = {}
-  editorCore: IDomEditor | null = null // TODO 输出 editor API
+  editorCore: IDomEditor | null = null // TODO 输出 editor API - 封装为 command 即 editor.xxx ，让用户能友好的调用，不要再引入其他 lib
 
   constructor(opt: IOption) {
     const { toolbarSelector = '', textareaSelector, initContent } = opt
@@ -58,7 +58,10 @@ class WangEditor {
     this.toolbarSelector = toolbarSelector
     this.textareaSelector = textareaSelector
     this.initContent = initContent || []
+    this.initConfig()
+  }
 
+  private initConfig() {
     this.config = {
       ...genConfig({}), // @wangeditor/core default config
       ...WangEditor.config, // 全局配置
@@ -80,13 +83,13 @@ class WangEditor {
       ...(newMenuConfig || {}),
     }
 
-    this.tryReRenderWangEditor()
+    this.tryUpdateView()
   }
 
   /**
    * 创建 editorCore 实例
    */
-  create() {
+  createCore() {
     const { toolbarSelector, textareaSelector, config, initContent } = this
     const { plugins } = WangEditor
 
@@ -111,23 +114,13 @@ class WangEditor {
       ...newConfig,
     }
 
-    this.tryReRenderWangEditor()
-  }
-
-  /**
-   * 销毁编辑器
-   */
-  destroy() {
-    const { editorCore } = this
-    if (editorCore == null) return
-
-    // TODO 销毁编辑器实例
+    this.tryUpdateView()
   }
 
   /**
    * 尝试重新渲染编辑器视图
    */
-  private tryReRenderWangEditor() {
+  private tryUpdateView() {
     const { editorCore, config } = this
     if (editorCore == null) return
 
@@ -144,6 +137,18 @@ class WangEditor {
     if (config.autoFocus !== false) {
       DomEditor.focus(editorCore)
     }
+  }
+
+  /**
+   * 销毁 editorCore 实例
+   */
+  destroyCore() {
+    const { editorCore } = this
+    if (editorCore == null) return
+
+    // 销毁，并重置 config
+    editorCore.destroy()
+    this.editorCore = null
   }
 
   // -------------------------------------- 分割线 --------------------------------------

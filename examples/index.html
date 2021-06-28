@@ -49,7 +49,12 @@
 </head>
 
 <body>
-  <p>index page <button id="toggle-readOnly">toggle readOnly</button></p>
+  <p>
+    index page
+    <button id="btn-create">create</button>
+    <button id="btn-toggle-readOnly">toggle readOnly</button>
+    <button id="btn-destroy">destroy</button>
+  </p>
 
   <!-- 编辑器 -->
   <div id="container">
@@ -79,15 +84,31 @@
       server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
       fieldName: 'index-fileName'
     })
+    editorView.config.onCreated = (editorCore) => {
+      console.log('on created', editorCore)
+    }
     editorView.config.onChange = (editorCore) => {
       const html = editorCore.getHtml()
       document.getElementById('editor-content-view').innerHTML = html
     }
-    editorView.create()
+    editorView.config.onDestroyed = (editorCore) => {
+      console.log('on destroyed', editorCore)
+    }
+
+    // create editorCore
+    document.getElementById('btn-create')?.addEventListener('click', () => {
+      editorView.createCore()
+    })
+    console.log(`如果页面没有编辑器，点击 'create' 按钮创建`)
 
     // toggle readOnly
-    document.getElementById('toggle-readOnly')?.addEventListener('click', () => {
+    document.getElementById('btn-toggle-readOnly')?.addEventListener('click', () => {
       editorView.setConfig({ readOnly: !editorView.config.readOnly })
+    })
+
+    // destroy editorCore
+    document.getElementById('btn-destroy')?.addEventListener('click', () => {
+      editorView.destroyCore()
     })
   </script>
 </body>

@@ -8,8 +8,8 @@ import { Editor, Node, Element, Text } from 'slate'
 import $ from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'
 import { promiseResolveThen } from '../../utils/util'
-import { IDomEditor } from '../../editor/dom-editor'
-import { HOVER_BAR_TO_EDITOR, EDITOR_TO_TEXTAREA, BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
+import { IDomEditor, DomEditor } from '../../editor/dom-editor'
+import { HOVER_BAR_TO_EDITOR, BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import { IBarItem, createBarItem } from '../bar-item/index'
 import { gen$barItemDivider } from '../helpers/helpers'
 import { getPositionBySelection, getPositionByNode, correctPosition } from '../helpers/position'
@@ -23,13 +23,17 @@ class HoverBar {
   private hoverbarItems: IBarItem[] = []
 
   constructor() {
-    // 将 elem 渲染为 DOM（异步，否则获取不到 DOM 和 editor）
+    // 异步，否则获取不到 DOM 和 editor
     promiseResolveThen(() => {
       const editor = this.getEditorInstance()
+
+      // 将 elem 渲染为 DOM
       const $elem = this.$elem
-      const textarea = EDITOR_TO_TEXTAREA.get(editor)
-      if (textarea == null) return
+      const textarea = DomEditor.getTextarea(editor)
       textarea.$textAreaContainer.append($elem)
+
+      // 绑定 editor onchange
+      editor.on('change', this.onEditorChange)
     })
   }
 
@@ -166,7 +170,7 @@ class HoverBar {
   /**
    * editor onChange 时触发（涉及 DOM 操作，加防抖）
    */
-  onEditorChange = debounce(() => {
+  private onEditorChange = debounce(() => {
     this.hideAndClean() // 先隐藏
     this.tryMatchNodes() // 尝试匹配，重新渲染 hover bar
   }, 200)
@@ -181,6 +185,18 @@ class HoverBar {
     const editor = this.getEditorInstance()
     const editorConfig = editor.getConfig()
     return editorConfig.hoverbarKeys || []
+  }
+
+  /**
+   * 销毁 hoverbar
+   */
+  destroy() {
+    // 销毁 DOM
+    this.$elem.remove()
+
+    // 清空属性
+    this.menus = {}
+    this.hoverbarItems = []
   }
 }
 

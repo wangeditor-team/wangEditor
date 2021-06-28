@@ -32,9 +32,14 @@ class Toolbar {
     $box.append($toolbar)
     this.$toolbar = $toolbar
 
-    // 注册 items 。异步，否则拿不到 editor 实例
+    // 异步，否则拿不到 editor 实例
     promiseResolveThen(() => {
+      // 注册 items
       this.registerItems()
+
+      // 监听 editor onchange
+      const editor = this.getEditorInstance()
+      editor.on('change', this.onEditorChange)
     })
   }
 
@@ -126,11 +131,23 @@ class Toolbar {
   /**
    * editor onChange 时触发（涉及 DOM 操作，加防抖）
    */
-  onEditorChange = debounce(() => {
+  private onEditorChange = debounce(() => {
     this.toolbarItems.forEach(toolbarItem => {
       toolbarItem.onSelectionChange()
     })
   }, 200)
+
+  /**
+   * 销毁 toolbar
+   */
+  destroy() {
+    // 销毁 DOM
+    this.$toolbar.remove()
+
+    // 清空属性
+    this.menus = {}
+    this.toolbarItems = []
+  }
 }
 
 export default Toolbar

@@ -27,8 +27,9 @@ interface IHoverbarConf {
 }
 
 export interface IConfig {
+  onCreated?: (editor: IDomEditor) => void
   onChange?: (editor: IDomEditor) => void
-  // TODO 其他 onCreated beforeDestroy onChangeEditState
+  onDestroyed?: (editor: IDomEditor) => void
 
   // edit state
   scroll?: boolean
@@ -36,7 +37,6 @@ export interface IConfig {
   readOnly?: boolean
   autoFocus?: boolean
   decorate?: (nodeEntry: NodeEntry) => Range[]
-  // TODO 开发 changeEditState API ，通过 API 修改 edit state
 
   // 各个 menu 的配置汇总，可以通过 key 获取单个 menu 的配置
   menuConf?: {

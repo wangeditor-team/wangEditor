@@ -46,10 +46,22 @@ class TextArea {
 
     // 监听 selection change
     window.document.addEventListener('selectionchange', this.onDOMSelectionChange)
-    // TODO editor 销毁时，解绑事件
 
-    // 绑定事件 - 异步，否则获取不到 DOM 节点
-    promiseResolveThen(this.bindEvent.bind(this))
+    // 异步，否则获取不到 editor 和 DOM
+    promiseResolveThen(() => {
+      const editor = this.editorInstance
+
+      // 监听 editor onchange
+      editor.on('change', this.onEditorChange.bind(this))
+
+      // editor 销毁时，解绑 selection change
+      editor.on('destroyed', () => {
+        window.document.removeEventListener('selectionchange', this.onDOMSelectionChange)
+      })
+
+      // 绑定 DOM 事件
+      this.bindEvent()
+    })
   }
 
   private get editorInstance(): IDomEditor {
@@ -111,6 +123,14 @@ class TextArea {
     promiseResolveThen(() => {
       editorSelectionToDOM(this, editor)
     })
+  }
+
+  /**
+   * 销毁 textarea
+   */
+  destroy() {
+    // 销毁 DOM （只销毁最外层 DOM 即可）
+    this.$textAreaContainer.remove()
   }
 }
 

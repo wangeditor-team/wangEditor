@@ -6,6 +6,7 @@
 import { createEditor, Node } from 'slate'
 import { withHistory } from 'slate-history'
 import { withDOM } from './editor/with-dom'
+import { withEmitter } from './editor/with-emitter'
 import TextArea from './text-area/TextArea'
 import Toolbar from './menus/bar/Toolbar'
 import HoverBar from './menus/bar/HoverBar'
@@ -16,7 +17,6 @@ import {
   TEXTAREA_TO_EDITOR,
   TOOLBAR_TO_EDITOR,
   EDITOR_TO_TOOLBAR,
-  EDITOR_TO_ON_CHANGE,
   EDITOR_TO_CONFIG,
   HOVER_BAR_TO_EDITOR,
   EDITOR_TO_HOVER_BAR,
@@ -49,8 +49,8 @@ function genDefaultContent() {
 function create(option: ICreateOption) {
   const { toolbarSelector, textareaSelector, config = {}, initContent, plugins = [] } = option
 
-  // 创建实例
-  let editor = withHistory(withDOM(createEditor()))
+  // 创建实例 - 使用插件
+  let editor = withHistory(withEmitter(withDOM(createEditor())))
 
   // 处理配置
   const editorConfig = genConfig(config || {})
@@ -97,17 +97,23 @@ function create(option: ICreateOption) {
   }
   textarea.onEditorChange() // 初始化时触发一次，以便能初始化 textarea DOM 和 selection
 
-  // 绑定 editor onchange
-  EDITOR_TO_ON_CHANGE.set(editor, () => {
-    // 触发 textarea DOM 变化
-    textarea.onEditorChange()
+  // editor onCreated
+  editor.on('created', () => {
+    // 触发用户配置的 onCreated 函数
+    if (editorConfig.onCreated) editorConfig.onCreated(editor)
+  })
+  promiseResolveThen(() => editor.emit('created'))
 
-    // 触发 toolbar hoverbar DOM 变化
-    toolbar && toolbar.onEditorChange()
-    hoverbar && hoverbar.onEditorChange()
-
+  // editor onchange
+  editor.on('change', () => {
     // 触发用户配置的 onchange 函数
     if (editorConfig.onChange) editorConfig.onChange(editor)
+  })
+
+  // editor onDestroyed
+  editor.on('destroyed', () => {
+    // 触发用户配置的 onDestroyed 函数
+    if (editorConfig.onDestroyed) editorConfig.onDestroyed(editor)
   })
 
   // 记录编辑状态
