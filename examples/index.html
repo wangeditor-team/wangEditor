@@ -124,7 +124,7 @@
     //   onInsertedImage(src, alt, url) {
     //     console.log('inserted image', src, alt, url)
     //   },
-    //   checkImageInfo(src, alt, url) {
+    //   checkImage(src, alt, url) {
     //     return '强制阻止 1'
     //     // return true
     //   }
@@ -133,9 +133,23 @@
     //   onUpdatedImage(src, alt, url) {
     //     console.log('updated image', src, alt, url)
     //   },
-    //   checkImageInfo(src, alt, url) {
+    //   checkImage(src, alt, url) {
     //     return '强制阻止 2'
     //     // return true
+    //   }
+    // })
+    // editorView.setMenuConfig('insertLink', {
+    //   checkLink(text, url) {
+    //     console.log('check insert link - ', text, url)
+    //     // return true
+    //     return '强制阻止 1'
+    //   }
+    // })
+    // editorView.setMenuConfig('updateLink', {
+    //   checkLink(text, url) {
+    //     console.log('check update link - ', text, url)
+    //     // return true
+    //     return '强制阻止 2'
     //   }
     // })
 

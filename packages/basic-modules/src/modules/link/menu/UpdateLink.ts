@@ -3,13 +3,14 @@
  * @author wangfupeng
  */
 
-import { Transforms, Node } from 'slate'
+import { Node } from 'slate'
 import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
-import { checkNodeType, getSelectedNodeByType } from '../../_helpers/node'
+import { getSelectedNodeByType } from '../../_helpers/node'
 import { PENCIL_SVG } from '../../_helpers/icon-svg'
+import { updateLink } from '../helper'
 
 /**
  * 生成唯一的 DOM ID
@@ -18,7 +19,7 @@ function genDomID(): string {
   return genRandomStr('w-e-update-link')
 }
 
-class UpdateLink implements IModalMenu {
+class UpdateLinkMenu implements IModalMenu {
   title = '修改链接'
   iconSvg = PENCIL_SVG
   tag = 'button'
@@ -29,12 +30,16 @@ class UpdateLink implements IModalMenu {
   private urlInputId = genDomID()
   private buttonId = genDomID()
 
+  private getSelectedNode(editor: IDomEditor): Node | null {
+    return getSelectedNodeByType(editor, 'link')
+  }
+
   /**
    * 获取 node.url
    * @param editor editor
    */
   getValue(editor: IDomEditor): string | boolean {
-    const linkNode = getSelectedNodeByType(editor, 'link')
+    const linkNode = this.getSelectedNode(editor)
     if (linkNode) {
       // @ts-ignore
       return linkNode.url || ''
@@ -55,15 +60,16 @@ class UpdateLink implements IModalMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const linkNode = getSelectedNodeByType(editor, 'link')
+    const linkNode = this.getSelectedNode(editor)
 
     // 未匹配到 link node 则禁用
     if (linkNode == null) return true
     return false
   }
 
+  // modal 定位
   getModalPositionNode(editor: IDomEditor): Node | null {
-    return getSelectedNodeByType(editor, 'link')
+    return this.getSelectedNode(editor)
   }
 
   getModalContentElem(editor: IDomEditor): Dom7Array {
@@ -80,8 +86,14 @@ class UpdateLink implements IModalMenu {
       // 绑定事件（第一次渲染时绑定，不要重复绑定）
       $content.on('click', 'button', e => {
         e.preventDefault()
+        DomEditor.restoreSelection(editor) // 还原选区
+
+        const n = this.getSelectedNode(editor)
+        const text = n ? Node.string(n) : ''
         const url = $(`#${urlInputId}`).val()
-        this.updateLink(editor, url)
+        updateLink(editor, text, url) // 修改链接
+
+        hideAllPanelsAndModals() // 隐藏 modal
       })
 
       // 记录属性，重要
@@ -106,36 +118,6 @@ class UpdateLink implements IModalMenu {
 
     return $content
   }
-
-  /**
-   * 修改 link
-   * @param editor editor
-   * @param url url
-   */
-  private updateLink(editor: IDomEditor, url: string) {
-    if (!url) {
-      hideAllPanelsAndModals() // 隐藏 modal
-      return
-    }
-
-    // 还原选区
-    DomEditor.restoreSelection(editor)
-
-    if (this.isDisabled(editor)) return
-
-    // 修改链接
-    Transforms.setNodes(
-      editor,
-      // @ts-ignore
-      { url },
-      {
-        match: n => checkNodeType(n, 'link'),
-      }
-    )
-
-    // 隐藏 modal
-    hideAllPanelsAndModals()
-  }
 }
 
-export default UpdateLink
+export default UpdateLinkMenu

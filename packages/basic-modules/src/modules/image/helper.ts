@@ -8,16 +8,16 @@ import { IDomEditor } from '@wangeditor/core'
 import { getMenuConf } from '../_helpers/menu'
 import { checkNodeType, getSelectedNodeByType } from '../_helpers/node'
 
-function checkImage(
+function check(
   menuKey: string,
   editor: IDomEditor,
   src: string,
   alt: string = '',
   url: string = ''
 ): boolean {
-  const { checkImageInfo } = getMenuConf(editor, menuKey)
-  if (checkImageInfo) {
-    const res = checkImageInfo(src, alt, url)
+  const { checkImage } = getMenuConf(editor, menuKey)
+  if (checkImage) {
+    const res = checkImage(src, alt, url)
     if (typeof res === 'string') {
       // 检验未通过，提示信息
       editor.alert(res, 'error')
@@ -38,7 +38,7 @@ export function insertImageNode(
   alt: string = '',
   url: string = ''
 ) {
-  const res = checkImage('insertImage', editor, src, alt, url)
+  const res = check('insertImage', editor, src, alt, url)
   if (!res) return // 检查失败，终止操作
 
   // 新建一个 image node
@@ -66,7 +66,7 @@ export function updateImageNode(
   url: string = '',
   style: any = {}
 ) {
-  const res = checkImage('editImage', editor, src, alt, url)
+  const res = check('editImage', editor, src, alt, url)
   if (!res) return // 检查失败，终止操作
 
   const selectedImageNode = getSelectedNodeByType(editor, 'image')
