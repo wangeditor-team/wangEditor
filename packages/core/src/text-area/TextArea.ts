@@ -3,6 +3,7 @@
  * @author wangfupeng
  */
 
+import { Range } from 'slate'
 import { throttle, forEach } from 'lodash-es'
 import $, { Dom7Array } from '../utils/dom'
 import { TEXTAREA_TO_EDITOR, EDITOR_TO_CONFIG } from '../utils/weak-maps'
@@ -27,6 +28,7 @@ class TextArea {
   latestElement: DOMElement | null = null
   showPlaceholder = false
   $placeholder: Dom7Array | null = null
+  private latestEditorSelection: Range | null = null
 
   constructor(selector: string) {
     // id 不能重复
@@ -58,6 +60,9 @@ class TextArea {
       editor.on('destroyed', () => {
         window.document.removeEventListener('selectionchange', this.onDOMSelectionChange)
       })
+
+      // 监听 onfocus onblur
+      this.onFocusAndOnBlur()
 
       // 绑定 DOM 事件
       this.bindEvent()
@@ -103,6 +108,24 @@ class TextArea {
     // 设置 scroll
     const { scroll } = this.editorConfig
     if (scroll) this.$scroll.css('overflow-y', 'auto')
+  }
+
+  private onFocusAndOnBlur() {
+    const editor = this.editorInstance
+    const { onBlur, onFocus } = editor.getConfig()
+    this.latestEditorSelection = editor.selection
+
+    editor.on('change', () => {
+      if (this.latestEditorSelection == null && editor.selection != null) {
+        // 需要触发 focus
+        onFocus && onFocus(editor)
+      } else if (this.latestEditorSelection != null && editor.selection == null) {
+        // 需要触发 blur
+        onBlur && onBlur(editor)
+      }
+
+      this.latestEditorSelection = editor.selection // 重新记录 selection
+    })
   }
 
   /**

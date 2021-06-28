@@ -30,7 +30,10 @@ export interface IConfig {
   onCreated?: (editor: IDomEditor) => void
   onChange?: (editor: IDomEditor) => void
   onDestroyed?: (editor: IDomEditor) => void
+
   onMaxLength?: (editor: IDomEditor) => void
+  onFocus?: (editor: IDomEditor) => void
+  onBlur?: (editor: IDomEditor) => void
 
   // edit state
   scroll?: boolean
