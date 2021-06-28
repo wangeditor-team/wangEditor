@@ -51,6 +51,8 @@ export interface IConfig {
   hoverbarKeys?: Array<IHoverbarConf>
 
   // TODO 右键菜单栏 menu
+
+  alert?: (info: string, type?: string) => void
 }
 
 /**
@@ -68,6 +70,9 @@ function getDefaultConfig(): IConfig {
     menuConf,
     toolbarKeys: [],
     hoverbarKeys: [],
+    alert(info: string, type?: string) {
+      window.alert(info)
+    },
   }
 }
 
