@@ -5,9 +5,10 @@
 
 import Uppy, { UppyFile } from '@uppy/core'
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
+import { insertImageNode } from '@wangeditor/basic-modules'
 import { UPLOAD_IMAGE_SVG } from '../../constants/svg'
 import { genUppy } from '../../vendor/uppy'
-import { getMenuConf, insertImage, isMenuDisabled } from '../_helpers/menu'
+import { getMenuConf, isMenuDisabled } from '../_helpers/menu'
 import $ from '../../utils/dom'
 import { IUploadConfig } from '../../vendor/uppy/interface'
 
@@ -54,7 +55,8 @@ class UploadImage implements IButtonMenu {
       // 插入图片
       data.forEach((item: { url: string; alt?: string; href?: string }) => {
         const { url = '', alt = '', href = '' } = item
-        insertImage(editor, url, alt, href)
+        // 使用 basic-module 的 insertImageNode 方法插入图片，其中有用户配置的校验和 callback
+        insertImageNode(editor, url, alt, href)
       })
 
       // success 回调

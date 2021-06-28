@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import ee, { Emitter } from 'event-emitter'
+import ee from 'event-emitter'
 import { isEqual } from 'lodash-es'
 import { Editor, Node, Path, Point, Range, Transforms, Ancestor } from 'slate'
 import { IConfig } from '../config/index'
@@ -11,6 +11,7 @@ import { Key } from '../utils/key'
 import TextArea from '../text-area/TextArea'
 import Toolbar from '../menus/bar/Toolbar'
 import HoverBar from '../menus/bar/HoverBar'
+import { AlertType } from '../config/index'
 import {
   EDITOR_TO_ELEMENT,
   ELEMENT_TO_NODE,
@@ -53,6 +54,7 @@ export interface IDomEditor extends Editor {
   focus: () => void
   blur: () => void
   destroy: () => void
+  alert: (info: string, type: AlertType) => void
   // 自定义事件
   on: (type: string, listener: ee.EventListener) => void
   off: (type: string, listener: ee.EventListener) => void

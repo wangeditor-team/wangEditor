@@ -10,6 +10,7 @@ import { Key } from '../utils/key'
 import { isDOMText, getPlainText } from '../utils/dom'
 import { IConfig } from '../config/index'
 import { node2html } from '../to-html/node2html'
+import { AlertType } from '../config/index'
 
 let ID = 1
 
@@ -269,6 +270,12 @@ export const withDOM = <T extends Editor>(editor: T) => {
     if (window.document.activeElement === el) {
       el.blur()
     }
+  }
+
+  // alert
+  e.alert = (info: string, type?: AlertType) => {
+    const { alert } = e.getConfig()
+    if (alert) alert(info, type)
   }
 
   // 最后要返回 editor 实例 - 重要！！！

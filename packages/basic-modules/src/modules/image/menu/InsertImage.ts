@@ -9,6 +9,7 @@ import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
 import { IMAGE_SVG } from '../../_helpers/icon-svg'
+import { insertImageNode } from '../helper'
 
 /**
  * 生成唯一的 DOM ID
@@ -135,18 +136,8 @@ class InsertImage implements IModalMenu {
 
     if (this.isDisabled(editor)) return
 
-    // 新建一个 image node
-    const image = {
-      type: 'image',
-      src,
-      url,
-      alt,
-      style: {},
-      children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children
-    }
-
     // 插入图片
-    Transforms.insertNodes(editor, image)
+    insertImageNode(editor, src, alt, url)
 
     // 隐藏 modal
     hideAllPanelsAndModals()

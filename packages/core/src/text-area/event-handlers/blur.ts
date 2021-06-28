@@ -56,7 +56,6 @@ function handleOnBlur(event: Event, textarea: TextArea, editor: IDomEditor) {
 
   // 检验完毕，可正式触发 onblur
   IS_FOCUSED.delete(editor)
-  // TODO 触发用户配置的 onblur 事件，还有 editor.blur
 }
 
 export default handleOnBlur

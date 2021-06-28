@@ -8,8 +8,9 @@ import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wang
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
-import { checkNodeType, getSelectedNodeByType } from '../../_helpers/node'
+import { getSelectedNodeByType } from '../../_helpers/node'
 import { PENCIL_SVG } from '../../_helpers/icon-svg'
+import { updateImageNode } from '../helper'
 
 /**
  * 生成唯一的 DOM ID
@@ -139,29 +140,8 @@ class EditImage implements IModalMenu {
 
     if (this.isDisabled(editor)) return
 
-    const selectedImageNode = this.getImageNode(editor)
-    if (selectedImageNode == null) return
-    // @ts-ignore
-    const { style: curStyle = {} } = selectedImageNode
-
-    // 修改图片
-    const nodeProps = {
-      src,
-      alt,
-      url,
-      style: {
-        ...curStyle,
-        ...style,
-      },
-    }
-    Transforms.setNodes(
-      editor,
-      // @ts-ignore
-      nodeProps,
-      {
-        match: n => checkNodeType(n, 'image'),
-      }
-    )
+    // 修改图片信息
+    updateImageNode(editor, src, alt, url, style)
 
     // 隐藏 modal
     hideAllPanelsAndModals()

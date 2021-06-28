@@ -48,32 +48,3 @@ export function isMenuDisabled(editor: IDomEditor): boolean {
   if (match) return true
   return false
 }
-
-/**
- * 插入图片到编辑器
- * @param editor editor
- * @param src src
- * @param alt alt
- * @param url url
- */
-export function insertImage(editor: IDomEditor, src: string, alt: string = '', url: string = '') {
-  if (!src) return
-
-  // 还原选区
-  // DomEditor.restoreSelection(editor)
-
-  if (isMenuDisabled(editor)) return
-
-  // 新建一个 image node
-  const image = {
-    type: 'image',
-    src,
-    url,
-    alt,
-    style: {},
-    children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children
-  }
-
-  // 插入图片
-  Transforms.insertNodes(editor, image)
-}

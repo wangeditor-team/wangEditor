@@ -5,8 +5,9 @@
 
 import { IDomEditor } from '@wangeditor/core'
 import Uppy, { UppyFile } from '@uppy/core'
+import { insertImageNode } from '@wangeditor/basic-modules'
 import { genUppy } from '../vendor/uppy'
-import { getMenuConf, isMenuDisabled, insertImage } from './_helpers/menu'
+import { getMenuConf, isMenuDisabled } from './_helpers/menu'
 import { IUploadConfig } from '../vendor/uppy/interface'
 
 // 存储 editor uppy 的关系 - 缓存 uppy ，不重复创建
@@ -52,7 +53,8 @@ function withUploadImage<T extends IDomEditor>(editor: T): T {
           // 插入图片
           data.forEach((item: { url: string; alt?: string; href?: string }) => {
             const { url = '', alt = '', href = '' } = item
-            insertImage(newEditor, url, alt, href)
+            // 使用 basic-module 的 insertImageNode 方法插入图片，其中有用户配置的校验和 callback
+            insertImageNode(newEditor, url, alt, href)
           })
 
           // success 回调

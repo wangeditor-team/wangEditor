@@ -38,3 +38,6 @@ export default [
   wangEditorDividerModule,
   wangEditorCodeBlockModule,
 ]
+
+// 输出 image 操作，供 updateImageModule 使用
+export * from './modules/image/helper'

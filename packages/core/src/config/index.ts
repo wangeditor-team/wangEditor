@@ -26,6 +26,8 @@ interface IHoverbarConf {
   menuKeys: string[]
 }
 
+export type AlertType = 'success' | 'info' | 'warning' | 'error'
+
 export interface IConfig {
   onCreated?: (editor: IDomEditor) => void
   onChange?: (editor: IDomEditor) => void
@@ -55,7 +57,7 @@ export interface IConfig {
 
   // TODO 右键菜单栏 menu
 
-  alert?: (info: string, type?: string) => void
+  alert?: (info: string, type?: AlertType) => void
 }
 
 /**
@@ -73,7 +75,7 @@ function getDefaultConfig(): IConfig {
     menuConf,
     toolbarKeys: [],
     hoverbarKeys: [],
-    alert(info: string, type?: string) {
+    alert(info: string, type: string = 'info') {
       window.alert(info)
     },
   }
