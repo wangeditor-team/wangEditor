@@ -30,6 +30,7 @@ export interface IConfig {
   onCreated?: (editor: IDomEditor) => void
   onChange?: (editor: IDomEditor) => void
   onDestroyed?: (editor: IDomEditor) => void
+  onMaxLength?: (editor: IDomEditor) => void
 
   // edit state
   scroll?: boolean
@@ -37,6 +38,7 @@ export interface IConfig {
   readOnly?: boolean
   autoFocus?: boolean
   decorate?: (nodeEntry: NodeEntry) => Range[]
+  maxLength?: number // TODO 在文档中说明，要慎用 maxLength 。因为 maxLength 会在每次输入是都做判断，可能会影响性能
 
   // 各个 menu 的配置汇总，可以通过 key 获取单个 menu 的配置
   menuConf?: {
@@ -62,6 +64,7 @@ function getDefaultConfig(): IConfig {
     readOnly: false,
     autoFocus: true,
     decorate: () => [],
+    maxLength: 0, // 默认不限制
     menuConf,
     toolbarKeys: [],
     hoverbarKeys: [],

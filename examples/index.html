@@ -67,6 +67,13 @@
     <div id="editor-text-area"></div>
   </div>
 
+  <!-- 内容状态 -->
+  <p style="background-color: #f1f1f1;">
+    当前文字数量：<span id="total-length"></span>；
+    选中文字数量：<span id="selected-length"></span>；
+    选中文字："<span id="selected-text"></span>"
+  </p>
+
   <!-- 显示内容 -->
   <div id="editor-content-view"></div>
 
@@ -81,6 +88,10 @@
     // editorView.config.autoFocus = false
     // editorView.config.readOnly = true
     // editorView.config.scroll = false
+    // editorView.config.maxLength = 110 // 慎用，可能影响性能，需在文档中说明
+    // editorView.config.onMaxLength = (editorCore) => {
+    //   console.log('on max length', editorCore)
+    // }
     editorView.config.placeholder = '请输入内容'
     editorView.setMenuConfig('uploadImage', {
       server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
@@ -92,6 +103,13 @@
     editorView.config.onChange = (editorCore) => {
       const html = editorCore.getHtml()
       document.getElementById('editor-content-view').innerHTML = html
+
+      // 选中文字
+      const selectionText = editorCore.getSelectionText()
+      document.getElementById('selected-text').innerHTML = selectionText
+      document.getElementById('selected-length').innerHTML = selectionText.length
+      // 全部文字
+      document.getElementById('total-length').innerHTML = editorCore.getText().length
     }
     editorView.config.onDestroyed = (editorCore) => {
       console.log('on destroyed', editorCore)

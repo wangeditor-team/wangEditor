@@ -49,6 +49,7 @@ export interface IDomEditor extends Editor {
   handleTab: () => void
   getHtml: () => string
   getText: () => string
+  getSelectionText: () => string // 获取选区文字
   focus: () => void
   blur: () => void
   destroy: () => void

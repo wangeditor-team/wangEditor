@@ -18,7 +18,7 @@ let ID = 1
  */
 export const withDOM = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
-  const { apply, onChange } = e
+  const { apply, onChange, insertText } = e
 
   e.id = `wangEditorCore-${ID++}`
 
@@ -181,6 +181,22 @@ export const withDOM = <T extends Editor>(editor: T) => {
     }
   }
 
+  e.insertText = (s: string) => {
+    // maxLength
+    const { maxLength, onMaxLength } = e.getConfig()
+    if (typeof maxLength === 'number' && maxLength > 0) {
+      const editorText = e.getText()
+      if (editorText.length >= maxLength) {
+        // 触发 maxLength 限制，不再继续插入文字
+        if (onMaxLength) onMaxLength(e)
+        return
+      }
+    }
+
+    // 执行默认的 insertText
+    insertText(s)
+  }
+
   // 获取 editor 配置信息
   e.getConfig = (): IConfig => {
     const config = EDITOR_TO_CONFIG.get(e)
@@ -226,6 +242,13 @@ export const withDOM = <T extends Editor>(editor: T) => {
   e.getText = (): string => {
     const { children = [] } = e
     return children.map(child => Node.string(child)).join('\n')
+  }
+
+  // 获取选区文字
+  e.getSelectionText = (): string => {
+    const { selection } = e
+    if (selection == null) return ''
+    return Editor.string(editor, selection)
   }
 
   // focus
