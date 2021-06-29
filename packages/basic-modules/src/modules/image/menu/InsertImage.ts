@@ -97,6 +97,7 @@ class InsertImage implements IModalMenu {
         const alt = $(`#${altInputId}`).val().trim()
         const url = $(`#${urlInputId}`).val().trim()
         this.insertImage(editor, src, alt, url)
+        hideAllPanelsAndModals() // 隐藏 modal
       })
 
       // 记录属性，重要
@@ -126,10 +127,7 @@ class InsertImage implements IModalMenu {
   }
 
   private insertImage(editor: IDomEditor, src: string, alt: string = '', url: string = '') {
-    if (!src) {
-      hideAllPanelsAndModals() // 隐藏 modal
-      return
-    }
+    if (!src) return
 
     // 还原选区
     DomEditor.restoreSelection(editor)
@@ -138,9 +136,6 @@ class InsertImage implements IModalMenu {
 
     // 插入图片
     insertImageNode(editor, src, alt, url)
-
-    // 隐藏 modal
-    hideAllPanelsAndModals()
   }
 }
 

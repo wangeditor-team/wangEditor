@@ -7,7 +7,7 @@ import { Editor, Transforms, Range, Node } from 'slate'
 import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
 import $, { Dom7Array } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
-import { genModalInputElems, genModalButtonElems } from '../_helpers/menu'
+import { genModalInputElems, genModalButtonElems, getMenuConf } from '../_helpers/menu'
 import { VIDEO_SVG } from '../../constants/svg'
 
 /**
@@ -74,6 +74,7 @@ class InsertVideoMenu implements IModalMenu {
         e.preventDefault()
         const src = $(`#${srcInputId}`).val().trim()
         this.insertVideo(editor, src)
+        hideAllPanelsAndModals() // 隐藏 modal
       })
 
       // 记录属性，重要
@@ -99,15 +100,25 @@ class InsertVideoMenu implements IModalMenu {
   }
 
   private insertVideo(editor: IDomEditor, src: string) {
-    if (!src) {
-      hideAllPanelsAndModals() // 隐藏 modal
-      return
-    }
+    if (!src) return
 
     // 还原选区
     DomEditor.restoreSelection(editor)
 
     if (this.isDisabled(editor)) return
+
+    // 校验
+    const { onInsertedVideo, checkVideo } = getMenuConf(editor, 'insertVideo')
+    const checkRes = checkVideo(src)
+    if (typeof checkRes === 'string') {
+      // 校验失败，给出提示
+      editor.alert(checkRes, 'error')
+      return
+    }
+    if (checkRes == null) {
+      // 校验失败，不给提示
+      return
+    }
 
     // 新建一个 video node
     const video = {
@@ -119,8 +130,8 @@ class InsertVideoMenu implements IModalMenu {
     // 插入图片
     Transforms.insertNodes(editor, video)
 
-    // 隐藏 modal
-    hideAllPanelsAndModals()
+    // 调用 callback
+    onInsertedVideo(src)
   }
 }
 

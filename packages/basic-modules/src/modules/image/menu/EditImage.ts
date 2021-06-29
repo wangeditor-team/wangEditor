@@ -92,6 +92,7 @@ class EditImage implements IModalMenu {
         const alt = $(`#${altInputId}`).val()
         const url = $(`#${urlInputId}`).val()
         this.updateImage(editor, src, alt, url)
+        hideAllPanelsAndModals() // 隐藏 modal
       })
 
       // 记录属性，重要
@@ -130,10 +131,7 @@ class EditImage implements IModalMenu {
     url: string = '',
     style: any = {}
   ) {
-    if (!src) {
-      hideAllPanelsAndModals() // 隐藏 modal
-      return
-    }
+    if (!src) return
 
     // 还原选区
     DomEditor.restoreSelection(editor)
@@ -142,9 +140,6 @@ class EditImage implements IModalMenu {
 
     // 修改图片信息
     updateImageNode(editor, src, alt, url, style)
-
-    // 隐藏 modal
-    hideAllPanelsAndModals()
   }
 }
 
