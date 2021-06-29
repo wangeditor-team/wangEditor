@@ -33,13 +33,13 @@ class BarItemSelect implements IBarItem {
   private disabled = false
   private selectList: SelectList | null = null
 
-  constructor(menu: ISelectMenu) {
+  constructor(menu: ISelectMenu, inGroup = false) {
     // 验证 tag
     const { tag, title, width } = menu
     if (tag !== 'select') throw new Error(`Invalid tag '${tag}', expected 'select'`)
 
     // 初始化 dom
-    const $button = $(`<button class="select-button" tooltip="${title}"></button>`)
+    const $button = $(`<button class="select-button"></button>`)
     if (width) {
       $button.css('width', `${width}px`)
     }

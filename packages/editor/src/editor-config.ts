@@ -17,8 +17,6 @@ function getDefaultEditorConfig() {
       'bold',
       'underline',
       'italic',
-      'through',
-      'code',
       {
         title: '更多样式',
         iconSvg: MORE_SVG,

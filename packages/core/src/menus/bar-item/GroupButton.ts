@@ -7,20 +7,19 @@ import { gen$downArrow } from '../helpers/helpers'
 import $, { Dom7Array } from '../../utils/dom'
 import { IMenuGroup } from '../interface'
 import { clearSvgStyle } from '../helpers/helpers'
-
+import { IBarItem } from './index'
 class GroupButton {
-  $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
-  $container: Dom7Array = $('<div class="w-e-bar-item-menus-container"></div>')
+  $elem: Dom7Array = $(`<div class="w-e-bar-item w-e-bar-item-group"></div>`)
+  private $container: Dom7Array = $('<div class="w-e-bar-item-menus-container"></div>')
   $button = $(`<button></button>`)
 
   constructor(menu: IMenuGroup) {
-    const { title, iconSvg /*, menuKeys = [] */ } = menu
+    const { iconSvg /*, title, menuKeys = [] */ } = menu
     const { $elem, $button } = this
 
     // button
     const $svg = $(iconSvg)
     clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
-    $button.attr('tooltip', title)
     $button.append($svg)
 
     const $arrow = gen$downArrow()
@@ -34,6 +33,11 @@ class GroupButton {
     // 监听 container 内容变化，以判断 $button 是否应该禁用
     const observer = this.createObserver()
     this.observe(observer)
+  }
+
+  appendBarItem(barItem: IBarItem) {
+    const { $elem } = barItem
+    this.$container.append($elem)
   }
 
   private observe(observer: MutationObserver) {

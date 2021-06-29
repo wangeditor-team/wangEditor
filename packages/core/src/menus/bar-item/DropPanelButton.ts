@@ -13,8 +13,8 @@ class DropPanelButton extends BaseButton {
   private dropPanel: DropPanel | null = null
   menu: IDropPanelMenu
 
-  constructor(menu: IDropPanelMenu) {
-    super(menu)
+  constructor(menu: IDropPanelMenu, inGroup = false) {
+    super(menu, inGroup)
     this.menu = menu
 
     if (menu.showDropPanel) {

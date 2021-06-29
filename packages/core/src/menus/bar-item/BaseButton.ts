@@ -16,28 +16,46 @@ abstract class BaseButton implements IBarItem {
   menu: IButtonMenu | IDropPanelMenu | IModalMenu
   private disabled = false
 
-  constructor(menu: IButtonMenu | IDropPanelMenu | IModalMenu) {
+  constructor(menu: IButtonMenu | IDropPanelMenu | IModalMenu, inGroup = false) {
+    this.menu = menu
+    const { $elem } = this
+
     // 验证 tag
     const { tag, width } = menu
     if (tag !== 'button') throw new Error(`Invalid tag '${tag}', expected 'button'`)
 
-    // 初始化 dom
+    // ----------------- 初始化 dom -----------------
     const { title, hotkey, iconSvg } = menu
     const $svg = $(iconSvg)
     clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
-    const tooltip = hotkey ? `${title}\n${hotkey}` : title
-    const $button = $(`<button tooltip="${tooltip}"></button>`)
+    const $button = $(`<button></button>`)
     $button.append($svg)
-    $button.append($(`<span class="w-e-bar-item-title">${title}</span>`)) // menu title
+    if (inGroup) {
+      // in groupButton ，显示 menu title
+      $button.append($(`<span class="title">${title}</span>`))
+    }
     if (width) {
       $button.css('width', `${width}px`)
     }
-    this.$elem.append($button)
-
+    $elem.append($button)
     this.$button = $button
-    this.menu = menu
 
-    // 异步绑定事件
+    // ----------------- 设置 tooltip -----------------
+    if (inGroup) {
+      // in groupButton ，tooltip 只显示 快捷键
+      if (hotkey) {
+        $elem.attr('data-tooltip', hotkey)
+        $elem.addClass('w-e-bar-item-tooltip')
+        $elem.addClass('tooltip-right') // tooltip 显示在右侧
+      }
+    } else {
+      // 非 in groupButton ，正常实现 tooltip
+      const tooltip = hotkey ? `${title}\n${hotkey}` : title
+      $elem.attr('data-tooltip', tooltip)
+      $elem.addClass('w-e-bar-item-tooltip')
+    }
+
+    // ----------------- 异步绑定事件 -----------------
     promiseResolveThen(() => this.init())
   }
 

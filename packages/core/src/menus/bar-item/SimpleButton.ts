@@ -7,8 +7,8 @@ import { IButtonMenu } from '../interface'
 import BaseButton from './BaseButton'
 
 class SimpleButton extends BaseButton {
-  constructor(menu: IButtonMenu) {
-    super(menu)
+  constructor(menu: IButtonMenu, inGroup = false) {
+    super(menu, inGroup)
   }
   onClick() {
     // menu.exec 已经在 BaseButton 实现了

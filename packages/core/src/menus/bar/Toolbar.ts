@@ -13,6 +13,7 @@ import { IBarItem, createBarItem, createBarItemGroup } from '../bar-item/index'
 import { gen$barItemDivider } from '../helpers/helpers'
 import { IMenuGroup } from '../interface'
 import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../interface'
+import GroupButton from '../bar-item/GroupButton'
 
 type MenuType = IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
 
@@ -62,7 +63,7 @@ class Toolbar {
 
       // 正常菜单
       if (typeof key === 'string') {
-        this.registerSingleItem(key, $toolbar)
+        this.registerSingleItem(key, this)
         return
       }
 
@@ -81,7 +82,7 @@ class Toolbar {
     menuKeys.forEach(key => {
       this.registerSingleItem(
         key,
-        group.$container // 将子菜单，添加到自己的 container 中
+        group // 将子菜单，添加到 group
       )
     })
 
@@ -90,8 +91,9 @@ class Toolbar {
   }
 
   // 注册单个 toolbarItem
-  private registerSingleItem(key: string, $container: Dom7Array) {
+  private registerSingleItem(key: string, container: GroupButton | Toolbar) {
     const editor = this.getEditorInstance()
+    const inGroup = container instanceof GroupButton // 要添加到 groupButton
 
     // 尝试从缓存中获取
     const { menus } = this
@@ -110,16 +112,26 @@ class Toolbar {
       // 创建 toolbarItem 并记录缓存
       menu = factory()
       menus[key] = menu
+    } else {
+      console.warn(`Duplicated toolbar menu key '${key}'\n重复注册了菜单栏 menu '${key}'`)
     }
 
-    const toolbarItem = createBarItem(menu)
+    const toolbarItem = createBarItem(menu, inGroup)
     this.toolbarItems.push(toolbarItem)
 
     // 保存 toolbarItem 和 editor 的关系
     BAR_ITEM_TO_EDITOR.set(toolbarItem, editor)
 
     // 添加 DOM
-    $container.append(toolbarItem.$elem)
+    if (inGroup) {
+      // barItem 是 groupButton
+      const group = container as GroupButton
+      group.appendBarItem(toolbarItem)
+    } else {
+      // barItem 添加到 toolbar
+      const toolbar = container as Toolbar
+      toolbar.$toolbar.append(toolbarItem.$elem)
+    }
   }
 
   private getEditorInstance(): IDomEditor {
