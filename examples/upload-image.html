@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>upload image demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <style>
+    #editor-toolbar {
+      border: 1px solid #ccc;
+      /* z-index: 100; */
+    }
+
+    #editor-text-area {
+      border: 1px solid #ccc;
+      height: 550px;
+      overflow: hidden;
+      /* z-index: 100; */
+    }
+  </style>
+  <link href="../packages/editor/dist/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <p>
+    upload image
+  </p>
+
+  <!-- 编辑器 -->
+  <div id="container">
+    <div id="editor-toolbar"></div>
+    <div style="height: 10px;">
+      <!-- 间隔 -->
+    </div>
+    <div id="editor-text-area"></div>
+  </div>
+
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="js/init-content.js"></script>
+  <script src="../packages/editor/dist/index.js"></script>
+  <script>
+    const editorView = new WangEditor({
+      toolbarSelector: '#editor-toolbar', // 可选
+      textareaSelector: '#editor-text-area',
+      initContent: window.initContent, // 可选
+    })
+    editorView.setMenuConfig('uploadImage', {
+      server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
+
+      fieldName: 'custom-fileName',
+      meta: { token: 'xxx' },
+      headers: { Accept: 'text/x-json' },
+
+      onBeforeUpload(files) {
+        console.log('onBeforeUpload', files)
+
+        return files // 返回哪些文件可以上传
+        // return false 会阻止上传
+      },
+      onProgress(progress) {
+        console.log('onProgress', progress)
+      },
+      onSuccess(file, res) {
+        console.log('onSuccess', file, res)
+      },
+      onFailed(file, res) {
+        console.log('onFailed', file, res)
+      },
+      onError(file, err, res) {
+        console.error('onError', file, err, res)
+      }
+    })
+
+    editorView.createCore()
+  </script>
+</body>
+
+</html>

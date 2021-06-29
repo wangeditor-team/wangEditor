@@ -17,7 +17,6 @@ class UploadImage implements IButtonMenu {
   iconSvg = UPLOAD_IMAGE_SVG
   tag = 'button'
   private uppy: Uppy.Uppy<'strict'> | null = null
-  private allowedFileTypes: string[] = []
 
   getValue(editor: IDomEditor): string | boolean {
     // 插入菜单，不需要 value
@@ -33,13 +32,43 @@ class UploadImage implements IButtonMenu {
     return isMenuDisabled(editor)
   }
 
-  exec(editor: IDomEditor, value: string | boolean) {
+  private getMenuConfig(editor: IDomEditor): IUploadConfig {
     // 获取配置，见 `./config.js`
-    const menuConfig = getMenuConf(editor, 'uploadImage') as IUploadConfig
-    const { allowedFileTypes, onSuccess, onProgress, onFailed } = menuConfig
+    return getMenuConf(editor, 'uploadImage') as IUploadConfig
+  }
 
-    // 设置选择文件类型
-    this.allowedFileTypes = allowedFileTypes || []
+  exec(editor: IDomEditor, value: string | boolean) {
+    // 设置选择文件的类型
+    const { allowedFileTypes = [] } = this.getMenuConfig(editor)
+    let acceptAttr = ''
+    if (allowedFileTypes.length > 0) {
+      acceptAttr = `accept="${allowedFileTypes.join(', ')}"`
+    }
+
+    // 添加 file input（每次重新创建 input）
+    const $body = $('body')
+    const $inputFile = $(`<input type="file" ${acceptAttr} multiple/>`)
+    $inputFile.hide()
+    $body.append($inputFile)
+    $inputFile.click()
+    // 选中文件
+    $inputFile.on('change', () => {
+      const files = ($inputFile[0] as HTMLInputElement).files
+      this.handleFiles(editor, files) // 处理文件
+    })
+  }
+
+  private handleFiles(editor: IDomEditor, files: FileList | null) {
+    if (files == null) return
+
+    // TODO 处理文件，如上传、插入 base64、自定义上传等
+
+    this.uploadFiles(editor, files)
+  }
+
+  private uploadFiles(editor: IDomEditor, files: FileList) {
+    const menuConfig = this.getMenuConfig(editor)
+    const { onSuccess, onProgress, onFailed } = menuConfig
 
     // 上传完成之后
     const successHandler = (file: UppyFile, res: any) => {
@@ -79,45 +108,21 @@ class UploadImage implements IButtonMenu {
         onSuccess: successHandler,
       })
     }
+    const uppy = this.uppy
 
-    // 选择文件 + 触发上传
-    this.browseAndUpload()
-  }
-
-  private browseAndUpload() {
-    const { uppy, allowedFileTypes = [] } = this
-    if (uppy == null) return
-
-    // 选择的文件类型
-    let acceptAttr = ''
-    if (allowedFileTypes.length > 0) {
-      acceptAttr = `accept="${allowedFileTypes.join(', ')}"`
-    }
-
-    const $body = $('body')
-    const $inputFile = $(`<input type="file" ${acceptAttr} multiple/>`)
-    $inputFile.hide()
-    $body.append($inputFile)
-    $inputFile.click()
-    // 选中文件
-    $inputFile.on('change', () => {
-      const files = ($inputFile[0] as HTMLInputElement).files || []
-      Array.prototype.slice.call(files).forEach(file => {
-        const { name, type, size } = file
-        // 将文件添加到 uppy
-        uppy.addFile({
-          name,
-          type,
-          size,
-          data: file,
-        })
+    // 将文件添加到 uppy
+    Array.prototype.slice.call(files).forEach(file => {
+      const { name, type, size } = file
+      uppy.addFile({
+        name,
+        type,
+        size,
+        data: file,
       })
-      // 上传文件
+      // 上传单个文件
       uppy.upload()
-
-      // 最后，移除 input
-      $inputFile.remove()
     })
+    // TODO 合并多个文件一起上传
   }
 }
 
