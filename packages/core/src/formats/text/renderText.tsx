@@ -10,6 +10,7 @@ import { KEY_TO_ELEMENT, NODE_TO_ELEMENT, ELEMENT_TO_NODE } from '../../utils/we
 import genTextVnode from './genVnode'
 import addTextVnodeStyle from './renderStyle'
 import { promiseResolveThen } from '../../utils/util'
+import { genTextId } from '../helper'
 
 function renderText(textNode: SlateText, parent: Ancestor, editor: IDomEditor): VNode {
   if (textNode.text == null)
@@ -34,7 +35,7 @@ function renderText(textNode: SlateText, parent: Ancestor, editor: IDomEditor): 
   })
 
   // 生成 text vnode
-  const textId = `w-e-text-${key.id}`
+  const textId = genTextId(key.id)
   const vnode = (
     <span data-slate-node="text" id={textId} key={key.id}>
       {leavesVnode /* 一个 text 可能包含多个 leaf */}

@@ -11,6 +11,8 @@ import { isDOMText, getPlainText } from '../utils/dom'
 import { IConfig } from '../config/index'
 import { node2html } from '../to-html/node2html'
 import { AlertType } from '../config/index'
+import { genElemId } from '../formats/helper'
+import $ from '../utils/dom'
 
 let ID = 1
 
@@ -252,6 +254,24 @@ export const withDOM = <T extends Editor>(editor: T) => {
     return Editor.string(editor, selection)
   }
 
+  // 获取所有标题
+  e.getHeaders = () => {
+    const headers: { id: string; type: string; text: string }[] = []
+    const { children = [] } = e
+    children.forEach(n => {
+      // @ts-ignore
+      const { type = '' } = n
+      if (type.startsWith('header')) {
+        const key = DomEditor.findKey(e, n)
+        const id = genElemId(key.id)
+        const text = Node.string(n)
+
+        headers.push({ id, type, text })
+      }
+    })
+    return headers
+  }
+
   // focus
   e.focus = () => {
     const el = DomEditor.toDOMNode(e, e)
@@ -276,6 +296,22 @@ export const withDOM = <T extends Editor>(editor: T) => {
   e.alert = (info: string, type?: AlertType) => {
     const { alert } = e.getConfig()
     if (alert) alert(info, type)
+  }
+
+  // scroll to elem
+  e.scrollToElem = (id: string) => {
+    const $elem = $(`#${id}`)
+    console.log('$elem', $elem)
+    if ($elem.length === 0) return
+
+    const textarea = DomEditor.getTextarea(e)
+    const { $textAreaContainer, $scroll } = textarea
+
+    const { top: elemTop } = $elem.offset()
+    const { top: containerTop } = $textAreaContainer.offset()
+
+    // 滚动到指定元素
+    $scroll[0].scrollBy({ top: elemTop - containerTop, behavior: 'smooth' })
   }
 
   // 最后要返回 editor 实例 - 重要！！！

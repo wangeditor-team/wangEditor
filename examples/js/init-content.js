@@ -58,6 +58,14 @@ window.initContent = [
     children: [{ text: '一行文字' }],
   },
   {
+    type: 'header2',
+    children: [
+      {
+        text: '二级标题',
+      },
+    ],
+  },
+  {
     type: 'paragraph',
     children: [{ text: '一行文字' }],
   },
@@ -76,6 +84,14 @@ window.initContent = [
   {
     type: 'divider',
     children: [{ text: '' }],
+  },
+  {
+    type: 'header3',
+    children: [
+      {
+        text: '三级标题',
+      },
+    ],
   },
   {
     type: 'paragraph',

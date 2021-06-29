@@ -17,6 +17,7 @@ import {
 import getRenderElem from './getRenderElem'
 import renderTextStyle from './renderTextStyle'
 import { promiseResolveThen } from '../../utils/util'
+import { genElemId } from '../helper'
 
 interface IAttrs {
   id: string
@@ -32,7 +33,7 @@ function renderElement(elemNode: SlateElement, editor: IDomEditor): VNode {
   // const readOnly = DomEditor.isReadOnly(editor)
   const isInline = editor.isInline(elemNode)
   const isVoid = Editor.isVoid(editor, elemNode)
-  const domId = `w-e-element-${key.id}`
+  const domId = genElemId(key.id)
   const attrs: IAttrs = {
     id: domId,
     key: key.id,

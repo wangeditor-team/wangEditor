@@ -51,10 +51,12 @@ export interface IDomEditor extends Editor {
   getHtml: () => string
   getText: () => string
   getSelectionText: () => string // 获取选区文字
+  getHeaders: () => { id: string; type: string; text: string }[] // 获取所有标题
   focus: () => void
   blur: () => void
   destroy: () => void
   alert: (info: string, type: AlertType) => void
+  scrollToElem: (id: string) => void
   // 自定义事件
   on: (type: string, listener: ee.EventListener) => void
   off: (type: string, listener: ee.EventListener) => void

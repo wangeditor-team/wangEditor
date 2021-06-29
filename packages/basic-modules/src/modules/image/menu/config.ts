@@ -38,7 +38,6 @@ export function genImageMenuConfig() {
       /*自定义*/
     },
 
-    // TODO onDeletedImage ？？？ 考虑所有删除的场景
-    // 输出 insertImage updateImage ， 供 uploadImage 使用
+    // TODO onDeletedImage ？？？ 考虑所有删除的场景 —— 可以使用插件，劫持 e.apply 中的 `remove_node`
   }
 }

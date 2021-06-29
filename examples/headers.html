@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>headers demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <style>
+    /* 编辑器 dom */
+    #container {
+      width: 800px;
+    }
+
+    #editor-toolbar {
+      border: 1px solid #ccc;
+      /* z-index: 100; */
+    }
+
+    #editor-text-area {
+      border: 1px solid #ccc;
+      height: 350px;
+      overflow: hidden;
+      /* z-index: 100; */
+    }
+  </style>
+  <link href="../packages/editor/dist/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <p>
+    editor.getHeaders() and editor.scrollToElem(id)
+  </p>
+
+  <!-- 编辑器 -->
+  <div id="container">
+    <div id="editor-toolbar"></div>
+    <div style="height: 10px;">
+      <!-- 间隔 -->
+    </div>
+    <div id="editor-text-area"></div>
+  </div>
+
+  <!-- 显示 headers -->
+  <div style="margin-top: 20px;">
+    <div style="margin-bottom: 10px;">
+      <input id="input-id" placeholder="header id" />
+      <button id="btn-scroll-to">scrollTo</button>
+    </div>
+    <textarea readonly id="text-headers" style="width: 800px; height: 400px;"></textarea>
+  </div>
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="js/init-content.js"></script>
+  <script src="../packages/editor/dist/index.js"></script>
+  <script>
+    const editorView = new WangEditor({
+      toolbarSelector: '#editor-toolbar', // 可选
+      textareaSelector: '#editor-text-area',
+      initContent: window.initContent, // 可选
+    })
+    editorView.config.onCreated = (editorCore) => {
+      console.log('on created', editorCore)
+    }
+    editorView.config.onChange = (editorCore) => {
+      // 获取并展示 headers
+      const headers = editorCore.getHeaders()
+      $('#text-headers').val(JSON.stringify(headers, null, 4))
+    }
+    editorView.createCore()
+
+    // scrollTo
+    const $inputId = $('#input-id')
+    $('#btn-scroll-to').on('click', () => {
+      const id = $inputId.val()
+      editorView.editorCore.scrollToElem(id)
+      $inputId.val('')
+    })
+  </script>
+</body>
+
+</html>
