@@ -103,8 +103,11 @@
       console.log('on created', editorCore)
     }
     editorView.config.onChange = (editorCore) => {
-      const html = editorCore.getHtml()
-      document.getElementById('editor-content-view').innerHTML = html
+      // 获取 html （使用异步，类似 Vue $nextTick）
+      Promise.resolve().then(() => {
+        const html = editorCore.getHtml()
+        document.getElementById('editor-content-view').innerHTML = html
+      })
 
       // 选中文字
       const selectionText = editorCore.getSelectionText()
