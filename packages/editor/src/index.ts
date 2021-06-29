@@ -23,6 +23,7 @@ import '@wangeditor/video-module/css/style.css'
 import wangEditorVideoModule from '@wangeditor/video-module'
 
 // upload-image-module
+import '@wangeditor/upload-image-module/css/style.css'
 import wangEditorUploadImageModule from '@wangeditor/upload-image-module'
 
 // code-highlight

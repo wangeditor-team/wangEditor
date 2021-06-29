@@ -4,7 +4,7 @@
  */
 
 import Uppy, { UppyFile } from '@uppy/core'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { insertImageNode } from '@wangeditor/basic-modules'
 import { UPLOAD_IMAGE_SVG } from '../../constants/svg'
 import { genUppy } from '../../vendor/uppy'
@@ -36,7 +36,7 @@ class UploadImage implements IButtonMenu {
   exec(editor: IDomEditor, value: string | boolean) {
     // 获取配置，见 `./config.js`
     const menuConfig = getMenuConf(editor, 'uploadImage') as IUploadConfig
-    const { allowedFileTypes, onSuccess, onFailed } = menuConfig
+    const { allowedFileTypes, onSuccess, onProgress, onFailed } = menuConfig
 
     // 设置选择文件类型
     this.allowedFileTypes = allowedFileTypes || []
@@ -63,10 +63,19 @@ class UploadImage implements IButtonMenu {
       onSuccess(file, res)
     }
 
+    // progress 显示进度条
+    const progressHandler = (progress: number) => {
+      editor.showProgressBar(progress)
+
+      // 回调函数
+      onProgress && onProgress(progress)
+    }
+
     // 创建 uppy 实例
     if (this.uppy == null) {
       this.uppy = genUppy({
         ...menuConfig,
+        onProgress: progressHandler,
         onSuccess: successHandler,
       })
     }

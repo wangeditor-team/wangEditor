@@ -23,6 +23,7 @@ class TextArea {
   $textAreaContainer: Dom7Array
   $scroll: Dom7Array
   $textArea: Dom7Array | null = null
+  $progressBar = $('<div class="w-e-progress-bar"></div>')
   isComposing: boolean = false
   isUpdatingSelection: boolean = false
   latestElement: DOMElement | null = null
@@ -40,6 +41,7 @@ class TextArea {
       throw new Error(`Cannot find textarea DOM by selector '${selector}'`)
     }
     const $container = $(`<div class="w-e-text-container"></div>`)
+    $container.append(this.$progressBar) // 进度条
     $box.append($container)
     const $scroll = $(`<div class="w-e-scroll"></div>`)
     $container.append($scroll)

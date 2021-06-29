@@ -314,6 +314,25 @@ export const withDOM = <T extends Editor>(editor: T) => {
     $scroll[0].scrollBy({ top: elemTop - containerTop, behavior: 'smooth' })
   }
 
+  // showProgressBar
+  e.showProgressBar = (progress: number) => {
+    // progress 值范围： 0 - 100
+    if (progress < 1) return
+
+    // 显示进度条
+    const { $progressBar } = DomEditor.getTextarea(e)
+    $progressBar.css('width', `${progress}%`)
+
+    // 进度 100% 之后，定时隐藏
+    if (progress >= 100) {
+      setTimeout(() => {
+        $progressBar.hide()
+        $progressBar.css('width', '0')
+        $progressBar.show()
+      }, 1000)
+    }
+  }
+
   // 最后要返回 editor 实例 - 重要！！！
   return e
 }
