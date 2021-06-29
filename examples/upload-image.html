@@ -49,10 +49,16 @@
     })
     editorView.setMenuConfig('uploadImage', {
       server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
+      // server: 'http://106.12.198.214:3000/api/upload-img-10s', // 用于测试 timeout
+      // server: 'http://106.12.198.214:3000/api/xxx', // 用于测试 404
+
+      timeout: 5 * 1000, // 5s
 
       fieldName: 'custom-fileName',
       meta: { token: 'xxx' },
       headers: { Accept: 'text/x-json' },
+
+      base64LimitKB: 5, // 5kb 以下插入 base64
 
       onBeforeUpload(files) {
         console.log('onBeforeUpload', files)
@@ -71,7 +77,41 @@
       },
       onError(file, err, res) {
         console.error('onError', file, err, res)
-      }
+      },
+
+      // // 用户自定义插入图片
+      // customInsert(res, insertFn) {
+      //   console.log('customInsert', res)
+      //   const imgInfo = res.data[0] || {}
+      //   const { url, alt, href } = imgInfo
+      //   if (!url) throw new Error(`Image url is empty`)
+
+      //   // 自己插入图片
+      //   console.log('自己插入图片', url)
+      //   insertFn(url, alt, href)
+      // },
+
+      // // 用户自定义上传图片
+      // customUpload(files, insertFn) {
+      //   console.log('customUpload', files)
+
+      //   // 插入一张图片，模拟异步
+      //   setTimeout(() => {
+      //     const src = 'https://www.baidu.com/img/flexible/logo/pc/result@2.png'
+      //     insertFn(src, '百度 logo', src)
+      //   }, 500)
+      // },
+
+      // // 自定义选择图片（如图床）
+      // customBrowseAndUpload(insertFn) {
+      //   alert('自定义选择图片，如弹出图床')
+
+      //   // 插入一张图片，模拟异步
+      //   setTimeout(() => {
+      //     const src = 'https://www.baidu.com/img/flexible/logo/pc/result@2.png'
+      //     insertFn(src, '百度 logo', src) // 插入图片
+      //   }, 500)
+      // },
     })
 
     editorView.createCore()

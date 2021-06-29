@@ -38,8 +38,15 @@ class UploadImage implements IButtonMenu {
   }
 
   exec(editor: IDomEditor, value: string | boolean) {
+    const { allowedFileTypes = [], customBrowseAndUpload } = this.getMenuConfig(editor)
+
+    // 自定义选择图片，并上传，如图床
+    if (customBrowseAndUpload) {
+      customBrowseAndUpload((src, alt, href) => insertImageNode(editor, src, alt, href))
+      return
+    }
+
     // 设置选择文件的类型
-    const { allowedFileTypes = [] } = this.getMenuConfig(editor)
     let acceptAttr = ''
     if (allowedFileTypes.length > 0) {
       acceptAttr = `accept="${allowedFileTypes.join(', ')}"`
@@ -60,19 +67,63 @@ class UploadImage implements IButtonMenu {
 
   private handleFiles(editor: IDomEditor, files: FileList | null) {
     if (files == null) return
+    const fileList = Array.prototype.slice.call(files)
+    let fileListForUpload: File[] = []
 
-    // TODO 处理文件，如上传、插入 base64、自定义上传等
+    const { customUpload, base64LimitKB } = this.getMenuConfig(editor)
 
-    this.uploadFiles(editor, files)
+    // 插入 base64
+    if (base64LimitKB) {
+      fileList.forEach(file => {
+        const sizeKB = file.size / 1024 // size kb
+        if (sizeKB > base64LimitKB) {
+          // 超过配置的 limit ，则上传图片
+          fileListForUpload.push(file)
+        } else {
+          // 未超过，则插入 base64 ，不上传
+          this.insertBase64(editor, file)
+        }
+      })
+    } else {
+      // 未设置 base64LimitKB ，则全部上传
+      fileListForUpload = fileList
+    }
+
+    // 用户自定义上传，不用默认的上传
+    if (customUpload) {
+      customUpload(fileListForUpload, (src, alt, href) => insertImageNode(editor, src, alt, href))
+      return
+    }
+
+    // 上传图片
+    this.uploadFiles(editor, fileListForUpload)
   }
 
-  private uploadFiles(editor: IDomEditor, files: FileList) {
+  private insertBase64(editor: IDomEditor, file: File) {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const { result } = reader
+      if (!result) return
+      const src = result.toString()
+      insertImageNode(editor, src, file.name, src)
+    }
+  }
+
+  private uploadFiles(editor: IDomEditor, files: File[]) {
     const menuConfig = this.getMenuConfig(editor)
-    const { onSuccess, onProgress, onFailed } = menuConfig
+    const { onSuccess, onProgress, onFailed, customInsert } = menuConfig
 
     // 上传完成之后
     const successHandler = (file: UppyFile, res: any) => {
-      // res 格式： { errno: 0, data: [ { url, alt, href }, {}, {} ] }
+      // 预期 res 格式： { errno: 0, data: [ { url, alt, href }, {}, {} ] }
+
+      if (customInsert) {
+        // 用户自定义插入图片，此时 res 格式可能不符合预期
+        customInsert(res, (src, alt, href) => insertImageNode(editor, src, alt, href))
+        return
+      }
+
       const { errno = 1, data = [] } = res
       if (errno !== 0) {
         console.error(`'${file.name}' upload failed`, res)
@@ -111,7 +162,7 @@ class UploadImage implements IButtonMenu {
     const uppy = this.uppy
 
     // 将文件添加到 uppy
-    Array.prototype.slice.call(files).forEach(file => {
+    files.forEach(file => {
       const { name, type, size } = file
       uppy.addFile({
         name,

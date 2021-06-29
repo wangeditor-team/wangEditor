@@ -94,10 +94,11 @@
     //   console.log('on max length', editorCore)
     // }
     editorView.config.placeholder = '请输入内容'
-    editorView.setMenuConfig('uploadImage', {
-      server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
-      fieldName: 'index-fileName'
-    })
+    // editorView.setMenuConfig('uploadImage', {
+    //   server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
+    //   fieldName: 'index-fileName'
+    // })
+    console.log('测试上传图片，请使用 upload-image.html')
     editorView.config.onCreated = (editorCore) => {
       console.log('on created', editorCore)
     }

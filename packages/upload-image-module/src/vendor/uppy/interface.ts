@@ -7,6 +7,8 @@ import { UppyFile } from '@uppy/core'
 
 type FilesType = { [key: string]: UppyFile<{}, {}> }
 
+type InsertFn = (src: string, alt: string, url: string) => void
+
 export interface IUploadConfig {
   server: string
   fieldName?: string
@@ -22,4 +24,18 @@ export interface IUploadConfig {
   onProgress?: (progress: number) => void
   onFailed: (file: UppyFile<{}, {}>, response: any) => void
   onError: (file: UppyFile<{}, {}>, error: any, res: any) => void
+
+  // ----------------- 分割线，以下属性 uppy 用不到 -----------------
+
+  // 用户自定义插入图片
+  customInsert?: (res: any, insertFn: InsertFn) => void
+
+  // 用户自定义上传图片
+  customUpload?: (files: File[], insertFn: InsertFn) => void
+
+  // base64 限制（单位 kb） - 小于 xxx 就插入 base64 格式
+  base64LimitKB: number
+
+  // 自定义选择图片，如图床
+  customBrowseAndUpload?: (insertFn: InsertFn) => void
 }

@@ -37,5 +37,17 @@ export function genUploadImageConfig(): IUploadConfig {
     onError: (file: any, err: any, res: any) => {
       /* on error */
     },
+
+    // 自定义插入图片，用户配置
+    // customInsert: (res, insertFn) => {},
+
+    // 自定义上传图片，用户配置
+    // customUpload: (files, insertFn) => {},
+
+    // 小于 xxx 就插入 base64
+    base64LimitKB: 0,
+
+    // 自定义选择，并上传图片，如：图床 （用户配置）
+    // customBrowseAndUpload: insertFn => {},
   }
 }
