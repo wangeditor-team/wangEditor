@@ -48,7 +48,6 @@ function handlePlaceholder(textarea: TextArea, editor: IDomEditor) {
   if (isEmpty && !textarea.showPlaceholder) {
     if (textarea.$placeholder == null) {
       const $placeholder = $(`<div class="w-e-text-placeholder">${placeholder}</div>`)
-      $placeholder.on('mousedown', e => e.preventDefault()) // 点击不要触发 blur
       textarea.$textAreaContainer.append($placeholder)
       textarea.$placeholder = $placeholder
     }
