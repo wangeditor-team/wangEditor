@@ -18,7 +18,6 @@ abstract class BaseButton implements IBarItem {
 
   constructor(menu: IButtonMenu | IDropPanelMenu | IModalMenu, inGroup = false) {
     this.menu = menu
-    const { $elem } = this
 
     // 验证 tag
     const { tag, width } = menu
@@ -37,22 +36,22 @@ abstract class BaseButton implements IBarItem {
     if (width) {
       $button.css('width', `${width}px`)
     }
-    $elem.append($button)
+    this.$elem.append($button)
     this.$button = $button
 
     // ----------------- 设置 tooltip -----------------
     if (inGroup) {
       // in groupButton ，tooltip 只显示 快捷键
       if (hotkey) {
-        $elem.attr('data-tooltip', hotkey)
-        $elem.addClass('w-e-bar-item-tooltip')
-        $elem.addClass('tooltip-right') // tooltip 显示在右侧
+        $button.attr('data-tooltip', hotkey)
+        $button.addClass('w-e-menu-tooltip')
+        $button.addClass('tooltip-right') // tooltip 显示在右侧
       }
     } else {
       // 非 in groupButton ，正常实现 tooltip
       const tooltip = hotkey ? `${title}\n${hotkey}` : title
-      $elem.attr('data-tooltip', tooltip)
-      $elem.addClass('w-e-bar-item-tooltip')
+      $button.attr('data-tooltip', tooltip)
+      $button.addClass('w-e-menu-tooltip')
     }
 
     // ----------------- 异步绑定事件 -----------------
