@@ -134,7 +134,7 @@ function renderImage(elemNode: SlateElement, children: VNode[] | null, editor: I
   const renderStyle: any = {}
   if (width) renderStyle.width = width
   if (height) renderStyle.height = height
-  if (selected) renderStyle.boxShadow = '0 0 0 1px #B4D5FF' // TODO 统一选中格式
+  if (selected) renderStyle.boxShadow = '0 0 0 1px #B4D5FF' // 自定义 selected 样式，因为有拖拽触手
 
   // 【注意】void node 中，renderElem 不用处理 children 。core 会统一处理。
   const vnode = <img style={renderStyle} src={src} alt={alt} data-href={url} />

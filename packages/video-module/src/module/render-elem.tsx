@@ -12,12 +12,8 @@ function renderVideo(elemNode: SlateElement, children: VNode[] | null, editor: I
   // @ts-ignore
   const { src = '' } = elemNode
 
-  const renderStyle: any = {}
-
   // 是否选中
   const selected = isNodeSelected(editor, elemNode, 'video')
-  renderStyle.boxShadow = selected ? '0 0 0 3px #B4D5FF' : 'none'
-  // TODO 抽离选中样式
 
   let vnode: VNode
   if (src.trim().indexOf('<iframe') === 0) {
@@ -26,15 +22,19 @@ function renderVideo(elemNode: SlateElement, children: VNode[] | null, editor: I
       <div
         contentEditable={false}
         className="w-e-textarea-video-container"
-        style={renderStyle}
+        data-selected={selected ? 'true' : ''} // 标记为 选中
         innerHTML={src} // 内嵌第三方 iframe 视频
       ></div>
     )
   } else {
     // 其他，mp4 格式
     vnode = (
-      <div contentEditable={false} className="w-e-textarea-video-container" style={renderStyle}>
-        <video controls width="300">
+      <div
+        contentEditable={false}
+        className="w-e-textarea-video-container"
+        data-selected={selected ? 'true' : ''} // 标记为 选中
+      >
+        <video controls>
           <source src={src} type="video/mp4" />
           {`Sorry, your browser doesn't support embedded videos.\n 抱歉，浏览器不支持 video 视频`}
         </video>

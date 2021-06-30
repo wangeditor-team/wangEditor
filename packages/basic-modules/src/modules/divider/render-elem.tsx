@@ -17,11 +17,13 @@ function renderDivider(
 
   // 是否选中
   const selected = isNodeSelected(editor, elemNode, 'divider')
-  renderStyle.boxShadow = selected ? '0 0 0 3px #B4D5FF' : 'none'
-  // TODO 抽离选中样式
 
   const vnode = (
-    <div className="w-e-textarea-divider" style={renderStyle}>
+    <div
+      className="w-e-textarea-divider"
+      data-selected={selected ? 'true' : ''} // 标记为 选中
+      style={renderStyle}
+    >
       <hr />
     </div>
   )

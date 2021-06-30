@@ -244,7 +244,12 @@ export function getFirstVoidChild(elem: DOMElement): DOMElement | null {
     const { nodeName, nodeType } = curElem
     if (nodeType === 1) {
       const name = nodeName.toLowerCase()
-      if (htmlVoidElements.includes(name)) {
+      if (
+        htmlVoidElements.includes(name) ||
+        // 补充一些
+        name === 'iframe' ||
+        name === 'video'
+      ) {
         return curElem // 得到 void elem 并返回
       }
 
