@@ -14,13 +14,18 @@ class GroupButton {
   $button = $(`<button></button>`)
 
   constructor(menu: IMenuGroup) {
-    const { iconSvg /*, title, menuKeys = [] */ } = menu
+    const { iconSvg, title /*, menuKeys = [] */ } = menu
     const { $elem, $button } = this
 
     // button
-    const $svg = $(iconSvg)
-    clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
-    $button.append($svg)
+    if (iconSvg) {
+      const $svg = $(iconSvg)
+      clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
+      $button.append($svg)
+    } else {
+      // 无 icon 则显示 title
+      $button.text(title)
+    }
 
     const $arrow = gen$downArrow()
     $button.append($arrow)

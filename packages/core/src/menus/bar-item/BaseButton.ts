@@ -24,14 +24,20 @@ abstract class BaseButton implements IBarItem {
     if (tag !== 'button') throw new Error(`Invalid tag '${tag}', expected 'button'`)
 
     // ----------------- 初始化 dom -----------------
-    const { title, hotkey = '', iconSvg } = menu
-    const $svg = $(iconSvg)
-    clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
+    const { title, hotkey = '', iconSvg = '' } = menu
     const $button = $(`<button></button>`)
-    addTooltip($button, title, hotkey, inGroup) // 设置 tooltip
-    $button.append($svg)
-    if (inGroup) {
-      // in groupButton ，显示 menu title
+    if (iconSvg) {
+      const $svg = $(iconSvg)
+      clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
+      $button.append($svg)
+    } else {
+      // 无 icon 则显示 title
+      $button.text(title)
+    }
+    addTooltip($button, iconSvg, title, hotkey, inGroup) // 设置 tooltip
+    if (inGroup && iconSvg) {
+      // in groupButton（且有 icon），显示 menu title
+      // 如果没有 icon ，上面已添加 title ，不用重复添加
       $button.append($(`<span class="title">${title}</span>`))
     }
     if (width) {

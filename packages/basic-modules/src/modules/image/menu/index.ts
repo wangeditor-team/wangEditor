@@ -7,11 +7,12 @@ import InsertImage from './InsertImage'
 import DeleteImage from './DeleteImage'
 import EditImage from './EditImage'
 import ViewImageLink from './ViewImageLink'
+import ImageWidth30 from './Width30'
 import { genImageMenuConfig } from './config'
 
 const config = genImageMenuConfig() // menu config
 
-const insertImageMenuConf = {
+export const insertImageMenuConf = {
   key: 'insertImage',
   factory() {
     return new InsertImage()
@@ -22,14 +23,14 @@ const insertImageMenuConf = {
   config,
 }
 
-const deleteImageMenuConf = {
+export const deleteImageMenuConf = {
   key: 'deleteImage',
   factory() {
     return new DeleteImage()
   },
 }
 
-const editImageMenuConf = {
+export const editImageMenuConf = {
   key: 'editImage',
   factory() {
     return new EditImage()
@@ -37,11 +38,16 @@ const editImageMenuConf = {
   config,
 }
 
-const viewImageLinkMenuConf = {
+export const viewImageLinkMenuConf = {
   key: 'viewImageLink',
   factory() {
     return new ViewImageLink()
   },
 }
 
-export { insertImageMenuConf, deleteImageMenuConf, editImageMenuConf, viewImageLinkMenuConf }
+export const imageWidth30MenuConf = {
+  key: 'imageWidth30',
+  factory() {
+    return new ImageWidth30()
+  },
+}

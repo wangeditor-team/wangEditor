@@ -114,7 +114,6 @@ class EditImage implements IModalMenu {
     $inputSrc.val(src)
     $inputAlt.val(alt)
     $inputUrl.val(url)
-    // TODO 宽度 30% 50% 100%
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {

@@ -12,12 +12,19 @@ import {
   deleteImageMenuConf,
   editImageMenuConf,
   viewImageLinkMenuConf,
+  imageWidth30MenuConf,
 } from './menu/index'
 
 const image: IModuleConf = {
   renderElems: [renderImageConf],
   elemsToHtml: [imageToHtmlConf],
-  menus: [insertImageMenuConf, deleteImageMenuConf, editImageMenuConf, viewImageLinkMenuConf],
+  menus: [
+    insertImageMenuConf,
+    deleteImageMenuConf,
+    editImageMenuConf,
+    viewImageLinkMenuConf,
+    imageWidth30MenuConf,
+  ],
   editorPlugin: withImage,
 }
 

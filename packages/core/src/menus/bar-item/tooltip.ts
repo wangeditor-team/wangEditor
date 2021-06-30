@@ -6,7 +6,18 @@
 import { Dom7Array } from '../../utils/dom'
 import { IS_APPLE } from '../../utils/ua'
 
-export function addTooltip($button: Dom7Array, title: string, hotkey: string, inGroup = false) {
+export function addTooltip(
+  $button: Dom7Array,
+  iconSvg: string,
+  title: string,
+  hotkey: string,
+  inGroup = false
+) {
+  if (!iconSvg) {
+    // 没有 icon 直接显示 title ，不用 tooltip
+    return
+  }
+
   if (hotkey) {
     const fnKey = IS_APPLE ? 'cmd' : 'ctrl' // mac OS 转换为 cmd ，windows 转换为 ctrl
     hotkey = hotkey.replace('mod', fnKey)

@@ -9,7 +9,7 @@ import { Dom7Array } from '../utils/dom'
 
 export interface IMenuGroup {
   title: string
-  iconSvg: string
+  iconSvg?: string
   menuKeys: string[]
 }
 
@@ -29,7 +29,7 @@ export interface IOption {
 
 interface IBaseMenu {
   title: string
-  iconSvg: string
+  iconSvg?: string
   hotkey?: string // 快捷键，使用 https://www.npmjs.com/package/is-hotkey
 
   tag: string // 'button' | 'select'
@@ -42,7 +42,9 @@ interface IBaseMenu {
   exec: (editor: IDomEditor, value: string | boolean) => void // button click 或 select change 时触发
 }
 
-export interface IButtonMenu extends IBaseMenu {}
+export interface IButtonMenu extends IBaseMenu {
+  /* 其他属性 */
+}
 
 export interface ISelectMenu extends IBaseMenu {
   getOptions: (editor: IDomEditor) => IOption[] // select -> options

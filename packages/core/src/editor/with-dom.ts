@@ -62,8 +62,6 @@ export const withDOM = <T extends Editor>(editor: T) => {
       }
 
       case 'move_node': {
-        // TODO
-        // 这里是否可以执行 NODE_TO_KEY.delete(node) ？？？
         break
       }
     }
