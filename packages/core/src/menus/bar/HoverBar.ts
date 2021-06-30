@@ -21,6 +21,7 @@ class HoverBar {
   private $elem = $('<div class="w-e-bar w-e-bar-hidden w-e-hover-bar"></div>')
   private menus: { [key: string]: MenuType } = {}
   private hoverbarItems: IBarItem[] = []
+  private selectedNode: Node | null = null
 
   constructor() {
     // 异步，否则获取不到 DOM 和 editor
@@ -34,6 +35,9 @@ class HoverBar {
 
       // 绑定 editor onchange
       editor.on('change', this.onEditorChange)
+
+      // 滚动时隐藏
+      editor.on('scroll', this.hideAndClean.bind(this))
     })
   }
 
@@ -52,6 +56,14 @@ class HoverBar {
 
   private show() {
     this.$elem.removeClass('w-e-bar-hidden').addClass('w-e-bar-show')
+  }
+
+  private changeItemsState() {
+    promiseResolveThen(() => {
+      this.hoverbarItems.forEach(item => {
+        item.onSelectionChange()
+      })
+    })
   }
 
   private registerItems(menuKeys: string[]) {
@@ -128,13 +140,14 @@ class HoverBar {
   }
 
   /**
-   * 尝试匹配 node ，如匹配成功则显示 hoverbar
+   * 获取选中的 node ，以及对应的 menu keys
    */
-  private tryMatchNodes() {
+  private getSelectedNodeAndMenuKeys(): { node: Node; menuKeys: string[] } | null {
     const editor = this.getEditorInstance()
-    const { selection } = editor
 
-    if (selection == null) return // 无选区，则隐藏
+    if (editor.selection == null) {
+      return null
+    }
 
     // 获取 hover bar 配置
     const keysConf = this.getHoverbarKeysConf()
@@ -157,13 +170,13 @@ class HoverBar {
       }
     })
 
-    // console.log('matchNode', matchNode, matchMenuKeys)
+    // 未匹配成功
+    if (matchNode == null) return null
 
-    if (matchNode) {
-      // 如果匹配成功，则注册菜单，显示 hover bar
-      this.registerItems(matchMenuKeys)
-      this.setPosition(matchNode)
-      this.show()
+    // 匹配成功
+    return {
+      node: matchNode,
+      menuKeys: matchMenuKeys,
     }
   }
 
@@ -171,8 +184,30 @@ class HoverBar {
    * editor onChange 时触发（涉及 DOM 操作，加防抖）
    */
   private onEditorChange = debounce(() => {
-    this.hideAndClean() // 先隐藏
-    this.tryMatchNodes() // 尝试匹配，重新渲染 hover bar
+    // 获取选中的 node ，以及对应的 menu keys
+    const { node = null, menuKeys = [] } = this.getSelectedNodeAndMenuKeys() || {}
+    if (node != null) {
+      this.changeItemsState() // 更新菜单状态
+    }
+
+    if (node && this.selectedNode === node) {
+      // 依然是当前选中的 node ，终止
+      return
+    }
+
+    // 选择了新的 node（或选区是 null），先隐藏
+    this.hideAndClean()
+
+    if (node != null) {
+      // 选中了新的 node
+      this.hideAndClean() // 先隐藏
+      this.registerItems(menuKeys)
+      this.setPosition(node)
+      this.show()
+    }
+
+    // 最后，重新记录 selectedNode ，重要
+    this.selectedNode = node
   }, 200)
 
   private getEditorInstance(): IDomEditor {
@@ -197,6 +232,7 @@ class HoverBar {
     // 清空属性
     this.menus = {}
     this.hoverbarItems = []
+    this.selectedNode = null
   }
 }
 

@@ -93,7 +93,7 @@ class TextArea {
    * 绑定事件，如 beforeinput onblur onfocus keydown click copy/paste drag/drop 等
    */
   private bindEvent() {
-    const $textArea = this.$textArea
+    const { $textArea, $scroll } = this
     const editor = this.editorInstance
 
     if ($textArea == null) return
@@ -104,12 +104,20 @@ class TextArea {
         // @ts-ignore 忽略 event 类型的语法提示
         fn(event, this, editor)
       })
-      // TODO editor 销毁时，解绑事件
     })
 
     // 设置 scroll
     const { scroll } = this.editorConfig
-    if (scroll) this.$scroll.css('overflow-y', 'auto')
+    if (scroll) {
+      $scroll.css('overflow-y', 'auto')
+      // scroll 自定义事件
+      $scroll.on(
+        'scroll',
+        throttle(() => {
+          editor.emit('scroll')
+        }, 100)
+      )
+    }
   }
 
   private onFocusAndOnBlur() {

@@ -97,7 +97,7 @@
     const editorView = new WangEditor({
       toolbarSelector: '#editor-toolbar',
       textareaSelector: '#editor-text-area',
-      // initContent: window.initContent, // 初始化内容
+      initContent: window.initContent, // 初始化内容
     })
     editorView.config.placeholder = '请输入内容'
     editorView.config.scroll = false // 禁止编辑器滚动
