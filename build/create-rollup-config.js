@@ -5,13 +5,14 @@
 
 import path from 'path'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
-// import { visualizer } from 'rollup-plugin-visualizer'
+import { visualizer } from 'rollup-plugin-visualizer'
 import devConf from './config/dev'
 import prdConf from './config/prd'
 
 // 环境变量
 const ENV = process.env.NODE_ENV || 'production'
 const IS_PRD = ENV === 'production'
+const IS_SIZE_STATS = ENV === 'size_stats'
 
 /**
  * 生成单个 rollup 配置
@@ -31,6 +32,10 @@ function genSingleConfig(customConfig = {}) {
   if (output.format !== 'iife') {
     // 打包结果不包含 peerDependencies （ 但 iife 格式不能用 ）
     insertedPlugins.push(peerDepsExternal())
+  }
+  if (IS_SIZE_STATS) {
+    // 分析包体积。运行之后可查看 package 下的 `stats.html`
+    insertedPlugins.push(visualizer())
   }
 
   return {

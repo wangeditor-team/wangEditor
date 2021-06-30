@@ -124,3 +124,6 @@ cypress/logs
 packages/*/dist
 
 bak/
+
+# rollup 分析包体积结果
+stats.html

@@ -40,3 +40,8 @@
 注意合理使用 `peerDependencies` 和 `dependencies` ，不要重复打包一个第三方库
 
 执行 `lerna add ...` 之后，需要重新 `lerna link` 建立内部连接
+
+分析包体积
+- 命令行，进入某个 package ，如 `cd packages/editor`
+- 执行 `yarn size-stats` ，等待执行完成
+- 结果会记录在 `packages/editor/stats.html` 用浏览器打开
