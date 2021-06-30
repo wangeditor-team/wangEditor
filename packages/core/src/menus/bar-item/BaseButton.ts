@@ -8,6 +8,7 @@ import $, { Dom7Array } from '../../utils/dom'
 import { IBarItem, getEditorInstance } from './index'
 import { clearSvgStyle } from '../helpers/helpers'
 import { promiseResolveThen } from '../../utils/util'
+import { addTooltip } from './tooltip'
 
 abstract class BaseButton implements IBarItem {
   $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
@@ -23,10 +24,11 @@ abstract class BaseButton implements IBarItem {
     if (tag !== 'button') throw new Error(`Invalid tag '${tag}', expected 'button'`)
 
     // ----------------- 初始化 dom -----------------
-    const { title, hotkey, iconSvg } = menu
+    const { title, hotkey = '', iconSvg } = menu
     const $svg = $(iconSvg)
     clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
     const $button = $(`<button></button>`)
+    addTooltip($button, title, hotkey, inGroup) // 设置 tooltip
     $button.append($svg)
     if (inGroup) {
       // in groupButton ，显示 menu title
@@ -37,21 +39,6 @@ abstract class BaseButton implements IBarItem {
     }
     this.$elem.append($button)
     this.$button = $button
-
-    // ----------------- 设置 tooltip -----------------
-    if (inGroup) {
-      // in groupButton ，tooltip 只显示 快捷键
-      if (hotkey) {
-        $button.attr('data-tooltip', hotkey)
-        $button.addClass('w-e-menu-tooltip')
-        $button.addClass('tooltip-right') // tooltip 显示在右侧
-      }
-    } else {
-      // 非 in groupButton ，正常实现 tooltip
-      const tooltip = hotkey ? `${title}\n${hotkey}` : title
-      $button.attr('data-tooltip', tooltip)
-      $button.addClass('w-e-menu-tooltip')
-    }
 
     // ----------------- 异步绑定事件 -----------------
     promiseResolveThen(() => this.init())

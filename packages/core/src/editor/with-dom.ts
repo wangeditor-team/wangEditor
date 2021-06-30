@@ -306,8 +306,16 @@ export const withDOM = <T extends Editor>(editor: T) => {
 
   // scroll to elem
   e.scrollToElem = (id: string) => {
+    const { scroll } = e.getConfig()
+    if (!scroll) {
+      // 没有设置编辑区域滚动，则不能用
+      let info = '编辑器禁用了 scroll ，编辑器内容无法滚动，请自行实现该功能'
+      info += '\nYou has disabled editor scroll, please do this yourself'
+      console.warn(info)
+      return
+    }
+
     const $elem = $(`#${id}`)
-    console.log('$elem', $elem)
     if ($elem.length === 0) return
 
     const textarea = DomEditor.getTextarea(e)
