@@ -97,7 +97,14 @@ function getDefaultEditorConfig() {
       {
         // @ts-ignore
         match: (editor, n) => n.type === 'image', // 匹配 image node
-        menuKeys: ['deleteImage', 'editImage', 'viewImageLink'],
+        menuKeys: [
+          'imageWidth30',
+          'imageWidth50',
+          'imageWidth100',
+          'editImage',
+          'viewImageLink',
+          'deleteImage',
+        ],
       },
       // video hover bar
       {

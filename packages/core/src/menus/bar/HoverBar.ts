@@ -22,6 +22,7 @@ class HoverBar {
   private menus: { [key: string]: MenuType } = {}
   private hoverbarItems: IBarItem[] = []
   private selectedNode: Node | null = null
+  private $body = $('body')
 
   constructor() {
     // 异步，否则获取不到 DOM 和 editor
@@ -38,7 +39,17 @@ class HoverBar {
       editor.on('change', this.onEditorChange)
 
       // 滚动时隐藏
-      editor.on('scroll', this.hideAndClean.bind(this))
+      const hideAndClean = this.hideAndClean.bind(this)
+      editor.on('scroll', hideAndClean)
+
+      // 拖拽时隐藏（如拖拽修改图片尺寸）
+      const { $body } = this
+      $body.on('mousedown', () => {
+        $body.on('mousemove', hideAndClean)
+      })
+      $body.on('mouseup', () => {
+        $body.off('mousemove', hideAndClean)
+      })
     })
   }
 

@@ -8,6 +8,8 @@ import DeleteImage from './DeleteImage'
 import EditImage from './EditImage'
 import ViewImageLink from './ViewImageLink'
 import ImageWidth30 from './Width30'
+import ImageWidth50 from './Width50'
+import ImageWidth100 from './Width100'
 import { genImageMenuConfig } from './config'
 
 const config = genImageMenuConfig() // menu config
@@ -49,5 +51,19 @@ export const imageWidth30MenuConf = {
   key: 'imageWidth30',
   factory() {
     return new ImageWidth30()
+  },
+}
+
+export const imageWidth50MenuConf = {
+  key: 'imageWidth50',
+  factory() {
+    return new ImageWidth50()
+  },
+}
+
+export const imageWidth100MenuConf = {
+  key: 'imageWidth100',
+  factory() {
+    return new ImageWidth100()
   },
 }

@@ -13,6 +13,8 @@ import {
   editImageMenuConf,
   viewImageLinkMenuConf,
   imageWidth30MenuConf,
+  imageWidth50MenuConf,
+  imageWidth100MenuConf,
 } from './menu/index'
 
 const image: IModuleConf = {
@@ -24,6 +26,8 @@ const image: IModuleConf = {
     editImageMenuConf,
     viewImageLinkMenuConf,
     imageWidth30MenuConf,
+    imageWidth50MenuConf,
+    imageWidth100MenuConf,
   ],
   editorPlugin: withImage,
 }

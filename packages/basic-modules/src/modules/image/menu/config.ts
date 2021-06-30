@@ -38,6 +38,6 @@ export function genImageMenuConfig() {
       /*自定义*/
     },
 
-    // TODO onDeletedImage ？？？ 考虑所有删除的场景 —— 可以使用插件，劫持 e.apply 中的 `remove_node`
+    // TODO onDeletedImage - 参考 plugin.ts 中的 `newEditor.apply = `
   }
 }
