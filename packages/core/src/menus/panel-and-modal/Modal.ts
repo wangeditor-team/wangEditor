@@ -4,31 +4,17 @@
  */
 
 import $, { Dom7Array } from '../../utils/dom'
-import { IPanel, gatherPanelAndModal } from '../panel-and-modal/index'
 import { IPositionStyle } from '../interface'
+import PanelAndModal from './BaseClass'
+import { IDomEditor } from '../../editor/dom-editor'
 
-class Modal implements IPanel {
+class Modal extends PanelAndModal {
   $elem: Dom7Array = $(`<div class="w-e-modal"></div>`)
-  isShow: boolean = false
   private width: number = 0
 
-  constructor(width: number = 0) {
+  constructor(editor: IDomEditor, width: number = 0) {
+    super(editor)
     if (width) this.width = width
-
-    // 收集实例，以便可以统一 hide
-    gatherPanelAndModal(this)
-  }
-
-  renderContent($content: Dom7Array) {
-    const $elem = this.$elem
-    $elem.html('') // 先清空，再填充内容
-    $elem.append($content)
-  }
-
-  appendTo($container: Dom7Array) {
-    const $elem = this.$elem
-    $elem.on('click', (e: Event) => e.stopPropagation())
-    $container.append($elem)
   }
 
   setStyle(positionStyle: IPositionStyle) {
@@ -38,23 +24,6 @@ class Modal implements IPanel {
 
     if (width) $elem.css('width', `${width}px`)
     $elem.css(positionStyle)
-  }
-
-  show() {
-    if (this.isShow) return
-
-    const $elem = this.$elem
-
-    $elem.show()
-    this.isShow = true
-  }
-
-  hide() {
-    if (!this.isShow) return
-
-    const $elem = this.$elem
-    $elem.hide()
-    this.isShow = false
   }
 }
 

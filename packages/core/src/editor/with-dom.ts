@@ -5,7 +5,13 @@
 
 import { Editor, Node, Path, Operation, Transforms, Range } from 'slate'
 import { IDomEditor, DomEditor } from './dom-editor'
-import { NODE_TO_KEY, EDITOR_TO_CONFIG, EDITOR_TO_SELECTION, IS_FOCUSED } from '../utils/weak-maps'
+import {
+  NODE_TO_KEY,
+  EDITOR_TO_CONFIG,
+  EDITOR_TO_SELECTION,
+  IS_FOCUSED,
+  EDITOR_TO_PANEL_AND_MODAL,
+} from '../utils/weak-maps'
 import { Key } from '../utils/key'
 import { isDOMText, getPlainText } from '../utils/dom'
 import { IConfig } from '../config/index'
@@ -331,6 +337,13 @@ export const withDOM = <T extends Editor>(editor: T) => {
         $progressBar.show()
       }, 1000)
     }
+  }
+
+  // 隐藏 panel 或 modal
+  e.hidePanelOrModal = () => {
+    const set = EDITOR_TO_PANEL_AND_MODAL.get(e)
+    if (set == null) return
+    set.forEach(panelOrModal => panelOrModal.hide())
   }
 
   // 最后要返回 editor 实例 - 重要！！！

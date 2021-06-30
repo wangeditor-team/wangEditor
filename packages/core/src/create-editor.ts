@@ -66,6 +66,16 @@ function create(option: ICreateOption) {
   const textarea = new TextArea(textareaSelector)
   EDITOR_TO_TEXTAREA.set(editor, textarea)
   TEXTAREA_TO_EDITOR.set(textarea, editor)
+  // 判断 textarea 最小高度，并给出提示
+  promiseResolveThen(() => {
+    const $textarea = textarea.$textArea
+    if ($textarea == null) return
+    if ($textarea.height() < 300) {
+      let info = '编辑区域高度 < 300px 这可能会导致 modal hoverbar 定位异常'
+      info += '\nTextarea height < 300px . This may be cause modal and hoverbar position error'
+      console.warn(info, $textarea)
+    }
+  })
 
   // 创建 toolbar DOM
   let toolbar: Toolbar | null = null
@@ -89,6 +99,14 @@ function create(option: ICreateOption) {
     EDITOR_TO_HOVER_BAR.set(editor, hoverbar)
   }
 
+  // 隐藏 panel and modal
+  editor.on('change', () => {
+    editor.hidePanelOrModal()
+  })
+  editor.on('scroll', () => {
+    editor.hidePanelOrModal()
+  })
+
   // 初始化内容
   if (initContent && initContent.length) {
     editor.children = initContent
@@ -97,38 +115,24 @@ function create(option: ICreateOption) {
   }
   textarea.onEditorChange() // 初始化时触发一次，以便能初始化 textarea DOM 和 selection
 
-  // editor onCreated
-  editor.on('created', () => {
-    // 触发用户配置的 onCreated 函数
-    if (editorConfig.onCreated) editorConfig.onCreated(editor)
-  })
-  promiseResolveThen(() => editor.emit('created'))
-
-  // editor onchange
-  editor.on('change', () => {
-    // 触发用户配置的 onchange 函数
-    if (editorConfig.onChange) editorConfig.onChange(editor)
-  })
-
-  // editor onDestroyed
-  editor.on('destroyed', () => {
-    // 触发用户配置的 onDestroyed 函数
-    if (editorConfig.onDestroyed) editorConfig.onDestroyed(editor)
-  })
+  // 触发生命周期
+  const { onCreated, onChange, onDestroyed } = editorConfig
+  if (onCreated) {
+    editor.on('created', () => onCreated(editor))
+  }
+  if (onChange) {
+    editor.on('change', () => onChange(editor))
+  }
+  if (onDestroyed) {
+    editor.on('destroyed', () => onDestroyed(editor))
+  }
 
   // 记录编辑状态
-  IS_READ_ONLY.set(editor, !!editorConfig.readOnly)
+  const { readOnly } = editorConfig
+  IS_READ_ONLY.set(editor, !!readOnly)
 
-  // 判断 textarea 最小高度，并给出提示
-  promiseResolveThen(() => {
-    const $textarea = textarea.$textArea
-    if ($textarea == null) return
-    if ($textarea.height() < 300) {
-      let info = '编辑区域高度 < 300px 这可能会导致 modal hoverbar 定位异常'
-      info += '\nTextarea height < 300px . This may be cause modal and hoverbar position error'
-      console.warn(info, $textarea)
-    }
-  })
+  // 创建完毕，异步触发 created
+  promiseResolveThen(() => editor.emit('created'))
 
   return editor
 }

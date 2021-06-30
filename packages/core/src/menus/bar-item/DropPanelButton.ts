@@ -24,7 +24,7 @@ class DropPanelButton extends BaseButton {
   }
 
   // button 点击之后
-  onClick() {
+  onButtonClick() {
     if (this.menu.showDropPanel) {
       this.handleDropPanel()
     }
@@ -38,7 +38,7 @@ class DropPanelButton extends BaseButton {
 
     if (this.dropPanel == null) {
       // 初次创建
-      const dropPanel = new DropPanel()
+      const dropPanel = new DropPanel(editor)
       const $content = menu.getPanelContentElem(editor)
       dropPanel.renderContent($content)
       dropPanel.appendTo(this.$elem)

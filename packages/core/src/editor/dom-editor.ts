@@ -58,6 +58,7 @@ export interface IDomEditor extends Editor {
   alert: (info: string, type: AlertType) => void
   scrollToElem: (id: string) => void
   showProgressBar: (progress: number) => void
+  hidePanelOrModal: () => void
   // 自定义事件
   on: (type: string, listener: ee.EventListener) => void
   off: (type: string, listener: ee.EventListener) => void

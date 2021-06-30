@@ -6,9 +6,8 @@
 import $, { Dom7Array } from '../../utils/dom'
 import { IBarItem, getEditorInstance } from './index'
 import { IOption, ISelectMenu } from '../interface'
-import SelectList from './SelectList'
+import SelectList from '../panel-and-modal/SelectList'
 import { gen$downArrow } from '../helpers/helpers'
-import { hideAllPanelsAndModals } from '../panel-and-modal/index'
 import { DomEditor } from '../../editor/dom-editor'
 import { promiseResolveThen } from '../../utils/util'
 
@@ -56,10 +55,11 @@ class BarItemSelect implements IBarItem {
     // 设置 select 属性
     this.setSelectedValue()
 
-    // click
-    this.$button.on('click', (e: Event) => {
-      e.stopPropagation()
-      hideAllPanelsAndModals() // 隐藏当前的各种 panel
+    // select button click
+    this.$button.on('mousedown', (e: Event) => {
+      e.preventDefault()
+      const editor = getEditorInstance(this)
+      editor.hidePanelOrModal() // 隐藏当前的各种 panel
       this.trigger()
     })
   }
@@ -75,7 +75,7 @@ class BarItemSelect implements IBarItem {
     // 显示下拉列表
     if (this.selectList == null) {
       // 初次创建，渲染 list 并显示
-      this.selectList = new SelectList()
+      this.selectList = new SelectList(editor)
       const selectList = this.selectList
       const options = menu.getOptions(editor)
       selectList.renderList(options)

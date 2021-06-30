@@ -29,7 +29,7 @@ class Toolbar {
       throw new Error(`Cannot find toolbar DOM by selector '${selector}'`)
     }
     const $toolbar = $(`<div class="w-e-bar w-e-bar-show w-e-toolbar"></div>`)
-    $toolbar.on('mousedown', e => e.preventDefault())
+    $toolbar.on('mousedown', e => e.preventDefault()) // 防止点击失焦
     $box.append($toolbar)
     this.$toolbar = $toolbar
 

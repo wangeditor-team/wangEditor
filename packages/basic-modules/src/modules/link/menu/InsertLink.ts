@@ -4,7 +4,7 @@
  */
 
 import { Editor, Transforms, Range, Node } from 'slate'
-import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
+import { IModalMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
@@ -71,7 +71,7 @@ class InsertLinkMenu implements IModalMenu {
         const text = $(`#${textInputId}`).val()
         const url = $(`#${urlInputId}`).val()
         insertLink(editor, text, url) // 插入链接
-        hideAllPanelsAndModals() // 隐藏 modal
+        editor.hidePanelOrModal() // 隐藏 modal
       })
 
       // 记录属性，重要

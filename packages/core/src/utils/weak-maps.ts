@@ -14,6 +14,7 @@ import { IBarItem } from '../menus/bar-item/index'
 import { Key } from './key'
 import { PatchFn } from '../utils/vdom'
 import { IConfig } from '../config/index'
+import PanelAndModal from '../menus/panel-and-modal/BaseClass'
 
 // textarea - editor
 export const EDITOR_TO_TEXTAREA = new WeakMap<IDomEditor, TextArea>()
@@ -25,6 +26,7 @@ export const EDITOR_TO_TOOLBAR = new WeakMap<IDomEditor, Toolbar>()
 export const HOVER_BAR_TO_EDITOR = new WeakMap<HoverBar, IDomEditor>()
 export const EDITOR_TO_HOVER_BAR = new WeakMap<IDomEditor, HoverBar>()
 export const BAR_ITEM_TO_EDITOR = new WeakMap<IBarItem, IDomEditor>()
+export const EDITOR_TO_PANEL_AND_MODAL = new WeakMap<IDomEditor, Set<PanelAndModal>>()
 
 // config
 export const EDITOR_TO_CONFIG = new WeakMap<IDomEditor, IConfig>()

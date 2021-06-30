@@ -5,7 +5,8 @@
 
 import $, { Dom7Array } from '../../utils/dom'
 import { IOption } from '../interface'
-import { IPanel, gatherPanelAndModal } from '../panel-and-modal/index'
+import PanelAndModal from './BaseClass'
+import { IDomEditor } from '../../editor/dom-editor'
 
 // “对号”icon
 function gen$SelectedIcon() {
@@ -14,13 +15,11 @@ function gen$SelectedIcon() {
   )
 }
 
-class SelectList implements IPanel {
+class SelectList extends PanelAndModal {
   $elem: Dom7Array = $(`<div class="w-e-select-list"></div>`)
-  isShow: boolean = false
 
-  constructor() {
-    // 收集实例，以便可以统一 hide
-    gatherPanelAndModal(this)
+  constructor(editor: IDomEditor) {
+    super(editor)
   }
 
   /**
@@ -50,27 +49,6 @@ class SelectList implements IPanel {
       $list.append($li)
     })
     $elem.append($list)
-  }
-
-  appendTo($menuElem: Dom7Array) {
-    const $elem = this.$elem
-    $menuElem.append($elem)
-  }
-
-  show() {
-    if (this.isShow) return
-
-    const $elem = this.$elem
-    $elem.show()
-    this.isShow = true
-  }
-
-  hide() {
-    if (!this.isShow) return
-
-    const $elem = this.$elem
-    $elem.hide()
-    this.isShow = false
   }
 }
 

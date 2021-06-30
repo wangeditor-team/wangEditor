@@ -30,6 +30,7 @@ class HoverBar {
 
       // 将 elem 渲染为 DOM
       const $elem = this.$elem
+      $elem.on('mousedown', e => e.preventDefault()) // 防止点击失焦
       const textarea = DomEditor.getTextarea(editor)
       textarea.$textAreaContainer.append($elem)
 

@@ -12,4 +12,3 @@ export {
   IMenuConf,
   IOption,
 } from './interface'
-export { hideAllPanelsAndModals } from './panel-and-modal/index'

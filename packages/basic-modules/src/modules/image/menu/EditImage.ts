@@ -4,7 +4,7 @@
  */
 
 import { Node, Transforms, Range } from 'slate'
-import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
+import { IModalMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
@@ -92,7 +92,7 @@ class EditImage implements IModalMenu {
         const alt = $(`#${altInputId}`).val()
         const url = $(`#${urlInputId}`).val()
         this.updateImage(editor, src, alt, url)
-        hideAllPanelsAndModals() // 隐藏 modal
+        editor.hidePanelOrModal() // 隐藏 modal
       })
 
       // 记录属性，重要

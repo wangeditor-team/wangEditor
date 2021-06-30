@@ -4,7 +4,7 @@
  */
 
 import { Node } from 'slate'
-import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
+import { IModalMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
@@ -93,7 +93,7 @@ class UpdateLinkMenu implements IModalMenu {
         const url = $(`#${urlInputId}`).val()
         updateLink(editor, text, url) // 修改链接
 
-        hideAllPanelsAndModals() // 隐藏 modal
+        editor.hidePanelOrModal() // 隐藏 modal
       })
 
       // 记录属性，重要

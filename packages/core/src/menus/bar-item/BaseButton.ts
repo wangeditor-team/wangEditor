@@ -7,7 +7,6 @@ import { IButtonMenu, IDropPanelMenu, IModalMenu } from '../interface'
 import $, { Dom7Array } from '../../utils/dom'
 import { IBarItem, getEditorInstance } from './index'
 import { clearSvgStyle } from '../helpers/helpers'
-import { hideAllPanelsAndModals } from '../panel-and-modal/index'
 import { promiseResolveThen } from '../../utils/util'
 
 abstract class BaseButton implements IBarItem {
@@ -63,16 +62,17 @@ abstract class BaseButton implements IBarItem {
     this.setActive()
     this.setDisabled()
 
-    // click
-    this.$button.on('click', e => {
-      e.stopPropagation() // 阻止冒泡，避免隐藏 panel 和 modal
+    // button click
+    this.$button.on('mousedown', e => {
+      e.preventDefault()
+      const editor = getEditorInstance(this)
 
-      hideAllPanelsAndModals() // 隐藏当前的各种 panel
+      editor.hidePanelOrModal() // 隐藏当前的各种 panel
 
       if (this.disabled) return
 
       this.exec() // 执行 menu.exec
-      this.onClick() // 执行其他的逻辑
+      this.onButtonClick() // 执行其他的逻辑
     })
   }
 
@@ -87,7 +87,7 @@ abstract class BaseButton implements IBarItem {
   }
 
   // 交给子类去扩展
-  abstract onClick(): void
+  abstract onButtonClick(): void
 
   private setActive() {
     const editor = getEditorInstance(this)

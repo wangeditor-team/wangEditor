@@ -4,7 +4,7 @@
  */
 
 import { Editor, Transforms, Range, Node } from 'slate'
-import { IModalMenu, IDomEditor, DomEditor, hideAllPanelsAndModals } from '@wangeditor/core'
+import { IModalMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
 import { genModalInputElems, genModalButtonElems, getMenuConf } from '../_helpers/menu'
@@ -74,7 +74,7 @@ class InsertVideoMenu implements IModalMenu {
         e.preventDefault()
         const src = $(`#${srcInputId}`).val().trim()
         this.insertVideo(editor, src)
-        hideAllPanelsAndModals() // 隐藏 modal
+        editor.hidePanelOrModal() // 隐藏 modal
       })
 
       // 记录属性，重要

@@ -7,7 +7,6 @@ import { Element } from 'slate'
 import { IModalMenu, IPositionStyle } from '../interface'
 import BaseButton from './BaseButton'
 import Modal from '../panel-and-modal/Modal'
-import { EDITOR_TO_TEXTAREA } from '../../utils/weak-maps'
 import { getEditorInstance } from './index'
 import { getPositionBySelection, getPositionByNode, correctPosition } from '../helpers/position'
 import { DomEditor } from '../../editor/dom-editor'
@@ -21,7 +20,7 @@ class ModalButton extends BaseButton {
     this.menu = menu
   }
 
-  onClick() {
+  onButtonClick() {
     if (this.menu.showModal) {
       this.handleModal()
     }
@@ -45,11 +44,12 @@ class ModalButton extends BaseButton {
 
   // 显示/隐藏 modal
   private handleModal() {
+    const editor = getEditorInstance(this)
     const menu = this.menu
 
     if (this.modal == null) {
       // 初次创建
-      const modal = new Modal(menu.modalWidth)
+      const modal = new Modal(editor, menu.modalWidth)
       this.renderAndShowModal(modal, true)
 
       // 记录下来，防止重复创建
