@@ -6,10 +6,10 @@
 import { Element as SlateElement } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor } from '@wangeditor/core'
+import { TableCellElement, TableRowElement, TableElement } from '../custom-types'
 
 function renderTable(elemNode: SlateElement, children: VNode[] | null, editor: IDomEditor): VNode {
-  // @ts-ignore
-  const { withHeader = false, fullWidth = false } = elemNode
+  const { withHeader = false, fullWidth = false } = elemNode as TableElement
 
   let classNames: string[] = []
   if (withHeader) classNames.push('with-header') // 表头
@@ -37,8 +37,7 @@ function renderTableCell(
   children: VNode[] | null,
   editor: IDomEditor
 ): VNode {
-  // @ts-ignore
-  const { colSpan = 1, rowSpan = 1 } = cellNode
+  const { colSpan = 1, rowSpan = 1 } = cellNode as TableCellElement
   const vnode = (
     <td colSpan={colSpan} rowSpan={rowSpan}>
       {children}

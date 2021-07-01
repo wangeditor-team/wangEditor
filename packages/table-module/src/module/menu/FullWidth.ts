@@ -4,9 +4,9 @@
  */
 
 import { Transforms, Range } from 'slate'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from '../_helpers/node'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { FULL_WIDTH_SVG } from '../../constants/svg'
+import { TableCellElement, TableRowElement, TableElement } from '../../custom-types'
 
 class TableFullWidth implements IButtonMenu {
   title = '宽度自适应'
@@ -15,10 +15,9 @@ class TableFullWidth implements IButtonMenu {
 
   // 是否已设置 宽度自适应
   getValue(editor: IDomEditor): string | boolean {
-    const tableNode = getSelectedNodeByType(editor, 'table')
+    const tableNode = DomEditor.getSelectedNodeByType(editor, 'table')
     if (tableNode == null) return false
-    // @ts-ignore
-    return !!tableNode.fullWidth
+    return !!(tableNode as TableElement).fullWidth
   }
 
   isActive(editor: IDomEditor): boolean {
@@ -30,7 +29,7 @@ class TableFullWidth implements IButtonMenu {
     if (selection == null) return true
     if (!Range.isCollapsed(selection)) return true
 
-    const tableNode = getSelectedNodeByType(editor, 'table')
+    const tableNode = DomEditor.getSelectedNodeByType(editor, 'table')
     if (tableNode == null) {
       // 选区未处于 table node ，则禁用
       return true
@@ -40,28 +39,9 @@ class TableFullWidth implements IButtonMenu {
 
   exec(editor: IDomEditor, value: string | boolean) {
     if (this.isDisabled(editor)) return
+    const newValue = value ? false : true
 
-    if (value) {
-      // 已经设置了 宽度自适应，则取消
-      Transforms.setNodes(
-        editor,
-        {
-          // @ts-ignore
-          fullWidth: null,
-        },
-        { mode: 'highest' }
-      )
-    } else {
-      // 未设置 宽度自适应，则设置
-      Transforms.setNodes(
-        editor,
-        {
-          // @ts-ignore
-          fullWidth: true,
-        },
-        { mode: 'highest' }
-      )
-    }
+    Transforms.setNodes(editor, { fullWidth: newValue }, { mode: 'highest' })
   }
 }
 

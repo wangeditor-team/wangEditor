@@ -6,10 +6,10 @@
 import { Element } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-// import { VideoElement } from './interface'
+import { VideoElement } from '../custom-types'
 
 function renderVideo(elemNode: Element, children: VNode[] | null, editor: IDomEditor): VNode {
-  const { src = '' } = elemNode
+  const { src = '' } = elemNode as VideoElement
 
   // 是否选中
   const selected = DomEditor.isNodeSelected(editor, elemNode)

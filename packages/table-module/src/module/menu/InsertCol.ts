@@ -4,9 +4,8 @@
  */
 
 import { isEqual } from 'lodash-es'
-import { Editor, Transforms, Range, Node } from 'slate'
+import { Editor, Element, Transforms, Range, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from '../_helpers/node'
 import { ADD_COL_SVG } from '../../constants/svg'
 
 class InsertCol implements IButtonMenu {
@@ -29,7 +28,7 @@ class InsertCol implements IButtonMenu {
     if (selection == null) return true
     if (!Range.isCollapsed(selection)) return true
 
-    const tableNode = getSelectedNodeByType(editor, 'table')
+    const tableNode = DomEditor.getSelectedNodeByType(editor, 'table')
     if (tableNode == null) {
       // 选区未处于 table cell node ，则禁用
       return true
@@ -41,8 +40,7 @@ class InsertCol implements IButtonMenu {
     if (this.isDisabled(editor)) return
 
     const [cellEntry] = Editor.nodes(editor, {
-      // @ts-ignore
-      match: n => n.type === 'table-cell',
+      match: n => DomEditor.checkNodeType(n, 'table-cell'),
       universal: true,
     })
     const [selectedCellNode, selectedCellPath] = cellEntry
@@ -60,7 +58,8 @@ class InsertCol implements IButtonMenu {
     // 遍历所有 rows ，挨个添加 cell
     const rows = tableNode.children || []
     rows.forEach(row => {
-      // @ts-ignore
+      if (!Element.isElement(row)) return
+
       const cells = row.children || []
       // 遍历一个 row 的所有 cells
       cells.forEach((cell: Node) => {

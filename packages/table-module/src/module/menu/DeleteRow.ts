@@ -5,7 +5,6 @@
 
 import { Editor, Transforms, Range } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from '../_helpers/node'
 import { DEL_ROW_SVG } from '../../constants/svg'
 
 class DeleteRow implements IButtonMenu {
@@ -28,7 +27,7 @@ class DeleteRow implements IButtonMenu {
     if (selection == null) return true
     if (!Range.isCollapsed(selection)) return true
 
-    const rowNode = getSelectedNodeByType(editor, 'table-row')
+    const rowNode = DomEditor.getSelectedNodeByType(editor, 'table-row')
     if (rowNode == null) {
       // 选区未处于 table row node ，则禁用
       return true
@@ -40,8 +39,7 @@ class DeleteRow implements IButtonMenu {
     if (this.isDisabled(editor)) return
 
     const [rowEntry] = Editor.nodes(editor, {
-      // @ts-ignore
-      match: n => n.type === 'table-row',
+      match: n => DomEditor.checkNodeType(n, 'table-row'),
       universal: true,
     })
     const [rowNode, rowPath] = rowEntry

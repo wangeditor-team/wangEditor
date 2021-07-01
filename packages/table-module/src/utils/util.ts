@@ -3,6 +3,8 @@
  * @author wangfupeng
  */
 
+type PromiseCallback = (value: void) => void | PromiseLike<void>
+
 /**
  * 获取随机数字符串
  * @param prefix 前缀
@@ -17,6 +19,5 @@ export function genRandomStr(prefix: string = 'r'): string {
 }
 
 export function promiseResolveThen(fn: Function) {
-  // @ts-ignore
-  Promise.resolve().then(fn)
+  Promise.resolve().then(fn as PromiseCallback)
 }

@@ -4,8 +4,7 @@
  */
 
 import { Transforms } from 'slate'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from '../_helpers/node'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { TRASH_SVG } from '../../constants/svg'
 
 class DeleteTable implements IButtonMenu {
@@ -26,7 +25,7 @@ class DeleteTable implements IButtonMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const tableNode = getSelectedNodeByType(editor, 'table')
+    const tableNode = DomEditor.getSelectedNodeByType(editor, 'table')
     if (tableNode == null) {
       // 选区未处于 table node ，则禁用
       return true

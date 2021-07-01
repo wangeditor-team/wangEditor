@@ -3,9 +3,8 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Point, Element } from 'slate'
+import { Editor, Transforms, Point, Element, Descendant } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from './_helpers/node'
 
 // table cell 内部的删除处理
 function deleteHandler(newEditor: IDomEditor): boolean {
@@ -13,8 +12,7 @@ function deleteHandler(newEditor: IDomEditor): boolean {
   if (selection == null) return false
 
   const [cellNodeEntry] = Editor.nodes(newEditor, {
-    // @ts-ignore
-    match: n => n.type === 'table-cell',
+    match: n => DomEditor.checkNodeType(n, 'table-cell'),
   })
   if (cellNodeEntry) {
     const [, cellPath] = cellNodeEntry
@@ -34,7 +32,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
   // 重写 insertBreak - cell 内换行，只换行文本，不拆分 node
   newEditor.insertBreak = () => {
-    const selectedNode = getSelectedNodeByType(newEditor, 'table')
+    const selectedNode = DomEditor.getSelectedNodeByType(newEditor, 'table')
     if (selectedNode != null) {
       // 选中了 table ，则在 cell 内换行
       newEditor.insertText('\n')
@@ -63,19 +61,17 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
   // 重新 normalize
   newEditor.normalizeNode = ([node, path]) => {
-    // @ts-ignore
-    const { type = '', children: rows = [] } = node
-
+    const type = DomEditor.getNodeType(node)
     if (type !== 'table') {
       // 未命中 table ，执行默认的 normalizeNode
       return normalizeNode([node, path])
     }
+    const { children: rows = [] } = node as Element
 
     // --------------------- table 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------
     const topLevelNodes = newEditor.children || []
     const nextNode = topLevelNodes[path[0] + 1] || {}
-    // @ts-ignore
-    const { type: nextNodeType = '' } = nextNode
+    const { type: nextNodeType = '' } = nextNode as Element
     if (
       nextNodeType !== 'paragraph' &&
       nextNodeType !== 'blockquote' &&
@@ -99,14 +95,16 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
     // 获取表格最多有多少列（表格结构乱掉之后，每一列数量不一样多）
     let maxColNum = 0
-    rows.forEach((rowNode: Element) => {
+    rows.forEach((rowNode: Descendant) => {
+      if (!Element.isElement(rowNode)) return
       const cells = rowNode.children || []
       const l = cells.length
       if (maxColNum < l) maxColNum = l // TODO 这里没有考虑到 colSpan 和单元格合并
     })
 
     // 遍历每一行，修整
-    rows.forEach((rowNode: Element, index: number) => {
+    rows.forEach((rowNode: Descendant, index: number) => {
+      if (!Element.isElement(rowNode)) return
       const cells = rowNode.children || []
       const rowPath = path.concat(index) // 当前 tr 的 path
 
@@ -124,19 +122,11 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
       // 遍历每一个 cell ，修整
       cells.forEach((cellNode, i) => {
-        // @ts-ignore
+        if (!Element.isElement(cellNode)) return
+
         if (cellNode.type !== 'table-cell') {
           const cellPath = rowPath.concat(i) // cell path
-          Transforms.setNodes(
-            newEditor,
-            {
-              // @ts-ignore
-              type: 'table-cell',
-            },
-            {
-              at: cellPath,
-            }
-          )
+          Transforms.setNodes(newEditor, { type: 'table-cell' }, { at: cellPath })
         }
       })
       // table row 修复结束
@@ -145,7 +135,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
   // 重写 insertData - 粘贴文本
   newEditor.insertData = (data: DataTransfer) => {
-    const codeNode = getSelectedNodeByType(newEditor, 'table')
+    const codeNode = DomEditor.getSelectedNodeByType(newEditor, 'table')
     if (codeNode == null) {
       insertData(data) // 执行默认的 insertData
       return

@@ -4,7 +4,7 @@
  */
 
 import { Editor, Transforms, Range, Node } from 'slate'
-import { IDropPanelMenu, IDomEditor } from '@wangeditor/core'
+import { IDropPanelMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
 import { TABLE_SVG } from '../../constants/svg'
@@ -69,8 +69,7 @@ class InsertTable implements IDropPanelMenu {
     if (!Range.isCollapsed(selection)) return true // 选区非折叠，禁用
 
     const [nodeEntry] = Editor.nodes(editor, {
-      // @ts-ignore
-      match: n => n.type === 'table',
+      match: n => DomEditor.checkNodeType(n, 'table'),
       universal: true,
     })
     if (nodeEntry != null) return true // 当前处于 table ，禁用
@@ -148,16 +147,9 @@ class InsertTable implements IDropPanelMenu {
     if (rowNum <= 0 || colNum <= 0) return
 
     // 如果当前是空 p ，则删除该 p
-    const [emptyPNodeEntry] = Editor.nodes(editor, {
-      // @ts-ignore
-      match: n => n.type === 'paragraph',
-      universal: true,
-    })
-    if (emptyPNodeEntry) {
-      const [p] = emptyPNodeEntry
-      if (Node.string(p) === '') {
-        Transforms.removeNodes(editor, { mode: 'highest' })
-      }
+    const p = DomEditor.getSelectedNodeByType(editor, 'paragraph')
+    if (p && Node.string(p) === '') {
+      Transforms.removeNodes(editor, { mode: 'highest' })
     }
 
     // 插入表格

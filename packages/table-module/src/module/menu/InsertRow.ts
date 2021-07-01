@@ -5,8 +5,8 @@
 
 import { Editor, Transforms, Range, Path } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from '../_helpers/node'
 import { ADD_ROW_SVG } from '../../constants/svg'
+import { TableRowElement } from '../../custom-types'
 
 class InsertRow implements IButtonMenu {
   title = '插入行'
@@ -28,7 +28,7 @@ class InsertRow implements IButtonMenu {
     if (selection == null) return true
     if (!Range.isCollapsed(selection)) return true
 
-    const tableNode = getSelectedNodeByType(editor, 'table')
+    const tableNode = DomEditor.getSelectedNodeByType(editor, 'table')
     if (tableNode == null) {
       // 选区未处于 table cell node ，则禁用
       return true
@@ -40,8 +40,7 @@ class InsertRow implements IButtonMenu {
     if (this.isDisabled(editor)) return
 
     const [cellEntry] = Editor.nodes(editor, {
-      // @ts-ignore
-      match: n => n.type === 'table-cell',
+      match: n => DomEditor.checkNodeType(n, 'table-cell'),
       universal: true,
     })
     const [cellNode, cellPath] = cellEntry
@@ -52,12 +51,10 @@ class InsertRow implements IButtonMenu {
     if (cellsLength === 0) return
 
     // 拼接新的 row
-    const newRow = { type: 'table-row', children: [] }
+    const newRow: TableRowElement = { type: 'table-row', children: [] }
     for (let i = 0; i < cellsLength; i++) {
       newRow.children.push({
-        // @ts-ignore
         type: 'table-cell',
-        // @ts-ignore
         children: [{ text: '' }],
       })
     }
