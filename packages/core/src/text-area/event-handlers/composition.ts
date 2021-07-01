@@ -9,7 +9,9 @@ import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
 // import { IS_SAFARI, IS_FIREFOX } from '../../utils/ua'
 
-export function handleCompositionStart(event: Event, textarea: TextArea, editor: IDomEditor) {
+export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDomEditor) {
+  const event = e as CompositionEvent
+
   if (!hasEditableTarget(editor, event.target)) return
 
   const { selection } = editor
@@ -21,11 +23,12 @@ export function handleCompositionStart(event: Event, textarea: TextArea, editor:
   textarea.isComposing = true
 }
 
-export function handleCompositionEnd(event: Event, textarea: TextArea, editor: IDomEditor) {
+export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomEditor) {
+  const event = e as CompositionEvent
+
   if (!hasEditableTarget(editor, event.target)) return
   textarea.isComposing = false
 
-  // @ts-ignore
   const { data } = event
 
   // // COMPAT: In Chrome, `beforeinput` events for compositions

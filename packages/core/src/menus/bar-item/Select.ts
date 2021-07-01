@@ -84,9 +84,11 @@ class BarItemSelect implements IBarItem {
 
       // 初次创建，绑定事件
       selectList.$elem.on('mousedown', 'li', (e: Event) => {
+        const { target } = e
+        if (target == null) return
+
         e.preventDefault()
-        // @ts-ignore
-        const $li = $(e.target)
+        const $li = $(target)
         const val = $li.attr('data-value')
         this.onChange(val)
       })

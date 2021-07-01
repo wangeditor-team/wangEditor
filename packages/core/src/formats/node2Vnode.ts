@@ -22,15 +22,6 @@ export function node2Vnode(node: Node, index: number, parent: Ancestor, editor: 
   NODE_TO_INDEX.set(node, index)
   NODE_TO_PARENT.set(node, parent)
 
-  // @ts-ignore
-  if (node.type && node.text) {
-    throw new Error(`
-             no node can not have both 'type' and 'text' prop!
-             一个节点不能同时拥有 type 和 text 两个属性！
-             ${JSON.stringify(node)}
-         `)
-  }
-
   let vnode: VNode
   if (Element.isElement(node)) {
     // element

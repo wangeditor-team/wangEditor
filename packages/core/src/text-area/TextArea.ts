@@ -101,7 +101,6 @@ class TextArea {
     // 遍历所有事件类型，绑定
     forEach(eventHandlerConf, (fn, eventType) => {
       $textArea.on(eventType, event => {
-        // @ts-ignore 忽略 event 类型的语法提示
         fn(event, this, editor)
       })
     })

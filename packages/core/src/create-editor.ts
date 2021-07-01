@@ -23,6 +23,7 @@ import {
   IS_READ_ONLY,
 } from './utils/weak-maps'
 import { promiseResolveThen } from './utils/util'
+import $ from './utils/dom'
 
 type PluginFnType = <T extends IDomEditor>(editor: T) => T
 

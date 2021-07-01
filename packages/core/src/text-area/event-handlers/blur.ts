@@ -10,7 +10,9 @@ import { hasEditableTarget } from '../helpers'
 import { isDOMElement, isDOMNode } from '../../utils/dom'
 import { IS_FOCUSED } from '../../utils/weak-maps'
 
-function handleOnBlur(event: Event, textarea: TextArea, editor: IDomEditor) {
+function handleOnBlur(e: Event, textarea: TextArea, editor: IDomEditor) {
+  const event = e as FocusEvent
+
   const { editorConfig, isUpdatingSelection, latestElement } = textarea
 
   if (editorConfig.readOnly) return
@@ -23,7 +25,7 @@ function handleOnBlur(event: Event, textarea: TextArea, editor: IDomEditor) {
   // editor to stay focused when the tab becomes focused again.
   if (latestElement === window.document.activeElement) return
 
-  // @ts-ignore relatedTarget 即 blur 之后又 focus 到了哪个元素，如果没有则是 null
+  // relatedTarget 即 blur 之后又 focus 到了哪个元素，如果没有则是 null
   const { relatedTarget } = event
   const el = DomEditor.toDOMNode(editor, editor)
 

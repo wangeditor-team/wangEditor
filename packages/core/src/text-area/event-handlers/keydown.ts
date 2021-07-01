@@ -62,18 +62,14 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
   // hotkeys ourselves. (2019/11/06)
   if (Hotkeys.isRedo(event)) {
     preventDefault(event)
-    // @ts-ignore
     if (typeof editor.redo === 'function') {
-      // @ts-ignore
       editor.redo()
     }
     return
   }
   if (Hotkeys.isUndo(event)) {
     preventDefault(event)
-    // @ts-ignore
     if (typeof editor.undo === 'function') {
-      // @ts-ignore
       editor.undo()
     }
     return

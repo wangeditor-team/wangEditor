@@ -96,8 +96,7 @@ export const withEmitter = <T extends Editor>(editor: T) => {
     // editor 销毁时，off 掉 destroyed listeners
     if (type === 'destroyed') {
       const listeners = getDestroyListeners(e)
-      // @ts-ignore
-      listeners.forEach(fn => emitter.off('destroyed', fn))
+      listeners.forEach(fn => emitter.off('destroyed', fn as ee.EventListener))
       clearDestroyListeners(e) // 清空 destroyed listeners
     }
   }

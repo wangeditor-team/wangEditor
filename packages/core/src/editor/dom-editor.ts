@@ -4,7 +4,7 @@
  */
 
 import ee from 'event-emitter'
-import { isEqual } from 'lodash-es'
+import { isEqual, toArray } from 'lodash-es'
 import { Editor, Node, Path, Point, Range, Transforms, Ancestor } from 'slate'
 import { IConfig } from '../config/index'
 import { Key } from '../utils/key'
@@ -59,6 +59,9 @@ export interface IDomEditor extends Editor {
   scrollToElem: (id: string) => void
   showProgressBar: (progress: number) => void
   hidePanelOrModal: () => void
+  // undo redo - 使用 slate-history 扩展
+  undo?: () => void
+  redo?: () => void
   // 自定义事件
   on: (type: string, listener: ee.EventListener) => void
   off: (type: string, listener: ee.EventListener) => void
@@ -472,10 +475,8 @@ export const DomEditor = {
         range.setEnd(nearestNode, nearestOffset)
         const contents = range.cloneContents()
         const removals = [
-          // @ts-ignore
-          ...contents.querySelectorAll('[data-slate-zero-width]'),
-          // @ts-ignore
-          ...contents.querySelectorAll('[contenteditable=false]'),
+          ...toArray(contents.querySelectorAll('[data-slate-zero-width]')),
+          ...toArray(contents.querySelectorAll('[contenteditable=false]')),
         ]
 
         removals.forEach(el => {
