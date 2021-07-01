@@ -4,7 +4,7 @@
  */
 
 import { Editor, Range } from 'slate'
-import { IDomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
 import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
 // import { IS_SAFARI, IS_FIREFOX } from '../../utils/ua'

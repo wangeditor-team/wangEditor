@@ -5,7 +5,8 @@
 
 import { Editor, Path, Node, Text as SlateText, Ancestor } from 'slate'
 import { jsx, VNode } from 'snabbdom'
-import { IDomEditor, DomEditor } from '../../editor/dom-editor'
+import { DomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
 
 function str(text: string, isTrailing = false): VNode {
   return (

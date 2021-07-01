@@ -5,17 +5,9 @@
 
 import ee, { Emitter } from 'event-emitter'
 import { Editor } from 'slate'
-import { IDomEditor, DomEditor } from './dom-editor'
-import { EDITOR_TO_EMITTER } from '../utils/weak-maps'
-import {
-  EDITOR_TO_TEXTAREA,
-  TEXTAREA_TO_EDITOR,
-  TOOLBAR_TO_EDITOR,
-  EDITOR_TO_TOOLBAR,
-  EDITOR_TO_CONFIG,
-  HOVER_BAR_TO_EDITOR,
-  EDITOR_TO_HOVER_BAR,
-} from '../utils/weak-maps'
+import { DomEditor } from '../dom-editor'
+import { IDomEditor } from '../interface'
+import { EDITOR_TO_EMITTER } from '../../utils/weak-maps'
 
 /**
  * 获取 editor 的 emitter 实例

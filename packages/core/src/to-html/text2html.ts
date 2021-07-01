@@ -4,7 +4,7 @@
  */
 
 import { Text } from 'slate'
-import { IDomEditor } from '../editor/dom-editor'
+import { IDomEditor } from '../editor/interface'
 import { TEXT_TO_HTML_FN_LIST, TEXT_STYLE_TO_HTML_FN_LIST } from './index'
 
 function textToHtml(textNode: Text, editor: IDomEditor): string {

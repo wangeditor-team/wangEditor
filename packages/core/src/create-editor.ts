@@ -5,13 +5,13 @@
 
 import { createEditor, Node } from 'slate'
 import { withHistory } from 'slate-history'
-import { withDOM } from './editor/with-dom'
-import { withEmitter } from './editor/with-emitter'
+import { withDOM } from './editor/plugins/with-dom'
+import { withEmitter } from './editor/plugins/with-emitter'
 import TextArea from './text-area/TextArea'
 import Toolbar from './menus/bar/Toolbar'
 import HoverBar from './menus/bar/HoverBar'
 import { IConfig, genConfig } from './config/index'
-import { IDomEditor } from './editor/dom-editor'
+import { IDomEditor } from './editor/interface'
 import {
   EDITOR_TO_TEXTAREA,
   TEXTAREA_TO_EDITOR,

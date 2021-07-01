@@ -5,7 +5,7 @@
 
 import { Dom7Array } from '../../utils/dom'
 import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu, IMenuGroup } from '../interface'
-import { IDomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
 import { BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import SimpleButton from './SimpleButton'
 import DropPanelButton from './DropPanelButton'

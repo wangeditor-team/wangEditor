@@ -3,7 +3,8 @@
  * @author wangfupeng
  */
 
-import { IDomEditor, DomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
+import { DomEditor } from '../../editor/dom-editor'
 import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
 import { isPlainTextOnlyPaste } from '../../utils/dom'

@@ -4,7 +4,7 @@
  */
 
 import { Text as SlateText, Element as SlateElement } from 'slate'
-import { IDomEditor } from '../editor/dom-editor'
+import { IDomEditor } from '../editor/interface'
 
 // ------------------------------------ text style ------------------------------------
 

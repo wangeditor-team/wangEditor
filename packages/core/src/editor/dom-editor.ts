@@ -3,15 +3,14 @@
  * @author wangfupeng
  */
 
-import ee from 'event-emitter'
 import { isEqual, toArray } from 'lodash-es'
 import { Editor, Node, Path, Point, Range, Transforms, Ancestor } from 'slate'
+import { IDomEditor } from './interface'
 import { IConfig } from '../config/index'
 import { Key } from '../utils/key'
 import TextArea from '../text-area/TextArea'
 import Toolbar from '../menus/bar/Toolbar'
 import HoverBar from '../menus/bar/HoverBar'
-import { AlertType } from '../config/index'
 import {
   EDITOR_TO_ELEMENT,
   ELEMENT_TO_NODE,
@@ -37,37 +36,6 @@ import {
   isDOMElement,
   normalizeDOMPoint,
 } from '../utils/dom'
-
-/**
- * 扩展 slate Editor 接口
- */
-export interface IDomEditor extends Editor {
-  id: string
-  insertData: (data: DataTransfer) => void
-  setFragmentData: (data: DataTransfer) => void
-  getConfig: () => IConfig
-  setConfig: (newConfig: IConfig) => void
-  handleTab: () => void
-  getHtml: () => string
-  getText: () => string
-  getSelectionText: () => string // 获取选区文字
-  getHeaders: () => { id: string; type: string; text: string }[] // 获取所有标题
-  focus: () => void
-  blur: () => void
-  destroy: () => void
-  alert: (info: string, type: AlertType) => void
-  scrollToElem: (id: string) => void
-  showProgressBar: (progress: number) => void
-  hidePanelOrModal: () => void
-  // undo redo - 使用 slate-history 扩展
-  undo?: () => void
-  redo?: () => void
-  // 自定义事件
-  on: (type: string, listener: ee.EventListener) => void
-  off: (type: string, listener: ee.EventListener) => void
-  once: (type: string, listener: ee.EventListener) => void
-  emit: (type: string) => void
-}
 
 /**
  * 自定义全局 command

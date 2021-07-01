@@ -5,8 +5,9 @@
 
 import { Node, Element } from 'slate'
 import { Dom7Array, getFirstVoidChild } from '../../utils/dom'
-import { IDomEditor, DomEditor } from '../../editor/dom-editor'
-import { EDITOR_TO_TEXTAREA, NODE_TO_ELEMENT } from '../../utils/weak-maps'
+import { IDomEditor } from '../../editor/interface'
+import { DomEditor } from '../../editor/dom-editor'
+import { NODE_TO_ELEMENT } from '../../utils/weak-maps'
 import { IPositionStyle } from '../interface'
 import { promiseResolveThen } from '../../utils/util'
 

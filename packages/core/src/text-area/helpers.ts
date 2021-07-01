@@ -5,7 +5,8 @@
 
 import { Editor } from 'slate'
 import { DOMRange, DOMNode, isDOMNode } from '../utils/dom'
-import { DomEditor, IDomEditor } from '../editor/dom-editor'
+import { IDomEditor } from '../editor/interface'
+import { DomEditor } from '../editor/dom-editor'
 
 /**
  * Check if two DOM range objects are equal.

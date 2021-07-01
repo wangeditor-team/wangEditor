@@ -6,7 +6,7 @@
 import { Emitter } from 'event-emitter'
 import { VNode } from 'snabbdom'
 import { Node, Ancestor, Editor, Path, Range } from 'slate'
-import { IDomEditor } from '../editor/dom-editor'
+import { IDomEditor } from '../editor/interface'
 import TextArea from '../text-area/TextArea'
 import Toolbar from '../menus/bar/Toolbar'
 import HoverBar from '../menus/bar/HoverBar'

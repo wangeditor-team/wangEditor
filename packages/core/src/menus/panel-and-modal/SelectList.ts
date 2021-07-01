@@ -6,7 +6,7 @@
 import $, { Dom7Array } from '../../utils/dom'
 import { IOption } from '../interface'
 import PanelAndModal from './BaseClass'
-import { IDomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
 
 // “对号”icon
 function gen$SelectedIcon() {

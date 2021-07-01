@@ -4,21 +4,22 @@
  */
 
 import { Editor, Node, Path, Operation, Transforms, Range } from 'slate'
-import { IDomEditor, DomEditor } from './dom-editor'
+import { DomEditor } from '../dom-editor'
+import { IDomEditor } from '../..'
 import {
   NODE_TO_KEY,
   EDITOR_TO_CONFIG,
   EDITOR_TO_SELECTION,
   IS_FOCUSED,
   EDITOR_TO_PANEL_AND_MODAL,
-} from '../utils/weak-maps'
-import { Key } from '../utils/key'
-import { isDOMText, getPlainText } from '../utils/dom'
-import { IConfig } from '../config/index'
-import { node2html } from '../to-html/node2html'
-import { AlertType } from '../config/index'
-import { genElemId } from '../formats/helper'
-import $ from '../utils/dom'
+} from '../../utils/weak-maps'
+import { Key } from '../../utils/key'
+import { isDOMText, getPlainText } from '../../utils/dom'
+import { IConfig } from '../../config/index'
+import { node2html } from '../../to-html/node2html'
+import { AlertType } from '../../config/index'
+import { genElemId } from '../../formats/helper'
+import $ from '../../utils/dom'
 
 let ID = 1
 

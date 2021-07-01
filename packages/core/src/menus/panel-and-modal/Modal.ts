@@ -6,7 +6,7 @@
 import $, { Dom7Array } from '../../utils/dom'
 import { IPositionStyle } from '../interface'
 import PanelAndModal from './BaseClass'
-import { IDomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
 
 class Modal extends PanelAndModal {
   $elem: Dom7Array = $(`<div class="w-e-modal"></div>`)

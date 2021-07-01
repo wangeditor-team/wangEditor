@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { IDomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
 import { Dom7Array } from '../../utils/dom'
 import { EDITOR_TO_PANEL_AND_MODAL } from '../../utils/weak-maps'
 

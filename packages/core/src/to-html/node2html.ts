@@ -4,7 +4,7 @@
  */
 
 import { Element, Node } from 'slate'
-import { IDomEditor } from '../editor/dom-editor'
+import { IDomEditor } from '../editor/interface'
 import elemToHtml from './elem2html'
 import textToHtml from './text2html'
 

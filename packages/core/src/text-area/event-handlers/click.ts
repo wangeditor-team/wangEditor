@@ -4,7 +4,8 @@
  */
 
 import { Editor, Path, Transforms } from 'slate'
-import { IDomEditor, DomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
+import { DomEditor } from '../../editor/dom-editor'
 import TextArea from '../TextArea'
 import { hasTarget } from '../helpers'
 import { isDOMNode } from '../../utils/dom'

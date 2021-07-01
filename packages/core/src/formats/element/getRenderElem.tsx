@@ -5,7 +5,7 @@
 
 import { Element as SlateElement } from 'slate'
 import { jsx, VNode } from 'snabbdom'
-import { IDomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
 import { RENDER_ELEM_CONF, RenderElemFnType } from '../index'
 
 /**

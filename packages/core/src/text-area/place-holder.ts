@@ -4,7 +4,7 @@
  */
 
 import { Element, Text } from 'slate'
-import { IDomEditor } from '../editor/dom-editor'
+import { IDomEditor } from '../editor/interface'
 import TextArea from './TextArea'
 import $, { Dom7Array } from '../utils/dom'
 

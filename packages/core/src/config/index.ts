@@ -5,7 +5,7 @@
 
 import { cloneDeep } from 'lodash-es'
 import { Range, NodeEntry, Node } from 'slate'
-import { IDomEditor } from '../editor/dom-editor'
+import { IDomEditor } from '../editor/interface'
 import { IMenuGroup } from '../menus/interface'
 
 // 全局的菜单配置

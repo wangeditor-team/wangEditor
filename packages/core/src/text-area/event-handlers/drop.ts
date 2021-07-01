@@ -4,7 +4,8 @@
  */
 
 import { Transforms } from 'slate'
-import { IDomEditor, DomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
+import { DomEditor } from '../../editor/dom-editor'
 import TextArea from '../TextArea'
 import { hasTarget } from '../helpers'
 import { HAS_BEFORE_INPUT_SUPPORT, IS_SAFARI } from '../../utils/ua'

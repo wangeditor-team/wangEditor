@@ -6,7 +6,8 @@
 import { Editor, Node, Element as SlateElement } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { node2Vnode } from '../node2Vnode'
-import { IDomEditor, DomEditor } from '../../editor/dom-editor'
+import { DomEditor } from '../../editor/dom-editor'
+import { IDomEditor } from '../../editor/interface'
 import {
   KEY_TO_ELEMENT,
   NODE_TO_ELEMENT,

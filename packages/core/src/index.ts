@@ -9,7 +9,7 @@ import create from './create-editor'
 import { RenderTextStyleFnType, IRenderElemConf } from './formats/index'
 import { TextStyleToHtmlFnType, TextToHtmlFnType, IElemToHtmlConf } from './to-html/index'
 import { IMenuConf } from './menus/index'
-import { IDomEditor } from './editor/dom-editor'
+import { IDomEditor } from './editor/interface'
 
 // 创建编辑器
 export const createEditor = create
@@ -18,6 +18,7 @@ export const createEditor = create
 export { IConfig, genConfig } from './config/index'
 
 // editor 接口和 command
+export * from './editor/interface'
 export * from './editor/dom-editor'
 
 // 注册 formats

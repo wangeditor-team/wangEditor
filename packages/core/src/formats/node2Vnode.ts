@@ -5,7 +5,7 @@
 
 import { Element, Text, Node, Ancestor } from 'slate'
 import { VNode } from 'snabbdom'
-import { IDomEditor } from '../editor/dom-editor'
+import { IDomEditor } from '../editor/interface'
 import renderElement from './element/renderElement'
 import renderText from './text/renderText'
 import { NODE_TO_INDEX, NODE_TO_PARENT } from '../utils/weak-maps'

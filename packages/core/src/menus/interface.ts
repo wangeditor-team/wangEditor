@@ -4,7 +4,7 @@
  */
 
 import { Node } from 'slate'
-import { IDomEditor } from '../editor/dom-editor'
+import { IDomEditor } from '../editor/interface'
 import { Dom7Array } from '../utils/dom'
 
 export interface IMenuGroup {

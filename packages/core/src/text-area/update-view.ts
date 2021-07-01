@@ -4,7 +4,7 @@
  */
 
 import { h, VNode } from 'snabbdom'
-import { IDomEditor } from '../editor/dom-editor'
+import { IDomEditor } from '../editor/interface'
 import TextArea from './TextArea'
 import { genPatchFn, normalizeVnodeData } from '../utils/vdom'
 import $, { Dom7Array } from '../utils/dom'
