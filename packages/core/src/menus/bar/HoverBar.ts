@@ -41,15 +41,6 @@ class HoverBar {
       // 滚动时隐藏
       const hideAndClean = this.hideAndClean.bind(this)
       editor.on('scroll', hideAndClean)
-
-      // 拖拽时隐藏（如拖拽修改图片尺寸）
-      const { $body } = this
-      $body.on('mousedown', () => {
-        $body.on('mousemove', hideAndClean)
-      })
-      $body.on('mouseup', () => {
-        $body.off('mousemove', hideAndClean)
-      })
     })
   }
 
@@ -57,7 +48,7 @@ class HoverBar {
     return this.menus
   }
 
-  private hideAndClean() {
+  hideAndClean() {
     const $elem = this.$elem
     $elem.removeClass('w-e-bar-show').addClass('w-e-bar-hidden')
 
@@ -212,7 +203,6 @@ class HoverBar {
 
     if (node != null) {
       // 选中了新的 node
-      this.hideAndClean() // 先隐藏
       this.registerItems(menuKeys)
       this.setPosition(node)
       this.show()

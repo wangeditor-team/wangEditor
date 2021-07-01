@@ -89,6 +89,10 @@ function renderResizeContainer(
 
     // 监听 mouseup
     $body.on('mouseup', onMouseup)
+
+    // 隐藏 hoverbar
+    const hoverbar = DomEditor.getHoverbar(editor)
+    if (hoverbar) hoverbar.hideAndClean()
   }
 
   // mouseover callback （节流）
