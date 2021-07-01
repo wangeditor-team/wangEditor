@@ -6,7 +6,7 @@
 import { Transforms, Element } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
-import { JUSTIFY_CENTER_SVG } from '../../_helpers/icon-svg'
+import { JUSTIFY_CENTER_SVG } from '../../../constants/icon-svg'
 
 class JustifyCenterMenu extends BaseMenu {
   title = '居中对齐'

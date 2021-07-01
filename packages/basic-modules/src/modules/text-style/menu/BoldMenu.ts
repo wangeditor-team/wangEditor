@@ -4,7 +4,7 @@
  */
 
 import BaseMenu from './BaseMenu'
-import { BOLD_SVG } from '../../_helpers/icon-svg'
+import { BOLD_SVG } from '../../../constants/icon-svg'
 
 class BoldMenu extends BaseMenu {
   mark = 'bold'

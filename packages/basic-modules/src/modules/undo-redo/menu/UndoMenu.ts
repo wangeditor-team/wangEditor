@@ -4,7 +4,7 @@
  */
 
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { UNDO_SVG } from '../../_helpers/icon-svg'
+import { UNDO_SVG } from '../../../constants/icon-svg'
 
 class UndoMenu implements IButtonMenu {
   title = '撤销'

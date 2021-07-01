@@ -4,7 +4,7 @@
  */
 
 import BaseMenu from './BaseMenu'
-import { ITALIC_SVG } from '../../_helpers/icon-svg'
+import { ITALIC_SVG } from '../../../constants/icon-svg'
 
 class ItalicMenu extends BaseMenu {
   mark = 'italic'

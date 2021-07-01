@@ -4,7 +4,7 @@
  */
 
 import BaseMenu from './BaseMenu'
-import { CODE_SVG } from '../../_helpers/icon-svg'
+import { CODE_SVG } from '../../../constants/icon-svg'
 
 class CodeMenu extends BaseMenu {
   mark = 'code'

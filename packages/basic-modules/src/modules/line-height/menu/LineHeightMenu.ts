@@ -5,7 +5,7 @@
 
 import { Editor, Node, Transforms } from 'slate'
 import { ISelectMenu, IDomEditor, IOption } from '@wangeditor/core'
-import { LINE_HEIGHT_SVG } from '../../_helpers/icon-svg'
+import { LINE_HEIGHT_SVG } from '../../../constants/icon-svg'
 import { getMenuConf } from '../../_helpers/menu'
 
 class LineHeightMenu implements ISelectMenu {

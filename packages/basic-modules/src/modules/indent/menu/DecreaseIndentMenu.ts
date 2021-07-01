@@ -6,7 +6,7 @@
 import { Transforms } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
-import { INDENT_LEFT_SVG } from '../../_helpers/icon-svg'
+import { INDENT_LEFT_SVG } from '../../../constants/icon-svg'
 
 class DecreaseIndentMenu extends BaseMenu {
   title = '减少缩进'

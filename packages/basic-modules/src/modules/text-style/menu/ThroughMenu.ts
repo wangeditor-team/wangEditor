@@ -4,7 +4,7 @@
  */
 
 import BaseMenu from './BaseMenu'
-import { THROUGH_SVG } from '../../_helpers/icon-svg'
+import { THROUGH_SVG } from '../../../constants/icon-svg'
 
 class ThroughMenu extends BaseMenu {
   mark = 'through'

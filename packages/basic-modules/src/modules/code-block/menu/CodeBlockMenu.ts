@@ -5,7 +5,7 @@
 
 import { Editor, Element, Transforms, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
-import { CODE_BLOCK_SVG } from '../../_helpers/icon-svg'
+import { CODE_BLOCK_SVG } from '../../../constants/icon-svg'
 import { getSelectedNodeByType } from '../../_helpers/node'
 import { CodeElement } from '../custom-types'
 

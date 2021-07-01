@@ -5,7 +5,7 @@
 
 import { Transforms } from 'slate'
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { DIVIDER_SVG } from '../../_helpers/icon-svg'
+import { DIVIDER_SVG } from '../../../constants/icon-svg'
 import { getSelectedNodeByType } from '../../_helpers/node'
 
 class InsertDividerMenu implements IButtonMenu {

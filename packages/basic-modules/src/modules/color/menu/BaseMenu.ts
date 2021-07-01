@@ -6,7 +6,7 @@
 import { Editor, Range } from 'slate'
 import { IDropPanelMenu, IDomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
-import { CLEAN_SVG } from '../../_helpers/icon-svg'
+import { CLEAN_SVG } from '../../../constants/icon-svg'
 import { getMenuConf } from '../../_helpers/menu'
 
 abstract class BaseMenu implements IDropPanelMenu {

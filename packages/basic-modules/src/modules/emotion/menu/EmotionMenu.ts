@@ -6,7 +6,7 @@
 import { Editor } from 'slate'
 import { IDropPanelMenu, IDomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
-import { EMOTION_SVG } from '../../_helpers/icon-svg'
+import { EMOTION_SVG } from '../../../constants/icon-svg'
 import { getMenuConf } from '../../_helpers/menu'
 
 class EmotionMenu implements IDropPanelMenu {

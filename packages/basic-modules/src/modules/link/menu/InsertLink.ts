@@ -8,7 +8,7 @@ import { IModalMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
-import { LINK_SVG } from '../../_helpers/icon-svg'
+import { LINK_SVG } from '../../../constants/icon-svg'
 import { isMenuDisabled, insertLink } from '../helper'
 
 /**

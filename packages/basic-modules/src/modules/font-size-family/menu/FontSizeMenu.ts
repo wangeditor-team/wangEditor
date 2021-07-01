@@ -5,7 +5,7 @@
 
 import { IDomEditor, IOption } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
-import { FONT_SIZE_SVG } from '../../_helpers/icon-svg'
+import { FONT_SIZE_SVG } from '../../../constants/icon-svg'
 import { getMenuConf } from '../../_helpers/menu'
 
 class FontSizeMenu extends BaseMenu {

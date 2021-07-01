@@ -4,7 +4,7 @@
  */
 
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { REDO_SVG } from '../../_helpers/icon-svg'
+import { REDO_SVG } from '../../../constants/icon-svg'
 
 class RedoMenu implements IButtonMenu {
   title = '重做'

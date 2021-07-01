@@ -5,7 +5,7 @@
 
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
 import { getSelectedNodeByType } from '../../_helpers/node'
-import { EXTERNAL_SVG } from '../../_helpers/icon-svg'
+import { EXTERNAL_SVG } from '../../../constants/icon-svg'
 
 class ViewLink implements IButtonMenu {
   title = '查看链接'

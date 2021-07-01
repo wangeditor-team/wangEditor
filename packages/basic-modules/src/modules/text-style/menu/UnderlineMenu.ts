@@ -4,7 +4,7 @@
  */
 
 import BaseMenu from './BaseMenu'
-import { UNDER_LINE_SVG } from '../../_helpers/icon-svg'
+import { UNDER_LINE_SVG } from '../../../constants/icon-svg'
 
 class UnderlineMenu extends BaseMenu {
   mark = 'underline'

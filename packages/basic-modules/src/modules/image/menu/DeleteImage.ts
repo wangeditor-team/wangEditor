@@ -6,7 +6,7 @@
 import { Transforms } from 'slate'
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
 import { checkNodeType, getSelectedNodeByType } from '../../_helpers/node'
-import { TRASH_SVG } from '../../_helpers/icon-svg'
+import { TRASH_SVG } from '../../../constants/icon-svg'
 
 class DeleteImage implements IButtonMenu {
   title = '删除图片'

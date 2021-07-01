@@ -6,7 +6,7 @@
 import { Transforms, Element } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
-import { JUSTIFY_LEFT_SVG } from '../../_helpers/icon-svg'
+import { JUSTIFY_LEFT_SVG } from '../../../constants/icon-svg'
 
 class JustifyLeftMenu extends BaseMenu {
   title = '左对齐'

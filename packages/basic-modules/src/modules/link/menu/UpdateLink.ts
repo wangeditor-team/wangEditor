@@ -9,7 +9,7 @@ import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
 import { getSelectedNodeByType } from '../../_helpers/node'
-import { PENCIL_SVG } from '../../_helpers/icon-svg'
+import { PENCIL_SVG } from '../../../constants/icon-svg'
 import { updateLink } from '../helper'
 
 /**

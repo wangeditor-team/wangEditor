@@ -6,7 +6,7 @@
 import { Transforms } from 'slate'
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
 import { checkNodeType, getSelectedNodeByType } from '../../_helpers/node'
-import { UN_LINK_SVG } from '../../_helpers/icon-svg'
+import { UN_LINK_SVG } from '../../../constants/icon-svg'
 
 class UnLink implements IButtonMenu {
   title = '取消链接'

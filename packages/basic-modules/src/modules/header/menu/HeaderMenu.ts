@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import { ISelectMenu, IDomEditor, IOption } from '@wangeditor/core'
-import { HEADER_SVG } from '../../_helpers/icon-svg'
+import { HEADER_SVG } from '../../../constants/icon-svg'
 
 class HeaderMenu implements ISelectMenu {
   title = '标题'

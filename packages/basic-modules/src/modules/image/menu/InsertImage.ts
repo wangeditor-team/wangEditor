@@ -8,7 +8,7 @@ import { IModalMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
-import { IMAGE_SVG } from '../../_helpers/icon-svg'
+import { IMAGE_SVG } from '../../../constants/icon-svg'
 import { insertImageNode } from '../helper'
 
 /**

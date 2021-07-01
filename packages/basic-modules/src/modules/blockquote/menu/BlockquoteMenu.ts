@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { QUOTE_SVG } from '../../_helpers/icon-svg'
+import { QUOTE_SVG } from '../../../constants/icon-svg'
 import { getSelectedNodeByType } from '../../_helpers/node'
 
 class BlockquoteMenu implements IButtonMenu {

@@ -4,7 +4,7 @@
  */
 
 import BaseMenu from './BaseMenu'
-import { FONT_COLOR_SVG } from '../../_helpers/icon-svg'
+import { FONT_COLOR_SVG } from '../../../constants/icon-svg'
 
 class ColorMenu extends BaseMenu {
   title = '文字颜色'
