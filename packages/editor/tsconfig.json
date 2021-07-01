@@ -3,10 +3,5 @@
   "include": [
     "./src/**/*",
     "../custom-types.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "__tests__",
   ]
 }
