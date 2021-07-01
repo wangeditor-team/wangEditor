@@ -3,12 +3,12 @@
  * @author wangfupeng
  */
 
-import { Element, Node } from 'slate'
+import { Element, Descendant } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import elemToHtml from './elem2html'
 import textToHtml from './text2html'
 
-export function node2html(node: Node, editor: IDomEditor): string {
+export function node2html(node: Descendant, editor: IDomEditor): string {
   if (Element.isElement(node)) {
     // elem node
     return elemToHtml(node, editor)

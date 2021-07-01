@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Node, Path, Operation, Transforms, Range } from 'slate'
+import { Editor, Node, Path, Operation, Transforms, Range, Text } from 'slate'
 import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../..'
 import {
@@ -264,7 +264,8 @@ export const withDOM = <T extends Editor>(editor: T) => {
     const headers: { id: string; type: string; text: string }[] = []
     const { children = [] } = e
     children.forEach(n => {
-      // @ts-ignore
+      if (Text.isText(n)) return
+
       const { type = '' } = n
       if (type.startsWith('header')) {
         const key = DomEditor.findKey(e, n)

@@ -30,7 +30,6 @@ function getParser(type: string): ElemToHtmlFnType {
 }
 
 function elemToHtml(elemNode: Element, editor: IDomEditor): string {
-  // @ts-ignore
   const { type = '', children = [] } = elemNode
   const isVoid = Editor.isVoid(editor, elemNode)
 

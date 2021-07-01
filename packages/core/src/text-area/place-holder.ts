@@ -6,7 +6,7 @@
 import { Element, Text } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import TextArea from './TextArea'
-import $, { Dom7Array } from '../utils/dom'
+import $ from '../utils/dom'
 
 /**
  * editor 内容是否为空，即只有一个空 paragraph
@@ -19,9 +19,8 @@ function isEditorEmpty(editor: IDomEditor): boolean {
   const firstNode = children[0]
   if (firstNode == null) return true // editor.children 空数组
 
-  // @ts-ignore
-  if (firstNode.type === 'paragraph') {
-    const { children: texts = [] } = firstNode as Element
+  if (Element.isElement(firstNode) && firstNode.type === 'paragraph') {
+    const { children: texts = [] } = firstNode
     if (texts.length > 1) return false // >1 text node
 
     const t = texts[0]

@@ -43,15 +43,17 @@ function renderElement(elemNode: SlateElement, editor: IDomEditor): VNode {
   }
 
   // 根据 type 生成 vnode 的函数
-  // @ts-ignore
   const { type, children = [] } = elemNode
   let renderElem = getRenderElem(type)
 
-  const childrenVnode = isVoid
-    ? null // void 节点 render elem 时不传入 children
-    : children.map((child: Node, index: number) => {
-        return node2Vnode(child, index, elemNode, editor)
-      })
+  let childrenVnode
+  if (isVoid) {
+    childrenVnode = null // void 节点 render elem 时不传入 children
+  } else {
+    childrenVnode = children.map((child: Node, index: number) => {
+      return node2Vnode(child, index, elemNode, editor)
+    })
+  }
 
   // 创建 vnode
   let vnode = renderElem(elemNode, childrenVnode, editor)

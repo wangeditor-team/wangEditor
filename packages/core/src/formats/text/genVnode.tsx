@@ -37,6 +37,10 @@ function genTextVnode(
   const path = DomEditor.findPath(editor, textNode)
   const parentPath = Path.parent(path)
 
+  if (Editor.isEditor(parent)) {
+    throw new Error(`Text node ${JSON.stringify(textNode)} parent is Editor`)
+  }
+
   // COMPAT: Render text inside void nodes with a zero-width space.
   // So the node can contain selection but the text is not visible.
   if (editor.isVoid(parent)) {

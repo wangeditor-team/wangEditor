@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { createEditor, Node } from 'slate'
+import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 import { withDOM } from './editor/plugins/with-dom'
 import { withEmitter } from './editor/plugins/with-emitter'
@@ -31,7 +31,7 @@ interface ICreateOption {
   toolbarSelector?: string
   textareaSelector: string
   config?: IConfig
-  initContent?: Node[]
+  initContent?: Descendant[]
   plugins?: PluginFnType[]
 }
 
