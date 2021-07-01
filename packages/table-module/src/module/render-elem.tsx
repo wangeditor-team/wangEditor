@@ -6,7 +6,7 @@
 import { Element as SlateElement } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor } from '@wangeditor/core'
-import { TableCellElement, TableRowElement, TableElement } from '../custom-types'
+import { TableCellElement, TableRowElement, TableElement } from './custom-types'
 
 function renderTable(elemNode: SlateElement, children: VNode[] | null, editor: IDomEditor): VNode {
   const { withHeader = false, fullWidth = false } = elemNode as TableElement

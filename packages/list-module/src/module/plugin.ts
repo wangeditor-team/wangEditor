@@ -3,9 +3,8 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Node } from 'slate'
+import { Transforms, Node } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from './_helpers/node'
 
 function withList<T extends IDomEditor>(editor: T): T {
   const { insertBreak } = editor
@@ -13,7 +12,7 @@ function withList<T extends IDomEditor>(editor: T): T {
 
   // 重写 insertBreak
   newEditor.insertBreak = () => {
-    const selectedNode = getSelectedNodeByType(newEditor, 'list-item')
+    const selectedNode = DomEditor.getSelectedNodeByType(newEditor, 'list-item')
     if (selectedNode == null) {
       // 未匹配到 list-item
       insertBreak()
@@ -29,8 +28,7 @@ function withList<T extends IDomEditor>(editor: T): T {
       if (str === '') {
         // 当前 list-item 无内容。则删除这个空白 list-item，并跳出 list ，插入一个空行
         Transforms.removeNodes(newEditor, {
-          // @ts-ignore
-          match: n => n.type === 'list-item',
+          match: n => DomEditor.checkNodeType(n, 'list-item'),
         })
 
         const p = { type: 'paragraph', children: [{ text: '' }] }

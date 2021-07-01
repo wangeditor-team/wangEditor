@@ -3,8 +3,8 @@
  * @author wangfupeng
  */
 
-import { Node, Text, Editor, Range } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
+import { Node, Element, Text, Editor, Range } from 'slate'
+import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG, IMAGE_SVG, MORE_SVG } from './constants/svg'
 
 function getDefaultEditorConfig() {
@@ -77,9 +77,10 @@ function getDefaultEditorConfig() {
           if (selection == null) return false // 无选区
           if (Range.isCollapsed(selection)) return false // 未选中文字，选区的是折叠的
 
+          // 检查父节点
+          let parentType = ''
           const [parent] = Editor.parent(editor, selection, { edge: 'start' })
-          // @ts-ignore
-          const { type: parentType = '' } = parent || {}
+          if (Element.isElement(parent)) parentType = parent.type
           if (parentType === 'code' || parentType === 'pre') return false // code-block 不允许
 
           if (Text.isText(n)) return true // 匹配 text node
@@ -89,14 +90,12 @@ function getDefaultEditorConfig() {
       },
       // link hover bar
       {
-        // @ts-ignore
-        match: (editor, n) => n.type === 'link', // 匹配 link node
+        match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'link'),
         menuKeys: ['updateLink', 'unLink', 'viewLink'],
       },
       // image hover bar
       {
-        // @ts-ignore
-        match: (editor, n) => n.type === 'image', // 匹配 image node
+        match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'image'),
         menuKeys: [
           'imageWidth30',
           'imageWidth50',
@@ -108,20 +107,17 @@ function getDefaultEditorConfig() {
       },
       // video hover bar
       {
-        // @ts-ignore
-        match: (editor, n) => n.type === 'video',
+        match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'video'),
         menuKeys: ['deleteVideo'],
       },
       // code-block hover bar
       {
-        // @ts-ignore
-        match: (editor, n) => n.type === 'pre',
+        match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'pre'),
         menuKeys: ['codeBlock', 'codeSelectLang'],
       },
       // table hover bar
       {
-        // @ts-ignore
-        match: (editor, n) => n.type === 'table',
+        match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'table'),
         menuKeys: [
           'tableHeader',
           'tableFullWidth',

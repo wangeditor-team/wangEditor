@@ -5,7 +5,7 @@
 
 import { Element } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import { TableCellElement, TableRowElement, TableElement } from '../custom-types'
+import { TableCellElement, TableRowElement, TableElement } from './custom-types'
 
 function tableToHtml(elemNode: Element, childrenHtml: string, editor: IDomEditor): string {
   const { fullWidth = false } = elemNode as TableElement

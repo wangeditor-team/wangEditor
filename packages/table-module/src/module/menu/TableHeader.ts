@@ -6,7 +6,7 @@
 import { Transforms, Range } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { TABLE_HEADER_SVG } from '../../constants/svg'
-import { TableElement } from '../../custom-types'
+import { TableElement } from '../custom-types'
 
 class TableHeader implements IButtonMenu {
   title = '表头'

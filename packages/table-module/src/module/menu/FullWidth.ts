@@ -6,7 +6,7 @@
 import { Transforms, Range } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { FULL_WIDTH_SVG } from '../../constants/svg'
-import { TableCellElement, TableRowElement, TableElement } from '../../custom-types'
+import { TableCellElement, TableRowElement, TableElement } from '../custom-types'
 
 class TableFullWidth implements IButtonMenu {
   title = '宽度自适应'

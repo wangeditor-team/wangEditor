@@ -5,7 +5,7 @@
 
 import { Element } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
-import { genTag } from './_helpers/node'
+import { genTag } from './helper'
 
 function genElemToHtmlFn(type: string) {
   const tag = genTag(type)

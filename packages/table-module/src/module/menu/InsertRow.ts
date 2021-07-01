@@ -6,7 +6,7 @@
 import { Editor, Transforms, Range, Path } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { ADD_ROW_SVG } from '../../constants/svg'
-import { TableRowElement } from '../../custom-types'
+import { TableRowElement } from '../custom-types'
 
 class InsertRow implements IButtonMenu {
   title = '插入行'

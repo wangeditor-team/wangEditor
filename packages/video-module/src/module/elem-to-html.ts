@@ -5,7 +5,7 @@
 
 import { Element } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
-import { VideoElement } from '../custom-types'
+import { VideoElement } from './custom-types'
 
 function videoToHtml(elemNode: Element, childrenHtml: string, editor: IDomEditor): string {
   const { src = '' } = elemNode as VideoElement

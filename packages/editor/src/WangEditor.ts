@@ -4,7 +4,7 @@
  */
 
 // import $, { Dom7Array } from 'dom7'
-import { Node, Transforms } from 'slate'
+import { Transforms, Descendant } from 'slate'
 import {
   IDomEditor,
   DomEditor,
@@ -36,14 +36,14 @@ type PluginType = <T extends IDomEditor>(editor: T) => T
 interface IOption {
   toolbarSelector?: string
   textareaSelector: string
-  initContent?: Node[]
+  initContent?: Descendant[]
 }
 
 class WangEditor {
   // private $container: Dom7Array
   private toolbarSelector: string
   private textareaSelector: string
-  private initContent: Node[]
+  private initContent: Descendant[]
   config: IConfig = {}
   editorCore: IDomEditor | null = null // TODO 输出 editor API - 封装为 command 即 editor.xxx ，让用户能友好的调用，不要再引入其他 lib
 

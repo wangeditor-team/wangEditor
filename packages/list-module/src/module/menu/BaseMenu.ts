@@ -4,12 +4,11 @@
  */
 
 import { Editor, Node, Transforms } from 'slate'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from '../_helpers/node'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 
 function checkList(n: Node): boolean {
-  // @ts-ignore
-  return ['bulleted-list', 'numbered-list'].includes(n.type)
+  const type = DomEditor.getNodeType(n)
+  return ['bulleted-list', 'numbered-list'].includes(type)
 }
 
 abstract class BaseMenu implements IButtonMenu {
@@ -20,7 +19,7 @@ abstract class BaseMenu implements IButtonMenu {
 
   private getListNode(editor: IDomEditor): Node | null {
     const { type } = this
-    return getSelectedNodeByType(editor, type)
+    return DomEditor.getSelectedNodeByType(editor, type)
   }
 
   getValue(editor: IDomEditor): string | boolean {
@@ -36,10 +35,8 @@ abstract class BaseMenu implements IButtonMenu {
     if (editor.selection == null) return true
 
     const [nodeEntry] = Editor.nodes(editor, {
-      // @ts-ignore
       match: n => {
-        // @ts-ignore
-        const { type = '' } = n
+        const type = DomEditor.getNodeType(n)
 
         if (type === 'pre') return true // 代码块
         if (Editor.isVoid(editor, n)) return true // void node
@@ -66,8 +63,7 @@ abstract class BaseMenu implements IButtonMenu {
     })
     if (nodeEntry == null) return ''
     const [n] = nodeEntry
-    // @ts-ignore
-    return n.type
+    return DomEditor.getNodeType(n)
   }
 
   exec(editor: IDomEditor, value: string | boolean): void {
@@ -81,7 +77,6 @@ abstract class BaseMenu implements IButtonMenu {
     })
     // 设置当前节点 type
     Transforms.setNodes(editor, {
-      // @ts-ignore
       type: active ? 'paragraph' : 'list-item',
     })
 
