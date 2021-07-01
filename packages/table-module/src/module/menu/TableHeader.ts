@@ -42,7 +42,8 @@ class TableHeader implements IButtonMenu {
 
     // 已经设置了表头，则取消。未设置表头，则设置
     const newValue = value ? false : true
-    Transforms.setNodes(editor, { withHeader: newValue }, { mode: 'highest' })
+    const props: Partial<TableElement> = { withHeader: newValue }
+    Transforms.setNodes(editor, props, { mode: 'highest' })
   }
 }
 

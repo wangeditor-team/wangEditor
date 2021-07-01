@@ -6,21 +6,20 @@
 import { Node, NodeEntry, Range, Text } from 'slate'
 import { DomEditor } from '@wangeditor/core'
 import { getPrismTokens, getPrismTokenLength } from '../vendor/prism'
+import { CodeElement } from '../custom-types'
 
 /**
- * 获取 code node
+ * 获取 code elem
  * @param node text node
  */
-function getCodeNode(textNode: Node): Node | null {
+function getCodeElem(textNode: Node): CodeElement | null {
   if (!Text.isText(textNode)) return null // 非文本 node
 
   const codeNode = DomEditor.getParentNode(null, textNode)
-  // @ts-ignore 确定上级是 code 节点
-  if (codeNode && codeNode.type === 'code') {
+  if (codeNode && DomEditor.getNodeType(codeNode) === 'code') {
     const preNode = DomEditor.getParentNode(null, codeNode)
-    // @ts-ignore 确定上上级是 pre 节点
-    if (preNode && preNode.type === 'pre') {
-      return codeNode
+    if (preNode && DomEditor.getNodeType(preNode) === 'pre') {
+      return codeNode as CodeElement
     }
   }
   return null
@@ -31,10 +30,9 @@ const codeHighLightDecorate = (nodeEntry: NodeEntry): Range[] => {
   const ranges: Range[] = []
 
   // 节点不合法，则不处理
-  const codeNode = getCodeNode(n)
-  if (codeNode == null) return ranges
-  // @ts-ignore 获取语言
-  const { language = '' } = codeNode
+  const codeElem = getCodeElem(n)
+  if (codeElem == null) return ranges
+  const { language = '' } = codeElem
   if (!language) return ranges
 
   const textNode = n as Text

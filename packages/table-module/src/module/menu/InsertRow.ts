@@ -6,7 +6,7 @@
 import { Editor, Transforms, Range, Path } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { ADD_ROW_SVG } from '../../constants/svg'
-import { TableRowElement } from '../custom-types'
+import { TableRowElement, TableCellElement } from '../custom-types'
 
 class InsertRow implements IButtonMenu {
   title = '插入行'
@@ -53,10 +53,11 @@ class InsertRow implements IButtonMenu {
     // 拼接新的 row
     const newRow: TableRowElement = { type: 'table-row', children: [] }
     for (let i = 0; i < cellsLength; i++) {
-      newRow.children.push({
+      const cell: TableCellElement = {
         type: 'table-cell',
         children: [{ text: '' }],
-      })
+      }
+      newRow.children.push(cell)
     }
 
     // 插入 row

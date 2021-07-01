@@ -7,6 +7,7 @@ import { isEqual } from 'lodash-es'
 import { Editor, Element, Transforms, Range, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { ADD_COL_SVG } from '../../constants/svg'
+import { TableCellElement } from '../custom-types'
 
 class InsertCol implements IButtonMenu {
   title = '插入列'
@@ -70,7 +71,7 @@ class InsertCol implements IButtonMenu {
         ) {
           // 如果当前 td 的 path 和选中 td 的 path ，最后一位相同，说明是同一列
           // 则在其后插入一个 cell
-          const newCell = { type: 'table-cell', children: [{ text: '' }] }
+          const newCell: TableCellElement = { type: 'table-cell', children: [{ text: '' }] }
           Transforms.insertNodes(editor, newCell, { at: path })
         }
       })

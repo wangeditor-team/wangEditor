@@ -3,11 +3,10 @@
  * @author wangfupeng
  */
 
-import { Node, Transforms } from 'slate'
+import { Node, Transforms, Element } from 'slate'
 import { ISelectMenu, IDomEditor, IOption, DomEditor } from '@wangeditor/core'
 import { JS_SVG } from '../../constants/svg'
-import { getSelectedNodeByType, checkNodeType } from '../_helpers/node'
-import { getMenuConf } from '../_helpers/menu'
+import { CodeElement } from '../../custom-types'
 
 class SelectLangMenu implements ISelectMenu {
   title = '选择语言'
@@ -19,7 +18,7 @@ class SelectLangMenu implements ISelectMenu {
     const options: IOption[] = []
 
     // 获取配置，参考 './config.ts'
-    const { codeLangs = [] } = getMenuConf(editor, 'codeSelectLang') // 第二个参数 menu key
+    const { codeLangs = [] } = editor.getMenuConfig('codeSelectLang') // 第二个参数 menu key
 
     options.push({
       text: 'plain text',
@@ -53,45 +52,39 @@ class SelectLangMenu implements ISelectMenu {
    * @param editor editor
    */
   getValue(editor: IDomEditor): string | boolean {
-    const node = this.getSelectCodeNode(editor)
-    if (node == null) return ''
+    const elem = this.getSelectCodeElem(editor)
+    if (elem == null) return ''
+    if (!Element.isElement(elem)) return ''
 
-    // @ts-ignore
-    return node.language || ''
+    return elem.language || ''
   }
 
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
-    const node = this.getSelectCodeNode(editor)
-    if (node) return false
+    const elem = this.getSelectCodeElem(editor)
+    if (elem) return false
     return true
   }
 
   exec(editor: IDomEditor, value: string | boolean) {
-    const node = this.getSelectCodeNode(editor)
-    if (node == null) return
+    const elem = this.getSelectCodeElem(editor)
+    if (elem == null) return
 
     // 设置语言
-    Transforms.setNodes(
-      editor,
-      {
-        // @ts-ignore
-        language: value,
-      },
-      {
-        match: n => checkNodeType(n, 'code'),
-      }
-    )
+    const props: Partial<CodeElement> = { language: value.toString() }
+    Transforms.setNodes(editor, props, {
+      match: n => DomEditor.checkNodeType(n, 'code'),
+    })
   }
 
-  private getSelectCodeNode(editor: IDomEditor): Node | null {
-    const codeNode = getSelectedNodeByType(editor, 'code')
+  private getSelectCodeElem(editor: IDomEditor): CodeElement | null {
+    const codeNode = DomEditor.getSelectedNodeByType(editor, 'code')
     if (codeNode == null) return null
     const preNode = DomEditor.getParentNode(editor, codeNode)
-    // @ts-ignore
+    if (!Element.isElement(preNode)) return null
     if (preNode.type !== 'pre') return null
 
-    return codeNode
+    return codeNode as CodeElement
   }
 }
 

@@ -4,6 +4,7 @@
  */
 
 import { Descendant } from 'slate'
+import { PreElement, CodeElement } from './basic-modules/src/modules/code-block/custom-types'
 import { VideoElement } from './video-module/src/module/custom-types'
 import {
   TableCellElement,
@@ -16,7 +17,7 @@ import {
   BulletedListElement,
 } from './list-module/src/module/custom-types'
 
-type EmptyText = {
+type PureText = {
   text: string
 }
 
@@ -27,6 +28,8 @@ type BaseElement = {
 
 type CustomElement =
   | BaseElement
+  | PreElement
+  | CodeElement
   | VideoElement
   | TableCellElement
   | TableRowElement
@@ -38,7 +41,7 @@ type CustomElement =
 declare module 'slate' {
   interface CustomTypes {
     // 扩展 Text
-    Text: EmptyText // TODO 继续补充，文本格式
+    Text: PureText // TODO 继续补充，文本格式
 
     // 扩展 Element
     Element: CustomElement

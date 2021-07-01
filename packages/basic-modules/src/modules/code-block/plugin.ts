@@ -4,7 +4,7 @@
  */
 
 import { Editor, Transforms, Node } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
+import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { getSelectedNodeByType } from '../_helpers/node'
 
 function withCodeBlock<T extends IDomEditor>(editor: T): T {
@@ -34,19 +34,11 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
 
   // 重写 normalizeNode
   newEditor.normalizeNode = ([node, path]) => {
-    // @ts-ignore
-    const { type } = node
+    const type = DomEditor.getNodeType(node)
 
     // -------------- code node 不能是顶层，否则替换为 p --------------
     if (type === 'code' && path.length <= 1) {
-      Transforms.setNodes(
-        newEditor,
-        {
-          // @ts-ignore
-          type: 'paragraph',
-        },
-        { at: path }
-      )
+      Transforms.setNodes(newEditor, { type: 'paragraph' }, { at: path })
       return
     }
 

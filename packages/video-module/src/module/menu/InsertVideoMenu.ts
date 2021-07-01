@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Range, Node } from 'slate'
+import { Transforms, Range, Node } from 'slate'
 import {
   IModalMenu,
   IDomEditor,
@@ -14,6 +14,7 @@ import {
 import $, { Dom7Array } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
 import { VIDEO_SVG } from '../../constants/svg'
+import { VideoElement } from '../custom-types'
 
 /**
  * 生成唯一的 DOM ID
@@ -126,7 +127,7 @@ class InsertVideoMenu implements IModalMenu {
     }
 
     // 新建一个 video node
-    const video = {
+    const video: VideoElement = {
       type: 'video',
       src,
       children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children

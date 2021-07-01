@@ -8,15 +8,16 @@ import { IDropPanelMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
 import { TABLE_SVG } from '../../constants/svg'
+import { TableElement, TableCellElement, TableRowElement } from '../custom-types'
 
-function genTableNode(rowNum: number, colNum: number) {
+function genTableNode(rowNum: number, colNum: number): TableElement {
   // 拼接 rows
-  const rows = []
+  const rows: TableRowElement[] = []
   for (let i = 0; i < rowNum; i++) {
     // 拼接 cells
-    const cells = []
+    const cells: TableCellElement[] = []
     for (let j = 0; j < colNum; j++) {
-      const cellNode = { type: 'table-cell', children: [{ text: '' }] }
+      const cellNode: TableCellElement = { type: 'table-cell', children: [{ text: '' }] }
       cells.push(cellNode)
     }
 

@@ -5,10 +5,10 @@
 
 import { Element } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
+import { CodeElement } from '../custom-types'
 
 function codeToHtml(elem: Element, childrenHtml: string, editor: IDomEditor): string {
-  // @ts-ignore
-  const { language = '' } = elem
+  const { language = '' } = elem as CodeElement
 
   const cssClass = language
     ? `class="language-${language}"` // prism.js 根据 language 代码高亮

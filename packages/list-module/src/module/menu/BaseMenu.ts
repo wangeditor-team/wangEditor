@@ -5,6 +5,7 @@
 
 import { Editor, Node, Transforms } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+// import { ListItemElement, NumberedListElement, BulletedListElement } from '../custom-types'
 
 function checkList(n: Node): boolean {
   const type = DomEditor.getNodeType(n)
