@@ -5,6 +5,7 @@
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
+  "types": "dist/video-module/src/index.d.ts",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "browser": {
