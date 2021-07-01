@@ -346,6 +346,7 @@ export const withDOM = <T extends Editor>(editor: T) => {
   }
 
   // 隐藏 panel 或 modal
+  // TODO 一个页面多编辑器时，测试是否有影响。即 A 只关闭 A 的，B 只关闭 B 的，不要相互影响
   e.hidePanelOrModal = () => {
     const set = EDITOR_TO_PANEL_AND_MODAL.get(e)
     if (set == null) return

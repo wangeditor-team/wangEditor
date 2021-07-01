@@ -44,6 +44,38 @@ function genDefaultContent() {
 }
 
 /**
+ * 检查是否重复创建
+ */
+function isRepeatedCreate(
+  editor: IDomEditor,
+  textareaSelector: string,
+  toolbarSelector: string = ''
+): boolean {
+  const attrKey = 'data-w-e-created'
+
+  const textareaElem = $(textareaSelector)
+  if (textareaElem.attr(attrKey)) {
+    return true // 有属性，说明已经创建过
+  }
+  const toolbarElem = $(toolbarSelector)
+  if (toolbarElem.attr(attrKey)) {
+    return true // 有属性，说明已经创建过
+  }
+
+  // 至此，说明未创建过，则记录
+  textareaElem.attr(attrKey, 'true')
+  toolbarElem.attr(attrKey, 'true')
+
+  // 销毁时删除属性
+  editor.on('destroyed', () => {
+    textareaElem.removeAttr(attrKey)
+    toolbarElem.removeAttr(attrKey)
+  })
+
+  return false
+}
+
+/**
  * 创建编辑器
  */
 function create(option: ICreateOption) {
@@ -51,6 +83,12 @@ function create(option: ICreateOption) {
 
   // 创建实例 - 使用插件
   let editor = withHistory(withEmitter(withDOM(createEditor())))
+  if (isRepeatedCreate(editor, textareaSelector, toolbarSelector)) {
+    // 对同一个 DOM 重复创建
+    throw new Error(
+      `Repeated create editor by textareaSelector '${textareaSelector}' and toolbarSelector '${toolbarSelector}'`
+    )
+  }
 
   // 处理配置
   const editorConfig = genConfig(config || {})
