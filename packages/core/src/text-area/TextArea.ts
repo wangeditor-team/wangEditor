@@ -139,13 +139,12 @@ class TextArea {
 
   /**
    * editor.onchange 时触发
-   * 【注意】如果频繁触发，会导致 DOM 频繁更新（diff patch 没有 React 那么强大），但加*节流*又怕丢失 beforeInput 的 insertText ？？？
-   * 感觉这里还是要考虑节流的，考虑一种方式缓存 insertText 数据 ？？？
    */
   onEditorChange() {
     const editor = this.editorInstance
 
     // 更新 DOM
+    // TODO 注意这里是否会有性能瓶颈？因为每次键盘输入，都会触发这里 —— 可单独测试大文件、多内容，如几万个字
     updateView(this, editor)
 
     // 处理 placeholder

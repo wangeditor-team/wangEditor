@@ -169,6 +169,7 @@ class WangEditor {
   }
 
   // 全局 - 注册 menu
+  // TODO 可在注册时传入配置，在开发文档中说明
   static registerMenu(menuConf: IMenuConf, customConfig?: { [key: string]: any }) {
     registerMenu(menuConf, customConfig)
   }

@@ -55,8 +55,6 @@ export interface IConfig {
   // 悬浮菜单栏 menu
   hoverbarKeys?: Array<IHoverbarConf>
 
-  // TODO 右键菜单栏 menu
-
   alert?: (info: string, type?: AlertType) => void
 }
 
