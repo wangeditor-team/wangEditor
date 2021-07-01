@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wangEditor example</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <p>
+        wangEditor demo
+    </p>
+    <div id="div1">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+    </div>
+
+    <div id="div2">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+    </div>
+
+    <script src="../dist/wangEditor.js"></script>
+    <script>
+        // 改为使用var声明，才能在window对象上获取到编辑器实例，方便e2e测试
+        var E = window.wangEditor
+        var editor = new E('#div1')
+        editor.config.onSelectionChange = function (newHtml) {
+            console.log('editor', newHtml)
+        }
+        editor.create()
+
+        // setTimeout(() => {
+        //     console.log("摧毁了")
+        //     editor.destroy()
+        // }, 3000)
+
+        // var editor2 = new E('#div2')
+        // editor2.config.onSelectionChange = function (newHtml) {
+        //     console.log('editor2', newHtml)
+        // }
+        // editor2.create()
+
+        // setTimeout(() => {
+        //     console.log("摧毁了")
+        //     editor2.destroy()
+        // }, 3000)
+    </script>
+</body>
+
+</html>

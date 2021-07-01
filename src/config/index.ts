@@ -49,6 +49,7 @@ export type ConfigType = {
     pasteTextHandle: Function
     styleWithCSS: boolean
     linkImgCallback: Function
+    onSelectionChange: Function
 
     placeholder: string
     zIndexFullScreen: number
