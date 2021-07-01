@@ -7,7 +7,6 @@ import { throttle } from 'lodash-es'
 import { Element as SlateElement, Transforms } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import { isNodeSelected } from '../_helpers/node'
 import $, { Dom7Array } from '../../utils/dom'
 
 interface IImageSize {
@@ -179,7 +178,7 @@ function renderImage(elemNode: SlateElement, children: VNode[] | null, editor: I
   // @ts-ignore
   const { src, alt = '', url = '', style = {} } = elemNode
   const { width = '', height = '' } = style
-  const selected = isNodeSelected(editor, elemNode, 'image') // 图片是否选中
+  const selected = DomEditor.isNodeSelected(editor, elemNode) // 图片是否选中
 
   const imageStyle: any = {}
   if (width) imageStyle.width = '100%'

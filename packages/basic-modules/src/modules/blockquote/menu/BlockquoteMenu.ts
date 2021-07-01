@@ -4,9 +4,8 @@
  */
 
 import { Editor, Transforms } from 'slate'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { QUOTE_SVG } from '../../../constants/icon-svg'
-import { getSelectedNodeByType } from '../../_helpers/node'
 
 class BlockquoteMenu implements IButtonMenu {
   title = '引用'
@@ -19,7 +18,7 @@ class BlockquoteMenu implements IButtonMenu {
   }
 
   isActive(editor: IDomEditor): boolean {
-    const node = getSelectedNodeByType(editor, 'blockquote')
+    const node = DomEditor.getSelectedNodeByType(editor, 'blockquote')
     return !!node
   }
 

@@ -4,8 +4,7 @@
  */
 
 import { Transforms } from 'slate'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { checkNodeType, getSelectedNodeByType } from '../../_helpers/node'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { UN_LINK_SVG } from '../../../constants/icon-svg'
 
 class UnLink implements IButtonMenu {
@@ -26,7 +25,7 @@ class UnLink implements IButtonMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const linkNode = getSelectedNodeByType(editor, 'link')
+    const linkNode = DomEditor.getSelectedNodeByType(editor, 'link')
     if (linkNode == null) {
       // 选区未处于 link node ，则禁用
       return true
@@ -39,7 +38,7 @@ class UnLink implements IButtonMenu {
 
     // 取消链接
     Transforms.unwrapNodes(editor, {
-      match: n => checkNodeType(n, 'link'),
+      match: n => DomEditor.checkNodeType(n, 'link'),
     })
   }
 }

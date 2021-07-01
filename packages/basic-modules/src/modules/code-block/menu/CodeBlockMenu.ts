@@ -6,7 +6,6 @@
 import { Editor, Element, Transforms, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { CODE_BLOCK_SVG } from '../../../constants/icon-svg'
-import { getSelectedNodeByType } from '../../_helpers/node'
 import { CodeElement } from '../custom-types'
 
 class CodeBlockMenu implements IButtonMenu {
@@ -15,7 +14,7 @@ class CodeBlockMenu implements IButtonMenu {
   tag = 'button'
 
   private getSelectCodeElem(editor: IDomEditor): CodeElement | null {
-    const codeNode = getSelectedNodeByType(editor, 'code')
+    const codeNode = DomEditor.getSelectedNodeByType(editor, 'code')
     if (codeNode == null) return null
     const preNode = DomEditor.getParentNode(editor, codeNode)
     if (preNode == null) return null

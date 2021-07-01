@@ -6,7 +6,6 @@
 import { IDomEditor, IOption } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
 import { FONT_SIZE_SVG } from '../../../constants/icon-svg'
-import { getMenuConf } from '../../_helpers/menu'
 
 class FontSizeMenu extends BaseMenu {
   title = '字号'
@@ -17,7 +16,7 @@ class FontSizeMenu extends BaseMenu {
     const options: IOption[] = []
 
     // 获取配置，参考 './config.ts'
-    const { fontSizeList = [] } = getMenuConf(editor, this.mark)
+    const { fontSizeList = [] } = editor.getMenuConfig(this.mark)
 
     // 生成 options
     options.push({

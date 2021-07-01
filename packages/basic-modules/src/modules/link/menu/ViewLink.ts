@@ -3,8 +3,7 @@
  * @author wangfupeng
  */
 
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from '../../_helpers/node'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { EXTERNAL_SVG } from '../../../constants/icon-svg'
 
 class ViewLink implements IButtonMenu {
@@ -13,7 +12,7 @@ class ViewLink implements IButtonMenu {
   tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
-    const linkNode = getSelectedNodeByType(editor, 'link')
+    const linkNode = DomEditor.getSelectedNodeByType(editor, 'link')
     if (linkNode) {
       // @ts-ignore 选区处于 link node
       return linkNode.url || ''
@@ -29,7 +28,7 @@ class ViewLink implements IButtonMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const linkNode = getSelectedNodeByType(editor, 'link')
+    const linkNode = DomEditor.getSelectedNodeByType(editor, 'link')
     if (linkNode == null) {
       // 选区未处于 link node ，则禁用
       return true

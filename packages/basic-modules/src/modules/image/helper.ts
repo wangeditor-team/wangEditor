@@ -4,9 +4,7 @@
  */
 
 import { Transforms } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
-import { getMenuConf } from '../_helpers/menu'
-import { checkNodeType, getSelectedNodeByType } from '../_helpers/node'
+import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 function check(
   menuKey: string,
@@ -15,7 +13,7 @@ function check(
   alt: string = '',
   url: string = ''
 ): boolean {
-  const { checkImage } = getMenuConf(editor, menuKey)
+  const { checkImage } = editor.getMenuConfig(menuKey)
   if (checkImage) {
     const res = checkImage(src, alt, url)
     if (typeof res === 'string') {
@@ -55,7 +53,7 @@ export function insertImageNode(
   Transforms.insertNodes(editor, image)
 
   // 回调
-  const { onInsertedImage } = getMenuConf(editor, 'insertImage')
+  const { onInsertedImage } = editor.getMenuConfig('insertImage')
   if (onInsertedImage) onInsertedImage(src, alt, url)
 }
 
@@ -69,7 +67,7 @@ export function updateImageNode(
   const res = check('editImage', editor, src, alt, url)
   if (!res) return // 检查失败，终止操作
 
-  const selectedImageNode = getSelectedNodeByType(editor, 'image')
+  const selectedImageNode = DomEditor.getSelectedNodeByType(editor, 'image')
   if (selectedImageNode == null) return
   // @ts-ignore
   const { style: curStyle = {} } = selectedImageNode
@@ -89,11 +87,11 @@ export function updateImageNode(
     // @ts-ignore
     nodeProps,
     {
-      match: n => checkNodeType(n, 'image'),
+      match: n => DomEditor.checkNodeType(n, 'image'),
     }
   )
 
   // 回调
-  const { onUpdatedImage } = getMenuConf(editor, 'editImage')
+  const { onUpdatedImage } = editor.getMenuConfig('editImage')
   if (onUpdatedImage) onUpdatedImage(src, alt, url)
 }

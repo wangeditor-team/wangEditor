@@ -7,7 +7,6 @@ import { Editor, Range } from 'slate'
 import { IDropPanelMenu, IDomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { CLEAN_SVG } from '../../../constants/icon-svg'
-import { getMenuConf } from '../../_helpers/menu'
 
 abstract class BaseMenu implements IDropPanelMenu {
   abstract title: string
@@ -94,7 +93,7 @@ abstract class BaseMenu implements IDropPanelMenu {
     const selectedColor = this.getValue(editor)
 
     // 获取菜单配置
-    const colorConf = getMenuConf(editor, mark)
+    const colorConf = editor.getMenuConfig(mark)
     const { colors = [] } = colorConf
     // 根据菜单配置生成 panel content
     colors.forEach((color: string) => {

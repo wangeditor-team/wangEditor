@@ -6,7 +6,6 @@
 import { Editor, Node, Transforms } from 'slate'
 import { ISelectMenu, IDomEditor, IOption } from '@wangeditor/core'
 import { LINE_HEIGHT_SVG } from '../../../constants/icon-svg'
-import { getMenuConf } from '../../_helpers/menu'
 
 class LineHeightMenu implements ISelectMenu {
   title = '行高'
@@ -18,7 +17,7 @@ class LineHeightMenu implements ISelectMenu {
     const options: IOption[] = []
 
     // 获取配置，参考 './config.ts'
-    const { lineHeightList = [] } = getMenuConf(editor, 'lineHeight')
+    const { lineHeightList = [] } = editor.getMenuConfig('lineHeight')
 
     // 生成 options
     options.push({

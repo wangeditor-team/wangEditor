@@ -3,8 +3,7 @@
  * @author wangfupeng
  */
 
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from '../../_helpers/node'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { EXTERNAL_SVG } from '../../../constants/icon-svg'
 
 class ViewImageLink implements IButtonMenu {
@@ -13,7 +12,7 @@ class ViewImageLink implements IButtonMenu {
   tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
-    const imageNode = getSelectedNodeByType(editor, 'image')
+    const imageNode = DomEditor.getSelectedNodeByType(editor, 'image')
     if (imageNode) {
       // @ts-ignore 选区处于 image node
       return imageNode.url || ''

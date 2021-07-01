@@ -4,8 +4,7 @@
  */
 
 import { Transforms } from 'slate'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { checkNodeType, getSelectedNodeByType } from '../../_helpers/node'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { TRASH_SVG } from '../../../constants/icon-svg'
 
 class DeleteImage implements IButtonMenu {
@@ -26,7 +25,7 @@ class DeleteImage implements IButtonMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const imageNode = getSelectedNodeByType(editor, 'image')
+    const imageNode = DomEditor.getSelectedNodeByType(editor, 'image')
     if (imageNode == null) {
       // 选区未处于 image node ，则禁用
       return true
@@ -39,7 +38,7 @@ class DeleteImage implements IButtonMenu {
 
     // 删除图片
     Transforms.removeNodes(editor, {
-      match: n => checkNodeType(n, 'image'),
+      match: n => DomEditor.checkNodeType(n, 'image'),
     })
   }
 }

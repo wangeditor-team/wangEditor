@@ -4,11 +4,15 @@
  */
 
 import { Node, Transforms, Range } from 'slate'
-import { IModalMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import {
+  IModalMenu,
+  IDomEditor,
+  DomEditor,
+  genModalInputElems,
+  genModalButtonElems,
+} from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
-import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
-import { getSelectedNodeByType } from '../../_helpers/node'
 import { PENCIL_SVG } from '../../../constants/icon-svg'
 import { updateImageNode } from '../helper'
 
@@ -37,7 +41,7 @@ class EditImage implements IModalMenu {
   }
 
   private getImageNode(editor: IDomEditor): Node | null {
-    return getSelectedNodeByType(editor, 'image')
+    return DomEditor.getSelectedNodeByType(editor, 'image')
   }
 
   isActive(editor: IDomEditor): boolean {
@@ -55,7 +59,7 @@ class EditImage implements IModalMenu {
     if (selection == null) return true
     if (!Range.isCollapsed(selection)) return true // 选区非折叠，禁用
 
-    const imageNode = getSelectedNodeByType(editor, 'image')
+    const imageNode = DomEditor.getSelectedNodeByType(editor, 'image')
 
     // 未匹配到 image node 则禁用
     if (imageNode == null) return true

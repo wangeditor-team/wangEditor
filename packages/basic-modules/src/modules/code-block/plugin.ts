@@ -5,7 +5,6 @@
 
 import { Editor, Transforms, Node } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import { getSelectedNodeByType } from '../_helpers/node'
 
 function withCodeBlock<T extends IDomEditor>(editor: T): T {
   const { insertBreak, normalizeNode, insertData } = editor
@@ -13,7 +12,7 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
 
   // 重写换行操作
   newEditor.insertBreak = () => {
-    const codeNode = getSelectedNodeByType(newEditor, 'code')
+    const codeNode = DomEditor.getSelectedNodeByType(newEditor, 'code')
     if (codeNode == null) {
       insertBreak() // 执行默认的换行
       return
@@ -54,7 +53,7 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
 
   // 重写 insertData - 粘贴文本
   newEditor.insertData = (data: DataTransfer) => {
-    const codeNode = getSelectedNodeByType(newEditor, 'code')
+    const codeNode = DomEditor.getSelectedNodeByType(newEditor, 'code')
     if (codeNode == null) {
       insertData(data) // 执行默认的 insertData
       return

@@ -3,11 +3,10 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Range, Node } from 'slate'
-import { IModalMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { Editor, Range, Node } from 'slate'
+import { IModalMenu, IDomEditor, genModalInputElems, genModalButtonElems } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
-import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
 import { LINK_SVG } from '../../../constants/icon-svg'
 import { isMenuDisabled, insertLink } from '../helper'
 

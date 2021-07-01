@@ -5,8 +5,6 @@
 
 import { Editor, Range, Transforms } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import { getMenuConf } from '../_helpers/menu'
-import { checkNodeType, getSelectedNodeByType } from '../_helpers/node'
 
 /**
  * 校验 link
@@ -16,7 +14,7 @@ import { checkNodeType, getSelectedNodeByType } from '../_helpers/node'
  * @param url menu url
  */
 function check(menuKey: string, editor: IDomEditor, text: string, url: string): boolean {
-  const { checkLink } = getMenuConf(editor, menuKey)
+  const { checkLink } = editor.getMenuConfig(menuKey)
   if (checkLink) {
     const res = checkLink(text, url)
     if (typeof res === 'string') {
@@ -113,7 +111,7 @@ export function updateLink(editor: IDomEditor, text: string, url: string) {
     // @ts-ignore
     { url },
     {
-      match: n => checkNodeType(n, 'link'),
+      match: n => DomEditor.checkNodeType(n, 'link'),
     }
   )
 }

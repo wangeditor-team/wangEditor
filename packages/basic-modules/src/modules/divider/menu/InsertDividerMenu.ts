@@ -4,9 +4,8 @@
  */
 
 import { Transforms } from 'slate'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { DIVIDER_SVG } from '../../../constants/icon-svg'
-import { getSelectedNodeByType } from '../../_helpers/node'
 
 class InsertDividerMenu implements IButtonMenu {
   title = '分割线'
@@ -26,7 +25,7 @@ class InsertDividerMenu implements IButtonMenu {
     const { selection } = editor
     if (selection == null) return true
 
-    const selectedNode = getSelectedNodeByType(editor, 'divider')
+    const selectedNode = DomEditor.getSelectedNodeByType(editor, 'divider')
     if (selectedNode) {
       // 当前选中了 divider node ，则禁用
       return true

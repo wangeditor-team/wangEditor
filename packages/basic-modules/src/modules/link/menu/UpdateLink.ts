@@ -4,11 +4,15 @@
  */
 
 import { Node } from 'slate'
-import { IModalMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import {
+  IModalMenu,
+  IDomEditor,
+  DomEditor,
+  genModalInputElems,
+  genModalButtonElems,
+} from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
-import { genModalInputElems, genModalButtonElems } from '../../_helpers/menu'
-import { getSelectedNodeByType } from '../../_helpers/node'
 import { PENCIL_SVG } from '../../../constants/icon-svg'
 import { updateLink } from '../helper'
 
@@ -31,7 +35,7 @@ class UpdateLinkMenu implements IModalMenu {
   private buttonId = genDomID()
 
   private getSelectedNode(editor: IDomEditor): Node | null {
-    return getSelectedNodeByType(editor, 'link')
+    return DomEditor.getSelectedNodeByType(editor, 'link')
   }
 
   /**

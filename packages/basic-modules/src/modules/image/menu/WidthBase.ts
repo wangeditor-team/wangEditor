@@ -4,8 +4,7 @@
  */
 
 import { Transforms, Node } from 'slate'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { checkNodeType, getSelectedNodeByType } from '../../_helpers/node'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 
 abstract class ImageWidthBaseClass implements IButtonMenu {
   abstract title: string // 菜单标题
@@ -23,7 +22,7 @@ abstract class ImageWidthBaseClass implements IButtonMenu {
   }
 
   private getSelectedNode(editor: IDomEditor): Node | null {
-    return getSelectedNodeByType(editor, 'image')
+    return DomEditor.getSelectedNodeByType(editor, 'image')
   }
 
   isDisabled(editor: IDomEditor): boolean {
@@ -56,7 +55,7 @@ abstract class ImageWidthBaseClass implements IButtonMenu {
       // @ts-ignore
       { style: newStyle },
       {
-        match: n => checkNodeType(n, 'image'),
+        match: n => DomEditor.checkNodeType(n, 'image'),
       }
     )
   }

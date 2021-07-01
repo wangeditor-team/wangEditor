@@ -6,7 +6,6 @@
 import { IDomEditor, IOption } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
 import { FONT_FAMILY_SVG } from '../../../constants/icon-svg'
-import { getMenuConf } from '../../_helpers/menu'
 
 class FontFamilyMenu extends BaseMenu {
   title = '字体'
@@ -17,7 +16,7 @@ class FontFamilyMenu extends BaseMenu {
     const options: IOption[] = []
 
     // 获取配置，参考 './config.ts'
-    const { fontFamilyList = [] } = getMenuConf(editor, this.mark)
+    const { fontFamilyList = [] } = editor.getMenuConfig(this.mark)
 
     // 生成 options
     options.push({
