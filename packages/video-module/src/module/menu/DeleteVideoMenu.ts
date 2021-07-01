@@ -4,8 +4,7 @@
  */
 
 import { Transforms } from 'slate'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { checkNodeType, getSelectedNodeByType } from '../_helpers/node'
+import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { TRASH_SVG } from '../../constants/svg'
 
 class DeleteVideoMenu implements IButtonMenu {
@@ -26,7 +25,7 @@ class DeleteVideoMenu implements IButtonMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const videoNode = getSelectedNodeByType(editor, 'video')
+    const videoNode = DomEditor.getSelectedNodeByType(editor, 'video')
     if (videoNode == null) {
       // 选区未处于 video node ，则禁用
       return true
@@ -39,7 +38,7 @@ class DeleteVideoMenu implements IButtonMenu {
 
     // 删除视频
     Transforms.removeNodes(editor, {
-      match: n => checkNodeType(n, 'video'),
+      match: n => DomEditor.checkNodeType(n, 'video'),
     })
   }
 }

@@ -7,7 +7,6 @@ import { Element } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
 
 function videoToHtml(elemNode: Element, childrenHtml: string, editor: IDomEditor): string {
-  // @ts-ignore
   const { src = '' } = elemNode
   let res = '<div class="wangeditor-video-container">\n'
 

@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "es5",
     "module": "ES2015",
-    "lib": ["es6", "dom", "esnext"],
+    "lib": [
+      "es6",
+      "dom",
+      "esnext"
+    ],
     "declaration": true,
     "sourceMap": true,
     "outDir": "dist",
@@ -18,6 +22,7 @@
   },
   "exclude": [
     "node_modules",
-    "build"
+    "build",
+    "__tests__"
   ]
 }

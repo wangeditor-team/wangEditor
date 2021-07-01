@@ -16,6 +16,7 @@ export interface IDomEditor extends Editor {
   insertData: (data: DataTransfer) => void
   setFragmentData: (data: DataTransfer) => void
   getConfig: () => IConfig
+  getMenuConfig: (menuKey: string) => { [key: string]: any }
   setConfig: (newConfig: IConfig) => void
   handleTab: () => void
   getHtml: () => string

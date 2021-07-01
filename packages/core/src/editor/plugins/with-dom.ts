@@ -212,6 +212,12 @@ export const withDOM = <T extends Editor>(editor: T) => {
     return config
   }
 
+  // 获取 menu config
+  e.getMenuConfig = (menuKey: string): { [key: string]: any } => {
+    const { menuConf = {} } = e.getConfig()
+    return menuConf[menuKey] || {}
+  }
+
   // 修改配置
   e.setConfig = (newConfig: Partial<IConfig>) => {
     const curConfig = e.getConfig()

@@ -4,9 +4,8 @@
  */
 
 import { isEqual, toArray } from 'lodash-es'
-import { Editor, Node, Path, Point, Range, Transforms, Ancestor } from 'slate'
+import { Editor, Node, Element, Text, Path, Point, Range, Transforms, Ancestor } from 'slate'
 import { IDomEditor } from './interface'
-import { IConfig } from '../config/index'
 import { Key } from '../utils/key'
 import TextArea from '../text-area/TextArea'
 import Toolbar from '../menus/bar/Toolbar'
@@ -213,11 +212,6 @@ export const DomEditor = {
    */
   setFragmentData(editor: IDomEditor, data: DataTransfer): void {
     editor.setFragmentData(data)
-  },
-
-  // 获取 editor 配置信息
-  getConfig(editor: IDomEditor): IConfig {
-    return editor.getConfig()
   },
 
   /**
@@ -492,6 +486,40 @@ export const DomEditor = {
     const slateNode = DomEditor.toSlateNode(editor, textNode!)
     const path = DomEditor.findPath(editor, slateNode)
     return { path, offset }
+  },
+
+  getNodeType(node: Node): string {
+    if (Element.isElement(node)) {
+      return node.type
+    }
+    return ''
+  },
+
+  checkNodeType(node: Node, type: string) {
+    return this.getNodeType(node) === type
+  },
+
+  getSelectedNodeByType(editor: IDomEditor, type: string): Node | null {
+    const [nodeEntry] = Editor.nodes(editor, {
+      match: n => this.checkNodeType(n, type),
+      universal: true,
+    })
+
+    if (nodeEntry == null) return null
+    return nodeEntry[0]
+  },
+
+  isNodeSelected(editor: IDomEditor, node: Node): boolean {
+    const [nodeEntry] = Editor.nodes(editor, {
+      match: n => n === node,
+      universal: true,
+    })
+    if (nodeEntry == null) return false
+
+    const [n] = nodeEntry
+    if (n === node) return true
+
+    return false
   },
 
   // 临时记录当前正在发生变化的 node path

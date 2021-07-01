@@ -4,10 +4,15 @@
  */
 
 import { Editor, Transforms, Range, Node } from 'slate'
-import { IModalMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import {
+  IModalMenu,
+  IDomEditor,
+  DomEditor,
+  genModalInputElems,
+  genModalButtonElems,
+} from '@wangeditor/core'
 import $, { Dom7Array } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
-import { genModalInputElems, genModalButtonElems, getMenuConf } from '../_helpers/menu'
 import { VIDEO_SVG } from '../../constants/svg'
 
 /**
@@ -108,7 +113,7 @@ class InsertVideoMenu implements IModalMenu {
     if (this.isDisabled(editor)) return
 
     // 校验
-    const { onInsertedVideo, checkVideo } = getMenuConf(editor, 'insertVideo')
+    const { onInsertedVideo, checkVideo } = editor.getMenuConfig('insertVideo')
     const checkRes = checkVideo(src)
     if (typeof checkRes === 'string') {
       // 校验失败，给出提示

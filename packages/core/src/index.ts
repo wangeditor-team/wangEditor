@@ -27,7 +27,7 @@ export * from './formats/index'
 // to html
 export * from './to-html/index'
 
-// 注册 menus
+// menu 的接口、注册、方法等
 export * from './menus/index'
 
 export interface IModuleConf {

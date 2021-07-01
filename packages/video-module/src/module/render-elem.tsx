@@ -3,17 +3,16 @@
  * @author wangfupeng
  */
 
-import { Element as SlateElement } from 'slate'
+import { Element } from 'slate'
 import { jsx, VNode } from 'snabbdom'
-import { IDomEditor } from '@wangeditor/core'
-import { isNodeSelected } from './_helpers/node'
+import { IDomEditor, DomEditor } from '@wangeditor/core'
+// import { VideoElement } from './interface'
 
-function renderVideo(elemNode: SlateElement, children: VNode[] | null, editor: IDomEditor): VNode {
-  // @ts-ignore
+function renderVideo(elemNode: Element, children: VNode[] | null, editor: IDomEditor): VNode {
   const { src = '' } = elemNode
 
   // 是否选中
-  const selected = isNodeSelected(editor, elemNode, 'video')
+  const selected = DomEditor.isNodeSelected(editor, elemNode)
 
   let vnode: VNode
   if (src.trim().indexOf('<iframe') === 0) {
