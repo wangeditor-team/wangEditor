@@ -15,8 +15,3 @@ export function genRandomStr(prefix: string = 'r'): string {
 
   return `${prefix}-${d}${r}`
 }
-
-export function promiseResolveThen(fn: Function) {
-  // @ts-ignore
-  Promise.resolve().then(fn)
-}

@@ -3,8 +3,6 @@
  * @author wangfupeng
  */
 
-type PromiseCallback = (value: void) => void | PromiseLike<void>
-
 /**
  * 获取随机数字符串
  * @param prefix 前缀
@@ -16,8 +14,4 @@ export function genRandomStr(prefix: string = 'r'): string {
   const r = Math.random().toString(36).slice(-5)
 
   return `${prefix}-${d}${r}`
-}
-
-export function promiseResolveThen(fn: Function) {
-  Promise.resolve().then(fn as PromiseCallback)
 }
