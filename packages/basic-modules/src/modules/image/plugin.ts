@@ -12,7 +12,6 @@ function withImage<T extends IDomEditor>(editor: T): T {
 
   // 重写 isInline
   newEditor.isInline = elem => {
-    // @ts-ignore
     const { type } = elem
 
     if (type === 'image') {
@@ -24,7 +23,6 @@ function withImage<T extends IDomEditor>(editor: T): T {
 
   // 重写 isVoid
   newEditor.isVoid = elem => {
-    // @ts-ignore
     const { type } = elem
 
     if (type === 'image') {
@@ -41,7 +39,6 @@ function withImage<T extends IDomEditor>(editor: T): T {
   // newEditor.apply = (op: Operation) => {
   //   if (op.type === 'remove_node') {
   //     const { node } = op
-  //     // @ts-ignore
   //     if (node.type === 'image') {
   //       console.log('removed image node', node)
   //     }

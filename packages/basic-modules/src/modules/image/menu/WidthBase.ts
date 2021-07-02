@@ -5,6 +5,7 @@
 
 import { Transforms, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { ImageElement } from '../custom-types'
 
 abstract class ImageWidthBaseClass implements IButtonMenu {
   abstract title: string // 菜单标题
@@ -42,22 +43,18 @@ abstract class ImageWidthBaseClass implements IButtonMenu {
     const imageNode = this.getSelectedNode(editor)
     if (imageNode == null) return
 
-    // @ts-ignore
-    const { style = {} } = imageNode
-    const newStyle = {
-      ...style,
-      width: this.value, // 修改 width
-      height: '', // 清空 height
+    const { style = {} } = imageNode as ImageElement
+    const props: Partial<ImageElement> = {
+      style: {
+        ...style,
+        width: this.value, // 修改 width
+        height: '', // 清空 height
+      },
     }
 
-    Transforms.setNodes(
-      editor,
-      // @ts-ignore
-      { style: newStyle },
-      {
-        match: n => DomEditor.checkNodeType(n, 'image'),
-      }
-    )
+    Transforms.setNodes(editor, props, {
+      match: n => DomEditor.checkNodeType(n, 'image'),
+    })
   }
 }
 

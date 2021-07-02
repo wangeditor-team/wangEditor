@@ -8,6 +8,7 @@ import { Element as SlateElement, Transforms } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import $, { Dom7Array } from '../../utils/dom'
+import { ImageElement } from './custom-types'
 
 interface IImageSize {
   width?: string
@@ -118,19 +119,14 @@ function renderResizeContainer(
     const newHeight = $container.height().toFixed(2)
 
     // 修改 node
-    Transforms.setNodes(
-      editor,
-      {
-        // @ts-ignore
-        style: {
-          // @ts-ignore
-          ...imageVnode.style,
-          width: `${newWidth}px`,
-          height: `${newHeight}px`,
-        },
+    const props: Partial<ImageElement> = {
+      style: {
+        ...(elemNode as ImageElement).style,
+        width: `${newWidth}px`,
+        height: `${newHeight}px`,
       },
-      { at: DomEditor.findPath(editor, elemNode) }
-    )
+    }
+    Transforms.setNodes(editor, props, { at: DomEditor.findPath(editor, elemNode) })
 
     // 取消监听 mouseup
     $body.off('mouseup', onMouseup)
@@ -175,8 +171,7 @@ function renderResizeContainer(
 }
 
 function renderImage(elemNode: SlateElement, children: VNode[] | null, editor: IDomEditor): VNode {
-  // @ts-ignore
-  const { src, alt = '', url = '', style = {} } = elemNode
+  const { src, alt = '', href = '', style = {} } = elemNode as ImageElement
   const { width = '', height = '' } = style
   const selected = DomEditor.isNodeSelected(editor, elemNode) // 图片是否选中
 
@@ -185,7 +180,7 @@ function renderImage(elemNode: SlateElement, children: VNode[] | null, editor: I
   if (height) imageStyle.height = '100%'
 
   // 【注意】void node 中，renderElem 不用处理 children 。core 会统一处理。
-  const vnode = <img style={imageStyle} src={src} alt={alt} data-href={url} />
+  const vnode = <img style={imageStyle} src={src} alt={alt} data-href={href} />
 
   if (!selected) {
     // 未选中，渲染普通 image container

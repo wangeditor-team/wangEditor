@@ -7,7 +7,7 @@ import { UppyFile } from '@uppy/core'
 
 type FilesType = { [key: string]: UppyFile<{}, {}> }
 
-type InsertFn = (src: string, alt: string, url: string) => void
+type InsertFn = (src: string, alt: string, href: string) => void
 
 export interface IUploadConfig {
   server: string

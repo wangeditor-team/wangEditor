@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Node, Transforms, Range } from 'slate'
+import { Node, Range } from 'slate'
 import {
   IModalMenu,
   IDomEditor,
@@ -15,6 +15,7 @@ import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { PENCIL_SVG } from '../../../constants/icon-svg'
 import { updateImageNode } from '../helper'
+import { ImageElement, ImageStyle } from '../custom-types'
 
 /**
  * 生成唯一的 DOM ID
@@ -32,7 +33,7 @@ class EditImage implements IModalMenu {
   private $content: Dom7Array | null = null
   private srcInputId = genDomID()
   private altInputId = genDomID()
-  private urlInputId = genDomID()
+  private hrefInputId = genDomID()
   private buttonId = genDomID()
 
   getValue(editor: IDomEditor): string | boolean {
@@ -71,7 +72,7 @@ class EditImage implements IModalMenu {
   }
 
   getModalContentElem(editor: IDomEditor): Dom7Array {
-    const { srcInputId, altInputId, urlInputId, buttonId } = this
+    const { srcInputId, altInputId, hrefInputId, buttonId } = this
 
     const selectedImageNode = this.getImageNode(editor)
     if (selectedImageNode == null) {
@@ -81,7 +82,7 @@ class EditImage implements IModalMenu {
     // 获取 input button elem
     const [$srcContainer, $inputSrc] = genModalInputElems('图片地址', srcInputId)
     const [$altContainer, $inputAlt] = genModalInputElems('描述文字', altInputId)
-    const [$urlContainer, $inputUrl] = genModalInputElems('图片链接', urlInputId)
+    const [$hrefContainer, $inputHref] = genModalInputElems('图片链接', hrefInputId)
     const [$buttonContainer] = genModalButtonElems(buttonId, '确定')
 
     if (this.$content == null) {
@@ -94,8 +95,8 @@ class EditImage implements IModalMenu {
 
         const src = $(`#${srcInputId}`).val()
         const alt = $(`#${altInputId}`).val()
-        const url = $(`#${urlInputId}`).val()
-        this.updateImage(editor, src, alt, url)
+        const href = $(`#${hrefInputId}`).val()
+        this.updateImage(editor, src, alt, href)
         editor.hidePanelOrModal() // 隐藏 modal
       })
 
@@ -109,15 +110,14 @@ class EditImage implements IModalMenu {
     // append inputs and button
     $content.append($srcContainer)
     $content.append($altContainer)
-    $content.append($urlContainer)
+    $content.append($hrefContainer)
     $content.append($buttonContainer)
 
     // 设置 input val
-    // @ts-ignore
-    const { src, alt = '', url = '', style = {} } = selectedImageNode
+    const { src, alt = '', href = '' } = selectedImageNode as ImageElement
     $inputSrc.val(src)
     $inputAlt.val(alt)
-    $inputUrl.val(url)
+    $inputHref.val(href)
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {
@@ -131,8 +131,8 @@ class EditImage implements IModalMenu {
     editor: IDomEditor,
     src: string,
     alt: string = '',
-    url: string = '',
-    style: any = {}
+    href: string = '',
+    style: ImageStyle = {}
   ) {
     if (!src) return
 
@@ -142,7 +142,7 @@ class EditImage implements IModalMenu {
     if (this.isDisabled(editor)) return
 
     // 修改图片信息
-    updateImageNode(editor, src, alt, url, style)
+    updateImageNode(editor, src, alt, href, style)
   }
 }
 

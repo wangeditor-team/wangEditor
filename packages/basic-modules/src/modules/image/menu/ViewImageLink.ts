@@ -5,6 +5,7 @@
 
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { EXTERNAL_SVG } from '../../../constants/icon-svg'
+import { ImageElement } from '../custom-types'
 
 class ViewImageLink implements IButtonMenu {
   title = '查看链接'
@@ -14,8 +15,8 @@ class ViewImageLink implements IButtonMenu {
   getValue(editor: IDomEditor): string | boolean {
     const imageNode = DomEditor.getSelectedNodeByType(editor, 'image')
     if (imageNode) {
-      // @ts-ignore 选区处于 image node
-      return imageNode.url || ''
+      // 选区处于 image node
+      return (imageNode as ImageElement).href || ''
     }
     return ''
   }
@@ -28,9 +29,9 @@ class ViewImageLink implements IButtonMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const url = this.getValue(editor)
-    if (url) {
-      // 有 image url ，则不禁用
+    const href = this.getValue(editor)
+    if (href) {
+      // 有 image href ，则不禁用
       return false
     }
     return true
@@ -40,7 +41,7 @@ class ViewImageLink implements IButtonMenu {
     if (this.isDisabled(editor)) return
 
     if (!value || typeof value !== 'string') {
-      throw new Error(`View image link failed, image.url is '${value}'`)
+      throw new Error(`View image link failed, image.href is '${value}'`)
       return
     }
 

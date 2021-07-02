@@ -8,7 +8,7 @@ import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { insertImageNode } from '@wangeditor/basic-modules'
 import { UPLOAD_IMAGE_SVG } from '../../constants/svg'
 import { genUppy } from '../../vendor/uppy'
-import { getMenuConf, isMenuDisabled } from '../_helpers/menu'
+import { isMenuDisabled } from '../helper'
 import $ from '../../utils/dom'
 import { IUploadConfig } from '../../vendor/uppy/interface'
 
@@ -34,7 +34,7 @@ class UploadImage implements IButtonMenu {
 
   private getMenuConfig(editor: IDomEditor): IUploadConfig {
     // 获取配置，见 `./config.js`
-    return getMenuConf(editor, 'uploadImage') as IUploadConfig
+    return editor.getMenuConfig('uploadImage') as IUploadConfig
   }
 
   exec(editor: IDomEditor, value: string | boolean) {

@@ -7,7 +7,7 @@ import { IDomEditor } from '@wangeditor/core'
 import Uppy, { UppyFile } from '@uppy/core'
 import { insertImageNode } from '@wangeditor/basic-modules'
 import { genUppy } from '../vendor/uppy'
-import { getMenuConf, isMenuDisabled } from './_helpers/menu'
+import { isMenuDisabled } from './helper'
 import { IUploadConfig } from '../vendor/uppy/interface'
 
 // 存储 editor uppy 的关系 - 缓存 uppy ，不重复创建
@@ -36,7 +36,7 @@ function withUploadImage<T extends IDomEditor>(editor: T): T {
     // 获取/创建 uppy 实例
     let uppy = EDITOR_TO_UPPY_MAP.get(newEditor)
     if (uppy == null) {
-      const menuConfig = getMenuConf(newEditor, 'uploadImage') as IUploadConfig // 获取菜单配置
+      const menuConfig = editor.getMenuConfig('uploadImage') as IUploadConfig // 获取菜单配置
       const { onSuccess, onFailed } = menuConfig
       uppy = genUppy({
         ...menuConfig,

@@ -5,16 +5,16 @@
 
 import { Element } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
+import { ImageElement } from './custom-types'
 
 function imageToHtml(elemNode: Element, childrenHtml: string, editor: IDomEditor): string {
-  // @ts-ignore
-  const { src, alt = '', url = '', style = {} } = elemNode
+  const { src, alt = '', href = '', style = {} } = elemNode as ImageElement
   const { width = '', height = '' } = style
 
   let styleStr = ''
   if (width) styleStr += `width: ${width};`
   if (height) styleStr += `height: ${height};`
-  return `<img src="${src}" alt="${alt}" data-href="${url}" style="${styleStr}"/>`
+  return `<img src="${src}" alt="${alt}" data-href="${href}" style="${styleStr}"/>`
 }
 
 export const imageToHtmlConf = {

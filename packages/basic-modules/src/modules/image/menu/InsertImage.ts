@@ -32,7 +32,7 @@ class InsertImage implements IModalMenu {
   private $content: Dom7Array | null = null
   private srcInputId = genDomID()
   private altInputId = genDomID()
-  private urlInputId = genDomID()
+  private hrefInputId = genDomID()
   private buttonId = genDomID()
 
   getValue(editor: IDomEditor): string | boolean {
@@ -56,10 +56,8 @@ class InsertImage implements IModalMenu {
     if (!Range.isCollapsed(selection)) return true // 选区非折叠，禁用
 
     const [match] = Editor.nodes(editor, {
-      // @ts-ignore
       match: n => {
-        // @ts-ignore
-        const { type = '' } = n
+        const type = DomEditor.getNodeType(n)
 
         if (type === 'code') return true // 行内代码
         if (type === 'pre') return true // 代码块
@@ -83,12 +81,12 @@ class InsertImage implements IModalMenu {
   }
 
   getModalContentElem(editor: IDomEditor): Dom7Array {
-    const { srcInputId, altInputId, urlInputId, buttonId } = this
+    const { srcInputId, altInputId, hrefInputId, buttonId } = this
 
     // 获取 input button elem
     const [$srcContainer, $inputSrc] = genModalInputElems('图片地址', srcInputId)
     const [$altContainer, $inputAlt] = genModalInputElems('描述文字', altInputId)
-    const [$urlContainer, $inputUrl] = genModalInputElems('图片链接', urlInputId)
+    const [$hrefContainer, $inputHref] = genModalInputElems('图片链接', hrefInputId)
     const [$buttonContainer] = genModalButtonElems(buttonId, '确定')
 
     if (this.$content == null) {
@@ -100,8 +98,8 @@ class InsertImage implements IModalMenu {
         e.preventDefault()
         const src = $(`#${srcInputId}`).val().trim()
         const alt = $(`#${altInputId}`).val().trim()
-        const url = $(`#${urlInputId}`).val().trim()
-        this.insertImage(editor, src, alt, url)
+        const href = $(`#${hrefInputId}`).val().trim()
+        this.insertImage(editor, src, alt, href)
         editor.hidePanelOrModal() // 隐藏 modal
       })
 
@@ -115,13 +113,13 @@ class InsertImage implements IModalMenu {
     // append inputs and button
     $content.append($srcContainer)
     $content.append($altContainer)
-    $content.append($urlContainer)
+    $content.append($hrefContainer)
     $content.append($buttonContainer)
 
     // 设置 input val
     $inputSrc.val('')
     $inputAlt.val('')
-    $inputUrl.val('')
+    $inputHref.val('')
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {
@@ -131,7 +129,7 @@ class InsertImage implements IModalMenu {
     return $content
   }
 
-  private insertImage(editor: IDomEditor, src: string, alt: string = '', url: string = '') {
+  private insertImage(editor: IDomEditor, src: string, alt: string = '', href: string = '') {
     if (!src) return
 
     // 还原选区
@@ -140,7 +138,7 @@ class InsertImage implements IModalMenu {
     if (this.isDisabled(editor)) return
 
     // 插入图片
-    insertImageNode(editor, src, alt, url)
+    insertImageNode(editor, src, alt, href)
   }
 }
 

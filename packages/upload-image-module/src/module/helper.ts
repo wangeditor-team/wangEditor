@@ -3,19 +3,8 @@
  * @author wangfupeng
  */
 
-import { Transforms, Range, Editor } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
-
-/**
- * 获取 menu config
- * @param editor editor
- * @param menuKey menuKey
- */
-export function getMenuConf(editor: IDomEditor, menuKey: string): { [key: string]: any } {
-  const { menuConf = {} } = editor.getConfig()
-  const colorConf = menuConf[menuKey] || {}
-  return colorConf || {}
-}
+import { Range, Editor } from 'slate'
+import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 /**
  * 判断菜单是否要 disabled
@@ -27,10 +16,8 @@ export function isMenuDisabled(editor: IDomEditor): boolean {
   if (!Range.isCollapsed(selection)) return true // 选区非折叠，禁用
 
   const [match] = Editor.nodes(editor, {
-    // @ts-ignore
     match: n => {
-      // @ts-ignore
-      const { type = '' } = n
+      const type = DomEditor.getNodeType(n)
 
       if (type === 'code') return true // 行内代码
       if (type === 'pre') return true // 代码块
