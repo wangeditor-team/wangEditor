@@ -11,7 +11,6 @@ function withDivider<T extends IDomEditor>(editor: T): T {
 
   // 重写 isVoid
   newEditor.isVoid = elem => {
-    // @ts-ignore
     const { type } = elem
 
     if (type === 'divider') {

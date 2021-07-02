@@ -25,9 +25,7 @@ class UndoMenu implements IButtonMenu {
   }
 
   exec(editor: IDomEditor, value: string | boolean) {
-    // @ts-ignore
     if (typeof editor.undo === 'function') {
-      // @ts-ignore
       editor.undo()
     }
   }

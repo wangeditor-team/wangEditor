@@ -18,6 +18,7 @@ import {
   Header2Element,
   Header3Element,
 } from './basic-modules/src/modules/header/custom-types'
+import { DividerElement } from './basic-modules/src/modules/divider/custom-types'
 import { PreElement, CodeElement } from './basic-modules/src/modules/code-block/custom-types'
 import { VideoElement } from './video-module/src/module/custom-types'
 import {
@@ -51,6 +52,7 @@ type CustomElement =
   | Header1Element
   | Header2Element
   | Header3Element
+  | DividerElement
   | PreElement
   | CodeElement
   | VideoElement

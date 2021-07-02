@@ -25,9 +25,7 @@ class RedoMenu implements IButtonMenu {
   }
 
   exec(editor: IDomEditor, value: string | boolean) {
-    // @ts-ignore
     if (typeof editor.redo === 'function') {
-      // @ts-ignore
       editor.redo()
     }
   }

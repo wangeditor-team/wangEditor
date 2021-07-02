@@ -6,6 +6,7 @@
 import { Transforms } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { DIVIDER_SVG } from '../../../constants/icon-svg'
+import { DividerElement } from '../custom-types'
 
 class InsertDividerMenu implements IButtonMenu {
   title = '分割线'
@@ -34,7 +35,7 @@ class InsertDividerMenu implements IButtonMenu {
   }
 
   exec(editor: IDomEditor, value: string | boolean): void {
-    const node = {
+    const node: DividerElement = {
       type: 'divider',
       children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children
     }
