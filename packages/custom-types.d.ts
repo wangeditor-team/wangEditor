@@ -8,6 +8,8 @@ import { StyledText } from './basic-modules/src/modules/text-style/custom-types'
 import { ColorText } from './basic-modules/src/modules/color/custom-types'
 import { FontSizeAndFamilyText } from './basic-modules/src/modules/font-size-family/custom-types'
 import { ParagraphElement } from './basic-modules/src/modules/paragraph/custom-types'
+import { LinkElement } from './basic-modules/src/modules/link/custom-types'
+import { BlockQuoteElement } from './basic-modules/src/modules/blockquote/custom-types'
 import {
   Header1Element,
   Header2Element,
@@ -38,6 +40,8 @@ type BaseElement = {
 type CustomElement =
   | BaseElement
   | ParagraphElement
+  | LinkElement
+  | BlockQuoteElement
   | Header1Element
   | Header2Element
   | Header3Element

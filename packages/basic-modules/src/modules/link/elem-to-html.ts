@@ -5,10 +5,10 @@
 
 import { Element } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
+import { LinkElement } from './custom-types'
 
 function linkToHtml(elem: Element, childrenHtml: string, editor: IDomEditor): string {
-  // @ts-ignore
-  const { url, target = '_blank' } = elem
+  const { url, target = '_blank' } = elem as LinkElement
 
   return `<a href="${url}" target="${target}">${childrenHtml}</a>`
 }

@@ -15,6 +15,7 @@ import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { PENCIL_SVG } from '../../../constants/icon-svg'
 import { updateLink } from '../helper'
+import { LinkElement } from '../custom-types'
 
 /**
  * 生成唯一的 DOM ID
@@ -34,8 +35,10 @@ class UpdateLinkMenu implements IModalMenu {
   private urlInputId = genDomID()
   private buttonId = genDomID()
 
-  private getSelectedNode(editor: IDomEditor): Node | null {
-    return DomEditor.getSelectedNodeByType(editor, 'link')
+  private getSelectedLinkElem(editor: IDomEditor): LinkElement | null {
+    const node = DomEditor.getSelectedNodeByType(editor, 'link')
+    if (node == null) return null
+    return node as LinkElement
   }
 
   /**
@@ -43,10 +46,9 @@ class UpdateLinkMenu implements IModalMenu {
    * @param editor editor
    */
   getValue(editor: IDomEditor): string | boolean {
-    const linkNode = this.getSelectedNode(editor)
-    if (linkNode) {
-      // @ts-ignore
-      return linkNode.url || ''
+    const linkElem = this.getSelectedLinkElem(editor)
+    if (linkElem) {
+      return linkElem.url || ''
     }
     return ''
   }
@@ -64,16 +66,16 @@ class UpdateLinkMenu implements IModalMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const linkNode = this.getSelectedNode(editor)
+    const linkElem = this.getSelectedLinkElem(editor)
 
     // 未匹配到 link node 则禁用
-    if (linkNode == null) return true
+    if (linkElem == null) return true
     return false
   }
 
   // modal 定位
   getModalPositionNode(editor: IDomEditor): Node | null {
-    return this.getSelectedNode(editor)
+    return DomEditor.getSelectedNodeByType(editor, 'link')
   }
 
   getModalContentElem(editor: IDomEditor): Dom7Array {
@@ -92,7 +94,7 @@ class UpdateLinkMenu implements IModalMenu {
         e.preventDefault()
         DomEditor.restoreSelection(editor) // 还原选区
 
-        const n = this.getSelectedNode(editor)
+        const n = DomEditor.getSelectedNodeByType(editor, 'link')
         const text = n ? Node.string(n) : ''
         const url = $(`#${urlInputId}`).val()
         updateLink(editor, text, url) // 修改链接

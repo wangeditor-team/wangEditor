@@ -26,10 +26,8 @@ class BlockquoteMenu implements IButtonMenu {
     if (editor.selection == null) return true
 
     const [nodeEntry] = Editor.nodes(editor, {
-      // @ts-ignore
       match: n => {
-        // @ts-ignore
-        const { type = '' } = n
+        const type = DomEditor.getNodeType(n)
 
         // 只可用于 p 和 blockquote
         if (type === 'paragraph') return true
@@ -61,14 +59,7 @@ class BlockquoteMenu implements IButtonMenu {
     const newType = active ? 'paragraph' : 'blockquote'
 
     // 执行命令
-    Transforms.setNodes(
-      editor,
-      {
-        // @ts-ignore
-        type: newType,
-      },
-      { mode: 'highest' }
-    )
+    Transforms.setNodes(editor, { type: newType }, { mode: 'highest' })
   }
 }
 

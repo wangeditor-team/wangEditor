@@ -14,7 +14,6 @@ function withLink<T extends IDomEditor>(editor: T): T {
 
   // 重写 isInline
   newEditor.isInline = elem => {
-    // @ts-ignore
     const { type } = elem
 
     if (type === 'link') {

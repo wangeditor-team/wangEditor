@@ -6,6 +6,7 @@
 import { Element as SlateElement } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor } from '@wangeditor/core'
+import { LinkElement } from './custom-types'
 
 /**
  * render link elem
@@ -15,8 +16,7 @@ import { IDomEditor } from '@wangeditor/core'
  * @returns vnode
  */
 function renderLink(elemNode: SlateElement, children: VNode[] | null, editor: IDomEditor): VNode {
-  // @ts-ignore
-  const { url, target = '_blank' } = elemNode
+  const { url, target = '_blank' } = elemNode as LinkElement
   const vnode = (
     <a href={url} target={target}>
       {children}

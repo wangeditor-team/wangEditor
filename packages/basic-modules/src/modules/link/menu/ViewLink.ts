@@ -5,17 +5,23 @@
 
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { EXTERNAL_SVG } from '../../../constants/icon-svg'
+import { LinkElement } from '../custom-types'
 
 class ViewLink implements IButtonMenu {
   title = '查看链接'
   iconSvg = EXTERNAL_SVG
   tag = 'button'
 
+  private getSelectedLinkElem(editor: IDomEditor): LinkElement | null {
+    const node = DomEditor.getSelectedNodeByType(editor, 'link')
+    if (node == null) return null
+    return node as LinkElement
+  }
+
   getValue(editor: IDomEditor): string | boolean {
-    const linkNode = DomEditor.getSelectedNodeByType(editor, 'link')
-    if (linkNode) {
-      // @ts-ignore 选区处于 link node
-      return linkNode.url || ''
+    const linkElem = this.getSelectedLinkElem(editor)
+    if (linkElem) {
+      return linkElem.url || ''
     }
     return ''
   }
@@ -28,8 +34,8 @@ class ViewLink implements IButtonMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const linkNode = DomEditor.getSelectedNodeByType(editor, 'link')
-    if (linkNode == null) {
+    const linkElem = this.getSelectedLinkElem(editor)
+    if (linkElem == null) {
       // 选区未处于 link node ，则禁用
       return true
     }
