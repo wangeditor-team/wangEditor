@@ -4,7 +4,7 @@
  */
 
 import { MenuFactoryType, IMenuConf } from './interface'
-import { registerGlobalMenuConf } from '../config/index'
+import { registerGlobalMenuConf } from '../config/register'
 
 // menu item 的工厂函数 - 集合
 export const MENU_ITEM_FACTORIES: {

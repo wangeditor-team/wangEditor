@@ -14,7 +14,7 @@ import { DOMElement } from '../utils/dom'
 import { editorSelectionToDOM, DOMSelectionToEditor } from './syncSelection'
 import { promiseResolveThen } from '../utils/util'
 import eventHandlerConf from './event-handlers/index'
-import { IConfig } from '../config/index'
+import { IConfig } from '../config/interface'
 
 let ID = 1
 

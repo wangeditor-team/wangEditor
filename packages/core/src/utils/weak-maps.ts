@@ -13,7 +13,7 @@ import HoverBar from '../menus/bar/HoverBar'
 import { IBarItem } from '../menus/bar-item/index'
 import { Key } from './key'
 import { PatchFn } from '../utils/vdom'
-import { IConfig } from '../config/index'
+import { IConfig } from '../config/interface'
 import PanelAndModal from '../menus/panel-and-modal/BaseClass'
 
 // textarea - editor

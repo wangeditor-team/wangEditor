@@ -5,8 +5,7 @@
 
 import { Editor } from 'slate'
 import ee from 'event-emitter'
-import { AlertType } from '../config/index'
-import { IConfig } from '../config/index'
+import { IConfig, AlertType } from '../config/interface'
 
 /**
  * 扩展 slate Editor 接口
@@ -18,6 +17,7 @@ export interface IDomEditor extends Editor {
   getConfig: () => IConfig
   getMenuConfig: (menuKey: string) => { [key: string]: any }
   setConfig: (newConfig: IConfig) => void
+  getAllMenuKeys: () => string[] // TODO 文档中说明，包括如何获取 toolbar hoverbar menu
   handleTab: () => void
   getHtml: () => string
   getText: () => string

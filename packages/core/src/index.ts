@@ -15,7 +15,8 @@ import { IDomEditor } from './editor/interface'
 export const createEditor = create
 
 // config
-export { IConfig, genConfig } from './config/index'
+export { IConfig } from './config/interface'
+export { genConfig } from './config/index'
 
 // editor 接口和 command
 export * from './editor/interface'

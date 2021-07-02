@@ -10,7 +10,8 @@ import { withEmitter } from './editor/plugins/with-emitter'
 import TextArea from './text-area/TextArea'
 import Toolbar from './menus/bar/Toolbar'
 import HoverBar from './menus/bar/HoverBar'
-import { IConfig, genConfig } from './config/index'
+import { genConfig } from './config/index'
+import { IConfig } from './config/interface'
 import { IDomEditor } from './editor/interface'
 import {
   EDITOR_TO_TEXTAREA,

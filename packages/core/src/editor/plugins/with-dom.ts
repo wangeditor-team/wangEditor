@@ -15,11 +15,11 @@ import {
 } from '../../utils/weak-maps'
 import { Key } from '../../utils/key'
 import { isDOMText, getPlainText } from '../../utils/dom'
-import { IConfig } from '../../config/index'
+import { IConfig, AlertType } from '../../config/interface'
 import { node2html } from '../../to-html/node2html'
-import { AlertType } from '../../config/index'
 import { genElemId } from '../../formats/helper'
 import $ from '../../utils/dom'
+import { MENU_ITEM_FACTORIES } from '../../menus/register'
 
 let ID = 1
 
@@ -203,6 +203,14 @@ export const withDOM = <T extends Editor>(editor: T) => {
 
     // 执行默认的 insertText
     insertText(s)
+  }
+
+  e.getAllMenuKeys = (): string[] => {
+    const arr = []
+    for (let key in MENU_ITEM_FACTORIES) {
+      arr.push(key)
+    }
+    return arr
   }
 
   // 获取 editor 配置信息
