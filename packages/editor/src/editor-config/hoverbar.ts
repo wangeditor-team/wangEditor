@@ -19,12 +19,26 @@ export function genHoverbarKeys() {
         let parentType = ''
         const [parent] = Editor.parent(editor, selection, { edge: 'start' })
         if (Element.isElement(parent)) parentType = parent.type
-        if (parentType === 'code' || parentType === 'pre') return false // code-block 不允许
+        if (parentType === 'code' || parentType === 'pre' || parentType.startsWith('header')) {
+          // code-block header 禁止
+          return false
+        }
 
         if (Text.isText(n)) return true // 匹配 text node
         return false
       },
-      menuKeys: ['header', '|', 'bold', 'underline', 'through', '|', 'color'],
+      menuKeys: [
+        'headerSelect',
+        '|',
+        'bold',
+        'underline',
+        'through',
+        '|',
+        'color',
+        'bgColor',
+        '|',
+        'insertLink',
+      ],
     },
     {
       desc: '选中链接 selected link',

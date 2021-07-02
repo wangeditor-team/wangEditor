@@ -7,7 +7,10 @@ import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG, IMAGE_SVG, MORE_SVG } from '../cons
 
 export function genToolbarKeys() {
   return [
-    'header',
+    'headerSelect',
+    // 'header1',
+    // 'header2',
+    // 'header3',
     'blockquote',
     '|',
     'bold',
