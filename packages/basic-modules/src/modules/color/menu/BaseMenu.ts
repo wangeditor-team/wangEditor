@@ -9,11 +9,11 @@ import $, { Dom7Array } from '../../../utils/dom'
 import { CLEAN_SVG } from '../../../constants/icon-svg'
 
 abstract class BaseMenu implements IDropPanelMenu {
-  abstract title: string
-  abstract iconSvg: string
-  tag = 'button'
-  showDropPanel = true // 点击 button 时显示 dropPanel
-  protected abstract mark: string
+  abstract readonly title: string
+  abstract readonly iconSvg: string
+  readonly tag = 'button'
+  readonly showDropPanel = true // 点击 button 时显示 dropPanel
+  protected abstract readonly mark: string
   private $content: Dom7Array | null = null
 
   exec(editor: IDomEditor, value: string | boolean) {

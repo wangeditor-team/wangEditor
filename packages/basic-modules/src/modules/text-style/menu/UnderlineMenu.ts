@@ -7,10 +7,10 @@ import BaseMenu from './BaseMenu'
 import { UNDER_LINE_SVG } from '../../../constants/icon-svg'
 
 class UnderlineMenu extends BaseMenu {
-  mark = 'underline'
-  title = '下划线'
-  iconSvg = UNDER_LINE_SVG
-  hotkey = 'mod+u'
+  readonly mark = 'underline'
+  readonly title = '下划线'
+  readonly iconSvg = UNDER_LINE_SVG
+  readonly hotkey = 'mod+u'
 }
 
 export default UnderlineMenu

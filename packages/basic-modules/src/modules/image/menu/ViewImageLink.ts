@@ -8,9 +8,9 @@ import { EXTERNAL_SVG } from '../../../constants/icon-svg'
 import { ImageElement } from '../custom-types'
 
 class ViewImageLink implements IButtonMenu {
-  title = '查看链接'
-  iconSvg = EXTERNAL_SVG
-  tag = 'button'
+  readonly title = '查看链接'
+  readonly iconSvg = EXTERNAL_SVG
+  readonly tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
     const imageNode = DomEditor.getSelectedNodeByType(editor, 'image')

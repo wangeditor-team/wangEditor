@@ -34,8 +34,8 @@ function genRootVnode(elemId: string, readOnly = false): VNode {
       suppressContentEditableWarning: true,
     },
     datasets: {
-      slateEditor: true,
-      slateNode: 'value',
+      slateEditor: true, // data-slate-editor
+      slateNode: 'value', // data-slate-node
     },
   })
 }

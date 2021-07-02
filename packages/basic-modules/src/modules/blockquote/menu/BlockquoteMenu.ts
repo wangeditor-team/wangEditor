@@ -8,9 +8,9 @@ import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { QUOTE_SVG } from '../../../constants/icon-svg'
 
 class BlockquoteMenu implements IButtonMenu {
-  title = '引用'
-  iconSvg = QUOTE_SVG
-  tag = 'button'
+  readonly title = '引用'
+  readonly iconSvg = QUOTE_SVG
+  readonly tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
     // 用不到 getValue

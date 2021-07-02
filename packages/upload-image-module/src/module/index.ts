@@ -7,7 +7,7 @@ import { IModuleConf } from '@wangeditor/core'
 import withUploadImage from './plugin'
 import { uploadImageMenuConf } from './menu/index'
 
-const uploadImage: IModuleConf = {
+const uploadImage: Partial<IModuleConf> = {
   menus: [uploadImageMenuConf],
   editorPlugin: withUploadImage,
 }

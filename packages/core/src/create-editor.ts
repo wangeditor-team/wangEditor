@@ -10,9 +10,9 @@ import { withEmitter } from './editor/plugins/with-emitter'
 import TextArea from './text-area/TextArea'
 import Toolbar from './menus/bar/Toolbar'
 import HoverBar from './menus/bar/HoverBar'
-import { genConfig } from './config/index'
-import { IConfig } from './config/interface'
+import { genEditorConfig } from './config/index'
 import { IDomEditor } from './editor/interface'
+import { IConfig } from './config/interface'
 import {
   EDITOR_TO_TEXTAREA,
   TEXTAREA_TO_EDITOR,
@@ -31,7 +31,7 @@ type PluginFnType = <T extends IDomEditor>(editor: T) => T
 interface ICreateOption {
   toolbarSelector?: string
   textareaSelector: string
-  config?: IConfig
+  config?: Partial<IConfig>
   initContent?: Descendant[]
   plugins?: PluginFnType[]
 }
@@ -93,7 +93,7 @@ function create(option: ICreateOption) {
   }
 
   // 处理配置
-  const editorConfig = genConfig(config || {})
+  const editorConfig = genEditorConfig(config)
   EDITOR_TO_CONFIG.set(editor, editorConfig)
   const { toolbarKeys = [], hoverbarKeys = [] } = editorConfig
 

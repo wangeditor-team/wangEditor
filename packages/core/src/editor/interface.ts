@@ -16,7 +16,7 @@ export interface IDomEditor extends Editor {
   setFragmentData: (data: DataTransfer) => void
   getConfig: () => IConfig
   getMenuConfig: (menuKey: string) => { [key: string]: any }
-  setConfig: (newConfig: IConfig) => void
+  setConfig: (newConfig: Partial<IConfig>) => void
   getAllMenuKeys: () => string[] // TODO 文档中说明，包括如何获取 toolbar hoverbar menu
   handleTab: () => void
   getHtml: () => string

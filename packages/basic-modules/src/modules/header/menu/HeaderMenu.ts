@@ -8,10 +8,10 @@ import { ISelectMenu, IDomEditor, IOption, DomEditor } from '@wangeditor/core'
 import { HEADER_SVG } from '../../../constants/icon-svg'
 
 class HeaderMenu implements ISelectMenu {
-  title = '标题'
-  iconSvg = HEADER_SVG
-  tag = 'select'
-  width = 60
+  readonly title = '标题'
+  readonly iconSvg = HEADER_SVG
+  readonly tag = 'select'
+  readonly width = 60
 
   getOptions(editor: IDomEditor): IOption[] {
     // 基本的 options 列表

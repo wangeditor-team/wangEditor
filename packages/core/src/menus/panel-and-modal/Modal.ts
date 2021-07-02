@@ -9,7 +9,7 @@ import PanelAndModal from './BaseClass'
 import { IDomEditor } from '../../editor/interface'
 
 class Modal extends PanelAndModal {
-  $elem: Dom7Array = $(`<div class="w-e-modal"></div>`)
+  readonly $elem: Dom7Array = $(`<div class="w-e-modal"></div>`)
   private width: number = 0
 
   constructor(editor: IDomEditor, width: number = 0) {
@@ -17,7 +17,7 @@ class Modal extends PanelAndModal {
     if (width) this.width = width
   }
 
-  setStyle(positionStyle: IPositionStyle) {
+  setStyle(positionStyle: Partial<IPositionStyle>) {
     const { width, $elem } = this
 
     $elem.attr('style', '') // 先清空 style ，再重新设置

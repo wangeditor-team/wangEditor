@@ -11,8 +11,8 @@ import { promiseResolveThen } from '../../utils/util'
 import { addTooltip } from './tooltip'
 
 abstract class BaseButton implements IBarItem {
-  $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
-  protected $button: Dom7Array
+  readonly $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
+  protected readonly $button: Dom7Array = $(`<button></button>`)
   menu: IButtonMenu | IDropPanelMenu | IModalMenu
   private disabled = false
 
@@ -25,7 +25,7 @@ abstract class BaseButton implements IBarItem {
 
     // ----------------- 初始化 dom -----------------
     const { title, hotkey = '', iconSvg = '' } = menu
-    const $button = $(`<button></button>`)
+    const { $button } = this
     if (iconSvg) {
       const $svg = $(iconSvg)
       clearSvgStyle($svg) // 清理 svg 样式（扩展的菜单，svg 是不可控的，所以要清理一下）
@@ -44,7 +44,6 @@ abstract class BaseButton implements IBarItem {
       $button.css('width', `${width}px`)
     }
     this.$elem.append($button)
-    this.$button = $button
 
     // ----------------- 异步绑定事件 -----------------
     promiseResolveThen(() => this.init())
@@ -84,7 +83,7 @@ abstract class BaseButton implements IBarItem {
 
   private setActive() {
     const editor = getEditorInstance(this)
-    const $button = this.$button
+    const { $button } = this
     const active = this.menu.isActive(editor)
 
     const className = 'active'
@@ -99,7 +98,7 @@ abstract class BaseButton implements IBarItem {
 
   private setDisabled() {
     const editor = getEditorInstance(this)
-    const $button = this.$button
+    const { $button } = this
     const disabled = this.menu.isDisabled(editor)
 
     const className = 'disabled'

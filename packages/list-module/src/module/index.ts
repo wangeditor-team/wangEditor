@@ -9,7 +9,7 @@ import { bulletedToHtmlConf, numberedToHtmlConf, listItemToHtmlConf } from './el
 import { bulletedListMenuConf, numberedListMenuConf } from './menu/index'
 import withList from './plugin'
 
-const bold: IModuleConf = {
+const bold: Partial<IModuleConf> = {
   renderElems: [renderBulletedListConf, renderNumberedListConf, renderListItemConf],
   elemsToHtml: [bulletedToHtmlConf, numberedToHtmlConf, listItemToHtmlConf],
   menus: [bulletedListMenuConf, numberedListMenuConf],

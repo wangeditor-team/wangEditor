@@ -10,8 +10,8 @@ import { INDENT_LEFT_SVG } from '../../../constants/icon-svg'
 import { IndentElement } from '../custom-types'
 
 class DecreaseIndentMenu extends BaseMenu {
-  title = '减少缩进'
-  iconSvg = INDENT_LEFT_SVG
+  readonly title = '减少缩进'
+  readonly iconSvg = INDENT_LEFT_SVG
 
   isDisabled(editor: IDomEditor): boolean {
     const matchNode = this.getMatchNode(editor)

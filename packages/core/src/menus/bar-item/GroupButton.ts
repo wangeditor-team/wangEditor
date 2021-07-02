@@ -9,9 +9,9 @@ import { IMenuGroup } from '../interface'
 import { clearSvgStyle } from '../helpers/helpers'
 import { IBarItem } from './index'
 class GroupButton {
-  $elem: Dom7Array = $(`<div class="w-e-bar-item w-e-bar-item-group"></div>`)
-  private $container: Dom7Array = $('<div class="w-e-bar-item-menus-container"></div>')
-  $button = $(`<button></button>`)
+  readonly $elem: Dom7Array = $(`<div class="w-e-bar-item w-e-bar-item-group"></div>`)
+  private readonly $container: Dom7Array = $('<div class="w-e-bar-item-menus-container"></div>')
+  readonly $button = $(`<button></button>`)
 
   constructor(menu: IMenuGroup) {
     const { iconSvg, title /*, menuKeys = [] */ } = menu

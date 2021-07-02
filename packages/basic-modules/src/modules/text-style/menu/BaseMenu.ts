@@ -7,11 +7,11 @@ import { Editor } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 
 abstract class BaseMenu implements IButtonMenu {
-  abstract mark: string
-  abstract title: string
-  abstract iconSvg: string
-  abstract hotkey: string
-  tag = 'button'
+  abstract readonly mark: string
+  abstract readonly title: string
+  abstract readonly iconSvg: string
+  abstract readonly hotkey: string
+  readonly tag = 'button'
 
   /**
    * 获取：是否有 mark

@@ -19,11 +19,10 @@ import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../interfa
 type MenuType = IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
 
 class HoverBar {
-  private $elem = $('<div class="w-e-bar w-e-bar-hidden w-e-hover-bar"></div>')
+  private readonly $elem = $('<div class="w-e-bar w-e-bar-hidden w-e-hover-bar"></div>')
   private menus: { [key: string]: MenuType } = {}
   private hoverbarItems: IBarItem[] = []
   private selectedNode: Node | null = null
-  private $body = $('body')
 
   constructor() {
     // 异步，否则获取不到 DOM 和 editor

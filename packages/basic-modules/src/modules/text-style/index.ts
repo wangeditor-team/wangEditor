@@ -14,7 +14,7 @@ import {
   codeMenuConf,
 } from './menu/index'
 
-const textStyle: IModuleConf = {
+const textStyle: Partial<IModuleConf> = {
   renderTextStyle,
   menus: [boldMenuConf, underlineMenuConf, italicMenuConf, throughMenuConf, codeMenuConf],
   textToHtml,

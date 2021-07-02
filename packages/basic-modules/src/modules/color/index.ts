@@ -8,7 +8,7 @@ import { renderTextStyle } from './render-text-style'
 import { textStyleToHtml } from './text-style-to-html'
 import { colorMenuConf, bgColorMenuConf } from './menu/index'
 
-const color: IModuleConf = {
+const color: Partial<IModuleConf> = {
   renderTextStyle,
   textStyleToHtml,
   menus: [colorMenuConf, bgColorMenuConf],

@@ -29,7 +29,7 @@ class ModalButton extends BaseButton {
   /**
    * 获取 modal 定位
    */
-  private getPosition(): IPositionStyle {
+  private getPosition(): Partial<IPositionStyle> {
     const editor = getEditorInstance(this)
     const positionNode = this.menu.getModalPositionNode(editor)
 

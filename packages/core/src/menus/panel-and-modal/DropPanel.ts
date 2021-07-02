@@ -8,7 +8,7 @@ import $, { Dom7Array } from '../../utils/dom'
 import PanelAndModal from './BaseClass'
 
 class DropPanel extends PanelAndModal {
-  $elem: Dom7Array = $(`<div class="w-e-drop-panel"></div>`)
+  readonly $elem: Dom7Array = $(`<div class="w-e-drop-panel"></div>`)
 
   constructor(editor: IDomEditor) {
     super(editor)

@@ -9,10 +9,10 @@ import { JS_SVG } from '../../constants/svg'
 import { CodeElement } from '../../custom-types'
 
 class SelectLangMenu implements ISelectMenu {
-  title = '选择语言'
-  iconSvg = JS_SVG
-  tag = 'select'
-  width = 95
+  readonly title = '选择语言'
+  readonly iconSvg = JS_SVG
+  readonly tag = 'select'
+  readonly width = 95
 
   getOptions(editor: IDomEditor): IOption[] {
     const options: IOption[] = []

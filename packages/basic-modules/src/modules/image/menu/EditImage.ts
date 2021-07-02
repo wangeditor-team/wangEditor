@@ -25,16 +25,16 @@ function genDomID(): string {
 }
 
 class EditImage implements IModalMenu {
-  title = '编辑图片'
-  iconSvg = PENCIL_SVG
-  tag = 'button'
-  showModal = true // 点击 button 时显示 modal
-  modalWidth = 300
+  readonly title = '编辑图片'
+  readonly iconSvg = PENCIL_SVG
+  readonly tag = 'button'
+  readonly showModal = true // 点击 button 时显示 modal
+  readonly modalWidth = 300
   private $content: Dom7Array | null = null
-  private srcInputId = genDomID()
-  private altInputId = genDomID()
-  private hrefInputId = genDomID()
-  private buttonId = genDomID()
+  private readonly srcInputId = genDomID()
+  private readonly altInputId = genDomID()
+  private readonly hrefInputId = genDomID()
+  private readonly buttonId = genDomID()
 
   getValue(editor: IDomEditor): string | boolean {
     // 编辑图片，用不到 getValue

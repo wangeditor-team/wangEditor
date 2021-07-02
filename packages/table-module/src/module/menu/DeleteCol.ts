@@ -9,9 +9,9 @@ import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { DEL_COL_SVG } from '../../constants/svg'
 
 class DeleteCol implements IButtonMenu {
-  title = '删除列'
-  iconSvg = DEL_COL_SVG
-  tag = 'button'
+  readonly title = '删除列'
+  readonly iconSvg = DEL_COL_SVG
+  readonly tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
     // 无需获取 val

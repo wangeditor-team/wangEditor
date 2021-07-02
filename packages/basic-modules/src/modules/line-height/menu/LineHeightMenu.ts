@@ -9,10 +9,10 @@ import { LINE_HEIGHT_SVG } from '../../../constants/icon-svg'
 import { LineHeightElement } from '../custom-types'
 
 class LineHeightMenu implements ISelectMenu {
-  title = '行高'
-  iconSvg = LINE_HEIGHT_SVG
-  tag = 'select'
-  width = 80
+  readonly title = '行高'
+  readonly iconSvg = LINE_HEIGHT_SVG
+  readonly tag = 'select'
+  readonly width = 80
 
   getOptions(editor: IDomEditor): IOption[] {
     const options: IOption[] = []

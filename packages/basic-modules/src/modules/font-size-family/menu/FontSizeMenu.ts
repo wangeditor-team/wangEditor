@@ -8,9 +8,9 @@ import BaseMenu from './BaseMenu'
 import { FONT_SIZE_SVG } from '../../../constants/icon-svg'
 
 class FontSizeMenu extends BaseMenu {
-  title = '字号'
-  iconSvg = FONT_SIZE_SVG
-  mark = 'fontSize'
+  readonly title = '字号'
+  readonly iconSvg = FONT_SIZE_SVG
+  readonly mark = 'fontSize'
 
   getOptions(editor: IDomEditor): IOption[] {
     const options: IOption[] = []

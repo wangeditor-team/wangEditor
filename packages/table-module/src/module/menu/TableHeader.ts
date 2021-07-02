@@ -9,9 +9,9 @@ import { TABLE_HEADER_SVG } from '../../constants/svg'
 import { TableElement } from '../custom-types'
 
 class TableHeader implements IButtonMenu {
-  title = '表头'
-  iconSvg = TABLE_HEADER_SVG
-  tag = 'button'
+  readonly title = '表头'
+  readonly iconSvg = TABLE_HEADER_SVG
+  readonly tag = 'button'
 
   // 是否已设置表头
   getValue(editor: IDomEditor): string | boolean {

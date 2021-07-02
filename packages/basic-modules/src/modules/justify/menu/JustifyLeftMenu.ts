@@ -9,8 +9,8 @@ import BaseMenu from './BaseMenu'
 import { JUSTIFY_LEFT_SVG } from '../../../constants/icon-svg'
 
 class JustifyLeftMenu extends BaseMenu {
-  title = '左对齐'
-  iconSvg = JUSTIFY_LEFT_SVG
+  readonly title = '左对齐'
+  readonly iconSvg = JUSTIFY_LEFT_SVG
 
   exec(editor: IDomEditor, value: string | boolean): void {
     Transforms.setNodes(

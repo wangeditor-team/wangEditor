@@ -7,10 +7,10 @@ import BaseMenu from './BaseMenu'
 import { THROUGH_SVG } from '../../../constants/icon-svg'
 
 class ThroughMenu extends BaseMenu {
-  mark = 'through'
-  title = '删除线'
-  iconSvg = THROUGH_SVG
-  hotkey = 'mod+shift+x'
+  readonly mark = 'through'
+  readonly title = '删除线'
+  readonly iconSvg = THROUGH_SVG
+  readonly hotkey = 'mod+shift+x'
 }
 
 export default ThroughMenu

@@ -36,7 +36,7 @@ export function getTextContainerRect(editor: IDomEditor): {
  * 根据选区，计算定位（用于 modal hoverbar）
  * @param editor editor
  */
-export function getPositionBySelection(editor: IDomEditor): IPositionStyle {
+export function getPositionBySelection(editor: IDomEditor): Partial<IPositionStyle> {
   // 默认情况下 { top: 0, left: 0 }
   const defaultStyle = { top: '0', left: '0' }
 
@@ -60,7 +60,7 @@ export function getPositionBySelection(editor: IDomEditor): IPositionStyle {
   const { width: rangeWidth, height: rangeHeight, top: rangeTop, left: rangeLeft } = rangeRect
 
   // 存储计算结构
-  const positionStyle: IPositionStyle = {}
+  const positionStyle: Partial<IPositionStyle> = {}
 
   // 获取 选区 top left 和 container top left 的差值（< 0 则使用 0）
   let relativeTop = rangeTop - containerTop
@@ -101,7 +101,7 @@ export function getPositionByNode(
   editor: IDomEditor,
   node: Node,
   type: string = 'modal'
-): IPositionStyle {
+): Partial<IPositionStyle> {
   // 默认情况下 { top: 0, left: 0 }
   const defaultStyle = { top: '0', left: '0' }
 
@@ -139,7 +139,7 @@ export function getPositionByNode(
   } = containerRect
 
   // 存储计算结构
-  const positionStyle: IPositionStyle = {}
+  const positionStyle: Partial<IPositionStyle> = {}
 
   // 获取 elem top left 和 container top left 的差值（< 0 则使用 0）
   let relativeTop = elemTop - containerTop

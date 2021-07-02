@@ -8,7 +8,7 @@ import { renderTextStyle } from './render-text-style'
 import { textStyleToHtml } from './text-style-to-html'
 import { fontSizeMenuConf, fontFamilyMenuConf } from './menu/index'
 
-const fontSizeAndFamily: IModuleConf = {
+const fontSizeAndFamily: Partial<IModuleConf> = {
   renderTextStyle,
   textStyleToHtml,
   menus: [fontSizeMenuConf, fontFamilyMenuConf],

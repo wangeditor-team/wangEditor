@@ -9,9 +9,9 @@ import { FULL_WIDTH_SVG } from '../../constants/svg'
 import { TableCellElement, TableRowElement, TableElement } from '../custom-types'
 
 class TableFullWidth implements IButtonMenu {
-  title = '宽度自适应'
-  iconSvg = FULL_WIDTH_SVG
-  tag = 'button'
+  readonly title = '宽度自适应'
+  readonly iconSvg = FULL_WIDTH_SVG
+  readonly tag = 'button'
 
   // 是否已设置 宽度自适应
   getValue(editor: IDomEditor): string | boolean {

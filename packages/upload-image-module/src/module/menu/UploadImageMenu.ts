@@ -13,9 +13,9 @@ import $ from '../../utils/dom'
 import { IUploadConfig } from '../../vendor/uppy/interface'
 
 class UploadImage implements IButtonMenu {
-  title = '上传图片'
-  iconSvg = UPLOAD_IMAGE_SVG
-  tag = 'button'
+  readonly title = '上传图片'
+  readonly iconSvg = UPLOAD_IMAGE_SVG
+  readonly tag = 'button'
   private uppy: Uppy.Uppy<'strict'> | null = null
 
   getValue(editor: IDomEditor): string | boolean {

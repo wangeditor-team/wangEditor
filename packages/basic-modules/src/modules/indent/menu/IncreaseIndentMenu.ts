@@ -9,8 +9,8 @@ import BaseMenu from './BaseMenu'
 import { INDENT_RIGHT_SVG } from '../../../constants/icon-svg'
 
 class IncreaseIndentMenu extends BaseMenu {
-  title = '增加缩进'
-  iconSvg = INDENT_RIGHT_SVG
+  readonly title = '增加缩进'
+  readonly iconSvg = INDENT_RIGHT_SVG
 
   isDisabled(editor: IDomEditor): boolean {
     const matchNode = this.getMatchNode(editor)

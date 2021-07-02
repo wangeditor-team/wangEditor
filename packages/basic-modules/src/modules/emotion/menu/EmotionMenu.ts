@@ -9,10 +9,10 @@ import $, { Dom7Array } from '../../../utils/dom'
 import { EMOTION_SVG } from '../../../constants/icon-svg'
 
 class EmotionMenu implements IDropPanelMenu {
-  title = '表情'
-  iconSvg = EMOTION_SVG
-  tag = 'button'
-  showDropPanel = true // 点击 button 时显示 dropPanel
+  readonly title = '表情'
+  readonly iconSvg = EMOTION_SVG
+  readonly tag = 'button'
+  readonly showDropPanel = true // 点击 button 时显示 dropPanel
   private $content: Dom7Array | null = null
 
   exec(editor: IDomEditor, value: string | boolean) {

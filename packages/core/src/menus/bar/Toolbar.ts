@@ -18,7 +18,7 @@ import GroupButton from '../bar-item/GroupButton'
 type MenuType = IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
 
 class Toolbar {
-  private $toolbar: Dom7Array
+  private readonly $toolbar: Dom7Array = $(`<div class="w-e-bar w-e-bar-show w-e-toolbar"></div>`)
   private menus: { [key: string]: MenuType } = {}
   private toolbarItems: IBarItem[] = []
 
@@ -28,10 +28,9 @@ class Toolbar {
     if ($box.length === 0) {
       throw new Error(`Cannot find toolbar DOM by selector '${selector}'`)
     }
-    const $toolbar = $(`<div class="w-e-bar w-e-bar-show w-e-toolbar"></div>`)
+    const $toolbar = this.$toolbar
     $toolbar.on('mousedown', e => e.preventDefault()) // 防止点击失焦
     $box.append($toolbar)
-    this.$toolbar = $toolbar
 
     // 异步，否则拿不到 editor 实例
     promiseResolveThen(() => {

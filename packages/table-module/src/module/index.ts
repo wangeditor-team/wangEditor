@@ -18,7 +18,7 @@ import {
   tableFullWidthMenuConf,
 } from './menu/index'
 
-const table: IModuleConf = {
+const table: Partial<IModuleConf> = {
   renderElems: [renderTableConf, renderTableRowConf, renderTableCellConf],
   elemsToHtml: [tableToHtmlConf, tableRowToHtmlConf, tableCellToHtmlConf],
   menus: [

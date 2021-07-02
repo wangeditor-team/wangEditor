@@ -8,7 +8,7 @@ import { renderTextStyle } from './render-text-style'
 import { textStyleToHtml } from './text-style-to-html'
 import { indentMenuConf, delIndentMenuConf } from './menu/index'
 
-const indent: IModuleConf = {
+const indent: Partial<IModuleConf> = {
   renderTextStyle,
   textStyleToHtml,
   menus: [indentMenuConf, delIndentMenuConf],

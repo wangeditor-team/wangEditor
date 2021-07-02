@@ -8,7 +8,7 @@ import { renderParagraphConf } from './render-elem'
 import { pToHtmlConf } from './elem-to-html'
 import withParagraph from './plugin'
 
-const p: IModuleConf = {
+const p: Partial<IModuleConf> = {
   renderElems: [renderParagraphConf],
   elemsToHtml: [pToHtmlConf],
   editorPlugin: withParagraph,

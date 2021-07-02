@@ -10,9 +10,9 @@ import { ADD_COL_SVG } from '../../constants/svg'
 import { TableCellElement } from '../custom-types'
 
 class InsertCol implements IButtonMenu {
-  title = '插入列'
-  iconSvg = ADD_COL_SVG
-  tag = 'button'
+  readonly title = '插入列'
+  readonly iconSvg = ADD_COL_SVG
+  readonly tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
     // 无需获取 val

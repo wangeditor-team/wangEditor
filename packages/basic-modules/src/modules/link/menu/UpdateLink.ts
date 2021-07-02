@@ -25,11 +25,11 @@ function genDomID(): string {
 }
 
 class UpdateLinkMenu implements IModalMenu {
-  title = '修改链接'
-  iconSvg = PENCIL_SVG
-  tag = 'button'
-  showModal = true // 点击 button 时显示 modal
-  modalWidth = 300
+  readonly title = '修改链接'
+  readonly iconSvg = PENCIL_SVG
+  readonly tag = 'button'
+  readonly showModal = true // 点击 button 时显示 modal
+  readonly modalWidth = 300
 
   private $content: Dom7Array | null = null
   private urlInputId = genDomID()

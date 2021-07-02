@@ -9,7 +9,7 @@ import { renderVideoConf } from './render-elem'
 import { videoToHtmlConf } from './elem-to-html'
 import { insertVideoMenuConf, deleteVideoMenuConf } from './menu/index'
 
-const video: IModuleConf = {
+const video: Partial<IModuleConf> = {
   renderElems: [renderVideoConf],
   elemsToHtml: [videoToHtmlConf],
   menus: [insertVideoMenuConf, deleteVideoMenuConf],

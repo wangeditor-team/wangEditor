@@ -8,9 +8,9 @@ import BaseMenu from './BaseMenu'
 import { FONT_FAMILY_SVG } from '../../../constants/icon-svg'
 
 class FontFamilyMenu extends BaseMenu {
-  title = '字体'
-  iconSvg = FONT_FAMILY_SVG
-  mark = 'fontFamily'
+  readonly title = '字体'
+  readonly iconSvg = FONT_FAMILY_SVG
+  readonly mark = 'fontFamily'
 
   getOptions(editor: IDomEditor): IOption[] {
     const options: IOption[] = []

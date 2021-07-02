@@ -9,7 +9,7 @@ import { quoteToHtmlConf } from './elem-to-html'
 import { blockquoteMenuConf } from './menu/index'
 import withBlockquote from './plugin'
 
-const blockquote: IModuleConf = {
+const blockquote: Partial<IModuleConf> = {
   renderElems: [renderBlockQuoteConf],
   elemsToHtml: [quoteToHtmlConf],
   menus: [blockquoteMenuConf],

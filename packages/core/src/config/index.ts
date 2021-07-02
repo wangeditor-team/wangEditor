@@ -29,13 +29,13 @@ function getDefaultConfig(): IConfig {
 }
 
 // 生成配置
-export function genConfig(userConfig: IConfig | {}): IConfig {
+export function genEditorConfig(userConfig?: Partial<IConfig>): IConfig {
   // 默认配置
   const defaultConfig = getDefaultConfig()
 
   // 合并默认配置，和用户配置
   return {
     ...defaultConfig,
-    ...userConfig,
+    ...(userConfig || {}),
   }
 }

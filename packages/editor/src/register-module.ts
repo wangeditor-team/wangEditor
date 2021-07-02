@@ -6,7 +6,7 @@
 import WangEditor from './WangEditor'
 import { IModuleConf } from '@wangeditor/core'
 
-function registerModule(module: IModuleConf) {
+function registerModule(module: Partial<IModuleConf>) {
   const {
     menus,
     renderElems,

@@ -14,7 +14,7 @@ import {
   viewLinkMenuConf,
 } from './menu/index'
 
-const link: IModuleConf = {
+const link: Partial<IModuleConf> = {
   renderElems: [renderLinkConf],
   elemsToHtml: [linkToHtmlConf],
   menus: [insertLinkMenuConf, updateLinkMenuConf, unLinkMenuConf, viewLinkMenuConf],

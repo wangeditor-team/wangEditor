@@ -16,7 +16,7 @@ export const createEditor = create
 
 // config
 export { IConfig } from './config/interface'
-export { genConfig } from './config/index'
+export { genEditorConfig } from './config/index'
 
 // editor 接口和 command
 export * from './editor/interface'
@@ -33,17 +33,17 @@ export * from './menus/index'
 
 export interface IModuleConf {
   // 注册菜单
-  menus?: Array<IMenuConf>
+  menus: Array<IMenuConf>
 
   // 渲染 modal -> view
-  renderTextStyle?: RenderTextStyleFnType
-  renderElems?: Array<IRenderElemConf>
+  renderTextStyle: RenderTextStyleFnType
+  renderElems: Array<IRenderElemConf>
 
   // to html
-  textStyleToHtml?: TextStyleToHtmlFnType
-  textToHtml?: TextToHtmlFnType
-  elemsToHtml?: Array<IElemToHtmlConf>
+  textStyleToHtml: TextStyleToHtmlFnType
+  textToHtml: TextToHtmlFnType
+  elemsToHtml: Array<IElemToHtmlConf>
 
   // 注册插件
-  editorPlugin?: <T extends IDomEditor>(editor: T) => T
+  editorPlugin: <T extends IDomEditor>(editor: T) => T
 }

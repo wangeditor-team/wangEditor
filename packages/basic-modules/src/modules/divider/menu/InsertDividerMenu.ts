@@ -9,9 +9,9 @@ import { DIVIDER_SVG } from '../../../constants/icon-svg'
 import { DividerElement } from '../custom-types'
 
 class InsertDividerMenu implements IButtonMenu {
-  title = '分割线'
-  iconSvg = DIVIDER_SVG
-  tag = 'button'
+  readonly title = '分割线'
+  readonly iconSvg = DIVIDER_SVG
+  readonly tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
     return ''

@@ -8,7 +8,7 @@ import { Dom7Array } from '../../utils/dom'
 import { EDITOR_TO_PANEL_AND_MODAL } from '../../utils/weak-maps'
 
 abstract class PanelAndModal {
-  abstract $elem: Dom7Array
+  abstract readonly $elem: Dom7Array
   isShow: boolean = false
   private showTime: number = 0 // 显示时的时间戳
 
@@ -29,13 +29,13 @@ abstract class PanelAndModal {
   }
 
   renderContent($content: Dom7Array) {
-    const $elem = this.$elem
+    const { $elem } = this
     $elem.html('') // 先清空，再填充内容
     $elem.append($content)
   }
 
   appendTo($menuElem: Dom7Array) {
-    const $elem = this.$elem
+    const { $elem } = this
     $menuElem.append($elem)
   }
 
@@ -43,7 +43,7 @@ abstract class PanelAndModal {
     if (this.isShow) return
     this.showTime = Date.now()
 
-    const $elem = this.$elem
+    const { $elem } = this
     $elem.show()
     this.isShow = true
   }
@@ -57,7 +57,7 @@ abstract class PanelAndModal {
       return
     }
 
-    const $elem = this.$elem
+    const { $elem } = this
     $elem.hide()
     this.isShow = false
   }

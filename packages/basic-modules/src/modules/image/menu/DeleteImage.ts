@@ -8,9 +8,9 @@ import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { TRASH_SVG } from '../../../constants/icon-svg'
 
 class DeleteImage implements IButtonMenu {
-  title = '删除图片'
-  iconSvg = TRASH_SVG
-  tag = 'button'
+  readonly title = '删除图片'
+  readonly iconSvg = TRASH_SVG
+  readonly tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
     // 无需获取 val

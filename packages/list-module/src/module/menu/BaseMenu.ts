@@ -13,10 +13,10 @@ function checkList(n: Node): boolean {
 }
 
 abstract class BaseMenu implements IButtonMenu {
-  abstract type: string // 'bulleted-list' / 'numbered-list'
-  abstract title: string
-  abstract iconSvg: string
-  tag = 'button'
+  abstract readonly type: string // 'bulleted-list' / 'numbered-list'
+  abstract readonly title: string
+  abstract readonly iconSvg: string
+  readonly tag = 'button'
 
   private getListNode(editor: IDomEditor): Node | null {
     const { type } = this

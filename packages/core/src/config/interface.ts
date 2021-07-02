@@ -25,10 +25,10 @@ export interface IConfig {
   onBlur?: (editor: IDomEditor) => void
 
   // edit state
-  scroll?: boolean
+  scroll: boolean
   placeholder?: string
-  readOnly?: boolean
-  autoFocus?: boolean
+  readOnly: boolean
+  autoFocus: boolean
   decorate?: (nodeEntry: NodeEntry) => Range[]
   maxLength?: number // TODO 在文档中说明，要慎用 maxLength 。因为 maxLength 会在每次输入是都做判断，可能会影响性能
 
@@ -42,5 +42,5 @@ export interface IConfig {
   // 悬浮菜单栏 menu
   hoverbarKeys?: Array<IHoverbarConf>
 
-  alert?: (info: string, type?: AlertType) => void
+  alert: (info: string, type?: AlertType) => void
 }

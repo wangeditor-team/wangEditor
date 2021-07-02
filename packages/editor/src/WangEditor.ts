@@ -9,7 +9,7 @@ import {
   IDomEditor,
   DomEditor,
   IConfig,
-  genConfig,
+  genEditorConfig,
   createEditor,
 
   // 注册菜单
@@ -44,7 +44,10 @@ class WangEditor {
   private toolbarSelector: string
   private textareaSelector: string
   private initContent: Descendant[]
-  config: IConfig = {}
+  config: IConfig = {
+    ...genEditorConfig(), // @wangeditor/core default config
+    ...WangEditor.config, // 全局配置
+  }
   editorCore: IDomEditor | null = null // TODO 输出 editor API - 封装为 command 即 editor.xxx ，让用户能友好的调用，不要再引入其他 lib
 
   constructor(opt: IOption) {
@@ -58,14 +61,6 @@ class WangEditor {
     this.toolbarSelector = toolbarSelector
     this.textareaSelector = textareaSelector
     this.initContent = initContent || []
-    this.initConfig()
-  }
-
-  private initConfig() {
-    this.config = {
-      ...genConfig({}), // @wangeditor/core default config
-      ...WangEditor.config, // 全局配置
-    }
   }
 
   /**
@@ -100,7 +95,7 @@ class WangEditor {
       initContent,
       plugins,
     })
-    this.config = editorCore.getConfig() // TODO 重新覆盖 config —— 有点绕
+    this.config = editorCore.getConfig() // 重新覆盖 config
     this.editorCore = editorCore
   }
 
@@ -154,7 +149,7 @@ class WangEditor {
   // -------------------------------------- 分割线 --------------------------------------
 
   // 全局 - 配置
-  static config: IConfig = {}
+  static config: Partial<IConfig> = {}
   static setConfig(newConfig: Partial<IConfig> = {}) {
     this.config = {
       ...this.config,

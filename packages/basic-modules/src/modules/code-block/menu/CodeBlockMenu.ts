@@ -9,9 +9,9 @@ import { CODE_BLOCK_SVG } from '../../../constants/icon-svg'
 import { CodeElement } from '../custom-types'
 
 class CodeBlockMenu implements IButtonMenu {
-  title = '代码块'
-  iconSvg = CODE_BLOCK_SVG
-  tag = 'button'
+  readonly title = '代码块'
+  readonly iconSvg = CODE_BLOCK_SVG
+  readonly tag = 'button'
 
   private getSelectCodeElem(editor: IDomEditor): CodeElement | null {
     const codeNode = DomEditor.getSelectedNodeByType(editor, 'code')

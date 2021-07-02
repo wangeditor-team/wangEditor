@@ -24,14 +24,14 @@ function genDomID(): string {
 }
 
 class InsertVideoMenu implements IModalMenu {
-  title = '插入视频'
-  iconSvg = VIDEO_SVG
-  tag = 'button'
-  showModal = true // 点击 button 时显示 modal
-  modalWidth = 300
+  readonly title = '插入视频'
+  readonly iconSvg = VIDEO_SVG
+  readonly tag = 'button'
+  readonly showModal = true // 点击 button 时显示 modal
+  readonly modalWidth = 300
   private $content: Dom7Array | null = null
-  private srcInputId = genDomID()
-  private buttonId = genDomID()
+  private readonly srcInputId = genDomID()
+  private readonly buttonId = genDomID()
 
   getValue(editor: IDomEditor): string | boolean {
     // 插入菜单，不需要 value

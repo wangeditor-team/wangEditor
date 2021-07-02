@@ -8,9 +8,9 @@ import { EXTERNAL_SVG } from '../../../constants/icon-svg'
 import { LinkElement } from '../custom-types'
 
 class ViewLink implements IButtonMenu {
-  title = '查看链接'
-  iconSvg = EXTERNAL_SVG
-  tag = 'button'
+  readonly title = '查看链接'
+  readonly iconSvg = EXTERNAL_SVG
+  readonly tag = 'button'
 
   private getSelectedLinkElem(editor: IDomEditor): LinkElement | null {
     const node = DomEditor.getSelectedNodeByType(editor, 'link')

@@ -7,11 +7,11 @@ import { Editor } from 'slate'
 import { ISelectMenu, IDomEditor, DomEditor, IOption } from '@wangeditor/core'
 
 abstract class BaseMenu implements ISelectMenu {
-  abstract title: string
-  abstract iconSvg: string
-  abstract mark: string // 'fontSize'/'fontFamily'
-  tag = 'select'
-  width = 80
+  abstract readonly title: string
+  abstract readonly iconSvg: string
+  abstract readonly mark: string // 'fontSize'/'fontFamily'
+  readonly tag = 'select'
+  readonly width = 80
 
   abstract getOptions(editor: IDomEditor): IOption[]
 

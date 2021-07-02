@@ -6,7 +6,7 @@
 import { IModuleConf } from '@wangeditor/core'
 import { emotionMenuConf } from './menu/index'
 
-const emotion: IModuleConf = {
+const emotion: Partial<IModuleConf> = {
   menus: [emotionMenuConf],
 }
 

@@ -9,9 +9,9 @@ import { ADD_ROW_SVG } from '../../constants/svg'
 import { TableRowElement, TableCellElement } from '../custom-types'
 
 class InsertRow implements IButtonMenu {
-  title = '插入行'
-  iconSvg = ADD_ROW_SVG
-  tag = 'button'
+  readonly title = '插入行'
+  readonly iconSvg = ADD_ROW_SVG
+  readonly tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
     // 无需获取 val

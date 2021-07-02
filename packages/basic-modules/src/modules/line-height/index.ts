@@ -8,7 +8,7 @@ import { renderTextStyle } from './render-text-style'
 import { textStyleToHtml } from './text-style-to-html'
 import { lineHeightMenuConf } from './menu/index'
 
-const lineHeight: IModuleConf = {
+const lineHeight: Partial<IModuleConf> = {
   renderTextStyle,
   textStyleToHtml,
   menus: [lineHeightMenuConf],

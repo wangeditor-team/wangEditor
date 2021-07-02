@@ -17,7 +17,7 @@ import {
   imageWidth100MenuConf,
 } from './menu/index'
 
-const image: IModuleConf = {
+const image: Partial<IModuleConf> = {
   renderElems: [renderImageConf],
   elemsToHtml: [imageToHtmlConf],
   menus: [

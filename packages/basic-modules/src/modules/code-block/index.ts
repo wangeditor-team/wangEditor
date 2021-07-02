@@ -9,7 +9,7 @@ import withCodeBlock from './plugin'
 import { renderPreConf, renderCodeConf } from './render-elem'
 import { codeToHtmlConf, preToHtmlConf } from './elem-to-html'
 
-const codeBlockModule: IModuleConf = {
+const codeBlockModule: Partial<IModuleConf> = {
   menus: [codeBlockMenuConf],
   editorPlugin: withCodeBlock,
   renderElems: [renderPreConf, renderCodeConf],

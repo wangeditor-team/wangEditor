@@ -7,9 +7,9 @@ import { Editor, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 
 abstract class BaseMenu implements IButtonMenu {
-  abstract title: string
-  abstract iconSvg: string
-  tag = 'button'
+  abstract readonly title: string
+  abstract readonly iconSvg: string
+  readonly tag = 'button'
 
   /**
    * 获取 node.indent 的值，如 '32px'

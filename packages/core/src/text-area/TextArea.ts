@@ -19,11 +19,11 @@ import { IConfig } from '../config/interface'
 let ID = 1
 
 class TextArea {
-  id: number
+  readonly id = ID++
   $textAreaContainer: Dom7Array
   $scroll: Dom7Array
   $textArea: Dom7Array | null = null
-  $progressBar = $('<div class="w-e-progress-bar"></div>')
+  readonly $progressBar = $('<div class="w-e-progress-bar"></div>')
   isComposing: boolean = false
   isUpdatingSelection: boolean = false
   latestElement: DOMElement | null = null
@@ -32,9 +32,6 @@ class TextArea {
   private latestEditorSelection: Range | null = null
 
   constructor(selector: string) {
-    // id 不能重复
-    this.id = ID++
-
     // 初始化 dom
     const $box = $(selector)
     if ($box.length === 0) {

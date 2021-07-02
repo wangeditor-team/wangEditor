@@ -8,9 +8,9 @@ import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { UN_LINK_SVG } from '../../../constants/icon-svg'
 
 class UnLink implements IButtonMenu {
-  title = '取消链接'
-  iconSvg = UN_LINK_SVG
-  tag = 'button'
+  readonly title = '取消链接'
+  readonly iconSvg = UN_LINK_SVG
+  readonly tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
     // 无需获取 val

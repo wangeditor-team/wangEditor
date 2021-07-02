@@ -14,10 +14,10 @@ export interface IMenuGroup {
 }
 
 export interface IPositionStyle {
-  top?: string
-  left?: string
-  right?: string
-  bottom?: string
+  top: string
+  left: string
+  right: string
+  bottom: string
 }
 
 export interface IOption {
@@ -28,12 +28,12 @@ export interface IOption {
 }
 
 interface IBaseMenu {
-  title: string
-  iconSvg?: string
-  hotkey?: string // 快捷键，使用 https://www.npmjs.com/package/is-hotkey
+  readonly title: string
+  readonly iconSvg?: string
+  readonly hotkey?: string // 快捷键，使用 https://www.npmjs.com/package/is-hotkey
 
-  tag: string // 'button' | 'select'
-  width?: number // 设置 button 宽度
+  readonly tag: string // 'button' | 'select'
+  readonly width?: number // 设置 button 宽度
 
   getValue: (editor: IDomEditor) => string | boolean // 获取菜单相关的 val 。如是否加粗、颜色值、h1/h2/h3 等
   isActive: (editor: IDomEditor) => boolean // 是否激活菜单，如选区处于加粗文本时，激活 bold
@@ -51,13 +51,13 @@ export interface ISelectMenu extends IBaseMenu {
 }
 
 export interface IDropPanelMenu extends IBaseMenu {
-  showDropPanel: boolean // 点击 'button' 显示 dropPanel
+  readonly showDropPanel: boolean // 点击 'button' 显示 dropPanel
   getPanelContentElem: (editor: IDomEditor) => Dom7Array // showDropPanel 情况下，获取 content elem
 }
 
 export interface IModalMenu extends IBaseMenu {
-  showModal: boolean // 点击 'button' 显示 modal
-  modalWidth: number
+  readonly showModal: boolean // 点击 'button' 显示 modal
+  readonly modalWidth: number
   getModalContentElem: (editor: IDomEditor) => Dom7Array // showModal 情况下，获取 content elem
   getModalPositionNode: (editor: IDomEditor) => Node | null // 获取 modal 定位的 node ，null 即依据选区定位
 }

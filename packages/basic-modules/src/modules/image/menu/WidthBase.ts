@@ -8,9 +8,9 @@ import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { ImageElement } from '../custom-types'
 
 abstract class ImageWidthBaseClass implements IButtonMenu {
-  abstract title: string // 菜单标题
-  tag = 'button'
-  abstract value: string // css width 的值
+  abstract readonly title: string // 菜单标题
+  readonly tag = 'button'
+  abstract readonly value: string // css width 的值
 
   getValue(editor: IDomEditor): string | boolean {
     // 无需获取 val

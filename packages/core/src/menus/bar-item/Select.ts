@@ -26,8 +26,8 @@ function getOptionText(options: IOption[], value: string): string {
 }
 
 class BarItemSelect implements IBarItem {
-  $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
-  private $button: Dom7Array
+  readonly $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
+  private readonly $button: Dom7Array = $(`<button class="select-button"></button>`)
   menu: ISelectMenu
   private disabled = false
   private selectList: SelectList | null = null
@@ -38,13 +38,12 @@ class BarItemSelect implements IBarItem {
     if (tag !== 'select') throw new Error(`Invalid tag '${tag}', expected 'select'`)
 
     // 初始化 dom
-    const $button = $(`<button class="select-button"></button>`)
+    const $button = this.$button
     if (width) {
       $button.css('width', `${width}px`)
     }
     this.$elem.append($button)
 
-    this.$button = $button
     this.menu = menu
 
     // 异步绑定事件
