@@ -4,7 +4,7 @@
  */
 
 import { debounce } from 'lodash-es'
-import { Editor, Node, Element, Text } from 'slate'
+import { Editor, Node, Element, Text, Path } from 'slate'
 import $ from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'
 import { promiseResolveThen } from '../../utils/util'
@@ -22,7 +22,7 @@ class HoverBar {
   private readonly $elem = $('<div class="w-e-bar w-e-bar-hidden w-e-hover-bar"></div>')
   private menus: { [key: string]: MenuType } = {}
   private hoverbarItems: IBarItem[] = []
-  private selectedNode: Node | null = null
+  private prevSelectedNode: Node | null = null // 上一次选中的 node
   private isShow = false
 
   constructor() {
@@ -194,13 +194,21 @@ class HoverBar {
     // 获取选中的 node ，以及对应的 menu keys
     const { isShow } = this
     const { node = null, menuKeys = [] } = this.getSelectedNodeAndMenuKeys() || {}
+
     if (node != null) {
       this.changeItemsState() // 更新菜单状态
     }
 
-    if (isShow && node && this.selectedNode === node) {
-      // 依然是当前选中的 node ，终止
-      return
+    if (node && Element.isElement(node)) {
+      // 选中了 elem node（不可以是 text node）
+      if (isShow) {
+        // hoverbar 当前已显示
+        const samePath = this.isSamePath(node, this.prevSelectedNode)
+        if (samePath) {
+          // 和之前选中的 node path 相同 —— 满足这些条件，即终止
+          return
+        }
+      }
     }
 
     // 选择了新的 node（或选区是 null），先隐藏
@@ -213,8 +221,8 @@ class HoverBar {
       this.show()
     }
 
-    // 最后，重新记录 selectedNode ，重要
-    this.selectedNode = node
+    // 最后，重新记录 prevSelectedNode ，重要
+    this.prevSelectedNode = node
   }, 200)
 
   private getEditorInstance(): IDomEditor {
@@ -230,6 +238,20 @@ class HoverBar {
   }
 
   /**
+   * 检查两个 node 是否 path 相等
+   */
+  private isSamePath(node1: Node | null, node2: Node | null) {
+    if (node1 == null || node2 == null) {
+      return false
+    }
+
+    const path1 = DomEditor.findPath(null, node1)
+    const path2 = DomEditor.findPath(null, node2)
+    const res = Path.equals(path1, path2)
+    return res
+  }
+
+  /**
    * 销毁 hoverbar
    */
   destroy() {
@@ -239,7 +261,7 @@ class HoverBar {
     // 清空属性
     this.menus = {}
     this.hoverbarItems = []
-    this.selectedNode = null
+    this.prevSelectedNode = null
   }
 }
 

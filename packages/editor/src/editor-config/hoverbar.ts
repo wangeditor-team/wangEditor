@@ -33,6 +33,7 @@ export function genHoverbarKeys() {
         'bold',
         'underline',
         'through',
+        'clearStyle',
         '|',
         'color',
         'bgColor',
