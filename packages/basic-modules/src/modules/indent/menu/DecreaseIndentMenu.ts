@@ -3,10 +3,11 @@
  * @author wangfupeng
  */
 
-import { Transforms } from 'slate'
+import { Transforms, Element } from 'slate'
 import { IDomEditor } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
 import { INDENT_LEFT_SVG } from '../../../constants/icon-svg'
+import { IndentElement } from '../custom-types'
 
 class DecreaseIndentMenu extends BaseMenu {
   title = '减少缩进'
@@ -16,8 +17,7 @@ class DecreaseIndentMenu extends BaseMenu {
     const matchNode = this.getMatchNode(editor)
     if (matchNode == null) return true // 未匹配 p header 等，则禁用
 
-    // @ts-ignore
-    const { indent } = matchNode
+    const { indent } = matchNode as IndentElement
     if (!indent) {
       // 没有 indent ，则禁用
       return true
@@ -33,10 +33,13 @@ class DecreaseIndentMenu extends BaseMenu {
     let newNum = indentNum - 32 // 减少缩进，减少 32px
     if (newNum < 0) newNum = 0
 
-    Transforms.setNodes(editor, {
-      // @ts-ignore
-      indent: newNum === 0 ? null : `${newNum}px`,
-    })
+    Transforms.setNodes(
+      editor,
+      {
+        indent: newNum === 0 ? null : `${newNum}px`,
+      },
+      { match: n => Element.isElement(n) }
+    )
   }
 }
 

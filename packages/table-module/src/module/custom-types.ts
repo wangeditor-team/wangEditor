@@ -21,7 +21,7 @@ export type TableRowElement = {
 
 export type TableElement = {
   type: 'table'
-  withHeader?: boolean // 是否显示表头
-  fullWidth?: boolean // 是否宽度 100%
+  withHeader?: boolean | null // 是否显示表头
+  fullWidth?: boolean | null // 是否宽度 100%
   children: TableRowElement[]
 }

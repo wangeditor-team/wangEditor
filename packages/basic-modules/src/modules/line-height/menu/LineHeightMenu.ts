@@ -3,9 +3,10 @@
  * @author wangfupeng
  */
 
-import { Editor, Node, Transforms } from 'slate'
-import { ISelectMenu, IDomEditor, IOption } from '@wangeditor/core'
+import { Editor, Node, Element, Transforms } from 'slate'
+import { ISelectMenu, IDomEditor, DomEditor, IOption } from '@wangeditor/core'
 import { LINE_HEIGHT_SVG } from '../../../constants/icon-svg'
+import { LineHeightElement } from '../custom-types'
 
 class LineHeightMenu implements ISelectMenu {
   title = '行高'
@@ -51,8 +52,7 @@ class LineHeightMenu implements ISelectMenu {
   private getMatchNode(editor: IDomEditor): Node | null {
     const [nodeEntry] = Editor.nodes(editor, {
       match: n => {
-        // @ts-ignore
-        const { type = '' } = n
+        const type = DomEditor.getNodeType(n)
 
         // line-height 匹配如下类型的 node
         if (type.startsWith('header')) return true
@@ -82,9 +82,9 @@ class LineHeightMenu implements ISelectMenu {
   getValue(editor: IDomEditor): string | boolean {
     const node = this.getMatchNode(editor)
     if (node == null) return ''
+    if (!Element.isElement(node)) return ''
 
-    // @ts-ignore
-    return node.lineHeight || ''
+    return (node as LineHeightElement).lineHeight || ''
   }
 
   isDisabled(editor: IDomEditor): boolean {
@@ -100,8 +100,7 @@ class LineHeightMenu implements ISelectMenu {
     Transforms.setNodes(
       editor,
       {
-        // @ts-ignore
-        lineHeight: value,
+        lineHeight: value.toString(),
       },
       { mode: 'highest' }
     )

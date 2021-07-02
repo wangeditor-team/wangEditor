@@ -3,9 +3,10 @@
  * @author wangfupeng
  */
 
-import { Text as SlateText, Element as SlateElement } from 'slate'
+import { Text, Element } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { addVnodeStyle } from '../../utils/vdom'
+import { JustifyElement } from './custom-types'
 
 /**
  * 添加文本样式
@@ -13,9 +14,10 @@ import { addVnodeStyle } from '../../utils/vdom'
  * @param vnode vnode
  * @returns vnode
  */
-export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
-  // @ts-ignore
-  const { textAlign } = node // 如 'left'/'right'/'center' 等
+export function renderTextStyle(node: Text | Element, vnode: VNode): VNode {
+  if (!Element.isElement(node)) return vnode
+
+  const { textAlign } = node as JustifyElement // 如 'left'/'right'/'center' 等
   let styleVnode: VNode = vnode
 
   if (textAlign) {

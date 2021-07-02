@@ -7,6 +7,9 @@ import { Descendant } from 'slate'
 import { StyledText } from './basic-modules/src/modules/text-style/custom-types'
 import { ColorText } from './basic-modules/src/modules/color/custom-types'
 import { FontSizeAndFamilyText } from './basic-modules/src/modules/font-size-family/custom-types'
+import { LineHeightElement } from './basic-modules/src/modules/line-height/custom-types'
+import { JustifyElement } from './basic-modules/src/modules/justify/custom-types'
+import { IndentElement } from './basic-modules/src/modules/indent/custom-types'
 import { ParagraphElement } from './basic-modules/src/modules/paragraph/custom-types'
 import { LinkElement } from './basic-modules/src/modules/link/custom-types'
 import { BlockQuoteElement } from './basic-modules/src/modules/blockquote/custom-types'
@@ -39,6 +42,9 @@ type BaseElement = {
 
 type CustomElement =
   | BaseElement
+  | LineHeightElement
+  | JustifyElement
+  | IndentElement
   | ParagraphElement
   | LinkElement
   | BlockQuoteElement

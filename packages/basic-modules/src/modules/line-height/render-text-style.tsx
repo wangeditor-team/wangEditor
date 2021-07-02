@@ -3,9 +3,10 @@
  * @author wangfupeng
  */
 
-import { Text as SlateText, Element as SlateElement } from 'slate'
+import { Text, Element } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { addVnodeStyle } from '../../utils/vdom'
+import { LineHeightElement } from './custom-types'
 
 /**
  * 添加文本样式
@@ -13,9 +14,10 @@ import { addVnodeStyle } from '../../utils/vdom'
  * @param vnode vnode
  * @returns vnode
  */
-export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
-  // @ts-ignore
-  const { lineHeight } = node // 如 '1' '1.5'
+export function renderTextStyle(node: Text | Element, vnode: VNode): VNode {
+  if (!Element.isElement(node)) return vnode
+
+  const { lineHeight } = node as LineHeightElement // 如 '1' '1.5'
   let styleVnode: VNode = vnode
 
   if (lineHeight) {

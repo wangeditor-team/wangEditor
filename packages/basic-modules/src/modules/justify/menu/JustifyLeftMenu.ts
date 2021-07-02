@@ -16,7 +16,6 @@ class JustifyLeftMenu extends BaseMenu {
     Transforms.setNodes(
       editor,
       {
-        // @ts-ignore
         textAlign: 'left',
       },
       { match: n => Element.isElement(n) }

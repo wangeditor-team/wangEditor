@@ -5,12 +5,12 @@
 
 import { Element, Text } from 'slate'
 import $ from '../../utils/dom'
+import { JustifyElement } from './custom-types'
 
 export function textStyleToHtml(node: Text | Element, elemHtml: string): string {
   if (!Element.isElement(node)) return elemHtml
 
-  // @ts-ignore
-  const { textAlign } = node // 如 'left'/'right'/'center' 等
+  const { textAlign } = node as JustifyElement // 如 'left'/'right'/'center' 等
   if (!textAlign) return elemHtml
 
   // 设置样式

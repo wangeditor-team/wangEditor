@@ -5,12 +5,12 @@
 
 import { Element, Text } from 'slate'
 import $ from '../../utils/dom'
+import { IndentElement } from './custom-types'
 
 export function textStyleToHtml(node: Text | Element, elemHtml: string): string {
   if (!Element.isElement(node)) return elemHtml
 
-  // @ts-ignore
-  const { indent } = node // 如 '32px'
+  const { indent } = node as IndentElement // 如 '32px'
   if (!indent) return elemHtml
 
   // 设置样式

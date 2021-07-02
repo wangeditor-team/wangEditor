@@ -16,7 +16,6 @@ class JustifyCenterMenu extends BaseMenu {
     Transforms.setNodes(
       editor,
       {
-        // @ts-ignore
         textAlign: 'center',
       },
       { match: n => Element.isElement(n) }

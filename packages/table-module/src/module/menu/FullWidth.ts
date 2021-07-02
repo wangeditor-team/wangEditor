@@ -39,7 +39,7 @@ class TableFullWidth implements IButtonMenu {
 
   exec(editor: IDomEditor, value: string | boolean) {
     if (this.isDisabled(editor)) return
-    const newValue = value ? false : true
+    const newValue = value ? null : true
 
     const props: Partial<TableElement> = { fullWidth: newValue }
     Transforms.setNodes(editor, props, { mode: 'highest' })
