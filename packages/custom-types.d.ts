@@ -4,6 +4,15 @@
  */
 
 import { Descendant } from 'slate'
+import { StyledText } from './basic-modules/src/modules/text-style/custom-types'
+import { ColorText } from './basic-modules/src/modules/color/custom-types'
+import { FontSizeAndFamilyText } from './basic-modules/src/modules/font-size-family/custom-types'
+import { ParagraphElement } from './basic-modules/src/modules/paragraph/custom-types'
+import {
+  Header1Element,
+  Header2Element,
+  Header3Element,
+} from './basic-modules/src/modules/header/custom-types'
 import { PreElement, CodeElement } from './basic-modules/src/modules/code-block/custom-types'
 import { VideoElement } from './video-module/src/module/custom-types'
 import {
@@ -28,6 +37,10 @@ type BaseElement = {
 
 type CustomElement =
   | BaseElement
+  | ParagraphElement
+  | Header1Element
+  | Header2Element
+  | Header3Element
   | PreElement
   | CodeElement
   | VideoElement
@@ -41,7 +54,7 @@ type CustomElement =
 declare module 'slate' {
   interface CustomTypes {
     // 扩展 Text
-    Text: PureText // TODO 继续补充，文本格式
+    Text: PureText | StyledText | FontSizeAndFamilyText | ColorText
 
     // 扩展 Element
     Element: CustomElement

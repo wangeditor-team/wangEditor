@@ -5,6 +5,7 @@
 
 import { Text as SlateText, Element as SlateElement } from 'slate'
 import { jsx, VNode } from 'snabbdom'
+import { StyledText } from './custom-types'
 
 /**
  * 添加文本样式
@@ -13,8 +14,7 @@ import { jsx, VNode } from 'snabbdom'
  * @returns vnode
  */
 export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
-  // @ts-ignore
-  const { bold, italic, underline, code, through } = node
+  const { bold, italic, underline, code, through } = node as StyledText
   let styleVnode: VNode = vnode
 
   // color bgColor 在另外的菜单

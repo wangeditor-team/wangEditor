@@ -4,7 +4,7 @@
  */
 
 import { Editor, Transforms } from 'slate'
-import { ISelectMenu, IDomEditor, IOption } from '@wangeditor/core'
+import { ISelectMenu, IDomEditor, IOption, DomEditor } from '@wangeditor/core'
 import { HEADER_SVG } from '../../../constants/icon-svg'
 
 class HeaderMenu implements ISelectMenu {
@@ -60,8 +60,7 @@ class HeaderMenu implements ISelectMenu {
   getValue(editor: IDomEditor): string | boolean {
     const [match] = Editor.nodes(editor, {
       match: n => {
-        // @ts-ignore
-        const { type = '' } = n
+        const type = DomEditor.getNodeType(n)
         return type.startsWith('header') // 匹配 node.type 是 header 开头的 node
       },
       universal: true,
@@ -72,17 +71,15 @@ class HeaderMenu implements ISelectMenu {
 
     // 匹配到 header
     const [n] = match
-    // @ts-ignore
-    return n.type
+
+    return DomEditor.getNodeType(n)
   }
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
     const [nodeEntry] = Editor.nodes(editor, {
-      // @ts-ignore
       match: n => {
-        // @ts-ignore
-        const { type = '' } = n
+        const type = DomEditor.getNodeType(n)
 
         // 只可用于 p 和 header
         if (type === 'paragraph') return true
@@ -112,8 +109,7 @@ class HeaderMenu implements ISelectMenu {
 
     // 执行命令
     Transforms.setNodes(editor, {
-      // @ts-ignore
-      type: value,
+      type: value.toString(),
     })
   }
 }

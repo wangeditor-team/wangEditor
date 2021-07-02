@@ -5,12 +5,12 @@
 
 import { Element, Text } from 'slate'
 import $ from '../../utils/dom'
+import { FontSizeAndFamilyText } from './custom-types'
 
 export function textStyleToHtml(node: Text | Element, elemHtml: string): string {
   if (!Text.isText(node)) return elemHtml
 
-  // @ts-ignore
-  const { fontSize, fontFamily, text } = node
+  const { fontSize, fontFamily, text } = node as FontSizeAndFamilyText
   if (!fontSize && !fontFamily) return elemHtml
 
   // 如果当前 elemHtml 是 node.text ，则包裹一个 <span> ，否则无法设置样式

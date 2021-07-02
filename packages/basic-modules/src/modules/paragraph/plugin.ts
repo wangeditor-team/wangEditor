@@ -15,7 +15,6 @@ function deleteHandler(newEditor: IDomEditor): boolean {
 
   const n = nodeEntry[0]
   if (!Element.isElement(n)) return false
-  // @ts-ignore
   if (n.type === 'paragraph') return false // 命中了 paragraph ，则不再继续判断
   if (Node.string(n) !== '') return false // 未删除全部内容，则不再继续判断
 
@@ -25,7 +24,6 @@ function deleteHandler(newEditor: IDomEditor): boolean {
   // 至此，就命中了一个（非 paragraph）+（children 都是 text）+（内容为空）的顶级 node ，如 header blockQuote 等
   // 然后，将其却换为 paragraph
   Transforms.setNodes(newEditor, {
-    // @ts-ignore
     type: 'paragraph',
   })
   return true

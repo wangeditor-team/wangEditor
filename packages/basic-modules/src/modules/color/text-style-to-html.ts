@@ -5,12 +5,12 @@
 
 import { Element, Text } from 'slate'
 import $ from '../../utils/dom'
+import { ColorText } from './custom-types'
 
 export function textStyleToHtml(node: Text | Element, elemHtml: string): string {
   if (!Text.isText(node)) return elemHtml
 
-  // @ts-ignore
-  const { color, bgColor, text } = node
+  const { color, bgColor, text } = node as ColorText
   if (!color && !bgColor) return elemHtml
 
   // 如果当前 elemHtml 是 node.text ，则包裹一个 <span> ，否则无法设置样式

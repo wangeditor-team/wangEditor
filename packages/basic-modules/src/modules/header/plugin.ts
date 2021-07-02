@@ -4,7 +4,7 @@
  */
 
 import { Editor, Transforms } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
+import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 function withHeader<T extends IDomEditor>(editor: T): T {
   const { insertBreak } = editor
@@ -14,8 +14,7 @@ function withHeader<T extends IDomEditor>(editor: T): T {
   newEditor.insertBreak = () => {
     const [match] = Editor.nodes(newEditor, {
       match: n => {
-        // @ts-ignore
-        const { type = '' } = n
+        const type = DomEditor.getNodeType(n)
         return type.startsWith('header') // 匹配 node.type 是 header 开头的 node
       },
       universal: true,

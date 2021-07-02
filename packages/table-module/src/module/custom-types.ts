@@ -1,5 +1,5 @@
 /**
- * @description table element
+ * @description 自定义 element
  * @author wangfupeng
  */
 
