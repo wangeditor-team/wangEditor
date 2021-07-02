@@ -43,6 +43,10 @@ abstract class ImageWidthBaseClass implements IButtonMenu {
     const imageNode = this.getSelectedNode(editor)
     if (imageNode == null) return
 
+    // 隐藏 hoverbar
+    const hoverbar = DomEditor.getHoverbar(editor)
+    if (hoverbar) hoverbar.hideAndClean()
+
     const { style = {} } = imageNode as ImageElement
     const props: Partial<ImageElement> = {
       style: {

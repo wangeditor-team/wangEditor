@@ -23,6 +23,7 @@ class HoverBar {
   private menus: { [key: string]: MenuType } = {}
   private hoverbarItems: IBarItem[] = []
   private selectedNode: Node | null = null
+  private isShow = false
 
   constructor() {
     // 异步，否则获取不到 DOM 和 editor
@@ -55,10 +56,13 @@ class HoverBar {
     // 及时先清空内容，否则影响下次
     this.hoverbarItems = []
     $elem.html('')
+
+    this.isShow = false
   }
 
   private show() {
     this.$elem.removeClass('w-e-bar-hidden').addClass('w-e-bar-show')
+    this.isShow = true
   }
 
   private changeItemsState() {
@@ -188,12 +192,13 @@ class HoverBar {
    */
   private onEditorChange = debounce(() => {
     // 获取选中的 node ，以及对应的 menu keys
+    const { isShow } = this
     const { node = null, menuKeys = [] } = this.getSelectedNodeAndMenuKeys() || {}
     if (node != null) {
       this.changeItemsState() // 更新菜单状态
     }
 
-    if (node && this.selectedNode === node) {
+    if (isShow && node && this.selectedNode === node) {
       // 依然是当前选中的 node ，终止
       return
     }
