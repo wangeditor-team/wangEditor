@@ -206,7 +206,7 @@ export const withDOM = <T extends Editor>(editor: T) => {
   }
 
   e.getAllMenuKeys = (): string[] => {
-    const arr = []
+    const arr: string[] = []
     for (let key in MENU_ITEM_FACTORIES) {
       arr.push(key)
     }
@@ -293,9 +293,14 @@ export const withDOM = <T extends Editor>(editor: T) => {
   }
 
   // focus
-  e.focus = () => {
+  e.focus = (isEnd?: boolean) => {
     const el = DomEditor.toDOMNode(e, e)
     IS_FOCUSED.set(e, true)
+
+    if (isEnd) {
+      const end = Editor.end(e, [])
+      Transforms.select(e, end)
+    }
 
     if (window.document.activeElement !== el) {
       el.focus({ preventScroll: true })
