@@ -86,7 +86,7 @@ class CodeBlockMenu implements IButtonMenu {
 
   private changeToCodeBlock(editor: IDomEditor, language: string) {
     // 汇总选中的最高层级节点的字符串
-    const strArr = []
+    const strArr: string[] = []
     const nodeEntries = Editor.nodes(editor, {
       match: n => editor.children.includes(n as Element), // 匹配选中的最高层级的节点
       universal: true,
