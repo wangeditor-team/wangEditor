@@ -7,7 +7,11 @@ import handleBeforeInput from './beforeInput'
 import handleOnBlur from './blur'
 import handleOnFocus from './focus'
 import handleOnClick from './click'
-import { handleCompositionStart, handleCompositionEnd } from './composition'
+import {
+  handleCompositionStart,
+  handleCompositionEnd,
+  handleCompositionUpdate,
+} from './composition'
 import handleOnKeydown from './keydown'
 import handleKeypress from './keypress'
 import handleOnCopy from './copy'
@@ -24,6 +28,7 @@ const eventConf = {
   click: handleOnClick,
   compositionstart: handleCompositionStart,
   compositionend: handleCompositionEnd,
+  compositionupdate: handleCompositionUpdate,
   keydown: handleOnKeydown,
   keypress: handleKeypress,
   copy: handleOnCopy,

@@ -7,7 +7,7 @@ import { Editor, Range } from 'slate'
 import { IDomEditor } from '../../editor/interface'
 import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
-// import { IS_SAFARI, IS_FIREFOX } from '../../utils/ua'
+import { IS_SAFARI, IS_FIREFOX_LEGACY } from '../../utils/ua'
 
 export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as CompositionEvent
@@ -17,8 +17,12 @@ export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDo
   const { selection } = editor
   if (selection && !Range.isCollapsed(selection)) {
     // COMPAT: ctrl + A 全选，然后立刻使用中文输入法，会有 bug （官网 examples 也有这个问题）
-    Editor.insertText(editor, '')
+    Editor.deleteFragment(editor)
   }
+}
+
+export function handleCompositionUpdate(event: Event, textarea: TextArea, editor: IDomEditor) {
+  if (!hasEditableTarget(editor, event.target)) return
 
   textarea.isComposing = true
 }
@@ -36,12 +40,12 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
   // // type that we need. So instead, insert whenever a composition
   // // ends since it will already have been committed to the DOM.
   // 没明白以上注释什么意思，会导致 firefox 无法使用输入法？？？
-  // if (!IS_SAFARI && !IS_FIREFOX && data) {
-  //     Editor.insertText(editor, data)
-  // }
-
-  // 这里暂且忽略浏览器判断，直接插入文本
-  if (data) {
+  if (!IS_SAFARI && !IS_FIREFOX_LEGACY && data) {
     Editor.insertText(editor, data)
   }
+
+  // 这里暂且忽略浏览器判断，直接插入文本
+  // if (data) {
+  //   Editor.insertText(editor, data)
+  // }
 }
