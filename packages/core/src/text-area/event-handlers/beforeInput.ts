@@ -57,7 +57,8 @@ function handleBeforeInput(e: Event, textarea: TextArea, editor: IDomEditor) {
   // COMPAT: If the selection is expanded, even if the command seems like
   // a delete forward/backward command it should delete the selection.
   if (selection && Range.isExpanded(selection) && type.startsWith('delete')) {
-    Editor.deleteFragment(editor)
+    const direction = type.endsWith('Backward') ? 'backward' : 'forward'
+    Editor.deleteFragment(editor, { direction })
     return
   }
 
