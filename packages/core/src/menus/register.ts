@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { MenuFactoryType, IMenuConf } from './interface'
+import { MenuFactoryType, IRegisterMenuConf } from './interface'
 import { registerGlobalMenuConf } from '../config/register'
 
 // menu item 的工厂函数 - 集合
@@ -16,7 +16,10 @@ export const MENU_ITEM_FACTORIES: {
  * @param registerMenuConf { key, factory, config } ，各个 menu key 不能重复
  * @param customConfig 自定义 menu config
  */
-export function registerMenu(registerMenuConf: IMenuConf, customConfig?: { [key: string]: any }) {
+export function registerMenu(
+  registerMenuConf: IRegisterMenuConf,
+  customConfig?: { [key: string]: any }
+) {
   const { key, factory, config } = registerMenuConf
 
   // 合并 config

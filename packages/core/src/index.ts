@@ -7,7 +7,7 @@ import './assets/index.less'
 
 import { RenderTextStyleFnType, IRenderElemConf } from './formats/index'
 import { TextStyleToHtmlFnType, TextToHtmlFnType, IElemToHtmlConf } from './to-html/index'
-import { IMenuConf } from './menus/index'
+import { IRegisterMenuConf } from './menus/index'
 import { IDomEditor } from './editor/interface'
 
 // 创建
@@ -15,7 +15,6 @@ export * from './create/index'
 
 // config
 export { IEditorConfig, IToolbarConfig } from './config/interface'
-export { genEditorConfig, genToolbarConfig } from './config/index'
 
 // editor 接口和 command
 export * from './editor/interface'
@@ -32,7 +31,7 @@ export * from './menus/index'
 
 export interface IModuleConf {
   // 注册菜单
-  menus: Array<IMenuConf>
+  menus: Array<IRegisterMenuConf>
 
   // 渲染 modal -> view
   renderTextStyle: RenderTextStyleFnType

@@ -55,25 +55,32 @@
   <script src="js/init-content.js"></script>
   <script src="../packages/editor/dist/index.js"></script>
   <script>
-    const editorView = new WangEditor()
-    editorView.editorConfig.onCreated = (editorCore) => {
+    const editorConfig = {}
+    editorConfig.onCreated = (editorCore) => {
       console.log('on created', editorCore)
     }
-    editorView.editorConfig.onChange = (editorCore) => {
+    editorConfig.onChange = (editorCore) => {
       // 获取并展示 headers
       const headers = editorCore.getHeaders()
       $('#text-headers').val(JSON.stringify(headers, null, 4))
     }
 
     // 先创建 editor ，再创建 toolbar
-    editorView.createCore('#editor-text-area', window.initContent)
-    editorView.createToolbar('#editor-toolbar')
-
+    const editor = window.wangEditor.createEditor({
+      textareaSelector: '#editor-text-area',
+      config: editorConfig,
+      initContent: window.initContent
+    })
+    const toolbar = window.wangEditor.createToolbar({
+      editor,
+      toolbarSelector: '#editor-toolbar'
+    })
+    
     // scrollTo
     const $inputId = $('#input-id')
     $('#btn-scroll-to').on('click', () => {
       const id = $inputId.val()
-      editorView.editorCore.scrollToElem(id)
+      editor.scrollToElem(id)
       $inputId.val('')
     })
   </script>

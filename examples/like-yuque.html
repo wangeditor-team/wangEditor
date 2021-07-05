@@ -94,26 +94,36 @@
   <script src="js/init-content.js"></script>
   <script src="../packages/editor/dist/index.js"></script>
   <script>
-    const editorView = new WangEditor()
-    editorView.editorConfig.placeholder = '请输入内容'
-    editorView.editorConfig.scroll = false // 禁止编辑器滚动
-    editorView.setMenuConfig('uploadImage', {
+    const editorConfig = { MENU_CONF: {} }
+    editorConfig.placeholder = '请输入内容'
+    editorConfig.scroll = false // 禁止编辑器滚动
+    editorConfig.MENU_CONF['uploadImage'] = {
       server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
       fieldName: 'like-yuque-fileName'
-    })
-    editorView.editorConfig.onChange = (editorCore) => {
+    }
+    editorConfig.onChange = (editorCore) => {
       // console.log('content', editorCore.children)
     }
 
-    // 先创建 editor 再创建 toolbar
-    editorView.createCore('#editor-text-area', window.initContent)
-    editorView.createToolbar('#editor-toolbar')
+    // 先创建 editor
+    const editor = window.wangEditor.createEditor({
+      textareaSelector: '#editor-text-area',
+      initContent: window.initContent,
+      config: editorConfig
+    })
+
+    // 创建 toolbar
+    const toolbar = window.wangEditor.createToolbar({
+      editor,
+      toolbarSelector: '#editor-toolbar',
+      // config: {}
+    })
 
     // 点击空白处 focus 编辑器
     document.getElementById('editor-text-area').addEventListener('click', e => {
       if (e.target.id === 'editor-text-area') {
-        editorView.editorCore.blur()
-        editorView.editorCore.focus() // TODO 需要 focus 到末尾
+        editor.blur()
+        editor.focus() // TODO 需要 focus 到末尾
       }
     })
   </script>

@@ -41,19 +41,27 @@
   <script src="js/init-content.js"></script>
   <script src="../packages/editor/dist/index.js"></script>
   <script>
-    const editorView = new WangEditor()
-
     // editor 配置
-    editorView.editorConfig.placeholder = '请输入内容123...'
-    editorView.editorConfig.hoverbarKeys = [] // 禁用 hoverbar
+    const editorConfig = {}
+    editorConfig.placeholder = '请输入内容123...'
+    editorConfig.hoverbarKeys = [] // 禁用 hoverbar
+
+    const editor = wangEditor.createEditor({
+      textareaSelector: '#editor-text-area',
+      config: editorConfig
+    })
+    // console.log(editor.getConfig()) // 查看 editor config
 
     // toolbar 配置
-    // 可通过 editorView.toolbar.getConfig() 看到原始的配置
-    editorView.toolbarConfig.toolbarKeys = ['bold', 'italic', 'underline', 'code', '|', 'header1', 'header2', 'blockquote', '|', 'bulletedList', 'numberedList']
+    const toolbarConfig = {}
+    toolbarConfig.toolbarKeys = ['bold', 'italic', 'underline', 'code', '|', 'header1', 'header2', 'blockquote', '|', 'bulletedList', 'numberedList']
 
-    // 先创建 editor ，再创建 toolbar
-    editorView.createCore('#editor-text-area')
-    editorView.createToolbar('#editor-toolbar')
+    const toolbar = wangEditor.createToolbar({
+      editor,
+      toolbarSelector: '#editor-toolbar',
+      config: toolbarConfig
+    })
+    // console.log(toolbar.getConfig()) // 查看 toolbar config
   </script>
 </body>
 </html>

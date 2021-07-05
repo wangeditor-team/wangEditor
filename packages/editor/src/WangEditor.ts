@@ -4,10 +4,9 @@
  */
 
 // import $, { Dom7Array } from 'dom7'
-import { Transforms, Descendant } from 'slate'
+import { Descendant } from 'slate'
 import {
   IDomEditor,
-  DomEditor,
   createEditor,
   Toolbar,
   createToolbar,
@@ -15,11 +14,9 @@ import {
   // 配置
   IEditorConfig,
   IToolbarConfig,
-  genEditorConfig,
-  genToolbarConfig,
 
   // 注册菜单
-  IMenuConf,
+  IRegisterMenuConf,
   registerMenu,
 
   // 渲染 modal -> view
@@ -39,172 +36,116 @@ import {
 
 type PluginType = <T extends IDomEditor>(editor: T) => T
 
-class WangEditor {
-  editorConfig: IEditorConfig = {
-    ...genEditorConfig(), // @wangeditor/core default config
-    ...WangEditor.globalEditorConfig, // 全局配置
-  }
-  toolbarConfig: IToolbarConfig = {
-    ...genToolbarConfig(),
-    ...WangEditor.globalToolbarConfig,
-  }
-  editorCore: IDomEditor | null = null // TODO 输出 editor API - 封装为 command 即 editor.xxx ，让用户能友好的调用，不要再引入其他 lib
-  toolbar: Toolbar | null = null
+interface ICreateEditorOption {
+  textareaSelector: string
+  config?: Partial<IEditorConfig>
+  initContent?: Descendant[]
+}
 
-  /**
-   * 修改 menu config
-   * @param menuKey menu key
-   * @param newMenuConfig menu config
-   */
-  setMenuConfig(menuKey: string, newMenuConfig: { [key: string]: any }) {
-    const { editorConfig } = this
-    if (editorConfig.menuConf == null) editorConfig.menuConf = {}
-    const { menuConf } = editorConfig
-    // 合并配置
-    menuConf[menuKey] = {
-      ...(menuConf[menuKey] || {}),
-      ...(newMenuConfig || {}),
-    }
+interface ICreateToolbarOption {
+  editor: IDomEditor | null
+  toolbarSelector: string
+  config?: Partial<IToolbarConfig>
+}
 
-    this.tryUpdateView()
-  }
-
-  /**
-   * 修改编辑器 config ，并重新渲染
-   * @param newConfig new config
-   */
+const wangEditor = {
+  // editor 配置
+  editorConfig: {},
   setEditorConfig(newConfig: Partial<IEditorConfig> = {}) {
     this.editorConfig = {
       ...this.editorConfig,
       ...newConfig,
     }
+  },
 
-    this.tryUpdateView()
-  }
+  //toolbar 配置
+  toolbarConfig: {},
+  setToolbarConfig(newConfig: Partial<IToolbarConfig> = {}) {
+    this.toolbarConfig = {
+      ...this.toolbarConfig,
+      ...newConfig,
+    }
+  },
+
+  // 注册插件
+  plugins: [],
+  registerPlugin(plugin: PluginType) {
+    !(this.plugins as PluginType[]).push(plugin)
+  },
+
+  // 注册 menu
+  // TODO 可在注册时传入配置，在开发文档中说明
+  registerMenu(menuConf: IRegisterMenuConf, customConfig?: { [key: string]: any }) {
+    registerMenu(menuConf, customConfig)
+  },
+
+  // 注册 renderElem
+  registerRenderElem(renderElemConf: IRenderElemConf) {
+    registerRenderElemConf(renderElemConf)
+  },
+
+  // 注册 renderTextStyle
+  registerRenderTextStyle(fn: RenderTextStyleFnType) {
+    registerTextStyleHandler(fn)
+  },
+
+  // 注册 elemToHtml
+  registerElemToHtml(elemToHtmlConf: IElemToHtmlConf) {
+    registerElemToHtmlConf(elemToHtmlConf)
+  },
+
+  // 注册 textToHtml
+  registerTextToHtml(fn: TextToHtmlFnType) {
+    registerTextToHtmlHandler(fn)
+  },
+
+  // 注册 textStyleToHtml
+  registerTextStyleToHtml(fn: TextStyleToHtmlFnType) {
+    registerTextStyleToHtmlHandler(fn)
+  },
+
+  // -------------------------------------- 分割线 --------------------------------------
 
   /**
-   * 创建 editorCore 实例
+   * 创建 editor 实例
    */
-  createCore(textareaSelector: string, initContent?: Descendant[]) {
+  createEditor(option: ICreateEditorOption): IDomEditor {
+    const { textareaSelector, initContent = [], config = {} } = option
     if (!textareaSelector) {
       throw new Error(`Cannot find 'textareaSelector' when create editor`)
     }
 
-    const editorCore = createEditor({
+    const editor = createEditor({
       textareaSelector,
-      config: this.editorConfig,
+      config: {
+        ...this.editorConfig, // 全局配置
+        ...config,
+      },
       initContent,
-      plugins: WangEditor.globalPlugins, // 全局的插件
+      plugins: this.plugins,
     })
-    this.editorConfig = editorCore.getConfig() // 重新覆盖 config
-    this.editorCore = editorCore
-  }
+
+    return editor
+  },
 
   /**
-   * 创建 toolbar
+   * 创建 toolbar 实例
    */
-  createToolbar(toolbarSelector: string) {
+  createToolbar(option: ICreateToolbarOption): Toolbar {
+    const { toolbarSelector, editor, config = {} } = option
     if (!toolbarSelector) {
       throw new Error(`Cannot find 'toolbarSelector' when create toolbar`)
     }
-    const toolbar = createToolbar(this.editorCore, {
+    const toolbar = createToolbar(editor, {
       toolbarSelector,
-      config: this.toolbarConfig,
+      config: {
+        ...this.toolbarConfig, // 全局配置
+        ...config,
+      },
     })
 
-    this.toolbar = toolbar
-  }
-
-  /**
-   * 尝试重新渲染编辑器视图
-   */
-  private tryUpdateView() {
-    const { editorCore, editorConfig } = this
-    if (editorCore == null) return
-
-    // 取消选择
-    Transforms.deselect(editorCore)
-    // 重新设置 config ，重要！！！
-    editorCore.setConfig(editorConfig)
-
-    // 触发 更新视图
-    const textarea = DomEditor.getTextarea(editorCore)
-    textarea.onEditorChange()
-
-    // 尝试 focus
-    if (editorConfig.autoFocus !== false) {
-      DomEditor.focus(editorCore)
-    }
-  }
-
-  /**
-   * 销毁 editorCore 实例
-   */
-  destroy() {
-    const { editorCore } = this
-    if (editorCore == null) return
-
-    // 销毁，并重置 config
-    editorCore.destroy()
-    this.editorCore = null
-  }
-
-  // -------------------------------------- 分割线 --------------------------------------
-
-  // 全局 - toolbar 配置
-  static globalToolbarConfig: Partial<IToolbarConfig> = {}
-  static setToolbarConfig(newConfig: Partial<IToolbarConfig> = {}) {
-    this.globalToolbarConfig = {
-      ...this.globalToolbarConfig,
-      ...newConfig,
-    }
-  }
-
-  // 全局 - editor 配置
-  static globalEditorConfig: Partial<IEditorConfig> = {}
-  static setEditorConfig(newConfig: Partial<IEditorConfig> = {}) {
-    this.globalEditorConfig = {
-      ...this.globalEditorConfig,
-      ...newConfig,
-    }
-  }
-
-  // 全局 - 注册插件
-  static globalPlugins: PluginType[] = []
-  static registerPlugin(plugin: PluginType) {
-    this.globalPlugins.push(plugin)
-  }
-
-  // 全局 - 注册 menu
-  // TODO 可在注册时传入配置，在开发文档中说明
-  static registerMenu(menuConf: IMenuConf, customConfig?: { [key: string]: any }) {
-    registerMenu(menuConf, customConfig)
-  }
-
-  // 全局 - 注册 renderElem
-  static registerRenderElem(renderElemConf: IRenderElemConf) {
-    registerRenderElemConf(renderElemConf)
-  }
-
-  // 全局 - 注册 renderTextStyle
-  static registerRenderTextStyle(fn: RenderTextStyleFnType) {
-    registerTextStyleHandler(fn)
-  }
-
-  // 全局 - 注册 elemToHtml
-  static registerElemToHtml(elemToHtmlConf: IElemToHtmlConf) {
-    registerElemToHtmlConf(elemToHtmlConf)
-  }
-
-  // 全局 - 注册 textToHtml
-  static registerTextToHtml(fn: TextToHtmlFnType) {
-    registerTextToHtmlHandler(fn)
-  }
-
-  // 全局 - 注册 textStyleToHtml
-  static registerTextStyleToHtml(fn: TextStyleToHtmlFnType) {
-    registerTextStyleToHtmlHandler(fn)
-  }
+    return toolbar
+  },
 }
 
-export default WangEditor
+export default wangEditor

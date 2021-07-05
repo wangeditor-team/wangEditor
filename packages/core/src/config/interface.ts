@@ -15,6 +15,14 @@ interface IHoverbarConf {
 
 export type AlertType = 'success' | 'info' | 'warning' | 'error'
 
+export interface ISingleMenuConfig {
+  [key: string]: any
+}
+
+export interface IMenuConfig {
+  [key: string]: ISingleMenuConfig
+}
+
 /**
  * editor config
  */
@@ -36,9 +44,7 @@ export interface IEditorConfig {
   maxLength?: number // TODO 在文档中说明，要慎用 maxLength 。因为 maxLength 会在每次输入是都做判断，可能会影响性能
 
   // 各个 menu 的配置汇总，可以通过 key 获取单个 menu 的配置
-  menuConf?: {
-    [key: string]: any
-  }
+  MENU_CONF?: IMenuConfig
 
   // 悬浮菜单栏 menu
   hoverbarKeys?: Array<IHoverbarConf>

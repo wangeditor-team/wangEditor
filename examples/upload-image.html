@@ -42,8 +42,8 @@
   <script src="js/init-content.js"></script>
   <script src="../packages/editor/dist/index.js"></script>
   <script>
-    const editorView = new WangEditor()
-    editorView.setMenuConfig('uploadImage', {
+    const editorConfig = { MENU_CONF: {} }
+    editorConfig.MENU_CONF['uploadImage'] = {
       server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
       // server: 'http://106.12.198.214:3000/api/upload-img-10s', // 用于测试 timeout
       // server: 'http://106.12.198.214:3000/api/xxx', // 用于测试 404
@@ -108,11 +108,19 @@
       //     insertFn(src, '百度 logo', src) // 插入图片
       //   }, 500)
       // },
+    }
+
+    const editor = window.wangEditor.createEditor({
+      textareaSelector: '#editor-text-area',
+      initContent: window.initContent,
+      config: editorConfig
     })
 
-    // 先创建 editor 再创建 toolbar
-    editorView.createCore('#editor-text-area',  window.initContent)
-    editorView.createToolbar('#editor-toolbar')
+    const toolbar = window.wangEditor.createToolbar({
+      editor,
+      toolbarSelector: '#editor-toolbar',
+      // config: {}
+    })
   </script>
 </body>
 

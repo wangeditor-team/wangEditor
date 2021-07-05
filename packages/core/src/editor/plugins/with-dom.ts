@@ -15,7 +15,7 @@ import {
 } from '../../utils/weak-maps'
 import { Key } from '../../utils/key'
 import { isDOMText, getPlainText } from '../../utils/dom'
-import { IEditorConfig, AlertType } from '../../config/interface'
+import { IEditorConfig, AlertType, ISingleMenuConfig } from '../../config/interface'
 import { node2html } from '../../to-html/node2html'
 import { genElemId } from '../../formats/helper'
 import $ from '../../utils/dom'
@@ -221,9 +221,9 @@ export const withDOM = <T extends Editor>(editor: T) => {
   }
 
   // 获取 menu config
-  e.getMenuConfig = (menuKey: string): { [key: string]: any } => {
-    const { menuConf = {} } = e.getConfig()
-    return menuConf[menuKey] || {}
+  e.getMenuConfig = (menuKey: string): ISingleMenuConfig => {
+    const { MENU_CONF = {} } = e.getConfig()
+    return MENU_CONF[menuKey] || {}
   }
 
   // 修改配置
@@ -233,6 +233,27 @@ export const withDOM = <T extends Editor>(editor: T) => {
       ...curConfig,
       ...newConfig,
     })
+
+    // 修改配置，则立刻更新视图
+    e.updateView()
+  }
+
+  // 设置 menu config
+  e.setMenuConfig = (menuKey: string, newMenuConfig: ISingleMenuConfig) => {
+    const curMenuConfig = e.getMenuConfig(menuKey)
+
+    const editorConfig = e.getConfig()
+    if (editorConfig.MENU_CONF == null) {
+      editorConfig.MENU_CONF = {}
+    }
+
+    editorConfig.MENU_CONF[menuKey] = {
+      ...curMenuConfig,
+      ...newMenuConfig,
+    }
+
+    // 修改配置，则立刻更新视图
+    e.updateView()
   }
 
   // 重写 onchange API
@@ -315,6 +336,12 @@ export const withDOM = <T extends Editor>(editor: T) => {
     if (window.document.activeElement === el) {
       el.blur()
     }
+  }
+
+  // 手动更新试图
+  e.updateView = () => {
+    const textarea = DomEditor.getTextarea(e)
+    textarea.onEditorChange()
   }
 
   // alert

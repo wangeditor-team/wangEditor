@@ -64,7 +64,7 @@ export interface IModalMenu extends IBaseMenu {
 
 export type MenuFactoryType = () => IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
 
-export interface IMenuConf {
+export interface IRegisterMenuConf {
   key: string
   factory: MenuFactoryType
   config?: { [key: string]: any }

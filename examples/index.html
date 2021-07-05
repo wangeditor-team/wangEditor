@@ -80,24 +80,24 @@
   <script src="js/init-content.js"></script>
   <script src="../packages/editor/dist/index.js"></script>
   <script>
-    const editorView = new WangEditor()
-    // editorView.editorConfig.autoFocus = false
-    // editorView.editorConfig.readOnly = true
-    // editorView.editorConfig.scroll = false
-    // editorView.editorConfig.maxLength = 110 // 慎用，可能影响性能，需在文档中说明
-    // editorView.editorConfig.onMaxLength = (editorCore) => {
+    const editorConfig = { MENU_CONF: {} }
+    // editorConfig.autoFocus = false
+    // editorConfig.readOnly = true
+    // editorConfig.scroll = false
+    // editorConfig.maxLength = 120 // 慎用，可能影响性能，需在文档中说明
+    // editorConfig.onMaxLength = (editorCore) => {
     //   console.log('on max length', editorCore)
     // }
-    editorView.editorConfig.placeholder = '请输入内容'
-    // editorView.setMenuConfig('uploadImage', {
-    //   server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
-    //   fieldName: 'index-fileName'
-    // })
+    editorConfig.placeholder = '请输入内容'
+    editorConfig.MENU_CONF['uploadImage'] = {
+      server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
+      fieldName: 'index-fileName'
+    }
     console.log('测试上传图片，请使用 upload-image.html')
-    editorView.editorConfig.onCreated = (editorCore) => {
+    editorConfig.onCreated = (editorCore) => {
       console.log('on created', editorCore)
     }
-    editorView.editorConfig.onChange = (editorCore) => {
+    editorConfig.onChange = (editorCore) => {
       // 获取 html （使用异步，类似 Vue $nextTick）
       Promise.resolve().then(() => {
         const html = editorCore.getHtml()
@@ -111,16 +111,16 @@
       // 全部文字
       document.getElementById('total-length').innerHTML = editorCore.getText().length
     }
-    editorView.editorConfig.onDestroyed = (editorCore) => {
+    editorConfig.onDestroyed = (editorCore) => {
       console.log('on destroyed', editorCore)
     }
-    // editorView.editorConfig.onFocus = (editorCore) => {
+    // editorConfig.onFocus = (editorCore) => {
     //   console.log('onFocus', editorCore)
     // }
-    // editorView.editorConfig.onBlur = (editorCore) => {
+    // editorConfig.onBlur = (editorCore) => {
     //   console.log('onBlur', editorCore)
     // }
-    // editorView.setMenuConfig('insertImage', {
+    // editorConfig.MENU_CONF['insertImage'] = {
     //   onInsertedImage(src, alt, url) {
     //     console.log('inserted image', src, alt, url)
     //   },
@@ -128,8 +128,8 @@
     //     return '强制阻止 1'
     //     // return true
     //   }
-    // })
-    // editorView.setMenuConfig('editImage', {
+    // }
+    // editorConfig.MENU_CONF['insertImage'] = {
     //   onUpdatedImage(src, alt, url) {
     //     console.log('updated image', src, alt, url)
     //   },
@@ -137,22 +137,22 @@
     //     return '强制阻止 2'
     //     // return true
     //   }
-    // })
-    // editorView.setMenuConfig('insertLink', {
+    // }
+    // editorConfig.MENU_CONF['insertLink'] = {
     //   checkLink(text, url) {
     //     console.log('check insert link - ', text, url)
     //     // return true
     //     return '强制阻止 1'
     //   }
-    // })
-    // editorView.setMenuConfig('updateLink', {
+    // }
+    // editorConfig.MENU_CONF['updateLink'] = {
     //   checkLink(text, url) {
     //     console.log('check update link - ', text, url)
     //     // return true
     //     return '强制阻止 2'
     //   }
-    // })
-    // editorView.setMenuConfig('insertVideo', {
+    // }
+    // editorConfig.MENU_CONF['insertVideo'] = {
     //   onInsertedVideo(src) {
     //     console.log('inserted video', src)
     //   },
@@ -160,24 +160,34 @@
     //     return '强制阻止 1'
     //     // return true
     //   }
-    // })
+    // }
 
     // create
+    let editor, toolbar
     document.getElementById('btn-create').addEventListener('click', () => {
-       // 先创建 editor ，再创建 toolbar （注意顺序）
-      editorView.createCore('#editor-text-area', window.initContent)
-      editorView.createToolbar('#editor-toolbar')
+      editor = window.wangEditor.createEditor({
+        textareaSelector: '#editor-text-area',
+        initContent: window.initContent,
+        config: editorConfig
+      })
+
+      toolbar = window.wangEditor.createToolbar({
+        editor,
+        toolbarSelector: '#editor-toolbar',
+        // config: {}
+      })
     })
     console.log(`如果页面没有编辑器，点击 'create' 按钮创建`)
 
     // toggle readOnly
     document.getElementById('btn-toggle-readOnly').addEventListener('click', () => {
-      editorView.setEditorConfig({ readOnly: !editorView.editorConfig.readOnly })
+      editorConfig.readOnly = !editorConfig.readOnly
+      editor.setConfig({ readOnly: editorConfig.readOnly })
     })
 
     // destroy
     document.getElementById('btn-destroy').addEventListener('click', () => {
-      editorView.destroy()
+      editor.destroy()
     })
   </script>
 </body>

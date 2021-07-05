@@ -46,14 +46,15 @@
   (function () {
 
     document.getElementById('btn-go')?.addEventListener('click', () => {
-      // ----------------------------- 创建 editorView 实例 -----------------------------
-      const editorView = new WangEditor()
-      editorView.editorConfig.placeholder = '请输入内容'
-      editorView.editorConfig.onCreated = (editorCore) => {
-        console.log('on created', editorCore.id)
+      let editor, toolbar
 
+      // ----------------------------- editor config -----------------------------
+      const editorConfig = {}
+      editorConfig.placeholder = '请输入内容'
+      editorConfig.onCreated = (editorCore) => {
+        console.log('on created', editorCore.id)
       }
-      editorView.editorConfig.onDestroyed = (editorCore) => {
+      editorConfig.onDestroyed = (editorCore) => {
         console.log('on destroyed', editorCore.id)
       }
 
@@ -77,15 +78,23 @@
           return
         }
 
-        if (editorView.editorCore == null) {
+        if (editor == null) {
           console.log('createCore', num)
 
           // 先创建 editor 再创建 toolbar
-          editorView.createCore('#editor-text-area', window.initContent)
-          editorView.createToolbar('#editor-toolbar')
+          editor = window.wangEditor.createEditor({
+            textareaSelector: '#editor-text-area',
+            config: editorConfig,
+            initContent: window.initContent
+          })
+          toolbar = window.wangEditor.createToolbar({
+            editor,
+            toolbarSelector: '#editor-toolbar'
+          })
         } else {
           console.log('destroyCore', num)
-          editorView.destroy()
+          editor.destroy()
+          editor = null
           num++ // 计数
         }
       }, 100)

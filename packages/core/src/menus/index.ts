@@ -14,7 +14,7 @@ export {
   ISelectMenu,
   IDropPanelMenu,
   IModalMenu,
-  IMenuConf,
+  IRegisterMenuConf,
   IOption,
 } from './interface'
 
