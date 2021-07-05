@@ -5,12 +5,11 @@
 
 import { Range } from 'slate'
 import { throttle, forEach } from 'lodash-es'
-import $, { Dom7Array } from '../utils/dom'
+import $, { Dom7Array, DOMElement } from '../utils/dom'
 import { TEXTAREA_TO_EDITOR, EDITOR_TO_CONFIG } from '../utils/weak-maps'
 import { IDomEditor } from '../editor/interface'
 import updateView from './update-view'
 import handlePlaceholder from './place-holder'
-import { DOMElement } from '../utils/dom'
 import { editorSelectionToDOM, DOMSelectionToEditor } from './syncSelection'
 import { promiseResolveThen } from '../utils/util'
 import eventHandlerConf from './event-handlers/index'
@@ -31,8 +30,8 @@ class TextArea {
   $placeholder: Dom7Array | null = null
   private latestEditorSelection: Range | null = null
 
-  constructor(selector: string) {
-    // 初始化 dom
+  constructor(selector: string | DOMElement) {
+    // @ts-ignore 初始化 dom
     const $box = $(selector)
     if ($box.length === 0) {
       throw new Error(`Cannot find textarea DOM by selector '${selector}'`)

@@ -167,6 +167,7 @@
     document.getElementById('btn-create').addEventListener('click', () => {
       editor = window.wangEditor.createEditor({
         textareaSelector: '#editor-text-area',
+        // textareaSelector: document.getElementById('editor-text-area'),
         initContent: window.initContent,
         config: editorConfig
       })
@@ -174,6 +175,7 @@
       toolbar = window.wangEditor.createToolbar({
         editor,
         toolbarSelector: '#editor-toolbar',
+        // toolbarSelector: document.getElementById('editor-toolbar')
         // config: {}
       })
     })

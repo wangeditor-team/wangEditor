@@ -8,10 +8,11 @@ import Toolbar from '../menus/bar/Toolbar'
 import { IToolbarConfig } from '../config/interface'
 import { genToolbarConfig } from '../config/index'
 import { isRepeatedCreate } from './helper'
+import { DOMElement } from '../utils/dom'
 import { TOOLBAR_TO_EDITOR, EDITOR_TO_TOOLBAR } from '../utils/weak-maps'
 
 interface ICreateOption {
-  toolbarSelector: string
+  toolbarSelector: string | DOMElement
   config?: Partial<IToolbarConfig>
 }
 

@@ -14,6 +14,7 @@ import { IDomEditor } from '../editor/interface'
 import { IEditorConfig } from '../config/interface'
 import { promiseResolveThen } from '../utils/util'
 import { isRepeatedCreate, genDefaultContent } from './helper'
+import { DOMElement } from '../utils/dom'
 import {
   EDITOR_TO_TEXTAREA,
   TEXTAREA_TO_EDITOR,
@@ -26,7 +27,7 @@ import {
 type PluginFnType = <T extends IDomEditor>(editor: T) => T
 
 interface ICreateOption {
-  textareaSelector: string
+  textareaSelector: string | DOMElement
   config?: Partial<IEditorConfig>
   initContent?: Descendant[]
   plugins?: PluginFnType[]

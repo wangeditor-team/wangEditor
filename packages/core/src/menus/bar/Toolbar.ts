@@ -4,7 +4,7 @@
  */
 
 import { debounce } from 'lodash-es'
-import $, { Dom7Array } from '../../utils/dom'
+import $, { Dom7Array, DOMElement } from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'
 import { promiseResolveThen } from '../../utils/util'
 import { TOOLBAR_TO_EDITOR, BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
@@ -23,10 +23,10 @@ class Toolbar {
   private toolbarItems: IBarItem[] = []
   private config: IToolbarConfig = {}
 
-  constructor(selector: string, config: IToolbarConfig) {
+  constructor(selector: string | DOMElement, config: IToolbarConfig) {
     this.config = config
 
-    // 初始化 DOM
+    // @ts-ignore 初始化 DOM
     const $box = $(selector)
     if ($box.length === 0) {
       throw new Error(`Cannot find toolbar DOM by selector '${selector}'`)

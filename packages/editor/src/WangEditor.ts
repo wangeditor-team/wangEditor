@@ -33,18 +33,19 @@ import {
   registerTextToHtmlHandler,
   registerElemToHtmlConf,
 } from '@wangeditor/core'
+import { DOMElement } from './utils/dom'
 
 type PluginType = <T extends IDomEditor>(editor: T) => T
 
 interface ICreateEditorOption {
-  textareaSelector: string
+  textareaSelector: string | DOMElement
   config?: Partial<IEditorConfig>
   initContent?: Descendant[]
 }
 
 interface ICreateToolbarOption {
   editor: IDomEditor | null
-  toolbarSelector: string
+  toolbarSelector: string | DOMElement
   config?: Partial<IToolbarConfig>
 }
 

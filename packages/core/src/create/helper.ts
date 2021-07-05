@@ -4,14 +4,15 @@
  */
 
 import { IDomEditor } from '../editor/interface'
-import $ from '../utils/dom'
+import $, { DOMElement } from '../utils/dom'
 
 /**
  * 检查是否重复创建
  */
-export function isRepeatedCreate(editor: IDomEditor, selector: string): boolean {
+export function isRepeatedCreate(editor: IDomEditor, selector: string | DOMElement): boolean {
   const attrKey = 'data-w-e-created'
 
+  // @ts-ignore
   const $elem = $(selector)
   if ($elem.attr(attrKey)) {
     return true // 有属性，说明已经创建过
