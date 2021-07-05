@@ -15,7 +15,10 @@ interface IHoverbarConf {
 
 export type AlertType = 'success' | 'info' | 'warning' | 'error'
 
-export interface IConfig {
+/**
+ * editor config
+ */
+export interface IEditorConfig {
   onCreated?: (editor: IDomEditor) => void
   onChange?: (editor: IDomEditor) => void
   onDestroyed?: (editor: IDomEditor) => void
@@ -37,10 +40,15 @@ export interface IConfig {
     [key: string]: any
   }
 
-  // 传统菜单栏的 menu
-  toolbarKeys?: Array<string | IMenuGroup>
   // 悬浮菜单栏 menu
   hoverbarKeys?: Array<IHoverbarConf>
 
   alert: (info: string, type?: AlertType) => void
+}
+
+/**
+ * toolbar config
+ */
+export interface IToolbarConfig {
+  toolbarKeys?: Array<string | IMenuGroup>
 }

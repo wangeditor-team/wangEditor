@@ -7,11 +7,8 @@ import { IDomEditor } from '@wangeditor/core'
 import { genToolbarKeys } from './toolbar'
 import { genHoverbarKeys } from './hoverbar'
 
-function getDefaultEditorConfig() {
+export function getDefaultEditorConfig() {
   return {
-    // 传统菜单栏
-    toolbarKeys: genToolbarKeys(),
-
     // hover bar
     hoverbarKeys: genHoverbarKeys(),
 
@@ -25,4 +22,8 @@ function getDefaultEditorConfig() {
   }
 }
 
-export default getDefaultEditorConfig
+export function genDefaultToolbarConfig() {
+  return {
+    toolbarKeys: genToolbarKeys(),
+  }
+}

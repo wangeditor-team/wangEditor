@@ -5,97 +5,50 @@
 
 import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
-import { withDOM } from './editor/plugins/with-dom'
-import { withEmitter } from './editor/plugins/with-emitter'
-import TextArea from './text-area/TextArea'
-import Toolbar from './menus/bar/Toolbar'
-import HoverBar from './menus/bar/HoverBar'
-import { genEditorConfig } from './config/index'
-import { IDomEditor } from './editor/interface'
-import { IConfig } from './config/interface'
+import { withDOM } from '../editor/plugins/with-dom'
+import { withEmitter } from '../editor/plugins/with-emitter'
+import TextArea from '../text-area/TextArea'
+import HoverBar from '../menus/bar/HoverBar'
+import { genEditorConfig } from '../config/index'
+import { IDomEditor } from '../editor/interface'
+import { IEditorConfig } from '../config/interface'
+import { promiseResolveThen } from '../utils/util'
+import { isRepeatedCreate, genDefaultContent } from './helper'
 import {
   EDITOR_TO_TEXTAREA,
   TEXTAREA_TO_EDITOR,
-  TOOLBAR_TO_EDITOR,
-  EDITOR_TO_TOOLBAR,
   EDITOR_TO_CONFIG,
   HOVER_BAR_TO_EDITOR,
   EDITOR_TO_HOVER_BAR,
   IS_READ_ONLY,
-} from './utils/weak-maps'
-import { promiseResolveThen } from './utils/util'
-import $ from './utils/dom'
+} from '../utils/weak-maps'
 
 type PluginFnType = <T extends IDomEditor>(editor: T) => T
 
 interface ICreateOption {
-  toolbarSelector?: string
   textareaSelector: string
-  config?: Partial<IConfig>
+  config?: Partial<IEditorConfig>
   initContent?: Descendant[]
   plugins?: PluginFnType[]
-}
-
-function genDefaultContent() {
-  return [
-    {
-      type: 'paragraph',
-      children: [{ text: '' }],
-    },
-  ]
-}
-
-/**
- * 检查是否重复创建
- */
-function isRepeatedCreate(
-  editor: IDomEditor,
-  textareaSelector: string,
-  toolbarSelector: string = ''
-): boolean {
-  const attrKey = 'data-w-e-created'
-
-  const textareaElem = $(textareaSelector)
-  if (textareaElem.attr(attrKey)) {
-    return true // 有属性，说明已经创建过
-  }
-  const toolbarElem = $(toolbarSelector)
-  if (toolbarElem.attr(attrKey)) {
-    return true // 有属性，说明已经创建过
-  }
-
-  // 至此，说明未创建过，则记录
-  textareaElem.attr(attrKey, 'true')
-  toolbarElem.attr(attrKey, 'true')
-
-  // 销毁时删除属性
-  editor.on('destroyed', () => {
-    textareaElem.removeAttr(attrKey)
-    toolbarElem.removeAttr(attrKey)
-  })
-
-  return false
 }
 
 /**
  * 创建编辑器
  */
-function create(option: ICreateOption) {
-  const { toolbarSelector, textareaSelector, config = {}, initContent, plugins = [] } = option
+export default function (option: ICreateOption) {
+  const { textareaSelector, config = {}, initContent, plugins = [] } = option
 
   // 创建实例 - 使用插件
   let editor = withHistory(withEmitter(withDOM(createEditor())))
-  if (isRepeatedCreate(editor, textareaSelector, toolbarSelector)) {
+  if (isRepeatedCreate(editor, textareaSelector)) {
     // 对同一个 DOM 重复创建
-    throw new Error(
-      `Repeated create editor by textareaSelector '${textareaSelector}' and toolbarSelector '${toolbarSelector}'`
-    )
+    throw new Error(`Repeated create editor by textareaSelector '${textareaSelector}'`)
   }
 
   // 处理配置
   const editorConfig = genEditorConfig(config)
   EDITOR_TO_CONFIG.set(editor, editorConfig)
-  const { toolbarKeys = [], hoverbarKeys = [] } = editorConfig
+  const { hoverbarKeys = [] } = editorConfig
 
   // editor plugins
   plugins.forEach(plugin => {
@@ -116,20 +69,6 @@ function create(option: ICreateOption) {
       console.warn(info, $textarea)
     }
   })
-
-  // 创建 toolbar DOM
-  let toolbar: Toolbar | null = null
-  if (toolbarSelector) {
-    if (toolbarKeys.length === 0) {
-      console.warn(
-        `Cannot find 'toolbarKeys' in editor config\n在 editor config 中未找到 'toolbarKeys'`
-      )
-    }
-
-    toolbar = new Toolbar(toolbarSelector)
-    TOOLBAR_TO_EDITOR.set(toolbar, editor)
-    EDITOR_TO_TOOLBAR.set(editor, toolbar)
-  }
 
   // 创建 hoverbar DOM
   let hoverbar: HoverBar | null
@@ -176,5 +115,3 @@ function create(option: ICreateOption) {
 
   return editor
 }
-
-export default create

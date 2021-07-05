@@ -77,32 +77,27 @@
   <!-- 显示内容 -->
   <div id="editor-content-view"></div>
 
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="js/init-content.js"></script>
   <script src="../packages/editor/dist/index.js"></script>
   <script>
-    const editorView = new WangEditor({
-      toolbarSelector: '#editor-toolbar', // 可选
-      textareaSelector: '#editor-text-area',
-      initContent: window.initContent, // 可选
-    })
-    // editorView.config.autoFocus = false
-    // editorView.config.readOnly = true
-    // editorView.config.scroll = false
-    // editorView.config.maxLength = 110 // 慎用，可能影响性能，需在文档中说明
-    // editorView.config.onMaxLength = (editorCore) => {
+    const editorView = new WangEditor()
+    // editorView.editorConfig.autoFocus = false
+    // editorView.editorConfig.readOnly = true
+    // editorView.editorConfig.scroll = false
+    // editorView.editorConfig.maxLength = 110 // 慎用，可能影响性能，需在文档中说明
+    // editorView.editorConfig.onMaxLength = (editorCore) => {
     //   console.log('on max length', editorCore)
     // }
-    editorView.config.placeholder = '请输入内容'
+    editorView.editorConfig.placeholder = '请输入内容'
     // editorView.setMenuConfig('uploadImage', {
     //   server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
     //   fieldName: 'index-fileName'
     // })
     console.log('测试上传图片，请使用 upload-image.html')
-    editorView.config.onCreated = (editorCore) => {
+    editorView.editorConfig.onCreated = (editorCore) => {
       console.log('on created', editorCore)
     }
-    editorView.config.onChange = (editorCore) => {
+    editorView.editorConfig.onChange = (editorCore) => {
       // 获取 html （使用异步，类似 Vue $nextTick）
       Promise.resolve().then(() => {
         const html = editorCore.getHtml()
@@ -116,13 +111,13 @@
       // 全部文字
       document.getElementById('total-length').innerHTML = editorCore.getText().length
     }
-    editorView.config.onDestroyed = (editorCore) => {
+    editorView.editorConfig.onDestroyed = (editorCore) => {
       console.log('on destroyed', editorCore)
     }
-    // editorView.config.onFocus = (editorCore) => {
+    // editorView.editorConfig.onFocus = (editorCore) => {
     //   console.log('onFocus', editorCore)
     // }
-    // editorView.config.onBlur = (editorCore) => {
+    // editorView.editorConfig.onBlur = (editorCore) => {
     //   console.log('onBlur', editorCore)
     // }
     // editorView.setMenuConfig('insertImage', {
@@ -167,20 +162,22 @@
     //   }
     // })
 
-    // create editorCore
-    $('#btn-create').on('click', () => {
-      editorView.createCore()
+    // create
+    document.getElementById('btn-create').addEventListener('click', () => {
+       // 先创建 editor ，再创建 toolbar （注意顺序）
+      editorView.createCore('#editor-text-area', window.initContent)
+      editorView.createToolbar('#editor-toolbar')
     })
     console.log(`如果页面没有编辑器，点击 'create' 按钮创建`)
 
     // toggle readOnly
-    $('#btn-toggle-readOnly').on('click', () => {
-      editorView.setConfig({ readOnly: !editorView.config.readOnly })
+    document.getElementById('btn-toggle-readOnly').addEventListener('click', () => {
+      editorView.setEditorConfig({ readOnly: !editorView.editorConfig.readOnly })
     })
 
-    // destroy editorCore
-    $('#btn-destroy').on('click', () => {
-      editorView.destroyCore()
+    // destroy
+    document.getElementById('btn-destroy').addEventListener('click', () => {
+      editorView.destroy()
     })
   </script>
 </body>

@@ -5,18 +5,17 @@
 
 import './assets/index.less'
 
-import create from './create-editor'
 import { RenderTextStyleFnType, IRenderElemConf } from './formats/index'
 import { TextStyleToHtmlFnType, TextToHtmlFnType, IElemToHtmlConf } from './to-html/index'
 import { IMenuConf } from './menus/index'
 import { IDomEditor } from './editor/interface'
 
-// 创建编辑器
-export const createEditor = create
+// 创建
+export * from './create/index'
 
 // config
-export { IConfig } from './config/interface'
-export { genEditorConfig } from './config/index'
+export { IEditorConfig, IToolbarConfig } from './config/interface'
+export { genEditorConfig, genToolbarConfig } from './config/index'
 
 // editor 接口和 command
 export * from './editor/interface'

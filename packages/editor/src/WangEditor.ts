@@ -1,5 +1,5 @@
 /**
- * @description Editor class
+ * @description Editor View class
  * @author wangfupeng
  */
 
@@ -8,9 +8,15 @@ import { Transforms, Descendant } from 'slate'
 import {
   IDomEditor,
   DomEditor,
-  IConfig,
-  genEditorConfig,
   createEditor,
+  Toolbar,
+  createToolbar,
+
+  // 配置
+  IEditorConfig,
+  IToolbarConfig,
+  genEditorConfig,
+  genToolbarConfig,
 
   // 注册菜单
   IMenuConf,
@@ -33,35 +39,17 @@ import {
 
 type PluginType = <T extends IDomEditor>(editor: T) => T
 
-interface IOption {
-  toolbarSelector?: string
-  textareaSelector: string
-  initContent?: Descendant[]
-}
-
 class WangEditor {
-  // private $container: Dom7Array
-  private toolbarSelector: string
-  private textareaSelector: string
-  private initContent: Descendant[]
-  config: IConfig = {
+  editorConfig: IEditorConfig = {
     ...genEditorConfig(), // @wangeditor/core default config
-    ...WangEditor.config, // 全局配置
+    ...WangEditor.globalEditorConfig, // 全局配置
+  }
+  toolbarConfig: IToolbarConfig = {
+    ...genToolbarConfig(),
+    ...WangEditor.globalToolbarConfig,
   }
   editorCore: IDomEditor | null = null // TODO 输出 editor API - 封装为 command 即 editor.xxx ，让用户能友好的调用，不要再引入其他 lib
-
-  constructor(opt: IOption) {
-    const { toolbarSelector = '', textareaSelector, initContent } = opt
-    if (!textareaSelector) {
-      throw new Error(
-        `Cannot find 'textareaSelector' when 'new WangEditor({...})'\n当 new WangEditor({...}) 时需要输入 'textareaSelector' `
-      )
-    }
-
-    this.toolbarSelector = toolbarSelector
-    this.textareaSelector = textareaSelector
-    this.initContent = initContent || []
-  }
+  toolbar: Toolbar | null = null
 
   /**
    * 修改 menu config
@@ -69,9 +57,9 @@ class WangEditor {
    * @param newMenuConfig menu config
    */
   setMenuConfig(menuKey: string, newMenuConfig: { [key: string]: any }) {
-    const { config } = this
-    if (config.menuConf == null) config.menuConf = {}
-    const { menuConf } = config
+    const { editorConfig } = this
+    if (editorConfig.menuConf == null) editorConfig.menuConf = {}
+    const { menuConf } = editorConfig
     // 合并配置
     menuConf[menuKey] = {
       ...(menuConf[menuKey] || {}),
@@ -82,30 +70,12 @@ class WangEditor {
   }
 
   /**
-   * 创建 editorCore 实例
-   */
-  createCore() {
-    const { toolbarSelector, textareaSelector, config, initContent } = this
-    const { plugins } = WangEditor
-
-    const editorCore = createEditor({
-      toolbarSelector,
-      textareaSelector,
-      config,
-      initContent,
-      plugins,
-    })
-    this.config = editorCore.getConfig() // 重新覆盖 config
-    this.editorCore = editorCore
-  }
-
-  /**
    * 修改编辑器 config ，并重新渲染
    * @param newConfig new config
    */
-  setConfig(newConfig: Partial<IConfig> = {}) {
-    this.config = {
-      ...this.config,
+  setEditorConfig(newConfig: Partial<IEditorConfig> = {}) {
+    this.editorConfig = {
+      ...this.editorConfig,
       ...newConfig,
     }
 
@@ -113,23 +83,56 @@ class WangEditor {
   }
 
   /**
+   * 创建 editorCore 实例
+   */
+  createCore(textareaSelector: string, initContent?: Descendant[]) {
+    if (!textareaSelector) {
+      throw new Error(`Cannot find 'textareaSelector' when create editor`)
+    }
+
+    const editorCore = createEditor({
+      textareaSelector,
+      config: this.editorConfig,
+      initContent,
+      plugins: WangEditor.globalPlugins, // 全局的插件
+    })
+    this.editorConfig = editorCore.getConfig() // 重新覆盖 config
+    this.editorCore = editorCore
+  }
+
+  /**
+   * 创建 toolbar
+   */
+  createToolbar(toolbarSelector: string) {
+    if (!toolbarSelector) {
+      throw new Error(`Cannot find 'toolbarSelector' when create toolbar`)
+    }
+    const toolbar = createToolbar(this.editorCore, {
+      toolbarSelector,
+      config: this.toolbarConfig,
+    })
+
+    this.toolbar = toolbar
+  }
+
+  /**
    * 尝试重新渲染编辑器视图
    */
   private tryUpdateView() {
-    const { editorCore, config } = this
+    const { editorCore, editorConfig } = this
     if (editorCore == null) return
 
     // 取消选择
     Transforms.deselect(editorCore)
     // 重新设置 config ，重要！！！
-    editorCore.setConfig(config)
+    editorCore.setConfig(editorConfig)
 
     // 触发 更新视图
     const textarea = DomEditor.getTextarea(editorCore)
     textarea.onEditorChange()
 
     // 尝试 focus
-    if (config.autoFocus !== false) {
+    if (editorConfig.autoFocus !== false) {
       DomEditor.focus(editorCore)
     }
   }
@@ -137,7 +140,7 @@ class WangEditor {
   /**
    * 销毁 editorCore 实例
    */
-  destroyCore() {
+  destroy() {
     const { editorCore } = this
     if (editorCore == null) return
 
@@ -148,19 +151,28 @@ class WangEditor {
 
   // -------------------------------------- 分割线 --------------------------------------
 
-  // 全局 - 配置
-  static config: Partial<IConfig> = {}
-  static setConfig(newConfig: Partial<IConfig> = {}) {
-    this.config = {
-      ...this.config,
+  // 全局 - toolbar 配置
+  static globalToolbarConfig: Partial<IToolbarConfig> = {}
+  static setToolbarConfig(newConfig: Partial<IToolbarConfig> = {}) {
+    this.globalToolbarConfig = {
+      ...this.globalToolbarConfig,
+      ...newConfig,
+    }
+  }
+
+  // 全局 - editor 配置
+  static globalEditorConfig: Partial<IEditorConfig> = {}
+  static setEditorConfig(newConfig: Partial<IEditorConfig> = {}) {
+    this.globalEditorConfig = {
+      ...this.globalEditorConfig,
       ...newConfig,
     }
   }
 
   // 全局 - 注册插件
-  static plugins: PluginType[] = []
+  static globalPlugins: PluginType[] = []
   static registerPlugin(plugin: PluginType) {
-    this.plugins.push(plugin)
+    this.globalPlugins.push(plugin)
   }
 
   // 全局 - 注册 menu

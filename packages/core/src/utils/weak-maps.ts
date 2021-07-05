@@ -13,7 +13,7 @@ import HoverBar from '../menus/bar/HoverBar'
 import { IBarItem } from '../menus/bar-item/index'
 import { Key } from './key'
 import { PatchFn } from '../utils/vdom'
-import { IConfig } from '../config/interface'
+import { IEditorConfig } from '../config/interface'
 import PanelAndModal from '../menus/panel-and-modal/BaseClass'
 
 // textarea - editor
@@ -29,7 +29,7 @@ export const BAR_ITEM_TO_EDITOR = new WeakMap<IBarItem, IDomEditor>()
 export const EDITOR_TO_PANEL_AND_MODAL = new WeakMap<IDomEditor, Set<PanelAndModal>>()
 
 // config
-export const EDITOR_TO_CONFIG = new WeakMap<IDomEditor, IConfig>()
+export const EDITOR_TO_CONFIG = new WeakMap<IDomEditor, IEditorConfig>()
 
 // vdom 相关的属性
 export const IS_FIRST_PATCH = new WeakMap<TextArea, boolean>()

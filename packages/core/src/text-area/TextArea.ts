@@ -14,7 +14,7 @@ import { DOMElement } from '../utils/dom'
 import { editorSelectionToDOM, DOMSelectionToEditor } from './syncSelection'
 import { promiseResolveThen } from '../utils/util'
 import eventHandlerConf from './event-handlers/index'
-import { IConfig } from '../config/interface'
+import { IEditorConfig } from '../config/interface'
 
 let ID = 1
 
@@ -74,7 +74,7 @@ class TextArea {
     return editor
   }
 
-  public get editorConfig(): IConfig {
+  public get editorConfig(): IEditorConfig {
     const editor = this.editorInstance
     const config = EDITOR_TO_CONFIG.get(editor)
     if (config == null) throw new Error('Can not get editor config')

@@ -11,9 +11,9 @@ import { TOOLBAR_TO_EDITOR, BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import { IDomEditor } from '../../editor/interface'
 import { IBarItem, createBarItem, createBarItemGroup } from '../bar-item/index'
 import { gen$barItemDivider } from '../helpers/helpers'
-import { IMenuGroup } from '../interface'
-import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../interface'
+import { IMenuGroup, IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../interface'
 import GroupButton from '../bar-item/GroupButton'
+import { IToolbarConfig } from '../../config/interface'
 
 type MenuType = IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
 
@@ -21,8 +21,11 @@ class Toolbar {
   private readonly $toolbar: Dom7Array = $(`<div class="w-e-bar w-e-bar-show w-e-toolbar"></div>`)
   private menus: { [key: string]: MenuType } = {}
   private toolbarItems: IBarItem[] = []
+  private config: IToolbarConfig = {}
 
-  constructor(selector: string) {
+  constructor(selector: string, config: IToolbarConfig) {
+    this.config = config
+
     // 初始化 DOM
     const $box = $(selector)
     if ($box.length === 0) {
@@ -37,6 +40,9 @@ class Toolbar {
       // 注册 items
       this.registerItems()
 
+      // 创建完，先模拟一次 onchange
+      this.onEditorChange()
+
       // 监听 editor onchange
       const editor = this.getEditorInstance()
       editor.on('change', this.onEditorChange)
@@ -47,11 +53,14 @@ class Toolbar {
     return this.menus
   }
 
+  getConfig() {
+    return this.config
+  }
+
   // 注册 toolbarItems
   private registerItems() {
     const $toolbar = this.$toolbar
-    const editor = this.getEditorInstance()
-    const { toolbarKeys = [] } = editor.getConfig() // 格式如 ['a', '|', 'b', 'c', '|', 'd']
+    const { toolbarKeys = [] } = this.config // 格式如 ['a', '|', 'b', 'c', '|', 'd']
     toolbarKeys.forEach(key => {
       if (key === '|') {
         // 分割线

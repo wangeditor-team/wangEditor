@@ -34,7 +34,7 @@ import {
 } from '@wangeditor/code-highlight'
 
 // 默认配置
-import getDefaultEditorConfig from './editor-config'
+import { getDefaultEditorConfig, genDefaultToolbarConfig } from './config'
 
 import WangEditor from './WangEditor'
 
@@ -49,10 +49,12 @@ registerModule(wangEditorUploadImageModule)
 registerModule(wangEditorCodeHighlightModule)
 
 // editor config
-const defaultConfig = getDefaultEditorConfig()
-WangEditor.setConfig({
-  ...defaultConfig,
+const defaultEditorConfig = getDefaultEditorConfig()
+WangEditor.setEditorConfig({
+  ...defaultEditorConfig,
   decorate: wangEditorCodeHighLightDecorate, // 代码高亮
 })
+const defaultToolbarConfig = genDefaultToolbarConfig()
+WangEditor.setToolbarConfig(defaultToolbarConfig)
 
 export default WangEditor

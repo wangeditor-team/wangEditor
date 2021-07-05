@@ -15,7 +15,7 @@ import {
 } from '../../utils/weak-maps'
 import { Key } from '../../utils/key'
 import { isDOMText, getPlainText } from '../../utils/dom'
-import { IConfig, AlertType } from '../../config/interface'
+import { IEditorConfig, AlertType } from '../../config/interface'
 import { node2html } from '../../to-html/node2html'
 import { genElemId } from '../../formats/helper'
 import $ from '../../utils/dom'
@@ -214,7 +214,7 @@ export const withDOM = <T extends Editor>(editor: T) => {
   }
 
   // 获取 editor 配置信息
-  e.getConfig = (): IConfig => {
+  e.getConfig = (): IEditorConfig => {
     const config = EDITOR_TO_CONFIG.get(e)
     if (config == null) throw new Error('Can not get editor config')
     return config
@@ -227,7 +227,7 @@ export const withDOM = <T extends Editor>(editor: T) => {
   }
 
   // 修改配置
-  e.setConfig = (newConfig: Partial<IConfig>) => {
+  e.setConfig = (newConfig: Partial<IEditorConfig>) => {
     const curConfig = e.getConfig()
     EDITOR_TO_CONFIG.set(e, {
       ...curConfig,

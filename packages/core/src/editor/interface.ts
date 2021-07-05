@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import ee from 'event-emitter'
-import { IConfig, AlertType } from '../config/interface'
+import { IEditorConfig, AlertType } from '../config/interface'
 
 /**
  * 扩展 slate Editor 接口
@@ -14,9 +14,9 @@ export interface IDomEditor extends Editor {
   id: string
   insertData: (data: DataTransfer) => void
   setFragmentData: (data: DataTransfer) => void
-  getConfig: () => IConfig
+  getConfig: () => IEditorConfig
   getMenuConfig: (menuKey: string) => { [key: string]: any }
-  setConfig: (newConfig: Partial<IConfig>) => void
+  setConfig: (newConfig: Partial<IEditorConfig>) => void
   getAllMenuKeys: () => string[] // TODO 文档中说明，包括如何获取 toolbar hoverbar menu
   handleTab: () => void
   getHtml: () => string

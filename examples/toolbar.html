@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>headers demo</title>
+  <title>toolbar demo</title>
   <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
   <style>
     /* 编辑器 dom */
@@ -27,11 +26,8 @@
   </style>
   <link href="../packages/editor/dist/css/style.css" rel="stylesheet">
 </head>
-
 <body>
-  <p>
-    editor.getHeaders() and editor.scrollToElem(id)
-  </p>
+  <p>toolbar config 编辑器的精简模式</p>
 
   <!-- 编辑器 -->
   <div id="container">
@@ -42,41 +38,22 @@
     <div id="editor-text-area"></div>
   </div>
 
-  <!-- 显示 headers -->
-  <div style="margin-top: 20px;">
-    <div style="margin-bottom: 10px;">
-      <input id="input-id" placeholder="header id" />
-      <button id="btn-scroll-to">scrollTo</button>
-    </div>
-    <textarea readonly id="text-headers" style="width: 800px; height: 400px;"></textarea>
-  </div>
-
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="js/init-content.js"></script>
   <script src="../packages/editor/dist/index.js"></script>
   <script>
     const editorView = new WangEditor()
-    editorView.editorConfig.onCreated = (editorCore) => {
-      console.log('on created', editorCore)
-    }
-    editorView.editorConfig.onChange = (editorCore) => {
-      // 获取并展示 headers
-      const headers = editorCore.getHeaders()
-      $('#text-headers').val(JSON.stringify(headers, null, 4))
-    }
+
+    // editor 配置
+    editorView.editorConfig.placeholder = '请输入内容123...'
+    editorView.editorConfig.hoverbarKeys = [] // 禁用 hoverbar
+
+    // toolbar 配置
+    // 可通过 editorView.toolbar.getConfig() 看到原始的配置
+    editorView.toolbarConfig.toolbarKeys = ['bold', 'italic', 'underline', 'code', '|', 'header1', 'header2', 'blockquote', '|', 'bulletedList', 'numberedList']
 
     // 先创建 editor ，再创建 toolbar
-    editorView.createCore('#editor-text-area', window.initContent)
+    editorView.createCore('#editor-text-area')
     editorView.createToolbar('#editor-toolbar')
-
-    // scrollTo
-    const $inputId = $('#input-id')
-    $('#btn-scroll-to').on('click', () => {
-      const id = $inputId.val()
-      editorView.editorCore.scrollToElem(id)
-      $inputId.val('')
-    })
   </script>
 </body>
-
 </html>

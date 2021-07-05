@@ -4,38 +4,42 @@
  */
 
 import { cloneDeep } from 'lodash-es'
-import { IConfig } from './interface'
+import { IEditorConfig, IToolbarConfig } from './interface'
 import { GLOBAL_MENU_CONF } from './register'
 
 /**
- * 默认配置
+ * 生成编辑器默认配置
  */
-function getDefaultConfig(): IConfig {
+export function genEditorConfig(userConfig?: Partial<IEditorConfig>): IEditorConfig {
   const menuConf = cloneDeep(GLOBAL_MENU_CONF)
 
   return {
+    // 默认配置
     scroll: true,
     readOnly: false,
     autoFocus: true,
     decorate: () => [],
     maxLength: 0, // 默认不限制
     menuConf,
-    toolbarKeys: [],
     hoverbarKeys: [],
     alert(info: string, type: string = 'info') {
       window.alert(info)
     },
+
+    // 合并用户配置
+    ...(userConfig || {}),
   }
 }
 
-// 生成配置
-export function genEditorConfig(userConfig?: Partial<IConfig>): IConfig {
-  // 默认配置
-  const defaultConfig = getDefaultConfig()
-
-  // 合并默认配置，和用户配置
+/**
+ * 生成 toolbar 默认配置
+ */
+export function genToolbarConfig(userConfig?: Partial<IToolbarConfig>): IToolbarConfig {
   return {
-    ...defaultConfig,
+    // 默认配置
+    toolbarKeys: [],
+
+    // 合并用户配置
     ...(userConfig || {}),
   }
 }
