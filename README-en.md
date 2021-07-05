@@ -23,7 +23,7 @@
     <br />
     <a href="https://www.wangeditor.com/en.html"><strong>Offical website</strong></a>
     ·
-    <a href="https://doc-en.wangeditor.com"><strong>Explore the docs »</strong></a>
+    <a href="https://www.wangeditor.com/doc-en/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="./README.md">中文</a>
