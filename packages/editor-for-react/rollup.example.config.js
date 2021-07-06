@@ -1,15 +1,9 @@
 import path from 'path'
-import fse from 'fs-extra'
 import htmlTemplate from 'rollup-plugin-generate-html-template'
 import serve from 'rollup-plugin-serve'
+import copy from 'rollup-plugin-copy'
+import del from 'rollup-plugin-delete'
 import { createRollupConfig } from '../../build/create-rollup-config'
-
-// 把 editor/dist 拷贝过来，因为本项目 peerDependencies @wangeditor/editor
-const editorSource = path.resolve(__dirname, '..', 'editor', 'dist')
-const distPath = path.resolve(__dirname, 'dist-example')
-const editorDist = path.resolve(distPath, 'editor-dist')
-fse.ensureDirSync(distPath)
-fse.copySync(editorSource, editorDist, { overwrite: true })
 
 // 继续生成 rollup config
 const name = 'WangEditorForReact'
@@ -36,6 +30,11 @@ const config = createRollupConfig({
     htmlTemplate({
       template: 'example/index.html',
       target: 'dist-example/index.html',
+    }),
+    del({ targets: 'dist-example/*' }),
+    copy({
+      // 将 packages/editor/dist 拷贝到 dist-example
+      targets: [{ src: '../editor/dist/*', dest: 'dist-example/editor-dist' }],
     }),
   ],
 })

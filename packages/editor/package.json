@@ -54,9 +54,5 @@
     "is-hotkey": "^0.2.0",
     "slate": "^0.63.0",
     "snabbdom": "^3.0.1"
-  },
-  "devDependencies": {
-    "concurrently": "^6.2.0",
-    "http-server": "^0.12.3"
   }
 }

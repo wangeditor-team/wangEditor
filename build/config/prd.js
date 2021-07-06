@@ -8,6 +8,7 @@ import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
 import { terser } from 'rollup-plugin-terser'
+import cleanup from 'rollup-plugin-cleanup'
 import { merge } from 'lodash'
 
 import commonConfig from './common'
@@ -27,6 +28,10 @@ const prdConfig = {
         cssnano(), // 压缩 css
       ],
       extract: 'css/style.css',
+    }),
+    cleanup({
+      comments: 'none',
+      extensions: ['.ts', '.tsx'],
     }),
     terser(), // 压缩 js
   ],

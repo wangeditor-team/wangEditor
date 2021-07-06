@@ -9,8 +9,8 @@ import json from '@rollup/plugin-json'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
-import cleanup from 'rollup-plugin-cleanup'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
+import del from 'rollup-plugin-delete'
 
 export default {
   input: path.resolve(__dirname, './src/index.ts'),
@@ -37,10 +37,7 @@ export default {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       preventAssignment: true,
     }),
-    cleanup({
-      comments: 'none',
-      extensions: ['.ts', '.tsx'],
-    }),
+    del({ targets: 'dist/*' }),
   ],
   external: ['react', 'react-dom'],
 }
