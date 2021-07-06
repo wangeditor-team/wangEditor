@@ -49,68 +49,81 @@ interface ICreateToolbarOption {
   config?: Partial<IToolbarConfig>
 }
 
-const wangEditor = {
+class wangEditor {
+  constructor() {
+    // v4 的使用方式是 new wangEditor(...) ，v5+ 不再这样使用
+    // 正好，在此提示用户，现在是 v4 版本，请参考官网的文档
+
+    let info = '您正在使用 wangEditor v5+ 版本，无法执行 new wangEditor(...) ，'
+    info += '请参考官网和开发文档：'
+    info += 'https://www.wangeditor.com/'
+    info += '\nYou are using wangEditor v5+ version, cannot do `new wangEditor(...)`, '
+    info += 'please see our website and documentation: '
+    info += 'https://www.wangeditor.com/en.html'
+    throw new Error(info)
+  }
+
   // editor 配置
-  editorConfig: {},
-  setEditorConfig(newConfig: Partial<IEditorConfig> = {}) {
+  static editorConfig: Partial<IEditorConfig> = {}
+  static setEditorConfig(newConfig: Partial<IEditorConfig> = {}) {
     this.editorConfig = {
       ...this.editorConfig,
       ...newConfig,
     }
-  },
+  }
 
   //toolbar 配置
-  toolbarConfig: {},
-  setToolbarConfig(newConfig: Partial<IToolbarConfig> = {}) {
+  static toolbarConfig: Partial<IToolbarConfig> = {}
+  static setToolbarConfig(newConfig: Partial<IToolbarConfig> = {}) {
     this.toolbarConfig = {
       ...this.toolbarConfig,
       ...newConfig,
     }
-  },
+  }
 
   // 注册插件
-  plugins: [],
-  registerPlugin(plugin: PluginType) {
-    !(this.plugins as PluginType[]).push(plugin)
-  },
+  static plugins: PluginType[] = []
+  static registerPlugin(plugin: PluginType) {
+    this.plugins.push(plugin)
+  }
 
   // 注册 menu
   // TODO 可在注册时传入配置，在开发文档中说明
-  registerMenu(menuConf: IRegisterMenuConf, customConfig?: { [key: string]: any }) {
+  static registerMenu(menuConf: IRegisterMenuConf, customConfig?: { [key: string]: any }) {
     registerMenu(menuConf, customConfig)
-  },
+  }
 
   // 注册 renderElem
-  registerRenderElem(renderElemConf: IRenderElemConf) {
+  static registerRenderElem(renderElemConf: IRenderElemConf) {
     registerRenderElemConf(renderElemConf)
-  },
+  }
 
   // 注册 renderTextStyle
-  registerRenderTextStyle(fn: RenderTextStyleFnType) {
+  static registerRenderTextStyle(fn: RenderTextStyleFnType) {
     registerTextStyleHandler(fn)
-  },
+  }
 
   // 注册 elemToHtml
-  registerElemToHtml(elemToHtmlConf: IElemToHtmlConf) {
+  static registerElemToHtml(elemToHtmlConf: IElemToHtmlConf) {
     registerElemToHtmlConf(elemToHtmlConf)
-  },
+  }
 
   // 注册 textToHtml
-  registerTextToHtml(fn: TextToHtmlFnType) {
+  static registerTextToHtml(fn: TextToHtmlFnType) {
     registerTextToHtmlHandler(fn)
-  },
+  }
 
   // 注册 textStyleToHtml
-  registerTextStyleToHtml(fn: TextStyleToHtmlFnType) {
+  static registerTextStyleToHtml(fn: TextStyleToHtmlFnType) {
     registerTextStyleToHtmlHandler(fn)
-  },
+  }
 
   // -------------------------------------- 分割线 --------------------------------------
 
   /**
    * 创建 editor 实例
    */
-  createEditor(option: ICreateEditorOption): IDomEditor {
+  static createEditor(option: ICreateEditorOption): IDomEditor {
     const { textareaSelector, initContent = [], config = {} } = option
     if (!textareaSelector) {
       throw new Error(`Cannot find 'textareaSelector' when create editor`)
@@ -127,12 +140,12 @@ const wangEditor = {
     })
 
     return editor
-  },
+  }
 
   /**
    * 创建 toolbar 实例
    */
-  createToolbar(option: ICreateToolbarOption): Toolbar {
+  static createToolbar(option: ICreateToolbarOption): Toolbar {
     const { toolbarSelector, editor, config = {} } = option
     if (!toolbarSelector) {
       throw new Error(`Cannot find 'toolbarSelector' when create toolbar`)
@@ -146,7 +159,7 @@ const wangEditor = {
     })
 
     return toolbar
-  },
+  }
 }
 
 export default wangEditor
