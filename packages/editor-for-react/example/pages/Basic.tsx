@@ -41,7 +41,7 @@ function Basic() {
         <textarea
           readOnly
           style={{ width: '100%', height: '300px' }}
-          value={JSON.stringify(content, null, 2)}
+          value={JSON.stringify(content, null, 4)}
         ></textarea>
       </div>
     </React.Fragment>

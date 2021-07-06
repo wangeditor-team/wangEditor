@@ -1,9 +1,18 @@
+import path from 'path'
+import fse from 'fs-extra'
 import serve from 'rollup-plugin-serve'
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
 import { createRollupConfig } from '../../build/create-rollup-config'
 import pkg from './package.json'
 
+// 拷贝 dist 到 examples 目录
+const distPath = path.resolve(__dirname, 'dist')
+const examplesPath = path.resolve(__dirname, 'examples')
+const newDistPath = path.resolve(examplesPath, 'dist')
+fse.copySync(distPath, newDistPath, { overwrite: true })
+
+// 继续生成 rollup config
 const name = 'wangEditor'
 
 const config = createRollupConfig({
@@ -20,7 +29,7 @@ const config = createRollupConfig({
     }),
     serve({
       // open: true,
-      contentBase: ['dist', 'examples'],
+      contentBase: ['examples'],
       port: 8881,
     }),
   ],

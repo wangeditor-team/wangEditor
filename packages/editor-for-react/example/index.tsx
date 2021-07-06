@@ -3,10 +3,9 @@
  * @author wangfupeng
  */
 
-import '@wangeditor/editor/dist/css/style.css'
-
 import React from 'react'
 import ReactDOM from 'react-dom'
+
 import Basic from './pages/Basic'
 
 function App() {

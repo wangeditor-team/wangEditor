@@ -41,12 +41,9 @@
     "url": "https://github.com/wangeditor-team/we-2021/issues"
   },
   "peerDependencies": {
+    "@wangeditor/editor": "^0.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
-  },
-  "dependencies": {
-    "@wangeditor/editor": "^0.0.1",
-    "event-emitter": "^0.3.5"
   },
   "devDependencies": {
     "@types/event-emitter": "^0.3.3",

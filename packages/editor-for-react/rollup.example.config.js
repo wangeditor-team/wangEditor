@@ -1,12 +1,18 @@
 import path from 'path'
+import fse from 'fs-extra'
 import htmlTemplate from 'rollup-plugin-generate-html-template'
 import serve from 'rollup-plugin-serve'
-import postcss from 'rollup-plugin-postcss'
-import autoprefixer from 'autoprefixer'
 import { createRollupConfig } from '../../build/create-rollup-config'
 
-const name = 'WangEditorForReact'
+// 把 editor/dist 拷贝过来，因为本项目 peerDependencies @wangeditor/editor
+const editorSource = path.resolve(__dirname, '..', 'editor', 'dist')
+const distPath = path.resolve(__dirname, 'dist-example')
+const editorDist = path.resolve(distPath, 'editor-dist')
+fse.ensureDirSync(distPath)
+fse.copySync(editorSource, editorDist, { overwrite: true })
 
+// 继续生成 rollup config
+const name = 'WangEditorForReact'
 const input = path.resolve(__dirname, './example', 'index.tsx')
 const file = 'dist-example/index.js'
 const port = 8882
@@ -19,11 +25,6 @@ const config = createRollupConfig({
     name,
   },
   plugins: [
-    // TODO 使用 serve htmlTemplate 插件之后，会丢失原有的 postcss 插件，原因不明。此处先暂时重复写一遍
-    postcss({
-      plugins: [autoprefixer()],
-      extract: 'css/style.css',
-    }),
     serve({
       // open: true,
       contentBase: ['dist-example'],

@@ -4,30 +4,30 @@
  */
 
 import './assets/index.less'
-import '@wangeditor/core/css/style.css'
+import '@wangeditor/core/dist/css/style.css'
 
 // basic-modules
-import '@wangeditor/basic-modules/css/style.css'
+import '@wangeditor/basic-modules/dist/css/style.css'
 import basicModules from '@wangeditor/basic-modules'
 
 // list-module
-import '@wangeditor/list-module/css/style.css'
+import '@wangeditor/list-module/dist/css/style.css'
 import wangEditorListModule from '@wangeditor/list-module'
 
 // table-module
-import '@wangeditor/table-module/css/style.css'
+import '@wangeditor/table-module/dist/css/style.css'
 import wangEditorTableModule from '@wangeditor/table-module'
 
 // video-module
-import '@wangeditor/video-module/css/style.css'
+import '@wangeditor/video-module/dist/css/style.css'
 import wangEditorVideoModule from '@wangeditor/video-module'
 
 // upload-image-module
-import '@wangeditor/upload-image-module/css/style.css'
+import '@wangeditor/upload-image-module/dist/css/style.css'
 import wangEditorUploadImageModule from '@wangeditor/upload-image-module'
 
 // code-highlight
-import '@wangeditor/code-highlight/css/style.css'
+import '@wangeditor/code-highlight/dist/css/style.css'
 import {
   wangEditorCodeHighlightModule,
   wangEditorCodeHighLightDecorate,

@@ -3,8 +3,7 @@
  * @author wangfupeng
  */
 
-import '@wangeditor/editor/dist/css/style.css'
+import Editor from './components/Editor'
+import Toolbar from './components/Toolbar'
 
-import Button from './components/Button'
-
-export { Button }
+export { Editor, Toolbar }
