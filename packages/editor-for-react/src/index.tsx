@@ -3,14 +3,8 @@
  * @author wangfupeng
  */
 
-import React from 'react'
-import ReactDOM from 'react-dom'
-import wangEditor from '@wangeditor/editor'
+import '@wangeditor/editor/dist/css/style.css'
 
-const Hello: React.FC = () => {
-  return <div>hello</div>
-}
+import Button from './components/Button'
 
-console.log(wangEditor)
-
-ReactDOM.render(<Hello />, document.getElementById('App'))
+export { Button }

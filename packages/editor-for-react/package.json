@@ -31,6 +31,7 @@
   "scripts": {
     "test": "jest",
     "test-c": "jest --coverage",
+    "example": "cross-env NODE_ENV=development:example rollup -c rollup.example.config.js",
     "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js",
     "dev-watch": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",

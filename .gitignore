@@ -123,6 +123,7 @@ cypress/results
 cypress/logs
 
 packages/*/dist
+packages/*/dist-example
 
 bak/
 

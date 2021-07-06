@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "include": [
     "./src/**/*",
+    "./examples/**/*",
     "../custom-types.d.ts"
   ]
 }

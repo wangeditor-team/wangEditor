@@ -10,8 +10,9 @@ import prdConf from './config/prd'
 
 // 环境变量
 const ENV = process.env.NODE_ENV || 'production'
+const IS_SIZE_STATS = ENV.indexOf('size_stats') >= 0 // 分析包体积
+export const IS_DEV = ENV.indexOf('development') >= 0
 export const IS_PRD = ENV.indexOf('production') >= 0
-const IS_SIZE_STATS = ENV.indexOf('size_stats') >= 0
 
 /**
  * 生成单个 rollup 配置

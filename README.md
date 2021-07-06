@@ -18,10 +18,9 @@
   - `cd packages/basic`
   - `yarn dev`
 - 打包其他功能模块（如有）
-- 打包 editor 模块
+- 最后，打包 editor 模块
   - `cd packages/editor`
-  - `yarn dev`
-- 浏览器访问 `examples/index.html`
+  - `yarn dev` 会自动打开浏览器显示 demo 页
 
 ## 注意事项
 
