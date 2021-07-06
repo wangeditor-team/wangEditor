@@ -1,0 +1,55 @@
+{
+  "name": "@wangeditor/editor-for-react",
+  "version": "0.0.1",
+  "description": "wangEditor editor-for-react module",
+  "author": "wangfupeng1988 <wangfupeng1988@163.com>",
+  "homepage": "https://github.com/wangeditor-team/we-2021#readme",
+  "license": "MIT",
+  "types": "dist/editor-for-react/src/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "browser": {
+    "./dist/index.js": "./dist/index.js",
+    "./dist/index.mjs": "./dist/index.mjs"
+  },
+  "directories": {
+    "lib": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "directory": "dist",
+    "access": "public",
+    "registry": "https://registry.npmjs.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangeditor-team/we-2021.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "test-c": "jest --coverage",
+    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js",
+    "dev-watch": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "size-stats": "cross-env NODE_ENV=size_stats rollup -c rollup.config.js"
+  },
+  "bugs": {
+    "url": "https://github.com/wangeditor-team/we-2021/issues"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "dependencies": {
+    "@wangeditor/editor": "^0.0.1",
+    "event-emitter": "^0.3.5"
+  },
+  "devDependencies": {
+    "@types/event-emitter": "^0.3.3",
+    "@types/react": "^17.0.13",
+    "@types/react-dom": "^17.0.8"
+  }
+}

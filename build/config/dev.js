@@ -5,17 +5,19 @@
 
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
+import { merge } from 'lodash'
 
 import commonConfig from './common'
 
-export default {
-  input: commonConfig.input,
-  output: commonConfig.output,
+const devConfig = {
   plugins: [
-    ...commonConfig.plugins,
     postcss({
       plugins: [autoprefixer()],
       extract: 'css/style.css',
     }),
   ],
 }
+
+const config = merge({}, commonConfig, devConfig)
+
+export default config

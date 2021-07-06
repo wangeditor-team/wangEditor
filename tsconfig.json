@@ -17,7 +17,6 @@
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "jsxFactory": "jsx",
     "downlevelIteration": true
   },
   "exclude": [

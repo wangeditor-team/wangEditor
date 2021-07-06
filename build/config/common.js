@@ -10,13 +10,16 @@ import nodeResolve from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
 import cleanup from 'rollup-plugin-cleanup'
+import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 
 export default {
   input: path.resolve(__dirname, './src/index.ts'),
   output: {
     // 属性有 file format name sourcemap 等
+    // https://www.rollupjs.com/guide/big-list-of-options
   },
   plugins: [
+    peerDepsExternal(), // 打包结果不包含 package.json 的 peerDependencies
     json({
       compact: true,
       indent: '  ',
@@ -39,4 +42,5 @@ export default {
       extensions: ['.ts', '.tsx'],
     }),
   ],
+  external: ['react', 'react-dom'],
 }

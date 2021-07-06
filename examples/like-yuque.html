@@ -123,7 +123,7 @@
     document.getElementById('editor-text-area').addEventListener('click', e => {
       if (e.target.id === 'editor-text-area') {
         editor.blur()
-        editor.focus() // TODO 需要 focus 到末尾
+        editor.focus(true) // focus 到末尾
       }
     })
   </script>

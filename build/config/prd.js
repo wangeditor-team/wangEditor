@@ -8,17 +8,15 @@ import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
 import { terser } from 'rollup-plugin-terser'
+import { merge } from 'lodash'
 
 import commonConfig from './common'
 
-export default {
-  input: commonConfig.input,
+const prdConfig = {
   output: {
-    ...commonConfig.output,
     sourcemap: true,
   },
   plugins: [
-    ...commonConfig.plugins,
     babel({
       babelHelpers: 'bundled',
       exclude: 'node_modules/**',
@@ -33,3 +31,5 @@ export default {
     terser(), // 压缩 js
   ],
 }
+
+export default merge({}, commonConfig, prdConfig)

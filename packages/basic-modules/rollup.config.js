@@ -1,9 +1,30 @@
-import path from 'path'
-import createRollupConfig from '../../build/create-rollup-config'
+import { createRollupConfig, IS_PRD } from '../../build/create-rollup-config'
+import pkg from './package.json'
 
-const distDir = path.resolve(__dirname, './dist')
 const name = 'WangEditorBasicModules'
 
-const configList = createRollupConfig({ distDir, name })
+const configList = []
+
+// esm
+const esmConf = createRollupConfig({
+  output: {
+    file: pkg.module,
+    format: 'esm',
+    name,
+  },
+})
+configList.push(esmConf)
+
+if (IS_PRD) {
+  // umd
+  const umdConf = createRollupConfig({
+    output: {
+      file: pkg.main,
+      format: 'umd',
+      name,
+    },
+  })
+  configList.push(umdConf)
+}
 
 export default configList
