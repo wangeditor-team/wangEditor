@@ -31,7 +31,7 @@
   "scripts": {
     "test": "jest",
     "test-c": "jest --coverage",
-    "example": "cross-env NODE_ENV=development:example rollup -c rollup.example.config.js -w",
+    "example": "concurrently \"yarn dev-watch\" \"http-server -p 8881\" ",
     "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js",
     "dev-watch": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
@@ -41,6 +41,8 @@
     "url": "https://github.com/wangeditor-team/we-2021/issues"
   },
   "dependencies": {
+    "@uppy/core": "^1.19.1",
+    "@uppy/xhr-upload": "^1.7.4",
     "@wangeditor/basic-modules": "^0.0.1",
     "@wangeditor/code-highlight": "^0.0.1",
     "@wangeditor/core": "^0.0.1",
@@ -51,8 +53,10 @@
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
     "slate": "^0.63.0",
-    "snabbdom": "^3.0.1",
-    "@uppy/core": "^1.19.1",
-    "@uppy/xhr-upload": "^1.7.4"
+    "snabbdom": "^3.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.0",
+    "http-server": "^0.12.3"
   }
 }
