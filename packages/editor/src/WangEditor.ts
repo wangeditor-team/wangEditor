@@ -7,9 +7,9 @@
 import { Descendant } from 'slate'
 import {
   IDomEditor,
-  createEditor,
+  coreCreateEditor,
   Toolbar,
-  createToolbar,
+  coreCreateToolbar,
 
   // 配置
   IEditorConfig,
@@ -129,7 +129,7 @@ class wangEditor {
       throw new Error(`Cannot find 'textareaSelector' when create editor`)
     }
 
-    const editor = createEditor({
+    const editor = coreCreateEditor({
       textareaSelector,
       config: {
         ...this.editorConfig, // 全局配置
@@ -150,7 +150,8 @@ class wangEditor {
     if (!toolbarSelector) {
       throw new Error(`Cannot find 'toolbarSelector' when create toolbar`)
     }
-    const toolbar = createToolbar(editor, {
+
+    const toolbar = coreCreateToolbar(editor, {
       toolbarSelector,
       config: {
         ...this.toolbarConfig, // 全局配置

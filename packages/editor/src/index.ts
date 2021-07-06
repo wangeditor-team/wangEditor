@@ -57,4 +57,19 @@ wangEditor.setEditorConfig({
 const defaultToolbarConfig = genDefaultToolbarConfig()
 wangEditor.setToolbarConfig(defaultToolbarConfig)
 
+// ------------------------------------ 分割线，以下是 export ------------------------------------
+
+// 导出 core （注意，此处按需导出，不可直接用 `*` ）
+export { DomEditor, IDomEditor, IEditorConfig, IToolbarConfig, Toolbar } from '@wangeditor/core'
+
+// 导出 slate （需重命名，加 `Slate` 前缀）
+export {
+  Transforms as SlateTransforms,
+  Descendant as SlateDescendant,
+  Editor as SlateEditor,
+  Node as SlateNode,
+  Element as SlateElement,
+  Text as SlateText,
+} from 'slate'
+
 export default wangEditor

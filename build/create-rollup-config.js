@@ -39,5 +39,6 @@ export function createRollupConfig(customConfig = {}) {
     plugins,
   }
 
-  return merge({}, baseConfig, config)
+  const res = merge({}, baseConfig, config)
+  return res
 }

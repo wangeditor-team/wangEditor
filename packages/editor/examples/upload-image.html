@@ -42,6 +42,8 @@
   <script src="js/init-content.js"></script>
   <script src="./index.js"></script> <!-- 即 dist/index.js -->
   <script>
+    wangEditor = window.wangEditor.default
+
     const editorConfig = { MENU_CONF: {} }
     editorConfig.MENU_CONF['uploadImage'] = {
       server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
@@ -110,13 +112,13 @@
       // },
     }
 
-    const editor = window.wangEditor.createEditor({
+    const editor = wangEditor.createEditor({
       textareaSelector: '#editor-text-area',
       initContent: window.initContent,
       config: editorConfig
     })
 
-    const toolbar = window.wangEditor.createToolbar({
+    const toolbar = wangEditor.createToolbar({
       editor,
       toolbarSelector: '#editor-toolbar',
       // config: {}

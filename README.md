@@ -20,7 +20,7 @@
 - 打包其他功能模块（如有）
 - 最后，打包 editor 模块
   - `cd packages/editor`
-  - `yarn dev` 会自动打开浏览器显示 demo 页
+  - `yarn dev` （或运行 `yarn example` 查看 demo 页）
 
 ## 注意事项
 

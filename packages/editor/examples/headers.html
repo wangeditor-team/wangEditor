@@ -55,6 +55,8 @@
   <script src="js/init-content.js"></script>
   <script src="./index.js"></script> <!-- 即 dist/index.js -->
   <script>
+    wangEditor = window.wangEditor.default
+
     const editorConfig = {}
     editorConfig.onCreated = (editorCore) => {
       console.log('on created', editorCore)
@@ -66,12 +68,12 @@
     }
 
     // 先创建 editor ，再创建 toolbar
-    const editor = window.wangEditor.createEditor({
+    const editor = wangEditor.createEditor({
       textareaSelector: '#editor-text-area',
       config: editorConfig,
       initContent: window.initContent
     })
-    const toolbar = window.wangEditor.createToolbar({
+    const toolbar =wangEditor.createToolbar({
       editor,
       toolbarSelector: '#editor-toolbar'
     })

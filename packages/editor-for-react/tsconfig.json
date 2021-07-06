@@ -1,5 +1,8 @@
 {
   "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsxFactory": "React.createElement", /* react jsx */
+  },
   "include": [
     "./src/**/*",
     "./examples/**/*",

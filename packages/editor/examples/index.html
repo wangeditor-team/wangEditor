@@ -80,6 +80,8 @@
   <script src="js/init-content.js"></script>
   <script src="./index.js"></script> <!-- 即 dist/index.js -->
   <script>
+    wangEditor = window.wangEditor.default
+
     const editorConfig = { MENU_CONF: {} }
     // editorConfig.autoFocus = false
     // editorConfig.readOnly = true
@@ -165,14 +167,14 @@
     // create
     let editor, toolbar
     document.getElementById('btn-create').addEventListener('click', () => {
-      editor = window.wangEditor.createEditor({
+      editor = wangEditor.createEditor({
         textareaSelector: '#editor-text-area',
         // textareaSelector: document.getElementById('editor-text-area'),
         initContent: window.initContent,
         config: editorConfig
       })
 
-      toolbar = window.wangEditor.createToolbar({
+      toolbar = wangEditor.createToolbar({
         editor,
         toolbarSelector: '#editor-toolbar',
         // toolbarSelector: document.getElementById('editor-toolbar')

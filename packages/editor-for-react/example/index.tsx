@@ -3,14 +3,18 @@
  * @author wangfupeng
  */
 
+import '@wangeditor/editor/dist/css/style.css'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Button } from '../src/index'
+import Basic from './pages/Basic'
 
 function App() {
   return (
-    <div>
-      <Button />
+    <div style={{ margin: '0 20px' }}>
+      <p>wangEditor react demo</p>
+
+      <Basic />
     </div>
   )
 }
