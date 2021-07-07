@@ -75,6 +75,7 @@ function updateView(textarea: TextArea, editor: IDomEditor) {
     return vnode
   })
 
+  let textareaElem
   let isFirstPatch = IS_FIRST_PATCH.get(textarea)
   if (isFirstPatch == null) isFirstPatch = true // 尚未赋值，也是第一次
   if (isFirstPatch) {
@@ -82,7 +83,7 @@ function updateView(textarea: TextArea, editor: IDomEditor) {
     const $textArea = genRootElem(elemId, readOnly)
     $scroll.append($textArea)
     textarea.$textArea = $textArea // 存储下编辑区域的 DOM 节点
-    const textareaElem = $textArea[0]
+    textareaElem = $textArea[0]
 
     // 再生成 patch 函数，并执行
     const patchFn = genPatchFn()
@@ -100,17 +101,22 @@ function updateView(textarea: TextArea, editor: IDomEditor) {
     patchFn(curVnode, newVnode)
   }
 
-  const textareaElem = document.getElementById(elemId) as HTMLElement
+  if (textareaElem == null) {
+    textareaElem = document.getElementById(elemId)
+
+    // 通过 getElementById 获取的有可能是 null （销毁、重建时，可能会发生这种情况）
+    if (textareaElem == null) return
+  }
 
   // focus - 无论是不是 firstPatch ，每次渲染都要判断 focus，
   // 必须添加 preventScroll 选项，否则弹窗或者编辑器失焦会导致编辑区域自动滚动到顶部
-  if (autoFocus) (textareaElem as HTMLElement).focus({ preventScroll: true })
+  if (autoFocus) textareaElem.focus({ preventScroll: true })
 
   // 存储相关信息
   TEXTAREA_TO_VNODE.set(textarea, newVnode) // 存储 vnode
-  EDITOR_TO_ELEMENT.set(editor, textareaElem!) // 存储 editor -> elem 对应关系
-  NODE_TO_ELEMENT.set(editor, textareaElem!)
-  ELEMENT_TO_NODE.set(textareaElem!, editor)
+  EDITOR_TO_ELEMENT.set(editor, textareaElem) // 存储 editor -> elem 对应关系
+  NODE_TO_ELEMENT.set(editor, textareaElem)
+  ELEMENT_TO_NODE.set(textareaElem, editor)
 }
 
 export default updateView

@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import wangEditor, { IToolbarConfig, IDomEditor } from '@wangeditor/editor'
 
 interface IProps {
@@ -13,9 +13,6 @@ interface IProps {
 
 function ToolbarComponent(props: IProps) {
   const { editor, config = {} } = props
-
-  // TODO 根据 props 触发组件 update
-
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -28,8 +25,6 @@ function ToolbarComponent(props: IProps) {
       config,
     })
   }, [editor])
-
-  // TODO 组件销毁时？
 
   return <div ref={ref}></div>
 }

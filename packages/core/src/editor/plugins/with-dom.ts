@@ -12,6 +12,12 @@ import {
   EDITOR_TO_SELECTION,
   IS_FOCUSED,
   EDITOR_TO_PANEL_AND_MODAL,
+  EDITOR_TO_TEXTAREA,
+  TEXTAREA_TO_EDITOR,
+  EDITOR_TO_TOOLBAR,
+  TOOLBAR_TO_EDITOR,
+  EDITOR_TO_HOVER_BAR,
+  HOVER_BAR_TO_EDITOR,
 } from '../../utils/weak-maps'
 import { Key } from '../../utils/key'
 import { isDOMText, getPlainText } from '../../utils/dom'
@@ -342,6 +348,32 @@ export const withDOM = <T extends Editor>(editor: T) => {
   e.updateView = () => {
     const textarea = DomEditor.getTextarea(e)
     textarea.onEditorChange()
+  }
+
+  // destroy
+  e.destroy = () => {
+    // 销毁相关实例（会销毁 DOM）
+    const textarea = DomEditor.getTextarea(e)
+    textarea.destroy()
+    EDITOR_TO_TEXTAREA.delete(e)
+    TEXTAREA_TO_EDITOR.delete(textarea)
+
+    const toolbar = DomEditor.getToolbar(e)
+    if (toolbar) {
+      toolbar.destroy()
+      EDITOR_TO_TOOLBAR.delete(e)
+      TOOLBAR_TO_EDITOR.delete(toolbar)
+    }
+
+    const hoverbar = DomEditor.getHoverbar(e)
+    if (hoverbar) {
+      hoverbar.destroy()
+      EDITOR_TO_HOVER_BAR.delete(e)
+      HOVER_BAR_TO_EDITOR.delete(hoverbar)
+    }
+
+    // 触发自定义事件
+    e.emit('destroyed')
   }
 
   // alert

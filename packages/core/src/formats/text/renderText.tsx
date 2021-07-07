@@ -46,7 +46,8 @@ function renderText(textNode: SlateText, parent: Ancestor, editor: IDomEditor): 
   // 更新 weak-map
   promiseResolveThen(() => {
     // 异步，否则拿不到 DOM
-    const dom = document.getElementById(textId) as HTMLElement
+    const dom = document.getElementById(textId)
+    if (dom == null) return
     KEY_TO_ELEMENT.set(key, dom)
     NODE_TO_ELEMENT.set(textNode, dom)
     ELEMENT_TO_NODE.set(dom, textNode)

@@ -5,7 +5,6 @@
 
 import ee, { Emitter } from 'event-emitter'
 import { Editor } from 'slate'
-import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../interface'
 import { EDITOR_TO_EMITTER } from '../../utils/weak-maps'
 
@@ -41,20 +40,6 @@ function clearDestroyListeners(editor: IDomEditor) {
 
 export const withEmitter = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
-
-  // destroy
-  e.destroy = () => {
-    // 销毁相关实例（会销毁 DOM）
-    const textarea = DomEditor.getTextarea(e)
-    textarea.destroy()
-    const toolbar = DomEditor.getToolbar(e)
-    toolbar && toolbar.destroy()
-    const hoverbar = DomEditor.getHoverbar(e)
-    hoverbar && hoverbar.destroy()
-
-    // 触发自定义事件
-    e.emit('destroyed')
-  }
 
   // 自定义事件
   e.on = (type, listener) => {
