@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import wangEditor from './wangEditor'
+import wangEditor from './wangEditorClass'
 import { IModuleConf } from '@wangeditor/core'
 
 function registerModule(module: Partial<IModuleConf>) {

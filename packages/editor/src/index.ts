@@ -36,7 +36,7 @@ import {
 // 默认配置
 import { getDefaultEditorConfig, genDefaultToolbarConfig } from './config'
 
-import wangEditor from './wangEditor'
+import wangEditor from './wangEditorClass'
 
 import registerModule from './register-module'
 
