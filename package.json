@@ -52,6 +52,7 @@
     "@types/lodash": "^4.14.150",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^4.4.1",
+    "@vue/compiler-sfc": "^3.1.4",
     "autoprefixer": "^10.2.5",
     "babel-plugin-istanbul": "^6.0.0",
     "commitlint": "^11.0.0",
@@ -86,6 +87,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "rollup-plugin-visualizer": "^5.5.0",
+    "rollup-plugin-vue": "^6.0.0",
     "ts-jest": "^25.4.0",
     "tslib": "^2.3.0",
     "typescript": "^4.0.3"

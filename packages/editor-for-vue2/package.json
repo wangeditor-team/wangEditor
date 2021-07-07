@@ -1,11 +1,11 @@
 {
-  "name": "@wangeditor/editor-for-react",
+  "name": "@wangeditor/editor-for-vue2",
   "version": "0.0.1",
-  "description": "wangEditor editor-for-react module",
+  "description": "wangEditor editor-for-vue2 module",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
-  "types": "dist/editor-for-react/src/index.d.ts",
+  "types": "dist/editor-for-vue2/src/index.d.ts",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "browser": {
@@ -42,11 +42,13 @@
   },
   "peerDependencies": {
     "@wangeditor/editor": "^0.0.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "vue": "^2.6.14"
   },
   "devDependencies": {
-    "@types/react": "^17.0.13",
-    "@types/react-dom": "^17.0.8"
+    "@types/event-emitter": "^0.3.3",
+    "@types/vue": "^2.0.0"
+  },
+  "dependencies": {
+    "event-emitter": "^0.3.5"
   }
 }
