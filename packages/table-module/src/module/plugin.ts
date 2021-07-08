@@ -67,9 +67,9 @@ function withTable<T extends IDomEditor>(editor: T): T {
       return normalizeNode([node, path])
     }
     const { children: rows = [] } = node as Element
+    const topLevelNodes = newEditor.children || []
 
     // --------------------- table 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------
-    const topLevelNodes = newEditor.children || []
     const nextNode = topLevelNodes[path[0] + 1] || {}
     const { type: nextNodeType = '' } = nextNode as Element
     if (
@@ -83,6 +83,12 @@ function withTable<T extends IDomEditor>(editor: T): T {
       Transforms.insertNodes(newEditor, p, {
         at: insertPath, // 在表格后面插入
       })
+    }
+
+    // --------------------- 表格不能是第一个元素，否则前面插入一个 p ---------------------
+    if (topLevelNodes[0] === node) {
+      const p = { type: 'paragraph', children: [{ text: '' }] }
+      Transforms.insertNodes(newEditor, p, { at: path })
     }
 
     // --------------------- 保证 table 结构完整性（某些操作可能会导致操作 table 结构不完整） ---------------------
