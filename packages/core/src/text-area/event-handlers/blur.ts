@@ -14,6 +14,9 @@ import { IS_FOCUSED } from '../../utils/weak-maps'
 function handleOnBlur(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as FocusEvent
 
+  // text-area 区域 blur 时设置 autoFocus: false，解决 https://github.com/wangeditor-team/we-2021/issues/14 bug;
+  editor.setConfig({ autoFocus: false })
+
   const { editorConfig, isUpdatingSelection, latestElement } = textarea
 
   if (editorConfig.readOnly) return
