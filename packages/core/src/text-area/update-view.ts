@@ -5,6 +5,7 @@
 
 import { h, VNode } from 'snabbdom'
 import { IDomEditor } from '../editor/interface'
+import { DomEditor } from '../editor/dom-editor'
 import TextArea from './TextArea'
 import { genPatchFn, normalizeVnodeData } from '../utils/vdom'
 import $, { Dom7Array } from '../utils/dom'
@@ -108,9 +109,20 @@ function updateView(textarea: TextArea, editor: IDomEditor) {
     if (textareaElem == null) return
   }
 
-  // focus - 无论是不是 firstPatch ，每次渲染都要判断 focus，
-  // 必须添加 preventScroll 选项，否则弹窗或者编辑器失焦会导致编辑区域自动滚动到顶部
-  if (autoFocus) textareaElem.focus({ preventScroll: true })
+  // focus
+  let isFocused
+  if (isFirstPatch) {
+    // 初次渲染
+    isFocused = autoFocus
+  } else {
+    // 非初次渲染
+    isFocused = DomEditor.isFocused(editor)
+  }
+  if (isFocused) {
+    textareaElem.focus({
+      preventScroll: true, // 必须添加 preventScroll 选项，否则弹窗或者编辑器失焦会导致编辑区域自动滚动到顶部
+    })
+  }
 
   // 存储相关信息
   TEXTAREA_TO_VNODE.set(textarea, newVnode) // 存储 vnode
