@@ -347,7 +347,13 @@ export const withDOM = <T extends Editor>(editor: T) => {
   // 手动更新试图
   e.updateView = () => {
     const textarea = DomEditor.getTextarea(e)
-    textarea.onEditorChange()
+    textarea.changeViewState()
+
+    const toolbar = DomEditor.getToolbar(e)
+    toolbar && toolbar.changeToolbarState()
+
+    const hoverbar = DomEditor.getHoverbar(e)
+    hoverbar && hoverbar.changeHoverbarState()
   }
 
   // destroy

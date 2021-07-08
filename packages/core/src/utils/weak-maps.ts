@@ -57,7 +57,6 @@ export const NODE_TO_KEY: WeakMap<Node, Key> = new WeakMap()
 /**
  * Weak maps for storing editor-related state.
  */
-export const IS_READ_ONLY: WeakMap<Editor, boolean> = new WeakMap()
 export const IS_FOCUSED: WeakMap<Editor, boolean> = new WeakMap()
 export const IS_DRAGGING: WeakMap<Editor, boolean> = new WeakMap()
 export const IS_CLICKING: WeakMap<Editor, boolean> = new WeakMap()

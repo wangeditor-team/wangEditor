@@ -52,7 +52,7 @@ class TextArea {
       const editor = this.editorInstance
 
       // 监听 editor onchange
-      editor.on('change', this.onEditorChange.bind(this))
+      editor.on('change', this.changeViewState.bind(this))
 
       // editor 销毁时，解绑 selection change
       editor.on('destroyed', () => {
@@ -134,9 +134,9 @@ class TextArea {
   }
 
   /**
-   * editor.onchange 时触发
+   * 修改 view 状态
    */
-  onEditorChange() {
+  changeViewState() {
     const editor = this.editorInstance
 
     // 更新 DOM

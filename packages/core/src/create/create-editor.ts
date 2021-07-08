@@ -21,7 +21,6 @@ import {
   EDITOR_TO_CONFIG,
   HOVER_BAR_TO_EDITOR,
   EDITOR_TO_HOVER_BAR,
-  IS_READ_ONLY,
 } from '../utils/weak-maps'
 
 type PluginFnType = <T extends IDomEditor>(editor: T) => T
@@ -93,7 +92,7 @@ export default function (option: ICreateOption) {
   } else {
     editor.children = genDefaultContent()
   }
-  textarea.onEditorChange() // 初始化时触发一次，以便能初始化 textarea DOM 和 selection
+  textarea.changeViewState() // 初始化时触发一次，以便能初始化 textarea DOM 和 selection
 
   // 触发生命周期
   const { onCreated, onChange, onDestroyed } = editorConfig
@@ -106,10 +105,6 @@ export default function (option: ICreateOption) {
   if (onDestroyed) {
     editor.on('destroyed', () => onDestroyed(editor))
   }
-
-  // 记录编辑状态
-  const { readOnly } = editorConfig
-  IS_READ_ONLY.set(editor, !!readOnly)
 
   // 创建完毕，异步触发 created
   promiseResolveThen(() => editor.emit('created'))

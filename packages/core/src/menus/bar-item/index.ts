@@ -18,7 +18,7 @@ type MenuType = IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
 export interface IBarItem {
   $elem: Dom7Array
   menu: MenuType
-  onSelectionChange: () => void
+  changeMenuState: () => void
 }
 
 // menu -> barItem

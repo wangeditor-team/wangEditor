@@ -37,7 +37,7 @@ class HoverBar {
       textarea.$textAreaContainer.append($elem)
 
       // 绑定 editor onchange
-      editor.on('change', this.onEditorChange)
+      editor.on('change', this.changeHoverbarState)
 
       // 滚动时隐藏
       const hideAndClean = this.hideAndClean.bind(this)
@@ -68,7 +68,7 @@ class HoverBar {
   private changeItemsState() {
     promiseResolveThen(() => {
       this.hoverbarItems.forEach(item => {
-        item.onSelectionChange()
+        item.changeMenuState()
       })
     })
   }
@@ -190,7 +190,7 @@ class HoverBar {
   /**
    * editor onChange 时触发（涉及 DOM 操作，加防抖）
    */
-  private onEditorChange = debounce(() => {
+  changeHoverbarState = debounce(() => {
     // 获取选中的 node ，以及对应的 menu keys
     const { isShow } = this
     const { node = null, menuKeys = [] } = this.getSelectedNodeAndMenuKeys() || {}

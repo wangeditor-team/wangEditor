@@ -41,11 +41,11 @@ class Toolbar {
       this.registerItems()
 
       // 创建完，先模拟一次 onchange
-      this.onEditorChange()
+      this.changeToolbarState()
 
       // 监听 editor onchange
       const editor = this.getEditorInstance()
-      editor.on('change', this.onEditorChange)
+      editor.on('change', this.changeToolbarState)
     })
   }
 
@@ -151,9 +151,9 @@ class Toolbar {
   /**
    * editor onChange 时触发（涉及 DOM 操作，加防抖）
    */
-  private onEditorChange = debounce(() => {
+  changeToolbarState = debounce(() => {
     this.toolbarItems.forEach(toolbarItem => {
-      toolbarItem.onSelectionChange()
+      toolbarItem.changeMenuState()
     })
   }, 200)
 

@@ -14,7 +14,6 @@ import {
   EDITOR_TO_ELEMENT,
   ELEMENT_TO_NODE,
   IS_FOCUSED,
-  IS_READ_ONLY,
   KEY_TO_ELEMENT,
   NODE_TO_INDEX,
   NODE_TO_KEY,
@@ -114,7 +113,8 @@ export const DomEditor = {
    * Check if the editor is in read-only mode.
    */
   isReadOnly(editor: IDomEditor): boolean {
-    return !!IS_READ_ONLY.get(editor)
+    const config = editor.getConfig()
+    return config.readOnly
   },
 
   /**

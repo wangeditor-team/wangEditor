@@ -9,6 +9,7 @@ import { IBarItem, getEditorInstance } from './index'
 import { clearSvgStyle } from '../helpers/helpers'
 import { promiseResolveThen } from '../../utils/util'
 import { addTooltip } from './tooltip'
+import { DomEditor } from '../../editor/dom-editor'
 
 abstract class BaseButton implements IBarItem {
   readonly $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
@@ -99,7 +100,12 @@ abstract class BaseButton implements IBarItem {
   private setDisabled() {
     const editor = getEditorInstance(this)
     const { $button } = this
-    const disabled = this.menu.isDisabled(editor)
+    let disabled = this.menu.isDisabled(editor)
+
+    if (editor.selection == null || DomEditor.isReadOnly(editor)) {
+      // 未选中，或者 readOnly ，强行设置为 disabled
+      disabled = true
+    }
 
     const className = 'disabled'
     if (disabled) {
@@ -113,7 +119,7 @@ abstract class BaseButton implements IBarItem {
     this.disabled = disabled // 记录下来
   }
 
-  onSelectionChange() {
+  changeMenuState() {
     this.setActive()
     this.setDisabled()
   }
