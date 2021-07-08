@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多编辑器 demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <style>
+    .container {
+      display: flex;
+    }
+    .container-item {
+      flex: 1;
+      margin: 0 5px;
+      max-width: 50%;
+    }
+    .toolbar-container {
+      border: 1px solid #ccc;
+    }
+    .editor-container {
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    .content-view-container {
+      border: 1px solid #ccc;
+      margin-top: 20px;
+      overflow-x: auto;
+    }
+  </style>
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>多编辑器 demo</p>
+
+  <div class="container">
+    <div class="container-item">
+      <div id="editor-toolbar-1" class="toolbar-container"></div>
+      <div id="editor-text-area-1" class="editor-container"></div>
+      <div class="content-view-container">
+        <pre id="content-view-1"></pre>
+      </div>
+    </div>
+    <div class="container-item">
+      <div id="editor-toolbar-2" class="toolbar-container"></div>
+      <div id="editor-text-area-2" class="editor-container"></div>
+      <div class="content-view-container">
+        <pre id="content-view-2"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    wangEditor = window.wangEditor.default
+
+    // --------------------- editor1 ---------------------
+    const editorConfig1 = { MENU_CONF: {} }
+    editorConfig1.placeholder = '请输入内容1...'
+    editorConfig1.MENU_CONF['uploadImage'] = {
+      server: 'http://106.12.198.214:3000/api/upload-img',
+      fieldName: 'index-1-fileName'
+    }
+    editorConfig1.onChange = (editor) => {
+      document.getElementById('content-view-1').innerHTML = JSON.stringify(editor.children, null, 2)
+    }
+
+    const editor1 = wangEditor.createEditor({
+      textareaSelector: '#editor-text-area-1',
+      config: editorConfig1
+    })
+    const toolbar1 = wangEditor.createToolbar({
+      editor: editor1,
+      toolbarSelector: '#editor-toolbar-1',
+      config: {}
+    })
+
+
+    // --------------------- editor2 ---------------------
+    const editorConfig2 = { MENU_CONF: {} }
+    editorConfig2.placeholder = '请输入内容2...'
+    editorConfig2.hoverbarKeys = [] // 禁用 hoverbar
+    editorConfig2.MENU_CONF['uploadImage'] = {
+      server: 'http://106.12.198.214:3000/api/upload-img',
+      fieldName: 'index-2-fileName'
+    }
+    editorConfig2.onChange = (editor) => {
+      document.getElementById('content-view-2').innerHTML = JSON.stringify(editor.children, null, 2)
+    }
+
+    const toolbarConfig2 = {}
+    toolbarConfig2.toolbarKeys = [
+      'bold', 'italic', 'underline', 'code', '|',
+      'header1', 'header2', 'blockquote', '|',
+      'bulletedList', 'numberedList', '|',
+      {
+        title: '图片',
+        menuKeys: ['insertImage', 'uploadImage'],
+      },
+      'insertVideo',
+    ]
+
+    const editor2 = wangEditor.createEditor({
+      textareaSelector: '#editor-text-area-2',
+      config: editorConfig2
+    })
+    const toolbar2 = wangEditor.createToolbar({
+      editor: editor2,
+      toolbarSelector: '#editor-toolbar-2',
+      config: toolbarConfig2
+    })
+  </script>
+</body>
+</html>
