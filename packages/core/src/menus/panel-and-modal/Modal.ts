@@ -15,6 +15,9 @@ class Modal extends PanelAndModal {
   constructor(editor: IDomEditor, width: number = 0) {
     super(editor)
     if (width) this.width = width
+
+    // mousedown 阻止冒泡，因为在 $textContainer 通过 mousedown 隐藏 panel & modal
+    this.$elem.on('mousedown', e => e.stopPropagation())
   }
 
   setStyle(positionStyle: Partial<IPositionStyle>) {
