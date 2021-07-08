@@ -7,12 +7,12 @@ import React, { useRef, useEffect } from 'react'
 import wangEditor, { SlateDescendant, IEditorConfig } from '@wangeditor/editor'
 
 interface IProps {
-  initContent: SlateDescendant[]
+  defaultContent: SlateDescendant[]
   defaultConfig: Partial<IEditorConfig>
 }
 
 function EditorComponent(props: Partial<IProps>) {
-  const { initContent = [], defaultConfig = {} } = props
+  const { defaultContent = [], defaultConfig = {} } = props
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -21,7 +21,7 @@ function EditorComponent(props: Partial<IProps>) {
     wangEditor.createEditor({
       textareaSelector: ref.current,
       config: defaultConfig,
-      initContent,
+      content: defaultContent,
     })
   }, [])
 

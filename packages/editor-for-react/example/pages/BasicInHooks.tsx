@@ -28,8 +28,8 @@ function Basic() {
   }
   // 继续补充其他配置~
 
-  // ----------------------- initContent -----------------------
-  const initContent = [
+  // ----------------------- editor content -----------------------
+  const defaultContent = [
     { type: 'paragraph', children: [{ text: 'class 组件 - 基本使用' }] },
     { type: 'paragraph', children: [{ text: '' }] },
   ]
@@ -77,7 +77,7 @@ function Basic() {
 
       <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
         {/* 渲染 editor */}
-        <Editor defaultConfig={editorConfig} initContent={initContent} />
+        <Editor defaultConfig={editorConfig} defaultContent={defaultContent} />
       </div>
 
       <div style={{ border: '1px solid #ccc', marginTop: '20px' }}>

@@ -10,13 +10,13 @@ import Toolbar from '../../src/components/Toolbar'
 
 interface IState {
   editor: IDomEditor | null
-  content: SlateDescendant[]
+  curContent: SlateDescendant[]
 }
 
 class Basic extends Component {
   state: IState = {
     editor: null,
-    content: [],
+    curContent: [],
   }
 
   constructor(props) {
@@ -45,7 +45,7 @@ class Basic extends Component {
       this.setState({ editor })
     }
     editorConfig.onChange = (editor: IDomEditor) => {
-      this.setState({ content: editor.children })
+      this.setState({ curContent: editor.children })
     }
     editorConfig.MENU_CONF = {}
     editorConfig.MENU_CONF['uploadImage'] = {
@@ -54,8 +54,8 @@ class Basic extends Component {
     }
     // 继续补充其他配置~
 
-    // ----------------------- initContent -----------------------
-    const initContent = [
+    // ----------------------- editor content -----------------------
+    const defaultContent = [
       { type: 'paragraph', children: [{ text: 'class 组件 - 基本使用' }] },
       { type: 'paragraph', children: [{ text: '' }] },
     ]
@@ -81,14 +81,14 @@ class Basic extends Component {
 
         <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
           {/* 渲染 editor */}
-          <Editor defaultConfig={editorConfig} initContent={initContent} />
+          <Editor defaultConfig={editorConfig} defaultContent={defaultContent} />
         </div>
 
         <div style={{ border: '1px solid #ccc', marginTop: '20px' }}>
           <textarea
             readOnly
             style={{ width: '100%', height: '300px' }}
-            value={JSON.stringify(this.state.content, null, 4)}
+            value={JSON.stringify(this.state.curContent, null, 4)}
           ></textarea>
         </div>
       </React.Fragment>

@@ -40,7 +40,7 @@ type PluginType = <T extends IDomEditor>(editor: T) => T
 interface ICreateEditorOption {
   textareaSelector: string | DOMElement
   config?: Partial<IEditorConfig>
-  initContent?: Descendant[]
+  content?: Descendant[]
 }
 
 interface ICreateToolbarOption {
@@ -124,7 +124,7 @@ class wangEditor {
    * 创建 editor 实例
    */
   static createEditor(option: ICreateEditorOption): IDomEditor {
-    const { textareaSelector, initContent = [], config = {} } = option
+    const { textareaSelector, content = [], config = {} } = option
     if (!textareaSelector) {
       throw new Error(`Cannot find 'textareaSelector' when create editor`)
     }
@@ -135,7 +135,7 @@ class wangEditor {
         ...this.editorConfig, // 全局配置
         ...config,
       },
-      initContent,
+      content,
       plugins: this.plugins,
     })
 

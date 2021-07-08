@@ -21,7 +21,7 @@ export default Vue.extend({
         <Editor
           :editorId="editorId"
           :defaultConfig="editorConfig"
-          :initContent="initContent"
+          :defaultContent="defaultContent"
           @onCreated="onCreated"
           @onChange="onChange"
           @onDestroyed="onDestroyed"
@@ -45,9 +45,8 @@ export default Vue.extend({
       // TODO 文档中说明这一点
       editorId: 'w-e-1001',
 
-      initContent: [{ type: 'paragraph', children: [{ text: 'basic demo' }] }],
-      curContent: [],
       toolbarConfig: {},
+      defaultContent: [{ type: 'paragraph', children: [{ text: 'basic demo' }] }],
       editorConfig: {
         placeholder: '请输入内容123...',
         // 菜单配置
@@ -66,6 +65,7 @@ export default Vue.extend({
           }
         }
       },
+      curContent: [],
     }
   },
   computed: {

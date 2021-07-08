@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-window.initContent = [
+window.content1 = [
   {
     type: 'header1',
     textAlign: 'center',

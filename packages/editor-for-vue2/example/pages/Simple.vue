@@ -16,7 +16,7 @@ export default Vue.extend({
         <Editor
           :editorId="editorId"
           :defaultConfig="editorConfig"
-          :initContent="initContent"
+          :deafultContent="deafultContent"
         />
       </div>
     </div>
@@ -29,11 +29,12 @@ export default Vue.extend({
       // TODO 文档中说明这一点
       editorId: 'w-e-1002',
 
-      initContent: [
+      deafultContent: [
         { type: 'paragraph', children: [{ text: 'simple mode' }] },
         { type: 'paragraph', children: [{ text: '简化 toolbar ，禁用 hoverbar' }] }
       ],
       curContent: [],
+
       toolbarConfig: {
         // 简化 toolbar
         toolbarKeys: ['bold', 'italic', 'underline', 'code', '|', 'header1', 'header2', 'blockquote', '|', 'bulletedList', 'numberedList'],

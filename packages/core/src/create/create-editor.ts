@@ -28,7 +28,7 @@ type PluginFnType = <T extends IDomEditor>(editor: T) => T
 interface ICreateOption {
   textareaSelector: string | DOMElement
   config?: Partial<IEditorConfig>
-  initContent?: Descendant[]
+  content?: Descendant[]
   plugins?: PluginFnType[]
 }
 
@@ -36,7 +36,7 @@ interface ICreateOption {
  * 创建编辑器
  */
 export default function (option: ICreateOption) {
-  const { textareaSelector, config = {}, initContent, plugins = [] } = option
+  const { textareaSelector, config = {}, content, plugins = [] } = option
 
   // 创建实例 - 使用插件
   let editor = withHistory(withEmitter(withDOM(createEditor())))
@@ -87,8 +87,8 @@ export default function (option: ICreateOption) {
   })
 
   // 初始化内容
-  if (initContent && initContent.length) {
-    editor.children = initContent
+  if (content && content.length) {
+    editor.children = content
   } else {
     editor.children = genDefaultContent()
   }
