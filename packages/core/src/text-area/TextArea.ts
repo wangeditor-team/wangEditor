@@ -51,6 +51,9 @@ class TextArea {
     promiseResolveThen(() => {
       const editor = this.editorInstance
 
+      // 点击编辑区域，关闭 panel
+      $container.on('mousedown', () => editor.hidePanelOrModal())
+
       // 监听 editor onchange
       editor.on('change', this.changeViewState.bind(this))
 
