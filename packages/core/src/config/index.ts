@@ -34,8 +34,8 @@ export function genEditorConfig(userConfig: Partial<IEditorConfig> = {}): IEdito
     maxLength: 0, // 默认不限制
     MENU_CONF: newMenuConf,
     hoverbarKeys: [],
-    alert(info: string, type: string = 'info') {
-      window.alert(info)
+    customAlert(info: string, type: string) {
+      window.alert(`${type}:\n${info}`)
     },
 
     // 合并用户配置

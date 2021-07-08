@@ -50,7 +50,8 @@
     "html-void-elements": "^2.0.0",
     "lodash-es": "^4.17.21",
     "scroll-into-view-if-needed": "^2.2.28",
-    "slate-history": "^0.62.0"
+    "slate-history": "^0.62.0",
+    "xml-formatter": "^2.4.0"
   },
   "devDependencies": {
     "@types/event-emitter": "^0.3.3",

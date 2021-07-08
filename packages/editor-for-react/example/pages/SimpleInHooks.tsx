@@ -1,5 +1,5 @@
 /**
- * @description basic demo
+ * @description simple demo
  * @author wangfupeng
  */
 
@@ -10,45 +10,38 @@ import Toolbar from '../../src/components/Toolbar'
 
 function Basic() {
   const [editor, setEditor] = useState<IDomEditor | null>(null)
-  const [curContent, setCurContent] = useState<SlateDescendant[]>([])
 
   // ----------------------- editor config -----------------------
   const editorConfig: Partial<IEditorConfig> = {}
   editorConfig.placeholder = '请输入内容...'
+  editorConfig.hoverbarKeys = []
   editorConfig.onCreated = (editor: IDomEditor) => {
     setEditor(editor)
-  }
-  editorConfig.onChange = (editor: IDomEditor) => {
-    setCurContent(editor.children)
-  }
-  editorConfig.MENU_CONF = {}
-  editorConfig.MENU_CONF['uploadImage'] = {
-    server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
-    fieldName: 'react-hooks-demo-fileName',
   }
   // 继续补充其他配置~
 
   // ----------------------- initContent -----------------------
   const initContent = [
-    { type: 'paragraph', children: [{ text: 'class 组件 - 基本使用' }] },
+    { type: 'paragraph', children: [{ text: 'class 组件 - 精简模式' }] },
+    { type: 'paragraph', children: [{ text: '简化 toolbar ，禁用 hoverbar' }] },
     { type: 'paragraph', children: [{ text: '' }] },
   ]
 
   // ----------------------- toolbar config -----------------------
   const toolbarConfig = {
-    // 可配置 toolbarKeys: [...]
-  }
-
-  // ----------------------- 修改配置，使用 API -----------------------
-  function toggleReadOnly() {
-    if (editor == null) return
-    editor.setConfig({
-      readOnly: !editor.getConfig().readOnly,
-    })
-  }
-  function printHtml() {
-    if (editor == null) return
-    console.log(editor.getHtml())
+    toolbarKeys: [
+      'bold',
+      'italic',
+      'underline',
+      'code',
+      '|',
+      'header1',
+      'header2',
+      'blockquote',
+      '|',
+      'bulletedList',
+      'numberedList',
+    ],
   }
 
   // ----------------------- 销毁 editor -----------------------
@@ -63,14 +56,7 @@ function Basic() {
 
   return (
     <React.Fragment>
-      <div>
-        Basic usage in hooks component &nbsp;
-        <button onClick={toggleReadOnly}>切换 readOnly</button>
-        &nbsp;
-        <button onClick={printHtml}>打印 html</button>
-      </div>
-
-      <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
+      <div style={{ border: '1px solid #ccc' }}>
         {/* 渲染 toolbar */}
         <Toolbar editor={editor} defaultConfig={toolbarConfig} />
       </div>
@@ -78,14 +64,6 @@ function Basic() {
       <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
         {/* 渲染 editor */}
         <Editor defaultConfig={editorConfig} initContent={initContent} />
-      </div>
-
-      <div style={{ border: '1px solid #ccc', marginTop: '20px' }}>
-        <textarea
-          readOnly
-          style={{ width: '100%', height: '300px' }}
-          value={JSON.stringify(curContent, null, 4)}
-        ></textarea>
       </div>
     </React.Fragment>
   )

@@ -54,6 +54,17 @@ class Basic extends Component {
     }
     // 继续补充其他配置~
 
+    // ----------------------- initContent -----------------------
+    const initContent = [
+      { type: 'paragraph', children: [{ text: 'class 组件 - 基本使用' }] },
+      { type: 'paragraph', children: [{ text: '' }] },
+    ]
+
+    // ----------------------- toolbar config -----------------------
+    const toolbarConfig = {
+      // 可配置 toolbarKeys: [...]
+    }
+
     return (
       <React.Fragment>
         <div>
@@ -65,15 +76,12 @@ class Basic extends Component {
 
         <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
           {/* 渲染 toolbar */}
-          <Toolbar editor={this.state.editor} />
+          <Toolbar editor={this.state.editor} defaultConfig={toolbarConfig} />
         </div>
 
-        {/* 分割线 */}
-        <div style={{ height: '10px' }}></div>
-
-        <div style={{ border: '1px solid #ccc' }}>
+        <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
           {/* 渲染 editor */}
-          <Editor config={editorConfig} />
+          <Editor defaultConfig={editorConfig} initContent={initContent} />
         </div>
 
         <div style={{ border: '1px solid #ccc', marginTop: '20px' }}>

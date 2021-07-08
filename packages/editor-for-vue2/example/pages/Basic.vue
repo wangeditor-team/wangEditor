@@ -14,13 +14,13 @@ export default Vue.extend({
       </div>
 
       <div style="border: 1px solid #ccc; margin-top: 10px;">
-        <Toolbar :editorId="editorId"/>
+        <Toolbar :editorId="editorId" :defaultConfig="toolbarConfig"/>
       </div>
 
       <div style="border: 1px solid #ccc; margin-top: 10px;">
         <Editor
           :editorId="editorId"
-          :config="editorConfig"
+          :defaultConfig="editorConfig"
           :initContent="initContent"
           @onCreated="onCreated"
           @onChange="onChange"
@@ -28,7 +28,12 @@ export default Vue.extend({
           @onMaxLength="onMaxLength"
           @onFocus="onFocus"
           @onBlur="onBlur"
+          @customAlert="customAlert"
         />
+      </div>
+
+      <div style="border: 1px solid #ccc; margin-top: 10px;">
+        <pre v-html="curContentStr"></pre>
       </div>
     </div>
   `,
@@ -40,18 +45,34 @@ export default Vue.extend({
       // TODO 文档中说明这一点
       editorId: 'w-e-1001',
 
-      initContent: [{ type: 'paragraph', children: [{ text: 'hello~' }] }],
-      content: [],
+      initContent: [{ type: 'paragraph', children: [{ text: 'basic demo' }] }],
+      curContent: [],
+      toolbarConfig: {},
       editorConfig: {
         placeholder: '请输入内容123...',
+        // 菜单配置
         MENU_CONF: {
           uploadImage: {
             server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
             fieldName: 'vue2-demo-fileName',
+          },
+          insertImage: {
+            checkImage(src: string, alt: string, href: string): boolean | string | undefined {
+              if (src.indexOf('http') !== 0) {
+                return '图片网址必须以 http/https 开头'
+              }
+              return true
+            }
           }
         }
       },
     }
+  },
+  computed: {
+    curContentStr() {
+      // @ts-ignore
+      return JSON.stringify(this.curContent, null, 2)
+    },
   },
   mounted() {
   },
@@ -63,7 +84,7 @@ export default Vue.extend({
     },
     onChange(editor) {
       console.log('onChange', editor.children)
-      this.content = editor.children
+      this.curContent = editor.children
     },
     onDestroyed(editor) {
       console.log('onDestroyed', editor)
@@ -77,12 +98,15 @@ export default Vue.extend({
     onBlur(editor) {
       console.log('onBlur', editor)
     },
+    customAlert(info: string, type: string) {
+      window.alert(`customAlert in Vue2 demo\n${type}:\n${info}`)
+    },
 
-    // editor API
     onToggleReadOnly() {
       const editor = getEditor(this.editorId)
       if (editor == null) return
 
+      // 修改 editor 配置
       editor.setConfig({
         readOnly: !editor.getConfig().readOnly
       })
@@ -91,6 +115,7 @@ export default Vue.extend({
       const editor = getEditor(this.editorId)
       if (editor == null) return
 
+      // 使用 editor API
       console.log(editor.getHtml())
     },
   },

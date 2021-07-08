@@ -15,7 +15,7 @@ export default Vue.extend({
   template: '<div ref="box"></div>',
 
   name: 'Editor',
-  props: ['editorId', 'initContent', 'config'],
+  props: ['editorId', 'initContent', 'defaultConfig'],
   created() {
     if (this.editorId == null) {
       throw new Error('Need `editorId` props when create <Editor/> component')
@@ -28,57 +28,64 @@ export default Vue.extend({
     create() {
       if (this.$refs.box == null) return
 
-      const config = this.config || {}
+      const defaultConfig = this.defaultConfig || {}
 
       wangEditor.createEditor({
         textareaSelector: this.$refs.box as Element,
         config: {
-          ...config,
+          ...defaultConfig,
           onCreated: (editor) => {
-            // 触发自定义事件（如创建 toolbar）
-            emitter.emit(`w-e-created-${this.editorId}`, editor)
-
             // 记录 editor
             recordEditor(this.editorId, editor)
 
+            // 触发自定义事件（如创建 toolbar）
+            emitter.emit(`w-e-created-${this.editorId}`)
+
             this.$emit('onCreated', editor)
-            if (config.onCreated) {
+            if (defaultConfig.onCreated) {
               const info = genErrorInfo('onCreated')
               throw new Error(info)
             }
           },
           onChange: (editor) => {
             this.$emit('onChange', editor)
-            if (config.onChange) {
+            if (defaultConfig.onChange) {
               const info = genErrorInfo('onChange')
               throw new Error(info)
             }
           },
           onDestroyed: (editor) => {
             this.$emit('onDestroyed', editor)
-            if (config.onDestroyed) {
+            if (defaultConfig.onDestroyed) {
               const info = genErrorInfo('onDestroyed')
               throw new Error(info)
             }
           },
           onMaxLength: (editor) => {
             this.$emit('onMaxLength', editor)
-            if (config.onMaxLength) {
+            if (defaultConfig.onMaxLength) {
               const info = genErrorInfo('onMaxLength')
               throw new Error(info)
             }
           },
           onFocus: (editor) => {
             this.$emit('onFocus', editor)
-            if (config.onFocus) {
+            if (defaultConfig.onFocus) {
               const info = genErrorInfo('onFocus')
               throw new Error(info)
             }
           },
           onBlur: (editor) => {
             this.$emit('onBlur', editor)
-            if (config.onBlur) {
+            if (defaultConfig.onBlur) {
               const info = genErrorInfo('onBlur')
+              throw new Error(info)
+            }
+          },
+          customAlert: (info, type) => {
+            this.$emit('customAlert', info, type)
+            if (defaultConfig.customAlert) {
+              const info = genErrorInfo('customAlert')
               throw new Error(info)
             }
           },

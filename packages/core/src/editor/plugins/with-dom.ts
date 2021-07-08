@@ -3,6 +3,7 @@
  * @author wangfupeng
  */
 
+import xmlFormat from 'xml-formatter'
 import { Editor, Node, Path, Operation, Transforms, Range, Text } from 'slate'
 import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../..'
@@ -284,7 +285,10 @@ export const withDOM = <T extends Editor>(editor: T) => {
   // 获取 html
   e.getHtml = (): string => {
     const { children = [] } = e
-    return children.map(child => node2html(child, e)).join('\n')
+    const html = children.map(child => node2html(child, e)).join('\n')
+    return xmlFormat(`<div>${html}</div>`, {
+      collapseContent: true,
+    })
   }
 
   // 获取 text
@@ -383,9 +387,9 @@ export const withDOM = <T extends Editor>(editor: T) => {
   }
 
   // alert
-  e.alert = (info: string, type?: AlertType) => {
-    const { alert } = e.getConfig()
-    if (alert) alert(info, type)
+  e.alert = (info: string, type: AlertType = 'info') => {
+    const { customAlert } = e.getConfig()
+    if (customAlert) customAlert(info, type)
   }
 
   // scroll to elem

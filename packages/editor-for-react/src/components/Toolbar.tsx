@@ -8,11 +8,11 @@ import wangEditor, { IToolbarConfig, IDomEditor } from '@wangeditor/editor'
 
 interface IProps {
   editor: IDomEditor | null
-  config?: Partial<IToolbarConfig>
+  defaultConfig?: Partial<IToolbarConfig>
 }
 
 function ToolbarComponent(props: IProps) {
-  const { editor, config = {} } = props
+  const { editor, defaultConfig = {} } = props
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function ToolbarComponent(props: IProps) {
     wangEditor.createToolbar({
       editor,
       toolbarSelector: ref.current,
-      config,
+      config: defaultConfig,
     })
   }, [editor])
 

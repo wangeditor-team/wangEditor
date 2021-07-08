@@ -8,11 +8,11 @@ import wangEditor, { SlateDescendant, IEditorConfig } from '@wangeditor/editor'
 
 interface IProps {
   initContent: SlateDescendant[]
-  config: Partial<IEditorConfig>
+  defaultConfig: Partial<IEditorConfig>
 }
 
 function EditorComponent(props: Partial<IProps>) {
-  const { initContent = [], config = {} } = props
+  const { initContent = [], defaultConfig = {} } = props
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -20,7 +20,7 @@ function EditorComponent(props: Partial<IProps>) {
 
     wangEditor.createEditor({
       textareaSelector: ref.current,
-      config,
+      config: defaultConfig,
       initContent,
     })
   }, [])

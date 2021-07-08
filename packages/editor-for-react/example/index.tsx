@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom'
 
 import BasicInHooks from './pages/BasicInHooks'
 import BasicInClass from './pages/BasicInClass'
+import SimpleInHooks from './pages/SimpleInHooks'
 
 function App() {
   const [pageName, setPageName] = useState('')
@@ -18,6 +19,7 @@ function App() {
       选择要显示的 demo 页 &nbsp;
       <select value={pageName} onChange={e => setPageName(e.target.value)}>
         <option value="">置空</option>
+        <option value="simple-in-hooks">simple-in-hooks</option>
         <option value="basic-in-hooks">basic-in-hooks</option>
         <option value="basic-in-class">basic-in-class</option>
       </select>
@@ -25,6 +27,7 @@ function App() {
       {/* 按条件显示 demo 页 */}
       {pageName === 'basic-in-hooks' && <BasicInHooks />}
       {pageName === 'basic-in-class' && <BasicInClass />}
+      {pageName === 'simple-in-hooks' && <SimpleInHooks />}
     </div>
   )
 }

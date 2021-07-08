@@ -12,5 +12,5 @@
 
 ## 使用
 
-使用时，要先安装 `Vue` `` `@wangeditor/editor`
+使用时，要先安装 `Vue` `@wangeditor/editor`
 TODO 文档中说明这一点

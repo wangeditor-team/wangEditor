@@ -28,6 +28,8 @@ export interface IMenuConfig {
  */
 export interface IEditorConfig {
   //【注意】如增加 onXxx 回调函数时，要同步到 editor-for-vue2/vue3
+  customAlert: (info: string, type: AlertType) => void
+
   onCreated?: (editor: IDomEditor) => void
   onChange?: (editor: IDomEditor) => void
   onDestroyed?: (editor: IDomEditor) => void
@@ -49,8 +51,6 @@ export interface IEditorConfig {
 
   // 悬浮菜单栏 menu
   hoverbarKeys?: Array<IHoverbarConf>
-
-  alert: (info: string, type?: AlertType) => void
 }
 
 /**
