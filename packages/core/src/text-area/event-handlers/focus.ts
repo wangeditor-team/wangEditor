@@ -12,6 +12,8 @@ import { IS_FOCUSED } from '../../utils/weak-maps'
 function handleOnFocus(event: Event, textarea: TextArea, editor: IDomEditor) {
   const el = DomEditor.toDOMNode(editor, editor)
   textarea.latestElement = window.document.activeElement
+  // text-area 区域 focus 时设置 autoFocus: true，解决 https://github.com/wangeditor-team/we-2021/issues/14 bug;
+  editor.setConfig({ autoFocus: true })
 
   // COMPAT: If the editor has nested editable elements, the focus
   // can go to them. In Firefox, this must be prevented because it
