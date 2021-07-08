@@ -6,6 +6,9 @@
 import { createEditor, Descendant } from 'slate'
 import { withHistory } from 'slate-history'
 import { withDOM } from '../editor/plugins/with-dom'
+import { withConfig } from '../editor/plugins/with-config'
+import { withContent } from '../editor/plugins/with-content'
+import { withEventData } from '../editor/plugins/with-event-data'
 import { withEmitter } from '../editor/plugins/with-emitter'
 import TextArea from '../text-area/TextArea'
 import HoverBar from '../menus/bar/HoverBar'
@@ -39,7 +42,9 @@ export default function (option: ICreateOption) {
   const { textareaSelector, config = {}, content, plugins = [] } = option
 
   // 创建实例 - 使用插件
-  let editor = withHistory(withEmitter(withDOM(createEditor())))
+  let editor = withHistory(
+    withEmitter(withContent(withConfig(withDOM(withEventData(createEditor())))))
+  )
   if (isRepeatedCreate(editor, textareaSelector)) {
     // 对同一个 DOM 重复创建
     throw new Error(`Repeated create editor by textareaSelector '${textareaSelector}'`)

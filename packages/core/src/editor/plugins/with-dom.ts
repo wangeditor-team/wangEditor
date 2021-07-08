@@ -1,16 +1,15 @@
 /**
- * @description slate 插件，重写部分 API（参考 slate-react with-react.ts ）
+ * @description slate 插件 - dom 相关
  * @author wangfupeng
  */
 
-import xmlFormat from 'xml-formatter'
-import { Editor, Node, Path, Operation, Transforms, Range, Text } from 'slate'
+import { Editor, Path, Operation, Transforms } from 'slate'
 import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../..'
+import $ from '../../utils/dom'
+import { Key } from '../../utils/key'
 import {
   NODE_TO_KEY,
-  EDITOR_TO_CONFIG,
-  EDITOR_TO_SELECTION,
   IS_FOCUSED,
   EDITOR_TO_PANEL_AND_MODAL,
   EDITOR_TO_TEXTAREA,
@@ -20,13 +19,6 @@ import {
   EDITOR_TO_HOVER_BAR,
   HOVER_BAR_TO_EDITOR,
 } from '../../utils/weak-maps'
-import { Key } from '../../utils/key'
-import { isDOMText, getPlainText } from '../../utils/dom'
-import { IEditorConfig, AlertType, ISingleMenuConfig } from '../../config/interface'
-import { node2html } from '../../to-html/node2html'
-import { genElemId } from '../../formats/helper'
-import $ from '../../utils/dom'
-import { MENU_ITEM_FACTORIES } from '../../menus/register'
 
 let ID = 1
 
@@ -35,7 +27,7 @@ let ID = 1
  */
 export const withDOM = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
-  const { apply, onChange, insertText } = e
+  const { apply } = e
 
   e.id = `wangEditorCore-${ID++}`
 
@@ -82,245 +74,6 @@ export const withDOM = <T extends Editor>(editor: T) => {
       const [node] = Editor.node(e, path)
       NODE_TO_KEY.set(node, key)
     }
-  }
-
-  e.setFragmentData = (data: DataTransfer) => {
-    const { selection } = e
-
-    if (!selection) {
-      return
-    }
-
-    // 获取开始、结束两个 point { path, offset }
-    const [start, end] = Range.edges(selection)
-    // Editor.void - Match a void node in the current branch of the editor.
-    const startVoid = Editor.void(e, { at: start.path })
-    const endVoid = Editor.void(e, { at: end.path })
-
-    if (Range.isCollapsed(selection) && !startVoid) {
-      return
-    }
-
-    // Create a fake selection so that we can add a Base64-encoded copy of the
-    // fragment to the HTML, to decode on future pastes.
-    const domRange = DomEditor.toDOMRange(e, selection)
-    let contents = domRange.cloneContents()
-    let attach = contents.childNodes[0] as HTMLElement
-
-    // Make sure attach is non-empty, since empty nodes will not get copied.
-    contents.childNodes.forEach(node => {
-      if (node.textContent && node.textContent.trim() !== '') {
-        attach = node as HTMLElement
-      }
-    })
-
-    // COMPAT: If the end node is a void node, we need to move the end of the
-    // range from the void node's spacer span, to the end of the void node's
-    // content, since the spacer is before void's content in the DOM.
-    if (endVoid) {
-      const [voidNode] = endVoid
-      const r = domRange.cloneRange()
-      const domNode = DomEditor.toDOMNode(e, voidNode)
-      r.setEndAfter(domNode)
-      contents = r.cloneContents()
-    }
-
-    // COMPAT: If the start node is a void node, we need to attach the encoded
-    // fragment to the void node's content node instead of the spacer, because
-    // attaching it to empty `<div>/<span>` nodes will end up having it erased by
-    // most browsers. (2018/04/27)
-    if (startVoid) {
-      attach = contents.querySelector('[data-slate-spacer]')! as HTMLElement
-    }
-
-    // Remove any zero-width space spans from the cloned DOM so that they don't
-    // show up elsewhere when pasted.
-    Array.from(contents.querySelectorAll('[data-slate-zero-width]')).forEach(zw => {
-      const isNewline = zw.getAttribute('data-slate-zero-width') === 'n'
-      zw.textContent = isNewline ? '\n' : ''
-    })
-
-    // Set a `data-slate-fragment` attribute on a non-empty node, so it shows up
-    // in the HTML, and can be used for intra-Slate pasting. If it's a text
-    // node, wrap it in a `<span>` so we have something to set an attribute on.
-    if (isDOMText(attach)) {
-      const span = document.createElement('span')
-      // COMPAT: In Chrome and Safari, if we don't add the `white-space` style
-      // then leading and trailing spaces will be ignored. (2017/09/21)
-      span.style.whiteSpace = 'pre'
-      span.appendChild(attach)
-      contents.appendChild(span)
-      attach = span
-    }
-
-    const fragment = e.getFragment()
-    const string = JSON.stringify(fragment)
-    const encoded = window.btoa(encodeURIComponent(string))
-    attach.setAttribute('data-slate-fragment', encoded)
-    data.setData('application/x-slate-fragment', encoded)
-
-    // Add the content to a <div> so that we can get its inner HTML.
-    const div = document.createElement('div')
-    div.appendChild(contents)
-    div.setAttribute('hidden', 'true')
-    document.body.appendChild(div)
-    data.setData('text/html', div.innerHTML)
-    data.setData('text/plain', getPlainText(div))
-    document.body.removeChild(div)
-  }
-
-  e.insertData = (data: DataTransfer) => {
-    const fragment = data.getData('application/x-slate-fragment')
-    if (fragment) {
-      const decoded = decodeURIComponent(window.atob(fragment))
-      const parsed = JSON.parse(decoded) as Node[]
-      e.insertFragment(parsed)
-      return
-    }
-
-    const text = data.getData('text/plain')
-    // const html = data.getData('text/html')
-
-    if (text) {
-      const lines = text.split(/\r\n|\r|\n/)
-      let split = false
-
-      for (const line of lines) {
-        if (split) {
-          Transforms.splitNodes(e, { always: true })
-        }
-
-        e.insertText(line)
-        split = true
-      }
-    }
-  }
-
-  e.insertText = (s: string) => {
-    // maxLength
-    const { maxLength, onMaxLength } = e.getConfig()
-    if (typeof maxLength === 'number' && maxLength > 0) {
-      const editorText = e.getText()
-      if (editorText.length >= maxLength) {
-        // 触发 maxLength 限制，不再继续插入文字
-        if (onMaxLength) onMaxLength(e)
-        return
-      }
-    }
-
-    // 执行默认的 insertText
-    insertText(s)
-  }
-
-  e.getAllMenuKeys = (): string[] => {
-    const arr: string[] = []
-    for (let key in MENU_ITEM_FACTORIES) {
-      arr.push(key)
-    }
-    return arr
-  }
-
-  // 获取 editor 配置信息
-  e.getConfig = (): IEditorConfig => {
-    const config = EDITOR_TO_CONFIG.get(e)
-    if (config == null) throw new Error('Can not get editor config')
-    return config
-  }
-
-  // 获取 menu config
-  e.getMenuConfig = (menuKey: string): ISingleMenuConfig => {
-    const { MENU_CONF = {} } = e.getConfig()
-    return MENU_CONF[menuKey] || {}
-  }
-
-  // 修改配置
-  e.setConfig = (newConfig: Partial<IEditorConfig>) => {
-    const curConfig = e.getConfig()
-    EDITOR_TO_CONFIG.set(e, {
-      ...curConfig,
-      ...newConfig,
-    })
-
-    // 修改配置，则立刻更新视图
-    e.updateView()
-  }
-
-  // 设置 menu config
-  e.setMenuConfig = (menuKey: string, newMenuConfig: ISingleMenuConfig) => {
-    const curMenuConfig = e.getMenuConfig(menuKey)
-
-    const editorConfig = e.getConfig()
-    if (editorConfig.MENU_CONF == null) {
-      editorConfig.MENU_CONF = {}
-    }
-
-    editorConfig.MENU_CONF[menuKey] = {
-      ...curMenuConfig,
-      ...newMenuConfig,
-    }
-
-    // 修改配置，则立刻更新视图
-    e.updateView()
-  }
-
-  // 重写 onchange API
-  e.onChange = () => {
-    // 记录当前选区
-    const { selection } = e
-    if (selection != null) {
-      EDITOR_TO_SELECTION.set(e, selection)
-    }
-
-    // 触发配置的 change 事件
-    e.emit('change')
-
-    onChange()
-  }
-
-  // tab
-  e.handleTab = () => {
-    e.insertText('    ')
-  }
-
-  // 获取 html
-  e.getHtml = (): string => {
-    const { children = [] } = e
-    const html = children.map(child => node2html(child, e)).join('\n')
-    return xmlFormat(`<div>${html}</div>`, {
-      collapseContent: true,
-    })
-  }
-
-  // 获取 text
-  e.getText = (): string => {
-    const { children = [] } = e
-    return children.map(child => Node.string(child)).join('\n')
-  }
-
-  // 获取选区文字
-  e.getSelectionText = (): string => {
-    const { selection } = e
-    if (selection == null) return ''
-    return Editor.string(editor, selection)
-  }
-
-  // 获取所有标题
-  e.getHeaders = () => {
-    const headers: { id: string; type: string; text: string }[] = []
-    const { children = [] } = e
-    children.forEach(n => {
-      if (Text.isText(n)) return
-
-      const { type = '' } = n
-      if (type.startsWith('header')) {
-        const key = DomEditor.findKey(e, n)
-        const id = genElemId(key.id)
-        const text = Node.string(n)
-
-        headers.push({ id, type, text })
-      }
-    })
-    return headers
   }
 
   // focus
@@ -386,12 +139,6 @@ export const withDOM = <T extends Editor>(editor: T) => {
     e.emit('destroyed')
   }
 
-  // alert
-  e.alert = (info: string, type: AlertType = 'info') => {
-    const { customAlert } = e.getConfig()
-    if (customAlert) customAlert(info, type)
-  }
-
   // scroll to elem
   e.scrollToElem = (id: string) => {
     const { scroll } = e.getConfig()
@@ -443,6 +190,5 @@ export const withDOM = <T extends Editor>(editor: T) => {
     set.forEach(panelOrModal => panelOrModal.hide())
   }
 
-  // 最后要返回 editor 实例 - 重要！！！
   return e
 }
