@@ -27,7 +27,7 @@ export interface IMenuConfig {
  * editor config
  */
 export interface IEditorConfig {
-  //【注意】如增加 onXxx 回调函数时，要同步到 editor-for-vue2
+  //【注意】如增加 onXxx 回调函数时，要同步到 editor-for-vue2/vue3
   onCreated?: (editor: IDomEditor) => void
   onChange?: (editor: IDomEditor) => void
   onDestroyed?: (editor: IDomEditor) => void

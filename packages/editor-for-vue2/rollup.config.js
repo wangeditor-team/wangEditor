@@ -7,28 +7,28 @@ const input = path.resolve(__dirname, './src', 'index.ts')
 
 const configList = []
 
-// esm
-const esmConf = createRollupConfig({
+// umd
+const umdConf = createRollupConfig({
   input,
   output: {
-    file: pkg.module,
-    format: 'esm',
+    file: pkg.main,
+    format: 'umd',
     name,
   },
 })
-configList.push(esmConf)
+configList.push(umdConf)
 
 if (IS_PRD) {
-  // umd
-  const umdConf = createRollupConfig({
+  // esm
+  const esmConf = createRollupConfig({
     input,
     output: {
-      file: pkg.main,
-      format: 'umd',
+      file: pkg.module,
+      format: 'esm',
       name,
     },
   })
-  configList.push(umdConf)
+  configList.push(esmConf)
 }
 
 export default configList
