@@ -27,9 +27,12 @@ class Basic extends Component {
   toggleReadOnly() {
     const { editor } = this.state
     if (editor == null) return
-    editor.setConfig({
-      readOnly: !editor.getConfig().readOnly,
-    })
+
+    if (editor.getConfig().readOnly) {
+      editor.enable()
+    } else {
+      editor.disable()
+    }
   }
   printHtml() {
     const { editor } = this.state

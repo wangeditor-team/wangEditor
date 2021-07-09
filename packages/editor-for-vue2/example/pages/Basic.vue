@@ -106,10 +106,11 @@ export default Vue.extend({
       const editor = getEditor(this.editorId)
       if (editor == null) return
 
-      // 修改 editor 配置
-      editor.setConfig({
-        readOnly: !editor.getConfig().readOnly
-      })
+      if (editor.getConfig().readOnly) {
+        editor.enable()
+      } else {
+        editor.disable()
+      }
     },
     onGetHtml() {
       const editor = getEditor(this.editorId)

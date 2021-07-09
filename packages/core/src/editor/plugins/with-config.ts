@@ -33,36 +33,6 @@ export const withConfig = <T extends Editor>(editor: T) => {
     return MENU_CONF[menuKey] || {}
   }
 
-  // 修改配置
-  e.setConfig = (newConfig: Partial<IEditorConfig>) => {
-    const curConfig = e.getConfig()
-    EDITOR_TO_CONFIG.set(e, {
-      ...curConfig,
-      ...newConfig,
-    })
-
-    // 修改配置，则立刻更新视图
-    e.updateView()
-  }
-
-  // 设置 menu config
-  e.setMenuConfig = (menuKey: string, newMenuConfig: ISingleMenuConfig) => {
-    const curMenuConfig = e.getMenuConfig(menuKey)
-
-    const editorConfig = e.getConfig()
-    if (editorConfig.MENU_CONF == null) {
-      editorConfig.MENU_CONF = {}
-    }
-
-    editorConfig.MENU_CONF[menuKey] = {
-      ...curMenuConfig,
-      ...newMenuConfig,
-    }
-
-    // 修改配置，则立刻更新视图
-    e.updateView()
-  }
-
   // alert
   e.alert = (info: string, type: AlertType = 'info') => {
     const { customAlert } = e.getConfig()

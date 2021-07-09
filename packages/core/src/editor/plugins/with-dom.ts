@@ -194,5 +194,26 @@ export const withDOM = <T extends Editor>(editor: T) => {
     set.forEach(panelOrModal => panelOrModal.hide())
   }
 
+  e.enable = () => {
+    const config = e.getConfig()
+    config.readOnly = false
+
+    // 更新视图
+    e.updateView()
+  }
+
+  e.disable = () => {
+    const config = e.getConfig()
+    config.readOnly = true
+
+    // 更新视图
+    e.updateView()
+  }
+
+  e.isDisabled = () => {
+    const config = e.getConfig()
+    return config.readOnly
+  }
+
   return e
 }

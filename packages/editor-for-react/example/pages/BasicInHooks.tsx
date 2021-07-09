@@ -42,9 +42,12 @@ function Basic() {
   // ----------------------- 修改配置，使用 API -----------------------
   function toggleReadOnly() {
     if (editor == null) return
-    editor.setConfig({
-      readOnly: !editor.getConfig().readOnly,
-    })
+
+    if (editor.getConfig().readOnly) {
+      editor.enable()
+    } else {
+      editor.disable()
+    }
   }
   function printHtml() {
     if (editor == null) return

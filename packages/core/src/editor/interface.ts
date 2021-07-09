@@ -18,9 +18,7 @@ export interface IDomEditor extends Editor {
 
   // config
   getConfig: () => IEditorConfig
-  setConfig: (newConfig: Partial<IEditorConfig>) => void
   getMenuConfig: (menuKey: string) => ISingleMenuConfig
-  setMenuConfig: (menuKey: string, config: ISingleMenuConfig) => void
   getAllMenuKeys: () => string[] // TODO 文档中说明，包括如何获取 toolbar hoverbar menu
   alert: (info: string, type: AlertType) => void
 
@@ -41,6 +39,9 @@ export interface IDomEditor extends Editor {
   scrollToElem: (id: string) => void
   showProgressBar: (progress: number) => void
   hidePanelOrModal: () => void
+  enable: () => void
+  disable: () => void
+  isDisabled: () => boolean
 
   // selection 相关
   select: (at: Location) => void
