@@ -1,0 +1,16 @@
+@color: #595959;
+@bgColor: #fff;
+@activeColor: #333;
+@activeBgColor: #f1f1f1;
+@disabledColor: #999;
+@borderColor: #e8e8e8;
+
+@size: 14px;
+
+@barHeight: 40px;
+
+.shadowBordered(@shadowRadius: 5px) {
+  border: 1px solid @borderColor;
+  border-radius: 3px;
+  box-shadow: 0 2px @shadowRadius rgba(0, 0, 0, 0.12);
+}

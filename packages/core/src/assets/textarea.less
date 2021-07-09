@@ -1,5 +1,7 @@
+@import "vars.less"; // var and mixin
+
 .w-e-text-container {
-  background-color: #fff;
+  background-color: @bgColor;
   position: relative;
   height: 100%;
 }
@@ -43,7 +45,6 @@
   position: absolute;
   font-style: italic;
   width: 90%;
-  line-height: 1.5;
   left: 10px;
   top: 12px;
   pointer-events: none; // 忽略鼠标行为，重要

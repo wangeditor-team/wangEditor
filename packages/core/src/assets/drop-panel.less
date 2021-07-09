@@ -1,12 +1,12 @@
+@import "vars.less"; // var and mixin
+
 .w-e-drop-panel {
   z-index: 1;
-  background-color: #fff;
+  background-color: @bgColor;
   position: absolute;
   top: 0;
-  border: 1px solid #e8e8e8;
-  border-radius: 2px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
-  margin-top: 40px;
+  .shadowBordered(10px);
+  margin-top: @barHeight;
   min-width: 200px;
   padding: 10px;
 }

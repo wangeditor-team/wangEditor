@@ -1,16 +1,16 @@
+@import "vars.less"; // var and mixin
+
 .w-e-modal {
   z-index: 1;
-  background-color: #fff;
+  background-color: @bgColor;
   position: absolute;
-  border: 1px solid #e8e8e8;
-  border-radius: 2px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
   padding: 20px 15px 0 15px;
   min-width: 100px;
   min-height: 40px;
-  color: #595959;
+  color: @color;
   text-align: left;
-  font-size: 14px;
+  font-size: @size;
+  .shadowBordered(10px);
 
   .babel-container {
     display: block;
@@ -29,35 +29,27 @@
   button {
     font-weight: 400;
     white-space: nowrap;
-    border: 1px solid rgba(0,0,0,0);
-    box-shadow: 0 2px 0 rgb(0 0 0 0.2);
     cursor: pointer;
     transition: all .3s cubic-bezier(.645,.045,.355,1);
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
     touch-action: manipulation;
     height: 32px;
     padding: 4.5px 15px;
-    border-radius: 4px;
-    color: #595959;
+    color: @color;
     background: #fafafa;
-    border-color: #d9d9d9;
     text-align: center;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    box-shadow: 0 2px 0 rgb(0 0 0 0.2);
   }
 
   input[type="text"],
   input[type="number"] {
-    margin: 0;
-    padding: 0;
     font-variant: tabular-nums;
     font-feature-settings: "tnum";
-    min-width: 0;
     padding: 4.5px 11px;
-    color: #595959;
-    line-height: 1.5;
-    background-color: #fff;
+    color: @color;
+    background-color: @bgColor;
     border: 1px solid #d9d9d9;
     border-radius: 4px;
     transition: all .3s;
