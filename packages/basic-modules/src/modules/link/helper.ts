@@ -62,7 +62,7 @@ export function insertLink(editor: IDomEditor, text: string, url: string) {
   if (!text) text = url // 无 text 则用 url 代替
 
   // 还原选区
-  DomEditor.restoreSelection(editor)
+  editor.restoreSelection()
 
   if (isMenuDisabled(editor)) return
 

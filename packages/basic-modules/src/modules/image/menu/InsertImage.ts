@@ -133,7 +133,7 @@ class InsertImage implements IModalMenu {
     if (!src) return
 
     // 还原选区
-    DomEditor.restoreSelection(editor)
+    editor.restoreSelection()
 
     if (this.isDisabled(editor)) return
 

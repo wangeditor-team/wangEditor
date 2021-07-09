@@ -12,6 +12,9 @@ import { IPositionStyle } from '../menus/interface'
  * 扩展 slate Editor 接口
  */
 export interface IDomEditor extends Editor {
+  // TODO 这些 API 都在文档中说明
+  // 包括 slate 原生提供的 editor API ，如 insertText deleteFragment 等，查一查
+
   // data 相关（粘贴、拖拽等）
   insertData: (data: DataTransfer) => void
   setFragmentData: (data: DataTransfer) => void
@@ -46,6 +49,7 @@ export interface IDomEditor extends Editor {
   // selection 相关
   select: (at: Location) => void
   deselect: () => void
+  restoreSelection: () => void
   getSelectionPosition: () => Partial<IPositionStyle>
   getNodePosition: (node: Node) => Partial<IPositionStyle>
 

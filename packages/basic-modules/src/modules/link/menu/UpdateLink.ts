@@ -92,7 +92,7 @@ class UpdateLinkMenu implements IModalMenu {
       // 绑定事件（第一次渲染时绑定，不要重复绑定）
       $content.on('click', 'button', e => {
         e.preventDefault()
-        DomEditor.restoreSelection(editor) // 还原选区
+        editor.restoreSelection() // 还原选区
 
         const n = DomEditor.getSelectedNodeByType(editor, 'link')
         const text = n ? Node.string(n) : ''

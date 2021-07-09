@@ -6,6 +6,7 @@
 import { Editor, Transforms, Location, Node } from 'slate'
 import { IDomEditor } from '../interface'
 import { getPositionByNode, getPositionBySelection } from '../../menus/helpers/position'
+import { EDITOR_TO_SELECTION } from '../../utils/weak-maps'
 
 export const withSelection = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
@@ -18,6 +19,17 @@ export const withSelection = <T extends Editor>(editor: T) => {
   // 取消选中
   e.deselect = () => {
     Transforms.deselect(e)
+  }
+
+  /**
+   * 还原选区
+   */
+  e.restoreSelection = () => {
+    const selection = EDITOR_TO_SELECTION.get(e)
+    if (selection == null) return
+
+    e.focus()
+    Transforms.select(e, selection)
   }
 
   /**

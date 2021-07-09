@@ -28,7 +28,7 @@ class Modal extends PanelAndModal {
       const event = e as KeyboardEvent
       if (event.code === 'Escape') {
         this.hide()
-        DomEditor.restoreSelection(editor) // 还原选区
+        editor.restoreSelection() // 还原选区
       }
     })
   }
