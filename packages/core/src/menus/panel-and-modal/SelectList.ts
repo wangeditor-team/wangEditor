@@ -7,12 +7,11 @@ import $, { Dom7Array } from '../../utils/dom'
 import { IOption } from '../interface'
 import PanelAndModal from './BaseClass'
 import { IDomEditor } from '../../editor/interface'
+import { SVG_CHECK_MARK } from '../../constants/svg'
 
 // “对号”icon
 function gen$SelectedIcon() {
-  return $(
-    `<svg viewBox="0 0 1446 1024"><path d="M574.116299 786.736392 1238.811249 48.517862C1272.390222 11.224635 1329.414799 7.827718 1366.75664 41.450462 1403.840015 74.840484 1406.731043 132.084741 1373.10189 169.433699L655.118888 966.834607C653.072421 969.716875 650.835807 972.514337 648.407938 975.210759 615.017957 1012.29409 558.292155 1015.652019 521.195664 982.250188L72.778218 578.493306C35.910826 545.297758 32.859041 488.584019 66.481825 451.242134 99.871807 414.158803 156.597563 410.800834 193.694055 444.202665L574.116299 786.736392Z"></path></svg>`
-  )
+  return $(SVG_CHECK_MARK)
 }
 
 class SelectList extends PanelAndModal {
@@ -49,6 +48,10 @@ class SelectList extends PanelAndModal {
       $list.append($li)
     })
     $elem.append($list)
+  }
+
+  genSelfElem(): Dom7Array | null {
+    return null
   }
 }
 

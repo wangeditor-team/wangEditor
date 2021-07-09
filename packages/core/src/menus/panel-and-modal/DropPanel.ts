@@ -13,6 +13,10 @@ class DropPanel extends PanelAndModal {
   constructor(editor: IDomEditor) {
     super(editor)
   }
+
+  genSelfElem(): Dom7Array | null {
+    return null
+  }
 }
 
 export default DropPanel

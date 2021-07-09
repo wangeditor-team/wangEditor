@@ -28,10 +28,21 @@ abstract class PanelAndModal {
     set.add(this)
   }
 
+  /**
+   * 除了 content 之外的其他自己要增加的 elem
+   */
+  abstract genSelfElem(): Dom7Array | null
+
   renderContent($content: Dom7Array) {
     const { $elem } = this
     $elem.html('') // 先清空，再填充内容
     $elem.append($content)
+
+    // 添加自己额外的 elem
+    const $selfElem = this.genSelfElem()
+    if ($selfElem) {
+      $elem.append($selfElem)
+    }
   }
 
   appendTo($menuElem: Dom7Array) {

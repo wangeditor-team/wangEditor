@@ -4,6 +4,7 @@
  */
 
 import $, { Dom7Array } from '../../utils/dom'
+import { SVG_DOWN_ARROW } from '../../constants/svg'
 
 /**
  * 清理 svg 的样式
@@ -27,9 +28,7 @@ export function clearSvgStyle($elem: Dom7Array) {
  * 向下箭头 icon svg
  */
 export function gen$downArrow() {
-  const $downArrow = $(
-    `<svg viewBox="0 0 1024 1024"><path d="M498.7 655.8l-197.6-268c-8.1-10.9-0.3-26.4 13.3-26.4h395.2c13.6 0 21.4 15.4 13.3 26.4l-197.6 268c-6.6 9-20 9-26.6 0z"></path></svg>`
-  )
+  const $downArrow = $(SVG_DOWN_ARROW)
   return $downArrow
 }
 

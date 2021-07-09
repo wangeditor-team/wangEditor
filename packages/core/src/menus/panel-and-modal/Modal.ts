@@ -7,6 +7,8 @@ import $, { Dom7Array } from '../../utils/dom'
 import { IPositionStyle } from '../interface'
 import PanelAndModal from './BaseClass'
 import { IDomEditor } from '../../editor/interface'
+import { DomEditor } from '../../editor/dom-editor'
+import { SVG_CLOSE } from '../../constants/svg'
 
 class Modal extends PanelAndModal {
   readonly $elem: Dom7Array = $(`<div class="w-e-modal"></div>`)
@@ -16,8 +18,30 @@ class Modal extends PanelAndModal {
     super(editor)
     if (width) this.width = width
 
+    const { $elem } = this
+
     // mousedown 阻止冒泡，因为在 $textContainer 通过 mousedown 隐藏 panel & modal
-    this.$elem.on('mousedown', e => e.stopPropagation())
+    $elem.on('mousedown', e => e.stopPropagation())
+
+    // esc 关闭 modal
+    $elem.on('keyup', e => {
+      const event = e as KeyboardEvent
+      if (event.code === 'Escape') {
+        this.hide()
+        DomEditor.restoreSelection(editor) // 还原选区
+      }
+    })
+  }
+
+  /**
+   * 生成要添加到 modal $elem 的元素
+   * 【注意】不要直接 append 到 modal $elem ，因为它每次都会清空 html('')
+   */
+  genSelfElem(): Dom7Array | null {
+    // 关闭按钮
+    const $closeButton = $(`<span class="btn-close">${SVG_CLOSE}</span>`)
+    $closeButton.on('click', () => this.hide())
+    return $closeButton
   }
 
   setStyle(positionStyle: Partial<IPositionStyle>) {

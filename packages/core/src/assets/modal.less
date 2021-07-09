@@ -12,6 +12,21 @@
   font-size: @size;
   .shadowBordered(10px);
 
+  .btn-close {
+    position: absolute;
+    right: 8px;
+    top: 7px;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+
+    svg {
+      width: 10px;
+      height: 10px;
+      fill: @color;
+    }
+  }
+
   .babel-container {
     display: block;
     margin-bottom: 15px;
