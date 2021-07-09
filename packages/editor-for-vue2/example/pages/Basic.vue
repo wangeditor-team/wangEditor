@@ -41,7 +41,7 @@ export default Vue.extend({
   components: { Editor, Toolbar },
   data() {
     return {
-      //【注意】1. editorId 用于 Toolbar 和 Editor 的关联，保持一直。2. 多个编辑器时，每个的 editorId 要唯一
+      //【注意】1. editorId 用于 Toolbar 和 Editor 的关联，保持一致。2. 多个编辑器时，每个的 editorId 要唯一
       // TODO 文档中说明这一点
       editorId: 'w-e-1001',
 

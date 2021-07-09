@@ -112,11 +112,14 @@ class UploadImage implements IButtonMenu {
 
   private uploadFiles(editor: IDomEditor, files: File[]) {
     const menuConfig = this.getMenuConfig(editor)
-    const { onSuccess, onProgress, onFailed, customInsert } = menuConfig
+    const { onSuccess, onProgress, onFailed, customInsert, onError } = menuConfig
 
     // 上传完成之后
     const successHandler = (file: UppyFile, res: any) => {
-      // 预期 res 格式： { errno: 0, data: [ { url, alt, href }, {}, {} ] }
+      // 预期 res 格式：
+      // 成功：{ errno: 0, data: [ { url, alt, href }, {}, {} ] }
+      // 失败：{ errno: !0, message: '失败信息' }
+      // TODO 文档中说明
 
       if (customInsert) {
         // 用户自定义插入图片，此时 res 格式可能不符合预期
@@ -124,9 +127,11 @@ class UploadImage implements IButtonMenu {
         return
       }
 
-      const { errno = 1, data = [] } = res
+      const { errno = 1, message = '上传失败\nUpload failed', data = [] } = res
       if (errno !== 0) {
         console.error(`'${file.name}' upload failed`, res)
+        editor.alert(message, 'error')
+
         // failed 回调
         onFailed(file, res)
         return
@@ -151,12 +156,24 @@ class UploadImage implements IButtonMenu {
       onProgress && onProgress(progress)
     }
 
+    // onError 提示错误
+    const errorHandler = (file: any, err: any, res: any) => {
+      console.error(`'${file.name} upload error`, err, res)
+
+      let info = `'${file.name}' 上传错误\n'${file.name}' upload error`
+      editor.alert(info, 'error')
+
+      // 回调函数
+      onError && onError(file, err, res)
+    }
+
     // 创建 uppy 实例
     if (this.uppy == null) {
       this.uppy = genUppy({
         ...menuConfig,
         onProgress: progressHandler,
         onSuccess: successHandler,
+        onError: errorHandler,
       })
     }
     const uppy = this.uppy

@@ -44,7 +44,7 @@ import registerModule from './register-module'
 basicModules.forEach(module => registerModule(module))
 registerModule(wangEditorListModule)
 registerModule(wangEditorTableModule)
-registerModule(wangEditorVideoModule) // TODO 第三方 module 需拆分出来 ？
+registerModule(wangEditorVideoModule)
 registerModule(wangEditorUploadImageModule)
 registerModule(wangEditorCodeHighlightModule)
 
