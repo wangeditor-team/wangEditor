@@ -42,7 +42,7 @@
   <script src="js/init-content.js"></script>
   <script src="../dist/index.js"></script>
   <script>
-    wangEditor = window.wangEditor.default
+    const E = window.wangEditor.default
 
     const editorConfig = { MENU_CONF: {} }
     editorConfig.MENU_CONF['uploadImage'] = {
@@ -113,13 +113,13 @@
       // },
     }
 
-    const editor = wangEditor.createEditor({
+    const editor = E.createEditor({
       textareaSelector: '#editor-text-area',
       content: window.content1,
       config: editorConfig
     })
 
-    const toolbar = wangEditor.createToolbar({
+    const toolbar = E.createToolbar({
       editor,
       toolbarSelector: '#editor-toolbar',
       // config: {}

@@ -44,7 +44,7 @@
 <script src="../dist/index.js"></script>
 <script>
   (function () {
-    wangEditor = window.wangEditor.default
+    const E = window.wangEditor.default
 
     document.getElementById('btn-go')?.addEventListener('click', () => {
       let editor, toolbar
@@ -83,12 +83,12 @@
           console.log('createCore', num)
 
           // 先创建 editor 再创建 toolbar
-          editor = wangEditor.createEditor({
+          editor = E.createEditor({
             textareaSelector: '#editor-text-area',
             config: editorConfig,
             content: window.content1
           })
-          toolbar = wangEditor.createToolbar({
+          toolbar = E.createToolbar({
             editor,
             toolbarSelector: '#editor-toolbar'
           })

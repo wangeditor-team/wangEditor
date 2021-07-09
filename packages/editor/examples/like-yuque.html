@@ -94,7 +94,7 @@
   <script src="js/init-content.js"></script>
   <script src="../dist/index.js"></script>
   <script>
-    wangEditor = window.wangEditor.default
+    const E = window.wangEditor.default
 
     const editorConfig = { MENU_CONF: {} }
     editorConfig.placeholder = '请输入内容'
@@ -108,14 +108,14 @@
     }
 
     // 先创建 editor
-    const editor = wangEditor.createEditor({
+    const editor = E.createEditor({
       textareaSelector: '#editor-text-area',
       content: window.content1,
       config: editorConfig
     })
 
     // 创建 toolbar
-    const toolbar = wangEditor.createToolbar({
+    const toolbar = E.createToolbar({
       editor,
       toolbarSelector: '#editor-toolbar',
       // config: {}

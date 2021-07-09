@@ -41,14 +41,14 @@
   <script src="js/init-content.js"></script>
   <script src="../dist/index.js"></script>
   <script>
-    wangEditor = window.wangEditor.default
+    const E = window.wangEditor.default
 
     // editor 配置
     const editorConfig = {}
     editorConfig.placeholder = '请输入内容123...'
     editorConfig.hoverbarKeys = [] // 禁用 hoverbar
 
-    const editor = wangEditor.createEditor({
+    const editor = E.createEditor({
       textareaSelector: '#editor-text-area',
       config: editorConfig
     })
@@ -58,7 +58,7 @@
     const toolbarConfig = {}
     toolbarConfig.toolbarKeys = ['bold', 'italic', 'underline', 'code', '|', 'header1', 'header2', 'blockquote', '|', 'bulletedList', 'numberedList']
 
-    const toolbar = wangEditor.createToolbar({
+    const toolbar = E.createToolbar({
       editor,
       toolbarSelector: '#editor-toolbar',
       config: toolbarConfig

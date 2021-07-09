@@ -53,7 +53,7 @@
   <script src="js/init-content.js"></script>
   <script src="../dist/index.js"></script>
   <script>
-    wangEditor = window.wangEditor.default
+    const E = window.wangEditor.default
 
     // --------------------- editor1 ---------------------
     const editorConfig1 = { MENU_CONF: {} }
@@ -66,11 +66,11 @@
       document.getElementById('content-view-1').innerHTML = JSON.stringify(editor.children, null, 2)
     }
 
-    const editor1 = wangEditor.createEditor({
+    const editor1 = E.createEditor({
       textareaSelector: '#editor-text-area-1',
       config: editorConfig1
     })
-    const toolbar1 = wangEditor.createToolbar({
+    const toolbar1 = E.createToolbar({
       editor: editor1,
       toolbarSelector: '#editor-toolbar-1',
       config: {}
@@ -101,11 +101,11 @@
       'insertVideo',
     ]
 
-    const editor2 = wangEditor.createEditor({
+    const editor2 = E.createEditor({
       textareaSelector: '#editor-text-area-2',
       config: editorConfig2
     })
-    const toolbar2 = wangEditor.createToolbar({
+    const toolbar2 = E.createToolbar({
       editor: editor2,
       toolbarSelector: '#editor-toolbar-2',
       config: toolbarConfig2
