@@ -44,19 +44,18 @@
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
     "slate": "^0.63.0",
-    "snabbdom": "^3.0.1"
+    "snabbdom": "^3.0.1",
+    "lodash-es": "^4.17.21"
   },
   "dependencies": {
     "event-emitter": "^0.3.5",
     "html-void-elements": "^2.0.0",
-    "lodash-es": "^4.17.21",
     "scroll-into-view-if-needed": "^2.2.28",
     "slate-history": "^0.62.0",
     "xml-formatter": "^2.4.0"
   },
   "devDependencies": {
     "@types/event-emitter": "^0.3.3",
-    "@types/is-hotkey": "^0.1.2",
-    "@types/lodash-es": "^4.17.4"
+    "@types/is-hotkey": "^0.1.2"
   }
 }
