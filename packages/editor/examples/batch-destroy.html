@@ -52,11 +52,11 @@
       // ----------------------------- editor config -----------------------------
       const editorConfig = {}
       editorConfig.placeholder = '请输入内容'
-      editorConfig.onCreated = (editorCore) => {
-        console.log('on created', editorCore.id)
+      editorConfig.onCreated = (editor) => {
+        console.log('on created', editor.id)
       }
-      editorConfig.onDestroyed = (editorCore) => {
-        console.log('on destroyed', editorCore.id)
+      editorConfig.onDestroyed = (editor) => {
+        console.log('on destroyed', editor.id)
       }
 
       // ----------------------------- 获取 循环次数 -----------------------------

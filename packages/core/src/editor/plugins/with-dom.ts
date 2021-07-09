@@ -29,7 +29,7 @@ export const withDOM = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
   const { apply } = e
 
-  e.id = `wangEditorCore-${ID++}`
+  e.id = `wangEditor-${ID++}`
 
   // 重写 apply 方法
   // apply 方法非常重要，它最终执行 operation https://docs.slatejs.org/concepts/05-operations

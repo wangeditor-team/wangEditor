@@ -12,7 +12,7 @@ export function getDefaultEditorConfig() {
     // hover bar
     hoverbarKeys: genHoverbarKeys(),
 
-    onChange(editorCore: IDomEditor) {
+    onChange(editor: IDomEditor) {
       // console.log('selection', editor.selection, editor.children)
       // console.log('getHtml--------\n', editor.getHtml())
       // console.log('getText--------\n', editor.getText())

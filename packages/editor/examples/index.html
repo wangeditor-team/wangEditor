@@ -85,8 +85,8 @@
     // editorConfig.readOnly = true
     // editorConfig.scroll = false
     // editorConfig.maxLength = 120 // 慎用，可能影响性能，需在文档中说明
-    // editorConfig.onMaxLength = (editorCore) => {
-    //   console.log('on max length', editorCore)
+    // editorConfig.onMaxLength = (editor) => {
+    //   console.log('on max length', editor)
     // }
     editorConfig.placeholder = '请输入内容'
     editorConfig.MENU_CONF['uploadImage'] = {
@@ -94,31 +94,31 @@
       fieldName: 'index-fileName'
     }
     console.log('测试上传图片，请使用 upload-image.html')
-    editorConfig.onCreated = (editorCore) => {
-      console.log('on created', editorCore)
+    editorConfig.onCreated = (editor) => {
+      console.log('on created', editor)
     }
-    editorConfig.onChange = (editorCore) => {
+    editorConfig.onChange = (editor) => {
       // 获取 html （使用异步，类似 Vue $nextTick）
       Promise.resolve().then(() => {
-        const html = editorCore.getHtml()
+        const html = editor.getHtml()
         document.getElementById('editor-content-view').innerHTML = html
       })
 
       // 选中文字
-      const selectionText = editorCore.getSelectionText()
+      const selectionText = editor.getSelectionText()
       document.getElementById('selected-text').innerHTML = selectionText
       document.getElementById('selected-length').innerHTML = selectionText.length
       // 全部文字
-      document.getElementById('total-length').innerHTML = editorCore.getText().length
+      document.getElementById('total-length').innerHTML = editor.getText().length
     }
-    editorConfig.onDestroyed = (editorCore) => {
-      console.log('on destroyed', editorCore)
+    editorConfig.onDestroyed = (editor) => {
+      console.log('on destroyed', editor)
     }
-    // editorConfig.onFocus = (editorCore) => {
-    //   console.log('onFocus', editorCore)
+    // editorConfig.onFocus = (editor) => {
+    //   console.log('onFocus', editor)
     // }
-    // editorConfig.onBlur = (editorCore) => {
-    //   console.log('onBlur', editorCore)
+    // editorConfig.onBlur = (editor) => {
+    //   console.log('onBlur', editor)
     // }
     // editorConfig.MENU_CONF['insertImage'] = {
     //   onInsertedImage(src, alt, url) {

@@ -58,12 +58,12 @@
     const E = window.wangEditor.default
 
     const editorConfig = {}
-    editorConfig.onCreated = (editorCore) => {
-      console.log('on created', editorCore)
+    editorConfig.onCreated = (editor) => {
+      console.log('on created', editor)
     }
-    editorConfig.onChange = (editorCore) => {
+    editorConfig.onChange = (editor) => {
       // 获取并展示 headers
-      const headers = editorCore.getHeaders()
+      const headers = editor.getHeaders()
       $('#text-headers').val(JSON.stringify(headers, null, 4))
     }
 
