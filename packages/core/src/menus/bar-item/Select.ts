@@ -66,7 +66,7 @@ class BarItemSelect implements IBarItem {
   private trigger() {
     const editor = getEditorInstance(this)
 
-    if (DomEditor.isReadOnly(editor)) return
+    if (editor.isDisabled()) return
     if (this.disabled) return
 
     const menu = this.menu
@@ -133,7 +133,7 @@ class BarItemSelect implements IBarItem {
     let disabled = menu.isDisabled(editor)
     const $button = this.$button
 
-    if (editor.selection == null || DomEditor.isReadOnly(editor)) {
+    if (editor.selection == null || editor.isDisabled()) {
       // 未选中，或者 readOnly ，强行设置为 disabled
       disabled = true
     }

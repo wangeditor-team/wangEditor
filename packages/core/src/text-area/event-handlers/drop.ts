@@ -30,7 +30,7 @@ function handleOnDrop(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   const range = DomEditor.findEventRange(editor, event)
   Transforms.select(editor, range)
-  DomEditor.insertData(editor, data)
+  editor.insertData(data)
 }
 
 export default handleOnDrop

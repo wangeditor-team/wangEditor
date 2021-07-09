@@ -31,7 +31,7 @@ interface IAttrs {
 
 function renderElement(elemNode: SlateElement, editor: IDomEditor): VNode {
   const key = DomEditor.findKey(editor, elemNode)
-  // const readOnly = DomEditor.isReadOnly(editor)
+  // const readOnly = editor.isDisabled()
   const isInline = editor.isInline(elemNode)
   const isVoid = Editor.isVoid(editor, elemNode)
   const domId = genElemId(key.id)

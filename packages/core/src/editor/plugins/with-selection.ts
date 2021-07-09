@@ -18,7 +18,16 @@ export const withSelection = <T extends Editor>(editor: T) => {
 
   // 取消选中
   e.deselect = () => {
-    Transforms.deselect(e)
+    const { selection } = e
+    const domSelection = window.getSelection()
+
+    if (domSelection && domSelection.rangeCount > 0) {
+      domSelection.removeAllRanges()
+    }
+
+    if (selection) {
+      Transforms.deselect(e)
+    }
   }
 
   /**

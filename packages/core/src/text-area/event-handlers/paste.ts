@@ -25,7 +25,7 @@ function handleOnPaste(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   const data = event.clipboardData
   if (data == null) return
-  DomEditor.insertData(editor, data)
+  editor.insertData(data)
 }
 
 export default handleOnPaste

@@ -26,7 +26,7 @@ function handleOnDragstart(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   const data = event.dataTransfer
   if (data == null) return
-  DomEditor.setFragmentData(editor, data)
+  editor.setFragmentData(data)
 }
 
 export default handleOnDragstart

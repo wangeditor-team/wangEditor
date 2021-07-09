@@ -16,7 +16,7 @@ function handleOnCopy(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   const data = event.clipboardData
   if (data == null) return
-  DomEditor.setFragmentData(editor, data)
+  editor.setFragmentData(data)
 }
 
 export default handleOnCopy

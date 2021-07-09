@@ -102,7 +102,7 @@ abstract class BaseButton implements IBarItem {
     const { $button } = this
     let disabled = this.menu.isDisabled(editor)
 
-    if (editor.selection == null || DomEditor.isReadOnly(editor)) {
+    if (editor.selection == null || editor.isDisabled()) {
       // 未选中，或者 readOnly ，强行设置为 disabled
       disabled = true
     }

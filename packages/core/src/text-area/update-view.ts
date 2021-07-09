@@ -116,7 +116,7 @@ function updateView(textarea: TextArea, editor: IDomEditor) {
     isFocused = autoFocus
   } else {
     // 非初次渲染
-    isFocused = DomEditor.isFocused(editor)
+    isFocused = editor.isFocused()
   }
   if (isFocused) {
     textareaElem.focus({

@@ -25,7 +25,7 @@ export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): vo
 
   if (!domSelection) return
   if (textarea.isComposing) return
-  if (!DomEditor.isFocused(editor)) return
+  if (!editor.isFocused()) return
 
   const hasDomSelection = domSelection.type !== 'None'
 

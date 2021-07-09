@@ -101,21 +101,6 @@ export const DomEditor = {
   },
 
   /**
-   * Check if the editor is focused.
-   */
-  isFocused(editor: IDomEditor): boolean {
-    return editor.isFocused()
-  },
-
-  /**
-   * Check if the editor is in read-only mode.
-   */
-  isReadOnly(editor: IDomEditor): boolean {
-    const config = editor.getConfig()
-    return config.readOnly
-  },
-
-  /**
    * Find the native DOM element from a Slate node or editor.
    */
   toDOMNode(editor: IDomEditor, node: Node): HTMLElement {
@@ -133,37 +118,6 @@ export const DomEditor = {
     }
 
     return domNode
-  },
-
-  /**
-   * Focus the editor.
-   */
-  focus(editor: IDomEditor): void {
-    editor.focus()
-  },
-
-  /**
-   * Blur the editor.
-   */
-  blur(editor: IDomEditor): void {
-    editor.blur()
-  },
-
-  /**
-   * Deselect the editor.
-   * 删除选区，包括 DOM selection 和 slate selection
-   */
-  deselect(editor: IDomEditor): void {
-    const { selection } = editor
-    const domSelection = window.getSelection()
-
-    if (domSelection && domSelection.rangeCount > 0) {
-      domSelection.removeAllRanges()
-    }
-
-    if (selection) {
-      Transforms.deselect(editor)
-    }
   },
 
   /**
@@ -196,20 +150,6 @@ export const DomEditor = {
       // 这里不解何意 ？？？
       (!editable || targetEl.isContentEditable || !!targetEl.getAttribute('data-slate-zero-width'))
     )
-  },
-
-  /**
-   * Insert data from a `DataTransfer` into the editor.
-   */
-  insertData(editor: IDomEditor, data: DataTransfer): void {
-    editor.insertData(data)
-  },
-
-  /**
-   * Sets data from the currently selected fragment on a `DataTransfer`.
-   */
-  setFragmentData(editor: IDomEditor, data: DataTransfer): void {
-    editor.setFragmentData(data)
   },
 
   /**

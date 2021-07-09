@@ -21,7 +21,7 @@ function handleOnCut(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   const data = event.clipboardData
   if (data == null) return
-  DomEditor.setFragmentData(editor, data)
+  editor.setFragmentData(data)
 
   if (selection && Range.isExpanded(selection)) {
     Editor.deleteFragment(editor)
