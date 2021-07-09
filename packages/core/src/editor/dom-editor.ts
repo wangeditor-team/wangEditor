@@ -106,7 +106,7 @@ export const DomEditor = {
    * Check if the editor is focused.
    */
   isFocused(editor: IDomEditor): boolean {
-    return !!IS_FOCUSED.get(editor)
+    return editor.isFocused()
   },
 
   /**

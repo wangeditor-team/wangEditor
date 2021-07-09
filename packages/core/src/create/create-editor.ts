@@ -10,6 +10,7 @@ import { withConfig } from '../editor/plugins/with-config'
 import { withContent } from '../editor/plugins/with-content'
 import { withEventData } from '../editor/plugins/with-event-data'
 import { withEmitter } from '../editor/plugins/with-emitter'
+import { withSelection } from '../editor/plugins/with-selection'
 import TextArea from '../text-area/TextArea'
 import HoverBar from '../menus/bar/HoverBar'
 import { genEditorConfig } from '../config/index'
@@ -43,7 +44,7 @@ export default function (option: ICreateOption) {
 
   // 创建实例 - 使用插件
   let editor = withHistory(
-    withEmitter(withContent(withConfig(withDOM(withEventData(createEditor())))))
+    withEmitter(withSelection(withContent(withConfig(withDOM(withEventData(createEditor()))))))
   )
   if (isRepeatedCreate(editor, textareaSelector)) {
     // 对同一个 DOM 重复创建

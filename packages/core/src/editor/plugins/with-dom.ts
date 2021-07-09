@@ -91,6 +91,11 @@ export const withDOM = <T extends Editor>(editor: T) => {
     }
   }
 
+  // isFocused
+  e.isFocused = () => {
+    return !!IS_FOCUSED.get(e)
+  }
+
   // blur
   e.blur = () => {
     const el = DomEditor.toDOMNode(e, e)

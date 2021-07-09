@@ -70,6 +70,10 @@ export {
   Node as SlateNode,
   Element as SlateElement,
   Text as SlateText,
+  Path as SlatePath,
+  Range as SlateRange,
+  Location as SlateLocation,
+  Point as SlatePoint,
 } from 'slate'
 
 export default wangEditor

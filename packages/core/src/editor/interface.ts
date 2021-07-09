@@ -3,9 +3,10 @@
  * @author wangfupeng
  */
 
-import { Editor } from 'slate'
+import { Editor, Location, Node } from 'slate'
 import ee from 'event-emitter'
 import { IEditorConfig, AlertType, ISingleMenuConfig } from '../config/interface'
+import { IPositionStyle } from '../menus/interface'
 
 /**
  * 扩展 slate Editor 接口
@@ -33,12 +34,19 @@ export interface IDomEditor extends Editor {
   // dom 相关
   id: string
   focus: () => void
+  isFocused: () => boolean
   blur: () => void
   updateView: () => void
   destroy: () => void
   scrollToElem: (id: string) => void
   showProgressBar: (progress: number) => void
   hidePanelOrModal: () => void
+
+  // selection 相关
+  select: (at: Location) => void
+  deselect: () => void
+  getSelectionPosition: () => Partial<IPositionStyle>
+  getNodePosition: (node: Node) => Partial<IPositionStyle>
 
   // 自定义事件
   on: (type: string, listener: ee.EventListener) => void
