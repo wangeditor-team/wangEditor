@@ -48,8 +48,6 @@
     "@rollup/plugin-replace": "^2.4.2",
     "@testing-library/jest-dom": "^5.11.6",
     "@types/jest": "^25.2.1",
-    "@types/jquery": "^3.3.38",
-    "@types/lodash": "^4.14.150",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^4.4.1",
     "@vue/compiler-sfc": "^3.1.4",
@@ -72,6 +70,7 @@
     "lerna-changelog": "^1.0.1",
     "less": "^3.11.1",
     "lint-staged": "^10.2.2",
+    "lodash": "^4.17.21",
     "nodemon": "^2.0.6",
     "postcss": "^8.2.15",
     "prettier": "^2.0.5",
@@ -91,8 +90,5 @@
     "ts-jest": "^25.4.0",
     "tslib": "^2.3.0",
     "typescript": "^4.0.3"
-  },
-  "dependencies": {
-    "lodash": "^4.17.21"
   }
 }

@@ -35,7 +35,8 @@
     "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js",
     "dev-watch": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
-    "size-stats": "cross-env NODE_ENV=size_stats rollup -c rollup.config.js"
+    "dev-size-stats": "cross-env NODE_ENV=development:size_stats rollup -c rollup.config.js",
+    "size-stats": "cross-env NODE_ENV=production:size_stats rollup -c rollup.config.js"
   },
   "bugs": {
     "url": "https://github.com/wangeditor-team/we-2021/issues"
