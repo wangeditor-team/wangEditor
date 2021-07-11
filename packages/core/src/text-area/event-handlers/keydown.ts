@@ -161,7 +161,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteBackward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'backward' })
       } else {
         Editor.deleteBackward(editor)
       }
@@ -170,7 +170,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteForward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'forward' })
       } else {
         Editor.deleteForward(editor)
       }
@@ -180,7 +180,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteLineBackward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'backward' })
       } else {
         Editor.deleteBackward(editor, { unit: 'line' })
       }
@@ -189,7 +189,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteLineForward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'forward' })
       } else {
         Editor.deleteForward(editor, { unit: 'line' })
       }
@@ -199,7 +199,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteWordBackward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'backward' })
       } else {
         Editor.deleteBackward(editor, { unit: 'word' })
       }
@@ -208,7 +208,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteWordForward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'forward' })
       } else {
         Editor.deleteForward(editor, { unit: 'word' })
       }
