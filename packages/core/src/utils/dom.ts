@@ -128,16 +128,19 @@ export const normalizeDOMPoint = (domPoint: DOMPoint): DOMPoint => {
   // If it's an element node, its offset refers to the index of its children
   // including comment nodes, so try to find the right text child node.
   if (isDOMElement(node) && node.childNodes.length) {
-    const isLast = offset === node.childNodes.length
-    const direction = isLast ? 'backward' : 'forward'
-    const index = isLast ? offset - 1 : offset
-    node = getEditableChild(node, index, direction)
+    let isLast = offset === node.childNodes.length
+    let index = isLast ? offset - 1 : offset
+    ;[node, index] = getEditableChildAndIndex(node, index, isLast ? 'backward' : 'forward')
+
+    // If the editable child found is in front of input offset, we instead seek to its end
+    // 如果编辑区域的内容被发现在输入光标位置前面，也就是光标位置不正常，则修正光标的位置到结尾
+    isLast = index < offset
 
     // If the node has children, traverse until we have a leaf node. Leaf nodes
     // can be either text nodes, or other void DOM nodes.
     while (isDOMElement(node) && node.childNodes.length) {
       const i = isLast ? node.childNodes.length - 1 : 0
-      node = getEditableChild(node, i, direction)
+      node = getEditableChild(node, i, isLast ? 'backward' : 'forward')
     }
 
     // Determine the new offset inside the text node.
@@ -149,13 +152,13 @@ export const normalizeDOMPoint = (domPoint: DOMPoint): DOMPoint => {
 }
 
 /**
- * Get the nearest editable child at `index` in a `parent`, preferring `direction`.
+ * Get the nearest editable child and index at `index` in a `parent`, preferring `direction`.
  */
-export const getEditableChild = (
+export const getEditableChildAndIndex = (
   parent: DOMElement,
   index: number,
   direction: 'forward' | 'backward'
-): DOMNode => {
+): [DOMNode, number] => {
   const { childNodes } = parent
   let child = childNodes[index]
   let i = index
@@ -188,9 +191,24 @@ export const getEditableChild = (
     }
 
     child = childNodes[i]
+    index = i
     i += direction === 'forward' ? 1 : -1
   }
 
+  return [child, index]
+}
+
+/**
+ * Get the nearest editable child at `index` in a `parent`, preferring
+ * `direction`.
+ */
+
+export const getEditableChild = (
+  parent: DOMElement,
+  index: number,
+  direction: 'forward' | 'backward'
+): DOMNode => {
+  const [child] = getEditableChildAndIndex(parent, index, direction)
   return child
 }
 
