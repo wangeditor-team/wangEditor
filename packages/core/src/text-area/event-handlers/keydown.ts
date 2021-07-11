@@ -106,6 +106,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
   // hotkeys manually because browsers won't be able to skip over
   // the void node with the zero-width space not being an empty
   // string.
+  // todo 移动 word 考虑 Node 排版模式是否为 rtl 的情况
   if (Hotkeys.isMoveBackward(event)) {
     preventDefault(event)
 
@@ -129,11 +130,21 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   if (Hotkeys.isMoveWordBackward(event)) {
     preventDefault(event)
+
+    if (selection && Range.isExpanded(selection)) {
+      Transforms.collapse(editor, { edge: 'focus' })
+    }
+
     Transforms.move(editor, { unit: 'word', reverse: true })
     return
   }
   if (Hotkeys.isMoveWordForward(event)) {
     preventDefault(event)
+
+    if (selection && Range.isExpanded(selection)) {
+      Transforms.collapse(editor, { edge: 'focus' })
+    }
+
     Transforms.move(editor, { unit: 'word' })
     return
   }
