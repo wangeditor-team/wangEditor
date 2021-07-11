@@ -15,7 +15,7 @@ function handleOnDragstart(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   const node = DomEditor.toSlateNode(editor, event.target)
   const path = DomEditor.findPath(editor, node)
-  const voidMatch = Editor.void(editor, { at: path })
+  const voidMatch = Editor.isVoid(editor, node) || Editor.void(editor, { at: path, voids: true })
 
   // If starting a drag on a void node, make sure it is selected
   // so that it shows up in the selection's fragment.
@@ -26,6 +26,9 @@ function handleOnDragstart(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   const data = event.dataTransfer
   if (data == null) return
+
+  textarea.isDraggingInternally = true
+
   editor.setFragmentData(data)
 }
 

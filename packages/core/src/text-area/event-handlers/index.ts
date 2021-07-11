@@ -19,6 +19,7 @@ import handleOnCut from './cut'
 import handleOnPaste from './paste'
 import handleOnDragover from './dragOver'
 import handleOnDragstart from './dragStart'
+import handleOnDragend from './dragEnd'
 import handleOnDrop from './drop'
 
 const eventConf = {
@@ -36,6 +37,7 @@ const eventConf = {
   paste: handleOnPaste,
   dragover: handleOnDragover,
   dragstart: handleOnDragstart,
+  dragend: handleOnDragend,
   drop: handleOnDrop,
 }
 

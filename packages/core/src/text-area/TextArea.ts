@@ -25,6 +25,7 @@ class TextArea {
   readonly $progressBar = $('<div class="w-e-progress-bar"></div>')
   isComposing: boolean = false
   isUpdatingSelection: boolean = false
+  isDraggingInternally: boolean = false
   latestElement: DOMElement | null = null
   showPlaceholder = false
   $placeholder: Dom7Array | null = null
