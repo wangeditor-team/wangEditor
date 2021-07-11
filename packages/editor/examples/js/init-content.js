@@ -18,7 +18,6 @@ window.content1 = [
     type: 'paragraph',
     children: [
       { text: 'hello world ~~~ ' },
-      { text: ' ' },
       {
         type: 'link',
         url: 'https://www.slatejs.org/examples/links',
