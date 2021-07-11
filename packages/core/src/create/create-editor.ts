@@ -15,6 +15,7 @@ import TextArea from '../text-area/TextArea'
 import HoverBar from '../menus/bar/HoverBar'
 import { genEditorConfig } from '../config/index'
 import { IDomEditor } from '../editor/interface'
+import { DomEditor } from '../editor/dom-editor'
 import { IEditorConfig } from '../config/interface'
 import { promiseResolveThen } from '../utils/util'
 import { isRepeatedCreate, genDefaultContent } from './helper'
@@ -98,6 +99,7 @@ export default function (option: ICreateOption) {
   } else {
     editor.children = genDefaultContent()
   }
+  DomEditor.normalizeContent(editor) // 格式化，用户输入的 content 可能不规范（如两个相连的 text 没有合并）
   textarea.changeViewState() // 初始化时触发一次，以便能初始化 textarea DOM 和 selection
 
   // 触发生命周期

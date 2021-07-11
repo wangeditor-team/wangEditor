@@ -488,4 +488,11 @@ export const DomEditor = {
   getHoverbar(editor: IDomEditor): HoverBar | null {
     return EDITOR_TO_HOVER_BAR.get(editor) || null
   },
+
+  // 格式化 editor content
+  normalizeContent(editor: IDomEditor) {
+    editor.children.forEach((node, index) => {
+      editor.normalizeNode([node, [index]])
+    })
+  },
 }

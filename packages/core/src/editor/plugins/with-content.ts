@@ -51,12 +51,17 @@ export const withContent = <T extends Editor>(editor: T) => {
   }
 
   // 获取 html
-  e.getHtml = (): string => {
+  e.getHtml = (withFormat = true): string => {
     const { children = [] } = e
-    const html = children.map(child => node2html(child, e)).join('\n')
-    return xmlFormat(`<div>${html}</div>`, {
-      collapseContent: true,
-    })
+    let html = children.map(child => node2html(child, e)).join('')
+    html = `<div>${html}</div>`
+
+    if (withFormat) {
+      return xmlFormat(html, {
+        collapseContent: true,
+      })
+    }
+    return html
   }
 
   // 获取 text
