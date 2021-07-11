@@ -11,7 +11,8 @@ import { IS_FOCUSED } from '../../utils/weak-maps'
 
 function handleOnFocus(event: Event, textarea: TextArea, editor: IDomEditor) {
   const el = DomEditor.toDOMNode(editor, editor)
-  textarea.latestElement = window.document.activeElement
+  const root = DomEditor.findDocumentOrShadowRoot(editor)
+  textarea.latestElement = root.activeElement
 
   // COMPAT: If the editor has nested editable elements, the focus
   // can go to them. In Firefox, this must be prevented because it

@@ -495,4 +495,26 @@ export const DomEditor = {
       editor.normalizeNode([node, [index]])
     })
   },
+  /**
+   * Find the DOM node that implements DocumentOrShadowRoot for the editor.
+   */
+  findDocumentOrShadowRoot(editor: IDomEditor): Document | ShadowRoot {
+    const el = DomEditor.toDOMNode(editor, editor)
+    const root = el.getRootNode()
+
+    // The below exception will always be thrown for iframes because the document inside an iframe
+    // does not inherit it's prototype from the parent document, therefore we return early
+    if (el.ownerDocument !== document) return el.ownerDocument
+
+    if (!(root instanceof Document || root instanceof ShadowRoot))
+      throw new Error(`Unable to find DocumentOrShadowRoot for editor element: ${el}`)
+
+    // COMPAT: Only Chrome implements the DocumentOrShadowRoot mixin for
+    // ShadowRoot; other browsers still implement it on the Document
+    // interface. (2020/08/08)
+    // https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot#Properties
+    if (root.getSelection === undefined && el.ownerDocument !== null) return el.ownerDocument
+
+    return root
+  },
 }

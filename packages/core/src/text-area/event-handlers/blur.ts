@@ -19,12 +19,13 @@ function handleOnBlur(e: Event, textarea: TextArea, editor: IDomEditor) {
   if (editorConfig.readOnly) return
   if (isUpdatingSelection) return
   if (!hasEditableTarget(editor, event.target)) return
+  const root = DomEditor.findDocumentOrShadowRoot(editor)
 
   // COMPAT: If the current `activeElement` is still the previous
   // one, this is due to the window being blurred when the tab
   // itself becomes unfocused, so we want to abort early to allow to
   // editor to stay focused when the tab becomes focused again.
-  if (latestElement === window.document.activeElement) return
+  if (latestElement === root.activeElement) return
 
   // relatedTarget 即 blur 之后又 focus 到了哪个元素，如果没有则是 null
   const { relatedTarget } = event

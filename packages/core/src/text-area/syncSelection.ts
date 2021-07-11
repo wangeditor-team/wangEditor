@@ -21,7 +21,8 @@ import { DOMElement } from '../utils/dom'
  */
 export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): void {
   const { selection } = editor
-  const domSelection = window.getSelection()
+  const root = DomEditor.findDocumentOrShadowRoot(editor)
+  const domSelection = root.getSelection()
 
   if (!domSelection) return
   if (textarea.isComposing) return
@@ -130,7 +131,8 @@ export function DOMSelectionToEditor(textarea: TextArea, editor: IDomEditor) {
   if (isComposing) return
   if (isUpdatingSelection) return
 
-  const { activeElement } = window.document
+  const root = DomEditor.findDocumentOrShadowRoot(editor)
+  const { activeElement } = root
   const el = DomEditor.toDOMNode(editor, editor)
   const domSelection = window.getSelection()
 

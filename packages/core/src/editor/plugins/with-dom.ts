@@ -79,6 +79,7 @@ export const withDOM = <T extends Editor>(editor: T) => {
   // focus
   e.focus = (isEnd?: boolean) => {
     const el = DomEditor.toDOMNode(e, e)
+    const root = DomEditor.findDocumentOrShadowRoot(e)
     IS_FOCUSED.set(e, true)
 
     if (isEnd) {
@@ -86,7 +87,7 @@ export const withDOM = <T extends Editor>(editor: T) => {
       Transforms.select(e, end)
     }
 
-    if (window.document.activeElement !== el) {
+    if (root.activeElement !== el) {
       el.focus({ preventScroll: true })
     }
   }
@@ -99,9 +100,10 @@ export const withDOM = <T extends Editor>(editor: T) => {
   // blur
   e.blur = () => {
     const el = DomEditor.toDOMNode(e, e)
+    const root = DomEditor.findDocumentOrShadowRoot(e)
     IS_FOCUSED.set(e, false)
 
-    if (window.document.activeElement === el) {
+    if (root.activeElement === el) {
       el.blur()
     }
   }
