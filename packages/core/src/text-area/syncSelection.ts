@@ -102,7 +102,6 @@ export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): vo
     const leafEl = newDomRange.startContainer.parentElement!
     scrollIntoView(leafEl, {
       scrollMode: 'if-needed',
-      boundary: editorElement,
     })
   } else {
     domSelection.removeAllRanges()
