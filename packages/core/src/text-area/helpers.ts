@@ -52,11 +52,18 @@ export function hasTarget(editor: IDomEditor, target: EventTarget | null): targe
 /**
  * Check if a DOM event is overrode by a handler.
  */
-export function isDOMEventHandled(event: Event, handler?: (event: Event) => void) {
+export function isDOMEventHandled(event: Event, handler?: (event: Event) => void | boolean) {
   if (!handler) {
     return false
   }
 
-  handler(event)
+  // The custom event handler may return a boolean to specify whether the event
+  // shall be treated as being handled or not.
+  const shouldTreatEventAsHandled = handler(event)
+
+  if (shouldTreatEventAsHandled != null) {
+    return shouldTreatEventAsHandled
+  }
+
   return event.defaultPrevented
 }
