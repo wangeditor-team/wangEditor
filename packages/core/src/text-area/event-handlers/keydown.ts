@@ -4,12 +4,12 @@
  */
 
 import { isHotkey } from 'is-hotkey'
-import { Editor, Transforms, Range } from 'slate'
+import { Editor, Transforms, Range, Node, Element } from 'slate'
 import { IDomEditor } from '../../editor/interface'
 import TextArea from '../TextArea'
 import Hotkeys from '../../utils/hotkeys'
 import { hasEditableTarget } from '../helpers'
-import { HAS_BEFORE_INPUT_SUPPORT } from '../../utils/ua'
+import { HAS_BEFORE_INPUT_SUPPORT, IS_CHROME, IS_SAFARI } from '../../utils/ua'
 import { EDITOR_TO_TOOLBAR, EDITOR_TO_HOVER_BAR } from '../../utils/weak-maps'
 
 function preventDefault(event: Event) {
@@ -224,6 +224,30 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
         Editor.deleteForward(editor, { unit: 'word' })
       }
       return
+    }
+  } else {
+    if (IS_CHROME || IS_SAFARI) {
+      // COMPAT: Chrome and Safari support `beforeinput` event but do not fire
+      // an event when deleting backwards in a selected void inline node
+      // 修复在 Chrome 和 Safari 中删除内容时，内联空节点被选中
+      if (
+        selection &&
+        (Hotkeys.isDeleteBackward(event) || Hotkeys.isDeleteForward(event)) &&
+        Range.isCollapsed(selection)
+      ) {
+        const currentNode = Node.parent(editor, selection.anchor.path)
+
+        if (
+          Element.isElement(currentNode) &&
+          Editor.isVoid(editor, currentNode) &&
+          Editor.isInline(editor, currentNode)
+        ) {
+          event.preventDefault()
+          Transforms.delete(editor, { unit: 'block' })
+
+          return
+        }
+      }
     }
   }
 }
