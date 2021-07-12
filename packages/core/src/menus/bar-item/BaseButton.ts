@@ -9,7 +9,6 @@ import { IBarItem, getEditorInstance } from './index'
 import { clearSvgStyle } from '../helpers/helpers'
 import { promiseResolveThen } from '../../utils/util'
 import { addTooltip } from './tooltip'
-import { DomEditor } from '../../editor/dom-editor'
 
 abstract class BaseButton implements IBarItem {
   readonly $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)

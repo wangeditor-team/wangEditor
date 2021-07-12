@@ -11,6 +11,7 @@ class FontFamilyMenu extends BaseMenu {
   readonly title = '字体'
   readonly iconSvg = FONT_FAMILY_SVG
   readonly mark = 'fontFamily'
+  readonly selectPanelWidth = 150
 
   getOptions(editor: IDomEditor): IOption[] {
     const options: IOption[] = []

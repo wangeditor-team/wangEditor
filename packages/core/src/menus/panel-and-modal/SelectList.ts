@@ -17,8 +17,12 @@ function gen$SelectedIcon() {
 class SelectList extends PanelAndModal {
   readonly $elem: Dom7Array = $(`<div class="w-e-select-list"></div>`)
 
-  constructor(editor: IDomEditor) {
+  constructor(editor: IDomEditor, width?: number) {
     super(editor)
+
+    if (width) {
+      this.$elem.css('width', `${width}px`)
+    }
   }
 
   /**

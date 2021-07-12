@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Node, Transforms, Element } from 'slate'
+import { Transforms, Element } from 'slate'
 import { ISelectMenu, IDomEditor, IOption, DomEditor } from '@wangeditor/core'
 import { JS_SVG } from '../../constants/svg'
 import { CodeElement } from '../../custom-types'
@@ -13,6 +13,7 @@ class SelectLangMenu implements ISelectMenu {
   readonly iconSvg = JS_SVG
   readonly tag = 'select'
   readonly width = 95
+  readonly selectPanelWidth = 115
 
   getOptions(editor: IDomEditor): IOption[] {
     const options: IOption[] = []

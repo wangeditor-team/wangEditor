@@ -47,6 +47,7 @@ export interface IButtonMenu extends IBaseMenu {
 }
 
 export interface ISelectMenu extends IBaseMenu {
+  readonly selectPanelWidth?: number
   getOptions: (editor: IDomEditor) => IOption[] // select -> options
 }
 

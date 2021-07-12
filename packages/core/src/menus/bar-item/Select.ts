@@ -8,8 +8,8 @@ import { IBarItem, getEditorInstance } from './index'
 import { IOption, ISelectMenu } from '../interface'
 import SelectList from '../panel-and-modal/SelectList'
 import { gen$downArrow } from '../helpers/helpers'
-import { DomEditor } from '../../editor/dom-editor'
 import { promiseResolveThen } from '../../utils/util'
+import { addTooltip } from './tooltip'
 
 // 根据 option value 获取 text
 function getOptionText(options: IOption[], value: string): string {
@@ -34,7 +34,7 @@ class BarItemSelect implements IBarItem {
 
   constructor(menu: ISelectMenu, inGroup = false) {
     // 验证 tag
-    const { tag, title, width } = menu
+    const { tag, title, width, iconSvg = '', hotkey = '' } = menu
     if (tag !== 'select') throw new Error(`Invalid tag '${tag}', expected 'select'`)
 
     // 初始化 dom
@@ -42,6 +42,7 @@ class BarItemSelect implements IBarItem {
     if (width) {
       $button.css('width', `${width}px`)
     }
+    addTooltip($button, iconSvg, title, hotkey, inGroup) // 设置 tooltip
     this.$elem.append($button)
 
     this.menu = menu
@@ -74,7 +75,7 @@ class BarItemSelect implements IBarItem {
     // 显示下拉列表
     if (this.selectList == null) {
       // 初次创建，渲染 list 并显示
-      this.selectList = new SelectList(editor)
+      this.selectList = new SelectList(editor, menu.selectPanelWidth)
       const selectList = this.selectList
       const options = menu.getOptions(editor)
       selectList.renderList(options)
