@@ -10,6 +10,7 @@ import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
 import { isDOMElement, isDOMNode } from '../../utils/dom'
 import { IS_FOCUSED } from '../../utils/weak-maps'
+import { IS_SAFARI } from '../../utils/ua'
 
 function handleOnBlur(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as FocusEvent
@@ -19,12 +20,13 @@ function handleOnBlur(e: Event, textarea: TextArea, editor: IDomEditor) {
   if (editorConfig.readOnly) return
   if (isUpdatingSelection) return
   if (!hasEditableTarget(editor, event.target)) return
+  const root = DomEditor.findDocumentOrShadowRoot(editor)
 
   // COMPAT: If the current `activeElement` is still the previous
   // one, this is due to the window being blurred when the tab
   // itself becomes unfocused, so we want to abort early to allow to
   // editor to stay focused when the tab becomes focused again.
-  if (latestElement === window.document.activeElement) return
+  if (latestElement === root.activeElement) return
 
   // relatedTarget 即 blur 之后又 focus 到了哪个元素，如果没有则是 null
   const { relatedTarget } = event
@@ -55,6 +57,15 @@ function handleOnBlur(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Element.isElement(node) && !editor.isVoid(node)) {
       return
     }
+  }
+
+  // COMPAT: Safari doesn't always remove the selection even if the content-
+  // editable element no longer has focus. Refer to:
+  // https://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
+  // 修复在 Safari 下，即使 contenteditable 元素非聚焦状态，并不会删除所选内容
+  if (IS_SAFARI) {
+    const domSelection = window.getSelection()
+    domSelection?.removeAllRanges()
   }
 
   // 检验完毕，可正式触发 onblur

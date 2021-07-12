@@ -28,9 +28,28 @@ function handleOnDrop(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   event.preventDefault()
 
+  // Keep a reference to the dragged range before updating selection
+  const draggedRange = editor.selection
   const range = DomEditor.findEventRange(editor, event)
   Transforms.select(editor, range)
+
+  if (textarea.isDraggingInternally) {
+    if (draggedRange) {
+      Transforms.delete(editor, {
+        at: draggedRange,
+      })
+    }
+
+    textarea.isDraggingInternally = false
+  }
+
   editor.insertData(data)
+
+  // When dragging from another source into the editor, it's possible
+  // that the current editor does not have focus.
+  if (!editor.isFocused()) {
+    editor.focus()
+  }
 }
 
 export default handleOnDrop

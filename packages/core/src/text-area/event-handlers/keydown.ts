@@ -4,12 +4,12 @@
  */
 
 import { isHotkey } from 'is-hotkey'
-import { Editor, Transforms, Range } from 'slate'
+import { Editor, Transforms, Range, Node, Element } from 'slate'
 import { IDomEditor } from '../../editor/interface'
 import TextArea from '../TextArea'
 import Hotkeys from '../../utils/hotkeys'
 import { hasEditableTarget } from '../helpers'
-import { HAS_BEFORE_INPUT_SUPPORT } from '../../utils/ua'
+import { HAS_BEFORE_INPUT_SUPPORT, IS_CHROME, IS_SAFARI } from '../../utils/ua'
 import { EDITOR_TO_TOOLBAR, EDITOR_TO_HOVER_BAR } from '../../utils/weak-maps'
 
 function preventDefault(event: Event) {
@@ -106,6 +106,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
   // hotkeys manually because browsers won't be able to skip over
   // the void node with the zero-width space not being an empty
   // string.
+  // todo 移动 word 考虑 Node 排版模式是否为 rtl 的情况
   if (Hotkeys.isMoveBackward(event)) {
     preventDefault(event)
 
@@ -129,11 +130,21 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   if (Hotkeys.isMoveWordBackward(event)) {
     preventDefault(event)
+
+    if (selection && Range.isExpanded(selection)) {
+      Transforms.collapse(editor, { edge: 'focus' })
+    }
+
     Transforms.move(editor, { unit: 'word', reverse: true })
     return
   }
   if (Hotkeys.isMoveWordForward(event)) {
     preventDefault(event)
+
+    if (selection && Range.isExpanded(selection)) {
+      Transforms.collapse(editor, { edge: 'focus' })
+    }
+
     Transforms.move(editor, { unit: 'word' })
     return
   }
@@ -161,7 +172,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteBackward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'backward' })
       } else {
         Editor.deleteBackward(editor)
       }
@@ -170,7 +181,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteForward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'forward' })
       } else {
         Editor.deleteForward(editor)
       }
@@ -180,7 +191,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteLineBackward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'backward' })
       } else {
         Editor.deleteBackward(editor, { unit: 'line' })
       }
@@ -189,7 +200,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteLineForward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'forward' })
       } else {
         Editor.deleteForward(editor, { unit: 'line' })
       }
@@ -199,7 +210,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteWordBackward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'backward' })
       } else {
         Editor.deleteBackward(editor, { unit: 'word' })
       }
@@ -208,11 +219,35 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (Hotkeys.isDeleteWordForward(event)) {
       preventDefault(event)
       if (selection && Range.isExpanded(selection)) {
-        Editor.deleteFragment(editor)
+        Editor.deleteFragment(editor, { direction: 'forward' })
       } else {
         Editor.deleteForward(editor, { unit: 'word' })
       }
       return
+    }
+  } else {
+    if (IS_CHROME || IS_SAFARI) {
+      // COMPAT: Chrome and Safari support `beforeinput` event but do not fire
+      // an event when deleting backwards in a selected void inline node
+      // 修复在 Chrome 和 Safari 中删除内容时，内联空节点被选中
+      if (
+        selection &&
+        (Hotkeys.isDeleteBackward(event) || Hotkeys.isDeleteForward(event)) &&
+        Range.isCollapsed(selection)
+      ) {
+        const currentNode = Node.parent(editor, selection.anchor.path)
+
+        if (
+          Element.isElement(currentNode) &&
+          Editor.isVoid(editor, currentNode) &&
+          Editor.isInline(editor, currentNode)
+        ) {
+          event.preventDefault()
+          Transforms.delete(editor, { unit: 'block' })
+
+          return
+        }
+      }
     }
   }
 }

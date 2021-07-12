@@ -30,5 +30,16 @@ export const IS_CHROME_LEGACY =
   typeof navigator !== 'undefined' &&
   /Chrome?\/(?:[0-7][0-5]|[0-6][0-9])/i.test(navigator.userAgent)
 
+export const IS_CHROME = typeof navigator !== 'undefined' && /Chrome/i.test(navigator.userAgent)
+
 // @ts-ignore 判断浏览器是否支持 beforeinput 事件 https://www.caniuse.com/?search=beforeinput
-export const HAS_BEFORE_INPUT_SUPPORT = typeof InputEvent.prototype.getTargetRanges === 'function'
+// COMPAT: Firefox/Edge Legacy don't support the `beforeinput` event
+// Chrome Legacy doesn't support `beforeinput` correctly
+export const HAS_BEFORE_INPUT_SUPPORT =
+  !IS_CHROME_LEGACY &&
+  !IS_EDGE_LEGACY &&
+  // globalThis is undefined in older browsers
+  typeof globalThis !== 'undefined' &&
+  globalThis.InputEvent &&
+  // @ts-ignore The `getTargetRanges` property isn't recognized.
+  typeof globalThis.InputEvent.prototype.getTargetRanges === 'function'
