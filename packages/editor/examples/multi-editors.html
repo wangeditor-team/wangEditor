@@ -68,7 +68,8 @@
 
     const editor1 = E.createEditor({
       textareaSelector: '#editor-text-area-1',
-      config: editorConfig1
+      config: editorConfig1,
+      content: [{ type: 'paragraph', children: [{ text: '编辑器1' }] }]
     })
     const toolbar1 = E.createToolbar({
       editor: editor1,
@@ -89,26 +90,16 @@
       document.getElementById('content-view-2').innerHTML = JSON.stringify(editor.children, null, 2)
     }
 
-    const toolbarConfig2 = {}
-    toolbarConfig2.toolbarKeys = [
-      'bold', 'italic', 'underline', 'code', '|',
-      'header1', 'header2', 'blockquote', '|',
-      'bulletedList', 'numberedList', '|',
-      {
-        title: '图片',
-        menuKeys: ['insertImage', 'uploadImage'],
-      },
-      'insertVideo',
-    ]
-
     const editor2 = E.createEditor({
       textareaSelector: '#editor-text-area-2',
-      config: editorConfig2
+      config: editorConfig2,
+      content: [{ type: 'paragraph', children: [{ text: '编辑器2' }] }],
+      mode: 'simple'
     })
     const toolbar2 = E.createToolbar({
       editor: editor2,
       toolbarSelector: '#editor-toolbar-2',
-      config: toolbarConfig2
+      mode: 'simple'
     })
   </script>
 </body>

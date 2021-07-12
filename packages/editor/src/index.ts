@@ -34,7 +34,12 @@ import {
 } from '@wangeditor/code-highlight'
 
 // 默认配置
-import { getDefaultEditorConfig, genDefaultToolbarConfig } from './config'
+import {
+  getDefaultEditorConfig,
+  getDefaultToolbarConfig,
+  getSimpleEditorConfig,
+  getSimpleToolbarConfig,
+} from './config'
 
 import wangEditor from './wangEditorClass'
 
@@ -54,8 +59,15 @@ wangEditor.setEditorConfig({
   ...defaultEditorConfig,
   decorate: wangEditorCodeHighLightDecorate, // 代码高亮
 })
-const defaultToolbarConfig = genDefaultToolbarConfig()
+const simpleEditorConfig = getSimpleEditorConfig()
+wangEditor.setSimpleEditorConfig({
+  ...simpleEditorConfig,
+  decorate: wangEditorCodeHighLightDecorate, // 代码高亮
+})
+const defaultToolbarConfig = getDefaultToolbarConfig()
 wangEditor.setToolbarConfig(defaultToolbarConfig)
+const simpleToolbarConfig = getSimpleToolbarConfig()
+wangEditor.setSimpleToolbarConfig(simpleToolbarConfig)
 
 // ------------------------------------ 分割线，以下是 export ------------------------------------
 

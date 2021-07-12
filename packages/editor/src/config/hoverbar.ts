@@ -6,8 +6,52 @@
 import { Node, Element, Text, Editor, Range } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
-export function genHoverbarKeys() {
+const COMMON_HOVERBAR_KEYS = [
+  {
+    desc: '选中链接 selected link',
+    match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'link'),
+    menuKeys: ['updateLink', 'unLink', 'viewLink'],
+  },
+  {
+    desc: '选中图片 selected image',
+    match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'image'),
+    menuKeys: [
+      'imageWidth30',
+      'imageWidth50',
+      'imageWidth100',
+      'editImage',
+      'viewImageLink',
+      'deleteImage',
+    ],
+  },
+  {
+    desc: '选中视频 selected video',
+    match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'video'),
+    menuKeys: ['deleteVideo'],
+  },
+  {
+    desc: '选中代码块 selected code block',
+    match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'pre'),
+    menuKeys: ['codeBlock', 'codeSelectLang'],
+  },
+  {
+    desc: '选中表格 selected table',
+    match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'table'),
+    menuKeys: [
+      'tableHeader',
+      'tableFullWidth',
+      'insertTableRow',
+      'deleteTableRow',
+      'insertTableCol',
+      'deleteTableCol',
+      'deleteTable',
+    ],
+  },
+]
+
+export function genDefaultHoverbarKeys() {
   return [
+    ...COMMON_HOVERBAR_KEYS,
     {
       desc: '选中文本 selected text',
       match: (editor: IDomEditor, n: Node) => {
@@ -29,58 +73,20 @@ export function genHoverbarKeys() {
       },
       menuKeys: [
         'headerSelect',
+        'insertLink',
+        'bulletedList',
         '|',
         'bold',
-        'underline',
         'through',
-        'clearStyle',
-        '|',
         'color',
         'bgColor',
-        '|',
-        'insertLink',
-      ],
-    },
-    {
-      desc: '选中链接 selected link',
-      match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'link'),
-      menuKeys: ['updateLink', 'unLink', 'viewLink'],
-    },
-    {
-      desc: '选中图片 selected image',
-      match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'image'),
-      menuKeys: [
-        'imageWidth30',
-        'imageWidth50',
-        'imageWidth100',
-        'editImage',
-        'viewImageLink',
-        'deleteImage',
-      ],
-    },
-    {
-      desc: '选中视频 selected video',
-      match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'video'),
-      menuKeys: ['deleteVideo'],
-    },
-    {
-      desc: '选中代码块 selected code block',
-      match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'pre'),
-      menuKeys: ['codeBlock', 'codeSelectLang'],
-    },
-    {
-      desc: '选中表格 selected table',
-      match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'table'),
-      menuKeys: [
-        'tableHeader',
-        'tableFullWidth',
-        'insertTableRow',
-        'deleteTableRow',
-        'insertTableCol',
-        'deleteTableCol',
-        'deleteTable',
+        'clearStyle',
       ],
     },
     // other hover bar ...
   ]
+}
+
+export function genSimpleHoverbarKeys() {
+  return COMMON_HOVERBAR_KEYS
 }

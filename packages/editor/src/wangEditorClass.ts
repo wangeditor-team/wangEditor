@@ -41,12 +41,14 @@ interface ICreateEditorOption {
   textareaSelector: string | DOMElement
   config?: Partial<IEditorConfig>
   content?: Descendant[]
+  mode?: string
 }
 
 interface ICreateToolbarOption {
   editor: IDomEditor | null
   toolbarSelector: string | DOMElement
   config?: Partial<IToolbarConfig>
+  mode?: string
 }
 
 class wangEditor {
@@ -71,12 +73,26 @@ class wangEditor {
       ...newConfig,
     }
   }
+  static simpleEditorConfig: Partial<IEditorConfig> = {}
+  static setSimpleEditorConfig(newConfig: Partial<IEditorConfig> = {}) {
+    this.simpleEditorConfig = {
+      ...this.simpleEditorConfig,
+      ...newConfig,
+    }
+  }
 
   //toolbar 配置
   static toolbarConfig: Partial<IToolbarConfig> = {}
   static setToolbarConfig(newConfig: Partial<IToolbarConfig> = {}) {
     this.toolbarConfig = {
       ...this.toolbarConfig,
+      ...newConfig,
+    }
+  }
+  static simpleToolbarConfig: Partial<IToolbarConfig> = {}
+  static setSimpleToolbarConfig(newConfig: Partial<IToolbarConfig> = {}) {
+    this.simpleToolbarConfig = {
+      ...this.simpleToolbarConfig,
       ...newConfig,
     }
   }
@@ -124,15 +140,17 @@ class wangEditor {
    * 创建 editor 实例
    */
   static createEditor(option: ICreateEditorOption): IDomEditor {
-    const { textareaSelector, content = [], config = {} } = option
+    const { textareaSelector, content = [], config = {}, mode = 'default' } = option
     if (!textareaSelector) {
       throw new Error(`Cannot find 'textareaSelector' when create editor`)
     }
 
+    let globalConfig = mode === 'simple' ? this.simpleEditorConfig : this.editorConfig
+
     const editor = coreCreateEditor({
       textareaSelector,
       config: {
-        ...this.editorConfig, // 全局配置
+        ...globalConfig, // 全局配置
         ...config,
       },
       content,
@@ -146,15 +164,17 @@ class wangEditor {
    * 创建 toolbar 实例
    */
   static createToolbar(option: ICreateToolbarOption): Toolbar {
-    const { toolbarSelector, editor, config = {} } = option
+    const { toolbarSelector, editor, config = {}, mode = 'default' } = option
     if (!toolbarSelector) {
       throw new Error(`Cannot find 'toolbarSelector' when create toolbar`)
     }
 
+    let globalConfig = mode === 'simple' ? this.simpleToolbarConfig : this.toolbarConfig
+
     const toolbar = coreCreateToolbar(editor, {
       toolbarSelector,
       config: {
-        ...this.toolbarConfig, // 全局配置
+        ...globalConfig, // 全局配置
         ...config,
       },
     })

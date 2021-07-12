@@ -9,7 +9,7 @@
   <style>
     /* 编辑器 dom */
     #container {
-      width: 800px;
+      width: 1000px;
     }
 
     #editor-toolbar {
@@ -46,22 +46,20 @@
     // editor 配置
     const editorConfig = {}
     editorConfig.placeholder = '请输入内容123...'
-    editorConfig.hoverbarKeys = [] // 禁用 hoverbar
 
     const editor = E.createEditor({
       textareaSelector: '#editor-text-area',
-      config: editorConfig
+      config: editorConfig,
+      content: window.content1,
+      mode: 'simple'
     })
     // console.log(editor.getConfig()) // 查看 editor config
-
-    // toolbar 配置
-    const toolbarConfig = {}
-    toolbarConfig.toolbarKeys = ['bold', 'italic', 'underline', 'code', '|', 'header1', 'header2', 'blockquote', '|', 'bulletedList', 'numberedList']
 
     const toolbar = E.createToolbar({
       editor,
       toolbarSelector: '#editor-toolbar',
-      config: toolbarConfig
+      config: {},
+      mode: 'simple'
     })
     // console.log(toolbar.getConfig()) // 查看 toolbar config
   </script>

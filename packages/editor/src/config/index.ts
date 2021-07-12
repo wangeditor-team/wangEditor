@@ -3,27 +3,29 @@
  * @author wangfupeng
  */
 
-import { IDomEditor } from '@wangeditor/core'
-import { genToolbarKeys } from './toolbar'
-import { genHoverbarKeys } from './hoverbar'
+import { genDefaultToolbarKeys, genSimpleToolbarKeys } from './toolbar'
+import { genDefaultHoverbarKeys, genSimpleHoverbarKeys } from './hoverbar'
 
 export function getDefaultEditorConfig() {
   return {
-    // hover bar
-    hoverbarKeys: genHoverbarKeys(),
-
-    onChange(editor: IDomEditor) {
-      // console.log('selection', editor.selection, editor.children)
-      // console.log('getHtml--------\n', editor.getHtml())
-      // console.log('getText--------\n', editor.getText())
-    },
-
-    // decorate: codeHighLightDecorate,
+    hoverbarKeys: genDefaultHoverbarKeys(),
   }
 }
 
-export function genDefaultToolbarConfig() {
+export function getSimpleEditorConfig() {
   return {
-    toolbarKeys: genToolbarKeys(),
+    hoverbarKeys: genSimpleHoverbarKeys(),
+  }
+}
+
+export function getDefaultToolbarConfig() {
+  return {
+    toolbarKeys: genDefaultToolbarKeys(),
+  }
+}
+
+export function getSimpleToolbarConfig() {
+  return {
+    toolbarKeys: genSimpleToolbarKeys(),
   }
 }

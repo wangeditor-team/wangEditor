@@ -5,7 +5,7 @@
 
 import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG, IMAGE_SVG, MORE_SVG } from '../constants/svg'
 
-export function genToolbarKeys() {
+export function genDefaultToolbarKeys() {
   return [
     'headerSelect',
     // 'header1',
@@ -19,9 +19,8 @@ export function genToolbarKeys() {
     {
       title: '更多样式',
       iconSvg: MORE_SVG,
-      menuKeys: ['through', 'code'],
+      menuKeys: ['through', 'code', 'clearStyle'],
     },
-    '|',
     'color',
     'bgColor',
     '|',
@@ -29,18 +28,18 @@ export function genToolbarKeys() {
     'fontFamily',
     'lineHeight',
     '|',
-    {
-      title: '缩进',
-      iconSvg: INDENT_RIGHT_SVG,
-      menuKeys: ['indent', 'delIndent'],
-    },
+    'bulletedList',
+    'numberedList',
     {
       title: '对齐',
       iconSvg: JUSTIFY_LEFT_SVG,
       menuKeys: ['justifyLeft', 'justifyRight', 'justifyCenter'],
     },
-    'bulletedList',
-    'numberedList',
+    {
+      title: '缩进',
+      iconSvg: INDENT_RIGHT_SVG,
+      menuKeys: ['indent', 'delIndent'],
+    },
     '|',
     'emotion',
     'insertLink',
@@ -57,11 +56,46 @@ export function genToolbarKeys() {
     // 'viewImageLink',
     'insertVideo',
     // 'deleteVideo',
+    'insertTable',
     'codeBlock',
     // 'codeSelectLang',
     'divider',
-    'insertTable',
     // 'deleteTable',
+    '|',
+    'undo',
+    'redo',
+  ]
+}
+
+export function genSimpleToolbarKeys() {
+  return [
+    'blockquote',
+    'header1',
+    'header2',
+    'header3',
+    '|',
+    'bold',
+    'underline',
+    'italic',
+    'through',
+    'color',
+    'bgColor',
+    'clearStyle',
+    '|',
+    'bulletedList',
+    'numberedList',
+    'justifyLeft',
+    'justifyRight',
+    'justifyCenter',
+    '|',
+    'insertLink',
+    {
+      title: '图片',
+      iconSvg: IMAGE_SVG,
+      menuKeys: ['insertImage', 'uploadImage'],
+    },
+    'insertTable',
+    'codeBlock',
     '|',
     'undo',
     'redo',
