@@ -8,7 +8,7 @@
     type: 'header1',
     children: [
       {
-        text: '一行标题一行标题一行标题',
+        text: '水浒传简介',
       },
     ],
   }
@@ -24,44 +24,23 @@
     type: 'paragraph',
     children: [{ text: text2 }],
   }
-  const p3 = {
-    type: 'paragraph',
-    children: [
-      { text: '一行文字' },
-      {
-        type: 'image',
-        src: 'https://www.baidu.com/img/flexible/logo/pc/result@2.png',
-        alt: '百度',
-        url: 'https://www.baidu.com/',
-        style: { width: '101px', height: '33px' },
-        children: [{ text: '' }], // void node 要有一个空 text
-      },
-      { text: '一行文字' },
-      {
-        type: 'link',
-        url: 'https://www.slatejs.org/examples/links',
-        children: [{ text: 'slate examples' }],
-      },
-    ],
-  }
-  const code = {
-    type: 'pre',
-    children: [
-      {
-        type: 'code',
-        language: 'javascript',
-        children: [{ text: 'const a = 100;' }],
-      },
-    ],
-  }
+  // const code = {
+  //   type: 'pre',
+  //   children: [
+  //     {
+  //       type: 'code',
+  //       language: 'javascript',
+  //       children: [{ text: 'const a = 100;' }],
+  //     },
+  //   ],
+  // }
 
   // 拼接大文件
   window.content2 = []
-  for (let i = 0; i < 150; i++) {
+  for (let i = 0; i < 370; i++) {
     window.content2.push(deepClone(header))
     window.content2.push(deepClone(p1))
     window.content2.push(deepClone(p2))
-    window.content2.push(deepClone(p3))
-    window.content2.push(deepClone(code))
+    // window.content2.push(deepClone(code))
   }
 })()
