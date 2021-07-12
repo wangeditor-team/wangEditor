@@ -253,6 +253,7 @@ class UploadImg {
                         hooks.customInsert(this.insertImg.bind(this), result, editor)
                         return
                     }
+                    result = hooks.processResponse?.(result) ?? result
                     if (result.errno != '0') {
                         // 返回格式不对，应该为 { errno: 0, data: [...] }
                         config.customAlert(

@@ -22,6 +22,7 @@ export type UploadImageHooksType = {
         result: ResType,
         editor: Editor
     ) => void
+    processResponse?: (result?: ResType) => ResType
 }
 
 export default {
