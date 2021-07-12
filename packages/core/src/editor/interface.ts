@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Location, Node } from 'slate'
+import { Editor, Location, Node, Ancestor } from 'slate'
 import ee from 'event-emitter'
 import { IEditorConfig, AlertType, ISingleMenuConfig } from '../config/interface'
 import { IPositionStyle } from '../menus/interface'
@@ -31,6 +31,7 @@ export interface IDomEditor extends Editor {
   getText: () => string
   getSelectionText: () => string // 获取选区文字
   getHeaders: () => { id: string; type: string; text: string }[] // 获取所有标题
+  getParentNode: (node: Node) => Ancestor | null
 
   // dom 相关
   id: string
@@ -45,6 +46,7 @@ export interface IDomEditor extends Editor {
   enable: () => void
   disable: () => void
   isDisabled: () => boolean
+  toDOMNode: (node: Node) => HTMLElement
 
   // selection 相关
   select: (at: Location) => void

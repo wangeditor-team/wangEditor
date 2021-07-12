@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Path, Operation, Transforms } from 'slate'
+import { Node, Editor, Path, Operation, Transforms } from 'slate'
 import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../..'
 import $ from '../../utils/dom'
@@ -213,6 +213,10 @@ export const withDOM = <T extends Editor>(editor: T) => {
   e.isDisabled = () => {
     const config = e.getConfig()
     return config.readOnly
+  }
+
+  e.toDOMNode = (node: Node) => {
+    return DomEditor.toDOMNode(e, node)
   }
 
   return e

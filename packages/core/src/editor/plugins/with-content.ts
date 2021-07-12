@@ -96,5 +96,9 @@ export const withContent = <T extends Editor>(editor: T) => {
     return headers
   }
 
+  e.getParentNode = (node: Node) => {
+    return DomEditor.getParentNode(e, node)
+  }
+
   return e
 }
