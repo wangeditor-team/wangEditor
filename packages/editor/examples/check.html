@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>check demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>视频、图片等资源校验，自定义 alert，XSS 预防</p>
+
+  <!-- 编辑器 -->
+  <div style="width: 950px; margin: 0 auto;">
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor.default
+
+    const editorConfig = { MENU_CONF: {} }
+    editorConfig.placeholder = '请输入内容'
+    
+    editorConfig.customAlert = (info, type) => {
+      alert(`customAlert: \n${type}:\n${info}`)
+    }
+
+    editorConfig.MENU_CONF['insertImage'] = {
+      onInsertedImage(src, alt, url) {
+        console.log('inserted image', src, alt, url)
+      },
+      checkImage(src, alt, url) {
+        if (src.indexOf('http') !== 0) {
+          return '图片网址必须以 http/https 开头'
+        }
+        return true
+      }
+    }
+    editorConfig.MENU_CONF['editImage'] = {
+      onUpdatedImage(src, alt, url) {
+        console.log('updated image', src, alt, url)
+      },
+      checkImage(src, alt, url) {
+        if (src.indexOf('http') !== 0) {
+          return '图片网址必须以 http/https 开头'
+        }
+        return true
+      }
+    }
+    editorConfig.MENU_CONF['insertLink'] = {
+      checkLink(text, url) {
+        console.log('check insert link - ', text, url)
+
+        if (url.indexOf('http') !== 0) {
+          return '链接必须以 http/https 开头'
+        }
+        return true
+      }
+    }
+    editorConfig.MENU_CONF['updateLink'] = {
+      checkLink(text, url) {
+        if (url.indexOf('http') !== 0) {
+          return '链接必须以 http/https 开头'
+        }
+        return true
+      }
+    }
+    editorConfig.MENU_CONF['insertVideo'] = {
+      onInsertedVideo(src) {
+        console.log('inserted video', src)
+      },
+      checkVideo(src) {
+        if (src.indexOf('http') !== 0) {
+          return '视频地址必须以 http/https 开头'
+        }
+        return true
+      }
+    }
+
+    const editor = E.createEditor({
+      textareaSelector: '#editor-text-area',
+      content: window.content1,
+      config: editorConfig
+    })
+    const toolbar = E.createToolbar({
+      editor,
+      toolbarSelector: '#editor-toolbar',
+    })
+  </script>
+</body>
+</html>

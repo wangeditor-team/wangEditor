@@ -7,19 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>upload image demo</title>
   <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
-  <style>
-    #editor-toolbar {
-      border: 1px solid #ccc;
-      /* z-index: 100; */
-    }
-
-    #editor-text-area {
-      border: 1px solid #ccc;
-      height: 550px;
-      /* overflow: hidden; */
-      /* z-index: 100; */
-    }
-  </style>
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
   <link href="../dist/css/style.css" rel="stylesheet">
 </head>
 
@@ -29,12 +18,9 @@
   </p>
 
   <!-- 编辑器 -->
-  <div id="container">
-    <div id="editor-toolbar"></div>
-    <div style="height: 10px;">
-      <!-- 间隔 -->
-    </div>
-    <div id="editor-text-area"></div>
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
   </div>
 
 

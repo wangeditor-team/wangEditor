@@ -1,0 +1,13 @@
+body {
+  margin: 0 10px;
+}
+
+.editor-toolbar {
+  border: 1px solid #ccc;
+}
+
+.editor-text-area {
+  border: 1px solid #ccc;
+  border-top: 0;
+  height: 400px;
+}

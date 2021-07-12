@@ -1,209 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>we-2021 demo</title>
-<link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
-<style>
-  body {
-    margin: 0 10px;
-  }
-
-  /* 编辑器 dom */
-  #container {
-    width: 800px;
-  }
-
-  #editor-toolbar {
-    border: 1px solid #ccc;
-    /* z-index: 100; */
-  }
-
-  #editor-text-area {
-    border: 1px solid #ccc;
-    height: 350px;
-    margin-top: 10px;
-    /* overflow: hidden; */
-    /* z-index: 100; */
-  }
-
-  /* 显示内容 */
-  #editor-content-view {
-    border-top: 1px solid #ccc;
-    margin-top: 30px;
-  }
-
-  #editor-content-view td,
-  #editor-content-view th {
-    border: 1px solid #ccc;
-    min-width: 50px;
-    height: 20px;
-  }
-
-  #editor-content-view th {
-    background-color: #f1f1f1;
-  }
-
-  #editor-content-view blockquote {
-    border-left: 8px solid #d0e5f2;
-    padding: 10px 10px;
-    margin: 10px 0;
-    background-color: #f1f1f1;
-  }
-</style>
-<link href="../dist/css/style.css" rel="stylesheet">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 20px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin: 10px 0;
+    }
+  </style>
 </head>
-
 <body>
-  <p>
-    index page
-    <button id="btn-create">create</button>
-    <button id="btn-toggle-enable">disable/enable</button>
-    <button id="btn-destroy">destroy</button>
-  </p>
-
-  <!-- 编辑器 -->
-  <div id="container">
-    <div id="editor-toolbar"></div>
-    <div id="editor-text-area"></div>
-  </div>
-
-  <!-- 内容状态 -->
-  <p style="background-color: #f1f1f1;">
-    当前文字数量：<span id="total-length"></span>；
-    选中文字数量：<span id="selected-length"></span>；
-    选中文字："<span id="selected-text"></span>"
-  </p>
-
-  <!-- 显示内容 -->
-  <div id="editor-content-view"></div>
-
-  <script src="js/init-content.js"></script>
-  <script src="../dist/index.js"></script>
-  <script>
-    const E = window.wangEditor.default
-
-    const editorConfig = { MENU_CONF: {} }
-    // editorConfig.autoFocus = false
-    // editorConfig.readOnly = true
-    // editorConfig.scroll = false
-    // editorConfig.maxLength = 120 // 慎用，可能影响性能，需在文档中说明
-    // editorConfig.onMaxLength = (editor) => {
-    //   console.log('on max length', editor)
-    // }
-    editorConfig.placeholder = '请输入内容'
-    editorConfig.MENU_CONF['uploadImage'] = {
-      server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
-      fieldName: 'index-fileName'
-    }
-    console.log('测试上传图片，请使用 upload-image.html')
-    editorConfig.onCreated = (editor) => {
-      console.log('on created', editor)
-    }
-    editorConfig.onChange = (editor) => {
-      // 获取 html （使用异步，类似 Vue $nextTick）
-      Promise.resolve().then(() => {
-        const html = editor.getHtml()
-        document.getElementById('editor-content-view').innerHTML = html
-      })
-
-      // 选中文字
-      const selectionText = editor.getSelectionText()
-      document.getElementById('selected-text').innerHTML = selectionText
-      document.getElementById('selected-length').innerHTML = selectionText.length
-      // 全部文字
-      document.getElementById('total-length').innerHTML = editor.getText().length
-    }
-    editorConfig.onDestroyed = (editor) => {
-      console.log('on destroyed', editor)
-    }
-    // editorConfig.onFocus = (editor) => {
-    //   console.log('onFocus', editor)
-    // }
-    // editorConfig.onBlur = (editor) => {
-    //   console.log('onBlur', editor)
-    // }
-    // editorConfig.MENU_CONF['insertImage'] = {
-    //   onInsertedImage(src, alt, url) {
-    //     console.log('inserted image', src, alt, url)
-    //   },
-    //   checkImage(src, alt, url) {
-    //     return '强制阻止 1'
-    //     // return true
-    //   }
-    // }
-    // editorConfig.MENU_CONF['insertImage'] = {
-    //   onUpdatedImage(src, alt, url) {
-    //     console.log('updated image', src, alt, url)
-    //   },
-    //   checkImage(src, alt, url) {
-    //     return '强制阻止 2'
-    //     // return true
-    //   }
-    // }
-    // editorConfig.MENU_CONF['insertLink'] = {
-    //   checkLink(text, url) {
-    //     console.log('check insert link - ', text, url)
-    //     // return true
-    //     return '强制阻止 1'
-    //   }
-    // }
-    // editorConfig.MENU_CONF['updateLink'] = {
-    //   checkLink(text, url) {
-    //     console.log('check update link - ', text, url)
-    //     // return true
-    //     return '强制阻止 2'
-    //   }
-    // }
-    // editorConfig.MENU_CONF['insertVideo'] = {
-    //   onInsertedVideo(src) {
-    //     console.log('inserted video', src)
-    //   },
-    //   checkVideo(src) {
-    //     return '强制阻止 1'
-    //     // return true
-    //   }
-    // }
-
-    // create
-    let editor, toolbar
-    document.getElementById('btn-create').addEventListener('click', () => {
-      editor = E.createEditor({
-        textareaSelector: '#editor-text-area',
-        // textareaSelector: document.getElementById('editor-text-area'),
-        content: window.content1,
-        config: editorConfig
-      })
-
-      toolbar = E.createToolbar({
-        editor,
-        toolbarSelector: '#editor-toolbar',
-        // toolbarSelector: document.getElementById('editor-toolbar')
-        // config: {}
-      })
-    })
-    console.log(`如果页面没有编辑器，点击 'create' 按钮创建`)
-
-    // toggle enable
-    document.getElementById('btn-toggle-enable').addEventListener('mousedown', (e) => {
-      // 使用 mousedown ，且 preventDefault ，否则触发编辑器 blur ，导致无法正确 focus
-      // TODO 文档中说明（以及其他的 editState）
-      e.preventDefault()
-
-      if (editor.getConfig().readOnly) {
-        editor.enable()
-      } else {
-        editor.disable()
-      }
-    })
-
-    // destroy
-    document.getElementById('btn-destroy').addEventListener('click', () => {
-      editor.destroy()
-      editor = undefined
-    })
-  </script>
+  <h1>wangEditor demo</h1>
+  <ul>
+    <li><a href="./default-mode.html">default mode</a></li>
+    <li><a href="./simple-mode.html">simple mode</a></li>
+    <li><a href="./menu.html">配置菜单</a></li>
+    <li><a href="./like-yuque.html">模仿语雀编辑器</a></li>
+    <li><a href="./simple-mode.html">同步到 textarea - onChange</a></li>
+    <li><a href="./maxlength.html">maxlength</a></li>
+    <li><a href="./upload-image.html">上传图片</a></li>
+    <li><a href="./check.html">资源校验、回调、XSS 预防、自定义 alert</a></li>
+    <li><a href="./multi-editors.html">多编辑器</a></li>
+    <li><a href="./headers.html">获取标题/滚动到标题</a></li>
+    <li><a href="./huge-doc.html">大文件 - 几万个字</a></li>
+    <li><a href="./code-highlight.html">代码高亮</a></li>
+    <li><a href="./batch-destroy.html">批量销毁 - 测试内存泄漏</a></li>
+  </ul>
 </body>
-
 </html>

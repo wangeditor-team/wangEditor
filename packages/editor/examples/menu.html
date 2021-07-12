@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>maxLength demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>menu 配置，包括：hoverbar toolbar</p>
+
+  <!-- 编辑器 -->
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor.default
+    const DomEditor = window.wangEditor.DomEditor
+
+    const editorConfig = { MENU_CONF: {} }
+    editorConfig.placeholder = '请输入内容'
+
+    editorConfig.hoverbarKeys = [
+      {
+        desc: '选中链接 selected link',
+        match: (editor, node) => DomEditor.checkNodeType(node, 'link'),
+        menuKeys: ['updateLink', 'unLink', 'viewLink'],
+      },
+      {
+        desc: '选中图片 selected image',
+        match: (editor, node) => DomEditor.checkNodeType(node, 'image'),
+        menuKeys: [
+          'imageWidth30',
+          'imageWidth50',
+          'imageWidth100',
+          'editImage',
+          'viewImageLink',
+          'deleteImage',
+        ],
+      },
+      // 其他参考 https://github.com/wangeditor-team/we-2021/blob/main/packages/editor/src/config/hoverbar.ts
+    ]
+
+    // 各个菜单的配置
+    editorConfig.MENU_CONF['color'] = {
+      colors: ['#000', '#333', '#999', '#ccc']
+    }
+    editorConfig.MENU_CONF['fontSize'] = {
+      fontSizeList: ['12px', '16px', '24px', '40px']
+    }
+    // 其他菜单配置项可通过 editor.getMenuConfig(menuKey) 查询，然后使用 editorConfig.MENU_CONF[menuKey] 修改
+
+    const editor = E.createEditor({
+      textareaSelector: '#editor-text-area',
+      content: window.content1,
+      config: editorConfig
+    })
+    const toolbar = E.createToolbar({
+      editor,
+      toolbarSelector: '#editor-toolbar',
+      config: {
+        toolbarKeys: [
+          'headerSelect',
+          'blockquote',
+          '|',
+          'bold',
+          'underline',
+          'italic',
+          'through',
+          'color',
+          'bgColor',
+          'clearStyle',
+          '|',
+          'fontSize',
+          'fontFamily',
+          'lineHeight',
+          '|',
+          'undo',
+          'redo',
+        ]
+      }
+    })
+  </script>
+</body>
+</html>

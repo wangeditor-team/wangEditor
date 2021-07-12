@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo</title>
+
+  <!-- 引入 prism css -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism.css" rel="stylesheet">
+</head>
+<body>
+  <p>代码高亮 - 使用 <a href="https://prismjs.com/" target="_blank">prism.js</a></p>
+  <p>由 wangEditor 生成的代码，可支持代码高亮显示</p>
+  <p>【注意】不可异步设置 html 内容，否则无法高亮显示 <button id="btn-test">测试一下</button></p>
+  
+  <div>
+    <pre>
+      <code id="code1" class="language-javascript">const a = 100;
+      function fn(x) { return x + 10 };
+      // 注释
+      </code>
+    </pre>
+  </div>
+
+  <!-- 引入 prism js -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/plugins/autoloader/prism-autoloader.min.js"></script>
+  <script>
+    document.getElementById('btn-test').addEventListener('click', () => {
+      document.getElementById('code1').innerHTML = 'const b = 200;\nfunction fn(y) { return y + 20 };\n// comment'
+    })
+  </script>
+</body>
+</html>

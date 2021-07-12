@@ -7,22 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>destroy demo</title>
   <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
-  <style>
-    /* 编辑器 dom */
-    #container {
-      width: 800px;
-    }
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
 
-    #editor-toolbar {
-      border: 1px solid #ccc;
-    }
-
-    #editor-text-area {
-      border: 1px solid #ccc;
-      height: 350px;
-      /* overflow: hidden; */
-    }
-  </style>
   <link href="../dist/css/style.css" rel="stylesheet">
 </head>
 
@@ -31,12 +18,9 @@
   <p>循环次数 <input id="input-num" type="number" value="100" /> <button id="btn-go">开始</button></p>
   <p>可使用 Chrome devTools 的 Performance 和 Memory 工具来检测 js 内存</p>
   <!-- 编辑器 -->
-  <div id="container">
-    <div id="editor-toolbar"></div>
-    <div style="height: 10px;">
-      <!-- 间隔 -->
-    </div>
-    <div id="editor-text-area"></div>
+  <div style="width: 950px; margin: 0 auto;">
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
   </div>
 </body>
 
