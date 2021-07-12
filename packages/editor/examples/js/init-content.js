@@ -65,6 +65,16 @@ window.content1 = [
     ],
   },
   {
+    type: 'pre',
+    children: [
+      {
+        type: 'code',
+        language: 'html',
+        children: [{ text: '<div>text</div>' }],
+      },
+    ],
+  },
+  {
     type: 'paragraph',
     children: [{ text: '一行文字' }],
   },

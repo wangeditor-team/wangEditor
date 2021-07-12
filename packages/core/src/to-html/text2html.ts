@@ -7,10 +7,22 @@ import { Text } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import { TEXT_TO_HTML_FN_LIST, TEXT_STYLE_TO_HTML_FN_LIST } from './index'
 
+function replaceSymbols(str: string) {
+  return str
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('®', '&reg;')
+    .replaceAll('©', '&copy;')
+    .replaceAll('™', '&trade;')
+}
+
 function textToHtml(textNode: Text, editor: IDomEditor): string {
   const { text } = textNode
   if (text == null) throw new Error(`Current node is not slate Text ${JSON.stringify(textNode)}`)
   let textHtml = text
+
+  // 替换特殊字符
+  textHtml = replaceSymbols(textHtml)
 
   // 生成 text -> html
   TEXT_TO_HTML_FN_LIST.forEach(fn => (textHtml = fn(textNode, textHtml, editor)))
