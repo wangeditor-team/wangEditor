@@ -53,7 +53,7 @@ export default Vue.extend({
         MENU_CONF: {
           uploadImage: {
             server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
-            fieldName: 'vue2-demo-fileName',
+            fieldName: 'vue-demo-fileName',
           },
           insertImage: {
             checkImage(src: string, alt: string, href: string): boolean | string | undefined {
@@ -77,7 +77,7 @@ export default Vue.extend({
   mounted() {
   },
   methods: {
-    //【注意】vue2 和 React 不一样，无法在 props 传递事件，所以 callbacks 只能单独定义，通过事件传递
+    //【注意】vue 和 React 不一样，无法在 props 传递事件，所以 callbacks 只能单独定义，通过事件传递
     onCreated(editor) {
       console.log('onCreated', editor)
       // this.editor = editor
@@ -99,7 +99,7 @@ export default Vue.extend({
       console.log('onBlur', editor)
     },
     customAlert(info: string, type: string) {
-      window.alert(`customAlert in Vue2 demo\n${type}:\n${info}`)
+      window.alert(`customAlert in Vue demo\n${type}:\n${info}`)
     },
 
     onToggleReadOnly() {

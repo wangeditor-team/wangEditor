@@ -1,4 +1,4 @@
-# wangEditor for Vue2.x
+# wangEditor for Vue
 
 ## 开发
 
@@ -14,3 +14,7 @@
 
 使用时，要先安装 `Vue` `@wangeditor/editor`
 TODO 文档中说明这一点
+
+------
+
+Vue3 组件 `@wangeditor/editor-for-vue@next` 待开发

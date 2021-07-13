@@ -2,7 +2,7 @@ import path from 'path'
 import { createRollupConfig, IS_PRD } from '../../build/create-rollup-config'
 import pkg from './package.json'
 
-const name = 'WangEditorForVue2'
+const name = 'WangEditorForVue'
 const input = path.resolve(__dirname, './src', 'index.ts')
 
 const configList = []

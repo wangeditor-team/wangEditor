@@ -6,7 +6,7 @@ import del from 'rollup-plugin-delete'
 import { createRollupConfig } from '../../build/create-rollup-config'
 
 // 继续生成 rollup config
-const name = 'WangEditorForVue2'
+const name = 'WangEditorForVue'
 const input = path.resolve(__dirname, './example', 'index.ts')
 const file = 'dist-example/index.js'
 const port = 8883

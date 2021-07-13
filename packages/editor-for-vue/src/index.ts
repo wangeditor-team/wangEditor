@@ -1,5 +1,5 @@
 /**
- * @description editor-for-vue2 entry
+ * @description editor-for-vue entry
  * @author wangfupeng
  */
 
