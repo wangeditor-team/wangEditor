@@ -11,6 +11,7 @@
     "release": "lerna version --conventional-commits",
     "prerelease": "git pull && yarn build",
     "format": "yarn prettier --write",
+    "lint": "eslint \"packages/**/*.+(ts|tsx)\"",
     "prettier": "prettier --ignore-path .gitignore \"packages/**/*.+(ts|tsx)\""
   },
   "workspaces": [
@@ -18,13 +19,14 @@
   ],
   "lint-staged": {
     "packages/**/*.{ts,tsx}": [
-      "eslint --fix --ext .ts,tsx",
+      "eslint --ext .ts,tsx",
+      "yarn format",
       "git add ."
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && yarn format",
+      "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
