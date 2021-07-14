@@ -7,8 +7,6 @@ export function genCodeLangs() {
   // 1. text value 对应关系参考 prism 官网 https://prismjs.com/#supported-languages
   // 2. 要加入一个新语言时，要引入相应的 js 模块（代码在 `vender/prism.ts`），例如 `import 'prismjs/components/prism-php'`
 
-  // TODO 在文档中说明，不能自己随意增加 lang ，可以删除。增加 lang 需提交 issue
-
   return [
     { text: 'CSS', value: 'css' },
     { text: 'HTML', value: 'html' },

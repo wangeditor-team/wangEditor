@@ -12,9 +12,6 @@ import { IPositionStyle } from '../menus/interface'
  * 扩展 slate Editor 接口
  */
 export interface IDomEditor extends Editor {
-  // TODO 这些 API 都在文档中说明
-  // 包括 slate 原生提供的 editor API ，如 insertText deleteFragment 等，查一查
-
   // data 相关（粘贴、拖拽等）
   insertData: (data: DataTransfer) => void
   setFragmentData: (data: DataTransfer) => void
@@ -22,12 +19,12 @@ export interface IDomEditor extends Editor {
   // config
   getConfig: () => IEditorConfig
   getMenuConfig: (menuKey: string) => ISingleMenuConfig
-  getAllMenuKeys: () => string[] // TODO 文档中说明，包括如何获取 toolbar hoverbar menu
+  getAllMenuKeys: () => string[]
   alert: (info: string, type: AlertType) => void
 
   // 内容处理
   handleTab: () => void
-  getHtml: (withFormat: boolean) => string
+  getHtml: (withFormat?: boolean) => string
   getText: () => string
   getSelectionText: () => string // 获取选区文字
   getHeaders: () => { id: string; type: string; text: string }[] // 获取所有标题

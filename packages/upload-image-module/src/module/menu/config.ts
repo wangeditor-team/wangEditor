@@ -35,8 +35,8 @@ export function genUploadImageConfig(): IUploadConfig {
       /* on failed */
     },
     onError: (file: any, err: any, res: any) => {
-      // TODO onTimeout 也在这里，文档中说明
       /* on error */
+      /* on timeout */
     },
 
     // 自定义插入图片，用户配置

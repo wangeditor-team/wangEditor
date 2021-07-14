@@ -5,8 +5,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { IDomEditor, IEditorConfig, SlateDescendant } from '@wangeditor/editor'
-import Editor from '../../src/components/Editor'
-import Toolbar from '../../src/components/Toolbar'
+import { Editor, Toolbar } from '../../src/index'
 
 function Basic() {
   const [editor, setEditor] = useState<IDomEditor | null>(null)
@@ -80,7 +79,7 @@ function Basic() {
 
       <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
         {/* 渲染 editor */}
-        <Editor defaultConfig={editorConfig} defaultContent={defaultContent} />
+        <Editor defaultConfig={editorConfig} defaultContent={defaultContent} mode="default" />
       </div>
 
       <div style={{ border: '1px solid #ccc', marginTop: '20px' }}>

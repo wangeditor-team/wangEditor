@@ -15,7 +15,7 @@ export default Vue.extend({
   template: '<div ref="box"></div>',
 
   name: 'Editor',
-  props: ['editorId', 'deafultContent', 'defaultConfig'],
+  props: ['editorId', 'deafultContent', 'defaultConfig', 'mode'],
   created() {
     if (this.editorId == null) {
       throw new Error('Need `editorId` props when create <Editor/> component')
@@ -91,6 +91,7 @@ export default Vue.extend({
           },
         },
         content: this.deafultContent || [],
+        mode: this.mode || 'default',
       })
     }
   }

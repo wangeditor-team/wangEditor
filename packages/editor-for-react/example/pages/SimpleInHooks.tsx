@@ -4,9 +4,8 @@
  */
 
 import React, { useState, useEffect } from 'react'
-import { IDomEditor, IEditorConfig, SlateDescendant } from '@wangeditor/editor'
-import Editor from '../../src/components/Editor'
-import Toolbar from '../../src/components/Toolbar'
+import { IDomEditor, IEditorConfig } from '@wangeditor/editor'
+import { Editor, Toolbar } from '../../src/index'
 
 function Basic() {
   const [editor, setEditor] = useState<IDomEditor | null>(null)
@@ -14,7 +13,6 @@ function Basic() {
   // ----------------------- editor config -----------------------
   const editorConfig: Partial<IEditorConfig> = {}
   editorConfig.placeholder = '请输入内容...'
-  editorConfig.hoverbarKeys = []
   editorConfig.onCreated = (editor: IDomEditor) => {
     setEditor(editor)
   }
@@ -23,25 +21,13 @@ function Basic() {
   // ----------------------- editor content -----------------------
   const defaultContent = [
     { type: 'paragraph', children: [{ text: 'class 组件 - 精简模式' }] },
-    { type: 'paragraph', children: [{ text: '简化 toolbar ，禁用 hoverbar' }] },
+    { type: 'paragraph', children: [{ text: '简化 toolbar 和 hoverbar' }] },
     { type: 'paragraph', children: [{ text: '' }] },
   ]
 
   // ----------------------- toolbar config -----------------------
   const toolbarConfig = {
-    toolbarKeys: [
-      'bold',
-      'italic',
-      'underline',
-      'code',
-      '|',
-      'header1',
-      'header2',
-      'blockquote',
-      '|',
-      'bulletedList',
-      'numberedList',
-    ],
+    // 工具栏配置
   }
 
   // ----------------------- 销毁 editor -----------------------
@@ -58,12 +44,12 @@ function Basic() {
     <React.Fragment>
       <div style={{ border: '1px solid #ccc' }}>
         {/* 渲染 toolbar */}
-        <Toolbar editor={editor} defaultConfig={toolbarConfig} />
+        <Toolbar editor={editor} defaultConfig={toolbarConfig} mode="simple" />
       </div>
 
       <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
         {/* 渲染 editor */}
-        <Editor defaultConfig={editorConfig} defaultContent={defaultContent} />
+        <Editor defaultConfig={editorConfig} defaultContent={defaultContent} mode="simple" />
       </div>
     </React.Fragment>
   )

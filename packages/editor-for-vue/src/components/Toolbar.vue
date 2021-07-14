@@ -9,7 +9,7 @@ export default Vue.extend({
   template: '<div ref="box"></div>',
 
   name: 'Toolbar',
-  props: ['editorId', 'defaultConfig'],
+  props: ['editorId', 'defaultConfig', 'mode'],
   created() {
     if (this.editorId == null) {
       throw new Error('Need `editorId` props when create <Editor/> component')
@@ -29,6 +29,7 @@ export default Vue.extend({
         editor,
         toolbarSelector: this.$refs.box as Element,
         config: this.defaultConfig || {},
+        mode: this.mode || 'default',
       })
     }
   },

@@ -119,7 +119,6 @@ class UploadImage implements IButtonMenu {
       // 预期 res 格式：
       // 成功：{ errno: 0, data: [ { url, alt, href }, {}, {} ] }
       // 失败：{ errno: !0, message: '失败信息' }
-      // TODO 文档中说明
 
       if (customInsert) {
         // 用户自定义插入图片，此时 res 格式可能不符合预期
