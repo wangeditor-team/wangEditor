@@ -28,7 +28,7 @@ class Quote extends BtnMenu implements MenuActive {
     public clickHandler(): void {
         const editor = this.editor
         const isSelectEmpty = editor.selection.isSelectionEmpty()
-        const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes()
+        let topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes()
         const $topNodeElem: DomElement = topNodeElem[topNodeElem.length - 1]
         const nodeName = this.getTopNodeName()
         // IE 中不支持 formatBlock <BLOCKQUOTE> ，要用其他方式兼容
@@ -49,8 +49,32 @@ class Quote extends BtnMenu implements MenuActive {
             this.tryChangeActive()
         } else {
             // 将 P 转换为 quote
-            const $quote = createQuote(topNodeElem)
-            $quote.insertAfter($topNodeElem)
+
+            /**
+            @author:gavin
+            @description 
+                1. 解决ctrl+a全选删除后，选区错位的问题。
+                2. 或者内容清空，按删除键后，选区错位。
+
+                导致topNodeElem选择的是编辑器顶层元素，在进行dom操作时，quote插入的位置有问题。
+            **/
+            let $quote = createQuote(topNodeElem)
+
+            //如果选择的元素时顶层元素，就将选区移动到正确的位置
+            if (editor.$textElem.equal($topNodeElem)) {
+                const containerElem = editor.selection.getSelectionContainerElem()?.elems[0]!
+                editor.selection.createRangeByElems(
+                    containerElem.children[0],
+                    containerElem.children[0]
+                )
+
+                topNodeElem = editor.selection.getSelectionRangeTopNodes()
+                $quote = createQuote(topNodeElem)
+                $topNodeElem.append($quote)
+            } else {
+                $quote.insertAfter($topNodeElem)
+            }
+
             this.delSelectNode(topNodeElem)
             const moveNode = $quote.childNodes()?.last().getNode() as Node
 
