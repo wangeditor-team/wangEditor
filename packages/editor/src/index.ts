@@ -3,6 +3,8 @@
  * @author wangfupeng
  */
 
+import './utils/node-polyfill'
+
 import './assets/index.less'
 import '@wangeditor/core/dist/css/style.css'
 

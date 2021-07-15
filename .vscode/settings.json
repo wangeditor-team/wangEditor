@@ -17,6 +17,7 @@
       "middlewares",
       "mkdir",
       "next",
+      "nocheck",
       "prettier",
       "prettierrc",
       "prismjs",

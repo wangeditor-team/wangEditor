@@ -9,11 +9,11 @@ import { TEXT_TO_HTML_FN_LIST, TEXT_STYLE_TO_HTML_FN_LIST } from './index'
 
 function replaceSymbols(str: string) {
   return str
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('®', '&reg;')
-    .replaceAll('©', '&copy;')
-    .replaceAll('™', '&trade;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/®/g, '&reg;')
+    .replace(/©/g, '&copy;')
+    .replace(/™/g, '&trade;')
 }
 
 function textToHtml(textNode: Text, editor: IDomEditor): string {

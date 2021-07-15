@@ -4,10 +4,10 @@
  */
 
 export const IS_IOS =
-  typeof navigator !== 'undefined' &&
-  typeof window !== 'undefined' &&
+  typeof globalThis.navigator !== 'undefined' &&
+  typeof globalThis.window !== 'undefined' &&
   /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-  !window.MSStream
+  !globalThis.window.MSStream
 
 export const IS_APPLE = typeof navigator !== 'undefined' && /Mac OS X/.test(navigator.userAgent)
 
