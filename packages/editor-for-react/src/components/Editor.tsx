@@ -4,7 +4,8 @@
  */
 
 import React, { useRef, useEffect } from 'react'
-import wangEditor, { SlateDescendant, IEditorConfig } from '@wangeditor/editor'
+import * as wangEditor from '@wangeditor/editor'
+import { createEditor, SlateDescendant, IEditorConfig } from '@wangeditor/editor'
 
 interface IProps {
   defaultContent: SlateDescendant[]
@@ -19,6 +20,7 @@ function EditorComponent(props: Partial<IProps>) {
   useEffect(() => {
     if (ref.current == null) return
 
+    // TODO 这里为何不能直接用 createEditor ？
     wangEditor.createEditor({
       textareaSelector: ref.current,
       config: defaultConfig,

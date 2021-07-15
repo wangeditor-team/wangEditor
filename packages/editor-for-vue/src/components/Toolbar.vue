@@ -1,6 +1,6 @@
 <script lang="ts">
 import Vue from 'vue'
-import wangEditor from '@wangeditor/editor'
+import { createToolbar } from '@wangeditor/editor'
 import emitter from '../utils/emitter'
 import { getEditor } from '../utils/editor-map'
 
@@ -25,7 +25,7 @@ export default Vue.extend({
       const editor = getEditor(this.editorId)
       if (editor == null) return
 
-      wangEditor.createToolbar({
+      createToolbar({
         editor,
         toolbarSelector: this.$refs.box as Element,
         config: this.defaultConfig || {},

@@ -4,7 +4,7 @@
  */
 
 import React, { useRef, useEffect } from 'react'
-import wangEditor, { IToolbarConfig, IDomEditor } from '@wangeditor/editor'
+import { createToolbar, IToolbarConfig, IDomEditor } from '@wangeditor/editor'
 
 interface IProps {
   editor: IDomEditor | null
@@ -20,7 +20,7 @@ function ToolbarComponent(props: IProps) {
     if (ref.current == null) return
     if (editor == null) return
 
-    wangEditor.createToolbar({
+    createToolbar({
       editor,
       toolbarSelector: ref.current,
       config: defaultConfig,

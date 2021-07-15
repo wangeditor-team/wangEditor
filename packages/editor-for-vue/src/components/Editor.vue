@@ -1,6 +1,7 @@
 <script lang="ts">
 import Vue from 'vue'
-import wangEditor from '@wangeditor/editor'
+import * as wangEditor from '@wangeditor/editor'
+import { createEditor } from '@wangeditor/editor'
 import emitter from '../utils/emitter'
 import { recordEditor } from '../utils/editor-map'
 
@@ -15,7 +16,7 @@ export default Vue.extend({
   template: '<div ref="box"></div>',
 
   name: 'Editor',
-  props: ['editorId', 'deafultContent', 'defaultConfig', 'mode'],
+  props: ['editorId', 'defaultContent', 'defaultConfig', 'mode'],
   created() {
     if (this.editorId == null) {
       throw new Error('Need `editorId` props when create <Editor/> component')
@@ -30,6 +31,7 @@ export default Vue.extend({
 
       const defaultConfig = this.defaultConfig || {}
 
+      // TODO 这里为何不能直接用 createEditor ？？？
       wangEditor.createEditor({
         textareaSelector: this.$refs.box as Element,
         config: {
@@ -90,7 +92,7 @@ export default Vue.extend({
             }
           },
         },
-        content: this.deafultContent || [],
+        content: this.defaultContent || [],
         mode: this.mode || 'default',
       })
     }

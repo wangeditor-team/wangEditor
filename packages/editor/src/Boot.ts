@@ -3,13 +3,8 @@
  * @author wangfupeng
  */
 
-// import $, { Dom7Array } from 'dom7'
-import { Descendant } from 'slate'
 import {
   IDomEditor,
-  coreCreateEditor,
-  Toolbar,
-  coreCreateToolbar,
 
   // 配置
   IEditorConfig,
@@ -33,36 +28,12 @@ import {
   registerTextToHtmlHandler,
   registerElemToHtmlConf,
 } from '@wangeditor/core'
-import { DOMElement } from './utils/dom'
 
 type PluginType = <T extends IDomEditor>(editor: T) => T
 
-interface ICreateEditorOption {
-  textareaSelector: string | DOMElement
-  config: Partial<IEditorConfig>
-  content: Descendant[]
-  mode: string
-}
-
-interface ICreateToolbarOption {
-  editor: IDomEditor | null
-  toolbarSelector: string | DOMElement
-  config?: Partial<IToolbarConfig>
-  mode?: string
-}
-
-class wangEditor {
+class Boot {
   constructor() {
-    // v4 的使用方式是 new wangEditor(...) ，v5+ 不再这样使用
-    // 正好，在此提示用户，现在是 v4 版本，请参考官网的文档
-
-    let info = '您正在使用 wangEditor v5+ 版本，无法执行 new wangEditor(...) ，'
-    info += '请参考官网和开发文档：'
-    info += 'https://www.wangeditor.com/'
-    info += '\nYou are using wangEditor v5+ version, cannot do `new wangEditor(...)`, '
-    info += 'please see our website and documentation: '
-    info += 'https://www.wangeditor.com/en.html'
-    throw new Error(info)
+    throw new Error('不能实例化\nCan not construct a instance')
   }
 
   // editor 配置
@@ -133,51 +104,6 @@ class wangEditor {
   static registerTextStyleToHtml(fn: TextStyleToHtmlFnType) {
     registerTextStyleToHtmlHandler(fn)
   }
-
-  // -------------------------------------- 分割线 --------------------------------------
-
-  /**
-   * 创建 editor 实例
-   */
-  static createEditor(option: Partial<ICreateEditorOption> = {}): IDomEditor {
-    const { textareaSelector = '', content = [], config = {}, mode = 'default' } = option
-
-    let globalConfig = mode === 'simple' ? this.simpleEditorConfig : this.editorConfig
-
-    const editor = coreCreateEditor({
-      textareaSelector,
-      config: {
-        ...globalConfig, // 全局配置
-        ...config,
-      },
-      content,
-      plugins: this.plugins,
-    })
-
-    return editor
-  }
-
-  /**
-   * 创建 toolbar 实例
-   */
-  static createToolbar(option: ICreateToolbarOption): Toolbar {
-    const { toolbarSelector, editor, config = {}, mode = 'default' } = option
-    if (!toolbarSelector) {
-      throw new Error(`Cannot find 'toolbarSelector' when create toolbar`)
-    }
-
-    let globalConfig = mode === 'simple' ? this.simpleToolbarConfig : this.toolbarConfig
-
-    const toolbar = coreCreateToolbar(editor, {
-      toolbarSelector,
-      config: {
-        ...globalConfig, // 全局配置
-        ...config,
-      },
-    })
-
-    return toolbar
-  }
 }
 
-export default wangEditor
+export default Boot

@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG, IMAGE_SVG, MORE_SVG } from '../constants/svg'
+import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG, IMAGE_SVG, MORE_SVG } from '../../constants/svg'
 
 export function genDefaultToolbarKeys() {
   return [

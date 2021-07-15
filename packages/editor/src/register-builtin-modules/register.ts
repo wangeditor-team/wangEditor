@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import wangEditor from './wangEditorClass'
+import Boot from '../Boot'
 import { IModuleConf } from '@wangeditor/core'
 
 function registerModule(module: Partial<IModuleConf>) {
@@ -18,25 +18,25 @@ function registerModule(module: Partial<IModuleConf>) {
   } = module
 
   if (menus) {
-    menus.forEach(menu => wangEditor.registerMenu(menu))
+    menus.forEach(menu => Boot.registerMenu(menu))
   }
   if (renderElems) {
-    renderElems.forEach(renderElemConf => wangEditor.registerRenderElem(renderElemConf))
+    renderElems.forEach(renderElemConf => Boot.registerRenderElem(renderElemConf))
   }
   if (renderTextStyle) {
-    wangEditor.registerRenderTextStyle(renderTextStyle)
+    Boot.registerRenderTextStyle(renderTextStyle)
   }
   if (elemsToHtml) {
-    elemsToHtml.forEach(elemToHtmlConf => wangEditor.registerElemToHtml(elemToHtmlConf))
+    elemsToHtml.forEach(elemToHtmlConf => Boot.registerElemToHtml(elemToHtmlConf))
   }
   if (textToHtml) {
-    wangEditor.registerTextToHtml(textToHtml)
+    Boot.registerTextToHtml(textToHtml)
   }
   if (textStyleToHtml) {
-    wangEditor.registerTextStyleToHtml(textStyleToHtml)
+    Boot.registerTextStyleToHtml(textStyleToHtml)
   }
   if (editorPlugin) {
-    wangEditor.registerPlugin(editorPlugin)
+    Boot.registerPlugin(editorPlugin)
   }
 }
 

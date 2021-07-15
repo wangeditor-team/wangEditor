@@ -14,7 +14,7 @@ export default Vue.extend({
         <Editor
           :editorId="editorId"
           :defaultConfig="editorConfig"
-          :deafultContent="deafultContent"
+          :defaultContent="defaultContent"
           :mode="mode"
         />
       </div>
@@ -27,7 +27,7 @@ export default Vue.extend({
       //【注意】1. editorId 用于 Toolbar 和 Editor 的关联，保持一直。2. 多个编辑器时，每个的 editorId 要唯一
       editorId: 'w-e-1002',
 
-      deafultContent: [
+      defaultContent: [
         { type: 'paragraph', children: [{ text: 'simple mode' }] },
         { type: 'paragraph', children: [{ text: '简化 toolbar 和 hoverbar' }] }
       ],
