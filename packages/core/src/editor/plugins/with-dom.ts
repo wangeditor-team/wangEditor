@@ -31,6 +31,8 @@ export const withDOM = <T extends Editor>(editor: T) => {
 
   e.id = `wangEditor-${ID++}`
 
+  e.isDestroyed = false
+
   // 重写 apply 方法
   // apply 方法非常重要，它最终执行 operation https://docs.slatejs.org/concepts/05-operations
   // operation 的接口定义参考 slate src/interfaces/operation.ts
@@ -141,6 +143,9 @@ export const withDOM = <T extends Editor>(editor: T) => {
       EDITOR_TO_HOVER_BAR.delete(e)
       HOVER_BAR_TO_EDITOR.delete(hoverbar)
     }
+
+    // 修改属性
+    e.isDestroyed = true
 
     // 触发自定义事件
     e.emit('destroyed')

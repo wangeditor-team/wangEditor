@@ -4,7 +4,7 @@
  */
 
 import React, { useRef, useEffect } from 'react'
-import { createToolbar, IToolbarConfig, IDomEditor } from '@wangeditor/editor'
+import { createToolbar, IToolbarConfig, IDomEditor } from '@wangeditor/editor-cattle'
 
 interface IProps {
   editor: IDomEditor | null

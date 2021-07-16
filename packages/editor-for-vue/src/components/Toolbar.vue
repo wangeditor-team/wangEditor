@@ -1,6 +1,6 @@
 <script lang="ts">
 import Vue from 'vue'
-import { createToolbar } from '@wangeditor/editor'
+import { createToolbar } from '@wangeditor/editor-cattle'
 import emitter from '../utils/emitter'
 import { getEditor } from '../utils/editor-map'
 

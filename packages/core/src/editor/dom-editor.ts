@@ -499,6 +499,10 @@ export const DomEditor = {
    * Find the DOM node that implements DocumentOrShadowRoot for the editor.
    */
   findDocumentOrShadowRoot(editor: IDomEditor): Document | ShadowRoot {
+    if (editor.isDestroyed) {
+      return window.document
+    }
+
     const el = DomEditor.toDOMNode(editor, editor)
     const root = el.getRootNode()
 

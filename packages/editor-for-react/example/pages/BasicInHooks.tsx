@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react'
-import { IDomEditor, IEditorConfig, SlateDescendant } from '@wangeditor/editor'
+import { IDomEditor, IEditorConfig, SlateDescendant } from '@wangeditor/editor-cattle'
 import { Editor, Toolbar } from '../../src/index'
 
 function Basic() {

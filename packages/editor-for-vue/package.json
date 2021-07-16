@@ -42,7 +42,7 @@
     "url": "https://github.com/wangeditor-team/we-2021/issues"
   },
   "peerDependencies": {
-    "@wangeditor/editor": "^0.0.1",
+    "@wangeditor/editor-cattle": "^0.0.1",
     "vue": "^2.6.14"
   },
   "devDependencies": {

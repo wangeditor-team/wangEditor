@@ -4,8 +4,8 @@
  */
 
 import React, { useRef, useEffect } from 'react'
-import * as wangEditor from '@wangeditor/editor'
-import { createEditor, SlateDescendant, IEditorConfig } from '@wangeditor/editor'
+import * as wangEditor from '@wangeditor/editor-cattle'
+import { createEditor, SlateDescendant, IEditorConfig } from '@wangeditor/editor-cattle'
 
 interface IProps {
   defaultContent: SlateDescendant[]

@@ -32,6 +32,7 @@ export interface IDomEditor extends Editor {
 
   // dom 相关
   id: string
+  isDestroyed: boolean
   focus: () => void
   isFocused: () => boolean
   blur: () => void
