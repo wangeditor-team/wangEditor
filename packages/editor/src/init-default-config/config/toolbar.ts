@@ -17,6 +17,7 @@ export function genDefaultToolbarKeys() {
     'underline',
     'italic',
     {
+      key: 'group-more-style', // 以 group 开头
       title: '更多样式',
       iconSvg: MORE_SVG,
       menuKeys: ['through', 'code', 'clearStyle'],
@@ -31,11 +32,13 @@ export function genDefaultToolbarKeys() {
     'bulletedList',
     'numberedList',
     {
+      key: 'group-justify', // 以 group 开头
       title: '对齐',
       iconSvg: JUSTIFY_LEFT_SVG,
       menuKeys: ['justifyLeft', 'justifyRight', 'justifyCenter'],
     },
     {
+      key: 'group-indent', // 以 group 开头
       title: '缩进',
       iconSvg: INDENT_RIGHT_SVG,
       menuKeys: ['indent', 'delIndent'],
@@ -47,6 +50,7 @@ export function genDefaultToolbarKeys() {
     // 'unLink',
     // 'viewLink',
     {
+      key: 'group-image', // 以 group 开头
       title: '图片',
       iconSvg: IMAGE_SVG,
       menuKeys: ['insertImage', 'uploadImage'],
@@ -90,6 +94,7 @@ export function genSimpleToolbarKeys() {
     '|',
     'insertLink',
     {
+      key: 'group-image', // 以 group 开头
       title: '图片',
       iconSvg: IMAGE_SVG,
       menuKeys: ['insertImage', 'uploadImage'],

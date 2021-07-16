@@ -8,6 +8,7 @@ import { IDomEditor } from '../editor/interface'
 import { Dom7Array } from '../utils/dom'
 
 export interface IMenuGroup {
+  key: string
   title: string
   iconSvg?: string
   menuKeys: string[]

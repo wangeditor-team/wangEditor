@@ -21,9 +21,9 @@ class Toolbar {
   private readonly $toolbar: Dom7Array = $(`<div class="w-e-bar w-e-bar-show w-e-toolbar"></div>`)
   private menus: { [key: string]: MenuType } = {}
   private toolbarItems: IBarItem[] = []
-  private config: IToolbarConfig = {}
+  private config: Partial<IToolbarConfig> = {}
 
-  constructor(selector: string | DOMElement, config: IToolbarConfig) {
+  constructor(selector: string | DOMElement, config: Partial<IToolbarConfig>) {
     this.config = config
 
     // @ts-ignore 初始化 DOM
@@ -59,24 +59,40 @@ class Toolbar {
 
   // 注册 toolbarItems
   private registerItems() {
+    let prevKey = ''
     const $toolbar = this.$toolbar
-    const { toolbarKeys = [] } = this.config // 格式如 ['a', '|', 'b', 'c', '|', 'd']
+    const { toolbarKeys = [], excludeKeys = [] } = this.config // 格式如 ['a', '|', 'b', 'c', '|', 'd']
     toolbarKeys.forEach(key => {
+      // 排除某些菜单
+      if (typeof key === 'string') {
+        // 普通菜单
+        if (excludeKeys.includes(key)) return
+      } else {
+        // group
+        if (excludeKeys.includes(key.key)) return
+      }
+
       if (key === '|') {
+        // 多个紧挨着的 `|` ，只显示一个
+        if (prevKey === '|') return
+
         // 分割线
         const $divider = gen$barItemDivider()
         $toolbar.append($divider)
+        prevKey = key
         return
       }
 
       // 正常菜单
       if (typeof key === 'string') {
         this.registerSingleItem(key, this)
+        prevKey = key
         return
       }
 
       // 菜单组
       this.registerGroup(key)
+      prevKey = 'group'
     })
   }
 

@@ -50,6 +50,7 @@ export function genToolbarConfig(userConfig?: Partial<IToolbarConfig>): IToolbar
   return {
     // 默认配置
     toolbarKeys: [],
+    excludeKeys: [],
 
     // 合并用户配置
     ...(userConfig || {}),
