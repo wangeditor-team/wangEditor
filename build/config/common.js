@@ -10,7 +10,7 @@ import nodeResolve from '@rollup/plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
-import del from 'rollup-plugin-delete'
+// import del from 'rollup-plugin-delete'
 import vuePlugin from 'rollup-plugin-vue'
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx', '.vue']
@@ -44,7 +44,7 @@ export default {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       preventAssignment: true,
     }),
-    del({ targets: 'dist/*' }),
+    // del({ targets: 'dist/*' }),
   ],
   external: ['react', 'react-dom', 'vue'],
 }

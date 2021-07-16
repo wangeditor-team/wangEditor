@@ -4,15 +4,15 @@
   "scripts": {
     "test": "jest",
     "test-c": "jest --coverage",
-    "dev": "lerna run --parallel dev",
-    "dev-watch": "lerna run --parallel dev-watch",
-    "build": "lerna exec --parallel -- 'yarn build'",
+    "dev": "sh build/build-all.sh dev",
+    "build": "sh build/build-all.sh",
     "bootstrap": "lerna bootstrap --use-workspaces",
     "release": "lerna version --conventional-commits",
     "prerelease": "git pull && yarn build",
     "format": "yarn prettier --write",
     "lint": "eslint \"packages/**/*.+(ts|tsx)\"",
-    "prettier": "prettier --ignore-path .gitignore \"packages/**/*.+(ts|tsx)\""
+    "prettier": "prettier --ignore-path .gitignore \"packages/**/*.+(ts|tsx)\"",
+    "scp-demo": "sh build/scp-demo.sh"
   },
   "workspaces": [
     "packages/*"

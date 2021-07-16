@@ -9,32 +9,37 @@
 
 ## 本地启动
 
-- 下载代码到本地
+### 打包
+
+- 下载代码到本地，进入 `we-2021` 目录
 - 安装所有依赖 `yarn bootstrap`
-- 打包 core 模块
-  - `cd packages/core`
-  - `yarn dev` （本地环境打包，不压缩代码）
-- 打包 basic 模块
-  - `cd packages/basic`
-  - `yarn dev`
-- 打包其他功能模块（如有）
-- 最后，打包 editor 模块
-  - `cd packages/editor`
-  - `yarn dev` （或运行 `yarn example` 查看 demo 页）
+- 打包所有模块 `yarn dev` 或者 `yarn build`
+
+PS：也可以单独进入 `packages/xxx` 目录，单独运行 `yarn dev` 或者 `yarn build`
+
+### 运行 demo
+
+- 进入 `packages/editor` 目录，运行 `yarn example`
+- 进入 `packages/editor-for-vue` 目录，运行 `yarn example`
+- 进入 `packages/editor-for-react` 目录，运行 `yarn example`
 
 ## 注意事项
 
 - 修改代码、重新打包后，要**强制刷新**浏览器
 - 如果本地包依赖有问题，试试 `lerna link` 关联内部包
 
+## 发布到测试机
+
+先临时用 `scp` 拷贝，后续修改为自动化发布
+
+- 进入 `we-2021` 目录
+- 执行 `yarn dev` 打包
+- 执行 `yarn scp-demo` 拷贝到测试机（管理员才有权限）
+- 访问 `http://106.12.198.214:8882/editor/examples/index.html`
+
 ## 记录
 
 全局安装一个插件 `yarn add xxx --dev -W`
-
-打包形式
-- `yarn dev` 本地打包
-- `yarn dev-watch` 本地打包，并监听变化
-- `yarn build` 生产环境打包，压缩代码，产出 mjs
 
 注意合理使用 `peerDependencies` 和 `dependencies` ，不要重复打包一个第三方库
 

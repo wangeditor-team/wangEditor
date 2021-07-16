@@ -13,7 +13,7 @@
     },
     "version": {
       "message": "chore(release): publish",
-      "allowBranch": "master"
+      "allowBranch": "main"
     }
   },
   "changelog": {
