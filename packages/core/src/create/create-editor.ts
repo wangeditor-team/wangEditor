@@ -108,12 +108,9 @@ export default function (option: Partial<ICreateOption>) {
   }
 
   // 触发生命周期
-  const { onCreated, onChange, onDestroyed } = editorConfig
+  const { onCreated, onDestroyed } = editorConfig
   if (onCreated) {
     editor.on('created', () => onCreated(editor))
-  }
-  if (onChange) {
-    editor.on('change', () => onChange(editor))
   }
   if (onDestroyed) {
     editor.on('destroyed', () => onDestroyed(editor))
