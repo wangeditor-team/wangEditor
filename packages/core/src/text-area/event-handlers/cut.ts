@@ -11,10 +11,10 @@ import { hasEditableTarget } from '../helpers'
 
 function handleOnCut(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as ClipboardEvent
-  const { editorConfig } = textarea
   const { selection } = editor
+  const { readOnly } = editor.getConfig()
 
-  if (editorConfig.readOnly) return
+  if (readOnly) return
   if (!hasEditableTarget(editor, event.target)) return
 
   event.preventDefault()

@@ -11,9 +11,9 @@ import { hasTarget } from '../helpers'
 import { isDOMNode } from '../../utils/dom'
 
 function handleOnClick(event: Event, textarea: TextArea, editor: IDomEditor) {
-  const { editorConfig } = textarea
+  const { readOnly } = editor.getConfig()
 
-  if (editorConfig.readOnly) return
+  if (readOnly) return
   if (!hasTarget(editor, event.target)) return
   if (!isDOMNode(event.target)) return
 

@@ -15,8 +15,8 @@ function handleKeypress(event: Event, textarea: TextArea, editor: IDomEditor) {
   // 这里是兼容不完全支持 beforeInput 的浏览器。对于支持 beforeInput 的浏览器，会用 beforeinput 事件处理
   if (HAS_BEFORE_INPUT_SUPPORT) return
 
-  const { editorConfig } = textarea
-  if (editorConfig.readOnly) return
+  const { readOnly } = editor.getConfig()
+  if (readOnly) return
   if (!hasEditableTarget(editor, event.target)) return
 
   event.preventDefault()

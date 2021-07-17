@@ -9,9 +9,9 @@ import { hasTarget } from '../helpers'
 
 function handleOnDragend(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as DragEvent
-  const { editorConfig } = textarea
+  const { readOnly } = editor.getConfig()
 
-  if (editorConfig.readOnly) return
+  if (readOnly) return
   if (!textarea.isDraggingInternally) return
   if (!hasTarget(editor, event.target)) return
 

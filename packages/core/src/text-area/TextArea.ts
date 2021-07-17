@@ -13,7 +13,6 @@ import handlePlaceholder from './place-holder'
 import { editorSelectionToDOM, DOMSelectionToEditor } from './syncSelection'
 import { promiseResolveThen } from '../utils/util'
 import eventHandlerConf from './event-handlers/index'
-import { IEditorConfig } from '../config/interface'
 
 let ID = 1
 
@@ -55,13 +54,15 @@ class TextArea {
       // 点击编辑区域，关闭 panel
       $container.on('mousedown', () => editor.hidePanelOrModal())
 
-      // 监听 editor onchange
+      // editor onchange 时更新视图
       editor.on('change', this.changeViewState.bind(this))
-      // 监听用户配置的onChange函数，需要在updateView后执行!
-      const { onChange } = this.editorConfig
+
+      // editor onchange 时触发用户配置的 onChange （需要在 changeViewState 后执行）
+      const { onChange } = editor.getConfig()
       if (onChange) {
         editor.on('change', () => onChange(editor))
       }
+
       // editor 销毁时，解绑 selection change
       editor.on('destroyed', () => {
         window.document.removeEventListener('selectionchange', this.onDOMSelectionChange)
@@ -79,13 +80,6 @@ class TextArea {
     const editor = TEXTAREA_TO_EDITOR.get(this)
     if (editor == null) throw new Error('Can not get editor instance')
     return editor
-  }
-
-  public get editorConfig(): IEditorConfig {
-    const editor = this.editorInstance
-    const config = EDITOR_TO_CONFIG.get(editor)
-    if (config == null) throw new Error('Can not get editor config')
-    return config
   }
 
   private onDOMSelectionChange = throttle(() => {
@@ -110,7 +104,7 @@ class TextArea {
     })
 
     // 设置 scroll
-    const { scroll } = this.editorConfig
+    const { scroll } = editor.getConfig()
     if (scroll) {
       $scroll.css('overflow-y', 'auto')
       // scroll 自定义事件

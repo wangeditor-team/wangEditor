@@ -12,9 +12,9 @@ import { HAS_BEFORE_INPUT_SUPPORT } from '../../utils/ua'
 
 function handleOnPaste(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as ClipboardEvent
-  const { editorConfig } = textarea
+  const { readOnly } = editor.getConfig()
 
-  if (editorConfig.readOnly) return
+  if (readOnly) return
   if (!hasEditableTarget(editor, event.target)) return
 
   // 如果支持 beforeInput 且不是纯粘贴文本（如 html、图片文件），则使用 beforeInput 来实现

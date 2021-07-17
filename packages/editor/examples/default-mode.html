@@ -54,11 +54,8 @@
       console.log('on created', editor)
     }
     editorConfig.onChange = (editor) => {
-      // 获取 html （使用异步，类似 Vue $nextTick）
-      Promise.resolve().then(() => {
-        const html = editor.getHtml()
-        document.getElementById('editor-content-view').innerHTML = html
-      })
+      const html = editor.getHtml()
+      document.getElementById('editor-content-view').innerHTML = html
 
       // 选中文字
       const selectionText = editor.getSelectionText()

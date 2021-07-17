@@ -38,17 +38,14 @@
     const editorConfig = { MENU_CONF: {} }
     editorConfig.placeholder = '请输入内容'
 
-    editorConfig.maxLength = 120 // 慎用，可能影响性能，需在文档中说明
+    editorConfig.maxLength = 140 // 慎用，可能影响性能，需在文档中说明
     editorConfig.onMaxLength = (editor) => {
       console.log('on max length', editor)
     }
 
     editorConfig.onChange = (editor) => {
-      // 获取 html （使用异步，类似 Vue $nextTick）
-      Promise.resolve().then(() => {
-        const html = editor.getHtml()
-        document.getElementById('editor-content-view').innerHTML = html
-      })
+      const html = editor.getHtml()
+      document.getElementById('editor-content-view').innerHTML = html
 
       // 选中文字
       const selectionText = editor.getSelectionText()

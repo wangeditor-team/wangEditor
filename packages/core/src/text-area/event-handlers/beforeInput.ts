@@ -22,9 +22,10 @@ interface BeforeInputEventType {
 
 function handleBeforeInput(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as Event & BeforeInputEventType
+  const { readOnly } = editor.getConfig()
 
   if (!HAS_BEFORE_INPUT_SUPPORT) return // 有些浏览器完全不支持 beforeInput ，会用 keypress 和 keydown 兼容
-  if (textarea.editorConfig.readOnly) return
+  if (readOnly) return
   if (!hasEditableTarget(editor, event.target)) return
 
   const { selection } = editor

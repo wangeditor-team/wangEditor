@@ -40,10 +40,10 @@ function triggerMenuHotKey(editor: IDomEditor, event: KeyboardEvent) {
 
 function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as KeyboardEvent
-  const { editorConfig } = textarea
   const { selection } = editor
+  const { readOnly } = editor.getConfig()
 
-  if (editorConfig.readOnly) return
+  if (readOnly) return
   if (!hasEditableTarget(editor, event.target)) return
 
   // 触发 menu 快捷键

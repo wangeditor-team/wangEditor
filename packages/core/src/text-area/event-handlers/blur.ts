@@ -15,9 +15,10 @@ import { IS_SAFARI } from '../../utils/ua'
 function handleOnBlur(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as FocusEvent
 
-  const { editorConfig, isUpdatingSelection, latestElement } = textarea
+  const { isUpdatingSelection, latestElement } = textarea
+  const { readOnly } = editor.getConfig()
 
-  if (editorConfig.readOnly) return
+  if (readOnly) return
   if (isUpdatingSelection) return
   if (!hasEditableTarget(editor, event.target)) return
   const root = DomEditor.findDocumentOrShadowRoot(editor)

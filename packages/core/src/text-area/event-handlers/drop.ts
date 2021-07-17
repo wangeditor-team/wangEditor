@@ -12,10 +12,10 @@ import { HAS_BEFORE_INPUT_SUPPORT, IS_SAFARI } from '../../utils/ua'
 
 function handleOnDrop(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as DragEvent
-  const { editorConfig } = textarea
   const data = event.dataTransfer
+  const { readOnly } = editor.getConfig()
 
-  if (editorConfig.readOnly) return
+  if (readOnly) return
   if (!hasTarget(editor, event.target)) return
   if (data == null) return
 
