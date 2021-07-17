@@ -103,12 +103,9 @@ export default function (option: ICreateOption) {
   textarea.changeViewState() // 初始化时触发一次，以便能初始化 textarea DOM 和 selection
 
   // 触发生命周期
-  const { onCreated, onChange, onDestroyed } = editorConfig
+  const { onCreated, onDestroyed } = editorConfig
   if (onCreated) {
     editor.on('created', () => onCreated(editor))
-  }
-  if (onChange) {
-    editor.on('change', () => onChange(editor))
   }
   if (onDestroyed) {
     editor.on('destroyed', () => onDestroyed(editor))

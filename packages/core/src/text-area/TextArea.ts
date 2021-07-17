@@ -57,7 +57,11 @@ class TextArea {
 
       // 监听 editor onchange
       editor.on('change', this.changeViewState.bind(this))
-
+      // 监听用户配置的onChange函数，需要在updateView后执行!
+      const { onChange } = this.editorConfig
+      if (onChange) {
+        editor.on('change', () => onChange(editor))
+      }
       // editor 销毁时，解绑 selection change
       editor.on('destroyed', () => {
         window.document.removeEventListener('selectionchange', this.onDOMSelectionChange)
