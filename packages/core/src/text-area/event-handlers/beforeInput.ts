@@ -131,6 +131,11 @@ function handleBeforeInput(e: Event, textarea: TextArea, editor: IDomEditor) {
     case 'insertFromYank':
     case 'insertReplacementText':
     case 'insertText': {
+      if (type === 'insertFromComposition') {
+        // https://www.w3.org/TR/input-events-2/
+        // 解决在 safari 上当使用拼音输入，compositionend 在 beforeinput 之后触发，导致选区没有正常更新的问题
+        textarea.isComposing = false
+      }
       if (data instanceof DataTransfer) {
         // 这里处理非纯文本（如 html 图片文件等）的粘贴。对于纯文本的粘贴，使用 paste 事件
         editor.insertData(data)
