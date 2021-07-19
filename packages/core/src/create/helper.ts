@@ -6,12 +6,11 @@
 import { IDomEditor } from '../editor/interface'
 import $, { DOMElement } from '../utils/dom'
 
-/**
- * 检查是否重复创建
- */
-export function isRepeatedCreate(editor: IDomEditor, selector: string | DOMElement): boolean {
-  const attrKey = 'data-w-e-created'
-
+function isRepeatedCreate(
+  editor: IDomEditor,
+  attrKey: string,
+  selector: string | DOMElement
+): boolean {
   // @ts-ignore
   const $elem = $(selector)
   if ($elem.attr(attrKey)) {
@@ -27,6 +26,26 @@ export function isRepeatedCreate(editor: IDomEditor, selector: string | DOMEleme
   })
 
   return false
+}
+
+/**
+ * 检查是否重复创建 textarea
+ */
+export function isRepeatedCreateTextarea(
+  editor: IDomEditor,
+  selector: string | DOMElement
+): boolean {
+  return isRepeatedCreate(editor, 'data-w-e-textarea', selector)
+}
+
+/**
+ * 检查是否重复创建 toolbar
+ */
+export function isRepeatedCreateToolbar(
+  editor: IDomEditor,
+  selector: string | DOMElement
+): boolean {
+  return isRepeatedCreate(editor, 'data-w-e-toolbar', selector)
 }
 
 /**

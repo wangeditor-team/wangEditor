@@ -21,6 +21,7 @@ import {
   offset,
   width,
   height,
+  parent,
   parents,
   is,
   dataset,
@@ -51,6 +52,7 @@ $.fn.show = show
 $.fn.offset = offset
 $.fn.width = width
 $.fn.height = height
+$.fn.parent = parent
 $.fn.parents = parents
 $.fn.is = is
 $.fn.dataset = dataset

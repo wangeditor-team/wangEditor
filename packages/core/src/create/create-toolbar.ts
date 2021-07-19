@@ -7,7 +7,7 @@ import { IDomEditor } from '../editor/interface'
 import Toolbar from '../menus/bar/Toolbar'
 import { IToolbarConfig } from '../config/interface'
 import { genToolbarConfig } from '../config/index'
-import { isRepeatedCreate } from './helper'
+import { isRepeatedCreateToolbar } from './helper'
 import { DOMElement } from '../utils/dom'
 import { TOOLBAR_TO_EDITOR, EDITOR_TO_TOOLBAR } from '../utils/weak-maps'
 
@@ -23,7 +23,7 @@ export default function (editor: IDomEditor | null, option: ICreateOption): Tool
   const { toolbarSelector, config = {} } = option
 
   // 避免重复创建
-  if (isRepeatedCreate(editor, toolbarSelector)) {
+  if (isRepeatedCreateToolbar(editor, toolbarSelector)) {
     // 对同一个 DOM 重复创建
     throw new Error(`Repeated create toolbar by toolbarSelector '${toolbarSelector}'`)
   }

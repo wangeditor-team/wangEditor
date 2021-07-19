@@ -33,6 +33,7 @@ export interface IDomEditor extends Editor {
   // dom 相关
   id: string
   isDestroyed: boolean
+  isFullScreen: boolean
   focus: () => void
   isFocused: () => boolean
   blur: () => void
@@ -45,6 +46,8 @@ export interface IDomEditor extends Editor {
   disable: () => void
   isDisabled: () => boolean
   toDOMNode: (node: Node) => HTMLElement
+  fullScreen: () => void
+  unFullScreen: () => void
 
   // selection 相关
   select: (at: Location) => void

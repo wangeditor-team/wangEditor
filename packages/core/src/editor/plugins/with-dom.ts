@@ -6,7 +6,7 @@
 import { Node, Editor, Path, Operation, Transforms } from 'slate'
 import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../..'
-import $ from '../../utils/dom'
+import $, { Dom7Array } from '../../utils/dom'
 import { Key } from '../../utils/key'
 import {
   NODE_TO_KEY,
@@ -32,6 +32,8 @@ export const withDOM = <T extends Editor>(editor: T) => {
   e.id = `wangEditor-${ID++}`
 
   e.isDestroyed = false
+
+  e.isFullScreen = false
 
   // 重写 apply 方法
   // apply 方法非常重要，它最终执行 operation https://docs.slatejs.org/concepts/05-operations
@@ -224,6 +226,52 @@ export const withDOM = <T extends Editor>(editor: T) => {
 
   e.toDOMNode = (node: Node) => {
     return DomEditor.toDOMNode(e, node)
+  }
+
+  e.fullScreen = () => {
+    if (e.isFullScreen) return
+
+    let $toolbarBox: Dom7Array | null = null
+    const toolbar = DomEditor.getToolbar(e)
+    if (toolbar) {
+      $toolbarBox = toolbar.$box
+    }
+
+    const textarea = DomEditor.getTextarea(e)
+    const $textAreaBox = textarea.$box
+    const $parent = $textAreaBox.parent()
+
+    if ($toolbarBox && $toolbarBox.parent()[0] !== $parent[0]) {
+      // toolbar DOM 父节点，和 editor DOM 父节点不一致，则不能设置全屏
+      let info =
+        'Can not set full screen, cause toolbar DOM parent is not equal to textarea DOM parent'
+      info += '\n不能设置全屏，因为 toolbar DOM 父节点和 textarea DOM 父节点不一致'
+      throw new Error(info)
+    }
+
+    // 设置全屏
+    $parent.addClass('w-e-full-screen-container')
+
+    // 设置 z-index
+    const curZIndex = $parent.css('z-index')
+    $parent.attr('data-z-index', curZIndex.toString())
+
+    // 记录属性
+    e.isFullScreen = true
+  }
+
+  e.unFullScreen = () => {
+    if (!e.isFullScreen) return
+
+    const textarea = DomEditor.getTextarea(e)
+    const $textAreaBox = textarea.$box
+    const $parent = $textAreaBox.parent()
+
+    // 取消全屏
+    $parent.removeClass('w-e-full-screen-container')
+
+    // 记录属性
+    e.isFullScreen = false
   }
 
   return e

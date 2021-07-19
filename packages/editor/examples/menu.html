@@ -69,6 +69,7 @@
       toolbarSelector: '#editor-toolbar',
       config: {
         toolbarKeys: [
+          '|', // 第一个是 `|` 不显示
           'headerSelect',
           'blockquote',
           '|', '|', '|', // 多个紧挨者的 `|` 只显示一个
@@ -91,6 +92,7 @@
           '|',
           'undo',
           'redo',
+          '|', // 最后一个是 `|` 不显示
         ],
         // excludeKeys: ['headerSelect', 'underline', 'group-more-style', 'fontFamily']
       }

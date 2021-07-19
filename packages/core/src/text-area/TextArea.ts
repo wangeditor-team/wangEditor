@@ -18,6 +18,7 @@ let ID = 1
 
 class TextArea {
   readonly id = ID++
+  $box: Dom7Array
   $textAreaContainer: Dom7Array
   $scroll: Dom7Array
   $textArea: Dom7Array | null = null
@@ -30,12 +31,13 @@ class TextArea {
   $placeholder: Dom7Array | null = null
   private latestEditorSelection: Range | null = null
 
-  constructor(selector: string | DOMElement) {
+  constructor(boxSelector: string | DOMElement) {
     // @ts-ignore 初始化 dom
-    const $box = $(selector)
+    const $box = $(boxSelector)
     if ($box.length === 0) {
-      throw new Error(`Cannot find textarea DOM by selector '${selector}'`)
+      throw new Error(`Cannot find textarea DOM by selector '${boxSelector}'`)
     }
+    this.$box = $box
     const $container = $(`<div class="w-e-text-container"></div>`)
     $container.append(this.$progressBar) // 进度条
     $box.append($container)

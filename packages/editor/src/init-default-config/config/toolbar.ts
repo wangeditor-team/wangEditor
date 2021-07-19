@@ -68,6 +68,8 @@ export function genDefaultToolbarKeys() {
     '|',
     'undo',
     'redo',
+    '|',
+    'fullScreen',
   ]
 }
 
@@ -104,5 +106,7 @@ export function genSimpleToolbarKeys() {
     '|',
     'undo',
     'redo',
+    '|',
+    'fullScreen',
   ]
 }

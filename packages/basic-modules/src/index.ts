@@ -20,6 +20,7 @@ import wangEditorLineHeightModule from './modules/line-height'
 import wangEditorUndoRedoModule from './modules/undo-redo'
 import wangEditorDividerModule from './modules/divider'
 import wangEditorCodeBlockModule from './modules/code-block'
+import wangEditorFullScreenModule from './modules/full-screen'
 
 export default [
   wangEditorTextStyleModule,
@@ -37,6 +38,7 @@ export default [
   wangEditorUndoRedoModule,
   wangEditorDividerModule,
   wangEditorCodeBlockModule,
+  wangEditorFullScreenModule,
 ]
 
 // 输出 image 操作，供 updateImageModule 使用

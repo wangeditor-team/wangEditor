@@ -18,7 +18,7 @@ import { IDomEditor } from '../editor/interface'
 import { DomEditor } from '../editor/dom-editor'
 import { IEditorConfig } from '../config/interface'
 import { promiseResolveThen } from '../utils/util'
-import { isRepeatedCreate, genDefaultContent } from './helper'
+import { isRepeatedCreateTextarea, genDefaultContent } from './helper'
 import { DOMElement } from '../utils/dom'
 import {
   EDITOR_TO_TEXTAREA,
@@ -49,7 +49,7 @@ export default function (option: Partial<ICreateOption>) {
   )
   if (textareaSelector) {
     // 检查是否对同一个 DOM 重复创建
-    if (isRepeatedCreate(editor, textareaSelector)) {
+    if (isRepeatedCreateTextarea(editor, textareaSelector)) {
       throw new Error(`Repeated create editor by textareaSelector '${textareaSelector}'`)
     }
   }

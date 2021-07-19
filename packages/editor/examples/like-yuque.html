@@ -118,7 +118,9 @@
     const toolbar = E.createToolbar({
       editor,
       toolbarSelector: '#editor-toolbar',
-      // config: {}
+      config: {
+        excludeKeys: 'fullScreen',
+      }
     })
 
     // 点击空白处 focus 编辑器

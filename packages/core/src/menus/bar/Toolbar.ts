@@ -18,19 +18,21 @@ import { IToolbarConfig } from '../../config/interface'
 type MenuType = IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
 
 class Toolbar {
+  $box: Dom7Array
   private readonly $toolbar: Dom7Array = $(`<div class="w-e-bar w-e-bar-show w-e-toolbar"></div>`)
   private menus: { [key: string]: MenuType } = {}
   private toolbarItems: IBarItem[] = []
   private config: Partial<IToolbarConfig> = {}
 
-  constructor(selector: string | DOMElement, config: Partial<IToolbarConfig>) {
+  constructor(boxSelector: string | DOMElement, config: Partial<IToolbarConfig>) {
     this.config = config
 
     // @ts-ignore 初始化 DOM
-    const $box = $(selector)
+    const $box = $(boxSelector)
     if ($box.length === 0) {
-      throw new Error(`Cannot find toolbar DOM by selector '${selector}'`)
+      throw new Error(`Cannot find toolbar DOM by selector '${boxSelector}'`)
     }
+    this.$box = $box
     const $toolbar = this.$toolbar
     $toolbar.on('mousedown', e => e.preventDefault()) // 防止点击失焦
     $box.append($toolbar)
@@ -62,17 +64,29 @@ class Toolbar {
     let prevKey = ''
     const $toolbar = this.$toolbar
     const { toolbarKeys = [], excludeKeys = [] } = this.config // 格式如 ['a', '|', 'b', 'c', '|', 'd']
-    toolbarKeys.forEach(key => {
-      // 排除某些菜单
+
+    // 排除某些菜单
+    const filteredKeys = toolbarKeys.filter(key => {
       if (typeof key === 'string') {
         // 普通菜单
-        if (excludeKeys.includes(key)) return
+        if (excludeKeys.includes(key)) return false
       } else {
         // group
-        if (excludeKeys.includes(key.key)) return
+        if (excludeKeys.includes(key.key)) return false
       }
+      return true
+    })
+    const filteredKeysLength = filteredKeys.length
 
+    // 开始注册菜单
+    filteredKeys.forEach((key, index) => {
       if (key === '|') {
+        // 第一个就是 `|` ，忽略
+        if (index === 0) return
+
+        // 最后一个是 `|` ，忽略
+        if (index + 1 === filteredKeysLength) return
+
         // 多个紧挨着的 `|` ，只显示一个
         if (prevKey === '|') return
 
