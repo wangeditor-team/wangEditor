@@ -42,6 +42,10 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
      * @param link 链接
      */
     function insertLink(text: string, link: string): void {
+        // 删除字符串中的列表相关的标签
+        const subStr = new RegExp(/(<\/*ul>)|(<\/*li>)|(<\/*ol>)/g)
+        text = text.replace(subStr, '')
+
         if (isActive(editor)) {
             // 选区处于链接中，则选中整个菜单，再执行 insertHTML
             selectLinkElem()
