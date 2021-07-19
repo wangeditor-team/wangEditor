@@ -10,15 +10,23 @@ import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
 import { IS_SAFARI, IS_FIREFOX_LEGACY } from '../../utils/ua'
 
+const EDITOR_TO_TEXT: WeakMap<IDomEditor, string> = new WeakMap()
+
 export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as CompositionEvent
 
   if (!hasEditableTarget(editor, event.target)) return
 
   const { selection } = editor
-  if (selection && !Range.isCollapsed(selection)) {
-    // COMPAT: ctrl + A 全选，然后立刻使用中文输入法，会有 bug （官网 examples 也有这个问题）
+  if (selection && Range.isExpanded(selection)) {
     Editor.deleteFragment(editor)
+  }
+
+  // 记录下 dom text ，以便触发 maxLength 时使用
+  if (selection && Range.isCollapsed(selection)) {
+    const domRange = DomEditor.toDOMRange(editor, selection)
+    const curText = domRange.startContainer.textContent || ''
+    EDITOR_TO_TEXT.set(editor, curText)
   }
 }
 
@@ -34,6 +42,19 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
   if (!hasEditableTarget(editor, event.target)) return
   textarea.isComposing = false
 
+  // 触发了 maxLength
+  //【注意】这里只处理拼音输入的 maxLength 限制，英文、数组的限制，在 editor.insertText 中处理
+  if (DomEditor.isMaxLength(editor)) {
+    const { selection } = editor
+    if (selection) {
+      const domRange = DomEditor.toDOMRange(editor, selection)
+      domRange.startContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
+      editor.updateView() // 重新定位光标
+    }
+    return
+  }
+
+  // 未触发 maxLength ，则继续输入
   const { data } = event
 
   // COMPAT: In Chrome, `beforeinput` events for compositions
