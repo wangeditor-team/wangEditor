@@ -3,8 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Range } from 'slate'
-import { DomEditor } from '../../editor/dom-editor'
+import { Editor, Range, Node, Transforms } from 'slate'
 import { IDomEditor } from '../../editor/interface'
 import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
@@ -23,8 +22,15 @@ function handleOnCut(e: Event, textarea: TextArea, editor: IDomEditor) {
   if (data == null) return
   editor.setFragmentData(data)
 
-  if (selection && Range.isExpanded(selection)) {
-    Editor.deleteFragment(editor)
+  if (selection) {
+    if (Range.isExpanded(selection)) {
+      Editor.deleteFragment(editor)
+    } else {
+      const node = Node.parent(editor, selection.anchor.path)
+      if (Editor.isVoid(editor, node)) {
+        Transforms.delete(editor)
+      }
+    }
   }
 }
 

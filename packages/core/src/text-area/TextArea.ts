@@ -6,8 +6,9 @@
 import { Range } from 'slate'
 import { throttle, forEach } from 'lodash-es'
 import $, { Dom7Array, DOMElement } from '../utils/dom'
-import { TEXTAREA_TO_EDITOR, EDITOR_TO_CONFIG } from '../utils/weak-maps'
+import { TEXTAREA_TO_EDITOR } from '../utils/weak-maps'
 import { IDomEditor } from '../editor/interface'
+import { DomEditor } from '../editor/dom-editor'
 import updateView from './update-view'
 import handlePlaceholder from './place-holder'
 import { editorSelectionToDOM, DOMSelectionToEditor } from './syncSelection'
@@ -46,12 +47,17 @@ class TextArea {
     this.$scroll = $scroll
     this.$textAreaContainer = $container
 
-    // 监听 selection change
-    window.document.addEventListener('selectionchange', this.onDOMSelectionChange)
-
     // 异步，否则获取不到 editor 和 DOM
     promiseResolveThen(() => {
       const editor = this.editorInstance
+      const window = DomEditor.getWindow(editor)
+
+      // 监听 selection change
+      window.document.addEventListener('selectionchange', this.onDOMSelectionChange)
+      // editor 销毁时，解绑 selection change
+      editor.on('destroyed', () => {
+        window.document.removeEventListener('selectionchange', this.onDOMSelectionChange)
+      })
 
       // 点击编辑区域，关闭 panel
       $container.on('mousedown', () => editor.hidePanelOrModal())
@@ -64,11 +70,6 @@ class TextArea {
       if (onChange) {
         editor.on('change', () => onChange(editor))
       }
-
-      // editor 销毁时，解绑 selection change
-      editor.on('destroyed', () => {
-        window.document.removeEventListener('selectionchange', this.onDOMSelectionChange)
-      })
 
       // 监听 onfocus onblur
       this.onFocusAndOnBlur()

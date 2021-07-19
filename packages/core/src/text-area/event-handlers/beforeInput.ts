@@ -48,7 +48,9 @@ function handleBeforeInput(e: Event, textarea: TextArea, editor: IDomEditor) {
     const [targetRange] = event.getTargetRanges()
 
     if (targetRange) {
-      const range = DomEditor.toSlateRange(editor, targetRange)
+      const range = DomEditor.toSlateRange(editor, targetRange, {
+        exactMatch: false,
+      })
       if (!selection || !Range.equals(selection, range)) {
         Transforms.select(editor, range)
       }
@@ -136,6 +138,7 @@ function handleBeforeInput(e: Event, textarea: TextArea, editor: IDomEditor) {
         // 解决在 safari 上当使用拼音输入，compositionend 在 beforeinput 之后触发，导致选区没有正常更新的问题
         textarea.isComposing = false
       }
+
       if (data instanceof DataTransfer) {
         // 这里处理非纯文本（如 html 图片文件等）的粘贴。对于纯文本的粘贴，使用 paste 事件
         editor.insertData(data)

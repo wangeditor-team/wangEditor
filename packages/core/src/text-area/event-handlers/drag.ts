@@ -1,5 +1,5 @@
 /**
- * @description 处理 dragstart 事件
+ * @description 处理 dragover 事件
  * @author wangfupeng
  */
 
@@ -9,7 +9,7 @@ import { IDomEditor } from '../../editor/interface'
 import TextArea from '../TextArea'
 import { hasTarget } from '../helpers'
 
-function handleOnDragstart(e: Event, textarea: TextArea, editor: IDomEditor) {
+export function handleOnDragstart(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as DragEvent
   if (!hasTarget(editor, event.target)) return
 
@@ -32,4 +32,25 @@ function handleOnDragstart(e: Event, textarea: TextArea, editor: IDomEditor) {
   editor.setFragmentData(data)
 }
 
-export default handleOnDragstart
+export function handleOnDragover(event: Event, textarea: TextArea, editor: IDomEditor) {
+  if (!hasTarget(editor, event.target)) return
+
+  // Only when the target is void, call `preventDefault` to signal
+  // that drops are allowed. Editable content is droppable by
+  // default, and calling `preventDefault` hides the cursor.
+  const node = DomEditor.toSlateNode(editor, event.target)
+  if (Editor.isVoid(editor, node)) {
+    event.preventDefault()
+  }
+}
+
+export function handleOnDragend(e: Event, textarea: TextArea, editor: IDomEditor) {
+  const event = e as DragEvent
+  const { readOnly } = editor.getConfig()
+
+  if (readOnly) return
+  if (!textarea.isDraggingInternally) return
+  if (!hasTarget(editor, event.target)) return
+
+  textarea.isDraggingInternally = false
+}

@@ -3,13 +3,11 @@
  * @author wangfupeng
  */
 
-import { Node, Editor, Path, Operation, Transforms } from 'slate'
+import { Node, Editor, Transforms } from 'slate'
 import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../..'
 import $, { Dom7Array } from '../../utils/dom'
-import { Key } from '../../utils/key'
 import {
-  NODE_TO_KEY,
   IS_FOCUSED,
   EDITOR_TO_PANEL_AND_MODAL,
   EDITOR_TO_TEXTAREA,
@@ -27,58 +25,12 @@ let ID = 1
  */
 export const withDOM = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
-  const { apply } = e
 
   e.id = `wangEditor-${ID++}`
 
   e.isDestroyed = false
 
   e.isFullScreen = false
-
-  // 重写 apply 方法
-  // apply 方法非常重要，它最终执行 operation https://docs.slatejs.org/concepts/05-operations
-  // operation 的接口定义参考 slate src/interfaces/operation.ts
-  e.apply = (op: Operation) => {
-    const matches: [Path, Key][] = []
-
-    switch (op.type) {
-      case 'insert_text':
-      case 'remove_text':
-      case 'set_node': {
-        for (const [node, path] of Editor.levels(e, { at: op.path })) {
-          // 在当前节点寻找
-          const key = DomEditor.findKey(e, node)
-          matches.push([path, key])
-        }
-        break
-      }
-
-      case 'insert_node':
-      case 'remove_node':
-      case 'merge_node':
-      case 'split_node': {
-        for (const [node, path] of Editor.levels(e, { at: Path.parent(op.path) })) {
-          // 在父节点寻找
-          const key = DomEditor.findKey(e, node)
-          matches.push([path, key])
-        }
-        break
-      }
-
-      case 'move_node': {
-        break
-      }
-    }
-
-    // 执行原本的 apply - 重要！！！
-    apply(op)
-
-    // 绑定 node 和 key
-    for (const [path, key] of matches) {
-      const [node] = Editor.node(e, path)
-      NODE_TO_KEY.set(node, key)
-    }
-  }
 
   // focus
   e.focus = (isEnd?: boolean) => {
@@ -166,6 +118,15 @@ export const withDOM = <T extends Editor>(editor: T) => {
 
     const $elem = $(`#${id}`)
     if ($elem.length === 0) return
+
+    // $elem 不在 editor DOM 范围之内
+    const elem = $elem[0]
+    if (!DomEditor.hasDOMNode(e, elem)) {
+      let info = `Element (found by id is '${id}') is not in editor DOM`
+      info += `\n 通过 id '${id}' 找到的 element 不在 editor DOM 之内`
+      console.error(info, elem)
+      return
+    }
 
     const textarea = DomEditor.getTextarea(e)
     const { $textAreaContainer, $scroll } = textarea

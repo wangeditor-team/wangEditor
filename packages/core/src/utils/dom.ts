@@ -83,6 +83,13 @@ export { DOMNode, DOMComment, DOMElement, DOMText, DOMRange, DOMSelection, DOMSt
 export type DOMPoint = [Node, number]
 
 /**
+ * Returns the host window of a DOM node
+ */
+export const getDefaultView = (value: any): Window | null => {
+  return (value && value.ownerDocument && value.ownerDocument.defaultView) || null
+}
+
+/**
  * Check if a DOM node is a comment node.
  */
 export const isDOMComment = (value: any): value is DOMComment => {
@@ -100,7 +107,20 @@ export const isDOMElement = (value: any): value is DOMElement => {
  * Check if a value is a DOM node.
  */
 export const isDOMNode = (value: any): value is DOMNode => {
-  return value instanceof Node
+  const window = getDefaultView(value)
+  return (
+    !!window &&
+    // @ts-ignore
+    value instanceof window.Node
+  )
+}
+
+/**
+ * Check if a value is a DOM selection.
+ */
+export const isDOMSelection = (value: any): value is DOMSelection => {
+  const window = value && value.anchorNode && getDefaultView(value.anchorNode)
+  return !!window && value instanceof window.Selection
 }
 
 /**
@@ -151,6 +171,13 @@ export const normalizeDOMPoint = (domPoint: DOMPoint): DOMPoint => {
 
   // Return the node and offset.
   return [node, offset]
+}
+
+/**
+ * Determines wether the active element is nested within a shadowRoot
+ */
+export const hasShadowRoot = () => {
+  return !!(window.document.activeElement && window.document.activeElement.shadowRoot)
 }
 
 /**

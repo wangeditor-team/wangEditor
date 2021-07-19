@@ -4,7 +4,7 @@
  */
 
 import { isEqual, toArray } from 'lodash-es'
-import { Editor, Node, Element, Text, Path, Point, Range, Transforms, Ancestor } from 'slate'
+import { Editor, Node, Element, Path, Point, Range, Ancestor, Text } from 'slate'
 import { IDomEditor } from './interface'
 import { Key } from '../utils/key'
 import TextArea from '../text-area/TextArea'
@@ -21,6 +21,7 @@ import {
   EDITOR_TO_TEXTAREA,
   EDITOR_TO_TOOLBAR,
   EDITOR_TO_HOVER_BAR,
+  EDITOR_TO_WINDOW,
 } from '../utils/weak-maps'
 import {
   DOMElement,
@@ -31,12 +32,26 @@ import {
   DOMStaticRange,
   isDOMElement,
   normalizeDOMPoint,
+  isDOMSelection,
+  hasShadowRoot,
 } from '../utils/dom'
+import { IS_CHROME } from '../utils/ua'
 
 /**
  * 自定义全局 command
  */
 export const DomEditor = {
+  /**
+   * Return the host window of the current editor.
+   */
+  getWindow(editor: IDomEditor): Window {
+    const window = EDITOR_TO_WINDOW.get(editor)
+    if (!window) {
+      throw new Error('Unable to find a host window element for this editor')
+    }
+    return window
+  },
+
   /**
    * Find a key for a Slate node.
    * key 即一个累加不重复的 id ，每一个 slate node 都对对应一个 key ，意思相当于 node.id
@@ -89,6 +104,33 @@ export const DomEditor = {
     }
 
     throw new Error(`Unable to find the path for Slate node: ${JSON.stringify(node)}`)
+  },
+
+  /**
+   * Find the DOM node that implements DocumentOrShadowRoot for the editor.
+   */
+  findDocumentOrShadowRoot(editor: IDomEditor): Document | ShadowRoot {
+    if (editor.isDestroyed) {
+      return window.document
+    }
+
+    const el = DomEditor.toDOMNode(editor, editor)
+    const root = el.getRootNode()
+
+    // The below exception will always be thrown for iframes because the document inside an iframe
+    // does not inherit it's prototype from the parent document, therefore we return early
+    if (el.ownerDocument !== document) return el.ownerDocument
+
+    if (!(root instanceof Document || root instanceof ShadowRoot))
+      throw new Error(`Unable to find DocumentOrShadowRoot for editor element: ${el}`)
+
+    // COMPAT: Only Chrome implements the DocumentOrShadowRoot mixin for
+    // ShadowRoot; other browsers still implement it on the Document
+    // interface. (2020/08/08)
+    // https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot#Properties
+    if (root.getSelection === undefined && el.ownerDocument !== null) return el.ownerDocument
+
+    return root
   },
 
   /**
@@ -311,15 +353,24 @@ export const DomEditor = {
     }
 
     // Resolve a Slate range from the DOM range.
-    const range = DomEditor.toSlateRange(editor, domRange)
+    const range = DomEditor.toSlateRange(editor, domRange, {
+      exactMatch: false,
+    })
     return range
   },
 
   /**
    * Find a Slate range from a DOM range or selection.
    */
-  toSlateRange(editor: IDomEditor, domRange: DOMRange | DOMStaticRange | DOMSelection): Range {
-    const el = domRange instanceof Selection ? domRange.anchorNode : domRange.startContainer
+  toSlateRange<T extends boolean>(
+    editor: IDomEditor,
+    domRange: DOMRange | DOMStaticRange | DOMSelection,
+    options: {
+      exactMatch: T
+    }
+  ): T extends true ? Range | null : Range {
+    const { exactMatch } = options
+    const el = isDOMSelection(domRange) ? domRange.anchorNode : domRange.startContainer
     let anchorNode
     let anchorOffset
     let focusNode
@@ -327,12 +378,22 @@ export const DomEditor = {
     let isCollapsed
 
     if (el) {
-      if (domRange instanceof Selection) {
+      if (isDOMSelection(domRange)) {
         anchorNode = domRange.anchorNode
         anchorOffset = domRange.anchorOffset
         focusNode = domRange.focusNode
         focusOffset = domRange.focusOffset
-        isCollapsed = domRange.isCollapsed
+        // COMPAT: There's a bug in chrome that always returns `true` for
+        // `isCollapsed` for a Selection that comes from a ShadowRoot.
+        // (2020/08/08)
+        // https://bugs.chromium.org/p/chromium/issues/detail?id=447523
+        if (IS_CHROME && hasShadowRoot()) {
+          isCollapsed =
+            domRange.anchorNode === domRange.focusNode &&
+            domRange.anchorOffset === domRange.focusOffset
+        } else {
+          isCollapsed = domRange.isCollapsed
+        }
       } else {
         anchorNode = domRange.startContainer
         anchorOffset = domRange.startOffset
@@ -346,17 +407,30 @@ export const DomEditor = {
       throw new Error(`Cannot resolve a Slate range from DOM range: ${domRange}`)
     }
 
-    const anchor = DomEditor.toSlatePoint(editor, [anchorNode, anchorOffset])
-    const focus = isCollapsed ? anchor : DomEditor.toSlatePoint(editor, [focusNode, focusOffset])
+    const anchor = DomEditor.toSlatePoint(editor, [anchorNode, anchorOffset], exactMatch)
+    if (!anchor) {
+      return null as T extends true ? Range | null : Range
+    }
 
-    return { anchor, focus }
+    const focus = isCollapsed
+      ? anchor
+      : DomEditor.toSlatePoint(editor, [focusNode, focusOffset], exactMatch)
+    if (!focus) {
+      return null as T extends true ? Range | null : Range
+    }
+
+    return { anchor, focus } as unknown as T extends true ? Range | null : Range
   },
 
   /**
    * Find a Slate point from a DOM selection's `domNode` and `domOffset`.
    */
-  toSlatePoint(editor: IDomEditor, domPoint: DOMPoint): Point {
-    const [nearestNode, nearestOffset] = normalizeDOMPoint(domPoint)
+  toSlatePoint<T extends boolean>(
+    editor: IDomEditor,
+    domPoint: DOMPoint,
+    exactMatch: T
+  ): T extends true ? Point | null : Point {
+    const [nearestNode, nearestOffset] = exactMatch ? domPoint : normalizeDOMPoint(domPoint)
     const parentNode = nearestNode.parentNode as DOMElement
     let textNode: DOMElement | null = null
     let offset = 0
@@ -370,6 +444,7 @@ export const DomEditor = {
       // can determine what the offset relative to the text node is.
       if (leafNode) {
         textNode = leafNode.closest('[data-slate-node="text"]')!
+        const window = DomEditor.getWindow(editor)
         const range = window.document.createRange()
         range.setStart(textNode, 0)
         range.setEnd(nearestNode, nearestOffset)
@@ -393,11 +468,19 @@ export const DomEditor = {
       } else if (voidNode) {
         // For void nodes, the element with the offset key will be a cousin, not an
         // ancestor, so find it by going down from the nearest void parent.
-
         leafNode = voidNode.querySelector('[data-slate-leaf]')!
-        textNode = leafNode.closest('[data-slate-node="text"]')!
-        domNode = leafNode
-        offset = domNode.textContent!.length
+
+        // COMPAT: In read-only editors the leaf is not rendered.
+        if (!leafNode) {
+          offset = 1
+        } else {
+          textNode = leafNode.closest('[data-slate-node="text"]')!
+          domNode = leafNode
+          offset = domNode.textContent!.length
+          domNode.querySelectorAll('[data-slate-zero-width]').forEach(el => {
+            offset -= el.textContent!.length
+          })
+        }
       }
 
       // COMPAT: If the parent node is a Slate zero-width space, editor is
@@ -415,6 +498,9 @@ export const DomEditor = {
     }
 
     if (!textNode) {
+      if (exactMatch) {
+        return null as T extends true ? Point | null : Point
+      }
       throw new Error(`Cannot resolve a Slate point from DOM point: ${domPoint}`)
     }
 
@@ -423,7 +509,12 @@ export const DomEditor = {
     // first, and then afterwards for the correct `element`. (2017/03/03)
     const slateNode = DomEditor.toSlateNode(editor, textNode!)
     const path = DomEditor.findPath(editor, slateNode)
-    return { path, offset }
+    return { path, offset } as T extends true ? Point | null : Point
+  },
+
+  hasRange(editor: IDomEditor, range: Range): boolean {
+    const { anchor, focus } = range
+    return Editor.hasPath(editor, anchor.path) && Editor.hasPath(editor, focus.path)
   },
 
   getNodeType(node: Node): string {
@@ -440,6 +531,16 @@ export const DomEditor = {
   getSelectedNodeByType(editor: IDomEditor, type: string): Node | null {
     const [nodeEntry] = Editor.nodes(editor, {
       match: n => this.checkNodeType(n, type),
+      universal: true,
+    })
+
+    if (nodeEntry == null) return null
+    return nodeEntry[0]
+  },
+
+  getSelectedTextNode(editor: IDomEditor): Node | null {
+    const [nodeEntry] = Editor.nodes(editor, {
+      match: n => Text.isText(n),
       universal: true,
     })
 
@@ -495,30 +596,20 @@ export const DomEditor = {
       editor.normalizeNode([node, [index]])
     })
   },
-  /**
-   * Find the DOM node that implements DocumentOrShadowRoot for the editor.
-   */
-  findDocumentOrShadowRoot(editor: IDomEditor): Document | ShadowRoot {
-    if (editor.isDestroyed) {
-      return window.document
+
+  // 是否触发 maxLength ？
+  isMaxLength(editor: IDomEditor): boolean {
+    const { maxLength, onMaxLength } = editor.getConfig()
+
+    if (typeof maxLength === 'number' && maxLength > 0) {
+      const editorText = editor.getText()
+      if (editorText.length >= maxLength) {
+        // 触发 maxLength 限制，不再继续插入文字
+        if (onMaxLength) onMaxLength(editor)
+        return true
+      }
     }
 
-    const el = DomEditor.toDOMNode(editor, editor)
-    const root = el.getRootNode()
-
-    // The below exception will always be thrown for iframes because the document inside an iframe
-    // does not inherit it's prototype from the parent document, therefore we return early
-    if (el.ownerDocument !== document) return el.ownerDocument
-
-    if (!(root instanceof Document || root instanceof ShadowRoot))
-      throw new Error(`Unable to find DocumentOrShadowRoot for editor element: ${el}`)
-
-    // COMPAT: Only Chrome implements the DocumentOrShadowRoot mixin for
-    // ShadowRoot; other browsers still implement it on the Document
-    // interface. (2020/08/08)
-    // https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot#Properties
-    if (root.getSelection === undefined && el.ownerDocument !== null) return el.ownerDocument
-
-    return root
+    return false
   },
 }

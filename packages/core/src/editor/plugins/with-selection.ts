@@ -5,6 +5,7 @@
 
 import { Editor, Transforms, Location, Node } from 'slate'
 import { IDomEditor } from '../interface'
+import { DomEditor } from '../dom-editor'
 import { getPositionByNode, getPositionBySelection } from '../../menus/helpers/position'
 import { EDITOR_TO_SELECTION } from '../../utils/weak-maps'
 
@@ -19,14 +20,15 @@ export const withSelection = <T extends Editor>(editor: T) => {
   // 取消选中
   e.deselect = () => {
     const { selection } = e
-    const domSelection = window.getSelection()
+    const root = DomEditor.findDocumentOrShadowRoot(e)
+    const domSelection = root.getSelection()
 
     if (domSelection && domSelection.rangeCount > 0) {
       domSelection.removeAllRanges()
     }
 
     if (selection) {
-      Transforms.deselect(e)
+      Transforms.deselect(editor)
     }
   }
 

@@ -5,10 +5,9 @@
 
 import { h, VNode } from 'snabbdom'
 import { IDomEditor } from '../editor/interface'
-import { DomEditor } from '../editor/dom-editor'
 import TextArea from './TextArea'
 import { genPatchFn, normalizeVnodeData } from '../utils/vdom'
-import $, { Dom7Array } from '../utils/dom'
+import $, { Dom7Array, getDefaultView } from '../utils/dom'
 import { node2Vnode } from '../formats/node2Vnode'
 import {
   IS_FIRST_PATCH,
@@ -17,6 +16,7 @@ import {
   EDITOR_TO_ELEMENT,
   NODE_TO_ELEMENT,
   ELEMENT_TO_NODE,
+  EDITOR_TO_WINDOW,
 } from '../utils/weak-maps'
 
 function genElemId(id: number) {
@@ -32,13 +32,9 @@ function genRootVnode(elemId: string, readOnly = false): VNode {
   return h(`div#${elemId}`, {
     props: {
       contentEditable: readOnly ? false : true,
-      suppressContentEditableWarning: true,
-    },
-    datasets: {
-      slateEditor: true, // data-slate-editor
-      slateNode: 'value', // data-slate-node
     },
   })
+  // 其他属性在 genRootElem 中定，这里不用重复写
 }
 
 /**
@@ -47,14 +43,22 @@ function genRootVnode(elemId: string, readOnly = false): VNode {
  * @param readOnly readOnly
  */
 function genRootElem(elemId: string, readOnly = false): Dom7Array {
-  const contentEditableAttr = readOnly ? '' : 'contenteditable="true"'
-  return $(`<div
+  const $elem = $(`<div
         id="${elemId}"
-        ${contentEditableAttr}
         data-slate-editor
         data-slate-node="value"
         suppressContentEditableWarning
+        data-gramm="false"
+        role="textarea"
+        spellCheck="true"
+        autoCorrect="true"
+        autoCapitalize="true"
     ></div>`)
+
+  // data-gramm="false" - 禁用 chrome 插件 Grammarly ，它会修改 contenteditable 元素，带来奇怪的 bug
+  // role="textarea" - 增强语义，div 语义太弱
+
+  return $elem
 }
 
 /**
@@ -125,10 +129,15 @@ function updateView(textarea: TextArea, editor: IDomEditor) {
   }
 
   // 存储相关信息
-  TEXTAREA_TO_VNODE.set(textarea, newVnode) // 存储 vnode
+  if (isFirstPatch) {
+    const window = getDefaultView(textareaElem)
+    window && EDITOR_TO_WINDOW.set(editor, window)
+  }
+
   EDITOR_TO_ELEMENT.set(editor, textareaElem) // 存储 editor -> elem 对应关系
   NODE_TO_ELEMENT.set(editor, textareaElem)
   ELEMENT_TO_NODE.set(textareaElem, editor)
+  TEXTAREA_TO_VNODE.set(textarea, newVnode) // 存储 vnode
 }
 
 export default updateView

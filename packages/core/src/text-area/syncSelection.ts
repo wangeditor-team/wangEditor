@@ -44,37 +44,48 @@ export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): vo
   }
 
   // If the DOM selection is in the editor and the editor selection is already correct, we're done.
-  if (
-    hasDomSelection &&
-    hasDomSelectionInEditor &&
-    selection &&
-    Range.equals(DomEditor.toSlateRange(editor, domSelection), selection)
-  ) {
-    let canReturn = true
+  if (hasDomSelection && hasDomSelectionInEditor && selection) {
+    const slateRange = DomEditor.toSlateRange(editor, domSelection, {
+      exactMatch: true,
+    })
+    if (slateRange && Range.equals(slateRange, selection)) {
+      let canReturn = true
 
-    // 选区在 table 时，需要特殊处理
-    if (Range.isCollapsed(selection)) {
-      const { anchorNode, anchorOffset } = domSelection
-      if (anchorNode === editorElement) {
-        const childNodes = editorElement.childNodes
-        let tableElem
+      // 选区在 table 时，需要特殊处理
+      if (Range.isCollapsed(selection)) {
+        const { anchorNode, anchorOffset } = domSelection
+        if (anchorNode === editorElement) {
+          const childNodes = editorElement.childNodes
+          let tableElem
 
-        // 光标在 table 前面时
-        tableElem = childNodes[anchorOffset] as DOMElement
-        if (tableElem && tableElem.matches('table')) {
-          canReturn = false // 不能就此结束，需要重置光标
-        }
+          // 光标在 table 前面时
+          tableElem = childNodes[anchorOffset] as DOMElement
+          if (tableElem && tableElem.matches('table')) {
+            canReturn = false // 不能就此结束，需要重置光标
+          }
 
-        // 光标在 table 后面时
-        tableElem = childNodes[anchorOffset - 1] as DOMElement
-        if (tableElem && tableElem.matches('table')) {
-          canReturn = false // 不能就此结束，需要重置光标
+          // 光标在 table 后面时
+          tableElem = childNodes[anchorOffset - 1] as DOMElement
+          if (tableElem && tableElem.matches('table')) {
+            canReturn = false // 不能就此结束，需要重置光标
+          }
         }
       }
-    }
 
-    // 其他情况，就此结束
-    if (canReturn) return
+      // 其他情况，就此结束
+      if (canReturn) return
+    }
+  }
+
+  // when <Editable/> is being controlled through external value
+  // then its children might just change - DOM responds to it on its own
+  // but Slate's value is not being updated through any operation
+  // and thus it doesn't transform selection on its own
+  if (selection && !DomEditor.hasRange(editor, selection)) {
+    editor.selection = DomEditor.toSlateRange(editor, domSelection, {
+      exactMatch: false,
+    })
+    return
   }
 
   // Otherwise the DOM selection is out of sync, so update it.
@@ -100,10 +111,13 @@ export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): vo
 
     // 滚动到选区
     const leafEl = newDomRange.startContainer.parentElement!
+    leafEl.getBoundingClientRect = newDomRange.getBoundingClientRect.bind(newDomRange)
     scrollIntoView(leafEl, {
       scrollMode: 'if-needed',
       boundary: editorElement,
     })
+    // @ts-ignore
+    delete leafEl.getBoundingClientRect
   } else {
     domSelection.removeAllRanges()
   }
@@ -156,7 +170,9 @@ export function DOMSelectionToEditor(textarea: TextArea, editor: IDomEditor) {
     hasEditableTarget(editor, focusNode) || isTargetInsideVoid(editor, focusNode)
 
   if (anchorNodeSelectable && focusNodeSelectable) {
-    const range = DomEditor.toSlateRange(editor, domSelection)
+    const range = DomEditor.toSlateRange(editor, domSelection, {
+      exactMatch: false,
+    })
     Transforms.select(editor, range)
   } else {
     Transforms.deselect(editor)

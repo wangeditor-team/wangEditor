@@ -53,6 +53,7 @@ export const ELEMENT_TO_NODE: WeakMap<HTMLElement, Node> = new WeakMap()
 export const KEY_TO_ELEMENT: WeakMap<Key, HTMLElement> = new WeakMap()
 export const NODE_TO_ELEMENT: WeakMap<Node, HTMLElement> = new WeakMap()
 export const NODE_TO_KEY: WeakMap<Node, Key> = new WeakMap()
+export const EDITOR_TO_WINDOW: WeakMap<Editor, Window> = new WeakMap()
 
 /**
  * Weak maps for storing editor-related state.

@@ -17,9 +17,7 @@ import handleKeypress from './keypress'
 import handleOnCopy from './copy'
 import handleOnCut from './cut'
 import handleOnPaste from './paste'
-import handleOnDragover from './dragOver'
-import handleOnDragstart from './dragStart'
-import handleOnDragend from './dragEnd'
+import { handleOnDragover, handleOnDragstart, handleOnDragend } from './drag'
 import handleOnDrop from './drop'
 
 const eventConf = {
