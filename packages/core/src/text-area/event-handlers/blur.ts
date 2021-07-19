@@ -65,7 +65,7 @@ function handleOnBlur(e: Event, textarea: TextArea, editor: IDomEditor) {
   // https://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
   // 修复在 Safari 下，即使 contenteditable 元素非聚焦状态，并不会删除所选内容
   if (IS_SAFARI) {
-    const domSelection = window.getSelection()
+    const domSelection = root.getSelection()
     domSelection?.removeAllRanges()
   }
 

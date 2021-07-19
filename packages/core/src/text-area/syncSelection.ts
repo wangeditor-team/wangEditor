@@ -149,7 +149,7 @@ export function DOMSelectionToEditor(textarea: TextArea, editor: IDomEditor) {
   const root = DomEditor.findDocumentOrShadowRoot(editor)
   const { activeElement } = root
   const el = DomEditor.toDOMNode(editor, editor)
-  const domSelection = window.getSelection()
+  const domSelection = root.getSelection()
 
   if (activeElement === el) {
     textarea.latestElement = activeElement

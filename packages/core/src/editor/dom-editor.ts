@@ -208,6 +208,7 @@ export const DomEditor = {
     const domAnchor = DomEditor.toDOMPoint(editor, anchor)
     const domFocus = Range.isCollapsed(range) ? domAnchor : DomEditor.toDOMPoint(editor, focus)
 
+    const window = DomEditor.getWindow(editor)
     const domRange = window.document.createRange()
     const [startNode, startOffset] = isBackward ? domFocus : domAnchor
     const [endNode, endOffset] = isBackward ? domAnchor : domFocus
