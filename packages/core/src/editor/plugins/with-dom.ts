@@ -219,6 +219,9 @@ export const withDOM = <T extends Editor>(editor: T) => {
 
     // 记录属性
     e.isFullScreen = true
+
+    // 触发自定义事件
+    e.emit('fullScreen')
   }
 
   e.unFullScreen = () => {
@@ -233,6 +236,9 @@ export const withDOM = <T extends Editor>(editor: T) => {
 
     // 记录属性
     e.isFullScreen = false
+
+    // 触发自定义事件
+    e.emit('unFullScreen')
   }
 
   return e

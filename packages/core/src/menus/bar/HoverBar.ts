@@ -42,6 +42,10 @@ class HoverBar {
       // 滚动时隐藏
       const hideAndClean = this.hideAndClean.bind(this)
       editor.on('scroll', hideAndClean)
+
+      // fullScreen 时隐藏
+      editor.on('fullScreen', hideAndClean)
+      editor.on('unFullScreen', hideAndClean)
     })
   }
 
