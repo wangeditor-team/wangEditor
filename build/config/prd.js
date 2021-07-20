@@ -9,15 +9,20 @@ import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
 import { terser } from 'rollup-plugin-terser'
 import cleanup from 'rollup-plugin-cleanup'
-import { merge } from 'lodash'
-
 import commonConfig from './common'
 
-const prdConfig = {
+const { input, output = {}, plugins = [], external } = commonConfig
+
+export default {
+  input,
   output: {
     sourcemap: true,
+    ...output,
   },
+  external,
   plugins: [
+    ...plugins,
+
     babel({
       babelHelpers: 'bundled',
       exclude: 'node_modules/**',
@@ -36,5 +41,3 @@ const prdConfig = {
     terser(), // 压缩 js
   ],
 }
-
-export default merge({}, commonConfig, prdConfig)

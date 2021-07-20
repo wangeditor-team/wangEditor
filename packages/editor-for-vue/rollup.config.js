@@ -7,7 +7,7 @@ const input = path.resolve(__dirname, './src', 'index.ts')
 
 const configList = []
 
-// umd
+// umd - 开发环境需要 CDN 引入方式来测试，所以优先输出 umd
 const umdConf = createRollupConfig({
   input,
   output: {

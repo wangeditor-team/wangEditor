@@ -5,7 +5,7 @@ const name = 'WangEditorUploadImageModule'
 
 const configList = []
 
-// esm
+// esm - 开发环境不需要 CDN 引入，只需要 npm 引入，所以优先输出 esm
 const esmConf = createRollupConfig({
   output: {
     file: pkg.module,
