@@ -7,7 +7,7 @@
     "dev": "sh build/build-all.sh dev",
     "build": "sh build/build-all.sh",
     "bootstrap": "lerna bootstrap --use-workspaces",
-    "release": "lerna version --conventional-commits",
+    "release": "lerna version --conventional-commits --no-changelog",
     "prerelease": "git pull && yarn build",
     "format": "yarn prettier --write",
     "lint": "eslint \"packages/**/*.+(ts|tsx)\"",
