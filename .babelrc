@@ -1,7 +1,26 @@
 {
   "presets": [
-    ["@babel/preset-env", { "modules": false }],
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "useBuiltIns": "usage",
+        "corejs": 3
+      }
+    ],
     "@babel/preset-react",
     "@babel/preset-typescript"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "absoluteRuntime": false,
+        "corejs": 3,
+        "helpers": true,
+        "regenerator": true,
+        "useESModules": false
+      }
+    ]
   ]
 }
