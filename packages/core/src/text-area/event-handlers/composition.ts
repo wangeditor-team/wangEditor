@@ -64,9 +64,9 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
     Editor.insertText(editor, data)
   }
 
-  // 清理可能暴露的 text 节点
+  // insertText 之后，要清理可能暴露的 text 节点
+  // 例如 chrome 在链接后面，输入拼音，就会出现有暴露出来的 text node
   if (IS_CHROME) {
     DomEditor.cleanExposedTexNodeInSelectionBlock(editor)
-    textarea.changeViewState()
   }
 }
