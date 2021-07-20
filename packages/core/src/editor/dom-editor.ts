@@ -23,7 +23,7 @@ import {
   EDITOR_TO_HOVER_BAR,
   EDITOR_TO_WINDOW,
 } from '../utils/weak-maps'
-import {
+import $, {
   DOMElement,
   DOMNode,
   DOMPoint,
@@ -34,6 +34,7 @@ import {
   normalizeDOMPoint,
   isDOMSelection,
   hasShadowRoot,
+  walkTextNodes,
 } from '../utils/dom'
 import { IS_CHROME } from '../utils/ua'
 
@@ -623,5 +624,41 @@ export const DomEditor = {
     }
 
     return false
+  },
+
+  // 清理暴露的 text 节点（拼音输入时经常出现）
+  cleanExposedTexNodeInSelectionBlock(editor: IDomEditor) {
+    const nodeEntries = Editor.nodes(editor, {
+      match: n => {
+        if (Element.isElement(n)) {
+          if (!editor.isInline(n)) {
+            // 匹配 block element
+            return true
+          }
+        }
+        return false
+      },
+      universal: true,
+    })
+    for (let nodeEntry of nodeEntries) {
+      if (nodeEntry != null) {
+        const n = nodeEntry[0]
+        const elem = DomEditor.toDOMNode(editor, n)
+
+        // 只遍历 elem 范围，考虑性能
+        walkTextNodes(elem, (textNode, parent) => {
+          const $parent = $(parent)
+          if ($parent.attr('data-slate-string')) {
+            return // 正常的 text
+          }
+          if ($parent.attr('data-slate-zero-width')) {
+            return // 正常的 text
+          }
+
+          // 暴露的 text node ，删除
+          parent.removeChild(textNode)
+        })
+      }
+    }
   },
 }

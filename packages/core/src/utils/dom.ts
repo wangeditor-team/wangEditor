@@ -315,3 +315,25 @@ export function getFirstVoidChild(elem: DOMElement): DOMElement | null {
   // 未找到结果，返回 null
   return null
 }
+
+/**
+ * 遍历一个 elem 内所有的 text node ，执行函数
+ * @param elem elem
+ * @param handler handler
+ */
+export function walkTextNodes(
+  elem: DOMElement,
+  handler: (textNode: DOMNode, parent: DOMElement) => void
+) {
+  for (let nodes = elem.childNodes, i = nodes.length; i--; ) {
+    const node = nodes[i]
+    const nodeType = node.nodeType
+    if (nodeType == 3) {
+      // 匹配到 text node ，执行函数
+      handler(node, elem)
+    } else if (nodeType == 1 || nodeType == 9 || nodeType == 11) {
+      // 继续遍历子节点
+      walkTextNodes(node as DOMElement, handler)
+    }
+  }
+}

@@ -8,7 +8,7 @@ import { IDomEditor } from '../../editor/interface'
 import { DomEditor } from '../../editor/dom-editor'
 import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
-import { IS_SAFARI, IS_FIREFOX_LEGACY } from '../../utils/ua'
+import { IS_SAFARI, IS_FIREFOX_LEGACY, IS_CHROME } from '../../utils/ua'
 
 const EDITOR_TO_TEXT: WeakMap<IDomEditor, string> = new WeakMap()
 
@@ -62,5 +62,11 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
   // ends since it will already have been committed to the DOM.
   if (!IS_SAFARI && !IS_FIREFOX_LEGACY && data) {
     Editor.insertText(editor, data)
+  }
+
+  // 清理可能暴露的 text 节点
+  if (IS_CHROME) {
+    DomEditor.cleanExposedTexNodeInSelectionBlock(editor)
+    textarea.changeViewState()
   }
 }

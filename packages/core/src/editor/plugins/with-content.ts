@@ -109,7 +109,8 @@ export const withContent = <T extends Editor>(editor: T) => {
 
   e.insertText = (s: string) => {
     // 若触发 maxLength ，则不继续插入
-    //【注意】拼音的 maxLength 限制，不在这里，在 compositionStart 和 compositionEnd 里处理
+    //【注意1】拼音的 maxLength 限制，不在这里，在 compositionStart 和 compositionEnd 里处理
+    //【注意2】粘贴的 maxLength 限制，在 insertData 和 insertFragment
     const res = DomEditor.checkMaxLength(e)
     if (res) {
       return
