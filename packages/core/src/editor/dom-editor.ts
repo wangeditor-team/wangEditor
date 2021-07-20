@@ -529,6 +529,10 @@ export const DomEditor = {
     return this.getNodeType(node) === type
   },
 
+  getNodesStr(nodes: Node[]): string {
+    return nodes.map(node => Node.string(node)).join('')
+  },
+
   getSelectedNodeByType(editor: IDomEditor, type: string): Node | null {
     const [nodeEntry] = Editor.nodes(editor, {
       match: n => this.checkNodeType(n, type),
@@ -598,13 +602,20 @@ export const DomEditor = {
     })
   },
 
-  // 是否触发 maxLength ？
-  isMaxLength(editor: IDomEditor): boolean {
+  /**
+   * 是否触发 maxLength ？
+   * @param editor editor
+   * @param willInsertText 即将输入的文字
+   */
+  checkMaxLength(editor: IDomEditor, willInsertText: string = ''): boolean {
     const { maxLength, onMaxLength } = editor.getConfig()
 
     if (typeof maxLength === 'number' && maxLength > 0) {
       const editorText = editor.getText()
-      if (editorText.length >= maxLength) {
+
+      if (!willInsertText) willInsertText = ' ' // 这些加一个空格，下面判断时就可以写 `>` 而不是 `>=`
+
+      if (editorText.length + willInsertText.length > maxLength) {
         // 触发 maxLength 限制，不再继续插入文字
         if (onMaxLength) onMaxLength(editor)
         return true

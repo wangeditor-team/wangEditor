@@ -4,7 +4,7 @@
  */
 
 import { Editor } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
+import { DomEditor, IDomEditor } from '@wangeditor/core'
 import isUrl from 'is-url'
 import { isMenuDisabled, insertLink } from './helper'
 

@@ -42,20 +42,19 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
   if (!hasEditableTarget(editor, event.target)) return
   textarea.isComposing = false
 
-  // 触发了 maxLength
+  const { selection } = editor
+  if (selection == null) return
+
+  const { data } = event
+
+  // 检查 maxLength
   //【注意】这里只处理拼音输入的 maxLength 限制，英文、数组的限制，在 editor.insertText 中处理
-  if (DomEditor.isMaxLength(editor)) {
-    const { selection } = editor
-    if (selection) {
-      const domRange = DomEditor.toDOMRange(editor, selection)
-      domRange.startContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
-      editor.updateView() // 重新定位光标
-    }
+  if (DomEditor.checkMaxLength(editor, data)) {
+    const domRange = DomEditor.toDOMRange(editor, selection)
+    domRange.startContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
+    textarea.changeViewState() // 重新定位光标
     return
   }
-
-  // 未触发 maxLength ，则继续输入
-  const { data } = event
 
   // COMPAT: In Chrome, `beforeinput` events for compositions
   // aren't correct and never fire the "insertFromComposition"

@@ -61,6 +61,11 @@ export function insertLink(editor: IDomEditor, text: string, url: string) {
   if (!url) return
   if (!text) text = url // 无 text 则用 url 代替
 
+  // 检查 maxLength
+  if (DomEditor.checkMaxLength(editor, text)) {
+    return
+  }
+
   // 还原选区
   editor.restoreSelection()
 
