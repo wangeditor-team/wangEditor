@@ -65,6 +65,12 @@ class Text {
     public editor: Editor
     public eventHooks: TextEventHooks // Text 各个事件的钩子函数，如 keyup 时要执行哪些函数
 
+    public mousePositionX: number
+    public mousePositionY: number
+    public clickCount: number
+    public timer: number
+    public clickEle: HTMLElement | null
+
     constructor(editor: Editor) {
         this.editor = editor
 
@@ -94,6 +100,12 @@ class Text {
             splitLineEvents: [],
             videoClickEvents: [],
         }
+
+        this.mousePositionX = 0 // 鼠标相对于屏幕x轴的位置
+        this.mousePositionY = 0 // 鼠标相对于屏幕y轴的位置
+        this.clickCount = 0 // 点击数
+        this.timer = 0 // 计时器
+        this.clickEle = null // 点击的dom
     }
 
     /**
@@ -596,6 +608,52 @@ class Text {
 
             const videoClickEvents = eventHooks.videoClickEvents
             videoClickEvents.forEach(fn => fn($video as DomElement))
+        })
+
+        $textElem.on('click', (e: MouseEvent) => {
+            const { mousePositionX, mousePositionY, editor } = this
+            const clientX = e.clientX
+            const clientY = e.clientY
+            // 是否存在选区
+            const isSelectionEmpty = editor.selection.isSelectionEmpty()
+
+            // 判断鼠标是否在同一位置
+            if (mousePositionX !== clientX || mousePositionY !== clientY) {
+                this.clickCount = 0
+                clearTimeout(this.timer)
+                return
+            }
+
+            // 第一次的获取点击的dom
+            if (this.clickCount === 0) {
+                this.clickEle = e.target as HTMLElement
+            }
+
+            if (this.clickCount < 2) {
+                // 点击小于2
+                if (this.timer) {
+                    clearTimeout(this.timer)
+                }
+                this.clickCount++
+                this.timer = window.setTimeout(() => {
+                    this.clickCount = 0
+                }, 1000)
+            } else if (this.clickCount === 2 && this.clickEle === e.target && !isSelectionEmpty) {
+                this.clickCount = 0
+                clearTimeout(this.timer)
+                // 当前点击的顶级段落
+                const dom = this.editor.selection.getSelectionContainerElem()?.elems[0]
+                if (dom) {
+                    // 重新设置选区，避免三次点击出现也选中了第二行
+                    this.editor.selection.createRangeByElems(dom, dom)
+                }
+            }
+        })
+
+        // mousemove事件 存鼠标所属的位置
+        $textElem.on('mousemove', (e: MouseEvent) => {
+            this.mousePositionX = e.clientX
+            this.mousePositionY = e.clientY
         })
     }
 }
