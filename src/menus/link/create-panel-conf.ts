@@ -42,7 +42,7 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
      * @param link 链接
      */
     function insertLink(text: string, link: string): void {
-        // fix: 修复列表下无法设置超链接的问题(替换选中文字中的标签)
+        // fix: 修复列表下无法设置超链接的问题（替换选中文字中的标签）
         const subStr = new RegExp(/(<\/*ul>)|(<\/*li>)|(<\/*ol>)/g)
         text = text.replace(subStr, '')
 
