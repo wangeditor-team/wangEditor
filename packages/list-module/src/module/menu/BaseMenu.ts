@@ -5,12 +5,8 @@
 
 import { Editor, Node, Transforms } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { checkList } from '../helper'
 // import { ListItemElement, NumberedListElement, BulletedListElement } from '../custom-types'
-
-function checkList(n: Node): boolean {
-  const type = DomEditor.getNodeType(n)
-  return ['bulleted-list', 'numbered-list'].includes(type)
-}
 
 abstract class BaseMenu implements IButtonMenu {
   abstract readonly type: string // 'bulleted-list' / 'numbered-list'
