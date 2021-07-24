@@ -12,27 +12,24 @@ function withBlockquote<T extends IDomEditor>(editor: T): T {
 
   // 重写 insertBreak - 换行时插入 p
   newEditor.insertBreak = () => {
-    // const [nodeEntry] = Editor.nodes(newEditor, {
-    //   match: n => DomEditor.getNodeType(n) === 'blockquote',
-    //   universal: true,
-    // })
-    // if (nodeEntry == null) {
-    //   // 未命中，则结束
-    //   insertBreak()
-    //   return
-    // }
-
-    const n = DomEditor.getSelectedNodeByType(editor, 'blockquote')
-    if (n == null) {
-      // 未命中，则结束
+    const [nodeEntry] = Editor.nodes(editor, {
+      match: n => DomEditor.checkNodeType(n, 'blockquote'),
+      universal: true,
+    })
+    if (!nodeEntry) {
       insertBreak()
       return
     }
 
-    // TODO 需判断是否是 blockquote 末尾
-    // 插入一个空 p
-    const p = { type: 'paragraph', children: [{ text: '' }] }
-    Transforms.insertNodes(newEditor, p, { mode: 'highest' })
+    const isAtLineEnd = DomEditor.isSelectionAtLineEnd(editor, nodeEntry[1])
+
+    // 如果在行末插入一个空 p，否则正常换行
+    if (isAtLineEnd) {
+      const p = { type: 'paragraph', children: [{ text: '' }] }
+      Transforms.insertNodes(newEditor, p, { mode: 'highest' })
+    } else {
+      insertBreak()
+    }
   }
 
   // 返回 editor ，重要！

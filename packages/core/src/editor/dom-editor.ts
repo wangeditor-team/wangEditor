@@ -567,6 +567,17 @@ export const DomEditor = {
     return false
   },
 
+  isSelectionAtLineEnd(editor: IDomEditor, path: Path): boolean {
+    const { selection } = editor
+
+    if (!selection) return false
+
+    const isAtLineEnd =
+      Editor.isEnd(editor, selection.anchor, path) || Editor.isEnd(editor, selection.focus, path)
+
+    return isAtLineEnd
+  },
+
   // 临时记录当前正在发生变化的 node path
   recordChangingPath(editor: IDomEditor, path: Path) {
     CHANGING_NODE_PATH.set(editor, path)
