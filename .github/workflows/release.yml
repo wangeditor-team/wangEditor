@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: yarn run bootstrap
+
+      - name: Unit test
+        run: yarn run test 
+
+      - name: Prepare release
+        run: yarn prerelease
+
+      - name: Publish npm
+        run: yarn run release:publish
