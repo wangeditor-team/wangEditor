@@ -3,6 +3,7 @@
  * @author wangfupeng
  */
 
+import { Node } from 'slate'
 import { DomEditor } from '@wangeditor/core'
 
 /**
