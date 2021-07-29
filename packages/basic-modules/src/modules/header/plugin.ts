@@ -19,18 +19,22 @@ function withHeader<T extends IDomEditor>(editor: T): T {
       },
       universal: true,
     })
+
     if (!match) {
       // 未匹配到
       insertBreak()
       return
     }
 
-    // const [n] = match
+    const isAtLineEnd = DomEditor.isSelectionAtLineEnd(editor, match[1])
 
-    // TODO 需判断是否是 header 末尾，参考 https://github.com/ianstormtaylor/slate/blob/main/packages/slate-react/src/utils/lines.ts
-    // 插入一个空 p
-    const p = { type: 'paragraph', children: [{ text: '' }] }
-    Transforms.insertNodes(newEditor, p, { mode: 'highest' })
+    // 如果在行末插入一个空 p，否则正常换行
+    if (isAtLineEnd) {
+      const p = { type: 'paragraph', children: [{ text: '' }] }
+      Transforms.insertNodes(newEditor, p, { mode: 'highest' })
+    } else {
+      insertBreak()
+    }
   }
 
   // 返回 editor ，重要！
