@@ -9,9 +9,17 @@ import { DomEditor } from '../../editor/dom-editor'
 import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
 import { IS_SAFARI, IS_FIREFOX_LEGACY, IS_CHROME } from '../../utils/ua'
+import { DOMNode } from '../../utils/dom'
 
 const EDITOR_TO_TEXT: WeakMap<IDomEditor, string> = new WeakMap()
+const EDITOR_TO_START_CONTAINER: WeakMap<IDomEditor, DOMNode> = new WeakMap()
 
+/**
+ * composition start 事件
+ * @param e event
+ * @param textarea textarea
+ * @param editor editor
+ */
 export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as CompositionEvent
 
@@ -22,20 +30,36 @@ export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDo
     Editor.deleteFragment(editor)
   }
 
-  // 记录下 dom text ，以便触发 maxLength 时使用
   if (selection && Range.isCollapsed(selection)) {
+    // 记录下 dom text ，以便触发 maxLength 时使用
     const domRange = DomEditor.toDOMRange(editor, selection)
-    const curText = domRange.startContainer.textContent || ''
+    const startContainer = domRange.startContainer
+    const curText = startContainer.textContent || ''
     EDITOR_TO_TEXT.set(editor, curText)
+
+    // 记录下 dom range startContainer
+    EDITOR_TO_START_CONTAINER.set(editor, startContainer)
   }
 }
 
+/**
+ * composition update 事件
+ * @param e event
+ * @param textarea textarea
+ * @param editor editor
+ */
 export function handleCompositionUpdate(event: Event, textarea: TextArea, editor: IDomEditor) {
   if (!hasEditableTarget(editor, event.target)) return
 
   textarea.isComposing = true
 }
 
+/**
+ * composition end 事件
+ * @param e event
+ * @param textarea textarea
+ * @param editor editor
+ */
 export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomEditor) {
   const event = e as CompositionEvent
 
@@ -68,5 +92,22 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
   // 例如 chrome 在链接后面，输入拼音，就会出现有暴露出来的 text node
   if (IS_CHROME) {
     DomEditor.cleanExposedTexNodeInSelectionBlock(editor)
+  }
+
+  // 检查拼音输入是否夸 DOM 节点了，解决 we-2021/issues/47
+  if (!IS_SAFARI) {
+    setTimeout(() => {
+      const { selection } = editor
+      if (selection == null) return
+      const oldStartContainer = EDITOR_TO_START_CONTAINER.get(editor) // 拼音输入开始时的 text node
+      if (oldStartContainer == null) return
+      const curStartContainer = DomEditor.toDOMRange(editor, selection).startContainer // 拼音输入结束时的 text node
+      if (curStartContainer === oldStartContainer) {
+        // 拼音输入的开始和结束，都在同一个 text node ，则不做处理
+        return
+      }
+      // 否则，拼音输入的开始和结束，不是同一个 text node ，则将第一个 text node 重新设置 text
+      oldStartContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
+    })
   }
 }
