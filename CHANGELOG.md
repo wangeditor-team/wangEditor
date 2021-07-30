@@ -1,3 +1,11 @@
+## [4.7.6](https://github.com/wangeditor-team/wangEditor/compare/v4.7.5...v4.7.6) (2021-07-30)
+
+
+### Bug Fixes
+
+* 解决全选删除后，设置引用，全屏的问题 ([514d563](https://github.com/wangeditor-team/wangEditor/commit/514d56323442685ce1a80faf911208c635daf5ab))
+* 修复列表下无法设置超链接的问题 ([00bfdb5](https://github.com/wangeditor-team/wangEditor/commit/00bfdb5bc20e00cd2d632de45a6d9c7b3a2cea67))
+
 ## [4.7.5](https://github.com/wangeditor-team/wangEditor/compare/v4.7.4...v4.7.5) (2021-07-02)
 
 
