@@ -6,6 +6,8 @@
 import './assets/index.less'
 import '@wangeditor/core/dist/css/style.css'
 
+// 兼容浏览器
+import './utils/browser-polyfill'
 // 兼容 node 环境
 import './utils/node-polyfill'
 // 注册内置模块
