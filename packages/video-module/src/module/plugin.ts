@@ -11,7 +11,8 @@ function withVideo<T extends IDomEditor>(editor: T): T {
   const newEditor = editor
 
   // 重写 isVoid
-  newEditor.isVoid = elem => {
+  // todo 先显示声明 any，防止单测报错
+  newEditor.isVoid = (elem: any) => {
     const { type } = elem
 
     if (type === 'video') {
