@@ -10,18 +10,24 @@ import { urlRegex } from '../../utils/const'
 import { DomElement } from '../../utils/dom-core'
 
 /**
- * 格式化html
- * @param val 粘贴的html
+ * 格式化html, 处理所有的div
+ * @param htmlText 粘贴的html
  * @author liuwei
  */
-function formatHtml(val: string) {
-    let pasteText = val
-    // div 全部替换为 p 标签
-    pasteText = pasteText.replace(/<div>/gim, '<p>').replace(/<\/div>/gim, '</p>')
-    // 不允许空行，放在最后
-    pasteText = pasteText.replace(/<p><\/p>/gim, '<p><br></p>')
-    // 去除''
-    return pasteText.trim()
+function formatHtml(htmlText: string) {
+    /**
+    @author:Gavin
+    @description 
+      解决复制粘贴问题，当从vs code复制的文本如下：
+        <div><div>xx</div></div> 替换后： <p><p>xx</p></p>
+
+      由于P不能嵌套p，会导致标签截断，从而将<p><p>xx</p></p>这样一个结构插入到页面时，会出现很多问题，包括光标位置问题，页面凭空多很多元素的问题。
+  **/
+
+    return htmlText
+        .replace(/<div>/gim, '') // div 全部替换为 空
+        .replace(/<\/div>/gim, '')
+        .trim() // 去除''
 }
 
 /**
