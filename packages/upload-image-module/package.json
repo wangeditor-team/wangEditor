@@ -1,6 +1,6 @@
 {
   "name": "@wangeditor/upload-image-module",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "wangEditor upload-image-module module",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
@@ -47,8 +47,8 @@
     "@wangeditor/core": "^0.0.1",
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
+    "lodash-es": "^4.17.21",
     "slate": "^0.63.0",
-    "snabbdom": "^3.0.1",
-    "lodash-es": "^4.17.21"
+    "snabbdom": "^3.0.1"
   }
 }
