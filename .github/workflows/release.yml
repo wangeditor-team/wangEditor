@@ -24,7 +24,8 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: '@wangeditor'
 
-       - run: echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" > .npmrc
+      - name: Config .npmrc 
+        run: echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" > .npmrc
           env:
             NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}    
 
