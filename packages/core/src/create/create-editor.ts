@@ -81,12 +81,12 @@ export default function (option: Partial<ICreateOption>) {
 
     // 判断 textarea 最小高度，并给出提示
     promiseResolveThen(() => {
-      const $textarea = textarea.$textArea
-      if ($textarea == null) return
-      if ($textarea.height() < 300) {
+      const $scroll = textarea.$scroll
+      if ($scroll == null) return
+      if ($scroll.height() < 300) {
         let info = '编辑区域高度 < 300px 这可能会导致 modal hoverbar 定位异常'
         info += '\nTextarea height < 300px . This may be cause modal and hoverbar position error'
-        console.warn(info, $textarea)
+        console.warn(info, $scroll)
       }
     })
 
