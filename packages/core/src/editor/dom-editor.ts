@@ -672,4 +672,28 @@ export const DomEditor = {
       }
     }
   },
+
+  /**
+   * editor 内容是否为空，即只有一个空 paragraph
+   * @param editor editor
+   */
+  isEditorEmpty(editor: IDomEditor): boolean {
+    const { children = [] } = editor
+    if (children.length > 1) return false // >1 个顶级节点
+
+    const firstNode = children[0]
+    if (firstNode == null) return true // editor.children 空数组
+
+    if (Element.isElement(firstNode) && firstNode.type === 'paragraph') {
+      const { children: texts = [] } = firstNode
+      if (texts.length > 1) return false // >1 text node
+
+      const t = texts[0]
+      if (t == null) return true // 无 text 节点
+
+      if (Text.isText(t) && t.text === '') return true // 只有一个 text 且是空字符串
+    }
+
+    return false
+  },
 }

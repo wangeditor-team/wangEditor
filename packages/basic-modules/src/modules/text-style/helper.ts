@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor } from 'slate'
+import { Editor, Node } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 export function isMenuDisabled(editor: IDomEditor, mark?: string): boolean {
@@ -29,4 +29,17 @@ export function isMenuDisabled(editor: IDomEditor, mark?: string): boolean {
   // 命中，则禁用
   if (match) return true
   return false
+}
+
+export function removeMarks(editor: IDomEditor, textNode: Node) {
+  // 遍历 text node 属性，清除样式
+  const keys = Object.keys(textNode as object)
+  keys.forEach(key => {
+    if (key === 'text') {
+      // 保留 text 属性，text node 必须的
+      return
+    }
+    // 其他属性，全部清除
+    Editor.removeMark(editor, key)
+  })
 }

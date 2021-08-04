@@ -6,7 +6,7 @@
 import { Editor, Text } from 'slate'
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
 import { ERASER_SVG } from '../../../constants/icon-svg'
-import { isMenuDisabled } from '../helper'
+import { isMenuDisabled, removeMarks } from '../helper'
 
 class ClearStyleMenu implements IButtonMenu {
   readonly title = '清除格式'
@@ -38,16 +38,7 @@ class ClearStyleMenu implements IButtonMenu {
     for (const nodeEntry of nodeEntries) {
       // 单个 text node
       const n = nodeEntry[0]
-      // 遍历 text node 属性，清除样式
-      const keys = Object.keys(n as object)
-      keys.forEach(key => {
-        if (key === 'text') {
-          // 保留 text 属性，text node 必须的
-          return
-        }
-        // 其他属性，全部清除
-        Editor.removeMark(editor, key)
-      })
+      removeMarks(editor, n)
     }
   }
 }
