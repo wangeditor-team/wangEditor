@@ -19,8 +19,14 @@ function deleteToKeepP(editor: Editor, deleteUpEvents: Function[], deleteDownEve
         const html = editor.$textElem.html()
         const text = editor.$textElem.text()
         const txtHtml = html.trim()
+        /**
+          @description 
+            如果编辑区清空的状态下，单单插入一张图片，删除图片后，会存在空的情况：'<p data-we-empty-p=""></p>'
+            需要包含这种边界情况
+        **/
 
-        const emptyTags: string[] = ['<p><br></p>', '<br>', EMPTY_P]
+        const emptyTags: string[] = ['<p><br></p>', '<br>', '<p data-we-empty-p=""></p>', EMPTY_P]
+
         // 编辑器中的字符是""或空白，说明内容为空
         if (/^\s*$/.test(text) && (!txtHtml || emptyTags.includes(txtHtml))) {
             // 内容空了
