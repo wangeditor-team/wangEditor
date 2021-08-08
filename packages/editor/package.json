@@ -31,7 +31,7 @@
   "scripts": {
     "test": "jest",
     "test-c": "jest --coverage",
-    "example": "concurrently \"yarn dev-watch\" \"http-server -p 8881\" ",
+    "example": "concurrently \"yarn dev-watch\" \"http-server -p 8881 -c-1\" ",
     "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js",
     "dev-watch": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
