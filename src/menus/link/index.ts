@@ -5,12 +5,13 @@
 
 import PanelMenu from '../menu-constructors/PanelMenu'
 import Editor from '../../editor/index'
-import $ from '../../utils/dom-core'
+import $, { DomElement } from '../../utils/dom-core'
 import createPanelConf from './create-panel-conf'
 import isActive from './is-active'
 import Panel from '../menu-constructors/Panel'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event/index'
+import { EMPTY_P } from '../../utils/const'
 
 class Link extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -30,11 +31,31 @@ class Link extends PanelMenu implements MenuActive {
         const editor = this.editor
         let $linkElem
 
-        const $selectionElem = editor.selection.getSelectionContainerElem()
+        /**
+            @author:Gavin
+            @description 
+                解决当全选删除编辑区内容时，点击链接没反应的问题(因为选区有问题)
+              
+        **/
+        let $selectionElem = editor.selection.getSelectionContainerElem()
+        const $textElem = editor.$textElem
+        const html = $textElem.html()
+        const $txtHtml = html.trim()
+
+        if ($txtHtml === EMPTY_P) {
+            const $emptyChild = $textElem.children()
+            // 调整选区
+            editor.selection.createRangeByElem($emptyChild as DomElement, true, true)
+
+            // 重新获取选区
+            $selectionElem = editor.selection.getSelectionContainerElem()
+        }
+
         // 判断是否是多行 多行则退出 否则会出现问题
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
             return
         }
+
         if (this.isActive) {
             // 菜单被激活，说明选区在链接里
             $linkElem = editor.selection.getSelectionContainerElem()

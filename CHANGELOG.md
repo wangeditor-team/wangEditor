@@ -1,3 +1,24 @@
+## [4.7.6](https://github.com/wangeditor-team/wangEditor/compare/v4.7.5...v4.7.6) (2021-07-30)
+
+
+### Bug Fixes
+
+* 解决全选删除后，设置引用，全屏的问题 ([514d563](https://github.com/wangeditor-team/wangEditor/commit/514d56323442685ce1a80faf911208c635daf5ab))
+* 修复列表下无法设置超链接的问题 ([00bfdb5](https://github.com/wangeditor-team/wangEditor/commit/00bfdb5bc20e00cd2d632de45a6d9c7b3a2cea67))
+
+## [4.7.5](https://github.com/wangeditor-team/wangEditor/compare/v4.7.4...v4.7.5) (2021-07-02)
+
+
+### Bug Fixes
+
+* 涉及到有插入按钮的菜单, 键盘输入enter键，也能触发事件 ([2fdef65](https://github.com/wangeditor-team/wangEditor/commit/2fdef658ca6fb22b5fc635e7c0a9310dfbcde0ec))
+* 修复ie11序列功能无效的bug ([dd8bdaf](https://github.com/wangeditor-team/wangEditor/commit/dd8bdafa3d180f7c4e1e39f9a0e7f276d4b723de))
+
+
+### Features
+
+* add onselectionchange api ([afa36a8](https://github.com/wangeditor-team/wangEditor/commit/afa36a833e62a593f056cea9bc760fa46c930708))
+
 ## [4.7.4](https://github.com/wangeditor-team/wangEditor/compare/v4.7.3...v4.7.4) (2021-06-17)
 
 
