@@ -114,7 +114,10 @@ function insertHtml(selection: Selection, topNode: Node): string {
             if (pointerNode)
                 middleContent = middleContent + makeHtmlString(pointerNode, htmlString ?? '')
         }
-        pointerNode = pointerNode?.nextSibling ?? pointerNode
+        // 解决文字和图片同一行时会触发无限循环, 到不了endNode === pointerNode条件
+        const nextPointNode = pointerNode?.nextSibling ?? pointerNode
+        if (nextPointNode === pointerNode) break
+        pointerNode = nextPointNode
     }
 
     content = `${startContent}${middleContent}${endContent}`
