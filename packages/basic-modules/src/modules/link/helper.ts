@@ -89,7 +89,10 @@ export function insertLink(editor: IDomEditor, text: string, url: string) {
 
   // 执行：插入链接
   if (isCollapsed) {
+    // 链接前后插入空格，方便操作
+    editor.insertText(' ')
     Transforms.insertNodes(editor, linkNode)
+    editor.insertText(' ')
   } else {
     Transforms.wrapNodes(editor, linkNode, { split: true })
     Transforms.collapse(editor, { edge: 'end' })
