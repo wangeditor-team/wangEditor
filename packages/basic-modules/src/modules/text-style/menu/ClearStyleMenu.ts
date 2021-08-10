@@ -34,6 +34,7 @@ class ClearStyleMenu implements IButtonMenu {
     // 获取所有 text node
     const nodeEntries = Editor.nodes(editor, {
       match: n => Text.isText(n),
+      universal: true,
     })
     for (const nodeEntry of nodeEntries) {
       // 单个 text node
