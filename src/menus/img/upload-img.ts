@@ -121,6 +121,9 @@ class UploadImg {
         const resultFiles: File[] = []
         const errInfos: string[] = []
         arrForEach(files, file => {
+            // chrome 低版本 粘贴一张图时files为 [null, File]
+            if (!file) return
+
             const name = file.name || file.type.replace('/', '.') // 兼容低版本chrome 没有name
             const size = file.size
 
