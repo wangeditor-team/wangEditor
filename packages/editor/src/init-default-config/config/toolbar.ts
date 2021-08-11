@@ -35,7 +35,7 @@ export function genDefaultToolbarKeys() {
       key: 'group-justify', // 以 group 开头
       title: '对齐',
       iconSvg: JUSTIFY_LEFT_SVG,
-      menuKeys: ['justifyLeft', 'justifyRight', 'justifyCenter'],
+      menuKeys: ['justifyLeft', 'justifyRight', 'justifyCenter', 'justifyJustify'],
     },
     {
       key: 'group-indent', // 以 group 开头
