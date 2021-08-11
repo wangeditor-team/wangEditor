@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { throttle } from 'lodash.throttle'
+import throttle from 'lodash.throttle'
 import { Element as SlateElement, Transforms } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
