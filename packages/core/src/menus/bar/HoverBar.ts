@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { debounce } from 'lodash-es'
+import debounce from 'lodash.debounce'
 import { Editor, Node, Element, Text, Path } from 'slate'
 import $ from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'

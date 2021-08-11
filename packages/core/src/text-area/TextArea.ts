@@ -4,7 +4,8 @@
  */
 
 import { Range } from 'slate'
-import { throttle, forEach } from 'lodash-es'
+import throttle from 'lodash.throttle'
+import forEach from 'lodash.foreach'
 import $, { Dom7Array, DOMElement } from '../utils/dom'
 import { TEXTAREA_TO_EDITOR } from '../utils/weak-maps'
 import { IDomEditor } from '../editor/interface'

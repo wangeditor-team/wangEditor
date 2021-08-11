@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { debounce } from 'lodash-es'
+import debounce from 'lodash.debounce'
 import $, { Dom7Array, DOMElement } from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'
 import { promiseResolveThen } from '../../utils/util'

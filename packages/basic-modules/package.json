@@ -44,9 +44,9 @@
     "@wangeditor/core": "^0.0.1",
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
-    "lodash-es": "^4.17.21",
     "slate": "^0.63.0",
-    "snabbdom": "^3.0.1"
+    "snabbdom": "^3.0.1",
+    "lodash.throttle": "^4.1.1"
   },
   "dependencies": {
     "is-url": "^1.2.4"

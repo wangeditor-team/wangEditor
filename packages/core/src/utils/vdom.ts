@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { camelCase } from 'lodash-es'
+import camelCase from 'lodash.camelcase'
 import {
   VNode,
   init,

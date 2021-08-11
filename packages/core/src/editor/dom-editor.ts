@@ -3,7 +3,8 @@
  * @author wangfupeng
  */
 
-import { isEqual, toArray } from 'lodash-es'
+import isEqual from 'lodash.isequal'
+import toArray from 'lodash.toarray'
 import { Editor, Node, Element, Path, Point, Range, Ancestor, Text } from 'slate'
 import { IDomEditor } from './interface'
 import { Key } from '../utils/key'

@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { isEqual } from 'lodash-es'
+import isEqual from 'lodash.isequal'
 import { Editor, Element, Transforms, Range, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { ADD_COL_SVG } from '../../constants/svg'

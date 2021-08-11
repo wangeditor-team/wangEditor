@@ -43,7 +43,13 @@
   "peerDependencies": {
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
-    "lodash-es": "^4.17.21",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.foreach": "^4.5.0",
+    "lodash.isequal": "^4.5.0",
+    "lodash.throttle": "^4.1.1",
+    "lodash.toarray": "^4.4.0",
     "slate": "^0.63.0",
     "snabbdom": "^3.0.1"
   },
