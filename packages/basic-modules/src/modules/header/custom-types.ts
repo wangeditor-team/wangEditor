@@ -21,3 +21,13 @@ export type Header3Element = {
   type: 'header3'
   children: Text[]
 }
+
+export type Header4Element = {
+  type: 'header4'
+  children: Text[]
+}
+
+export type Header5Element = {
+  type: 'header5'
+  children: Text[]
+}

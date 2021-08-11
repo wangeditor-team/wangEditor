@@ -40,5 +40,19 @@ const renderHeader3Conf = {
   type: 'header3',
   renderElem: genRenderElem(3),
 }
+const renderHeader4Conf = {
+  type: 'header4',
+  renderElem: genRenderElem(4),
+}
+const renderHeader5Conf = {
+  type: 'header5',
+  renderElem: genRenderElem(5),
+}
 
-export { renderHeader1Conf, renderHeader2Conf, renderHeader3Conf }
+export {
+  renderHeader1Conf,
+  renderHeader2Conf,
+  renderHeader3Conf,
+  renderHeader4Conf,
+  renderHeader5Conf,
+}

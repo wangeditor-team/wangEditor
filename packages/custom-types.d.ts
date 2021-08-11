@@ -17,6 +17,8 @@ import {
   Header1Element,
   Header2Element,
   Header3Element,
+  Header4Element,
+  Header5Element,
 } from './basic-modules/src/modules/header/custom-types'
 import { DividerElement } from './basic-modules/src/modules/divider/custom-types'
 import { ImageElement } from './basic-modules/src/modules/image/custom-types'
@@ -53,6 +55,8 @@ type CustomElement =
   | Header1Element
   | Header2Element
   | Header3Element
+  | Header4Element
+  | Header5Element
   | DividerElement
   | ImageElement
   | PreElement

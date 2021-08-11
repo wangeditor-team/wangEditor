@@ -27,3 +27,13 @@ export const header3ToHtmlConf = {
   type: 'header3',
   elemToHtml: genToHtmlFn(3),
 }
+
+export const header4ToHtmlConf = {
+  type: 'header4',
+  elemToHtml: genToHtmlFn(4),
+}
+
+export const header5ToHtmlConf = {
+  type: 'header5',
+  elemToHtml: genToHtmlFn(5),
+}

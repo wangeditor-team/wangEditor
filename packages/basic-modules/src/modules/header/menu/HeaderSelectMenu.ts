@@ -32,6 +32,16 @@ class HeaderSelectMenu implements ISelectMenu {
         text: 'H3',
         styleForRenderMenuList: { 'font-size': '18px', 'font-weight': 'bold' },
       },
+      {
+        value: 'header4',
+        text: 'H4',
+        styleForRenderMenuList: { 'font-size': '16px', 'font-weight': 'bold' },
+      },
+      {
+        value: 'header5',
+        text: 'H5',
+        styleForRenderMenuList: { 'font-size': '13px', 'font-weight': 'bold' },
+      },
       { value: 'paragraph', text: '正文' },
     ]
 
