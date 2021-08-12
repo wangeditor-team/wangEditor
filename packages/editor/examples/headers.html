@@ -41,7 +41,7 @@
     }
     editorConfig.onChange = (editor) => {
       // 获取并展示 headers
-      const headers = editor.getHeaders()
+      const headers = editor.getElemsByTypePrefix('header')
       $('#text-headers').val(JSON.stringify(headers, null, 4))
     }
 

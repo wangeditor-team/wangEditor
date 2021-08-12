@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Location, Node, Ancestor } from 'slate'
+import { Editor, Location, Node, Ancestor, Element } from 'slate'
 import ee from 'event-emitter'
 import { IEditorConfig, AlertType, ISingleMenuConfig } from '../config/interface'
 import { IPositionStyle } from '../menus/interface'
@@ -27,7 +27,7 @@ export interface IDomEditor extends Editor {
   getHtml: (opt?: { withFormat?: boolean; containerClassName?: string }) => string
   getText: () => string
   getSelectionText: () => string // 获取选区文字
-  getHeaders: () => { id: string; type: string; text: string }[] // 获取所有标题
+  getElemsByTypePrefix: (typePrefix: string) => Element[]
   getParentNode: (node: Node) => Ancestor | null
 
   // dom 相关

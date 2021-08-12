@@ -4,7 +4,7 @@
  */
 
 import xmlFormat from 'xml-formatter'
-import { Editor, Node, Text, Path, Operation, Range, Transforms } from 'slate'
+import { Editor, Node, Text, Path, Operation, Range, Transforms, Element } from 'slate'
 import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../..'
 import { EDITOR_TO_SELECTION, NODE_TO_KEY } from '../../utils/weak-maps'
@@ -156,23 +156,27 @@ export const withContent = <T extends Editor>(editor: T) => {
     return Editor.string(editor, selection)
   }
 
-  // 获取所有标题
-  e.getHeaders = () => {
-    const headers: { id: string; type: string; text: string }[] = []
-    const { children = [] } = e
-    children.forEach(n => {
-      if (Text.isText(n)) return
+  // 根据 type 获取 elems
+  // TODO 补充到文档中，删掉 getHeaders
+  e.getElemsByTypePrefix = (typePrefix: string): Element[] => {
+    const elems: Element[] = []
 
-      const { type = '' } = n
-      if (type.startsWith('header')) {
-        const key = DomEditor.findKey(e, n)
-        const id = genElemId(key.id)
-        const text = Node.string(n)
+    // 获取 editor 所有 nodes
+    const nodeEntries = Editor.nodes(e, { at: [] })
+    for (let nodeEntry of nodeEntries) {
+      const [node] = nodeEntry
+      if (Element.isElement(node)) {
+        // TODO 返回的需要有 id ，结合 editor.scrollToElem 方法，参考 examples/headers.html
+        // const key = DomEditor.findKey(e, node)
+        // const id = genElemId(key.id)
 
-        headers.push({ id, type, text })
+        // 判断 type
+        const { type } = node
+        if (type.indexOf(typePrefix) >= 0) elems.push(node)
       }
-    })
-    return headers
+    }
+
+    return elems
   }
 
   e.getParentNode = (node: Node) => {
