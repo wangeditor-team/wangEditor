@@ -8,7 +8,7 @@ import { IDomEditor } from '@wangeditor/core'
 
 function pToHtml(elem: Element, childrenHtml: string, editor: IDomEditor): string {
   if (childrenHtml === '') {
-    return '<p><br></p>'
+    return '<p><br/></p>'
   }
   return `<p>${childrenHtml}</p>`
 }

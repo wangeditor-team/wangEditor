@@ -12,7 +12,6 @@ import { node2html } from '../../to-html/node2html'
 import { genElemId } from '../../formats/helper'
 import { Key } from '../../utils/key'
 import { findCurrentLineRange } from '../../utils/line'
-import $ from '../../utils/dom'
 
 export const withContent = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
@@ -126,16 +125,21 @@ export const withContent = <T extends Editor>(editor: T) => {
   }
 
   // 获取 html
-  e.getHtml = (withFormat = true): string => {
+  // TODO 参数补充到文档中
+  e.getHtml = (opt: { withFormat?: boolean; containerClassName?: string } = {}): string => {
+    const { withFormat = true, containerClassName = 'w-e-content-container' } = opt
+
     const { children = [] } = e
     let html = children.map(child => node2html(child, e)).join('')
-    html = `<div>${html}</div>`
+    html = `<div class="${containerClassName}">${html}</div>`
 
     if (withFormat) {
-      return xmlFormat(html, {
+      // 格式化
+      html = xmlFormat(html, {
         collapseContent: true,
       })
     }
+
     return html
   }
 
