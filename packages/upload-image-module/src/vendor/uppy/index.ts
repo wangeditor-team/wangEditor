@@ -6,6 +6,7 @@
 import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
 import { IUploadConfig } from './interface'
+import { addQueryToUrl } from '../../utils/util'
 
 export function genUppy(config: IUploadConfig) {
   // 获取配置
@@ -15,6 +16,7 @@ export function genUppy(config: IUploadConfig) {
     maxFileSize = 10 * 1024 * 1024, // 10M
     maxNumberOfFiles = 100,
     meta = {},
+    metaWithUrl = false,
     headers = {},
     withCredentials = false,
     timeout = 10 * 1000, // 10s
@@ -39,6 +41,12 @@ export function genUppy(config: IUploadConfig) {
     throw new Error('Cannot get fieldName from menu config')
   }
 
+  // 是否要追加 url 参数
+  let url = server
+  if (metaWithUrl) {
+    url = addQueryToUrl(url, meta)
+  }
+
   // 生成 uppy 实例
   const uppy = Uppy({
     onBeforeUpload,
@@ -48,7 +56,7 @@ export function genUppy(config: IUploadConfig) {
     },
     meta, // 自定义添加到 formData 中的参数
   }).use(XHRUpload, {
-    endpoint: server, // 服务端 url
+    endpoint: url, // 服务端 url
     headers, // 自定义 headers
     formData: true,
     fieldName,

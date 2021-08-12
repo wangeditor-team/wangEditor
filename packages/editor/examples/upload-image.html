@@ -40,7 +40,8 @@
       timeout: 5 * 1000, // 5s
 
       fieldName: 'custom-fileName',
-      meta: { token: 'xxx' },
+      meta: { token: 'xxx', a: 100 },
+      metaWithUrl: true, // 参数拼接到 url 上
       headers: { Accept: 'text/x-json' },
 
       base64LimitKB: 5, // 5kb 以下插入 base64

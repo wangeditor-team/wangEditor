@@ -16,6 +16,7 @@ export interface IUploadConfig {
   maxNumberOfFiles?: number
   allowedFileTypes?: string[]
   meta?: object
+  metaWithUrl: false
   headers?: object
   withCredentials?: boolean
   timeout?: number
