@@ -106,6 +106,8 @@ function renderResizeContainer(
 
     // 实时修改 img 宽高 -【注意】这里只修改 DOM ，mouseup 时再统一不修改 node
     if ($container == null) return
+    if (newWidth <= 15 || newHeight <= 15) return // 最小就是 15px
+
     $container.css('width', `${newWidth}px`)
     $container.css('height', `${newHeight}px`)
   }, 100)
