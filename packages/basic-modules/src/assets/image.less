@@ -45,3 +45,12 @@
     }
   }
 }
+
+// 禁用编辑器时，img hover 不要有样式
+.w-e-text-container [contenteditable="false"] {
+  .w-e-image-container {
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
