@@ -59,14 +59,14 @@ export function genDefaultHoverbarKeys() {
         if (selection == null) return false // 无选区
         if (Range.isCollapsed(selection)) return false // 未选中文字，选区的是折叠的
 
-        // 检查父节点
-        let parentType = ''
-        const [parent] = Editor.parent(editor, selection, { edge: 'start' })
-        if (Element.isElement(parent)) parentType = parent.type
-        if (parentType === 'code' || parentType === 'pre' || parentType.startsWith('header')) {
-          // code-block header 禁止
-          return false
-        }
+        const selectedElems = DomEditor.getSelectedElems(editor)
+        const notMatch = selectedElems.some(elem => {
+          if (editor.isVoid(elem)) return true
+
+          const { type } = elem
+          if (['pre', 'code'].includes(type)) return true
+        })
+        if (notMatch) return false
 
         if (Text.isText(n)) return true // 匹配 text node
         return false

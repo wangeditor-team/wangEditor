@@ -165,7 +165,10 @@ export const withContent = <T extends Editor>(editor: T) => {
     const elems: Element[] = []
 
     // 获取 editor 所有 nodes
-    const nodeEntries = Editor.nodes(e, { at: [] })
+    const nodeEntries = Editor.nodes(e, {
+      at: [],
+      universal: true,
+    })
     for (let nodeEntry of nodeEntries) {
       const [node] = nodeEntry
       if (Element.isElement(node)) {

@@ -535,6 +535,18 @@ export const DomEditor = {
     return nodes.map(node => Node.string(node)).join('')
   },
 
+  getSelectedElems(editor: IDomEditor): Element[] {
+    const elems: Element[] = []
+
+    const nodeEntries = Editor.nodes(editor, { universal: true })
+    for (let nodeEntry of nodeEntries) {
+      const [node] = nodeEntry
+      if (Element.isElement(node)) elems.push(node)
+    }
+
+    return elems
+  },
+
   getSelectedNodeByType(editor: IDomEditor, type: string): Node | null {
     const [nodeEntry] = Editor.nodes(editor, {
       match: n => this.checkNodeType(n, type),
