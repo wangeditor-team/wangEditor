@@ -23,6 +23,9 @@ export const withContent = <T extends Editor>(editor: T) => {
   e.apply = (op: Operation) => {
     const matches: [Path, Key][] = []
 
+    const { readOnly } = e.getConfig()
+    if (readOnly) return
+
     switch (op.type) {
       case 'insert_text':
       case 'remove_text':
