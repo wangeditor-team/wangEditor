@@ -29,6 +29,7 @@ export interface IDomEditor extends Editor {
   getSelectionText: () => string // 获取选区文字
   getElemsByTypePrefix: (typePrefix: string) => Element[]
   getParentNode: (node: Node) => Ancestor | null
+  isEmpty: () => boolean
 
   // dom 相关
   id: string

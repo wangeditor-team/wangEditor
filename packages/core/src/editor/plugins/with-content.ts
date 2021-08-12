@@ -179,6 +179,30 @@ export const withContent = <T extends Editor>(editor: T) => {
     return elems
   }
 
+  // TODO 补充到文档中
+  /**
+   * 判断 editor 是否为空（只有一个空 paragraph）
+   */
+  e.isEmpty = () => {
+    const { children = [] } = e
+    if (children.length > 1) return false // >1 个顶级节点
+
+    const firstNode = children[0]
+    if (firstNode == null) return true // editor.children 空数组
+
+    if (Element.isElement(firstNode) && firstNode.type === 'paragraph') {
+      const { children: texts = [] } = firstNode
+      if (texts.length > 1) return false // >1 text node
+
+      const t = texts[0]
+      if (t == null) return true // 无 text 节点
+
+      if (Text.isText(t) && t.text === '') return true // 只有一个 text 且是空字符串
+    }
+
+    return false
+  }
+
   e.getParentNode = (node: Node) => {
     return DomEditor.getParentNode(e, node)
   }

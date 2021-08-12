@@ -17,7 +17,7 @@ function handlePlaceholder(textarea: TextArea, editor: IDomEditor) {
   const { placeholder } = editor.getConfig()
   if (!placeholder) return
 
-  const isEmpty = DomEditor.isEditorEmpty(editor)
+  const isEmpty = editor.isEmpty()
 
   // 内容为空，且目前未显示 placeholder ，则显示
   if (isEmpty && !textarea.showPlaceholder) {
