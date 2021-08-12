@@ -12,6 +12,8 @@ import {
   italicMenuConf,
   throughMenuConf,
   codeMenuConf,
+  subMenuConf,
+  supMenuConf,
   clearStyleMenuConf,
 } from './menu/index'
 
@@ -23,6 +25,8 @@ const textStyle: Partial<IModuleConf> = {
     italicMenuConf,
     throughMenuConf,
     codeMenuConf,
+    subMenuConf,
+    supMenuConf,
     clearStyleMenuConf,
   ],
   textToHtml,

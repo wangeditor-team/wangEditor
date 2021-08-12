@@ -8,6 +8,8 @@ import CodeMenu from './CodeMenu'
 import ItalicMenu from './ItalicMenu'
 import ThroughMenu from './ThroughMenu'
 import UnderlineMenu from './UnderlineMenu'
+import SubMenu from './SubMenu'
+import SupMenu from './SupMenu'
 import ClearStyleMenu from './ClearStyleMenu'
 
 export const boldMenuConf = {
@@ -42,6 +44,20 @@ export const underlineMenuConf = {
   key: 'underline',
   factory() {
     return new UnderlineMenu()
+  },
+}
+
+export const supMenuConf = {
+  key: 'sup',
+  factory() {
+    return new SupMenu()
+  },
+}
+
+export const subMenuConf = {
+  key: 'sub',
+  factory() {
+    return new SubMenu()
   },
 }
 

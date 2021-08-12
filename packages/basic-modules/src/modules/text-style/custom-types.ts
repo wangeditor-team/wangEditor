@@ -12,4 +12,6 @@ export type StyledText = {
   italic?: boolean
   through?: boolean
   underline?: boolean
+  sup?: boolean
+  sub?: boolean
 }

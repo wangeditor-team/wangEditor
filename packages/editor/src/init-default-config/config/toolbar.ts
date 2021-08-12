@@ -20,7 +20,7 @@ export function genDefaultToolbarKeys() {
       key: 'group-more-style', // 以 group 开头
       title: '更多样式',
       iconSvg: MORE_SVG,
-      menuKeys: ['through', 'code', 'clearStyle'],
+      menuKeys: ['through', 'code', 'sup', 'sub', 'clearStyle'],
     },
     'color',
     'bgColor',

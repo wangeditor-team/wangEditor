@@ -4,11 +4,11 @@
  */
 
 import { IButtonMenu, IDomEditor } from '@wangeditor/core'
-import { FULL_SCREEN } from '../../../constants/icon-svg'
+import { FULL_SCREEN_SVG } from '../../../constants/icon-svg'
 
 class FullScreen implements IButtonMenu {
   title = '全屏'
-  iconSvg = FULL_SCREEN
+  iconSvg = FULL_SCREEN_SVG
   tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {

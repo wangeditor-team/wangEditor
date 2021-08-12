@@ -8,7 +8,7 @@ import { IDomEditor } from '@wangeditor/core'
 import { StyledText } from './custom-types'
 
 export function textToHtml(textNode: Text, textHtml: string, editor: IDomEditor): string {
-  const { bold, italic, underline, code, through } = textNode as StyledText
+  const { bold, italic, underline, code, through, sub, sup } = textNode as StyledText
 
   // color bgColor 在另外的菜单
 
@@ -19,6 +19,8 @@ export function textToHtml(textNode: Text, textHtml: string, editor: IDomEditor)
   if (italic) res = `<em>${res}</em>`
   if (underline) res = `<u>${res}</u>`
   if (through) res = `<s>${res}</s>`
+  if (sub) res = `<sub>${res}</sub>`
+  if (sup) res = `<sup>${res}</sup>`
 
   return res
 }

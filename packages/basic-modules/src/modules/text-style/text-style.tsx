@@ -14,7 +14,7 @@ import { StyledText } from './custom-types'
  * @returns vnode
  */
 export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
-  const { bold, italic, underline, code, through } = node as StyledText
+  const { bold, italic, underline, code, through, sub, sup } = node as StyledText
   let styleVnode: VNode = vnode
 
   // color bgColor 在另外的菜单
@@ -33,6 +33,12 @@ export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): V
   }
   if (through) {
     styleVnode = <s>{styleVnode}</s>
+  }
+  if (sub) {
+    styleVnode = <sub>{styleVnode}</sub>
+  }
+  if (sup) {
+    styleVnode = <sup>{styleVnode}</sup>
   }
 
   return styleVnode
