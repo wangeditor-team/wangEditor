@@ -6,6 +6,10 @@
 import { Editor, Transforms, Point, Element, Descendant } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
+function genEmptyParagraph() {
+  return { type: 'paragraph', children: [{ text: '' }] }
+}
+
 // table cell 内部的删除处理
 function deleteHandler(newEditor: IDomEditor): boolean {
   const { selection } = newEditor
@@ -68,27 +72,48 @@ function withTable<T extends IDomEditor>(editor: T): T {
     }
     const { children: rows = [] } = node as Element
     const topLevelNodes = newEditor.children || []
-
-    // --------------------- table 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------
-    const nextNode = topLevelNodes[path[0] + 1] || {}
-    const { type: nextNodeType = '' } = nextNode as Element
-    if (
-      nextNodeType !== 'paragraph' &&
-      nextNodeType !== 'blockquote' &&
-      !nextNodeType.startsWith('header')
-    ) {
-      // table node 后面不是 p 或 header ，则插入一个空 p
-      const p = { type: 'paragraph', children: [{ text: '' }] }
-      const insertPath = [path[0] + 1]
-      Transforms.insertNodes(newEditor, p, {
-        at: insertPath, // 在表格后面插入
-      })
-    }
+    const topLevelNodesLength = topLevelNodes.length
 
     // --------------------- 表格不能是第一个元素，否则前面插入一个 p ---------------------
     if (topLevelNodes[0] === node) {
-      const p = { type: 'paragraph', children: [{ text: '' }] }
+      const p = genEmptyParagraph()
       Transforms.insertNodes(newEditor, p, { at: path })
+    }
+
+    // --------------------- 表格不能是最后一个元素，否则后面插入一个 p ---------------------
+    if (topLevelNodes[topLevelNodesLength - 1] === node) {
+      const p = genEmptyParagraph()
+      Transforms.insertNodes(newEditor, p, { at: [path[0] + 1] })
+    }
+
+    // --------------------- table 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------
+    const nextNode = topLevelNodes[path[0] + 1] || {}
+    if (Element.isElement(nextNode)) {
+      const { type: nextNodeType = '' } = nextNode
+      if (
+        nextNodeType !== 'paragraph' &&
+        nextNodeType !== 'blockquote' &&
+        !nextNodeType.startsWith('header')
+      ) {
+        // table node 后面不是 p 或 header ，则插入一个空 p
+        const p = genEmptyParagraph()
+        const insertPath = [path[0] + 1]
+        Transforms.insertNodes(newEditor, p, {
+          at: insertPath, // 在表格后面插入
+        })
+      }
+    }
+
+    // --------------------- table 前面不能是 table 或者 void（否则前面插入 p） ---------------------
+    const prevNode = topLevelNodes[path[0] - 1] || {}
+    if (Element.isElement(prevNode)) {
+      const prevNodeType = DomEditor.getNodeType(prevNode)
+      if (prevNodeType === 'table' || newEditor.isVoid(prevNode)) {
+        const p = genEmptyParagraph()
+        Transforms.insertNodes(newEditor, p, {
+          at: path, // 在表格前面插入
+        })
+      }
     }
 
     // --------------------- 保证 table 结构完整性（某些操作可能会导致操作 table 结构不完整） ---------------------
