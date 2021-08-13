@@ -76,3 +76,6 @@ export const EDITOR_TO_SELECTION: WeakMap<Editor, Range> = new WeakMap()
 
 // editor -> eventEmitter 自定义事件
 export const EDITOR_TO_EMITTER: WeakMap<Editor, Emitter> = new WeakMap()
+
+// editor 是否可执行粘贴
+export const EDITOR_TO_CAN_PASTE: WeakMap<Editor, boolean> = new WeakMap()

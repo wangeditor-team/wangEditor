@@ -10,6 +10,7 @@ import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
 import { DOMStaticRange } from '../../utils/dom'
 import { HAS_BEFORE_INPUT_SUPPORT } from '../../utils/ua'
+import { EDITOR_TO_CAN_PASTE } from '../../utils/weak-maps'
 
 // 补充 beforeInput event 的属性
 interface BeforeInputEventType {
@@ -137,6 +138,10 @@ function handleBeforeInput(e: Event, textarea: TextArea, editor: IDomEditor) {
         // https://www.w3.org/TR/input-events-2/
         // 解决在 safari 上当使用拼音输入，compositionend 在 beforeinput 之后触发，导致选区没有正常更新的问题
         textarea.isComposing = false
+      }
+
+      if (type === 'insertFromPaste') {
+        if (!EDITOR_TO_CAN_PASTE.get(editor)) break // 不可默认粘贴
       }
 
       if (data instanceof DataTransfer) {

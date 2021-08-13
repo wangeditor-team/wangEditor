@@ -74,6 +74,17 @@
       console.log('onBlur', editor)
     }
 
+    // editorConfig.customPaste = (editor, event) => {
+    //   console.log('customPage')
+    //   // editor.insertText('xxx------') // 同步
+    //   setTimeout(() => {
+    //     editor.insertText('yyy------') // 异步
+    //   }, 1000)
+    //   return false // 阻止默认粘贴，自定义实现粘贴
+
+    //   // return true // 执行默认粘贴
+    // }
+
     // create
     let editor, toolbar
     document.getElementById('btn-create').addEventListener('click', () => {
