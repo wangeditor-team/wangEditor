@@ -91,6 +91,13 @@ export function createShowHideFn(editor: Editor) {
             })
         }
 
+        editor.txt.tooltipMenu.img.extends.forEach(item => {
+            conf.push({
+                $elem: $(`<span>${item.menuName}</span>`),
+                onClick: item.onClick,
+            })
+        })
+
         tooltip = new Tooltip(editor, $node, conf)
         tooltip.create()
     }

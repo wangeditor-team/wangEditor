@@ -60,9 +60,19 @@ type TextEventHooks = {
     /** 视频点击事件 */
     videoClickEvents: ((e: DomElement) => void)[]
 }
+// 工具菜单的自定义配置
+type TooltipMenu = {
+    img: {
+        extends: {
+            menuName: string
+            onClick: (editor: Editor, $node: DomElement) => boolean
+        }[]
+    }
+}
 
 class Text {
     public editor: Editor
+    public tooltipMenu: TooltipMenu
     public eventHooks: TextEventHooks // Text 各个事件的钩子函数，如 keyup 时要执行哪些函数
 
     constructor(editor: Editor) {
@@ -93,6 +103,10 @@ class Text {
             dropListMenuHoverEvents: [],
             splitLineEvents: [],
             videoClickEvents: [],
+        }
+
+        this.tooltipMenu = {
+            img: { extends: [] },
         }
     }
 
