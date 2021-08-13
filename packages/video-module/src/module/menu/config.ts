@@ -3,10 +3,13 @@
  * @author wangfupeng
  */
 
+import { VideoElement } from '../custom-types'
+
 export function genMenuConfig() {
   return {
-    onInsertedVideo(src: string) {
+    onInsertedVideo(node: VideoElement) {
       // 插入视频之后的 callback
+      // TODO 参数类型，修改文档
     },
 
     /**

@@ -3,16 +3,17 @@
  * @author wangfupeng
  */
 
+import { ImageElement } from '../custom-types'
+
 export function genImageMenuConfig() {
   return {
     /**
      * 插入图片之后的回调
-     * @param src image src
-     * @param alt image alt
-     * @param href image href
+     * @param imageElem ImageElement
      */
-    onInsertedImage(src: string, alt: string, href: string) {
+    onInsertedImage(imageElem: ImageElement) {
       /*自定义*/
+      // TODO 参数类型，修改文档
     },
 
     /**
@@ -31,12 +32,11 @@ export function genImageMenuConfig() {
 
     /**
      * 更新图片之后的回调
-     * @param src image src
-     * @param alt image alt
-     * @param href image href
+     * @param node image node
      */
-    onUpdatedImage(src: string, alt: string, href: string) {
+    onUpdatedImage(node: ImageElement | null) {
       /*自定义*/
+      // TODO 参数类型，修改文档
     },
 
     // TODO onDeletedImage - 参考 plugin.ts 中的 `newEditor.apply = `

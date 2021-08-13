@@ -137,7 +137,7 @@ class InsertVideoMenu implements IModalMenu {
     Transforms.insertNodes(editor, video)
 
     // 调用 callback
-    onInsertedVideo(src)
+    onInsertedVideo(video)
   }
 }
 

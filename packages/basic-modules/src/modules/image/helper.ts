@@ -55,7 +55,7 @@ export async function insertImageNode(
 
   // 回调
   const { onInsertedImage } = editor.getMenuConfig('insertImage')
-  if (onInsertedImage) onInsertedImage(src, alt, href)
+  if (onInsertedImage) onInsertedImage(image)
 }
 
 export async function updateImageNode(
@@ -87,6 +87,7 @@ export async function updateImageNode(
   })
 
   // 回调
+  const imageNode = DomEditor.getSelectedNodeByType(editor, 'image')
   const { onUpdatedImage } = editor.getMenuConfig('editImage')
-  if (onUpdatedImage) onUpdatedImage(src, alt, href)
+  if (onUpdatedImage) onUpdatedImage(imageNode)
 }
