@@ -33,7 +33,7 @@ export function genUploadImageConfig(): IUploadConfigForImage {
       // 自定义上传参数，例如传递验证的 token 等。参数会被添加到 formData 中，一起上传到服务端。
       // 例如：token: 'xxxxx', x: 100
     },
-    metaWithUrl: false, // TODO 补充到文档中
+    metaWithUrl: false,
     headers: {
       // 自定义 http headers
       // 例如：Accept: 'text/x-json', a: 100,

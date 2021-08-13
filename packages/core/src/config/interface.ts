@@ -41,7 +41,6 @@ export interface IEditorConfig {
   /**
    * 自定义粘贴。返回 true 则继续粘贴，返回 false 则自行实现粘贴，阻止默认粘贴
    */
-  // TODO 补充到文档中（写一个异步的例子，参考 examples/default-mode.html ）
   customPaste?: (editor: IDomEditor, e: ClipboardEvent) => boolean
 
   // edit state

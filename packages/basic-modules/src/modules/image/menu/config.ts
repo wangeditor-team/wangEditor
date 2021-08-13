@@ -13,7 +13,6 @@ export function genImageMenuConfig() {
      */
     onInsertedImage(imageElem: ImageElement) {
       /*自定义*/
-      // TODO 参数类型，修改文档
     },
 
     /**
@@ -22,7 +21,6 @@ export function genImageMenuConfig() {
      * @param alt image alt
      * @param href image href
      */
-    // TODO 支持 async 函数，补充到 文档中
     checkImage(src: string, alt: string, href: string): boolean | string | undefined {
       // 1. 返回 true ，说明检查通过
       // 2. 返回一个字符串，说明检查未通过，编辑器会阻止图片插入。会 alert 出错误信息（即返回的字符串）
@@ -36,7 +34,6 @@ export function genImageMenuConfig() {
      */
     onUpdatedImage(node: ImageElement | null) {
       /*自定义*/
-      // TODO 参数类型，修改文档
     },
 
     // TODO onDeletedImage - 参考 plugin.ts 中的 `newEditor.apply = `

@@ -129,7 +129,6 @@ export const withContent = <T extends Editor>(editor: T) => {
   }
 
   // 获取 html
-  // TODO 参数补充到文档中
   e.getHtml = (opt: { withFormat?: boolean; containerClassName?: string } = {}): string => {
     const { withFormat = true, containerClassName = 'w-e-content-container' } = opt
 
@@ -161,7 +160,6 @@ export const withContent = <T extends Editor>(editor: T) => {
   }
 
   // 根据 type 获取 elems
-  // TODO 补充到文档中，删掉 getHeaders
   e.getElemsByTypePrefix = (typePrefix: string): ElementWithId[] => {
     const elems: ElementWithId[] = []
 
@@ -191,7 +189,6 @@ export const withContent = <T extends Editor>(editor: T) => {
     return elems
   }
 
-  // TODO 补充到文档中
   /**
    * 判断 editor 是否为空（只有一个空 paragraph）
    */
