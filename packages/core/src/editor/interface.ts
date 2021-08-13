@@ -8,6 +8,8 @@ import ee from 'event-emitter'
 import { IEditorConfig, AlertType, ISingleMenuConfig } from '../config/interface'
 import { IPositionStyle } from '../menus/interface'
 
+export type ElementWithId = Element & { id: string }
+
 /**
  * 扩展 slate Editor 接口
  */
@@ -27,7 +29,7 @@ export interface IDomEditor extends Editor {
   getHtml: (opt?: { withFormat?: boolean; containerClassName?: string }) => string
   getText: () => string
   getSelectionText: () => string // 获取选区文字
-  getElemsByTypePrefix: (typePrefix: string) => Element[]
+  getElemsByTypePrefix: (typePrefix: string) => ElementWithId[]
   getParentNode: (node: Node) => Ancestor | null
   isEmpty: () => boolean
 

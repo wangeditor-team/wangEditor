@@ -12,6 +12,7 @@ import { node2html } from '../../to-html/node2html'
 import { genElemId } from '../../formats/helper'
 import { Key } from '../../utils/key'
 import { findCurrentLineRange } from '../../utils/line'
+import { ElementWithId } from '../interface'
 
 export const withContent = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
@@ -161,8 +162,8 @@ export const withContent = <T extends Editor>(editor: T) => {
 
   // 根据 type 获取 elems
   // TODO 补充到文档中，删掉 getHeaders
-  e.getElemsByTypePrefix = (typePrefix: string): Element[] => {
-    const elems: Element[] = []
+  e.getElemsByTypePrefix = (typePrefix: string): ElementWithId[] => {
+    const elems: ElementWithId[] = []
 
     // 获取 editor 所有 nodes
     const nodeEntries = Editor.nodes(e, {
@@ -172,13 +173,18 @@ export const withContent = <T extends Editor>(editor: T) => {
     for (let nodeEntry of nodeEntries) {
       const [node] = nodeEntry
       if (Element.isElement(node)) {
-        // TODO 返回的需要有 id ，结合 editor.scrollToElem 方法，参考 examples/headers.html
-        // const key = DomEditor.findKey(e, node)
-        // const id = genElemId(key.id)
-
         // 判断 type
         const { type } = node
-        if (type.indexOf(typePrefix) >= 0) elems.push(node)
+        if (type.indexOf(typePrefix) >= 0) {
+          const key = DomEditor.findKey(e, node)
+          const id = genElemId(key.id)
+
+          // node + id
+          elems.push({
+            ...node,
+            id,
+          })
+        }
       }
     }
 
