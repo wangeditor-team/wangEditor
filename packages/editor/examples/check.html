@@ -42,6 +42,19 @@
         }
         return true
       }
+
+      // // 异步检查
+      // async checkImage(src, alt, url) {
+      //   return new Promise((resolve, reject) => {
+      //     setTimeout(() => {
+      //       if (src.indexOf('http') !== 0) {
+      //         resolve('图片网址必须以 http/https 开头')
+      //         return
+      //       }
+      //       resolve(true)
+      //     }, 1000)
+      //   })
+      // }
     }
     editorConfig.MENU_CONF['editImage'] = {
       onUpdatedImage(src, alt, url) {
@@ -53,6 +66,19 @@
         }
         return true
       }
+
+      // // 异步检查
+      // async checkImage(src, alt, url) {
+      //   return new Promise((resolve, reject) => {
+      //     setTimeout(() => {
+      //       if (src.indexOf('http') !== 0) {
+      //         resolve('图片网址必须以 http/https 开头')
+      //         return
+      //       }
+      //       resolve(true)
+      //     }, 1000)
+      //   })
+      // }
     }
     editorConfig.MENU_CONF['insertLink'] = {
       checkLink(text, url) {
@@ -63,6 +89,21 @@
         }
         return true
       }
+
+      // // 异步检查
+      // async checkLink(text, url) {
+      //   console.log('check insert link - ', text, url)
+
+      //   return new Promise((resolve, reject) => {
+      //     setTimeout(() => {
+      //       if (url.indexOf('http') !== 0) {
+      //         resolve('链接必须以 http/https 开头')
+      //         return
+      //       }
+      //       resolve(true)
+      //     }, 1000)
+      //   })
+      // }
     }
     editorConfig.MENU_CONF['updateLink'] = {
       checkLink(text, url) {
@@ -71,17 +112,46 @@
         }
         return true
       }
+
+      // // 异步检查
+      // async checkLink(text, url) {
+      //   console.log('check insert link - ', text, url)
+
+      //   return new Promise((resolve, reject) => {
+      //     setTimeout(() => {
+      //       if (url.indexOf('http') !== 0) {
+      //         resolve('链接必须以 http/https 开头')
+      //         return
+      //       }
+      //       resolve(true)
+      //     }, 1000)
+      //   })
+      // }
     }
     editorConfig.MENU_CONF['insertVideo'] = {
       onInsertedVideo(src) {
         console.log('inserted video', src)
       },
+
       checkVideo(src) {
         if (src.indexOf('http') !== 0) {
           return '视频地址必须以 http/https 开头'
         }
         return true
       }
+
+      // // 异步检查
+      // async checkVideo(src) {
+      //   return new Promise((resolve, reject) => {
+      //     setTimeout(() => {
+      //       if (src.indexOf('http') !== 0) {
+      //         resolve('视频地址必须以 http/https 开头')
+      //         return
+      //       }
+      //       resolve(true)
+      //     }, 1000)
+      //   })
+      // }
     }
 
     const editor = E.createEditor({

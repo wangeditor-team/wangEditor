@@ -14,10 +14,15 @@ import { LinkElement } from './custom-types'
  * @param text menu text
  * @param url menu url
  */
-function check(menuKey: string, editor: IDomEditor, text: string, url: string): boolean {
+async function check(
+  menuKey: string,
+  editor: IDomEditor,
+  text: string,
+  url: string
+): Promise<boolean> {
   const { checkLink } = editor.getMenuConfig(menuKey)
   if (checkLink) {
-    const res = checkLink(text, url)
+    const res = await checkLink(text, url)
     if (typeof res === 'string') {
       // 检验未通过，提示信息
       editor.alert(res, 'error')
@@ -51,7 +56,7 @@ export function isMenuDisabled(editor: IDomEditor): boolean {
  * @param text text
  * @param url url
  */
-export function insertLink(editor: IDomEditor, text: string, url: string) {
+export async function insertLink(editor: IDomEditor, text: string, url: string) {
   if (!url) return
   if (!text) text = url // 无 text 则用 url 代替
 
@@ -66,7 +71,7 @@ export function insertLink(editor: IDomEditor, text: string, url: string) {
   if (isMenuDisabled(editor)) return
 
   // 校验
-  const checkRes = check('insertLink', editor, text, url)
+  const checkRes = await check('insertLink', editor, text, url)
   if (!checkRes) return // 校验未通过
 
   // 判断选区是否折叠
@@ -99,11 +104,11 @@ export function insertLink(editor: IDomEditor, text: string, url: string) {
  * @param text text
  * @param url link url
  */
-export function updateLink(editor: IDomEditor, text: string, url: string) {
+export async function updateLink(editor: IDomEditor, text: string, url: string) {
   if (!url) return
 
   // 校验
-  const checkRes = check('updateLink', editor, text, url)
+  const checkRes = await check('updateLink', editor, text, url)
   if (!checkRes) return // 校验未通过
 
   // 修改链接

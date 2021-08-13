@@ -7,16 +7,16 @@ import { Transforms } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { ImageElement, ImageStyle } from './custom-types'
 
-function check(
+async function check(
   menuKey: string,
   editor: IDomEditor,
   src: string,
   alt: string = '',
   href: string = ''
-): boolean {
+): Promise<boolean> {
   const { checkImage } = editor.getMenuConfig(menuKey)
   if (checkImage) {
-    const res = checkImage(src, alt, href)
+    const res = await checkImage(src, alt, href)
     if (typeof res === 'string') {
       // 检验未通过，提示信息
       editor.alert(res, 'error')
@@ -31,13 +31,13 @@ function check(
   return true
 }
 
-export function insertImageNode(
+export async function insertImageNode(
   editor: IDomEditor,
   src: string,
   alt: string = '',
   href: string = ''
 ) {
-  const res = check('insertImage', editor, src, alt, href)
+  const res = await check('insertImage', editor, src, alt, href)
   if (!res) return // 检查失败，终止操作
 
   // 新建一个 image node
@@ -58,14 +58,14 @@ export function insertImageNode(
   if (onInsertedImage) onInsertedImage(src, alt, href)
 }
 
-export function updateImageNode(
+export async function updateImageNode(
   editor: IDomEditor,
   src: string,
   alt: string = '',
   href: string = '',
   style: ImageStyle = {}
 ) {
-  const res = check('editImage', editor, src, alt, href)
+  const res = await check('editImage', editor, src, alt, href)
   if (!res) return // 检查失败，终止操作
 
   const selectedImageNode = DomEditor.getSelectedNodeByType(editor, 'image')

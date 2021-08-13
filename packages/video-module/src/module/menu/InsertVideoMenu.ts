@@ -76,10 +76,10 @@ class InsertVideoMenu implements IModalMenu {
       const $content = $('<div></div>')
 
       // 绑定事件（第一次渲染时绑定，不要重复绑定）
-      $content.on('click', `#${buttonId}`, e => {
+      $content.on('click', `#${buttonId}`, async e => {
         e.preventDefault()
         const src = $(`#${srcInputId}`).val().trim()
-        this.insertVideo(editor, src)
+        await this.insertVideo(editor, src)
         editor.hidePanelOrModal() // 隐藏 modal
       })
 
@@ -105,7 +105,7 @@ class InsertVideoMenu implements IModalMenu {
     return $content
   }
 
-  private insertVideo(editor: IDomEditor, src: string) {
+  private async insertVideo(editor: IDomEditor, src: string) {
     if (!src) return
 
     // 还原选区
@@ -115,7 +115,7 @@ class InsertVideoMenu implements IModalMenu {
 
     // 校验
     const { onInsertedVideo, checkVideo } = editor.getMenuConfig('insertVideo')
-    const checkRes = checkVideo(src)
+    const checkRes = await checkVideo(src)
     if (typeof checkRes === 'string') {
       // 校验失败，给出提示
       editor.alert(checkRes, 'error')
