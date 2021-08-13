@@ -3,12 +3,11 @@
  * @author wangfupeng
  */
 
-import { IDomEditor } from '@wangeditor/core'
+import { IDomEditor, createUploader } from '@wangeditor/core'
 import Uppy, { UppyFile } from '@uppy/core'
 import { insertImageNode } from '@wangeditor/basic-modules'
-import { genUppy } from '../vendor/uppy'
 import { isMenuDisabled } from './helper'
-import { IUploadConfig } from '../vendor/uppy/interface'
+import { IUploadConfigForImage } from './menu/config'
 
 // 存储 editor uppy 的关系 - 缓存 uppy ，不重复创建
 const EDITOR_TO_UPPY_MAP = new WeakMap<IDomEditor, Uppy.Uppy<'strict'>>()
@@ -36,9 +35,9 @@ function withUploadImage<T extends IDomEditor>(editor: T): T {
     // 获取/创建 uppy 实例
     let uppy = EDITOR_TO_UPPY_MAP.get(newEditor)
     if (uppy == null) {
-      const menuConfig = editor.getMenuConfig('uploadImage') as IUploadConfig // 获取菜单配置
+      const menuConfig = editor.getMenuConfig('uploadImage') as IUploadConfigForImage // 获取菜单配置
       const { onSuccess, onFailed } = menuConfig
-      uppy = genUppy({
+      uppy = createUploader({
         ...menuConfig,
         onSuccess: (file: UppyFile, res: any) => {
           // res 格式： { errno: 0, data: [ { url, alt, href }, {}, {} ] }

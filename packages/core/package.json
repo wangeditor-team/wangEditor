@@ -41,6 +41,8 @@
     "url": "https://github.com/wangeditor-team/we-2021/issues"
   },
   "peerDependencies": {
+    "@uppy/core": "^1.19.1",
+    "@uppy/xhr-upload": "^1.7.4",
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
     "lodash.camelcase": "^4.3.0",

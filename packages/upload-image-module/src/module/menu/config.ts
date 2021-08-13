@@ -3,9 +3,25 @@
  * @author wangfupeng
  */
 
-import { IUploadConfig } from '../../vendor/uppy/interface'
+import { IUploadConfig } from '@wangeditor/core'
 
-export function genUploadImageConfig(): IUploadConfig {
+type InsertFn = (src: string, alt: string, href: string) => void
+
+// 在通用 uploadConfig 上，扩展 image 相关配置
+export type IUploadConfigForImage = IUploadConfig & {
+  allowedFileTypes?: string[]
+  // 用户自定义插入图片
+  customInsert?: (res: any, insertFn: InsertFn) => void
+  // 用户自定义上传图片
+  customUpload?: (files: File[], insertFn: InsertFn) => void
+  // base64 限制（单位 kb） - 小于 xxx 就插入 base64 格式
+  base64LimitKB: number
+  // 自定义选择图片，如图床
+  customBrowseAndUpload?: (insertFn: InsertFn) => void
+}
+
+// 生成默认配置
+export function genUploadImageConfig(): IUploadConfigForImage {
   return {
     server: '', // server API 地址，需用户配置
 

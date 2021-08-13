@@ -29,6 +29,9 @@ export * from './to-html/index'
 // menu 的接口、注册、方法等
 export * from './menus/index'
 
+// upload
+export * from './upload/index'
+
 export interface IModuleConf {
   // 注册菜单
   menus: Array<IRegisterMenuConf>

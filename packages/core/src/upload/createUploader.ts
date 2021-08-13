@@ -1,20 +1,20 @@
 /**
- * @description uppy 文件上传 https://uppy.io/docs/uppy/
+ * @description gen uploader
  * @author wangfupeng
  */
 
 import Uppy from '@uppy/core'
 import XHRUpload from '@uppy/xhr-upload'
 import { IUploadConfig } from './interface'
-import { addQueryToUrl } from '../../utils/util'
+import { addQueryToUrl } from '../utils/util'
 
-export function genUppy(config: IUploadConfig) {
+function createUploader(config: IUploadConfig): Uppy.Uppy<'strict'> {
   // 获取配置
   const {
     server = '',
     fieldName = '',
     maxFileSize = 10 * 1024 * 1024, // 10M
-    maxNumberOfFiles = 100,
+    maxNumberOfFiles = 100, // 最多多少个文件
     meta = {},
     metaWithUrl = false,
     headers = {},
@@ -35,10 +35,10 @@ export function genUppy(config: IUploadConfig) {
 
   // 判断配置项
   if (!server) {
-    throw new Error('Cannot get upload server address from menu config')
+    throw new Error('Cannot get upload server address\n没有配置上传地址')
   }
   if (!fieldName) {
-    throw new Error('Cannot get fieldName from menu config')
+    throw new Error('Cannot get fieldName\n没有配置 fieldName')
   }
 
   // 是否要追加 url 参数
@@ -47,7 +47,7 @@ export function genUppy(config: IUploadConfig) {
     url = addQueryToUrl(url, meta)
   }
 
-  // 生成 uppy 实例
+  // 生成 uppy 实例，参考文档 https://uppy.io/docs/uppy/
   const uppy = Uppy({
     onBeforeUpload,
     restrictions: {
@@ -85,3 +85,5 @@ export function genUppy(config: IUploadConfig) {
   // 返回实例
   return uppy
 }
+
+export default createUploader

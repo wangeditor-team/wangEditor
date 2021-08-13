@@ -4,13 +4,12 @@
  */
 
 import Uppy, { UppyFile } from '@uppy/core'
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, createUploader } from '@wangeditor/core'
 import { insertImageNode } from '@wangeditor/basic-modules'
 import { UPLOAD_IMAGE_SVG } from '../../constants/svg'
-import { genUppy } from '../../vendor/uppy'
 import { isMenuDisabled } from '../helper'
 import $ from '../../utils/dom'
-import { IUploadConfig } from '../../vendor/uppy/interface'
+import { IUploadConfigForImage } from './config'
 
 class UploadImage implements IButtonMenu {
   readonly title = '上传图片'
@@ -32,9 +31,9 @@ class UploadImage implements IButtonMenu {
     return isMenuDisabled(editor)
   }
 
-  private getMenuConfig(editor: IDomEditor): IUploadConfig {
+  private getMenuConfig(editor: IDomEditor): IUploadConfigForImage {
     // 获取配置，见 `./config.js`
-    return editor.getMenuConfig('uploadImage') as IUploadConfig
+    return editor.getMenuConfig('uploadImage') as IUploadConfigForImage
   }
 
   exec(editor: IDomEditor, value: string | boolean) {
@@ -168,7 +167,7 @@ class UploadImage implements IButtonMenu {
 
     // 创建 uppy 实例
     if (this.uppy == null) {
-      this.uppy = genUppy({
+      this.uppy = createUploader({
         ...menuConfig,
         onProgress: progressHandler,
         onSuccess: successHandler,
