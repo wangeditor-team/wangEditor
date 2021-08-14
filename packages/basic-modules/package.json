@@ -1,6 +1,6 @@
 {
   "name": "@wangeditor/basic-modules",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "editor basic modules",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
@@ -44,9 +44,9 @@
     "@wangeditor/core": "^0.0.1",
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
+    "lodash.throttle": "^4.1.1",
     "slate": "^0.63.0",
-    "snabbdom": "^3.0.1",
-    "lodash.throttle": "^4.1.1"
+    "snabbdom": "^3.0.1"
   },
   "dependencies": {
     "is-url": "^1.2.4"
