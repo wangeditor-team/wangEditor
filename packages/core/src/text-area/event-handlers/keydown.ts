@@ -149,6 +149,19 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     return
   }
 
+  if (Hotkeys.isSelectAll(event)) {
+    preventDefault(event)
+
+    const start = Editor.start(editor, [])
+    const end = Editor.end(editor, [])
+
+    Transforms.select(editor, {
+      anchor: start,
+      focus: end,
+    })
+    return
+  }
+
   // COMPAT: Certain browsers don't support the `beforeinput` event, so we
   // fall back to guessing at the input intention for hotkeys.
   // COMPAT: In iOS, some of these hotkeys are handled in the
