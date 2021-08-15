@@ -17,11 +17,13 @@
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "allowJs": true
   },
   "exclude": [
     "node_modules",
     "build",
     "__tests__"
-  ]
+  ],
+  "include": ["./tests/setup/index.ts"]
 }

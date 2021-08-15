@@ -133,7 +133,7 @@ class InsertVideoMenu implements IModalMenu {
       children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children
     }
 
-    // 插入图片
+    // 插入视频
     Transforms.insertNodes(editor, video)
 
     // 调用 callback

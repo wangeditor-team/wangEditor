@@ -14,6 +14,40 @@ import copy from 'rollup-plugin-copy'
 import path from 'path'
 
 const { input, output = {}, plugins = [], external } = commonConfig
+const isBuildForTest = process.env.ENV_TYPE === 'test'
+
+const finalPlugins = [
+  ...plugins,
+
+  babel({
+    babelHelpers: 'bundled',
+    exclude: 'node_modules/**',
+  }),
+  postcss({
+    plugins: [
+      autoprefixer(),
+      cssnano(), // 压缩 css
+    ],
+    extract: 'css/style.css',
+  }),
+  cleanup({
+    comments: 'none',
+    extensions: ['.ts', '.tsx'],
+  }),
+  terser(), // 压缩 js
+]
+
+// 发布包的时候需要用到 package.json 文件，但是单元测试添加后报错，所以需要特殊处理下
+if (!isBuildForTest) {
+  plugins.push(
+    copy({
+      targets: [
+        { src: path.resolve(__dirname, './package.json'), dest: 'dist' },
+        { src: path.resolve(__dirname, './README.md'), dest: 'dist' },
+      ],
+    })
+  )
+}
 
 export default {
   input,
@@ -22,30 +56,5 @@ export default {
     ...output,
   },
   external,
-  plugins: [
-    ...plugins,
-
-    babel({
-      babelHelpers: 'bundled',
-      exclude: 'node_modules/**',
-    }),
-    postcss({
-      plugins: [
-        autoprefixer(),
-        cssnano(), // 压缩 css
-      ],
-      extract: 'css/style.css',
-    }),
-    cleanup({
-      comments: 'none',
-      extensions: ['.ts', '.tsx'],
-    }),
-    terser(), // 压缩 js
-    copy({
-      targets: [
-        { src: path.resolve(__dirname, './package.json'), dest: 'dist' },
-        { src: path.resolve(__dirname, './README.md'), dest: 'dist' },
-      ],
-    }),
-  ],
+  plugins: finalPlugins,
 }
