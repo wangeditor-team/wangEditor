@@ -5,6 +5,7 @@
 
 import { Node, Element, Text, Editor, Range } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
+import { CustomElement } from '../../../../custom-types'
 
 const COMMON_HOVERBAR_KEYS = [
   {
@@ -60,10 +61,9 @@ export function genDefaultHoverbarKeys() {
         if (Range.isCollapsed(selection)) return false // 未选中文字，选区的是折叠的
 
         const selectedElems = DomEditor.getSelectedElems(editor)
-        const notMatch = selectedElems.some(elem => {
+        const notMatch = selectedElems.some((elem: CustomElement) => {
           if (editor.isVoid(elem)) return true
 
-          // @ts-ignore 为了跑同单元测试，临时忽略 ts 报错
           const { type } = elem
           if (['pre', 'code'].includes(type)) return true
         })

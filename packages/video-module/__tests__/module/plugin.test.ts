@@ -4,7 +4,7 @@ import createEditor from '../../../../tests/utils/create-editor'
 describe('videoModule module', () => {
   describe('module plugin', () => {
     test('withVideo should override editor "isVoid" and "normalizeNode" methods', () => {
-      const editor = createEditor('test1')
+      const editor = createEditor()
       const originalIsVoidFn = editor.isVoid
       const originalNormalizeNode = editor.normalizeNode
 
@@ -15,7 +15,7 @@ describe('videoModule module', () => {
     })
 
     test('使用 withVideo 插件后，Editor 会将 Video 元素视为 void 元素', () => {
-      const editor = createEditor('test2')
+      const editor = createEditor()
       const newEditor = withVideo(editor)
       const videoElem = {
         type: 'video',
@@ -31,7 +31,7 @@ describe('videoModule module', () => {
         src: 'test.mp4',
         children: [],
       }
-      const editor = createEditor('test3', {
+      const editor = createEditor({
         content: [videoElem],
       })
       const newEditor = withVideo(editor)

@@ -16,7 +16,7 @@ function setEditorSelection(
 describe('videoModule module', () => {
   describe('module DeleteVideoMenu', () => {
     const insertVideoMenu = new InsertVideoMenu()
-    const editor = createEditor('test1')
+    const editor = createEditor()
 
     test('InsertVideoMenu invoke getValue function should be empty string', () => {
       expect(insertVideoMenu.getValue(editor)).toBe('')

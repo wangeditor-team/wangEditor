@@ -5,14 +5,14 @@
 
 import { Transforms } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
+import { CustomElement } from '../../../custom-types'
 
 function withVideo<T extends IDomEditor>(editor: T): T {
   const { isVoid, normalizeNode } = editor
   const newEditor = editor
 
   // 重写 isVoid
-  // todo 先显示声明 any，防止单测报错
-  newEditor.isVoid = (elem: any) => {
+  newEditor.isVoid = (elem: CustomElement) => {
     const { type } = elem
 
     if (type === 'video') {
