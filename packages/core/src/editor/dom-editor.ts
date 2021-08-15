@@ -70,6 +70,11 @@ export const DomEditor = {
     return key
   },
 
+  setNewKey(node: Node) {
+    const key = new Key()
+    NODE_TO_KEY.set(node, key)
+  },
+
   /**
    * Find the path of Slate node.
    * path 是一个数组，代表 slate node 的位置 https://docs.slatejs.org/concepts/03-locations#path
