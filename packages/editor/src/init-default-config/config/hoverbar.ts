@@ -63,6 +63,7 @@ export function genDefaultHoverbarKeys() {
         const notMatch = selectedElems.some(elem => {
           if (editor.isVoid(elem)) return true
 
+          // @ts-ignore 为了跑同单元测试，临时忽略 ts 报错
           const { type } = elem
           if (['pre', 'code'].includes(type)) return true
         })
