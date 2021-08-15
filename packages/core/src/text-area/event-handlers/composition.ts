@@ -3,12 +3,12 @@
  * @author wangfupeng
  */
 
-import { Editor, Range } from 'slate'
+import { Editor, Range, Element } from 'slate'
 import { IDomEditor } from '../../editor/interface'
 import { DomEditor } from '../../editor/dom-editor'
 import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
-import { IS_SAFARI, IS_FIREFOX_LEGACY, IS_CHROME } from '../../utils/ua'
+import { IS_SAFARI, IS_CHROME, IS_FIREFOX } from '../../utils/ua'
 import { DOMNode } from '../../utils/dom'
 
 const EDITOR_TO_TEXT: WeakMap<IDomEditor, string> = new WeakMap()
@@ -40,6 +40,7 @@ export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDo
     // 记录下 dom range startContainer
     EDITOR_TO_START_CONTAINER.set(editor, startContainer)
   }
+  textarea.isComposing = true
 }
 
 /**
@@ -69,6 +70,24 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
   const { selection } = editor
   if (selection == null) return
 
+  // 在中文输入法下，浏览器的默认行为会使一些dom产生不可逆的变化
+  // 比如在 Safari 中 url 后面输入，初始是 a > span > spans
+  // 输入后变成 span > span > a
+  // 因此需要设置新的 key 来强刷整行
+  if (IS_SAFARI || IS_FIREFOX) {
+    const start = Range.isBackward(selection) ? selection.focus : selection.anchor
+    const [paragraph] = Editor.node(editor, [start.path[0]])
+
+    for (let i = 0; i < start.path.length; i++) {
+      const [node] = Editor.node(editor, start.path.slice(0, i + 1))
+
+      if (Element.isElement(node) && node.type === 'link') {
+        DomEditor.setNewKey(paragraph)
+        break
+      }
+    }
+  }
+
   const { data } = event
 
   // 检查 maxLength
@@ -84,7 +103,8 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
   // aren't correct and never fire the "insertFromComposition"
   // type that we need. So instead, insert whenever a composition
   // ends since it will already have been committed to the DOM.
-  if (!IS_SAFARI && !IS_FIREFOX_LEGACY && data) {
+
+  if (data) {
     Editor.insertText(editor, data)
   }
 
