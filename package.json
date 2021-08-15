@@ -2,7 +2,7 @@
   "name": "@wangeditor-team/we-2021",
   "private": true,
   "scripts": {
-    "test": "jest --detectOpenHandles",
+    "test": "yarn build:test && jest --detectOpenHandles",
     "test-c": "jest --coverage",
     "dev": "sh build/build-all.sh dev",
     "build": "sh build/build-all.sh",
