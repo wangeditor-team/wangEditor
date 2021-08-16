@@ -1,8 +1,9 @@
 {
   "name": "@wangeditor/video-module",
   "version": "0.1.5",
-  "description": "wangEditor video-module module",
+  "description": "wangEditor video module",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
+  "contributors": [],
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
   "types": "dist/video-module/src/index.d.ts",

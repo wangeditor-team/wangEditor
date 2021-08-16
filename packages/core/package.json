@@ -1,8 +1,9 @@
 {
   "name": "@wangeditor/core",
   "version": "0.3.2",
-  "description": "editor core",
+  "description": "wangEditor core",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
+  "contributors": [],
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
   "types": "dist/core/src/index.d.ts",

@@ -1,8 +1,9 @@
 {
   "name": "@wangeditor/editor-for-react",
   "version": "0.1.1",
-  "description": "wangEditor editor-for-react module",
+  "description": "wangEditor component for React",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
+  "contributors": [],
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
   "types": "dist/editor-for-react/src/index.d.ts",

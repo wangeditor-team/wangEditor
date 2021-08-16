@@ -1,8 +1,9 @@
 {
   "name": "@wangeditor/editor-for-vue",
   "version": "0.0.3",
-  "description": "wangEditor editor-for-vue module",
+  "description": "wangEditor component for vue2.x",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
+  "contributors": [],
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
   "types": "dist/editor-for-vue/src/index.d.ts",

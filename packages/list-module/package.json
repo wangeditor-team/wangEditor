@@ -1,8 +1,9 @@
 {
   "name": "@wangeditor/list-module",
   "version": "0.1.1",
-  "description": "wangEditor list-module module",
+  "description": "wangEditor list module",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
+  "contributors": [],
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
   "types": "dist/list-module/src/index.d.ts",

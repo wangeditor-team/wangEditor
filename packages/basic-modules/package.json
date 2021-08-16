@@ -1,8 +1,9 @@
 {
   "name": "@wangeditor/basic-modules",
   "version": "0.2.0",
-  "description": "editor basic modules",
+  "description": "wangEditor basic modules",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
+  "contributors": [],
   "homepage": "https://github.com/wangeditor-team/we-2021#readme",
   "license": "MIT",
   "types": "dist/basic-modules/src/index.d.ts",
