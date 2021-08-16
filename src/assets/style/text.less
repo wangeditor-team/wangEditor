@@ -21,16 +21,25 @@
         z-index: -1;
     }
 }
+
 .w-e-text {
     padding: 0 10px;
     overflow-y: auto;
 
-    p,h1,h2,h3,h4,h5,table,pre {
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    table,
+    pre {
         margin: 10px 0;
         line-height: 1.5;
     }
 
-    ul, ol {
+    ul,
+    ol {
         margin: 10px 0 10px 20px;
     }
 
@@ -63,7 +72,8 @@
         border-top: 1px solid #ccc;
         border-left: 1px solid #ccc;
 
-        td,th {
+        td,
+        th {
             border-bottom: 1px solid #ccc;
             border-right: 1px solid #ccc;
             padding: 3px 5px;
@@ -90,17 +100,21 @@
     }
 
     .w-e-todo {
-        margin:0 0 0 20px;
+        margin: 0 0 0 20px;
+
         li {
-            list-style:none;
+            list-style: none;
             font-size: 1em;
+
             span:nth-child(1) {
                 position: relative;
                 left: -18px;
+
                 input {
                     position: absolute;
-                    margin-right:3px;
+                    margin-right: 3px;
                 }
+
                 // 防止其他样式通过属性选择器重置input样式
                 input[type=checkbox] {
                     top: 50%;
@@ -115,13 +129,14 @@
     position: absolute;
     display: flex;
     color: #f1f1f1;
-    background-color: rgba(0,0,0,.75);
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,.15);
+    background-color: rgba(0, 0, 0, .75);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .15);
     border-radius: 4px;
     padding: 4px 5px 6px;
     justify-content: center;
     align-items: center;
 }
+
 // 下箭头
 .w-e-tooltip-up::after {
     content: "";
@@ -129,9 +144,10 @@
     top: 100%;
     left: 50%;
     margin-left: -5px;
-    border: 5px solid rgba(0,0,0,0);
-    border-top-color: rgba(0,0,0,.73);
+    border: 5px solid rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, .73);
 }
+
 // 上箭头
 .w-e-tooltip-down::after {
     content: "";
@@ -139,13 +155,15 @@
     bottom: 100%;
     left: 50%;
     margin-left: -5px;
-    border: 5px solid rgba(0,0,0,0);
-    border-bottom-color: rgba(0,0,0,.73);
+    border: 5px solid rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, .73);
 }
+
 .w-e-tooltip-item-wrapper {
     cursor: pointer;
     font-size: 14px;
     margin: 0 5px;
+    white-space: nowrap;
 
     &:hover {
         color: #ccc;

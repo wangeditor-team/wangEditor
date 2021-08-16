@@ -165,6 +165,16 @@ class Tooltip {
             $('body').append($container)
         }
 
+        // 修复container可能右侧菜单内容显示不全
+        {
+            const { left, width } = $container.getBoundingClientRect()
+            const { width: widthPar } = $container.parent().getBoundingClientRect()
+            if (left + width - widthPar > 0) {
+                $container.css('left', 'unset')
+                $container.css('right', '0')
+            }
+        }
+
         this._show = true
 
         editor.beforeDestroy(this.remove.bind(this))

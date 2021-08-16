@@ -18,6 +18,7 @@
     "build:dev": "cross-env NODE_ENV=development webpack --config build/webpack.dev.js",
     "build:un-min": "cross-env NODE_ENV=production webpack --config build/webpack.un-min.prod.js",
     "build:analyzer": "cross-env NODE_ENV=production_analyzer webpack --config build/webpack.prod.js",
+    "build:both": "yarn build && yarn build:un-min",
     "lint": "eslint '{src,test,cypress,build}/**/*.{js,ts}'",
     "lint-fix": "eslint --fix \"{src,test,cypress,build}/**/*.{js,ts}\"",
     "prettier": "prettier --write --config .prettierrc.js \"{src,test,cypress,build}/**/*.{js,ts}\"",
