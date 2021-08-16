@@ -3,11 +3,11 @@
  * @author wangfupeng
  */
 
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, t } from '@wangeditor/core'
 import { FULL_SCREEN_SVG } from '../../../constants/icon-svg'
 
 class FullScreen implements IButtonMenu {
-  title = '全屏'
+  title = t('fullScreen.title')
   iconSvg = FULL_SCREEN_SVG
   tag = 'button'
 

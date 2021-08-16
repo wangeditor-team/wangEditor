@@ -4,12 +4,12 @@
  */
 
 import { Transforms, Element } from 'slate'
-import { ISelectMenu, IDomEditor, IOption, DomEditor } from '@wangeditor/core'
+import { ISelectMenu, IDomEditor, IOption, DomEditor, t } from '@wangeditor/core'
 import { JS_SVG } from '../../constants/svg'
 import { CodeElement } from '../../custom-types'
 
 class SelectLangMenu implements ISelectMenu {
-  readonly title = '选择语言'
+  readonly title = t('highLightModule.selectLang')
   readonly iconSvg = JS_SVG
   readonly tag = 'select'
   readonly width = 95

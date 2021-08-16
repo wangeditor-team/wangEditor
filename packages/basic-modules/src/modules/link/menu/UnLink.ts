@@ -4,11 +4,11 @@
  */
 
 import { Transforms } from 'slate'
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { UN_LINK_SVG } from '../../../constants/icon-svg'
 
 class UnLink implements IButtonMenu {
-  readonly title = '取消链接'
+  readonly title = t('link.unLink')
   readonly iconSvg = UN_LINK_SVG
   readonly tag = 'button'
 

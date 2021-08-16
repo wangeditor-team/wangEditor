@@ -2,7 +2,13 @@
   "name": "@wangeditor/editor-cattle",
   "version": "0.2.3",
   "description": "Web rich text editor, Web 富文本编辑器",
-  "keywords": ["wangeditor", "rich text", "editor", "富文本", "编辑器"],
+  "keywords": [
+    "wangeditor",
+    "rich text",
+    "editor",
+    "富文本",
+    "编辑器"
+  ],
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "contributors": [],
   "homepage": "https://www.wangeditor.com/",

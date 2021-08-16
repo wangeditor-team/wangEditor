@@ -4,12 +4,12 @@
  */
 
 import { Editor, Transforms, Range, Path } from 'slate'
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { ADD_ROW_SVG } from '../../constants/svg'
 import { TableRowElement, TableCellElement } from '../custom-types'
 
 class InsertRow implements IButtonMenu {
-  readonly title = '插入行'
+  readonly title = t('tableModule.insertRow')
   readonly iconSvg = ADD_ROW_SVG
   readonly tag = 'button'
 

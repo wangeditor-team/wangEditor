@@ -5,12 +5,12 @@
 
 import isEqual from 'lodash.isequal'
 import { Editor, Element, Transforms, Range, Node } from 'slate'
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { ADD_COL_SVG } from '../../constants/svg'
 import { TableCellElement } from '../custom-types'
 
 class InsertCol implements IButtonMenu {
-  readonly title = '插入列'
+  readonly title = t('tableModule.insertCol')
   readonly iconSvg = ADD_COL_SVG
   readonly tag = 'button'
 

@@ -5,6 +5,8 @@
 
 import './assets/index.less'
 
-import wangEditorUploadImageModule from './module/index'
+// 配置多语言
+import './locale/index'
 
+import wangEditorUploadImageModule from './module/index'
 export default wangEditorUploadImageModule

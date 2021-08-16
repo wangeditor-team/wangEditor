@@ -3,12 +3,13 @@
  * @author wangfupeng
  */
 
+import { t } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
 import { UNDER_LINE_SVG } from '../../../constants/icon-svg'
 
 class UnderlineMenu extends BaseMenu {
   readonly mark = 'underline'
-  readonly title = '下划线'
+  readonly title = t('textStyle.underline')
   readonly iconSvg = UNDER_LINE_SVG
   readonly hotkey = 'mod+u'
 }

@@ -7,9 +7,9 @@ import { Transforms, Range, Node } from 'slate'
 import {
   IModalMenu,
   IDomEditor,
-  DomEditor,
   genModalInputElems,
   genModalButtonElems,
+  t,
 } from '@wangeditor/core'
 import $, { Dom7Array } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
@@ -24,11 +24,11 @@ function genDomID(): string {
 }
 
 class InsertVideoMenu implements IModalMenu {
-  readonly title = '插入视频'
+  readonly title = t('videoModule.insertVideo')
   readonly iconSvg = VIDEO_SVG
   readonly tag = 'button'
   readonly showModal = true // 点击 button 时显示 modal
-  readonly modalWidth = 300
+  readonly modalWidth = 320
   private $content: Dom7Array | null = null
   private readonly srcInputId = genDomID()
   private readonly buttonId = genDomID()
@@ -65,11 +65,11 @@ class InsertVideoMenu implements IModalMenu {
 
     // 获取 input button elem
     const [$srcContainer, $inputSrc] = genModalInputElems(
-      '视频地址',
+      t('videoModule.videoSrc'),
       srcInputId,
-      'mp4 网址，或第三方 <iframe>...'
+      t('videoModule.insertPlaceHolder')
     )
-    const [$buttonContainer] = genModalButtonElems(buttonId, '确定')
+    const [$buttonContainer] = genModalButtonElems(buttonId, t('videoModule.ok'))
 
     if (this.$content == null) {
       // 第一次渲染

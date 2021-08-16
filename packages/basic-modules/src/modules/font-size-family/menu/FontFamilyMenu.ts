@@ -3,12 +3,12 @@
  * @author wangfupeng
  */
 
-import { IDomEditor, IOption } from '@wangeditor/core'
+import { IDomEditor, IOption, t } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
 import { FONT_FAMILY_SVG } from '../../../constants/icon-svg'
 
 class FontFamilyMenu extends BaseMenu {
-  readonly title = '字体'
+  readonly title = t('fontFamily.title')
   readonly iconSvg = FONT_FAMILY_SVG
   readonly mark = 'fontFamily'
   readonly selectPanelWidth = 150
@@ -21,7 +21,7 @@ class FontFamilyMenu extends BaseMenu {
 
     // 生成 options
     options.push({
-      text: '默认字体',
+      text: t('fontFamily.default'),
       value: '', // this.getValue(editor) 未找到结果时，会返回 '' ，正好对应到这里
     })
     fontFamilyList.forEach((family: string | { name: string; value: string }) => {

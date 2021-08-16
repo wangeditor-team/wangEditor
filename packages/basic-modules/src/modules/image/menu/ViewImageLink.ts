@@ -3,12 +3,12 @@
  * @author wangfupeng
  */
 
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { EXTERNAL_SVG } from '../../../constants/icon-svg'
 import { ImageElement } from '../custom-types'
 
 class ViewImageLink implements IButtonMenu {
-  readonly title = '查看链接'
+  readonly title = t('image.viewLink')
   readonly iconSvg = EXTERNAL_SVG
   readonly tag = 'button'
 

@@ -3,6 +3,7 @@
  * @author wangfupeng
  */
 
+import { t } from '@wangeditor/core'
 import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG, IMAGE_SVG, MORE_SVG } from '../../constants/svg'
 
 export function genDefaultToolbarKeys() {
@@ -18,7 +19,7 @@ export function genDefaultToolbarKeys() {
     'italic',
     {
       key: 'group-more-style', // 以 group 开头
-      title: '更多样式',
+      title: t('editor.more'),
       iconSvg: MORE_SVG,
       menuKeys: ['through', 'code', 'sup', 'sub', 'clearStyle'],
     },
@@ -33,13 +34,13 @@ export function genDefaultToolbarKeys() {
     'numberedList',
     {
       key: 'group-justify', // 以 group 开头
-      title: '对齐',
+      title: t('editor.justify'),
       iconSvg: JUSTIFY_LEFT_SVG,
       menuKeys: ['justifyLeft', 'justifyRight', 'justifyCenter', 'justifyJustify'],
     },
     {
       key: 'group-indent', // 以 group 开头
-      title: '缩进',
+      title: t('editor.indent'),
       iconSvg: INDENT_RIGHT_SVG,
       menuKeys: ['indent', 'delIndent'],
     },
@@ -51,7 +52,7 @@ export function genDefaultToolbarKeys() {
     // 'viewLink',
     {
       key: 'group-image', // 以 group 开头
-      title: '图片',
+      title: t('editor.image'),
       iconSvg: IMAGE_SVG,
       menuKeys: ['insertImage', 'uploadImage'],
     },
@@ -97,7 +98,7 @@ export function genSimpleToolbarKeys() {
     'insertLink',
     {
       key: 'group-image', // 以 group 开头
-      title: '图片',
+      title: t('editor.image'),
       iconSvg: IMAGE_SVG,
       menuKeys: ['insertImage', 'uploadImage'],
     },

@@ -5,6 +5,8 @@
 
 import './assets/index.less'
 
-import wangEditorVideoModule from './module/index'
+// 配置多语言
+import './locale/index'
 
+import wangEditorVideoModule from './module/index'
 export default wangEditorVideoModule

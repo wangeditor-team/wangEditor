@@ -10,6 +10,7 @@ import {
   DomEditor,
   genModalInputElems,
   genModalButtonElems,
+  t,
 } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
@@ -24,7 +25,7 @@ function genDomID(): string {
 }
 
 class InsertImage implements IModalMenu {
-  readonly title = '网络图片'
+  readonly title = t('image.netImage')
   readonly iconSvg = IMAGE_SVG
   readonly tag = 'button'
   readonly showModal = true // 点击 button 时显示 modal
@@ -84,10 +85,10 @@ class InsertImage implements IModalMenu {
     const { srcInputId, altInputId, hrefInputId, buttonId } = this
 
     // 获取 input button elem
-    const [$srcContainer, $inputSrc] = genModalInputElems('图片地址', srcInputId)
-    const [$altContainer, $inputAlt] = genModalInputElems('描述文字', altInputId)
-    const [$hrefContainer, $inputHref] = genModalInputElems('图片链接', hrefInputId)
-    const [$buttonContainer] = genModalButtonElems(buttonId, '确定')
+    const [$srcContainer, $inputSrc] = genModalInputElems(t('image.src'), srcInputId)
+    const [$altContainer, $inputAlt] = genModalInputElems(t('image.desc'), altInputId)
+    const [$hrefContainer, $inputHref] = genModalInputElems(t('image.link'), hrefInputId)
+    const [$buttonContainer] = genModalButtonElems(buttonId, t('common.ok'))
 
     if (this.$content == null) {
       // 第一次渲染

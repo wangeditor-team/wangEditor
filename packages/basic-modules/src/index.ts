@@ -5,6 +5,9 @@
 
 import './assets/index.less'
 
+// 配置多语言
+import './locale/index'
+
 import wangEditorParagraphModule from './modules/paragraph'
 import wangEditorTextStyleModule from './modules/text-style'
 import wangEditorHeaderModule from './modules/header'

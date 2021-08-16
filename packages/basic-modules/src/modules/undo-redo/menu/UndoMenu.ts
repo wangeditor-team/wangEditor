@@ -3,11 +3,11 @@
  * @author wangfupeng
  */
 
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, t } from '@wangeditor/core'
 import { UNDO_SVG } from '../../../constants/icon-svg'
 
 class UndoMenu implements IButtonMenu {
-  title = '撤销'
+  title = t('undo.undo')
   iconSvg = UNDO_SVG
   tag = 'button'
 

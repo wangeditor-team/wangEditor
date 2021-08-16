@@ -10,6 +10,7 @@ import {
   DomEditor,
   genModalInputElems,
   genModalButtonElems,
+  t,
 } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
@@ -25,7 +26,7 @@ function genDomID(): string {
 }
 
 class UpdateLinkMenu implements IModalMenu {
-  readonly title = '修改链接'
+  readonly title = t('link.update')
   readonly iconSvg = PENCIL_SVG
   readonly tag = 'button'
   readonly showModal = true // 点击 button 时显示 modal
@@ -82,8 +83,8 @@ class UpdateLinkMenu implements IModalMenu {
     const { urlInputId, buttonId } = this
 
     // 获取 input button elem
-    const [$urlContainer, $inputUrl] = genModalInputElems('链接网址', urlInputId)
-    const [$buttonContainer] = genModalButtonElems(buttonId, '确定')
+    const [$urlContainer, $inputUrl] = genModalInputElems(t('link.url'), urlInputId)
+    const [$buttonContainer] = genModalButtonElems(buttonId, t('common.ok'))
 
     if (this.$content == null) {
       // 第一次渲染

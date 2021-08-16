@@ -32,6 +32,9 @@ export * from './menus/index'
 // upload
 export * from './upload/index'
 
+// i18n
+export * from './i18n/index'
+
 export interface IModuleConf {
   // 注册菜单
   menus: Array<IRegisterMenuConf>

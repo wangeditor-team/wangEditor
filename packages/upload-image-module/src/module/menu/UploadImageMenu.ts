@@ -4,7 +4,7 @@
  */
 
 import Uppy, { UppyFile } from '@uppy/core'
-import { IButtonMenu, IDomEditor, DomEditor, createUploader } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, t, createUploader } from '@wangeditor/core'
 import { insertImageNode } from '@wangeditor/basic-modules'
 import { UPLOAD_IMAGE_SVG } from '../../constants/svg'
 import { isMenuDisabled } from '../helper'
@@ -12,7 +12,7 @@ import $ from '../../utils/dom'
 import { IUploadConfigForImage } from './config'
 
 class UploadImage implements IButtonMenu {
-  readonly title = '上传图片'
+  readonly title = t('uploadImgModule.uploadImage')
   readonly iconSvg = UPLOAD_IMAGE_SVG
   readonly tag = 'button'
   private uppy: Uppy.Uppy<'strict'> | null = null
@@ -156,9 +156,11 @@ class UploadImage implements IButtonMenu {
 
     // onError 提示错误
     const errorHandler = (file: any, err: any, res: any) => {
-      console.error(`'${file.name} upload error`, err, res)
+      const fileName = file.name
+      console.error(`'${fileName} upload error`, err, res)
 
-      let info = `'${file.name}' 上传错误\n'${file.name}' upload error`
+      const info = t('uploadImgModule.uploadError', { fileName })
+      // let info = `'${file.name}' 上传错误\n'${file.name}' upload error`
       editor.alert(info, 'error')
 
       // 回调函数

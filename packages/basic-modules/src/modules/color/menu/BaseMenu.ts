@@ -4,7 +4,7 @@
  */
 
 import { Editor, Range } from 'slate'
-import { IDropPanelMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IDropPanelMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { CLEAN_SVG } from '../../../constants/icon-svg'
 
@@ -110,8 +110,8 @@ abstract class BaseMenu implements IDropPanelMenu {
 
     // 清除颜色
     let clearText = ''
-    if (mark === 'color') clearText = '默认颜色'
-    if (mark === 'bgColor') clearText = '清除背景色'
+    if (mark === 'color') clearText = t('color.default')
+    if (mark === 'bgColor') clearText = t('color.clear')
     const $clearLi = $(`
       <li data-value="0" class="clear">
         ${CLEAN_SVG}
