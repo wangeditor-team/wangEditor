@@ -70,7 +70,7 @@ export default {
     text: 'Link text',
     url: 'Link source',
     unLink: 'Unlink',
-    update: 'Update link',
+    edit: 'Edit link',
     view: 'View link',
   },
   textStyle: {

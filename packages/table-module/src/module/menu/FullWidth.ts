@@ -9,7 +9,7 @@ import { FULL_WIDTH_SVG } from '../../constants/svg'
 import { TableCellElement, TableRowElement, TableElement } from '../custom-types'
 
 class TableFullWidth implements IButtonMenu {
-  readonly title = t('tableModule.widthJustify')
+  readonly title = t('tableModule.widthAuto')
   readonly iconSvg = FULL_WIDTH_SVG
   readonly tag = 'button'
 

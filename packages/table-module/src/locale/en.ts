@@ -8,7 +8,7 @@ export default {
     deleteCol: 'Delete column',
     deleteRow: 'Delete row',
     deleteTable: 'Delete table',
-    widthJustify: 'Width justify',
+    widthAuto: 'Width auto',
     insertCol: 'Insert column',
     insertRow: 'Insert row',
     insertTable: 'Insert table',

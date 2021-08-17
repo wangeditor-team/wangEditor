@@ -4,7 +4,7 @@
  */
 
 import InsertLink from './InsertLink'
-import UpdateLink from './UpdateLink'
+import EditLink from './EditLink'
 import UnLink from './UnLink'
 import ViewLink from './ViewLink'
 import { genLinkMenuConfig } from './config'
@@ -22,10 +22,10 @@ const insertLinkMenuConf = {
   config,
 }
 
-const updateLinkMenuConf = {
-  key: 'updateLink',
+const editLinkMenuConf = {
+  key: 'editLink',
   factory() {
-    return new UpdateLink()
+    return new EditLink()
   },
   config,
 }
@@ -44,4 +44,4 @@ const viewLinkMenuConf = {
   },
 }
 
-export { insertLinkMenuConf, updateLinkMenuConf, unLinkMenuConf, viewLinkMenuConf }
+export { insertLinkMenuConf, editLinkMenuConf, unLinkMenuConf, viewLinkMenuConf }

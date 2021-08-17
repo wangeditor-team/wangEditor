@@ -9,7 +9,7 @@ import { renderLinkConf } from './render-elem'
 import { linkToHtmlConf } from './elem-to-html'
 import {
   insertLinkMenuConf,
-  updateLinkMenuConf,
+  editLinkMenuConf,
   unLinkMenuConf,
   viewLinkMenuConf,
 } from './menu/index'
@@ -17,7 +17,7 @@ import {
 const link: Partial<IModuleConf> = {
   renderElems: [renderLinkConf],
   elemsToHtml: [linkToHtmlConf],
-  menus: [insertLinkMenuConf, updateLinkMenuConf, unLinkMenuConf, viewLinkMenuConf],
+  menus: [insertLinkMenuConf, editLinkMenuConf, unLinkMenuConf, viewLinkMenuConf],
   editorPlugin: withLink,
 }
 

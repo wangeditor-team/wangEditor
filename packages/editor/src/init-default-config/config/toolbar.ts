@@ -47,7 +47,7 @@ export function genDefaultToolbarKeys() {
     '|',
     'emotion',
     'insertLink',
-    // 'updateLink',
+    // 'editLink',
     // 'unLink',
     // 'viewLink',
     {

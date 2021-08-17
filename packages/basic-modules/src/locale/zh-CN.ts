@@ -70,7 +70,7 @@ export default {
     text: '链接文本',
     url: '链接地址',
     unLink: '取消链接',
-    update: '修改链接',
+    edit: '修改链接',
     view: '查看链接',
   },
   textStyle: {

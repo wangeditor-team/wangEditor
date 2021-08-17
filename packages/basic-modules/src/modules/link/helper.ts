@@ -109,7 +109,7 @@ export async function updateLink(editor: IDomEditor, text: string, url: string) 
   if (!url) return
 
   // 校验
-  const checkRes = await check('updateLink', editor, text, url)
+  const checkRes = await check('editLink', editor, text, url)
   if (!checkRes) return // 校验未通过
 
   // 修改链接

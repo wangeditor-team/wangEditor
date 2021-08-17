@@ -25,8 +25,8 @@ function genDomID(): string {
   return genRandomStr('w-e-update-link')
 }
 
-class UpdateLinkMenu implements IModalMenu {
-  readonly title = t('link.update')
+class EditLinkMenu implements IModalMenu {
+  readonly title = t('link.edit')
   readonly iconSvg = PENCIL_SVG
   readonly tag = 'button'
   readonly showModal = true // 点击 button 时显示 modal
@@ -127,4 +127,4 @@ class UpdateLinkMenu implements IModalMenu {
   }
 }
 
-export default UpdateLinkMenu
+export default EditLinkMenu

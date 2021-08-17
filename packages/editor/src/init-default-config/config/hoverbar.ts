@@ -11,7 +11,7 @@ const COMMON_HOVERBAR_KEYS = [
   {
     desc: '选中链接 selected link',
     match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'link'),
-    menuKeys: ['updateLink', 'unLink', 'viewLink'],
+    menuKeys: ['editLink', 'unLink', 'viewLink'],
   },
   {
     desc: '选中图片 selected image',
