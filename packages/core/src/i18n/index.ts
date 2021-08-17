@@ -16,7 +16,6 @@ i18next.init({
  * @param lng 语言
  * @param resources 多语言配置
  */
-// TODO 补充到文档
 export function i18nAddResources(lng: string, resources: object) {
   i18next.addResourceBundle(lng, 'translation', resources, true, true)
 }
@@ -26,7 +25,7 @@ export function i18nAddResources(lng: string, resources: object) {
  * @param lng 语言
  */
 export function i18nChangeLanguage(lng: string) {
-  i18next.changeLanguage('en')
+  i18next.changeLanguage(lng)
 }
 
 /**

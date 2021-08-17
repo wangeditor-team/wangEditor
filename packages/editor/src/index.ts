@@ -30,6 +30,7 @@ export {
   IToolbarConfig,
   Toolbar,
   i18nChangeLanguage,
+  i18nAddResources,
 } from '@wangeditor/core'
 
 // 导出 slate API 和接口 （需重命名，加 `Slate` 前缀）
