@@ -13,7 +13,7 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 // import del from 'rollup-plugin-delete'
 import vuePlugin from 'rollup-plugin-vue'
 
-const extensions = ['.js', '.jsx', '.ts', '.tsx', '.vue']
+export const extensions = ['.js', '.jsx', '.ts', '.tsx', '.vue']
 
 export default {
   input: path.resolve(__dirname, './src/index.ts'),
