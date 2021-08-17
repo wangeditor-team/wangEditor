@@ -15,3 +15,7 @@ export function genRandomStr(prefix: string = 'r'): string {
 
   return `${prefix}-${d}${r}`
 }
+
+export function replaceSymbols(str: string) {
+  return str.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}

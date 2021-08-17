@@ -6,6 +6,7 @@
 import { Editor, Range, Transforms } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { LinkElement } from './custom-types'
+import { replaceSymbols } from '../../utils/util'
 
 /**
  * 校验 link
@@ -82,7 +83,7 @@ export async function insertLink(editor: IDomEditor, text: string, url: string) 
   // 新建一个 link node
   const linkNode: LinkElement = {
     type: 'link',
-    url,
+    url: replaceSymbols(url),
     children: isCollapsed ? [{ text }] : [],
   }
 
@@ -112,7 +113,7 @@ export async function updateLink(editor: IDomEditor, text: string, url: string) 
   if (!checkRes) return // 校验未通过
 
   // 修改链接
-  const props: Partial<LinkElement> = { url }
+  const props: Partial<LinkElement> = { url: replaceSymbols(url) }
   Transforms.setNodes(editor, props, {
     match: n => DomEditor.checkNodeType(n, 'link'),
   })

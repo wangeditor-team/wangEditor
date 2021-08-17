@@ -15,6 +15,7 @@ import $, { Dom7Array } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
 import { VIDEO_SVG } from '../../constants/svg'
 import { VideoElement } from '../custom-types'
+import { replaceSymbols } from '../../utils/util'
 
 /**
  * 生成唯一的 DOM ID
@@ -129,7 +130,7 @@ class InsertVideoMenu implements IModalMenu {
     // 新建一个 video node
     const video: VideoElement = {
       type: 'video',
-      src,
+      src: replaceSymbols(src),
       children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children
     }
 

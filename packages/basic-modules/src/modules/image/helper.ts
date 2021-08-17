@@ -6,6 +6,7 @@
 import { Transforms } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { ImageElement, ImageStyle } from './custom-types'
+import { replaceSymbols } from '../../utils/util'
 
 async function check(
   menuKey: string,
@@ -43,7 +44,7 @@ export async function insertImageNode(
   // 新建一个 image node
   const image: ImageElement = {
     type: 'image',
-    src,
+    src: replaceSymbols(src),
     href,
     alt,
     style: {},
