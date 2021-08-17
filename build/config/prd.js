@@ -12,16 +12,18 @@ import cleanup from 'rollup-plugin-cleanup'
 import commonConfig from './common'
 import copy from 'rollup-plugin-copy'
 import path from 'path'
+import { extensions } from './common'
 
 const { input, output = {}, plugins = [], external } = commonConfig
 const isBuildForTest = process.env.ENV_TYPE === 'test'
 
 const finalPlugins = [
   ...plugins,
-
   babel({
-    babelHelpers: 'bundled',
+    rootMode: 'upward',
+    babelHelpers: 'runtime',
     exclude: 'node_modules/**',
+    extensions,
   }),
   postcss({
     plugins: [
