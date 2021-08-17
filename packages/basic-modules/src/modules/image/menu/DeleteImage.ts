@@ -4,11 +4,11 @@
  */
 
 import { Transforms } from 'slate'
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { TRASH_SVG } from '../../../constants/icon-svg'
 
 class DeleteImage implements IButtonMenu {
-  readonly title = '删除图片'
+  readonly title = t('image.delete')
   readonly iconSvg = TRASH_SVG
   readonly tag = 'button'
 

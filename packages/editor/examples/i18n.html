@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>i18n</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>i18n demo</p>
+
+  <!-- 编辑器 -->
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    // 切换语言 'en' 'zh-CN'
+    E.i18nChangeLanguage('en')
+
+    // editor 配置
+    const editorConfig = {}
+    editorConfig.placeholder = '请输入内容...'
+
+    const editor = E.createEditor({
+      textareaSelector: '#editor-text-area',
+      config: editorConfig,
+      content: window.content1,
+    })
+
+    const toolbar = E.createToolbar({
+      editor,
+      toolbarSelector: '#editor-toolbar',
+      config: {},
+    })
+  </script>
+</body>
+</html>

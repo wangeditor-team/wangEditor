@@ -4,12 +4,12 @@
  */
 
 import { Transforms, Range } from 'slate'
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { TABLE_HEADER_SVG } from '../../constants/svg'
 import { TableElement } from '../custom-types'
 
 class TableHeader implements IButtonMenu {
-  readonly title = '表头'
+  readonly title = t('tableModule.header')
   readonly iconSvg = TABLE_HEADER_SVG
   readonly tag = 'button'
 

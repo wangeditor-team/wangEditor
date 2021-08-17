@@ -3,12 +3,12 @@
  * @author wangfupeng
  */
 
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { EXTERNAL_SVG } from '../../../constants/icon-svg'
 import { LinkElement } from '../custom-types'
 
 class ViewLink implements IButtonMenu {
-  readonly title = '查看链接'
+  readonly title = t('link.view')
   readonly iconSvg = EXTERNAL_SVG
   readonly tag = 'button'
 
@@ -47,7 +47,6 @@ class ViewLink implements IButtonMenu {
 
     if (!value || typeof value !== 'string') {
       throw new Error(`View link failed, link url is '${value}'`)
-      return
     }
 
     // 查看链接

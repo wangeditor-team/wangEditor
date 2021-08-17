@@ -4,12 +4,12 @@
  */
 
 import { Transforms } from 'slate'
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { DIVIDER_SVG } from '../../../constants/icon-svg'
 import { DividerElement } from '../custom-types'
 
 class InsertDividerMenu implements IButtonMenu {
-  readonly title = '分割线'
+  readonly title = t('divider.title')
   readonly iconSvg = DIVIDER_SVG
   readonly tag = 'button'
 

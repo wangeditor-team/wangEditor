@@ -3,12 +3,12 @@
  * @author wangfupeng
  */
 
-import { ISelectMenu, IDomEditor, IOption } from '@wangeditor/core'
+import { ISelectMenu, IDomEditor, IOption, t } from '@wangeditor/core'
 import { HEADER_SVG } from '../../../constants/icon-svg'
 import { getHeaderType, isMenuDisabled, setHeaderType } from '../helper'
 
 class HeaderSelectMenu implements ISelectMenu {
-  readonly title = '标题'
+  readonly title = t('header.title')
   readonly iconSvg = HEADER_SVG
   readonly tag = 'select'
   readonly width = 60
@@ -42,7 +42,7 @@ class HeaderSelectMenu implements ISelectMenu {
         text: 'H5',
         styleForRenderMenuList: { 'font-size': '13px', 'font-weight': 'bold' },
       },
-      { value: 'paragraph', text: '正文' },
+      { value: 'paragraph', text: t('header.text') },
     ]
 
     // 获取 value ，设置 selected

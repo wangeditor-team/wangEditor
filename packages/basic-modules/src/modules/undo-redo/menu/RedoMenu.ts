@@ -3,11 +3,11 @@
  * @author wangfupeng
  */
 
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, t } from '@wangeditor/core'
 import { REDO_SVG } from '../../../constants/icon-svg'
 
 class RedoMenu implements IButtonMenu {
-  title = '重做'
+  title = t('undo.redo')
   iconSvg = REDO_SVG
   tag = 'button'
 

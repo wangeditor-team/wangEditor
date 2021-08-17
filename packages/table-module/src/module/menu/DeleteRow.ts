@@ -4,11 +4,11 @@
  */
 
 import { Editor, Transforms, Range } from 'slate'
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { DEL_ROW_SVG } from '../../constants/svg'
 
 class DeleteRow implements IButtonMenu {
-  readonly title = '删除行'
+  readonly title = t('tableModule.deleteRow')
   readonly iconSvg = DEL_ROW_SVG
   readonly tag = 'button'
 

@@ -4,12 +4,12 @@
  */
 
 import { Editor } from 'slate'
-import { IDropPanelMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IDropPanelMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { EMOTION_SVG } from '../../../constants/icon-svg'
 
 class EmotionMenu implements IDropPanelMenu {
-  readonly title = '表情'
+  readonly title = t('emotion.title')
   readonly iconSvg = EMOTION_SVG
   readonly tag = 'button'
   readonly showDropPanel = true // 点击 button 时显示 dropPanel

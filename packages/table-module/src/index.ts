@@ -5,6 +5,8 @@
 
 import './assets/index.less'
 
-import wangEditorTableModule from './module/index'
+// 配置多语言
+import './locale/index'
 
+import wangEditorTableModule from './module/index'
 export default wangEditorTableModule

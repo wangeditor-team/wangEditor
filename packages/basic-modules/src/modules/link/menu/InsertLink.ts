@@ -4,7 +4,13 @@
  */
 
 import { Editor, Range, Node } from 'slate'
-import { IModalMenu, IDomEditor, genModalInputElems, genModalButtonElems } from '@wangeditor/core'
+import {
+  IModalMenu,
+  IDomEditor,
+  genModalInputElems,
+  genModalButtonElems,
+  t,
+} from '@wangeditor/core'
 import $, { Dom7Array } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { LINK_SVG } from '../../../constants/icon-svg'
@@ -18,7 +24,7 @@ function genDomID(): string {
 }
 
 class InsertLinkMenu implements IModalMenu {
-  readonly title = '插入链接'
+  readonly title = t('link.insert')
   readonly iconSvg = LINK_SVG
   readonly tag = 'button'
   readonly showModal = true // 点击 button 时显示 modal
@@ -56,9 +62,9 @@ class InsertLinkMenu implements IModalMenu {
     const { textInputId, urlInputId, buttonId } = this
 
     // 获取 input button elem
-    const [$textContainer, $inputText] = genModalInputElems('链接文本', textInputId)
-    const [$urlContainer, $inputUrl] = genModalInputElems('链接网址', urlInputId)
-    const [$buttonContainer] = genModalButtonElems(buttonId, '确定')
+    const [$textContainer, $inputText] = genModalInputElems(t('link.text'), textInputId)
+    const [$urlContainer, $inputUrl] = genModalInputElems(t('link.url'), urlInputId)
+    const [$buttonContainer] = genModalButtonElems(buttonId, t('common.ok'))
 
     if (this.$content == null) {
       // 第一次渲染

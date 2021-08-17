@@ -4,12 +4,12 @@
  */
 
 import { Editor, Element, Transforms, Node } from 'slate'
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { CODE_BLOCK_SVG } from '../../../constants/icon-svg'
 import { CodeElement } from '../custom-types'
 
 class CodeBlockMenu implements IButtonMenu {
-  readonly title = '代码块'
+  readonly title = t('codeBlock.title')
   readonly iconSvg = CODE_BLOCK_SVG
   readonly tag = 'button'
 

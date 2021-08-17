@@ -4,12 +4,12 @@
  */
 
 import { Transforms, Element } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
+import { IDomEditor, t } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
 import { INDENT_RIGHT_SVG } from '../../../constants/icon-svg'
 
 class IncreaseIndentMenu extends BaseMenu {
-  readonly title = '增加缩进'
+  readonly title = t('indent.increase')
   readonly iconSvg = INDENT_RIGHT_SVG
 
   isDisabled(editor: IDomEditor): boolean {

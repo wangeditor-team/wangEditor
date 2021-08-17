@@ -4,7 +4,7 @@
  */
 
 import { Editor, Transforms, Range, Node } from 'slate'
-import { IDropPanelMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IDropPanelMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import $, { Dom7Array } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
 import { TABLE_SVG } from '../../constants/svg'
@@ -43,7 +43,7 @@ function genDomID(): string {
 }
 
 class InsertTable implements IDropPanelMenu {
-  title = '插入表格'
+  title = t('tableModule.insertTable')
   iconSvg = TABLE_SVG
   tag = 'button'
   showDropPanel = true // 点击 button 时显示 dropPanel

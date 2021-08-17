@@ -4,12 +4,12 @@
  */
 
 import { Editor, Node, Element, Transforms } from 'slate'
-import { ISelectMenu, IDomEditor, DomEditor, IOption } from '@wangeditor/core'
+import { ISelectMenu, IDomEditor, DomEditor, IOption, t } from '@wangeditor/core'
 import { LINE_HEIGHT_SVG } from '../../../constants/icon-svg'
 import { LineHeightElement } from '../custom-types'
 
 class LineHeightMenu implements ISelectMenu {
-  readonly title = '行高'
+  readonly title = t('lineHeight.title')
   readonly iconSvg = LINE_HEIGHT_SVG
   readonly tag = 'select'
   readonly width = 80
@@ -22,7 +22,7 @@ class LineHeightMenu implements ISelectMenu {
 
     // 生成 options
     options.push({
-      text: '默认行高',
+      text: t('lineHeight.default'),
       value: '', // this.getValue(editor) 未找到结果时，会返回 '' ，正好对应到这里
     })
     lineHeightList.forEach((height: string) => {

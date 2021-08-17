@@ -4,12 +4,12 @@
  */
 
 import { Editor, Text } from 'slate'
-import { IButtonMenu, IDomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, t } from '@wangeditor/core'
 import { ERASER_SVG } from '../../../constants/icon-svg'
 import { isMenuDisabled, removeMarks } from '../helper'
 
 class ClearStyleMenu implements IButtonMenu {
-  readonly title = '清除格式'
+  readonly title = t('textStyle.clear')
   readonly iconSvg = ERASER_SVG
   readonly tag = 'button'
 

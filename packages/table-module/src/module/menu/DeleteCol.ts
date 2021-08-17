@@ -5,11 +5,11 @@
 
 import isEqual from 'lodash.isequal'
 import { Editor, Element, Transforms, Range, Node } from 'slate'
-import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { DEL_COL_SVG } from '../../constants/svg'
 
 class DeleteCol implements IButtonMenu {
-  readonly title = '删除列'
+  readonly title = t('tableModule.deleteCol')
   readonly iconSvg = DEL_COL_SVG
   readonly tag = 'button'
 
