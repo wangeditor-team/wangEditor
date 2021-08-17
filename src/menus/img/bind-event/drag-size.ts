@@ -156,6 +156,7 @@ export function createShowHideFn(editor: Editor) {
         if (UA.isIE()) return false
         if ($target) {
             $imgTarget = $target
+            $textContainerElem.addClass('is-img-mask')
             showDargBox($textContainerElem, $drag, $imgTarget)
         }
     }
@@ -163,6 +164,7 @@ export function createShowHideFn(editor: Editor) {
     // 隐藏拖拽框
     function hideDrag() {
         $textContainerElem.find('.w-e-img-drag-mask').hide()
+        $textContainerElem.removeClass('is-img-mask')
     }
 
     // 事件绑定
