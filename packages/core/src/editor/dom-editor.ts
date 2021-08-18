@@ -150,6 +150,35 @@ export const DomEditor = {
   },
 
   /**
+   * 获取当前节点的所有父节点
+   * @param editor editor
+   * @param node cur node
+   */
+  getParentsNodes(editor: IDomEditor, node: Node): Ancestor[] {
+    const nodes: Ancestor[] = []
+    let curNode = node
+    while (curNode !== editor && curNode != null) {
+      const parentNode = DomEditor.getParentNode(editor, curNode)
+      if (parentNode != null) {
+        nodes.push(parentNode)
+        curNode = parentNode
+      }
+    }
+    return nodes
+  },
+
+  /**
+   * 获取当前节点对应的顶级节点
+   * @param editor editor
+   * @param curNode cur node
+   */
+  getTopNode(editor: IDomEditor, curNode: Node): Node {
+    const path = DomEditor.findPath(editor, curNode)
+    const topPath = [path[0]]
+    return Node.get(editor, topPath)
+  },
+
+  /**
    * Find the native DOM element from a Slate node or editor.
    */
   toDOMNode(editor: IDomEditor, node: Node): HTMLElement {
