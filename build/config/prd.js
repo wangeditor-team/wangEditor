@@ -23,6 +23,7 @@ const finalPlugins = [
     rootMode: 'upward',
     babelHelpers: 'runtime',
     exclude: 'node_modules/**',
+    include: 'src/**',
     extensions,
   }),
   postcss({
