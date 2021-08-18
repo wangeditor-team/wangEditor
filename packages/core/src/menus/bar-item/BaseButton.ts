@@ -12,7 +12,7 @@ import { addTooltip } from './tooltip'
 
 abstract class BaseButton implements IBarItem {
   readonly $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
-  protected readonly $button: Dom7Array = $(`<button></button>`)
+  protected readonly $button: Dom7Array = $(`<button type="button"></button>`)
   menu: IButtonMenu | IDropPanelMenu | IModalMenu
   private disabled = false
 

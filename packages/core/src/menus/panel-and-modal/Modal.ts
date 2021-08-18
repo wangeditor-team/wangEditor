@@ -86,7 +86,7 @@ export function genModalInputElems(
  */
 export function genModalButtonElems(buttonId: string, buttonText: string): Dom7Array[] {
   const $buttonContainer = $('<div class="button-container"></div>')
-  const $button = $(`<button id="${buttonId}">${buttonText}</button>`)
+  const $button = $(`<button type="button" id="${buttonId}">${buttonText}</button>`)
   $buttonContainer.append($button)
 
   return [$buttonContainer, $button]

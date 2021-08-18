@@ -11,7 +11,7 @@ import { IBarItem } from './index'
 class GroupButton {
   readonly $elem: Dom7Array = $(`<div class="w-e-bar-item w-e-bar-item-group"></div>`)
   private readonly $container: Dom7Array = $('<div class="w-e-bar-item-menus-container"></div>')
-  readonly $button = $(`<button></button>`)
+  readonly $button = $(`<button type="button"></button>`)
 
   constructor(menu: IMenuGroup) {
     const { iconSvg, title /*, menuKeys = [] */ } = menu

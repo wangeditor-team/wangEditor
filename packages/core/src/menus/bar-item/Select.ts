@@ -27,7 +27,7 @@ function getOptionText(options: IOption[], value: string): string {
 
 class BarItemSelect implements IBarItem {
   readonly $elem: Dom7Array = $(`<div class="w-e-bar-item"></div>`)
-  private readonly $button: Dom7Array = $(`<button class="select-button"></button>`)
+  private readonly $button: Dom7Array = $(`<button type="button" class="select-button"></button>`)
   menu: ISelectMenu
   private disabled = false
   private selectList: SelectList | null = null
