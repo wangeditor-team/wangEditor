@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="../../dist/css/style.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 20px;
+    }
+    .container {
+      width: 1050px;
+      margin: 0 auto;
+    }
+    #editor-toolbar {
+      border: 1px solid #ccc;
+    }
+    #editor-text-area {
+      border: 1px solid #ccc;
+      border-top: none;
+      height: 500px;
+    }
+    #status {
+      margin-top: 20px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>wangEditor demo</h1>
+    <p>
+      <span>Simple mode</span>
+      &nbsp;
+      <a href="./index.html">Default mode</a>
+      &nbsp;
+      <a href="./like-google-doc.html">Like google doc</a>
+    </p>
+
+    <div>
+      <div id="editor-toolbar"></div>
+      <div id="editor-text-area"></div>
+    </div>
+
+    <div id="status"></div>
+  </div>
+
+  <script src="../../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    E.i18nChangeLanguage('en')
+
+    const editorConfig = { MENU_CONF: {} }
+    editorConfig.placeholder = 'Please input text'
+    editorConfig.MENU_CONF['uploadImage'] = {
+      server: 'http://106.12.198.214:3000/api/upload-img', // upload server
+      fieldName: 'index-fileName'
+    }
+    editorConfig.onChange = (editor) => {
+      const selectionText = editor.getSelectionText()
+      const text = editor.getText()
+      document.getElementById('status').innerHTML = `editor text length：${text.length}，selected text：${selectionText}`
+    }
+
+    const editor = E.createEditor({
+      textareaSelector: '#editor-text-area',
+      content: window.content1,
+      config: editorConfig,
+      content: [
+        { type: 'header1', children: [{ text: 'Simple mode' }] },
+        {
+          type: "numbered-list",
+          children: [
+            {
+              type: "list-item",
+              children: [ { text: "Simplify toolbar menus" } ]
+            },
+            {
+              type: "list-item",
+              children: [ { text: "Hide hover-bar when selected text" } ]
+            }
+          ]
+        },
+        { type: 'paragraph', children: [{ text: '' }] },
+      ],
+      mode: 'simple'
+    })
+    const toolbar = E.createToolbar({
+      editor,
+      toolbarSelector: '#editor-toolbar',
+      mode: 'simple'
+    })
+  </script>
+</body>
+</html>
