@@ -35,7 +35,5 @@ export function genImageMenuConfig() {
     onUpdatedImage(node: ImageElement | null) {
       /*自定义*/
     },
-
-    // TODO onDeletedImage - 参考 plugin.ts 中的 `newEditor.apply = `
   }
 }

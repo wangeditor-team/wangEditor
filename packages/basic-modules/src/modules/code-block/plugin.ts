@@ -64,9 +64,6 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
     Editor.insertText(newEditor, text)
   }
 
-  // TODO 选中多行 - tab 键
-  // TODO {} 内回车，下一行要增加相应的空格
-
   // 返回 editor ，重要！
   return newEditor
 }
