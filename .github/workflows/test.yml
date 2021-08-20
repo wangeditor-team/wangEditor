@@ -1,0 +1,44 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'master'
+      - 'dev'
+      - 'feature-*'
+      - 'fix-*'
+      - 'hotfix-*'
+      - 'refactor-*'
+    paths:
+      - '.github/workflows/*'
+      - 'packages/**'
+      - 'tests/**'
+      - 'build/**'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          registry-url: https://registry.npmjs.com
+
+      - name: Install dependencies
+        run: yarn run bootstrap
+
+      - name: Build packages
+        run: yarn build
+
+      - name: Unit test
+        run: yarn run test 
