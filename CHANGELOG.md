@@ -1,3 +1,18 @@
+## [4.7.7](https://github.com/wangeditor-team/wangEditor/compare/v4.7.6...v4.7.7) (2021-08-20)
+
+
+### Bug Fixes
+
+* 清空内容后-点击工具栏上插入链接的按钮，无反应 ([c1340d1](https://github.com/wangeditor-team/wangEditor/commit/c1340d17b24f9f61974bd122602cd7485c4453a2))
+* 图片添加链接直接删除防止报错 ([2ce2639](https://github.com/wangeditor-team/wangEditor/commit/2ce2639df10cf88f7b44618202136342ed683e86))
+* 无内容的情况下粘贴一段文本，粘贴后光标位于行首而不是粘贴内容的行尾 ([62d5c4a](https://github.com/wangeditor-team/wangEditor/commit/62d5c4a93f243f20f0269976432e585fbb7d39b1))
+* 修复低版本内核粘贴单张图报错 ([96f2f8d](https://github.com/wangeditor-team/wangEditor/commit/96f2f8de4915a223619d9f77902194a7e1dd3ae4))
+
+
+### Features
+
+* 修复当编辑区没内容时,上传一张图片,删除后鼠标位置的问题 ([2fec14e](https://github.com/wangeditor-team/wangEditor/commit/2fec14e6c66442d3860052a9d0869a15d86165ee))
+
 ## [4.7.6](https://github.com/wangeditor-team/wangEditor/compare/v4.7.5...v4.7.6) (2021-07-30)
 
 
