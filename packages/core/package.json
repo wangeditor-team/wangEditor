@@ -21,7 +21,6 @@
     "dist"
   ],
   "publishConfig": {
-    "directory": "dist",
     "access": "public",
     "registry": "https://registry.npmjs.com/"
   },
