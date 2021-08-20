@@ -49,7 +49,7 @@ jobs:
       run: |
         ## 获取当前分支名称，并创建一个同名的文件夹
         currentBranchName=`git branch | awk '$1 == "*"{print $2}'`
-        mkdir $currentBranchName
+        mkdir -p $currentBranchName/dist/css
 
         ## 将 dist examples 移到刚创建的文件夹之内
         mv packages/editor/dist/css/ $currentBranchName/dist/css/
