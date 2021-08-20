@@ -35,10 +35,10 @@ jobs:
         registry-url: https://registry.npmjs.com
     - name: Install dependencies
       run: yarn run bootstrap
-    # - name: Unit test
-    #   run: yarn run test
-    - name: Build
-      run: yarn build
+    - name: Build packages
+        run: yarn build
+      - name: Unit test
+        run: yarn run test
     - name: set ssh key # 临时设置 ssh key
       run: |
         mkdir -p ~/.ssh/
