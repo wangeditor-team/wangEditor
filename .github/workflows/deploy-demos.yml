@@ -1,0 +1,44 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# github actions 中文文档 https://docs.github.com/cn/actions/getting-started-with-github-actions
+
+name: deploy demos
+
+on:
+  push:
+    branches: [ deploy-demos ] # 特定分支
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: set ssh key # 临时设置 ssh key
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{secrets.SSH_KEY_FOR_GITHUB_WANGEDITOR}}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan "github.com" >> ~/.ssh/known_hosts
+        echo "---------- set ssh-key ok ----------"
+    - name: download and replace # 下载现有文件，替换
+      run: |
+        git clone git@github.com:wangEditor/demo.git
+        echo "---------- git clone ok ----------"
+        cp -r ./packages/editor/demo/* ./demo ## 用最新构建出来的文件，替换现有的
+        echo "---------- replace ok ----------"
+    - name: upload # 上传文件
+      run: |
+        cd ./demo
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        echo "---------- begin git status ----------"
+        echo `git status`
+        echo "---------- end git status ----------"
+        git add .
+        git commit -m "update by github actions"
+        echo "---------- begin git push ----------"
+        git push origin main
+        echo "---------- end git push ----------"
+    - name: delete ssh key # 删除 ssh key
+      run: rm -rf ~/.ssh/id_rsa
+
+
