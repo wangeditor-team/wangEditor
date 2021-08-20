@@ -16,8 +16,7 @@
     "prerelease": "yarn build",
     "format": "yarn prettier --write",
     "lint": "eslint \"packages/**/*.+(ts|tsx)\"",
-    "prettier": "prettier --ignore-path .gitignore \"packages/**/*.+(ts|tsx)\"",
-    "scp-demo": "sh build/scp-demo.sh"
+    "prettier": "prettier --ignore-path .gitignore \"packages/**/*.+(ts|tsx)\""
   },
   "workspaces": [
     "packages/*"
