@@ -24,15 +24,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
+    - name: Checkout repo
+      uses: actions/checkout@v2
       with:
-        node-version: 12
+        fetch-depth: 0
+    - name: Setup node
+      uses: actions/setup-node@v2
+      with:
+        node-version: 12.x
+        registry-url: https://registry.npmjs.com
+    - name: Install dependencies
+      run: yarn run bootstrap
+    - name: Unit test
+      run: yarn run test
     - name: build
-      run: |
-        npm i
-        npm test
-        npm run build --if-present
+      run: yarn build
     - name: set ssh key # 临时设置 ssh key
       run: |
         mkdir -p ~/.ssh/
