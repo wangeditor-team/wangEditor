@@ -6,7 +6,6 @@
     "test-c": "jest --coverage",
     "dev": "sh build/build-all.sh dev",
     "build": "sh build/build-all.sh",
-    "build:test": "cross-env ENY_TYPE=test sh build/build-all.sh",
     "bootstrap": "lerna bootstrap --use-workspaces",
     "release:version": "git pull origin main && lerna version --conventional-commits --no-changelog",
     "release:publish:experimental": "lerna publish --dist-tag experimental",
