@@ -36,9 +36,9 @@ jobs:
     - name: Install dependencies
       run: yarn run bootstrap
     - name: Build packages
-        run: yarn build
-      - name: Unit test
-        run: yarn run test
+      run: yarn build
+    - name: Unit test
+      run: yarn run test
     - name: set ssh key # 临时设置 ssh key
       run: |
         mkdir -p ~/.ssh/
