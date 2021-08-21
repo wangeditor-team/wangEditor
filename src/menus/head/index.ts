@@ -57,7 +57,6 @@ class Head extends DropListMenu implements MenuActive {
         const html = editor.$textElem.html()
         //  见issues#3406
         if (html === EMPTY_P) {
-            editor.cmd.do('formatBlock', value)
             return
         }
         const $selectionElem = editor.selection.getSelectionContainerElem()
@@ -206,7 +205,6 @@ class Head extends DropListMenu implements MenuActive {
                 _node.remove()
             }
         })
-        // if (indexList.length > 1)
         // 重新设置选区起始位置，保留拖蓝区域
         $selection.createRangeByElems(
             containerElem.children[indexList[0]],
