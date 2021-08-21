@@ -16,7 +16,7 @@ function videoToHtml(elemNode: Element, childrenHtml: string, editor: IDomEditor
     res += src
   } else {
     // 其他，mp4 等 url 格式
-    res += `<video controls><source src="${src}" type="video/mp4"/></video>`
+    res += `<video controls="true"><source src="${src}" type="video/mp4"/></video>`
   }
   res += '\n</div>'
 
