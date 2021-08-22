@@ -54,8 +54,11 @@ class Head extends DropListMenu implements MenuActive {
      */
     public command(value: string): void {
         const editor = this.editor
-        const $selectionElem = editor.selection.getSelectionContainerElem()
-        if ($selectionElem && editor.$textElem.equal($selectionElem)) {
+        const selection = editor.selection
+        const $selectionElem = selection.getSelectionContainerElem()
+        const isCollapse = selection.getRange()?.collapse
+        //  见issues#3406 增加条件当编辑器内容清除时 选区折叠不执行多行设置标题
+        if ($selectionElem && editor.$textElem.equal($selectionElem) && !isCollapse) {
             // 不能选中多行来设置标题，否则会出现问题
             // 例如选中的是 <p>xxx</p><p>yyy</p> 来设置标题，设置之后会成为 <h1>xxx<br>yyy</h1> 不符合预期
             this.setMultilineHead(value)
