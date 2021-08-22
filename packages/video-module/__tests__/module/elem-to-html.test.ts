@@ -15,7 +15,7 @@ describe('videoModule module', () => {
       const res = videoToHtmlConf.elemToHtml(element)
 
       expect(res).toEqual(
-        '<div class="wangeditor-video-container">\n<video controls><source src="test.mp4" type="video/mp4"/></video>\n</div>'
+        '<div class="wangeditor-video-container">\n<video controls="true"><source src="test.mp4" type="video/mp4"/></video>\n</div>'
       )
     })
 
