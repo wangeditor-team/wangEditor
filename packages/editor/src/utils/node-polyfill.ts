@@ -5,6 +5,7 @@
 
 // @ts-nocheck
 
+// 必须是 node 环境
 if (typeof global === 'object') {
   // 用于 nodejs ，避免报错
   const globalProperty = Object.getOwnPropertyDescriptor(global, 'window')

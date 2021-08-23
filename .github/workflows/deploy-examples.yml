@@ -54,6 +54,7 @@ jobs:
         ## 将 dist examples 移到刚创建的文件夹之内
         mv packages/editor/dist/css/* $currentBranchName/dist/css/
         mv packages/editor/dist/index.js $currentBranchName/dist/index.js
+        mv packages/editor/dist/index.js.map $currentBranchName/dist/index.js.map
         mv packages/editor/examples/ $currentBranchName/examples/
 
         ## 将该文件夹，及其所有文件，上传到服务器
