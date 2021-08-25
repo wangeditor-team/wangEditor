@@ -4,11 +4,11 @@
  */
 
 import React, { useRef, useEffect } from 'react'
-import { createToolbar, IToolbarConfig, IDomEditor } from '@wangeditor/editor-cattle'
+import * as wangEditor from '@wangeditor/editor-cattle'
 
 interface IProps {
-  editor: IDomEditor | null
-  defaultConfig?: Partial<IToolbarConfig>
+  editor: wangEditor.IDomEditor | null
+  defaultConfig?: Partial<wangEditor.IToolbarConfig>
   mode?: string
 }
 
@@ -20,7 +20,7 @@ function ToolbarComponent(props: IProps) {
     if (ref.current == null) return
     if (editor == null) return
 
-    createToolbar({
+    wangEditor.createToolbar({
       editor,
       toolbarSelector: ref.current,
       config: defaultConfig,
