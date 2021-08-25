@@ -20,7 +20,7 @@ function EditorComponent(props: Partial<IProps>) {
     if (ref.current == null) return
 
     wangEditor.createEditor({
-      textareaSelector: ref.current,
+      selector: ref.current,
       config: defaultConfig,
       content: defaultContent,
       mode,

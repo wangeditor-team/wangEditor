@@ -104,7 +104,7 @@
 
     // 先创建 editor
     const editor = E.createEditor({
-      textareaSelector: '#editor-text-area',
+      selector: '#editor-text-area',
       content: window.content1,
       config: editorConfig
     })
@@ -112,7 +112,7 @@
     // 创建 toolbar
     const toolbar = E.createToolbar({
       editor,
-      toolbarSelector: '#editor-toolbar',
+      selector: '#editor-toolbar',
       config: {
         excludeKeys: 'fullScreen',
       }

@@ -90,16 +90,16 @@
     let editor, toolbar
     document.getElementById('btn-create').addEventListener('click', () => {
       editor = E.createEditor({
-        textareaSelector: '#editor-text-area',
-        // textareaSelector: document.getElementById('editor-text-area'),
+        selector: '#editor-text-area',
+        // selector: document.getElementById('editor-text-area'),
         content: window.content1,
         config: editorConfig
       })
 
       toolbar = E.createToolbar({
         editor,
-        toolbarSelector: '#editor-toolbar',
-        // toolbarSelector: document.getElementById('editor-toolbar')
+        selector: '#editor-toolbar',
+        // selector: document.getElementById('editor-toolbar')
         // config: {}
       })
     })

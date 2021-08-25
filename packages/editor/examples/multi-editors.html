@@ -55,13 +55,13 @@
     }
 
     const editor1 = E.createEditor({
-      textareaSelector: '#editor-text-area-1',
+      selector: '#editor-text-area-1',
       config: editorConfig1,
       content: [{ type: 'paragraph', children: [{ text: '编辑器1' }] }]
     })
     const toolbar1 = E.createToolbar({
       editor: editor1,
-      toolbarSelector: '#editor-toolbar-1',
+      selector: '#editor-toolbar-1',
       config: {}
     })
 
@@ -81,14 +81,14 @@
     }
 
     const editor2 = E.createEditor({
-      textareaSelector: '#editor-text-area-2',
+      selector: '#editor-text-area-2',
       config: editorConfig2,
       content: [{ type: 'paragraph', children: [{ text: '编辑器2' }] }],
       mode: 'simple'
     })
     const toolbar2 = E.createToolbar({
       editor: editor2,
-      toolbarSelector: '#editor-toolbar-2',
+      selector: '#editor-toolbar-2',
       mode: 'simple'
     })
   </script>

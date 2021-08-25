@@ -9,7 +9,7 @@ export default function createEditor(options?: any, config?: any) {
   document.body.appendChild(container)
 
   return create({
-    textareaSelector: container,
+    selector: container,
     ...options,
     config,
   })

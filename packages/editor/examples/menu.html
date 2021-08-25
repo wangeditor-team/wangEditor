@@ -60,13 +60,13 @@
     // 其他菜单配置项可通过 editor.getMenuConfig(menuKey) 查询，然后使用 editorConfig.MENU_CONF[menuKey] 修改
 
     const editor = E.createEditor({
-      textareaSelector: '#editor-text-area',
+      selector: '#editor-text-area',
       content: window.content1,
       config: editorConfig
     })
     const toolbar = E.createToolbar({
       editor,
-      toolbarSelector: '#editor-toolbar',
+      selector: '#editor-toolbar',
       config: {
         toolbarKeys: [
           '|', // 第一个是 `|` 不显示

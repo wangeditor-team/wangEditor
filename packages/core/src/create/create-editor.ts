@@ -31,7 +31,7 @@ import {
 type PluginFnType = <T extends IDomEditor>(editor: T) => T
 
 interface ICreateOption {
-  textareaSelector: string | DOMElement
+  selector: string | DOMElement
   config: Partial<IEditorConfig>
   content: Descendant[]
   plugins: PluginFnType[]
@@ -41,16 +41,16 @@ interface ICreateOption {
  * 创建编辑器
  */
 export default function (option: Partial<ICreateOption>) {
-  const { textareaSelector = '', config = {}, content, plugins = [] } = option
+  const { selector = '', config = {}, content, plugins = [] } = option
 
   // 创建实例 - 使用插件
   let editor = withHistory(
     withEmitter(withSelection(withContent(withConfig(withDOM(withEventData(createEditor()))))))
   )
-  if (textareaSelector) {
+  if (selector) {
     // 检查是否对同一个 DOM 重复创建
-    if (isRepeatedCreateTextarea(editor, textareaSelector)) {
-      throw new Error(`Repeated create editor by textareaSelector '${textareaSelector}'`)
+    if (isRepeatedCreateTextarea(editor, selector)) {
+      throw new Error(`Repeated create editor by selector '${selector}'`)
     }
   }
 
@@ -72,9 +72,9 @@ export default function (option: Partial<ICreateOption>) {
   }
   DomEditor.normalizeContent(editor) // 格式化，用户输入的 content 可能不规范（如两个相连的 text 没有合并）
 
-  if (textareaSelector) {
+  if (selector) {
     // 创建 textarea DOM
-    const textarea = new TextArea(textareaSelector)
+    const textarea = new TextArea(selector)
     EDITOR_TO_TEXTAREA.set(editor, textarea)
     TEXTAREA_TO_EDITOR.set(textarea, editor)
     textarea.changeViewState() // 初始化时触发一次，以便能初始化 textarea DOM 和 selection
