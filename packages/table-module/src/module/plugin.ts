@@ -166,8 +166,8 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
   // 重写 insertData - 粘贴文本
   newEditor.insertData = (data: DataTransfer) => {
-    const codeNode = DomEditor.getSelectedNodeByType(newEditor, 'table')
-    if (codeNode == null) {
+    const tableNode = DomEditor.getSelectedNodeByType(newEditor, 'table')
+    if (tableNode == null) {
       insertData(data) // 执行默认的 insertData
       return
     }
