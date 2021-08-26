@@ -39,7 +39,7 @@ export default function (editor: Editor): ImgPanelConf {
      */
     function checkLinkImg(src: string, linkUrlAltText?: string, linkUrlHrefText?: string): boolean {
         //查看开发者自定义配置的返回值
-        const check = config.linkImgCheck(src)
+        const check = config.linkImgCheck(src, linkUrlAltText, linkUrlHrefText)
         if (check === true) {
             return true
         } else if (typeof check === 'string') {
