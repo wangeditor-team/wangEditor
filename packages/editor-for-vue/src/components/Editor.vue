@@ -11,8 +11,10 @@ function genErrorInfo(fnName: string): string {
 }
 
 export default Vue.extend({
-  //【注意】单独写 <template>...</template> 时，rollup 打包完浏览器运行时报错，所以先在这里写 template
-  template: '<div ref="box"></div>',
+  //【注意】单独写 <template>...</template> 时，rollup 打包完浏览器运行时报错，所以暂用 render 编写
+  render: function (h) {
+    return h('div', { ref: 'box' })
+  },
 
   name: 'Editor',
   props: ['editorId', 'defaultContent', 'defaultConfig', 'mode'],

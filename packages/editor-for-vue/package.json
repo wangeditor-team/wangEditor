@@ -8,7 +8,7 @@
   "license": "MIT",
   "types": "dist/editor-for-vue/src/index.d.ts",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "browser": {
     "./dist/index.js": "./dist/index.js",
     "./dist/index.mjs": "./dist/index.mjs"
