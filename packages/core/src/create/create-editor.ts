@@ -19,7 +19,7 @@ import { DomEditor } from '../editor/dom-editor'
 import { IEditorConfig } from '../config/interface'
 import { promiseResolveThen } from '../utils/util'
 import { isRepeatedCreateTextarea, genDefaultContent } from './helper'
-import { DOMElement } from '../utils/dom'
+import type { DOMElement } from '../utils/dom'
 import {
   EDITOR_TO_TEXTAREA,
   TEXTAREA_TO_EDITOR,
