@@ -42,7 +42,8 @@
     "url": "https://github.com/wangeditor-team/we-2021/issues"
   },
   "peerDependencies": {
-    "@wangeditor/editor-cattle": "^0.0.1",
+    "@wangeditor/core": "^0.7.1",
+    "@wangeditor/editor-cattle": "^0.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
