@@ -47,6 +47,7 @@ export type ConfigType = {
     pasteFilterStyle: boolean
     pasteIgnoreImg: boolean
     pasteTextHandle: Function
+    linkHandle: Function
     styleWithCSS: boolean
     linkImgCallback: Function
     onSelectionChange: Function
@@ -136,6 +137,9 @@ const defaultConfig = Object.assign(
     {
         linkCheck: function (text: string, link: string): string | boolean {
             return true
+        },
+        linkHandle: function (link: string): string {
+            return link
         },
     }
 )

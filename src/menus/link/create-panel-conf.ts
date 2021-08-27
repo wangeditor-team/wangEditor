@@ -88,6 +88,18 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
         return false
     }
 
+    /**
+     * 对链接进行自定义处理
+     * @param link 链接
+     */
+    function handleLink(link: string): string {
+        // 返回开发者配置的handle的返回值，默认原值返回
+        if (editor.config.linkHandle) {
+            return editor.config.linkHandle(link)
+        }
+        return link
+    }
+
     const conf = {
         width: 300,
         height: 0,
@@ -158,6 +170,8 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                                     text = html + endText
                                 }
                             }
+                            // 对链接进行自定义处理
+                            link = handleLink(link)
                             // 链接为空，则不插入
                             if (!link) return
                             // 文本为空，则用链接代替
