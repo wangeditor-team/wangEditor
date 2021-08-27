@@ -22,7 +22,7 @@ function ToolbarComponent(props: IProps) {
 
     wangEditor.createToolbar({
       editor,
-      toolbarSelector: ref.current,
+      selector: ref.current,
       config: defaultConfig,
       mode,
     })

@@ -44,14 +44,14 @@
     editorConfig.placeholder = '请输入内容...'
 
     const editor = E.createEditor({
-      textareaSelector: '#editor-text-area',
+      selector: '#editor-text-area',
       config: editorConfig,
       content: window.content1,
     })
 
     const toolbar = E.createToolbar({
       editor,
-      toolbarSelector: '#editor-toolbar',
+      selector: '#editor-toolbar',
       config: {},
     })
   </script>

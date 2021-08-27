@@ -33,7 +33,7 @@ export default Vue.extend({
       const defaultConfig = this.defaultConfig || {}
 
       wangEditor.createEditor({
-        textareaSelector: this.$refs.box as Element,
+        selector: this.$refs.box as Element,
         config: {
           ...defaultConfig,
           onCreated: (editor) => {

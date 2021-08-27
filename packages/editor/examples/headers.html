@@ -47,13 +47,13 @@
 
     // 先创建 editor ，再创建 toolbar
     const editor = E.createEditor({
-      textareaSelector: '#editor-text-area',
+      selector: '#editor-text-area',
       config: editorConfig,
       content: window.content1
     })
     const toolbar =E.createToolbar({
       editor,
-      toolbarSelector: '#editor-toolbar'
+      selector: '#editor-toolbar'
     })
     
     // scrollTo

@@ -29,7 +29,7 @@ export default Vue.extend({
 
       wangEditor.createToolbar({
         editor,
-        toolbarSelector: this.$refs.box as Element,
+        selector: this.$refs.box as Element,
         config: this.defaultConfig || {},
         mode: this.mode || 'default',
       })

@@ -65,7 +65,7 @@
     }
 
     const editor = E.createEditor({
-      textareaSelector: '#editor-text-area',
+      selector: '#editor-text-area',
       content: window.content1,
       config: editorConfig,
       content: [
@@ -89,7 +89,7 @@
     })
     const toolbar = E.createToolbar({
       editor,
-      toolbarSelector: '#editor-toolbar',
+      selector: '#editor-toolbar',
       mode: 'simple'
     })
   </script>
