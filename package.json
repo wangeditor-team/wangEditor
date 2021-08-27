@@ -7,7 +7,7 @@
     "dev": "sh build/build-all.sh dev",
     "build": "sh build/build-all.sh",
     "bootstrap": "lerna bootstrap --use-workspaces",
-    "release:version": "git pull origin main && lerna version --conventional-commits --no-changelog",
+    "release:version": "git pull origin main && lerna version --conventional-commits --no-changelog && node ./scripts/release-tag.js",
     "release:publish:experimental": "lerna publish --dist-tag experimental",
     "release:publish:canary": "lerna publish --canary",
     "release:next": "yarn prerelease && lerna publish --dist-tag next",
@@ -96,7 +96,7 @@
     "rollup-plugin-vue": "^6.0.0",
     "ts-jest": "^27.0.4",
     "tslib": "^2.3.0",
-    "typescript": "^4.0.3"
+    "typescript": "4.3.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.14.6"
