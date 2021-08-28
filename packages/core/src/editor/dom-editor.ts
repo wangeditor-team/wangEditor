@@ -6,7 +6,7 @@
 import isEqual from 'lodash.isequal'
 import toArray from 'lodash.toarray'
 import { Editor, Node, Element, Path, Point, Range, Ancestor, Text } from 'slate'
-import { IDomEditor } from './interface'
+import type { IDomEditor } from './interface'
 import { Key } from '../utils/key'
 import TextArea from '../text-area/TextArea'
 import Toolbar from '../menus/bar/Toolbar'

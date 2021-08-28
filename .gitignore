@@ -103,8 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-yarn.lock
-
 package-lock.json
 
 .DS_Store
