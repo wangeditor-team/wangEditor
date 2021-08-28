@@ -225,7 +225,7 @@ export const DomEditor = {
     return (
       // 祖先节点中包括 data-slate-editor 属性，即 textarea
       targetEl.closest(`[data-slate-editor]`) === editorEl &&
-      // 这里不解何意 ？？？
+      // 通过参数 editable 控制开启是否验证是可编辑元素或零宽字符
       (!editable || targetEl.isContentEditable || !!targetEl.getAttribute('data-slate-zero-width'))
     )
   },
