@@ -31,7 +31,8 @@ function deleteHandler(newEditor: IDomEditor): boolean {
 }
 
 function withTable<T extends IDomEditor>(editor: T): T {
-  const { insertBreak, deleteBackward, deleteForward, normalizeNode, insertData } = editor
+  const { insertBreak, deleteBackward, deleteForward, normalizeNode, insertData, handleTab } =
+    editor
   const newEditor = editor
 
   // 重写 insertBreak - cell 内换行，只换行文本，不拆分 node
@@ -55,6 +56,31 @@ function withTable<T extends IDomEditor>(editor: T): T {
     // 执行默认的删除
     deleteBackward(unit)
   }
+
+  // 重写 handleTab 在table内按tab时跳到下一个单元格
+  newEditor.handleTab = () => {
+    const selectedNode = DomEditor.getSelectedNodeByType(newEditor, 'table')
+    if (selectedNode) {
+      const above = Editor.next(editor)
+      if (above) {
+        Transforms.select(editor, above[1])
+      } else {
+        const topLevelNodes = newEditor.children || []
+        const topLevelNodesLength = topLevelNodes.length
+        // 在最后一个单元格按tab时table末尾如果没有p则插入p后光标切到p上
+        if (topLevelNodes[topLevelNodesLength - 1]?.type === 'table') {
+          const p = genEmptyParagraph()
+          Transforms.insertNodes(newEditor, p, { at: [topLevelNodesLength] })
+          // 在表格末尾插入p后再次执行使光标切到p上
+          newEditor.handleTab()
+        }
+      }
+      return
+    }
+
+    handleTab()
+  }
+
   newEditor.deleteForward = unit => {
     const res = deleteHandler(newEditor)
     if (res) return // 命中 table cell ，自己处理删除
