@@ -54,6 +54,12 @@ class Head extends DropListMenu implements MenuActive {
      */
     public command(value: string): void {
         const editor = this.editor
+        const html = editor.$textElem.html()
+        //  见issues#3406
+        if (html === EMPTY_P) {
+            editor.cmd.do('formatBlock', value)
+            return
+        }
         const $selectionElem = editor.selection.getSelectionContainerElem()
         if ($selectionElem && editor.$textElem.equal($selectionElem)) {
             // 不能选中多行来设置标题，否则会出现问题
@@ -200,6 +206,7 @@ class Head extends DropListMenu implements MenuActive {
                 _node.remove()
             }
         })
+        // if (indexList.length > 1)
         // 重新设置选区起始位置，保留拖蓝区域
         $selection.createRangeByElems(
             containerElem.children[indexList[0]],
