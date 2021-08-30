@@ -10,10 +10,11 @@ interface IProps {
   editor: wangEditor.IDomEditor | null
   defaultConfig?: Partial<wangEditor.IToolbarConfig>
   mode?: string
+  style?: object
 }
 
 function ToolbarComponent(props: IProps) {
-  const { editor, defaultConfig = {}, mode = 'default' } = props
+  const { editor, defaultConfig = {}, mode = 'default', style = {} } = props
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -28,7 +29,7 @@ function ToolbarComponent(props: IProps) {
     })
   }, [editor])
 
-  return <div ref={ref}></div>
+  return <div style={style} ref={ref}></div>
 }
 
 export default ToolbarComponent

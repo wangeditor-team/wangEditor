@@ -10,10 +10,11 @@ interface IProps {
   defaultContent: wangEditor.SlateDescendant[]
   defaultConfig: Partial<wangEditor.IEditorConfig>
   mode?: string
+  style?: object
 }
 
 function EditorComponent(props: Partial<IProps>) {
-  const { defaultContent = [], defaultConfig = {}, mode = 'default' } = props
+  const { defaultContent = [], defaultConfig = {}, mode = 'default', style = {} } = props
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -27,7 +28,7 @@ function EditorComponent(props: Partial<IProps>) {
     })
   }, [])
 
-  return <div ref={ref}></div>
+  return <div style={style} ref={ref}></div>
 }
 
 export default EditorComponent

@@ -79,7 +79,12 @@ function Basic() {
 
       <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
         {/* 渲染 editor */}
-        <Editor defaultConfig={editorConfig} defaultContent={defaultContent} mode="default" />
+        <Editor
+          defaultConfig={editorConfig}
+          defaultContent={defaultContent}
+          mode="default"
+          style={{ height: '500px' }}
+        />
       </div>
 
       <div style={{ border: '1px solid #ccc', marginTop: '20px' }}>

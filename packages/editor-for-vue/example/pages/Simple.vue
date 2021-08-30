@@ -12,6 +12,7 @@ export default Vue.extend({
 
       <div style="border: 1px solid #ccc; margin-top: 10px;">
         <Editor
+          style="height: 500px"
           :editorId="editorId"
           :defaultConfig="editorConfig"
           :defaultContent="defaultContent"

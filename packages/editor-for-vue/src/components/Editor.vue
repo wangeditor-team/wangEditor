@@ -91,6 +91,17 @@ export default Vue.extend({
               throw new Error(info)
             }
           },
+          customPaste: (editor, event) => {
+            if (defaultConfig.customPaste) {
+              const info = genErrorInfo('customPaste')
+              throw new Error(info)
+            }
+            let res
+            this.$emit('customPaste', editor, event, val => {
+              res = val
+            })
+            return res
+          },
         },
         content: this.defaultContent || [],
         mode: this.mode || 'default',
