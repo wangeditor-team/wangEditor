@@ -74,10 +74,12 @@ function Basic() {
 
       <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
         {/* 渲染 toolbar */}
-        <Toolbar editor={editor} defaultConfig={toolbarConfig} />
-      </div>
+        <Toolbar
+          editor={editor}
+          defaultConfig={toolbarConfig}
+          style={{ borderBottom: '1px solid #ccc' }}
+        />
 
-      <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
         {/* 渲染 editor */}
         <Editor
           defaultConfig={editorConfig}

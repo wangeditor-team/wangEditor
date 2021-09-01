@@ -78,10 +78,12 @@ class Basic extends Component {
 
         <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
           {/* 渲染 toolbar */}
-          <Toolbar editor={this.state.editor} defaultConfig={toolbarConfig} />
-        </div>
+          <Toolbar
+            editor={this.state.editor}
+            defaultConfig={toolbarConfig}
+            style={{ borderBottom: '1px solid #ccc' }}
+          />
 
-        <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
           {/* 渲染 editor */}
           <Editor
             defaultConfig={editorConfig}

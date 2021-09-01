@@ -7,10 +7,13 @@ export default Vue.extend({
   template: `
     <div>
       <div style="border: 1px solid #ccc; margin-top: 10px;">
-        <Toolbar :editorId="editorId" :defaultConfig="toolbarConfig" :mode="mode"/>
-      </div>
+        <Toolbar
+          style="border-bottom: 1px solid #ccc"
+          :editorId="editorId"
+          :defaultConfig="toolbarConfig"
+          :mode="mode"
+        />
 
-      <div style="border: 1px solid #ccc; margin-top: 10px;">
         <Editor
           style="height: 500px"
           :editorId="editorId"
