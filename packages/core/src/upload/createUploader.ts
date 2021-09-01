@@ -71,12 +71,17 @@ function createUploader(config: IUploadConfig): Uppy.Uppy<'strict'> {
     onSuccess(file, body)
     uppy.removeFile(file.id) // 清空文件
   })
+
   uppy.on('progress', progress => {
+    // progress 值范围： 0 - 100
+    if (progress < 1) return
     onProgress(progress)
   })
+
   uppy.on('error', error => {
     console.error('wangEditor file upload error', error.stack)
   })
+
   uppy.on('upload-error', (file, error, response) => {
     onError(file, error, response)
     uppy.removeFile(file.id) // 清空文件
