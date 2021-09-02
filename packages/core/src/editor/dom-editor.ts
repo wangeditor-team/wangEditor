@@ -159,7 +159,9 @@ export const DomEditor = {
     let curNode = node
     while (curNode !== editor && curNode != null) {
       const parentNode = DomEditor.getParentNode(editor, curNode)
-      if (parentNode != null) {
+      if (parentNode == null) {
+        break
+      } else {
         nodes.push(parentNode)
         curNode = parentNode
       }
