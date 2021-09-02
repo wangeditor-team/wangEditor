@@ -231,14 +231,17 @@ export const withDOM = <T extends Editor>(editor: T) => {
     const $textAreaBox = textarea.$box
     const $parent = $textAreaBox.parent()
 
-    // 取消全屏
-    $parent.removeClass('w-e-full-screen-container')
+    // 解决#issue175, 编辑器取消全屏 - element dialog组件会被隐藏
+    setTimeout(() => {
+      // 取消全屏
+      $parent.removeClass('w-e-full-screen-container')
 
-    // 记录属性
-    e.isFullScreen = false
+      // 记录属性
+      e.isFullScreen = false
 
-    // 触发自定义事件
-    e.emit('unFullScreen')
+      // 触发自定义事件
+      e.emit('unFullScreen')
+    }, 200)
   }
 
   return e
