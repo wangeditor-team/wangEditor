@@ -23,7 +23,7 @@ function handleOnPaste(e: Event, textarea: TextArea, editor: IDomEditor) {
   const { customPaste } = editor.getConfig()
   if (customPaste) {
     const res = customPaste(editor, event)
-    if (!res) {
+    if (res === false) {
       // 自行实现粘贴，不执行默认粘贴
       EDITOR_TO_CAN_PASTE.set(editor, false) // 标记为：不可执行默认粘贴
       return

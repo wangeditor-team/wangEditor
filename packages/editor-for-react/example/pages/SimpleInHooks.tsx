@@ -44,12 +44,20 @@ function Basic() {
     <React.Fragment>
       <div style={{ border: '1px solid #ccc' }}>
         {/* 渲染 toolbar */}
-        <Toolbar editor={editor} defaultConfig={toolbarConfig} mode="simple" />
-      </div>
+        <Toolbar
+          editor={editor}
+          defaultConfig={toolbarConfig}
+          mode="simple"
+          style={{ borderBottom: '1px solid #ccc' }}
+        />
 
-      <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
         {/* 渲染 editor */}
-        <Editor defaultConfig={editorConfig} defaultContent={defaultContent} mode="simple" />
+        <Editor
+          defaultConfig={editorConfig}
+          defaultContent={defaultContent}
+          mode="simple"
+          style={{ height: '500px' }}
+        />
       </div>
     </React.Fragment>
   )

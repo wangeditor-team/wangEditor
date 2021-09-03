@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Point, Element, Descendant } from 'slate'
+import { Editor, Transforms, Point, Element, Descendant, NodeEntry } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 function genEmptyParagraph() {
@@ -61,14 +61,25 @@ function withTable<T extends IDomEditor>(editor: T): T {
   newEditor.handleTab = () => {
     const selectedNode = DomEditor.getSelectedNodeByType(newEditor, 'table')
     if (selectedNode) {
-      const above = Editor.next(editor)
-      if (above) {
+      const above = Editor.above(editor) as NodeEntry<Element>
+
+      // 常规情况下选中文字外层 table-cell 进行跳转
+      if (DomEditor.checkNodeType(above[0], 'table-cell')) {
         Transforms.select(editor, above[1])
+      }
+
+      let next = Editor.next(editor) as NodeEntry<Element> | undefined
+      if (next) {
+        if (next[0]?.text) {
+          // 多个单元格同时选中按 tab 导致错位修复
+          next = Editor.above(editor, { at: next[1] }) ?? next
+        }
+        Transforms.select(editor, next[1])
       } else {
         const topLevelNodes = newEditor.children || []
         const topLevelNodesLength = topLevelNodes.length
         // 在最后一个单元格按tab时table末尾如果没有p则插入p后光标切到p上
-        if (topLevelNodes[topLevelNodesLength - 1]?.type === 'table') {
+        if (DomEditor.checkNodeType(topLevelNodes[topLevelNodesLength - 1], 'table')) {
           const p = genEmptyParagraph()
           Transforms.insertNodes(newEditor, p, { at: [topLevelNodesLength] })
           // 在表格末尾插入p后再次执行使光标切到p上

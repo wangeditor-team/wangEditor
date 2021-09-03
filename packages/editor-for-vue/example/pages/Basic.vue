@@ -12,11 +12,15 @@ export default Vue.extend({
       </div>
 
       <div style="border: 1px solid #ccc; margin-top: 10px;">
-        <Toolbar :editorId="editorId" :defaultConfig="toolbarConfig" :mode="mode"/>
-      </div>
+        <Toolbar
+          style="border-bottom: 1px solid #ccc"
+          :editorId="editorId"
+          :defaultConfig="toolbarConfig"
+          :mode="mode"
+        />
 
-      <div style="border: 1px solid #ccc; margin-top: 10px;">
         <Editor
+          style="height: 500px"
           :editorId="editorId"
           :defaultConfig="editorConfig"
           :defaultContent="defaultContent"
@@ -28,6 +32,7 @@ export default Vue.extend({
           @onFocus="onFocus"
           @onBlur="onBlur"
           @customAlert="customAlert"
+          @customPaste="customPaste"
         />
       </div>
 
@@ -99,6 +104,14 @@ export default Vue.extend({
     },
     customAlert(info: string, type: string) {
       window.alert(`customAlert in Vue demo\n${type}:\n${info}`)
+    },
+    customPaste(editor, event, callback) {
+      // console.log('paste event', event)
+      // editor.insertText('xxx')
+
+      // // 返回值（注意，vue 事件的返回值，不能用 return）
+      // callback(false)
+      // // callback(true)
     },
 
     onToggleReadOnly() {
