@@ -135,7 +135,10 @@ class InsertVideoMenu implements IModalMenu {
     }
 
     // 插入视频
-    Transforms.insertNodes(editor, video)
+    // 不使用此方式会比正常的选区选取先执行
+    Promise.resolve().then(() => {
+      Transforms.insertNodes(editor, video)
+    })
 
     // 调用 callback
     onInsertedVideo(video)
