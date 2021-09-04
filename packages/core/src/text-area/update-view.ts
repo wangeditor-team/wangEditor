@@ -7,7 +7,7 @@ import { h, VNode } from 'snabbdom'
 import { IDomEditor } from '../editor/interface'
 import TextArea from './TextArea'
 import { genPatchFn, normalizeVnodeData } from '../utils/vdom'
-import $, { Dom7Array, getDefaultView } from '../utils/dom'
+import $, { Dom7Array, getDefaultView, getElementById } from '../utils/dom'
 import { node2Vnode } from '../formats/node2Vnode'
 import {
   IS_FIRST_PATCH,
@@ -107,7 +107,7 @@ function updateView(textarea: TextArea, editor: IDomEditor) {
   }
 
   if (textareaElem == null) {
-    textareaElem = document.getElementById(elemId)
+    textareaElem = getElementById(elemId)
 
     // 通过 getElementById 获取的有可能是 null （销毁、重建时，可能会发生这种情况）
     if (textareaElem == null) return

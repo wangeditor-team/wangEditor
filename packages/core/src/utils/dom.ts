@@ -181,6 +181,16 @@ export const hasShadowRoot = () => {
 }
 
 /**
+ * Get the element with the specified id
+ */
+export const getElementById = (id: string): null | HTMLElement => {
+  return (
+    window.document.getElementById(id) ??
+    (window.document.activeElement?.shadowRoot?.getElementById(id) || null)
+  )
+}
+
+/**
  * Get the nearest editable child and index at `index` in a `parent`, preferring `direction`.
  */
 export const getEditableChildAndIndex = (
