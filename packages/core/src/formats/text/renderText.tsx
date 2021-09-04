@@ -12,6 +12,7 @@ import genTextVnode from './genVnode'
 import addTextVnodeStyle from './renderStyle'
 import { promiseResolveThen } from '../../utils/util'
 import { genTextId } from '../helper'
+import { getElementById } from '../../utils/dom'
 
 function renderText(textNode: SlateText, parent: Ancestor, editor: IDomEditor): VNode {
   if (textNode.text == null)
@@ -46,7 +47,7 @@ function renderText(textNode: SlateText, parent: Ancestor, editor: IDomEditor): 
   // 更新 weak-map
   promiseResolveThen(() => {
     // 异步，否则拿不到 DOM
-    const dom = document.getElementById(textId)
+    const dom = getElementById(textId)
     if (dom == null) return
     KEY_TO_ELEMENT.set(key, dom)
     NODE_TO_ELEMENT.set(textNode, dom)
