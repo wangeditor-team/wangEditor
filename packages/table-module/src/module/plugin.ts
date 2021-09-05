@@ -211,6 +211,13 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
     // 获取文本，并插入到 cell
     const text = data.getData('text/plain')
+
+    // 单图或图文 插入
+    if (text === '\n' || /<img[^>]+>/.test(data.getData('text/html'))) {
+      insertData(data)
+      return
+    }
+
     Editor.insertText(newEditor, text)
   }
 
