@@ -102,6 +102,7 @@ function updateView(textarea: TextArea, editor: IDomEditor) {
     const curVnode = TEXTAREA_TO_VNODE.get(textarea)
     const patchFn = TEXTAREA_TO_PATCH_FN.get(textarea)
     if (curVnode == null || patchFn == null) return
+    textareaElem = curVnode.elm
 
     patchFn(curVnode, newVnode)
   }
