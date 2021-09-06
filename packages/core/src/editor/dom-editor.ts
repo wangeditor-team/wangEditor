@@ -5,7 +5,7 @@
 
 import isEqual from 'lodash.isequal'
 import toArray from 'lodash.toarray'
-import { Editor, Node, Element, Path, Point, Range, Ancestor, Text } from 'slate'
+import { Editor, Node, Element, Path, Point, Range, Ancestor, Text, Transforms } from 'slate'
 import type { IDomEditor } from './interface'
 import { Key } from '../utils/key'
 import TextArea from '../text-area/TextArea'
@@ -720,5 +720,22 @@ export const DomEditor = {
         })
       }
     }
+  },
+
+  clear(editor: IDomEditor) {
+    const initialEditorValue: Node[] = [
+      {
+        type: 'paragraph',
+        children: [{ text: '' }],
+      },
+    ]
+    Transforms.removeNodes(editor, {
+      at: {
+        anchor: Editor.start(editor, []),
+        focus: Editor.end(editor, []),
+      },
+      mode: 'highest',
+    })
+    Transforms.insertNodes(editor, initialEditorValue)
   },
 }
