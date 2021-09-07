@@ -32,6 +32,7 @@ export interface IDomEditor extends Editor {
   getElemsByTypePrefix: (typePrefix: string) => ElementWithId[]
   getParentNode: (node: Node) => Ancestor | null
   isEmpty: () => boolean
+  clear: () => void
 
   // dom 相关
   id: string

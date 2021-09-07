@@ -212,6 +212,26 @@ export const withContent = <T extends Editor>(editor: T) => {
     return false
   }
 
+  /**
+   * 清空内容
+   */
+  e.clear = () => {
+    const initialEditorValue: Node[] = [
+      {
+        type: 'paragraph',
+        children: [{ text: '' }],
+      },
+    ]
+    Transforms.removeNodes(e, {
+      at: {
+        anchor: Editor.start(e, []),
+        focus: Editor.end(e, []),
+      },
+      mode: 'highest',
+    })
+    Transforms.insertNodes(e, initialEditorValue)
+  }
+
   e.getParentNode = (node: Node) => {
     return DomEditor.getParentNode(e, node)
   }

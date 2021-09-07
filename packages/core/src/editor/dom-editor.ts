@@ -721,21 +721,4 @@ export const DomEditor = {
       }
     }
   },
-
-  clear(editor: IDomEditor) {
-    const initialEditorValue: Node[] = [
-      {
-        type: 'paragraph',
-        children: [{ text: '' }],
-      },
-    ]
-    Transforms.removeNodes(editor, {
-      at: {
-        anchor: Editor.start(editor, []),
-        focus: Editor.end(editor, []),
-      },
-      mode: 'highest',
-    })
-    Transforms.insertNodes(editor, initialEditorValue)
-  },
 }
