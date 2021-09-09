@@ -135,7 +135,7 @@ function getContainerTag(node: Node): Node[] {
     const topText = node.textContent ?? ''
     let tagArr = []
     while (node?.textContent === topText) {
-        if (node.nodeName !== 'P') {
+        if (node.nodeName !== 'P' && node.nodeName !== 'TABLE') {
             tagArr.push(node)
         }
         node = node.childNodes[0]
