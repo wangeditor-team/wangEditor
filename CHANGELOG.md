@@ -1,3 +1,10 @@
+## [4.7.8](https://github.com/wangeditor-team/wangEditor/compare/v4.7.7...v4.7.8) (2021-09-09)
+
+
+### Bug Fixes
+
+* 修复表格中选中文字插入链接多出table标签和chrome浏览器表格高度问题 ([325f1f6](https://github.com/wangeditor-team/wangEditor/commit/325f1f6f72d305de1ff0b5873951e88c4d40d5b5))
+
 ## [4.7.7](https://github.com/wangeditor-team/wangEditor/compare/v4.7.6...v4.7.7) (2021-08-20)
 
 
