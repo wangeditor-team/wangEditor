@@ -61,6 +61,7 @@ export const withDOM = <T extends Editor>(editor: T) => {
 
     if (root.activeElement === el) {
       el.blur()
+      Transforms.deselect(e) // 手动执行一次光标deselect, 触发onchange回掉，改变Toolbar的状态
     }
   }
 
