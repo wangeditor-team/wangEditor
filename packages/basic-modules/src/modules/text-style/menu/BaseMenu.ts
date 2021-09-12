@@ -23,7 +23,6 @@ abstract class BaseMenu implements IButtonMenu {
     const [match] = Editor.nodes(editor, {
       // @ts-ignore
       match: n => n[mark] === true,
-      universal: true,
     })
     return !!match
   }
