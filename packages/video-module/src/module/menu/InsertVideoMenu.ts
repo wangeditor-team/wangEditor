@@ -127,10 +127,14 @@ class InsertVideoMenu implements IModalMenu {
       return
     }
 
+    if (src.trim().indexOf('<iframe') !== 0) {
+      src = replaceSymbols(src)
+    }
+
     // 新建一个 video node
     const video: VideoElement = {
       type: 'video',
-      src: replaceSymbols(src),
+      src,
       children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children
     }
 
