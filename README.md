@@ -1,9 +1,7 @@
-# we-2021
+# wangEditor v5 (WIP...)
 
-待写...
+![](./docs/images/editor-demo.png)
 
-------
-
-- [开发](docs/dev.md)
-- [发布](docs/publish.md)
-- [加入团队](docs/join.md)
+- [用户文档](https://www.wangeditor.com/v5/)
+- [demo 演示](https://www.wangeditor.com/demo/zh-CN/)
+- [开发文档 & 加入研发团队](./docs/README.md)

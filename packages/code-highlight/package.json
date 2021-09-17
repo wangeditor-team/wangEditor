@@ -4,7 +4,7 @@
   "description": "wangEditor code-highlight module",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "contributors": [],
-  "homepage": "https://github.com/wangeditor-team/we-2021#readme",
+  "homepage": "https://github.com/wangeditor-team/wangEditor-v5#readme",
   "license": "MIT",
   "types": "dist/code-highlight/src/index.d.ts",
   "main": "dist/index.js",
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wangeditor-team/we-2021.git"
+    "url": "git+https://github.com/wangeditor-team/wangEditor-v5.git"
   },
   "scripts": {
     "test": "jest",
@@ -38,7 +38,7 @@
     "size-stats": "cross-env NODE_ENV=production:size_stats rollup -c rollup.config.js"
   },
   "bugs": {
-    "url": "https://github.com/wangeditor-team/we-2021/issues"
+    "url": "https://github.com/wangeditor-team/wangEditor-v5/issues"
   },
   "peerDependencies": {
     "@wangeditor/core": "^0.7.1",

@@ -116,7 +116,7 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
     DomEditor.cleanExposedTexNodeInSelectionBlock(editor)
   }
 
-  // 检查拼音输入是否夸 DOM 节点了，解决 we-2021/issues/47
+  // 检查拼音输入是否夸 DOM 节点了，解决 wangEditor-v5/issues/47
   if (!IS_SAFARI) {
     setTimeout(() => {
       const { selection } = editor

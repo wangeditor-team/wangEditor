@@ -1,5 +1,5 @@
 {
-  "name": "@wangeditor-team/we-2021",
+  "name": "@wangeditor-team/wangeditor",
   "private": true,
   "scripts": {
     "test": "jest --detectOpenHandles",
