@@ -5,6 +5,7 @@
 
 import { Element, Text } from 'slate'
 import $ from '../../utils/dom'
+import { replaceSymbols } from '../../utils/util'
 import { ColorText } from './custom-types'
 
 export function textStyleToHtml(node: Text | Element, elemHtml: string): string {
@@ -14,7 +15,7 @@ export function textStyleToHtml(node: Text | Element, elemHtml: string): string 
   if (!color && !bgColor) return elemHtml
 
   // 如果当前 elemHtml 是 node.text ，则包裹一个 <span> ，否则无法设置样式
-  if (elemHtml === text) {
+  if (elemHtml === replaceSymbols(text)) {
     elemHtml = `<span>${text}</span>`
   }
 
