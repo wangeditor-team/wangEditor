@@ -14,13 +14,23 @@ if (typeof global === 'undefined') {
     console.error(info)
   }
 
+  globalThisPolyfill()
+  AggregateErrorPolyfill()
+} else if (global && global.navigator.userAgent.match('QQBrowser')) {
+  // 兼容 QQ 浏览器 AggregateError 报错
+  globalThisPolyfill()
+  AggregateErrorPolyfill()
+}
+
+function globalThisPolyfill() {
   // 部分浏览器不支持 globalThis
   if (typeof globalThis === 'undefined') {
     // @ts-ignore
     window.globalThis = window
   }
+}
 
-  // AggregateError 会在 qq 浏览器报错
+function AggregateErrorPolyfill() {
   if (typeof AggregateError === 'undefined') {
     window.AggregateError = function (errors, msg) {
       const err = new Error(msg)
