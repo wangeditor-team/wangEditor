@@ -43,7 +43,7 @@
   },
   "peerDependencies": {
     "@wangeditor/core": "^0.7.1",
-    "@wangeditor/editor": "^0.7.1",
+    "@wangeditor/editor": "^0.9.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },

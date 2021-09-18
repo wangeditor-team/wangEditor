@@ -43,7 +43,7 @@
   },
   "peerDependencies": {
     "@wangeditor/core": "^0.7.1",
-    "@wangeditor/editor": "^0.7.1",
+    "@wangeditor/editor": "^0.9.0",
     "vue": "^2.6.14"
   },
   "devDependencies": {
