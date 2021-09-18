@@ -1,6 +1,6 @@
 <script lang="ts">
 import Vue from 'vue'
-import * as wangEditor from '@wangeditor/editor-cattle'
+import * as wangEditor from '@wangeditor/editor'
 import emitter from '../utils/emitter'
 import { recordEditor } from '../utils/editor-map'
 

@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { IDomEditor } from '@wangeditor/editor-cattle'
+import { IDomEditor } from '@wangeditor/editor'
 
 const EDITOR_MAP: { [key: string]: IDomEditor } = {}
 

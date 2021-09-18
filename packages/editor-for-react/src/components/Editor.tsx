@@ -4,7 +4,7 @@
  */
 
 import React, { useRef, useEffect } from 'react'
-import * as wangEditor from '@wangeditor/editor-cattle'
+import * as wangEditor from '@wangeditor/editor'
 
 interface IProps {
   defaultContent: wangEditor.SlateDescendant[]
