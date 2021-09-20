@@ -18,7 +18,7 @@ class JustifyJustifyMenu extends BaseMenu {
       {
         textAlign: 'justify',
       },
-      { match: n => Element.isElement(n) }
+      { match: n => Element.isElement(n) && !editor.isInline(n) }
     )
   }
 }

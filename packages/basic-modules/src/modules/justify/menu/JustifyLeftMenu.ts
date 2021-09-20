@@ -18,7 +18,7 @@ class JustifyLeftMenu extends BaseMenu {
       {
         textAlign: 'left',
       },
-      { match: n => Element.isElement(n) }
+      { match: n => Element.isElement(n) && !editor.isInline(n) }
     )
   }
 }
