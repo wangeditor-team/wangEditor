@@ -59,6 +59,7 @@ export interface IDomEditor extends Editor {
   restoreSelection: () => void
   getSelectionPosition: () => Partial<IPositionStyle>
   getNodePosition: (node: Node) => Partial<IPositionStyle>
+  isSelectedAll: () => boolean
 
   // 自定义事件
   on: (type: string, listener: ee.EventListener) => void
