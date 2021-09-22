@@ -18,7 +18,7 @@ class JustifyCenterMenu extends BaseMenu {
       {
         textAlign: 'center',
       },
-      { match: n => Element.isElement(n) }
+      { match: n => Element.isElement(n) && !editor.isInline(n) } // inline 元素设置text-align 是没作用的
     )
   }
 }
