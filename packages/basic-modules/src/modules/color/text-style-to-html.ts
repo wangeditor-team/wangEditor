@@ -16,7 +16,7 @@ export function textStyleToHtml(node: Text | Element, elemHtml: string): string 
 
   // 如果当前 elemHtml 是 node.text ，则包裹一个 <span> ，否则无法设置样式
   if (elemHtml === replaceSymbols(text)) {
-    elemHtml = `<span>${text}</span>`
+    elemHtml = `<span>${elemHtml}</span>`
   }
 
   // 设置样式
