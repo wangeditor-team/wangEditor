@@ -1,4 +1,4 @@
 # wangEditor editor
 
-整合 core 和各个 module ，输出一个用户可用的编辑器<br>
-可参考 examples 目录的各个 demo 
+[wangEditor](https://www.wangeditor.com/v5/) 编辑器模块。<br>
+将 core 和各个 module ，整合为一个用户可用的编辑器。

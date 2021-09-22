@@ -1,6 +1,6 @@
 # wangEditor core
 
-编辑器核心模块，代码量大，复杂度高。
+[wangEditor](https://www.wangeditor.com/v5/) 核心模块，代码量大，复杂度高。
 
 ## 主要依赖
 
