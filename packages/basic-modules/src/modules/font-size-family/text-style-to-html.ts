@@ -5,6 +5,7 @@
 
 import { Element, Text } from 'slate'
 import $ from '../../utils/dom'
+import { replaceSymbols } from '../../utils/util'
 import { FontSizeAndFamilyText } from './custom-types'
 
 export function textStyleToHtml(node: Text | Element, elemHtml: string): string {
@@ -14,8 +15,8 @@ export function textStyleToHtml(node: Text | Element, elemHtml: string): string 
   if (!fontSize && !fontFamily) return elemHtml
 
   // 如果当前 elemHtml 是 node.text ，则包裹一个 <span> ，否则无法设置样式
-  if (elemHtml === text) {
-    elemHtml = `<span>${text}</span>`
+  if (elemHtml === replaceSymbols(text)) {
+    elemHtml = `<span>${elemHtml}</span>`
   }
 
   // 设置样式
