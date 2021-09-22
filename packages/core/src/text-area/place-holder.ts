@@ -4,7 +4,6 @@
  */
 
 import { IDomEditor } from '../editor/interface'
-import { DomEditor } from '../editor/dom-editor'
 import TextArea from './TextArea'
 import $ from '../utils/dom'
 
@@ -13,7 +12,7 @@ import $ from '../utils/dom'
  * @param textarea textarea
  * @param editor editor
  */
-function handlePlaceholder(textarea: TextArea, editor: IDomEditor) {
+export function handlePlaceholder(textarea: TextArea, editor: IDomEditor) {
   const { placeholder } = editor.getConfig()
   if (!placeholder) return
 
@@ -39,4 +38,20 @@ function handlePlaceholder(textarea: TextArea, editor: IDomEditor) {
   }
 }
 
-export default handlePlaceholder
+/**
+ * 隐藏 placeholder （如拼音输入 compositionStart 时，要先隐藏，等 compositionEnd 时再判断是否显示）
+ * @param textarea textarea
+ * @param editor editor
+ */
+export function hidePlaceholder(textarea: TextArea, editor: IDomEditor) {
+  const { placeholder } = editor.getConfig()
+  if (!placeholder) return
+
+  const isEmpty = editor.isEmpty()
+  if (!isEmpty) return
+
+  if (textarea.showPlaceholder) {
+    textarea.$placeholder?.hide()
+    textarea.showPlaceholder = false // 记录
+  }
+}

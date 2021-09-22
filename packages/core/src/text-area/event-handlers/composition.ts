@@ -10,6 +10,7 @@ import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
 import { IS_SAFARI, IS_CHROME, IS_FIREFOX } from '../../utils/ua'
 import { DOMNode } from '../../utils/dom'
+import { hidePlaceholder } from '../place-holder'
 
 const EDITOR_TO_TEXT: WeakMap<IDomEditor, string> = new WeakMap()
 const EDITOR_TO_START_CONTAINER: WeakMap<IDomEditor, DOMNode> = new WeakMap()
@@ -38,6 +39,9 @@ export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDo
     EDITOR_TO_START_CONTAINER.set(editor, startContainer)
   }
   textarea.isComposing = true
+
+  // 隐藏 placeholder
+  hidePlaceholder(textarea, editor)
 }
 
 /**

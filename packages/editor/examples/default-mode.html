@@ -55,6 +55,8 @@
       console.log('on created', editor)
     }
     editorConfig.onChange = (editor) => {
+      // console.log(editor.children)
+
       const html = editor.getHtml()
       document.getElementById('editor-content-view').innerHTML = html
 
