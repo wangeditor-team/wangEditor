@@ -27,6 +27,9 @@ export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDo
   if (!hasEditableTarget(editor, event.target)) return
 
   const { selection } = editor
+  if (selection && Range.isExpanded(selection)) {
+    Editor.deleteFragment(editor)
+  }
 
   if (selection && Range.isCollapsed(selection)) {
     // 记录下 dom text ，以便触发 maxLength 时使用
@@ -70,11 +73,6 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
 
   const { selection } = editor
   if (selection == null) return
-
-  // 不能在 compositionStart 时删除，否则会导致 dom 更新，光标错位
-  if (selection && Range.isExpanded(selection)) {
-    Editor.deleteFragment(editor)
-  }
 
   // 在中文输入法下，浏览器的默认行为会使一些dom产生不可逆的变化
   // 比如在 Safari 中 url 后面输入，初始是 a > span > spans
