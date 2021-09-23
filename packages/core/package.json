@@ -41,8 +41,8 @@
     "url": "https://github.com/wangeditor-team/wangEditor-v5/issues"
   },
   "peerDependencies": {
-    "@uppy/core": "^1.19.1",
-    "@uppy/xhr-upload": "^1.7.4",
+    "@uppy/core": "^2.0.3",
+    "@uppy/xhr-upload": "^2.0.3",
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
     "lodash.camelcase": "^4.3.0",

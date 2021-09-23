@@ -34,10 +34,10 @@ export function genUploadImageConfig(): IUploadConfigForImage {
       // 例如：token: 'xxxxx', x: 100
     },
     metaWithUrl: false,
-    headers: {
-      // 自定义 http headers
-      // 例如：Accept: 'text/x-json', a: 100,
-    },
+    // headers: {
+    //   // 自定义 http headers
+    //   // 例如：Accept: 'text/x-json', a: 100,
+    // },
     withCredentials: false,
     timeout: 10 * 1000, // 10s
 

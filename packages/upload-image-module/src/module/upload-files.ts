@@ -9,7 +9,7 @@ import { insertImageNode } from '@wangeditor/basic-modules'
 import { IUploadConfigForImage } from './menu/config'
 
 // 存储 editor uppy 的关系 - 缓存 uppy ，不重复创建
-const EDITOR_TO_UPPY_MAP = new WeakMap<IDomEditor, Uppy.Uppy<'strict'>>()
+const EDITOR_TO_UPPY_MAP = new WeakMap<IDomEditor, Uppy>()
 
 function getMenuConfig(editor: IDomEditor) {
   return editor.getMenuConfig('uploadImage') as IUploadConfigForImage

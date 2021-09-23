@@ -15,9 +15,12 @@ export interface IUploadConfig {
   fieldName?: string
   maxFileSize?: number
   maxNumberOfFiles?: number
-  meta?: object
+  meta?: Record<string, unknown>
   metaWithUrl: false
-  headers?: object
+  headers?:
+    | Headers
+    | ((file: UppyFile<Record<string, unknown>, Record<string, unknown>>) => Headers)
+    | undefined
   withCredentials?: boolean
   timeout?: number
   onBeforeUpload?: (files: FilesType) => boolean | FilesType

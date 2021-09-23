@@ -8,7 +8,7 @@ import XHRUpload from '@uppy/xhr-upload'
 import { IUploadConfig } from './interface'
 import { addQueryToUrl } from '../utils/util'
 
-function createUploader(config: IUploadConfig): Uppy.Uppy<'strict'> {
+function createUploader(config: IUploadConfig): Uppy {
   // 获取配置
   const {
     server = '',
@@ -48,7 +48,7 @@ function createUploader(config: IUploadConfig): Uppy.Uppy<'strict'> {
   }
 
   // 生成 uppy 实例，参考文档 https://uppy.io/docs/uppy/
-  const uppy = Uppy({
+  const uppy = new Uppy({
     onBeforeUpload,
     restrictions: {
       maxFileSize,
