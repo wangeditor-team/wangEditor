@@ -103,6 +103,8 @@ export type ConfigType = {
     customInsertVideo: Function | null
 
     menuTooltipPosition: tooltipPositionType
+
+    toolbarDrawer: boolean
 }
 
 export type Resource = {
@@ -116,8 +118,8 @@ export type ResourceLanguage = {
 export type ResourceKey =
     | string
     | {
-          [key: string]: any
-      }
+        [key: string]: any
+    }
 
 // 合并所有的配置信息
 const defaultConfig = Object.assign(

@@ -1,3 +1,4 @@
+
 /**
  * @description 工具函数集合
  * @author wangfupeng
@@ -112,7 +113,7 @@ export function forEach<T extends unknown[] | Obj | ArrObj>(
  * @param fakeArr 类数组
  * @param fn 回调函数
  */
-export function arrForEach<T extends { length: number; [key: number]: unknown }>(
+export function arrForEach<T extends { length: number;[key: number]: unknown }>(
     fakeArr: T,
     fn: (this: T, item: T[number], index: number) => boolean | unknown
 ): void {

@@ -13,7 +13,6 @@ class Menus {
     public editor: Editor
     public menuList: Menu[]
     public constructorList: MenuListType
-
     constructor(editor: Editor) {
         this.editor = editor
         this.menuList = []
@@ -58,8 +57,10 @@ class Menus {
             this._initMenuList(menuKey, MenuConstructor)
         }
 
+
         // 渲染 DOM
-        this._addToToolbar()
+        this._addToToolbar(config.toolbarDrawer)
+
 
         if (config.showMenuTooltips) {
             // 添加菜单栏tooltips
@@ -178,12 +179,62 @@ class Menus {
             })
     }
     // 添加到菜单栏
-    private _addToToolbar(): void {
+    private _addToToolbar(toolbarDrawer: boolean): void {
         const editor = this.editor
         const $toolbarElem = editor.$toolbarElem
-
         // 遍历添加到 DOM
-        this.menuList.forEach(menu => {
+        if (toolbarDrawer) {
+            // 抽屉模式
+            this.drawerMode($toolbarElem)
+        } else {
+            //非抽屉模式
+            // this.menuList.forEach(menu => {
+            //   const $elem = menu.$elem
+            //   if ($elem) {
+            //     $toolbarElem.append($elem)
+            //   }
+            // })
+            this.batchAppend(this.menuList, $toolbarElem)
+        }
+
+    }
+    /**
+     *开启抽屉模式 
+     * @param $toolbarElem 
+     */
+    private drawerMode($toolbarElem: DomElement) {
+        const toolBarWidth = $toolbarElem.getWidth()
+        // 判断当前按钮的宽度是否大于编辑器宽度
+        if (this.menuList.length * 40 - toolBarWidth > 40) {
+            const interceptMenuList = this.menuList.splice(0, Math.floor((toolBarWidth - 80) / 40))
+            this.batchAppend(interceptMenuList, $toolbarElem)
+            const $elem = $(
+                `<div class="w-e-menu" data-title="抽屉">
+            ...
+        </div>`
+            )
+            $toolbarElem.append(this.drawerBar($elem))
+        } else {
+            this.batchAppend(this.menuList, $toolbarElem)
+        }
+    }
+    /**
+     *  绑定抽屉事件并且渲染剩余按钮
+     * @param $elem 
+     * @returns 
+     */
+    private drawerBar($elem: DomElement): DomElement {
+
+        return $elem
+    }
+
+    /**
+     * 封装批量渲染menu的dom
+     * @param menuList 
+     * @param $toolbarElem 
+     */
+    private batchAppend(menuList: Menu[], $toolbarElem: DomElement) {
+        menuList.forEach((menu) => {
             const $elem = menu.$elem
             if ($elem) {
                 $toolbarElem.append($elem)

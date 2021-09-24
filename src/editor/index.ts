@@ -48,7 +48,6 @@ class Editor {
     static globalCustomMenuConstructorList: MenuListType = {}
     static globalPluginsFunctionList: pluginsListType = {}
     public pluginsFunctionList: pluginsListType = {}
-
     public id: string
     public toolbarSelector: DomElementSelector
     public textSelector?: DomElementSelector
@@ -93,7 +92,7 @@ class Editor {
 
         this.toolbarSelector = toolbarSelector
         this.textSelector = textSelector
-
+        // 判断当前选择器是否可用
         selectorValidator(this)
 
         // 属性的默认值，后面可能会再修改
@@ -107,8 +106,9 @@ class Editor {
         this.isFocus = false
         this.isComposing = false
         this.isCompatibleMode = false
-
+        // 初始化选区api
         this.selection = new SelectionAndRangeAPI(this)
+        // 复制粘贴相关ƒ
         this.cmd = new CommandAPI(this)
         this.txt = new Text(this)
         this.menus = new Menus(this)

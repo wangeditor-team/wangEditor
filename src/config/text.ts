@@ -9,4 +9,5 @@ export default {
     placeholder: '请输入正文',
     zIndexFullScreen: 10002,
     showFullScreen: true,
+
 }

@@ -26,9 +26,9 @@ export type FontSizeConfType = {
 // font-style 类型
 export type FontStyleType = Array<
     | {
-          name: string
-          value: string
-      }
+        name: string
+        value: string
+    }
     | string
 >
 
@@ -208,4 +208,8 @@ export default {
 
     // 菜单栏tooltip为上标还是下标
     menuTooltipPosition: 'up',
+
+    // 判断是否开启抽屉模式
+
+    toolbarDrawer: false
 }

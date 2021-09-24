@@ -108,6 +108,7 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@babel/runtime-corejs3": "^7.11.2",
+    "resize-observer-polyfill": "^1.5.1",
     "tslib": "^2.1.0"
   },
   "husky": {
