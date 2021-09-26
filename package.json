@@ -24,6 +24,7 @@
     "packages/**/*.{ts,tsx}": [
       "eslint --ext .ts,tsx",
       "yarn format",
+      "yarn test",
       "git add ."
     ]
   },
