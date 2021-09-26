@@ -110,7 +110,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     elems: HTMLElement[]
     dataSource: Map<string, any>
     prior?: DomElement // 通过 getNodeTop 获取顶级段落的时候，可以通过 prior 去回溯来源的子节点
-
+    isShow = true // 当前元素是否是展示状态
     /**
      * 构造函数
      * @param selector 任一类型的选择器
@@ -474,6 +474,16 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
      */
     show(): DomElement {
         return this.css('display', 'block')
+    }
+
+    /**
+     * 展示隐藏切换
+     */
+
+    toggle(): DomElement {
+        const ele = this.css('display', this.isShow ? 'none' : 'flex')
+        this.isShow = !this.isShow
+        return ele
     }
 
     /**

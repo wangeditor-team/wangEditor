@@ -187,13 +187,6 @@ class Menus {
             // 抽屉模式
             this.drawerMode($toolbarElem)
         } else {
-            //非抽屉模式
-            // this.menuList.forEach(menu => {
-            //   const $elem = menu.$elem
-            //   if ($elem) {
-            //     $toolbarElem.append($elem)
-            //   }
-            // })
             this.batchAppend(this.menuList, $toolbarElem)
         }
 
@@ -206,14 +199,18 @@ class Menus {
         const toolBarWidth = $toolbarElem.getWidth()
         // 判断当前按钮的宽度是否大于编辑器宽度
         if (this.menuList.length * 40 - toolBarWidth > 40) {
-            const interceptMenuList = this.menuList.splice(0, Math.floor((toolBarWidth - 80) / 40))
-            this.batchAppend(interceptMenuList, $toolbarElem)
+            const start = Math.floor((toolBarWidth - 80) / 40)
+            const end = this.menuList.length - start
+            this.batchAppend(this.menuList.slice(0, start), $toolbarElem)
             const $elem = $(
                 `<div class="w-e-menu" data-title="抽屉">
             ...
         </div>`
             )
-            $toolbarElem.append(this.drawerBar($elem))
+            $toolbarElem.append(this.drawerBar($elem, ($droplistElem: DomElement) => {
+                this.batchAppend(this.menuList.slice(end), $droplistElem)
+                return $droplistElem
+            }))
         } else {
             this.batchAppend(this.menuList, $toolbarElem)
         }
@@ -223,8 +220,14 @@ class Menus {
      * @param $elem 
      * @returns 
      */
-    private drawerBar($elem: DomElement): DomElement {
-
+    private drawerBar($elem: DomElement, fn: Function): DomElement {
+        const $elemChild = $(
+            `<div class="w-e-droplist transverse" style="margin-top:40px"></div>`)
+        $elem.append(fn($elemChild))
+        $elemChild.isShow = false
+        $elem.on('click', (e: Event) => {
+            $elemChild.toggle()
+        })
         return $elem
     }
 
