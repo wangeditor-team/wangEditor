@@ -8,15 +8,20 @@ import Menu from './menu-constructors/Menu'
 import MenuConstructorList, { MenuListType } from './menu-list'
 import $, { DomElement } from './../utils/dom-core'
 // import { MenuActive } from './menu-constructors/Menu'
-
+import ResizeObserver from 'resize-observer-polyfill';
 class Menus {
     public editor: Editor
     public menuList: Menu[]
     public constructorList: MenuListType
+    private resizeObserver: ResizeObserver
     constructor(editor: Editor) {
         this.editor = editor
         this.menuList = []
         this.constructorList = MenuConstructorList // 所有菜单构造函数的列表
+        this.resizeObserver = new ResizeObserver((entries, observer) => {
+            const { editor } = this
+            this.drawerMode(editor.$toolbarElem)
+        });
     }
 
     /**
@@ -33,7 +38,6 @@ class Menus {
     public init(): void {
         // 从用户配置的 menus 入手，看需要初始化哪些菜单
         const config = this.editor.config
-
         // 排除exclude包含的菜单
         let excludeMenus: string[] | any = config.excludeMenus
         if (Array.isArray(excludeMenus) === false) excludeMenus = []
@@ -60,8 +64,6 @@ class Menus {
 
         // 渲染 DOM
         this._addToToolbar(config.toolbarDrawer)
-
-
         if (config.showMenuTooltips) {
             // 添加菜单栏tooltips
             this._bindMenuTooltips()
@@ -185,7 +187,7 @@ class Menus {
         // 遍历添加到 DOM
         if (toolbarDrawer) {
             // 抽屉模式
-            this.drawerMode($toolbarElem)
+            this.resizeObserver.observe($toolbarElem.elems[0])
         } else {
             this.batchAppend(this.menuList, $toolbarElem)
         }
