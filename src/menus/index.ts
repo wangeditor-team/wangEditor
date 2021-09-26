@@ -222,7 +222,7 @@ class Menus {
      */
     private drawerBar($elem: DomElement, fn: Function): DomElement {
         const $elemChild = $(
-            `<div class="w-e-droplist transverse" style="margin-top:40px"></div>`)
+            `<div class="w-e-droplist transverse" style="margin-top:40px;display:none"></div>`)
         $elem.append(fn($elemChild))
         $elemChild.isShow = false
         $elem.on('click', (e: Event) => {

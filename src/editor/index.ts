@@ -21,8 +21,8 @@ import Change from './change/index'
 import History from './history/index'
 import disableInit from './disable'
 import SelectionChange from './selection-change'
-
 import initPlugins, { RegisterOptions, pluginsListType, registerPlugin } from '../plugins'
+import ResizeObserver from 'resize-observer-polyfill';
 
 // 创建菜单的 class
 import { MenuListType } from '../menus/menu-list'
@@ -71,7 +71,6 @@ class Editor {
     public history: History
     public isEnable: Boolean
     public onSelectionChange: SelectionChange
-
     // 实例销毁前需要执行的钩子集合
     private beforeDestroyHooks: Function[] = []
 
@@ -81,6 +80,10 @@ class Editor {
     /** 启用api */
     public enable: Function
 
+    /**
+     *  保存宽度改变的实例对象
+     */
+    private ResizeObserver: ResizeObserver
     /**
      * 构造函数
      * @param toolbarSelector 工具栏 DOM selector
