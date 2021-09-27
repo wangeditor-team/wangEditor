@@ -1,20 +1,21 @@
 module.exports = {
   roots: ['<rootDir>/packages'],
   testEnvironment: 'jsdom',
-  testMatch: ['**/(*.)+(spec|test).+(ts|js)'],
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.js$': 'ts-jest',
+    '^.+\\.js$': 'babel-jest',
+    '.*\\.(vue)$': 'vue-jest',
   },
   globals: {
     'ts-jest': {
-      tsConfig: '<rootDir>/tsconfig.json',
+      tsconfig: '<rootDir>/tsconfig.json',
     },
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  moduleFileExtensions: ['js', 'ts', 'tsx', 'json', 'vue'],
   moduleNameMapper: {
     '^.+\\.(css|less)$': '<rootDir>/tests/utils/stylesMock.js',
   },
-  transformIgnorePatterns: ['node_modules/(?!(lodash-es)/)'],
+  transformIgnorePatterns: ['/node_modules/'],
   setupFilesAfterEnv: ['<rootDir>/tests/setup/index.ts'],
 }
