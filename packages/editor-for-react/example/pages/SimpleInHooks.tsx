@@ -42,7 +42,8 @@ function Basic() {
 
   return (
     <React.Fragment>
-      <div style={{ border: '1px solid #ccc' }}>
+      {/* data-testid 用于单元测试 */}
+      <div data-testid="editor-container" style={{ border: '1px solid #ccc' }}>
         {/* 渲染 toolbar */}
         <Toolbar
           editor={editor}

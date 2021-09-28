@@ -76,7 +76,8 @@ class Basic extends Component {
           <button onClick={this.printHtml.bind(this)}>打印 html</button>
         </div>
 
-        <div style={{ border: '1px solid #ccc', marginTop: '10px' }}>
+        {/* data-testid 用于单元测试 */}
+        <div data-testid="editor-container" style={{ border: '1px solid #ccc', marginTop: '10px' }}>
           {/* 渲染 toolbar */}
           <Toolbar
             editor={this.state.editor}
