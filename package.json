@@ -14,14 +14,14 @@
     "release:publish": "lerna publish from-git --yes",
     "prerelease": "yarn build",
     "format": "yarn prettier --write",
-    "lint": "eslint \"packages/*/src/**/*.+(ts|tsx)\"",
-    "prettier": "prettier --ignore-path .gitignore \"packages/*/src/**/*.+(ts|tsx)\""
+    "lint": "eslint \"packages/*/+(src|__tests__)/**/*.+(ts|tsx)\"",
+    "prettier": "prettier --ignore-path .gitignore \"packages/*/+(src|__tests__)/**/*.+(ts|tsx)\""
   },
   "workspaces": [
     "packages/*"
   ],
   "lint-staged": {
-    "packages/**/*.{ts,tsx,vue}": [
+    "packages/**/*.{ts,tsx}": [
       "yarn lint",
       "yarn format",
       "yarn test",
