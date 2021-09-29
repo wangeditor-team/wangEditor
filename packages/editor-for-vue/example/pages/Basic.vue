@@ -83,8 +83,7 @@ export default Vue.extend({
   methods: {
     //【注意】vue 和 React 不一样，无法在 props 传递事件，所以 callbacks 只能单独定义，通过事件传递
     onCreated(editor) {
-      console.log('onCreated', editor)
-      // this.editor = editor
+      // console.log('onCreated', editor)
     },
     onChange(editor) {
       console.log('onChange', editor.children)

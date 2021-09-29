@@ -17,6 +17,7 @@
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
+    "jsxFactory": "jsx", /* snabbdom jsx */
     "downlevelIteration": true,
     "allowJs": true
   },
