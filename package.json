@@ -24,7 +24,6 @@
     "packages/**/*.{ts,tsx}": [
       "yarn lint",
       "yarn format",
-      "yarn test",
       "git add ."
     ]
   },

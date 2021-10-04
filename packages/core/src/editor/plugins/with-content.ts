@@ -160,7 +160,7 @@ export const withContent = <T extends Editor>(editor: T) => {
   }
 
   // 根据 type 获取 elems
-  e.getElemsByTypePrefix = (typePrefix: string): ElementWithId[] => {
+  e.getElemsByType = (type: string, isPrefix = false): ElementWithId[] => {
     const elems: ElementWithId[] = []
 
     // 获取 editor 所有 nodes
@@ -171,9 +171,9 @@ export const withContent = <T extends Editor>(editor: T) => {
     for (let nodeEntry of nodeEntries) {
       const [node] = nodeEntry
       if (Element.isElement(node)) {
-        // 判断 type
-        const { type } = node
-        if (type.indexOf(typePrefix) >= 0) {
+        // 判断 type （前缀 or 全等）
+        let flag = isPrefix ? node.type.indexOf(type) >= 0 : node.type === type
+        if (flag) {
           const key = DomEditor.findKey(e, node)
           const id = genElemId(key.id)
 
@@ -187,6 +187,11 @@ export const withContent = <T extends Editor>(editor: T) => {
     }
 
     return elems
+  }
+
+  // 根据 type 前缀，获取 elems
+  e.getElemsByTypePrefix = (typePrefix: string): ElementWithId[] => {
+    return e.getElemsByType(typePrefix, true)
   }
 
   /**

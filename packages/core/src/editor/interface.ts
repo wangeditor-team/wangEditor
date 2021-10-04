@@ -30,6 +30,7 @@ export interface IDomEditor extends Editor {
   getText: () => string
   getSelectionText: () => string // 获取选区文字
   getElemsByTypePrefix: (typePrefix: string) => ElementWithId[]
+  getElemsByType: (type: string, isPrefix?: boolean) => ElementWithId[]
   getParentNode: (node: Node) => Ancestor | null
   isEmpty: () => boolean
   clear: () => void
@@ -56,6 +57,8 @@ export interface IDomEditor extends Editor {
   // selection 相关
   select: (at: Location) => void
   deselect: () => void
+  move: (distance: number, reverse?: boolean) => void
+  moveReverse: (distance: number) => void
   restoreSelection: () => void
   getSelectionPosition: () => Partial<IPositionStyle>
   getNodePosition: (node: Node) => Partial<IPositionStyle>

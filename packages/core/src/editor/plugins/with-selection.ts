@@ -32,6 +32,23 @@ export const withSelection = <T extends Editor>(editor: T) => {
     }
   }
 
+  // 移动光标
+  e.move = (distance: number, reverse = false) => {
+    if (!distance) return
+    if (distance < 0) return
+
+    Transforms.move(editor, {
+      distance,
+      unit: 'character',
+      reverse,
+    })
+  }
+
+  // 反向移动光标
+  e.moveReverse = (distance: number) => {
+    e.move(distance, true)
+  }
+
   /**
    * 还原选区
    */
