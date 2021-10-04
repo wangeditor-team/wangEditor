@@ -1,11 +1,11 @@
 # wangEditor (v5)
 
-[中文](./README.md)
+[中文介绍](./README.md)
 
 Open source web rich text editor, run right out of the box.
 
 - [Document](https://www.wangeditor.com/v5/en/)
-- [Dome](https://www.wangeditor.com/demo/en/)
+- [Demo](https://www.wangeditor.com/demo/en/)
 
 ![](./docs/images/editor-en.png)
 
