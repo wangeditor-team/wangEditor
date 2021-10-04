@@ -33,9 +33,6 @@ class Head extends DropListMenu implements MenuActive {
                 },
             ],
             clickHandler: (value: string) => {
-                if (editor.$textElem.html() === EMPTY_P) {
-                    return
-                }
                 // 注意 this 是指向当前的 Head 对象
                 this.command(value)
             },
