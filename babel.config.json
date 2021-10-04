@@ -10,8 +10,7 @@
       }
     ],
     "@babel/preset-react",
-    "@babel/preset-typescript",
-    "@vue/cli-plugin-babel/preset"
+    "@babel/preset-typescript"
   ],
   "plugins": [
     [
