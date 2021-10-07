@@ -21,7 +21,7 @@ export function createShowHideFn(editor: Editor) {
      * @param $node 链接元素
      */
     function showImgTooltip($node: DomElement) {
-        const conf: TooltipConfType = [
+        const defConfig: TooltipConfType = [
             {
                 $elem: $("<span class='w-e-icon-trash-o'></span>"),
                 onClick: (editor: Editor, $node: DomElement) => {
@@ -63,18 +63,29 @@ export function createShowHideFn(editor: Editor) {
                     return true
                 },
             },
+            {
+                $elem: $(`<span>${t('重置')}</span>`),
+                onClick: (editor: Editor, $node: DomElement) => {
+                    $node.removeAttr('width')
+                    $node.removeAttr('height')
+
+                    // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
+                    return true
+                },
+            },
         ]
 
-        conf.push({
-            $elem: $(`<span>${t('重置')}</span>`),
-            onClick: (editor: Editor, $node: DomElement) => {
-                $node.removeAttr('width')
-                $node.removeAttr('height')
-
-                // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。
-                return true
-            },
-        })
+        let conf: TooltipConfType = []
+        switch (editor.config.imageTooltip.type) {
+            case 'push':
+                conf = conf.concat(defConfig).concat(editor.config.imageTooltip.list)
+                break
+            case 'replace':
+                conf = conf.concat(editor.config.imageTooltip.list)
+                break
+            default:
+                conf = conf.concat(defConfig)
+        }
 
         if ($node.attr('data-href')) {
             conf.push({
@@ -90,9 +101,11 @@ export function createShowHideFn(editor: Editor) {
                 },
             })
         }
-
+        console.log('editor', editor.config.imageTooltip)
         tooltip = new Tooltip(editor, $node, conf)
-        tooltip.create()
+        if (conf.length > 0) {
+            tooltip.create()
+        }
     }
 
     /**
