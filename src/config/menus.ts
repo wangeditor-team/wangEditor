@@ -3,6 +3,8 @@
  * @author wangfupeng
  */
 
+import { TooltipConfType } from '../menus/menu-constructors/Tooltip'
+
 // 表情菜单数据结构类型
 export type EmotionsContentType = {
     alt: string
@@ -41,6 +43,15 @@ export type IndentationType = string | IndentationOptions
 
 // tooltip-position类型
 export type tooltipPositionType = 'up' | 'down'
+
+// tooltip-position类型
+export type tooltipConfigType = 'push' | 'replace'
+
+// tooltip-position类型
+export type ImageTooltipType = {
+    type: tooltipConfigType
+    list: TooltipConfType
+}
 
 /*表情菜单数据结构类型END*/
 export default {
@@ -208,4 +219,6 @@ export default {
 
     // 菜单栏tooltip为上标还是下标
     menuTooltipPosition: 'up',
+
+    imageTooltip: 'push',
 }

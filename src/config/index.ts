@@ -9,6 +9,7 @@ import menusConfig, {
     IndentationType,
     tooltipPositionType,
     FontStyleType,
+    ImageTooltipType,
 } from './menus'
 import eventsConfig from './events'
 import styleConfig from './style'
@@ -103,6 +104,8 @@ export type ConfigType = {
     customInsertVideo: Function | null
 
     menuTooltipPosition: tooltipPositionType
+
+    imageTooltip: ImageTooltipType
 }
 
 export type Resource = {
