@@ -78,6 +78,22 @@ describe('editor content API', () => {
     expect(images.length).toBe(0)
   })
 
+  it('getElemsByType', () => {
+    const editor = createEditor({
+      content: [
+        { type: 'header1', children: [{ text: 'a' }] },
+        { type: 'header2', children: [{ text: 'b' }] },
+        { type: 'paragraph', children: [{ text: 'c' }] },
+      ],
+    })
+    const headers = editor.getElemsByType('header')
+    expect(headers.length).toBe(0)
+    const pList = editor.getElemsByType('paragraph')
+    expect(pList.length).toBe(1)
+    const images = editor.getElemsByType('image')
+    expect(images.length).toBe(0)
+  })
+
   it('deleteBackward and deleteForward', () => {
     const editor = createEditor({
       content: [{ type: 'paragraph', children: [{ text: 'hello' }] }],
