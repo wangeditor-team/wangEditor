@@ -32,11 +32,25 @@ function deleteToKeepP(editor: Editor, deleteUpEvents: Function[], deleteDownEve
             // 内容空了
             $textElem.html(EMPTY_P)
 
-            editor.selection.createRangeByElem($textElem, false, true)
+            /**
+             * 当编辑器 - 文本区内容为空的情况下，会插入一个空的P，此时应该将选区移动到这个空标签上，重置选区
+             * bug: 如果选区没有从$textElem上调整到p上，就会有问题，在清空内容，设置标题时，会报错。
+             */
+            const containerElem = $textElem.getNode()
+
+            // 设置新的选区
+            editor.selection.createRangeByElems(
+                containerElem.childNodes[0],
+                containerElem.childNodes[0]
+            )
+
+            const $selectionElem = editor.selection.getSelectionContainerElem()!
+
             editor.selection.restoreSelection()
+
             // 设置折叠后的光标位置，在firebox等浏览器下
             // 光标设置在end位置会自动换行
-            editor.selection.moveCursor($textElem.getNode(), 0)
+            editor.selection.moveCursor($selectionElem.getNode(), 0)
         }
     }
     deleteUpEvents.push(upFn)

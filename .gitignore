@@ -115,8 +115,6 @@ ISSUE1.md
 
 .idea/
 
-package-lock.json
-
 # cypress
 */cypress/videos
 */cypress/screenshots
