@@ -9,12 +9,7 @@ import { DomEditor } from '../../editor/dom-editor'
 import { IDomEditor } from '../../editor/interface'
 
 function str(text: string, isTrailing = false): VNode {
-  return (
-    <span data-slate-string>
-      {text}
-      {isTrailing ? '\n' : null}
-    </span>
-  )
+  return <span data-slate-string>{isTrailing ? text + '\n' : text}</span>
 }
 
 function zeroWidthStr(length = 0, isLineBreak = false): VNode {
