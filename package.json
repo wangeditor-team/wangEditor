@@ -18,6 +18,8 @@
     "prettier": "prettier --ignore-path .gitignore \"packages/*/+(src|__tests__)/**/*.+(ts|tsx)\"",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
+    "e2e:dev": "concurrently \"yarn example\" \"yarn run cypress:open\"",
+    "e2e": "concurrently \"yarn example\" \"yarn run cypress:run\"",
     "example": "lerna exec --scope @wangeditor/editor -- yarn run example"
   },
   "workspaces": [
