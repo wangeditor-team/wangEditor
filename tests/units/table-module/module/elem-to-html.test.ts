@@ -1,3 +1,8 @@
+/**
+ * @description table menu test
+ * @author luochao
+ */
+
 import {
   tableCellToHtmlConf,
   tableToHtmlConf,

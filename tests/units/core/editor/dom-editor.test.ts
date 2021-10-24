@@ -1,3 +1,8 @@
+/**
+ * @description core editor test
+ * @author luochao
+ */
+
 import { DomEditor } from '../../../../packages/core/src/editor/dom-editor'
 import { IDomEditor } from '../../../../packages/core/src/editor/interface'
 import createEditor from '../../../utils/create-editor'

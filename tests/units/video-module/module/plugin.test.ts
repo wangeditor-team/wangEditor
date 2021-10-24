@@ -1,3 +1,8 @@
+/**
+ * @description video menu test
+ * @author luochao
+ */
+
 import withVideo from '../../../../packages/video-module/src/module/plugin'
 import createEditor from '../../../../tests/utils/create-editor'
 

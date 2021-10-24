@@ -1,3 +1,8 @@
+/**
+ * @description bulletedList menu test
+ * @author luochao
+ */
+
 import { genTag, checkList } from '../../../../packages/list-module/src/module/helper'
 
 describe('List-module module', () => {

@@ -1,3 +1,8 @@
+/**
+ * @description bulletedList menu test
+ * @author luochao
+ */
+
 import {
   bulletedToHtmlConf,
   numberedToHtmlConf,

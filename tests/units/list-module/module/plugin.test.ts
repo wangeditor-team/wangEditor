@@ -1,3 +1,8 @@
+/**
+ * @description list menu test
+ * @author luochao
+ */
+
 import withList from '../../../../packages/list-module/src/module/plugin'
 import createEditor from '../../../../tests/utils/create-editor'
 import * as core from '@wangeditor/core'

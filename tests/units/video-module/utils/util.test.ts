@@ -1,3 +1,8 @@
+/**
+ * @description video menu test
+ * @author luochao
+ */
+
 import { genRandomStr } from '../../../../packages/video-module/src/utils/util'
 
 describe('videoModule util', () => {

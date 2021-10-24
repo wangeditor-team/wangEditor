@@ -1,3 +1,8 @@
+/**
+ * @description video menu test
+ * @author luochao
+ */
+
 import { videoToHtmlConf } from '../../../../packages/video-module/src/module/elem-to-html'
 
 describe('videoModule module', () => {

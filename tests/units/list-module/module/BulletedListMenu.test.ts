@@ -1,3 +1,8 @@
+/**
+ * @description bulletedList menu test
+ * @author luochao
+ */
+
 import BulletedListMenu from '../../../../packages/list-module/src/module/menu/BulletedListMenu'
 import createEditor from '../../../../tests/utils/create-editor'
 import * as core from '@wangeditor/core'

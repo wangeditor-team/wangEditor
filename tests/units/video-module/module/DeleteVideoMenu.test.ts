@@ -1,3 +1,8 @@
+/**
+ * @description video menu test
+ * @author luochao
+ */
+
 import createEditor from '../../../../tests/utils/create-editor'
 import DeleteVideoMenu from '../../../../packages/video-module/src/module/menu/DeleteVideoMenu'
 import * as core from '@wangeditor/core'

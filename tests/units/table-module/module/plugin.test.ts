@@ -1,3 +1,8 @@
+/**
+ * @description table menu test
+ * @author luochao
+ */
+
 import createEditor from '../../../../tests/utils/create-editor'
 import withTable from '../../../../packages/table-module/src/module/plugin'
 import * as core from '@wangeditor/core'

@@ -1,3 +1,8 @@
+/**
+ * @description numberedList menu test
+ * @author luochao
+ */
+
 import NumberedListMenu from '../../../../packages/list-module/src/module/menu/NumberedListMenu'
 import createEditor from '../../../../tests/utils/create-editor'
 import * as core from '@wangeditor/core'
