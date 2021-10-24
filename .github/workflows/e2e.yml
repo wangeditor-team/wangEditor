@@ -21,6 +21,8 @@ on:
       - 'tests/**'
       - 'build/**'
       - 'cypress/**'
+      - 'babel.config.json'
+      - 'cypress.json'
 
 jobs:
   test-e2e:
