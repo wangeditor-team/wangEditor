@@ -1,19 +1,20 @@
 module.exports = {
-  roots: ['<rootDir>/packages'],
+  roots: ['<rootDir>/tests'],
   testEnvironment: 'jsdom',
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
+  testMatch: ['**/(*.)+(spec|test).+(ts|js|tsx)'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.js$': 'ts-jest',
   },
   globals: {
     'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.json',
+      tsConfig: '<rootDir>/tsconfig.json',
     },
   },
-  moduleFileExtensions: ['js', 'ts', 'tsx', 'json', 'vue'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
     '^.+\\.(css|less)$': '<rootDir>/tests/utils/stylesMock.js',
   },
-  transformIgnorePatterns: ['/node_modules/'],
+  transformIgnorePatterns: ['node_modules/(?!(html-void-elements)/)'],
   setupFilesAfterEnv: ['<rootDir>/tests/setup/index.ts'],
 }
