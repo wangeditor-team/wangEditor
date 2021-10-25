@@ -1,0 +1,45 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# github actions 中文文档 https://docs.github.com/cn/actions/getting-started-with-github-actions
+
+name: Cypress tests
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'dev'
+      - 'feature-*'
+      - 'fix-*'
+      - 'hotfix-*'
+      - 'refactor-*'
+      - 'test-*'
+    paths:
+      - '.github/workflows/*'
+      - 'packages/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'build/**'
+      - 'cypress/**'
+      - 'babel.config.json'
+      - 'cypress.json'
+
+jobs:
+  test-e2e:
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node12.13.0-chrome78-ff70
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: yarn install
+    - name: Build packages
+      run: yarn build  
+    - uses: cypress-io/github-action@v2
+      with:
+        browser: chrome
+        start: yarn run example
+        wait-on: 'http://localhost:8881/examples/default-mode.html'
