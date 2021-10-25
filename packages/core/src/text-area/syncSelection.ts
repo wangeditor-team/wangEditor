@@ -142,15 +142,10 @@ export function DOMSelectionToEditor(textarea: TextArea, editor: IDomEditor) {
   const { isComposing, isUpdatingSelection, isDraggingInternally } = textarea
   const config = editor.getConfig()
 
-  console.log('DOMSelectionToEditor isComposing', isComposing)
-  console.log('DOMSelectionToEditor isUpdatingSelection', isUpdatingSelection)
-
   if (config.readOnly) return
   if (isComposing) return
   if (isUpdatingSelection) return
   if (isDraggingInternally) return
-
-  console.log('DOMSelectionToEditor 选区更新')
 
   const root = DomEditor.findDocumentOrShadowRoot(editor)
   const { activeElement } = root

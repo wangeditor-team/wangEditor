@@ -49,7 +49,7 @@
     "url": "https://github.com/wangeditor-team/wangEditor-v5/issues"
   },
   "dependencies": {
-    "@uppy/core": "^2.0.3",
+    "@uppy/core": "^2.1.1",
     "@uppy/xhr-upload": "^2.0.3",
     "@wangeditor/basic-modules": "^0.7.5",
     "@wangeditor/code-highlight": "^0.7.3",

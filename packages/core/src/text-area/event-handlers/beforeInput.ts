@@ -124,7 +124,6 @@ function handleBeforeInput(e: Event, textarea: TextArea, editor: IDomEditor) {
 
     case 'insertLineBreak':
     case 'insertParagraph': {
-      console.log('beforeinput insertLineBreak')
       Editor.insertBreak(editor)
       break
     }

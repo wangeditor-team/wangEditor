@@ -177,7 +177,6 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
     }
 
     if (Hotkeys.isSplitBlock(event)) {
-      console.log('keydown insertLineBreak')
       preventDefault(event)
       Editor.insertBreak(editor)
       return

@@ -3293,29 +3293,36 @@
     "@uppy/utils" "^4.0.1"
     namespace-emitter "^2.0.1"
 
-"@uppy/core@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.nlark.com/@uppy/core/download/@uppy/core-2.0.3.tgz#8f903bf74d8a6d5d98ebe8db195a5b1de842fe96"
-  integrity sha1-j5A7902KbV2Y6+jbGVpbHehC/pY=
+"@uppy/core@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.npmmirror.com/@uppy/core/download/@uppy/core-2.1.1.tgz#503b3172ffe32e6cc7385f5b0c99f008ade815f1"
+  integrity sha1-UDsxcv/jLmzHOF9bDJnwCK3oFfE=
   dependencies:
     "@transloadit/prettier-bytes" "0.0.7"
-    "@uppy/store-default" "^2.0.0"
-    "@uppy/utils" "^4.0.1"
+    "@uppy/store-default" "^2.0.2"
+    "@uppy/utils" "^4.0.3"
     lodash.throttle "^4.1.1"
     mime-match "^1.0.2"
     namespace-emitter "^2.0.1"
     nanoid "^3.1.25"
     preact "^10.5.13"
 
-"@uppy/store-default@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.nlark.com/@uppy/store-default/download/@uppy/store-default-2.0.0.tgz?cache=0&sync_timestamp=1629814690785&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40uppy%2Fstore-default%2Fdownload%2F%40uppy%2Fstore-default-2.0.0.tgz#c446a89d07a6df7f980a15eeb880d169baa14d7f"
-  integrity sha1-xEaonQem33+YChXuuIDRabqhTX8=
+"@uppy/store-default@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.npmmirror.com/@uppy/store-default/download/@uppy/store-default-2.0.2.tgz#c0464e92452fdc7d4cd1548d2c7453017cad7a98"
+  integrity sha1-wEZOkkUv3H1M0VSNLHRTAXytepg=
 
 "@uppy/utils@^4.0.1":
   version "4.0.1"
   resolved "https://registry.nlark.com/@uppy/utils/download/@uppy/utils-4.0.1.tgz#3caabaeb6db0bcb4dde6f839cd976ec42d08f0de"
   integrity sha1-PKq6622wvLTd5vg5zZduxC0I8N4=
+  dependencies:
+    lodash.throttle "^4.1.1"
+
+"@uppy/utils@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.npmmirror.com/@uppy/utils/download/@uppy/utils-4.0.3.tgz#181fdd161e1450d31af0cf7bc97946a99196a8fe"
+  integrity sha1-GB/dFh4UUNMa8M97yXlGqZGWqP4=
   dependencies:
     lodash.throttle "^4.1.1"
 
