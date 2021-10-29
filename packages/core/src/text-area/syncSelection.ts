@@ -114,7 +114,9 @@ export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): vo
     leafEl.getBoundingClientRect = newDomRange.getBoundingClientRect.bind(newDomRange)
     scrollIntoView(leafEl, {
       scrollMode: 'if-needed',
-      boundary: editorElement,
+      boundary: editorElement.parentElement,
+      block: 'end',
+      behavior: 'smooth',
     })
     // @ts-ignore
     delete leafEl.getBoundingClientRect
