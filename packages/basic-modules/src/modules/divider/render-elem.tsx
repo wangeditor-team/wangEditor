@@ -19,6 +19,7 @@ function renderDivider(
 
   const vnode = (
     <div
+      contentEditable={false}
       className="w-e-textarea-divider"
       data-selected={selected ? 'true' : ''} // 标记为 选中
       style={renderStyle}
