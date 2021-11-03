@@ -4,13 +4,13 @@
  */
 
 import Editor from '../../editor/index'
-import { PanelConf } from '../menu-constructors/Panel'
+import { LinkPanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $, { DomElement } from '../../utils/dom-core'
 import isActive from './is-active'
 import { insertHtml } from './util'
 
-export default function (editor: Editor, text: string, link: string): PanelConf {
+export default function (editor: Editor): LinkPanelConf {
     // panel 中需要用到的id
     const inputLinkId = getRandom('input-link')
     const inputTextId = getRandom('input-text')
@@ -44,15 +44,22 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
     function insertLink(text: string, link: string): void {
         // fix: 修复列表下无法设置超链接的问题(替换选中文字中的标签)
         const subStr = new RegExp(/(<\/*ul>)|(<\/*li>)|(<\/*ol>)/g)
+        const aId = getRandom('a')
+
         text = text.replace(subStr, '')
         if (isActive(editor)) {
             // 选区处于链接中，则选中整个菜单，再执行 insertHTML
             selectLinkElem()
-            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+            editor.cmd.do('insertHTML', `<a id="${aId}" href="" target="_blank">${text}</a>`)
         } else {
             // 选区未处于链接中，直接插入即可
-            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+            editor.cmd.do('insertHTML', `<a id="${aId}" href="" target="_blank">${text}</a>`)
         }
+
+        // 给标签的href赋值，避免>的情况时赋值有问题
+        const aLabel = document.querySelector(`#${aId}`) as HTMLLinkElement
+        aLabel.href = link
+        aLabel.removeAttribute('id')
     }
 
     /**
@@ -91,6 +98,9 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
     const conf = {
         width: 300,
         height: 0,
+        // 两个id导出去赋值时候用
+        inputTextId,
+        inputLinkId,
 
         // panel 中可包含多个 tab
         tabs: [
@@ -103,14 +113,14 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                             id="${inputTextId}"
                             type="text"
                             class="block"
-                            value="${text}"
+                            value=""
                             placeholder="${editor.i18next.t('menus.panelMenus.link.链接文字')}"/>
                         </td>
                         <input
                             id="${inputLinkId}"
                             type="text"
                             class="block"
-                            value="${link}"
+                            value=""
                             placeholder="${editor.i18next.t('如')} https://..."/>
                         </td>
                         <div class="w-e-button-container">
