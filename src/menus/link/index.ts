@@ -83,9 +83,23 @@ class Link extends PanelMenu implements MenuActive {
      * @param link 链接
      */
     private createPanel(text: string, link: string): void {
-        const conf = createPanelConf(this.editor, text, link)
+        const conf = createPanelConf(this.editor)
         const panel = new Panel(this, conf)
         panel.create()
+
+        const { inputLinkId, inputTextId } = conf
+        this.setValueForInput(inputTextId, text)
+        this.setValueForInput(inputLinkId, link)
+    }
+
+    /**
+     * 给input框赋值，修复在tpl赋值中遇到内容为">的情况下input框错位问题
+     * @param inputId 输入框id
+     * @param inputValue 输入框内容
+     */
+    private setValueForInput(inputId: string, inputValue: string) {
+        const input = $(`#${inputId}`).elems[0] as HTMLInputElement
+        input.value = inputValue
     }
 
     /**

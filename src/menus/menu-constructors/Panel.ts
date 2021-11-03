@@ -25,6 +25,11 @@ export type PanelConf = {
     tabs: PanelTabConf[]
 }
 
+export type LinkPanelConf = {
+    inputTextId: string
+    inputLinkId: string
+} & PanelConf
+
 class Panel {
     // 记录已经创建过的 panelMenu
     static createdMenus: Set<PanelMenu> = new Set()
