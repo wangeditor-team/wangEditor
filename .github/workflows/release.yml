@@ -32,6 +32,13 @@ jobs:
       - name: Unit test
         run: yarn run test 
 
+      - name: E2E test
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          start: yarn run example
+          wait-on: 'http://localhost:8881/examples/default-mode.html'   
+
       - name: Publish npm
         run: yarn run release:publish
         env:
