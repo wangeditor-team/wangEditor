@@ -132,6 +132,7 @@ export default {
     // ],
 
     colors: [
+        'transparent',
         '#000000',
         '#ffffff',
         '#eeece0',

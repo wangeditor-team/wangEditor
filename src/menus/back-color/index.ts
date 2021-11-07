@@ -59,8 +59,18 @@ class BackColor extends DropListMenu implements MenuActive {
             // 插入空白选区
             editor.selection.createEmptyRange()
         }
-
-        editor.cmd.do('backColor', value)
+        // transparent这里处理一下
+        if (value === 'transparent') {
+            $selectionElem.style.backgroundColor = ''
+            const style = $selectionElem.getAttribute('style')
+            if (style === '') {
+                $selectionElem.removeAttribute('style')
+            }
+            editor.selection.restoreSelection()
+            editor.selection.saveRange()
+        } else {
+            editor.cmd.do('backColor', value)
+        }
 
         if (isEmptySelection) {
             // 需要将选区范围折叠起来

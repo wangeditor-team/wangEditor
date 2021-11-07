@@ -43,9 +43,7 @@ class FontColor extends DropListMenu implements MenuActive {
         const editor = this.editor
         const isEmptySelection = editor.selection.isSelectionEmpty()
         const $selectionElem = editor.selection.getSelectionContainerElem()?.elems[0]
-
         if ($selectionElem == null) return
-
         // 获取选区范围的文字
         const $selectionText = editor.selection.getSelectionText()
         // 如果设置的是 a 标签就特殊处理一下，避免回车换行设置颜色无效的情况
@@ -56,7 +54,14 @@ class FontColor extends DropListMenu implements MenuActive {
             // 添加到a标签之后
             $selectionElem.appendChild(_payloadElem)
         }
-        editor.cmd.do('foreColor', value)
+        // transparent这里处理一下
+        if (value === 'transparent') {
+            $selectionElem.removeAttribute('color')
+            editor.selection.restoreSelection()
+            editor.selection.saveRange()
+        } else {
+            editor.cmd.do('foreColor', value)
+        }
 
         if (isEmptySelection) {
             // 需要将选区范围折叠起来
