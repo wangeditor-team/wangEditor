@@ -15,10 +15,10 @@
   "license": "MIT",
   "types": "dist/editor/src/index.d.ts",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.esm.js",
   "browser": {
     "./dist/index.js": "./dist/index.js",
-    "./dist/index.mjs": "./dist/index.mjs"
+    "./dist/index.esm.js": "./dist/index.esm.js"
   },
   "directories": {
     "lib": "dist",
