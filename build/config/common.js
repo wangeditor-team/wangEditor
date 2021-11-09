@@ -11,9 +11,8 @@ import typescript from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
 import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 // import del from 'rollup-plugin-delete'
-import vuePlugin from 'rollup-plugin-vue'
 
-export const extensions = ['.js', '.jsx', '.ts', '.tsx', '.vue']
+export const extensions = ['.js', '.jsx', '.ts', '.tsx']
 
 export default {
   input: path.resolve(__dirname, './src/index.ts'),
@@ -36,9 +35,6 @@ export default {
       browser: true, // 重要
       extensions,
     }),
-    vuePlugin({
-      target: 'browser',
-    }),
     commonjs(),
     replace({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
@@ -46,5 +42,5 @@ export default {
     }),
     // del({ targets: 'dist/*' }),
   ],
-  external: ['react', 'react-dom', 'vue'],
+  external: ['react', 'react-dom'],
 }

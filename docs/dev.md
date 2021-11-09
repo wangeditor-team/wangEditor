@@ -18,7 +18,6 @@
 ### 运行 demo
 
 - 进入 `packages/editor` 目录，运行 `yarn example`
-- 进入 `packages/editor-for-vue` 目录，运行 `yarn example`
 - 进入 `packages/editor-for-react` 目录，运行 `yarn example`
 
 ## 注意事项

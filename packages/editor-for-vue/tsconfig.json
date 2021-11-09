@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "include": [
-    "./src/**/*",
-    "./examples/**/*",
-    "./shims-vue.d.ts",
-    "../custom-types.d.ts"
-  ]
-}

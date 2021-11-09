@@ -26,5 +26,5 @@
     "build",
     "__tests__"
   ],
-  "include": ["./tests/setup/index.ts", "./shims-vue.d.ts"]
+  "include": ["./tests/setup/index.ts"]
 }
