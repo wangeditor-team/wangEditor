@@ -12,36 +12,41 @@ cd ./packages
 
 # core 要第一个打包
 cd ./core
+rm -rf dist # 清空 dist 目录
 yarn "$buildType"
 
 cd ../basic-modules
+rm -rf dist # 清空 dist 目录
 yarn "$buildType"
 
 # code-highlight 依赖于 basic-modules 中的 code-block
 cd ../code-highlight
+rm -rf dist # 清空 dist 目录
 yarn "$buildType"
 
 cd ../list-module
+rm -rf dist # 清空 dist 目录
 yarn "$buildType"
 
 cd ../table-module
+rm -rf dist # 清空 dist 目录
 yarn "$buildType"
 
 # upload-image 依赖于 basic-modules 中的 image
 cd ../upload-image-module
+rm -rf dist # 清空 dist 目录
 yarn "$buildType"
 
 cd ../video-module
+rm -rf dist # 清空 dist 目录
 yarn "$buildType"
 
 # editor 依赖于上述的 core + modules
 cd ../editor
+rm -rf dist # 清空 dist 目录
 yarn "$buildType"
 
 # react 组件依赖于 editor
 cd ../editor-for-react
-yarn "$buildType"
-
-# vue 组件依赖于 editor
-cd ../editor-for-vue
+rm -rf dist # 清空 dist 目录
 yarn "$buildType"

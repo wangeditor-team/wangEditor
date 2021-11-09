@@ -62,9 +62,6 @@
     "@types/jest": "^25.2.1",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^4.4.1",
-    "@vue/cli-plugin-babel": "^4.5.13",
-    "@vue/compiler-sfc": "^3.1.4",
-    "@vue/test-utils": "^1.2.2",
     "autoprefixer": "^10.2.5",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^27.0.6",
@@ -105,12 +102,9 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "rollup-plugin-visualizer": "^5.5.0",
-    "rollup-plugin-vue": "^6.0.0",
     "ts-jest": "^27.0.4",
     "tslib": "^2.3.0",
-    "typescript": "4.3.2",
-    "vue-jest": "^3.0.7",
-    "vue-template-compiler": "^2.6.14"
+    "typescript": "4.3.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.14.6"
