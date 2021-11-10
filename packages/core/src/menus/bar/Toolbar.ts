@@ -63,7 +63,18 @@ class Toolbar {
   private registerItems() {
     let prevKey = ''
     const $toolbar = this.$toolbar
-    const { toolbarKeys = [], excludeKeys = [] } = this.config // 格式如 ['a', '|', 'b', 'c', '|', 'd']
+    const { toolbarKeys = [], insertKeys = { index: 0, keys: [] }, excludeKeys = [] } = this.config // 格式如 ['a', '|', 'b', 'c', '|', 'd']
+
+    // 新插入菜单
+    if (insertKeys.keys.length > 0) {
+      if (typeof insertKeys.keys === 'string') {
+        insertKeys.keys = [insertKeys.keys]
+      }
+
+      insertKeys.keys.forEach((k, i) => {
+        toolbarKeys.splice(insertKeys.index + i, 0, k)
+      })
+    }
 
     // 排除某些菜单
     const filteredKeys = toolbarKeys.filter(key => {
