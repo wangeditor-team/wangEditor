@@ -63,5 +63,6 @@ export interface IEditorConfig {
  */
 export interface IToolbarConfig {
   toolbarKeys: Array<string | IMenuGroup>
+  insertKeys: { index: number; keys: string | Array<string | IMenuGroup> }
   excludeKeys: Array<string> // 排除哪些菜单
 }
