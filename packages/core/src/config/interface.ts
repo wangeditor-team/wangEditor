@@ -65,4 +65,5 @@ export interface IToolbarConfig {
   toolbarKeys: Array<string | IMenuGroup>
   insertKeys: { index: number; keys: string | Array<string | IMenuGroup> }
   excludeKeys: Array<string> // 排除哪些菜单
+  modalAppendToBody: boolean // modal append 到 body ，而非 $textAreaContainer 内
 }
