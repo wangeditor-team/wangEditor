@@ -5,9 +5,10 @@
 
 import { IDomEditor } from '../../editor/interface'
 import { Dom7Array } from '../../utils/dom'
-import { EDITOR_TO_PANEL_AND_MODAL } from '../../utils/weak-maps'
+import { EDITOR_TO_PANEL_AND_MODAL, PANEL_OR_MODAL_TO_EDITOR } from '../../utils/weak-maps'
 
 abstract class PanelAndModal {
+  abstract readonly type: string
   abstract readonly $elem: Dom7Array
   isShow: boolean = false
   private showTime: number = 0 // 显示时的时间戳
@@ -26,6 +27,8 @@ abstract class PanelAndModal {
       EDITOR_TO_PANEL_AND_MODAL.set(editor, set)
     }
     set.add(this)
+
+    PANEL_OR_MODAL_TO_EDITOR.set(this, editor)
   }
 
   /**
@@ -57,6 +60,10 @@ abstract class PanelAndModal {
     const { $elem } = this
     $elem.show()
     this.isShow = true
+
+    // 触发事件
+    const editor = PANEL_OR_MODAL_TO_EDITOR.get(this)
+    if (editor) editor.emit('modalOrPanelShow', this)
   }
 
   hide() {
@@ -71,6 +78,10 @@ abstract class PanelAndModal {
     const { $elem } = this
     $elem.hide()
     this.isShow = false
+
+    // 触发事件
+    const editor = PANEL_OR_MODAL_TO_EDITOR.get(this)
+    if (editor) editor.emit('modalOrPanelHide')
   }
 }
 

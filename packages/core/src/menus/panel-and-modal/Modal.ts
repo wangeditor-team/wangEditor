@@ -11,6 +11,7 @@ import { DomEditor } from '../../editor/dom-editor'
 import { SVG_CLOSE } from '../../constants/svg'
 
 class Modal extends PanelAndModal {
+  type = 'modal'
   readonly $elem: Dom7Array = $(`<div class="w-e-modal"></div>`)
   private width: number = 0
 

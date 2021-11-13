@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>modal appendTo body - demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+  <link href="../dist/css/style.css" rel="stylesheet">
+
+  <style>
+    #mask {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 999;
+      background-color: #00000073;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <p>
+    modal appendTo body
+  </p>
+
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <!-- mask div 蒙层 -->
+  <div id="mask"></div>
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    const editorConfig = { MENU_CONF: {} }
+
+    const toolbarConfig = {
+      modalAppendToBody: true
+    }
+
+    const editor = E.createEditor({
+      selector: '#editor-text-area',
+      content: window.content1,
+      config: editorConfig
+    })
+
+    const toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+      config: toolbarConfig
+    })
+
+    editor.on('modalOrPanelShow', modalOrPanel => {
+      if (modalOrPanel.type !== 'modal') return
+
+      const { $elem } = modalOrPanel // modal element
+      const width = $elem.width()
+      const height = $elem.height()
+
+      // set modal position z-index
+      $elem.css({
+        left: '50%',
+        top: '50%',
+        marginLeft: `-${width / 2}px`,
+        marginTop: `-${height / 2}px`,
+        zIndex: 1000
+      })
+
+      // show mask div
+      document.getElementById('mask').style.display = 'block'
+    })
+    editor.on('modalOrPanelHide', () => {
+      console.log('hide')
+
+      // hide mask div
+      document.getElementById('mask').style.display = 'none'
+    })
+    // click mask div to hide modal
+    document.getElementById('mask').addEventListener('click', () => {
+      editor.hidePanelOrModal()
+    })
+  </script>
+</body>
+
+</html>

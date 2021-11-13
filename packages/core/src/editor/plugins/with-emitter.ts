@@ -66,9 +66,9 @@ export const withEmitter = <T extends Editor>(editor: T) => {
     const emitter = getEmitter(e)
     emitter.off(type, listener)
   }
-  e.emit = type => {
+  e.emit = (type, ...args: any[]) => {
     const emitter = getEmitter(e)
-    emitter.emit(type)
+    emitter.emit(type, ...args)
 
     // editor 销毁时，off 掉 destroyed listeners
     if (type === 'destroyed') {

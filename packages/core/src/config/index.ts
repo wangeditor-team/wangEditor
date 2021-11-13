@@ -53,6 +53,7 @@ export function genToolbarConfig(userConfig?: Partial<IToolbarConfig>): IToolbar
     toolbarKeys: [],
     excludeKeys: [],
     insertKeys: { index: 0, keys: [] },
+    modalAppendToBody: false,
 
     // 合并用户配置
     ...(userConfig || {}),

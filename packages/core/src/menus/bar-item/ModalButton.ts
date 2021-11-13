@@ -10,8 +10,10 @@ import Modal from '../panel-and-modal/Modal'
 import { getEditorInstance } from './index'
 import { getPositionBySelection, getPositionByNode, correctPosition } from '../helpers/position'
 import { DomEditor } from '../../editor/dom-editor'
+import $ from '../../utils/dom'
 
 class ModalButton extends BaseButton {
+  private $body = $('body')
   private modal: Modal | null = null
   menu: IModalMenu
 
@@ -78,19 +80,35 @@ class ModalButton extends BaseButton {
     if (menu.getModalContentElem == null) return
 
     const textarea = DomEditor.getTextarea(editor)
+    const toolbar = DomEditor.getToolbar(editor)
+    const { modalAppendToBody } = toolbar?.getConfig() || {}
 
     const $content = menu.getModalContentElem(editor)
     modal.renderContent($content)
-    const positionStyle = this.getPosition() // 获取 modal position
-    modal.setStyle(positionStyle)
+
+    if (modalAppendToBody) {
+      // appendTo body 时，用户自己设置 modal 定位
+      modal.setStyle({ left: '0', right: '0' })
+    } else {
+      // 计算并设置 modal position
+      const positionStyle = this.getPosition()
+      modal.setStyle(positionStyle)
+    }
 
     if (firstTime) {
-      modal.appendTo(textarea.$textAreaContainer)
+      if (modalAppendToBody) {
+        modal.appendTo(this.$body)
+      } else {
+        modal.appendTo(textarea.$textAreaContainer)
+      }
     }
 
     modal.show()
 
-    correctPosition(editor, modal.$elem) // 修正 modal 定位，避免超出 textContainer 边界
+    if (!modalAppendToBody) {
+      // 修正 modal 定位，避免超出 textContainer 边界（ appendTo body 则不用设置，用户自己设置 ）
+      correctPosition(editor, modal.$elem)
+    }
   }
 }
 

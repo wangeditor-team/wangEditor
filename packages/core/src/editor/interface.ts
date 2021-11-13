@@ -68,7 +68,7 @@ export interface IDomEditor extends Editor {
   on: (type: string, listener: ee.EventListener) => void
   off: (type: string, listener: ee.EventListener) => void
   once: (type: string, listener: ee.EventListener) => void
-  emit: (type: string) => void
+  emit: (type: string, ...args: any[]) => void
 
   // undo redo - 不用自己实现，使用 slate-history 扩展
   undo?: () => void

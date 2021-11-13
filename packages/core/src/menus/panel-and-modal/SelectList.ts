@@ -15,6 +15,7 @@ function gen$SelectedIcon() {
 }
 
 class SelectList extends PanelAndModal {
+  type = 'selectList'
   readonly $elem: Dom7Array = $(`<div class="w-e-select-list"></div>`)
 
   constructor(editor: IDomEditor, width?: number) {

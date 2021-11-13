@@ -27,6 +27,7 @@ export const HOVER_BAR_TO_EDITOR = new WeakMap<HoverBar, IDomEditor>()
 export const EDITOR_TO_HOVER_BAR = new WeakMap<IDomEditor, HoverBar>()
 export const BAR_ITEM_TO_EDITOR = new WeakMap<IBarItem, IDomEditor>()
 export const EDITOR_TO_PANEL_AND_MODAL = new WeakMap<IDomEditor, Set<PanelAndModal>>()
+export const PANEL_OR_MODAL_TO_EDITOR = new WeakMap<PanelAndModal, IDomEditor>()
 
 // config
 export const EDITOR_TO_CONFIG = new WeakMap<IDomEditor, IEditorConfig>()
