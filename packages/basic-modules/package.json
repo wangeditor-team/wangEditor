@@ -45,6 +45,7 @@
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
     "lodash.throttle": "^4.1.1",
+    "nanoid": "^3.1.30",
     "slate": "^0.63.0",
     "snabbdom": "^3.0.1"
   },
