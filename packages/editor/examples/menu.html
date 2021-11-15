@@ -29,15 +29,11 @@
     const editorConfig = { MENU_CONF: {} }
     editorConfig.placeholder = '请输入内容'
 
-    editorConfig.hoverbarKeys = [
-      {
-        desc: '选中链接 selected link',
-        match: (editor, node) => DomEditor.checkNodeType(node, 'link'),
+    editorConfig.hoverbarKeys = {
+      'link': {
         menuKeys: ['editLink', 'unLink', 'viewLink'],
       },
-      {
-        desc: '选中图片 selected image',
-        match: (editor, node) => DomEditor.checkNodeType(node, 'image'),
+      'image': {
         menuKeys: [
           'imageWidth30',
           'imageWidth50',
@@ -46,9 +42,9 @@
           'viewImageLink',
           'deleteImage',
         ],
-      },
+      }
       // 其他参考 https://github.com/wangeditor-team/wangEditor-v5/blob/main/packages/editor/src/config/hoverbar.ts
-    ]
+    }
 
     // 各个菜单的配置
     editorConfig.MENU_CONF['color'] = {
