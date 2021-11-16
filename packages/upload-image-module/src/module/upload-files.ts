@@ -27,7 +27,8 @@ function insertBase64(editor: IDomEditor, file: File) {
     const { result } = reader
     if (!result) return
     const src = result.toString()
-    insertImageNode(editor, src, file.name, src)
+    let href = src.indexOf('data:image') === 0 ? '' : src // base64 格式则不设置 href
+    insertImageNode(editor, src, file.name, href)
   }
 }
 
@@ -52,10 +53,9 @@ function uploadFiles(editor: IDomEditor, files: File[]) {
       return
     }
 
-    const { errno = 1, message = '上传失败\nUpload failed', data = [] } = res
+    const { errno = 1, data = [] } = res
     if (errno !== 0) {
       console.error(`'${file.name}' upload failed`, res)
-      editor.alert(message, 'error')
 
       // failed 回调
       onFailed(file, res)
@@ -85,10 +85,6 @@ function uploadFiles(editor: IDomEditor, files: File[]) {
   const errorHandler = (file: any, err: any, res: any) => {
     const fileName = file.name
     console.error(`'${fileName} upload error`, err, res)
-
-    const info = t('uploadImgModule.uploadError', { fileName })
-    // let info = `'${file.name}' 上传错误\n'${file.name}' upload error`
-    editor.alert(info, 'error')
 
     // 回调函数
     onError && onError(file, err, res)
@@ -132,34 +128,30 @@ function uploadFiles(editor: IDomEditor, files: File[]) {
 export default function (editor: IDomEditor, files: FileList | null) {
   if (files == null) return
   const fileList = Array.prototype.slice.call(files)
-  let fileListForUpload: File[] = []
+  const fileListForUpload: File[] = []
 
   // 获取菜单配置
   const { customUpload, base64LimitKB } = getMenuConfig(editor)
 
-  // 插入 base64
-  if (base64LimitKB) {
-    fileList.forEach(file => {
-      const sizeKB = file.size / 1024 // size kb
-      if (sizeKB > base64LimitKB) {
-        // 超过配置的 limit ，则上传图片
-        fileListForUpload.push(file)
-      } else {
-        // 未超过，则插入 base64 ，不上传
-        insertBase64(editor, file)
-      }
-    })
-  } else {
-    // 未设置 base64LimitKB ，则全部上传
-    fileListForUpload = fileList
-  }
+  fileList.forEach(file => {
+    const sizeKB = file.size / 1024 // size kb
+    if (base64LimitKB && sizeKB <= base64LimitKB) {
+      // 允许 base64 ，而且 size 在 base64 限制之内，则插入 base64 格式
+      insertBase64(editor, file)
+    } else {
+      // 否则，加入上传列表
+      fileListForUpload.push(file)
+    }
+  })
 
-  // 用户自定义上传，不用默认的上传
-  if (customUpload) {
-    customUpload(fileListForUpload, (src, alt, href) => insertImageNode(editor, src, alt, href))
-    return
-  }
+  if (fileListForUpload.length > 0) {
+    // 用户自定义上传，不用默认的上传
+    if (customUpload) {
+      customUpload(fileListForUpload, (src, alt, href) => insertImageNode(editor, src, alt, href))
+      return
+    }
 
-  // 上传图片
-  uploadFiles(editor, fileListForUpload)
+    // 上传图片
+    uploadFiles(editor, fileListForUpload)
+  }
 }

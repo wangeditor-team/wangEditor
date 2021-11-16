@@ -24,9 +24,8 @@ function createUploader(config: IUploadConfig): Uppy {
     onSuccess = (file, res) => {
       /* on success */
     },
-    onError = (file, err, res) => {
+    onError = (file, err, res?) => {
       console.error(`${file.name} upload error`, err, res)
-      alert(`${file.name} upload error`)
     },
     onProgress = progress => {
       /* on progress */
@@ -84,6 +83,11 @@ function createUploader(config: IUploadConfig): Uppy {
 
   uppy.on('upload-error', (file, error, response) => {
     onError(file, error, response)
+    uppy.removeFile(file.id) // 清空文件
+  })
+
+  uppy.on('restriction-failed', (file, error) => {
+    onError(file, error)
     uppy.removeFile(file.id) // 清空文件
   })
 
