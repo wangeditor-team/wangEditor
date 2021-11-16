@@ -36,6 +36,10 @@
   </p>
 </p>
 
+## 体验新版本
+
+wangEditor V5 新版本已公开测试，请查看 [V5 文档](https://www.wangeditor.com/v5/)
+
 <!-- ABOUT THE PROJECT -->
 ## 项目介绍
 
