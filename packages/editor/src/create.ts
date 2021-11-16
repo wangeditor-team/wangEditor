@@ -37,11 +37,18 @@ export function createEditor(option: Partial<ICreateEditorOption> = {}): IDomEdi
 
   let globalConfig = mode === 'simple' ? Boot.simpleEditorConfig : Boot.editorConfig
 
+  // 单独处理 hoverbarKeys
+  const newHoverbarKeys = {
+    ...(globalConfig.hoverbarKeys || {}),
+    ...(config.hoverbarKeys || {}),
+  }
+
   const editor = coreCreateEditor({
     selector,
     config: {
       ...globalConfig, // 全局配置
       ...config,
+      hoverbarKeys: newHoverbarKeys,
     },
     content,
     plugins: Boot.plugins,

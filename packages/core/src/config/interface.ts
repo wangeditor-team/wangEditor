@@ -8,9 +8,11 @@ import { IDomEditor } from '../editor/interface'
 import { IMenuGroup } from '../menus/interface'
 
 interface IHoverbarConf {
-  desc: string // 描述
-  match: (editor: IDomEditor, n: Node) => boolean // 匹配成功，才显示 hoverbar
-  menuKeys: string[]
+  // key 即 element type
+  [key: string]: {
+    match?: (editor: IDomEditor, n: Node) => boolean // 自定义匹配函数，优先级高于“key 即 element type”
+    menuKeys: string[]
+  }
 }
 
 export type AlertType = 'success' | 'info' | 'warning' | 'error'
@@ -55,7 +57,7 @@ export interface IEditorConfig {
   MENU_CONF?: IMenuConfig
 
   // 悬浮菜单栏 menu
-  hoverbarKeys?: Array<IHoverbarConf>
+  hoverbarKeys?: IHoverbarConf
 }
 
 /**

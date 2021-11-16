@@ -7,15 +7,12 @@ import { Node, Element, Text, Editor, Range } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { CustomElement } from '../../../../custom-types'
 
-const COMMON_HOVERBAR_KEYS = [
-  {
-    desc: '选中链接 selected link',
-    match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'link'),
+const COMMON_HOVERBAR_KEYS = {
+  // key 即 element type
+  link: {
     menuKeys: ['editLink', 'unLink', 'viewLink'],
   },
-  {
-    desc: '选中图片 selected image',
-    match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'image'),
+  image: {
     menuKeys: [
       'imageWidth30',
       'imageWidth50',
@@ -25,19 +22,13 @@ const COMMON_HOVERBAR_KEYS = [
       'deleteImage',
     ],
   },
-  {
-    desc: '选中视频 selected video',
-    match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'video'),
+  video: {
     menuKeys: ['deleteVideo'],
   },
-  {
-    desc: '选中代码块 selected code block',
-    match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'pre'),
+  pre: {
     menuKeys: ['codeBlock', 'codeSelectLang'],
   },
-  {
-    desc: '选中表格 selected table',
-    match: (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, 'table'),
+  table: {
     menuKeys: [
       'tableHeader',
       'tableFullWidth',
@@ -48,13 +39,14 @@ const COMMON_HOVERBAR_KEYS = [
       'deleteTable',
     ],
   },
-]
+}
 
 export function genDefaultHoverbarKeys() {
-  return [
+  return {
     ...COMMON_HOVERBAR_KEYS,
-    {
-      desc: '选中文本 selected text',
+
+    // 也可以自定义 match 来匹配元素，此时 key 就随意了
+    text: {
       match: (editor: IDomEditor, n: Node) => {
         const { selection } = editor
         if (selection == null) return false // 无选区
@@ -85,7 +77,7 @@ export function genDefaultHoverbarKeys() {
       ],
     },
     // other hover bar ...
-  ]
+  }
 }
 
 export function genSimpleHoverbarKeys() {

@@ -165,11 +165,18 @@ class HoverBar {
     // 开始匹配
     let matchNode: Node | null = null
     let matchMenuKeys: string[] = []
-    keysConf.some(conf => {
-      const { match, menuKeys } = conf
+
+    for (const elemType in keysConf) {
+      const conf = keysConf[elemType]
+      const { match, menuKeys = [] } = conf
+
+      // 定义了 match 则用 match 。未定义 match 则用 elemType
+      const matchFn = match
+        ? match
+        : (editor: IDomEditor, n: Node) => DomEditor.checkNodeType(n, elemType)
 
       const [nodeEntry] = Editor.nodes(editor, {
-        match: n => match(editor, n),
+        match: n => matchFn(editor, n),
         universal: true,
       })
 
@@ -177,12 +184,12 @@ class HoverBar {
       if (nodeEntry != null) {
         matchNode = nodeEntry[0]
         matchMenuKeys = menuKeys
-        return true
+        break
       }
-    })
+    }
 
     // 未匹配成功
-    if (matchNode == null) return null
+    if (matchNode == null || matchMenuKeys.length === 0) return null
 
     // 匹配成功
     return {
@@ -238,7 +245,7 @@ class HoverBar {
   private getHoverbarKeysConf() {
     const editor = this.getEditorInstance()
     const editorConfig = editor.getConfig()
-    return editorConfig.hoverbarKeys || []
+    return editorConfig.hoverbarKeys || {}
   }
 
   /**

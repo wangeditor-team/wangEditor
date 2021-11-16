@@ -69,7 +69,11 @@
     // --------------------- editor2 ---------------------
     const editorConfig2 = { MENU_CONF: {} }
     editorConfig2.placeholder = '请输入内容2...'
-    editorConfig2.hoverbarKeys = [] // 禁用 hoverbar
+    editorConfig2.hoverbarKeys = {
+      // 禁用部分 hoverbar
+      'link': [],
+      'table': []
+    }
     editorConfig2.MENU_CONF['uploadImage'] = {
       server: 'http://106.12.198.214:3000/api/upload-img',
       fieldName: 'index-2-fileName'

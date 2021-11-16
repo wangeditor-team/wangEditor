@@ -34,7 +34,9 @@ export function genEditorConfig(userConfig: Partial<IEditorConfig> = {}): IEdito
     decorate: () => [],
     maxLength: 0, // 默认不限制
     MENU_CONF: newMenuConf,
-    hoverbarKeys: [],
+    hoverbarKeys: {
+      // 'link': { menuKeys: ['editLink', 'unLink', 'viewLink'] },
+    },
     customAlert(info: string, type: string) {
       window.alert(`${type}:\n${info}`)
     },

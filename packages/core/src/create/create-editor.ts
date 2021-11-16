@@ -57,7 +57,7 @@ export default function (option: Partial<ICreateOption>) {
   // 处理配置
   const editorConfig = genEditorConfig(config)
   EDITOR_TO_CONFIG.set(editor, editorConfig)
-  const { hoverbarKeys = [] } = editorConfig
+  const { hoverbarKeys = {} } = editorConfig
 
   // editor plugins
   plugins.forEach(plugin => {
@@ -92,7 +92,7 @@ export default function (option: Partial<ICreateOption>) {
 
     // 创建 hoverbar DOM
     let hoverbar: HoverBar | null
-    if (hoverbarKeys.length > 0) {
+    if (Object.keys(hoverbarKeys).length > 0) {
       hoverbar = new HoverBar()
       HOVER_BAR_TO_EDITOR.set(hoverbar, editor)
       EDITOR_TO_HOVER_BAR.set(editor, hoverbar)
