@@ -74,18 +74,23 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
   const { selection } = editor
   if (selection == null) return
 
+  // 清理可能暴露的 text 节点
+  // 例如 chrome 在链接后面，输入拼音，就会出现有暴露出来的 text node
+  if (IS_CHROME) {
+    DomEditor.cleanExposedTexNodeInSelectionBlock(editor)
+  }
+
   // 在中文输入法下，浏览器的默认行为会使一些dom产生不可逆的变化
   // 比如在 Safari 中 url 后面输入，初始是 a > span > spans
   // 输入后变成 span > span > a
   // 因此需要设置新的 key 来强刷整行
-  if (IS_SAFARI || IS_FIREFOX) {
-    const start = Range.isBackward(selection) ? selection.focus : selection.anchor
-    const [paragraph] = Editor.node(editor, [start.path[0]])
+  const start = Range.isBackward(selection) ? selection.focus : selection.anchor
+  const [paragraph] = Editor.node(editor, [start.path[0]])
 
-    for (let i = 0; i < start.path.length; i++) {
-      const [node] = Editor.node(editor, start.path.slice(0, i + 1))
-
-      if (Element.isElement(node) && node.type === 'link') {
+  for (let i = 0; i < start.path.length; i++) {
+    const [node] = Editor.node(editor, start.path.slice(0, i + 1))
+    if (Element.isElement(node)) {
+      if (((IS_SAFARI || IS_FIREFOX) && node.type === 'link') || node.type === 'code') {
         DomEditor.setNewKey(paragraph)
         break
       }
@@ -110,12 +115,6 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
 
   if (data) {
     Editor.insertText(editor, data)
-  }
-
-  // insertText 之后，要清理可能暴露的 text 节点
-  // 例如 chrome 在链接后面，输入拼音，就会出现有暴露出来的 text node
-  if (IS_CHROME) {
-    DomEditor.cleanExposedTexNodeInSelectionBlock(editor)
   }
 
   // 检查拼音输入是否夸 DOM 节点了，解决 wangEditor-v5/issues/47
