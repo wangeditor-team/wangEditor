@@ -335,6 +335,9 @@ export function walkTextNodes(
   elem: DOMElement,
   handler: (textNode: DOMNode, parent: DOMElement) => void
 ) {
+  // void elem 内部的 text 不处理
+  if (elem instanceof HTMLElement && elem.dataset.slateVoid === 'true') return
+
   for (let nodes = elem.childNodes, i = nodes.length; i--; ) {
     const node = nodes[i]
     const nodeType = node.nodeType
