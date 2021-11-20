@@ -27,13 +27,13 @@ export function addTooltip(
     // in groupButton ，tooltip 只显示 快捷键
     if (hotkey) {
       $button.attr('data-tooltip', hotkey)
-      $button.addClass('w-e-menu-tooltip')
+      $button.addClass('w-e-menu-tooltip-v5')
       $button.addClass('tooltip-right') // tooltip 显示在右侧
     }
   } else {
     // 非 in groupButton ，正常实现 tooltip
     const tooltip = hotkey ? `${title}\n${hotkey}` : title
     $button.attr('data-tooltip', tooltip)
-    $button.addClass('w-e-menu-tooltip')
+    $button.addClass('w-e-menu-tooltip-v5')
   }
 }
