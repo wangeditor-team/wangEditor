@@ -4,10 +4,10 @@
  */
 
 import { Element } from 'slate'
-import { IDomEditor, DomEditor } from '@wangeditor/core'
+import { DomEditor } from '@wangeditor/core'
 import { TableCellElement, TableRowElement, TableElement } from './custom-types'
 
-function tableToHtml(elemNode: Element, childrenHtml: string, editor: IDomEditor): string {
+function tableToHtml(elemNode: Element, childrenHtml: string): string {
   const { fullWidth = false } = elemNode as TableElement
 
   let styleStr = ''
@@ -16,18 +16,18 @@ function tableToHtml(elemNode: Element, childrenHtml: string, editor: IDomEditor
   return `<table style="${styleStr}"><tbody>${childrenHtml}</tbody></table>`
 }
 
-function tableRowToHtml(elem: Element, childrenHtml: string, editor: IDomEditor): string {
+function tableRowToHtml(elem: Element, childrenHtml: string): string {
   return `<tr>${childrenHtml}</tr>`
 }
 
-function tableCellToHtml(cellNode: Element, childrenHtml: string, editor: IDomEditor): string {
+function tableCellToHtml(cellNode: Element, childrenHtml: string): string {
   const { colSpan = 1, rowSpan = 1 } = cellNode as TableCellElement
   let tag = 'td'
 
-  const rowNode = DomEditor.getParentNode(editor, cellNode)
+  const rowNode = DomEditor.getParentNode(null, cellNode)
   if (rowNode == null)
     throw new Error(`Cannot get table row node by cell node ${JSON.stringify(cellNode)}`)
-  const tableNode = DomEditor.getParentNode(editor, rowNode) as TableElement
+  const tableNode = DomEditor.getParentNode(null, rowNode) as TableElement
   if (tableNode == null)
     throw new Error(`Cannot get table node by cell node ${JSON.stringify(cellNode)}`)
 

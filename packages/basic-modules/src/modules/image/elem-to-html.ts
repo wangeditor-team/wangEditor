@@ -4,10 +4,9 @@
  */
 
 import { Element } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
 import { ImageElement } from './custom-types'
 
-function imageToHtml(elemNode: Element, childrenHtml: string, editor: IDomEditor): string {
+function imageToHtml(elemNode: Element, childrenHtml: string): string {
   const { src, alt = '', href = '', style = {} } = elemNode as ImageElement
   const { width = '', height = '' } = style
 

@@ -30,7 +30,7 @@ describe('code-highlight elem to html', () => {
 
     if (editor == null) throw new Error('editor is null')
     const text = 'var n = 100;'
-    const html = codeToHtmlConf.elemToHtml(codeNode, text, editor)
+    const html = codeToHtmlConf.elemToHtml(codeNode, text)
     expect(html).toBe(`<code class="language-${language}">${text}</code>`)
   })
 })

@@ -3,12 +3,9 @@
  * @author wangfupeng
  */
 
-import createEditor from '../../../../tests/utils/create-editor'
 import { linkToHtmlConf } from '../../../../packages/basic-modules/src/modules/link/elem-to-html'
 
 describe('link elem to html', () => {
-  const editor = createEditor()
-
   it('link to html', () => {
     expect(linkToHtmlConf.type).toBe('link')
 
@@ -16,7 +13,7 @@ describe('link elem to html', () => {
     const target = '_blank'
     const elem = { type: 'link', url, target }
 
-    const html = linkToHtmlConf.elemToHtml(elem, 'hello', editor)
+    const html = linkToHtmlConf.elemToHtml(elem, 'hello')
     expect(html).toBe(`<a href="${url}" target="${target}">hello</a>`)
   })
 })

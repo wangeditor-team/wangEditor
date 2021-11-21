@@ -27,6 +27,7 @@ import {
   HOVER_BAR_TO_EDITOR,
   EDITOR_TO_HOVER_BAR,
 } from '../utils/weak-maps'
+import bindNodeRelation from './bind-node-relation'
 
 type PluginFnType = <T extends IDomEditor>(editor: T) => T
 
@@ -73,7 +74,7 @@ export default function (option: Partial<ICreateOption>) {
   DomEditor.normalizeContent(editor) // 格式化，用户输入的 content 可能不规范（如两个相连的 text 没有合并）
 
   if (selector) {
-    // 创建 textarea DOM
+    // 传入了 selector ，则创建 textarea DOM
     const textarea = new TextArea(selector)
     EDITOR_TO_TEXTAREA.set(editor, textarea)
     TEXTAREA_TO_EDITOR.set(textarea, editor)
@@ -105,6 +106,9 @@ export default function (option: Partial<ICreateOption>) {
     editor.on('scroll', () => {
       editor.hidePanelOrModal()
     })
+  } else {
+    // 未传入 selector ，则遍历 content ，绑定一些 WeakMap 关系 （ NODE_TO_PARENT, NODE_TO_INDEX 等 ）
+    editor.children.forEach((node, i) => bindNodeRelation(node, i, editor, editor))
   }
 
   // 触发生命周期

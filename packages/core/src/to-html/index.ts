@@ -22,7 +22,7 @@ export function registerTextStyleToHtmlHandler(fn: TextStyleToHtmlFnType) {
 
 // ------------------------------------ text node -> html ------------------------------------
 
-export type TextToHtmlFnType = (textNode: SlateText, textHtml: string, editor: IDomEditor) => string
+export type TextToHtmlFnType = (textNode: SlateText, textHtml: string) => string
 
 export const TEXT_TO_HTML_FN_LIST: TextToHtmlFnType[] = []
 
@@ -39,7 +39,7 @@ export function registerTextToHtmlHandler(fn: TextToHtmlFnType) {
 export type ElemToHtmlFnType = (
   elemNode: SlateElement,
   childrenHtml: string,
-  editor: IDomEditor
+  editor?: IDomEditor
 ) => string
 
 // 注册 element->html 配置
