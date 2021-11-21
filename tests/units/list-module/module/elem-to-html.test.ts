@@ -8,7 +8,6 @@ import {
   numberedToHtmlConf,
   listItemToHtmlConf,
 } from '../../../../packages/list-module/src/module/elem-to-html'
-import createEditor from '../../../../tests/utils/create-editor'
 
 describe('module elem-to-html', () => {
   const fixtures = [
@@ -47,8 +46,7 @@ describe('module elem-to-html', () => {
           type: i.type,
           children: [],
         }
-        const editor = createEditor()
-        expect(i.value.elemToHtml(element, i.childrenHtml, editor)).toBe(i.output)
+        expect(i.value.elemToHtml(element, i.childrenHtml)).toBe(i.output)
       })
     })
   })

@@ -3,12 +3,9 @@
  * @author wangfupeng
  */
 
-import createEditor from '../../../../tests/utils/create-editor'
 import { imageToHtmlConf } from '../../../../packages/basic-modules/src/modules/image/elem-to-html'
 
 describe('image to html', () => {
-  const editor = createEditor()
-
   it('to html', () => {
     expect(imageToHtmlConf.type).toBe('image')
 
@@ -22,7 +19,7 @@ describe('image to html', () => {
       style: { width: '100', height: '80' },
       children: [{ text: '' }], // void node 必须包含一个空 text
     }
-    const html = imageToHtmlConf.elemToHtml(elem, '', editor)
+    const html = imageToHtmlConf.elemToHtml(elem, '')
 
     expect(html).toBe(
       `<img src="${src}" alt="logo" data-href="${href}" style="width: 100;height: 80;"/>`
