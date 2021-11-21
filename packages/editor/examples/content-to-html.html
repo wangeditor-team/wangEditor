@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>content to html</title>
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>content to html</p>
+
+  <div style="margin-top: 10px;">
+    <textarea id="text-content" style="width: 100%; height: 300px;">[
+  {
+    "type": "paragraph",
+    "children": [
+      {
+        "text": "你好"
+      }
+    ]
+  }
+]</textarea>
+  </div>
+
+  <button id="btn-convert">convert</button>
+
+  <div style="margin-top: 20px;">
+    <textarea id="text-html" readonly style="width: 100%; height: 300px;"></textarea>
+  </div>
+
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    document.getElementById('btn-convert').addEventListener('click', () => {
+      const contentStr = document.getElementById('text-content').value
+      const content = JSON.parse(contentStr)
+      const editor = E.createEditor({ content })
+      document.getElementById('text-html').innerHTML = editor.getHtml()
+    })
+  </script>
+</body>
+</html>

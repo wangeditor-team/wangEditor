@@ -4,10 +4,9 @@
  */
 
 import { Element } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
 import { CodeElement } from '../custom-types'
 
-function codeToHtml(elem: Element, childrenHtml: string, editor: IDomEditor): string {
+function codeToHtml(elem: Element, childrenHtml: string): string {
   const { language = '' } = elem as CodeElement
 
   const cssClass = language

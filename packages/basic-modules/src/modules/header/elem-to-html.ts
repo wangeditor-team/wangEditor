@@ -4,10 +4,9 @@
  */
 
 import { Element } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
 
 function genToHtmlFn(level: number) {
-  function headerToHtml(elem: Element, childrenHtml: string, editor: IDomEditor): string {
+  function headerToHtml(elem: Element, childrenHtml: string): string {
     return `<h${level}>${childrenHtml}</h${level}>`
   }
   return headerToHtml

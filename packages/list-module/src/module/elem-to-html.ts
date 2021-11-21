@@ -4,13 +4,12 @@
  */
 
 import { Element } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
 import { genTag } from './helper'
 
 function genElemToHtmlFn(type: string) {
   const tag = genTag(type)
 
-  function toHtml(elem: Element, childrenHtml: string, editor: IDomEditor): string {
+  function toHtml(elem: Element, childrenHtml: string): string {
     return `<${tag}>${childrenHtml}</${tag}>`
   }
 

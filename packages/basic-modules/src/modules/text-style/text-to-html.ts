@@ -4,10 +4,9 @@
  */
 
 import { Text } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
 import { StyledText } from './custom-types'
 
-export function textToHtml(textNode: Text, textHtml: string, editor: IDomEditor): string {
+export function textToHtml(textNode: Text, textHtml: string): string {
   const { bold, italic, underline, code, through, sub, sup } = textNode as StyledText
 
   // color bgColor 在另外的菜单

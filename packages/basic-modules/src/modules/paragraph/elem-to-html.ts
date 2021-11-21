@@ -4,9 +4,8 @@
  */
 
 import { Element } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
 
-function pToHtml(elem: Element, childrenHtml: string, editor: IDomEditor): string {
+function pToHtml(elem: Element, childrenHtml: string): string {
   if (childrenHtml === '') {
     return '<p><br/></p>'
   }
