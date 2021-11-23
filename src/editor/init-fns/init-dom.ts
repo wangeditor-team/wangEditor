@@ -74,16 +74,21 @@ export default function (editor: Editor): void {
         $textElem.append($children)
         // 编辑器有默认值的时候隐藏placeholder
         $placeholder.hide()
+    } else if ($subChildren && $subChildren.length) {
+        // 菜单分离后，文本区域有标签的带入编辑器内
+        $textElem.append($subChildren)
+        // 编辑器有默认值的时候隐藏placeholder
+        $placeholder.hide()
     } else {
         $textElem.append($(EMPTY_P)) // 新增一行，方便继续编辑
     }
 
     // 菜单分离后，文本区域有标签的带入编辑器内
-    if ($subChildren && $subChildren.length) {
-        $textElem.append($subChildren)
-        // 编辑器有默认值的时候隐藏placeholder
-        $placeholder.hide()
-    }
+    // if ($subChildren && $subChildren.length) {
+    //     $textElem.append($subChildren)
+    //     // 编辑器有默认值的时候隐藏placeholder
+    //     $placeholder.hide()
+    // }
 
     // 编辑区域加入DOM
     $textContainerElem.append($textElem)

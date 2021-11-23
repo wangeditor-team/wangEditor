@@ -27,6 +27,9 @@
     <script src="../dist/wangEditor.js"></script>
     <script>
         const E = window.wangEditor
+        /* ---- 设置默认值 start --- */
+        const ele = document.querySelector('#text-container');
+        ele.innerHTML = `<p>这是默认内容</p>`
         const editor = new E('#toolbar-container', '#text-container')
         editor.create()
     </script>
