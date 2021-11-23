@@ -7,6 +7,7 @@ import { Transforms, Range } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { TABLE_HEADER_SVG } from '../../constants/svg'
 import { TableElement } from '../custom-types'
+import { getFirstRowCells, isTableWithHeader } from './helpers'
 
 class TableHeader implements IButtonMenu {
   readonly title = t('tableModule.header')
@@ -15,9 +16,10 @@ class TableHeader implements IButtonMenu {
 
   // 是否已设置表头
   getValue(editor: IDomEditor): string | boolean {
-    const tableNode = DomEditor.getSelectedNodeByType(editor, 'table')
+    const tableNode = DomEditor.getSelectedNodeByType(editor, 'table') as TableElement
     if (tableNode == null) return false
-    return !!(tableNode as TableElement).withHeader
+
+    return isTableWithHeader(tableNode)
   }
 
   isActive(editor: IDomEditor): boolean {
@@ -41,9 +43,23 @@ class TableHeader implements IButtonMenu {
     if (this.isDisabled(editor)) return
 
     // 已经设置了表头，则取消。未设置表头，则设置
-    const newValue = value ? null : true
-    const props: Partial<TableElement> = { withHeader: newValue }
-    Transforms.setNodes(editor, props, { mode: 'highest' })
+    const newValue = value ? false : true
+
+    // 获取第一行所有 cell
+    const tableNode = DomEditor.getSelectedNodeByType(editor, 'table') as TableElement
+    if (tableNode == null) return
+    const firstRowCells = getFirstRowCells(tableNode)
+
+    // 设置 isHeader 属性
+    firstRowCells.forEach(cell =>
+      Transforms.setNodes(
+        editor,
+        { isHeader: newValue },
+        {
+          at: DomEditor.findPath(editor, cell),
+        }
+      )
+    )
   }
 }
 

@@ -20,14 +20,14 @@ describe('editor content API', () => {
 
   it('getHtml', () => {
     const editor = createEditor({
-      content: [{ type: 'paragraph', children: [{ text: 'hello' }] }],
+      content: [{ type: 'paragraph', children: [{ text: 'hello', bold: true }] }],
     })
 
     const html1 = editor.getHtml()
-    expect(html1).toBe('<div class="w-e-content-container">\r\n    <p>hello</p>\r\n</div>') // 格式化 html
+    expect(html1).toBe('<p>\r\n    <strong>hello</strong>\r\n</p>') // 格式化 html
 
-    const html2 = editor.getHtml({ withFormat: false, containerClassName: 'my-container' })
-    expect(html2).toBe('<div class="my-container"><p>hello</p></div>') // 非格式化 + 自定义 class
+    const html2 = editor.getHtml({ withFormat: false })
+    expect(html2).toBe('<p><strong>hello</strong></p>') // 非格式化
   })
 
   it('getText', () => {

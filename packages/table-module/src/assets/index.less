@@ -2,18 +2,14 @@
   table {
     border-collapse: collapse;
 
-    td {
+    td,th {
       border: 1px solid #ccc;
       padding: 3px 5px;
       min-width: 50px;
       text-align: left;
       line-height: 1.5;
     }
-  }
-
-  // 显示表头
-  table.with-header {
-    tr:first-child td {
+    th {
       background-color: #f1f1f1;
       text-align: center;
       font-weight: bold;
@@ -24,7 +20,7 @@
   table.full-width {
     width: 100%;
 
-    td {
+    td.th {
       min-width: 0;
     }
   }

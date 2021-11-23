@@ -4,7 +4,6 @@
  */
 
 import { Element } from 'slate'
-import { DomEditor } from '@wangeditor/core'
 import { TableCellElement, TableRowElement, TableElement } from './custom-types'
 
 function tableToHtml(elemNode: Element, childrenHtml: string): string {
@@ -21,21 +20,8 @@ function tableRowToHtml(elem: Element, childrenHtml: string): string {
 }
 
 function tableCellToHtml(cellNode: Element, childrenHtml: string): string {
-  const { colSpan = 1, rowSpan = 1 } = cellNode as TableCellElement
-  let tag = 'td'
-
-  const rowNode = DomEditor.getParentNode(null, cellNode)
-  if (rowNode == null)
-    throw new Error(`Cannot get table row node by cell node ${JSON.stringify(cellNode)}`)
-  const tableNode = DomEditor.getParentNode(null, rowNode) as TableElement
-  if (tableNode == null)
-    throw new Error(`Cannot get table node by cell node ${JSON.stringify(cellNode)}`)
-
-  if (tableNode.withHeader && tableNode.children.findIndex(r => r === rowNode) === 0) {
-    // 首行，表头
-    tag = 'th'
-  }
-
+  const { colSpan = 1, rowSpan = 1, isHeader = false } = cellNode as TableCellElement
+  const tag = isHeader ? 'th' : 'td'
   return `<${tag} colSpan="${colSpan}" rowSpan="${rowSpan}">${childrenHtml}</${tag}>`
 }
 

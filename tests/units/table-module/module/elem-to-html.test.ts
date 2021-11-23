@@ -62,27 +62,6 @@ describe('TableModule module', () => {
       expect(res).toBe('<td colSpan="1" rowSpan="1"><span>123</span></td>')
     })
 
-    test('tableCellToHtmlConf elemToHtml should return html element th string if tableNode withHeader and the row is the first child of tableNode', () => {
-      const element = {
-        type: 'table-cell',
-        children: [],
-      }
-      const row = { type: 'table-row', children: [{ text: '1' }] }
-      const table = {
-        type: 'table',
-        withHeader: true,
-        children: [row, { type: 'table-row', children: [{ text: '2' }] }],
-      }
-
-      jest
-        .spyOn(core.DomEditor, 'getParentNode')
-        .mockReturnValueOnce(row)
-        .mockReturnValueOnce(table)
-
-      const res = tableCellToHtmlConf.elemToHtml(element, '<span>123</span>')
-      expect(res).toBe('<th colSpan="1" rowSpan="1"><span>123</span></th>')
-    })
-
     test('tableRowToHtmlConf should return object that include "type" and "elemToHtml" property', () => {
       expect(tableRowToHtmlConf.type).toBe('table-row')
       expect(typeof tableRowToHtmlConf.elemToHtml).toBe('function')

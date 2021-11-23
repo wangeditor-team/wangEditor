@@ -9,6 +9,7 @@ import { Text } from 'slate'
 
 export type TableCellElement = {
   type: 'table-cell'
+  isHeader?: boolean // td / th
   colSpan?: number
   rowSpan?: number
   children: Text[]
@@ -21,7 +22,6 @@ export type TableRowElement = {
 
 export type TableElement = {
   type: 'table'
-  withHeader?: boolean | null // 是否显示表头
   fullWidth?: boolean | null // 是否宽度 100%
   children: TableRowElement[]
 }

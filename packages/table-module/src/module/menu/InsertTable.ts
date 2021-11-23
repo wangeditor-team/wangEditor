@@ -17,7 +17,13 @@ function genTableNode(rowNum: number, colNum: number): TableElement {
     // 拼接 cells
     const cells: TableCellElement[] = []
     for (let j = 0; j < colNum; j++) {
-      const cellNode: TableCellElement = { type: 'table-cell', children: [{ text: '' }] }
+      const cellNode: TableCellElement = {
+        type: 'table-cell',
+        children: [{ text: '' }],
+      }
+      if (i === 0) {
+        cellNode.isHeader = true // 第一行默认是 th
+      }
       cells.push(cellNode)
     }
 
@@ -30,7 +36,6 @@ function genTableNode(rowNum: number, colNum: number): TableElement {
 
   return {
     type: 'table',
-    withHeader: true,
     children: rows,
   }
 }
