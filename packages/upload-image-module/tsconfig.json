@@ -1,7 +1,5 @@
 {
-  "compilerOptions": {
-    "jsxFactory": "jsx", /* snabbdom jsx */
-  },
+  "compilerOptions": {},
   "extends": "../../tsconfig.json",
   "include": [
     "./src/**/*",

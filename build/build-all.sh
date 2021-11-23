@@ -45,8 +45,3 @@ yarn "$buildType"
 cd ../editor
 rm -rf dist # 清空 dist 目录
 yarn "$buildType"
-
-# react 组件依赖于 editor
-cd ../editor-for-react
-rm -rf dist # 清空 dist 目录
-yarn "$buildType"

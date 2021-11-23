@@ -42,5 +42,4 @@ export default {
     }),
     // del({ targets: 'dist/*' }),
   ],
-  external: ['react', 'react-dom'],
 }

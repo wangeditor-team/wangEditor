@@ -463,13 +463,6 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.0"
 
-"@babel/plugin-syntax-jsx@^7.16.0":
-  version "7.16.0"
-  resolved "https://registry.npmmirror.com/@babel/plugin-syntax-jsx/download/@babel/plugin-syntax-jsx-7.16.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fplugin-syntax-jsx%2Fdownload%2F%40babel%2Fplugin-syntax-jsx-7.16.0.tgz#f9624394317365a9a88c82358d3f8471154698f1"
-  integrity sha1-+WJDlDFzZamojII1jT+EcRVGmPE=
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.14.5"
-
 "@babel/plugin-syntax-logical-assignment-operators@^7.10.4", "@babel/plugin-syntax-logical-assignment-operators@^7.8.3":
   version "7.10.4"
   resolved "https://registry.nlark.com/@babel/plugin-syntax-logical-assignment-operators/download/@babel/plugin-syntax-logical-assignment-operators-7.10.4.tgz#ca91ef46303530448b906652bac2e9fe9941f699"
@@ -716,39 +709,6 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.14.5"
 
-"@babel/plugin-transform-react-display-name@^7.16.0":
-  version "7.16.0"
-  resolved "https://registry.npmmirror.com/@babel/plugin-transform-react-display-name/download/@babel/plugin-transform-react-display-name-7.16.0.tgz?cache=0&sync_timestamp=1635579360258&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fplugin-transform-react-display-name%2Fdownload%2F%40babel%2Fplugin-transform-react-display-name-7.16.0.tgz#9a0ad8aa8e8790883a7bd2736f66229a58125676"
-  integrity sha1-mgrYqo6HkIg6e9Jzb2YimlgSVnY=
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.14.5"
-
-"@babel/plugin-transform-react-jsx-development@^7.16.0":
-  version "7.16.0"
-  resolved "https://registry.npmmirror.com/@babel/plugin-transform-react-jsx-development/download/@babel/plugin-transform-react-jsx-development-7.16.0.tgz#1cb52874678d23ab11d0d16488d54730807303ef"
-  integrity sha1-HLUodGeNI6sR0NFkiNVHMIBzA+8=
-  dependencies:
-    "@babel/plugin-transform-react-jsx" "^7.16.0"
-
-"@babel/plugin-transform-react-jsx@^7.16.0":
-  version "7.16.0"
-  resolved "https://registry.npmmirror.com/@babel/plugin-transform-react-jsx/download/@babel/plugin-transform-react-jsx-7.16.0.tgz#55b797d4960c3de04e07ad1c0476e2bc6a4889f1"
-  integrity sha1-VbeX1JYMPeBOB60cBHbivGpIifE=
-  dependencies:
-    "@babel/helper-annotate-as-pure" "^7.16.0"
-    "@babel/helper-module-imports" "^7.16.0"
-    "@babel/helper-plugin-utils" "^7.14.5"
-    "@babel/plugin-syntax-jsx" "^7.16.0"
-    "@babel/types" "^7.16.0"
-
-"@babel/plugin-transform-react-pure-annotations@^7.16.0":
-  version "7.16.0"
-  resolved "https://registry.npmmirror.com/@babel/plugin-transform-react-pure-annotations/download/@babel/plugin-transform-react-pure-annotations-7.16.0.tgz#23db6ddf558d8abde41b8ad9d59f48ad5532ccab"
-  integrity sha1-I9tt31WNir3kG4rZ1Z9IrVUyzKs=
-  dependencies:
-    "@babel/helper-annotate-as-pure" "^7.16.0"
-    "@babel/helper-plugin-utils" "^7.14.5"
-
 "@babel/plugin-transform-regenerator@^7.16.0":
   version "7.16.0"
   resolved "https://registry.npmmirror.com/@babel/plugin-transform-regenerator/download/@babel/plugin-transform-regenerator-7.16.0.tgz?cache=0&sync_timestamp=1635567063481&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fplugin-transform-regenerator%2Fdownload%2F%40babel%2Fplugin-transform-regenerator-7.16.0.tgz#eaee422c84b0232d03aea7db99c97deeaf6125a4"
@@ -926,18 +886,6 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/preset-react@^7.14.5":
-  version "7.16.0"
-  resolved "https://registry.npmmirror.com/@babel/preset-react/download/@babel/preset-react-7.16.0.tgz#f71d3e8dff5218478011df037fad52660ee6d82a"
-  integrity sha1-9x0+jf9SGEeAEd8Df61SZg7m2Co=
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.14.5"
-    "@babel/helper-validator-option" "^7.14.5"
-    "@babel/plugin-transform-react-display-name" "^7.16.0"
-    "@babel/plugin-transform-react-jsx" "^7.16.0"
-    "@babel/plugin-transform-react-jsx-development" "^7.16.0"
-    "@babel/plugin-transform-react-pure-annotations" "^7.16.0"
-
 "@babel/preset-typescript@^7.14.5":
   version "7.16.0"
   resolved "https://registry.npmmirror.com/@babel/preset-typescript/download/@babel/preset-typescript-7.16.0.tgz#b0b4f105b855fb3d631ec036cdc9d1ffd1fa5eac"
@@ -955,7 +903,7 @@
     core-js-pure "^3.19.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.0", "@babel/runtime@^7.14.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.16.0"
   resolved "https://registry.npmmirror.com/@babel/runtime/download/@babel/runtime-7.16.0.tgz?cache=0&sync_timestamp=1635554662772&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40babel%2Fruntime%2Fdownload%2F%40babel%2Fruntime-7.16.0.tgz#e27b977f2e2088ba24748bf99b5e1dece64e4f0b"
   integrity sha1-4nuXfy4giLokdIv5m14d7OZOTws=
@@ -2450,20 +2398,6 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
-"@testing-library/dom@^8.0.0":
-  version "8.11.0"
-  resolved "https://registry.npmmirror.com/@testing-library/dom/download/@testing-library/dom-8.11.0.tgz?cache=0&sync_timestamp=1635947376564&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40testing-library%2Fdom%2Fdownload%2F%40testing-library%2Fdom-8.11.0.tgz#3679dfb4db58e0d2b95e4b0929eaf45237b60d94"
-  integrity sha1-NnnftNtY4NK5XksJKer0Uje2DZQ=
-  dependencies:
-    "@babel/code-frame" "^7.10.4"
-    "@babel/runtime" "^7.12.5"
-    "@types/aria-query" "^4.2.0"
-    aria-query "^5.0.0"
-    chalk "^4.1.0"
-    dom-accessibility-api "^0.5.9"
-    lz-string "^1.4.4"
-    pretty-format "^27.0.2"
-
 "@testing-library/jest-dom@^5.14.1":
   version "5.15.0"
   resolved "https://registry.npmmirror.com/@testing-library/jest-dom/download/@testing-library/jest-dom-5.15.0.tgz?cache=0&sync_timestamp=1635839973202&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40testing-library%2Fjest-dom%2Fdownload%2F%40testing-library%2Fjest-dom-5.15.0.tgz#4f5295dbc476a14aec3b07176434b3d51aae5da7"
@@ -2479,14 +2413,6 @@
     lodash "^4.17.15"
     redent "^3.0.0"
 
-"@testing-library/react@^12.1.1":
-  version "12.1.2"
-  resolved "https://registry.npmmirror.com/@testing-library/react/download/@testing-library/react-12.1.2.tgz?cache=0&sync_timestamp=1635740663871&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40testing-library%2Freact%2Fdownload%2F%40testing-library%2Freact-12.1.2.tgz#f1bc9a45943461fa2a598bb4597df1ae044cfc76"
-  integrity sha1-8byaRZQ0YfoqWYu0WX3xrgRM/HY=
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@testing-library/dom" "^8.0.0"
-
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.npmmirror.com/@tootallnate/once/download/@tootallnate/once-1.1.2.tgz?cache=0&sync_timestamp=1632734046275&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40tootallnate%2Fonce%2Fdownload%2F%40tootallnate%2Fonce-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -2501,11 +2427,6 @@
   version "0.2.0"
   resolved "https://registry.nlark.com/@trysound/sax/download/@trysound/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha1-zMqrdYr1Z2Hre/N69vA/Mm3XmK0=
-
-"@types/aria-query@^4.2.0":
-  version "4.2.2"
-  resolved "https://registry.npmmirror.com/@types/aria-query/download/@types/aria-query-4.2.2.tgz#ed4e0ad92306a704f9fb132a0cfcf77486dbe2bc"
-  integrity sha1-7U4K2SMGpwT5+xMqDPz3dIbb4rw=
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.14":
   version "7.1.16"
@@ -3163,11 +3084,6 @@ aria-query@^4.2.2:
   dependencies:
     "@babel/runtime" "^7.10.2"
     "@babel/runtime-corejs3" "^7.10.2"
-
-aria-query@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.npmmirror.com/aria-query/download/aria-query-5.0.0.tgz#210c21aaf469613ee8c9a62c7f86525e058db52c"
-  integrity sha1-IQwhqvRpYT7oyaYsf4ZSXgWNtSw=
 
 arr-diff@^4.0.0:
   version "4.0.0"
@@ -5038,7 +4954,7 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-dom-accessibility-api@^0.5.6, dom-accessibility-api@^0.5.9:
+dom-accessibility-api@^0.5.6:
   version "0.5.10"
   resolved "https://registry.npmmirror.com/dom-accessibility-api/download/dom-accessibility-api-0.5.10.tgz#caa6d08f60388d0bb4539dd75fe458a9a1d0014c"
   integrity sha1-yqbQj2A4jQu0U53XX+RYqaHQAUw=
@@ -7813,7 +7729,7 @@ js-cleanup@^1.2.0:
     perf-regexes "^1.0.1"
     skip-regex "^1.0.2"
 
-"js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
+js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.nlark.com/js-tokens/download/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha1-GSA/tZmR35jjoocFDUZHzerzJJk=
@@ -8333,13 +8249,6 @@ log-update@^4.0.0:
     slice-ansi "^4.0.0"
     wrap-ansi "^6.2.0"
 
-loose-envify@^1.1.0:
-  version "1.4.0"
-  resolved "https://registry.nlark.com/loose-envify/download/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
-  integrity sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8=
-  dependencies:
-    js-tokens "^3.0.0 || ^4.0.0"
-
 loud-rejection@^1.0.0:
   version "1.6.0"
   resolved "https://registry.nlark.com/loud-rejection/download/loud-rejection-1.6.0.tgz#5b46f80147edee578870f086d04821cf998e551f"
@@ -8371,11 +8280,6 @@ lru-cache@^6.0.0:
   integrity sha1-bW/mVw69lqr5D8rR2vo7JWbbOpQ=
   dependencies:
     yallist "^4.0.0"
-
-lz-string@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.nlark.com/lz-string/download/lz-string-1.4.4.tgz#c0d8eaf36059f705796e1e344811cf4c498d3a26"
-  integrity sha1-wNjq82BZ9wV5bh40SBHPTEmNOiY=
 
 macos-release@^2.2.0, macos-release@^2.5.0:
   version "2.5.0"
@@ -9129,7 +9033,7 @@ oauth-sign@~0.9.0:
   resolved "https://registry.nlark.com/oauth-sign/download/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   integrity sha1-R6ewFrqmi1+g7PPe4IqFxnmsZFU=
 
-object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
+object-assign@^4.0.1, object-assign@^4.1.0:
   version "4.1.1"
   resolved "https://registry.nlark.com/object-assign/download/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
@@ -10042,7 +9946,7 @@ pretty-format@^25.2.1, pretty-format@^25.5.0:
     ansi-styles "^4.0.0"
     react-is "^16.12.0"
 
-pretty-format@^27.0.0, pretty-format@^27.0.2, pretty-format@^27.3.1:
+pretty-format@^27.0.0, pretty-format@^27.3.1:
   version "27.3.1"
   resolved "https://registry.npmmirror.com/pretty-format/download/pretty-format-27.3.1.tgz?cache=0&sync_timestamp=1634626739813&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fpretty-format%2Fdownload%2Fpretty-format-27.3.1.tgz#7e9486365ccdd4a502061fa761d3ab9ca1b78df5"
   integrity sha1-fpSGNlzN1KUCBh+nYdOrnKG3jfU=
@@ -10253,15 +10157,6 @@ rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-dom@^17.0.2:
-  version "17.0.2"
-  resolved "https://registry.npmmirror.com/react-dom/download/react-dom-17.0.2.tgz?cache=0&sync_timestamp=1636388185985&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact-dom%2Fdownload%2Freact-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
-  integrity sha1-7P+2hF462Nv83EmPDQqTlzZQLCM=
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    scheduler "^0.20.2"
-
 react-is@^16.12.0:
   version "16.13.1"
   resolved "https://registry.npmmirror.com/react-is/download/react-is-16.13.1.tgz?cache=0&sync_timestamp=1636388163403&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact-is%2Fdownload%2Freact-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -10271,14 +10166,6 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.npmmirror.com/react-is/download/react-is-17.0.2.tgz?cache=0&sync_timestamp=1636388163403&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact-is%2Fdownload%2Freact-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha1-5pHUqOnHiTZWVVOas3J2Kw77VPA=
-
-react@^17.0.2:
-  version "17.0.2"
-  resolved "https://registry.npmmirror.com/react/download/react-17.0.2.tgz?cache=0&sync_timestamp=1636388108044&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact%2Fdownload%2Freact-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
-  integrity sha1-0LXMUW0p6z7uOD91tihkz7aAADc=
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 read-cmd-shim@^1.0.1:
   version "1.0.5"
@@ -10922,14 +10809,6 @@ saxes@^5.0.1:
   integrity sha1-7rq5U/o7dgjb6U5drbFciI+maW0=
   dependencies:
     xmlchars "^2.2.0"
-
-scheduler@^0.20.2:
-  version "0.20.2"
-  resolved "https://registry.npmmirror.com/scheduler/download/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
-  integrity sha1-S67jlDbjSqk7SHS93L8P6Li1DpE=
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 scroll-into-view-if-needed@^2.2.28:
   version "2.2.28"
