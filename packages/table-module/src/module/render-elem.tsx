@@ -9,10 +9,9 @@ import { IDomEditor } from '@wangeditor/core'
 import { TableCellElement, TableRowElement, TableElement } from './custom-types'
 
 function renderTable(elemNode: SlateElement, children: VNode[] | null, editor: IDomEditor): VNode {
-  const { withHeader = false, fullWidth = false } = elemNode as TableElement
+  const { fullWidth = false } = elemNode as TableElement
 
   let classNames: string[] = []
-  if (withHeader) classNames.push('with-header') // 表头
   if (fullWidth) classNames.push('full-width') // 宽度自适应
 
   const vnode = (
@@ -37,11 +36,12 @@ function renderTableCell(
   children: VNode[] | null,
   editor: IDomEditor
 ): VNode {
-  const { colSpan = 1, rowSpan = 1 } = cellNode as TableCellElement
+  const { colSpan = 1, rowSpan = 1, isHeader = false } = cellNode as TableCellElement
+  const Tag = isHeader ? 'th' : 'td'
   const vnode = (
-    <td colSpan={colSpan} rowSpan={rowSpan}>
+    <Tag colSpan={colSpan} rowSpan={rowSpan}>
       {children}
-    </td>
+    </Tag>
   )
   return vnode
 }

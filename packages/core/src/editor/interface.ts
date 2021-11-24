@@ -26,7 +26,7 @@ export interface IDomEditor extends Editor {
 
   // 内容处理
   handleTab: () => void
-  getHtml: (opt?: { withFormat?: boolean; containerClassName?: string }) => string
+  getHtml: (opt?: { withFormat?: boolean }) => string
   getText: () => string
   getSelectionText: () => string // 获取选区文字
   getElemsByTypePrefix: (typePrefix: string) => ElementWithId[]

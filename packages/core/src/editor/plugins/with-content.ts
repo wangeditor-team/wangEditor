@@ -129,20 +129,22 @@ export const withContent = <T extends Editor>(editor: T) => {
   }
 
   // 获取 html
-  e.getHtml = (opt: { withFormat?: boolean; containerClassName?: string } = {}): string => {
-    const { withFormat = true, containerClassName = 'w-e-content-container' } = opt
+  e.getHtml = (opt: { withFormat?: boolean } = {}): string => {
+    const { withFormat = true } = opt
 
     const { children = [] } = e
     let html = children.map(child => node2html(child, e)).join('')
-    html = `<div class="${containerClassName}">${html}</div>`
+    if (!withFormat) return html
 
-    if (withFormat) {
-      // 格式化
-      html = xmlFormat(html, {
-        collapseContent: true,
-      })
-    }
-
+    // 格式化 html
+    html = `<div>${html}</div>`
+    html = xmlFormat(html, {
+      collapseContent: true,
+    })
+    // 格式化完毕，去掉外层的 div
+    html = html.replace(/\r\n\s{4}/g, '\r\n')
+    html = html.replace(/^<div>\r\n/g, '')
+    html = html.replace(/\r\n<\/div>$/g, '')
     return html
   }
 

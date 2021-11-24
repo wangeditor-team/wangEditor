@@ -37,7 +37,7 @@ function elemToHtml(elemNode: Element, editor: IDomEditor): string {
   let childrenHtml = ''
   if (!isVoid) {
     // 非 void node
-    childrenHtml = children.map(child => node2html(child, editor)).join(' ')
+    childrenHtml = children.map(child => node2html(child, editor)).join('')
   }
 
   // 生成 html

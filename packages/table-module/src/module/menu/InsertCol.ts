@@ -7,7 +7,8 @@ import isEqual from 'lodash.isequal'
 import { Editor, Element, Transforms, Range, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { ADD_COL_SVG } from '../../constants/svg'
-import { TableCellElement } from '../custom-types'
+import { TableCellElement, TableElement } from '../custom-types'
+import { isTableWithHeader } from './helpers'
 
 class InsertCol implements IButtonMenu {
   readonly title = t('tableModule.insertCol')
@@ -53,12 +54,12 @@ class InsertCol implements IButtonMenu {
 
     const rowNode = DomEditor.getParentNode(editor, selectedCellNode)
     if (rowNode == null) return
-    const tableNode = DomEditor.getParentNode(editor, rowNode)
+    const tableNode = DomEditor.getParentNode(editor, rowNode) as TableElement
     if (tableNode == null) return
 
     // 遍历所有 rows ，挨个添加 cell
     const rows = tableNode.children || []
-    rows.forEach(row => {
+    rows.forEach((row, rowIndex) => {
       if (!Element.isElement(row)) return
 
       const cells = row.children || []
@@ -72,6 +73,9 @@ class InsertCol implements IButtonMenu {
           // 如果当前 td 的 path 和选中 td 的 path ，最后一位相同，说明是同一列
           // 则在其后插入一个 cell
           const newCell: TableCellElement = { type: 'table-cell', children: [{ text: '' }] }
+          if (rowIndex === 0 && isTableWithHeader(tableNode)) {
+            newCell.isHeader = true
+          }
           Transforms.insertNodes(editor, newCell, { at: path })
         }
       })
