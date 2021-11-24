@@ -9,7 +9,7 @@ import { Text } from 'slate'
 
 export type TableCellElement = {
   type: 'table-cell'
-  isHeader?: boolean // td / th
+  isHeader?: boolean // td/th
   colSpan?: number
   rowSpan?: number
   children: Text[]

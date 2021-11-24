@@ -136,7 +136,7 @@ export const withContent = <T extends Editor>(editor: T) => {
     let html = children.map(child => node2html(child, e)).join('')
     if (!withFormat) return html
 
-    // 格式化 html
+    // 格式化 html ，需要包裹一个 div
     html = `<div>${html}</div>`
     html = xmlFormat(html, {
       collapseContent: true,
