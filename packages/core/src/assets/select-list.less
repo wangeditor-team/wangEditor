@@ -1,4 +1,4 @@
-@import "vars.less"; // var and mixin
+@import "../../../vars.less"; // var and mixin
 
 
 .w-e-select-list {
@@ -6,7 +6,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  background-color: @bgColor;
+  background-color: @toolbar-bg-color;
   margin-top: 40px;
   min-width: 100px;
   .shadowBordered(10px);
@@ -19,7 +19,7 @@
     line-height: 1;
 
     .selected {
-      background-color: @activeBgColor;
+      background-color: @toolbar-active-bg-color;
     }
     li {
       cursor: pointer;
@@ -29,7 +29,7 @@
       white-space: nowrap; /* 不换行 */
 
       &:hover {
-        background-color: @activeBgColor;
+        background-color: @toolbar-active-bg-color;
       }
 
       svg {

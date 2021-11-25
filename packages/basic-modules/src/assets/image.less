@@ -1,3 +1,5 @@
+@import "../../../vars.less";
+
 // 拖拽，修改图片尺寸
 .w-e-text-container [data-slate-editor] {
   .w-e-image-container {
@@ -5,7 +7,7 @@
     margin: 0 10px;
 
     &:hover {
-      box-shadow: 0 0 0 2px #B4D5FF;
+      box-shadow: 0 0 0 2px @textarea-selected-border-color;
     }
   }
   .w-e-selected-image-container {
@@ -15,7 +17,7 @@
     .w-e-image-dragger {
       width: 7px;
       height: 7px;
-      background-color: #4290f7;
+      background-color: @textarea-handler-bg-color;
       position: absolute;
     }
     .left-top {

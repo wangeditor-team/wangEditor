@@ -1,3 +1,5 @@
+@import "../../../vars.less";
+
 .w-e-panel-content-color {
   list-style: none;
   text-align: left;
@@ -8,22 +10,22 @@
     padding: 2px;
     cursor: pointer;
     border-radius: 3px 3px;
-    border: 1px solid #fff;
+    border: 1px solid @toolbar-bg-color;
 
     &:hover {
-      border-color:#bfbfbf;
+      border-color: @toolbar-color;
     }
 
     .color-block {
       width: 17px;
       height: 17px;
-      border: 1px solid #f1f1f1;
+      border: 1px solid @toolbar-border-color;
       border-radius: 3px 3px;
     }
   }
 
   .active {
-    border-color:#bfbfbf;
+    border-color: @toolbar-color;
   }
 
   .clear {

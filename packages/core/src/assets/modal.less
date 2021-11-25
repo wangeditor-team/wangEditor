@@ -1,13 +1,13 @@
-@import "vars.less"; // var and mixin
+@import "../../../vars.less"; // var and mixin
 
 .w-e-modal {
   z-index: 1;
-  background-color: @bgColor;
+  background-color: @toolbar-bg-color;
   position: absolute;
   padding: 20px 15px 0 15px;
   min-width: 100px;
   min-height: 40px;
-  color: @color;
+  color: @toolbar-color;
   text-align: left;
   font-size: @size;
   .shadowBordered(10px);
@@ -23,7 +23,7 @@
     svg {
       width: 10px;
       height: 10px;
-      fill: @color;
+      fill: @toolbar-color;
     }
   }
 
@@ -50,10 +50,10 @@
     touch-action: manipulation;
     height: 32px;
     padding: 4.5px 15px;
-    color: @color;
-    background: #fafafa;
+    color: @toolbar-color;
+    background-color: @modal-button-bg-color;
     text-align: center;
-    border: 1px solid #d9d9d9;
+    border: 1px solid @modal-button-border-color;
     border-radius: 4px;
     box-shadow: 0 2px 0 rgb(0 0 0 0.2);
   }
@@ -63,9 +63,9 @@
     font-variant: tabular-nums;
     font-feature-settings: "tnum";
     padding: 4.5px 11px;
-    color: @color;
-    background-color: @bgColor;
-    border: 1px solid #d9d9d9;
+    color: @toolbar-color;
+    background-color: @toolbar-bg-color;
+    border: 1px solid @modal-button-border-color;
     border-radius: 4px;
     transition: all .3s;
     width: 100%;

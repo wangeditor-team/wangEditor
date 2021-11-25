@@ -1,7 +1,8 @@
-@import "vars.less"; // var and mixin
+@import "../../../vars.less"; // var and mixin
 
 .w-e-text-container {
-  background-color: @bgColor;
+  color: @textarea-color;
+  background-color: @textarea-bg-color;
   position: relative;
   height: 100%;
 }
@@ -36,12 +37,12 @@
 
   // 选中的节点
   [data-selected="true"] {
-    box-shadow: 0 0 0 2px #B4D5FF;
+    box-shadow: 0 0 0 2px @textarea-selected-border-color;
   }
 }
 
 .w-e-text-placeholder {
-  color: #D4D4D4;
+  color: @textarea-slight-color;
   position: absolute;
   font-style: italic;
   width: 90%;
