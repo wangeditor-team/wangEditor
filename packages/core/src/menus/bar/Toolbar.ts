@@ -126,9 +126,11 @@ class Toolbar {
     const $toolbar = this.$toolbar
     const group = createBarItemGroup(menu)
     const { menuKeys = [] } = menu
+    const { excludeKeys = [] } = this.config
 
     // 注册子菜单
     menuKeys.forEach(key => {
+      if (excludeKeys.includes(key)) return
       this.registerSingleItem(
         key,
         group // 将子菜单，添加到 group
