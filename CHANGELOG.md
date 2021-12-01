@@ -1,3 +1,10 @@
+## [4.7.10](https://github.com/wangeditor-team/wangEditor/compare/v4.7.9...v4.7.10) (2021-12-01)
+
+
+### Bug Fixes
+
+* 复制单张图片无效 ([698c013](https://github.com/wangeditor-team/wangEditor/commit/698c013445a63caba9ea690227cacc1d947348fe))
+
 ## [4.7.9](https://github.com/wangeditor-team/wangEditor/compare/v4.7.8...v4.7.9) (2021-10-17)
 
 
