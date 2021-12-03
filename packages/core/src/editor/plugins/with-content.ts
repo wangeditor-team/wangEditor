@@ -291,6 +291,13 @@ export const withContent = <T extends Editor>(editor: T) => {
     document.body.appendChild(div)
     Array.from(div.childNodes).forEach(child => {
       const { nodeType } = child
+      if (nodeType !== 1 && nodeType !== 3) return
+
+      const text = child.textContent || ''
+      if (DomEditor.checkMaxLength(e, text)) {
+        return
+      }
+
       if (nodeType === 1) {
         // DOM Element
         try {
@@ -298,14 +305,12 @@ export const withContent = <T extends Editor>(editor: T) => {
           e.insertDomElem(child as DOMElement)
         } catch (err) {
           // 出错，则插入文本
-          const text = child.textContent
           if (text) e.insertText(text)
           console.error('insertDomElem error', child)
         }
       }
       if (nodeType === 3) {
         // DOM Text
-        const text = child.textContent
         if (text) e.insertText(text)
       }
     })

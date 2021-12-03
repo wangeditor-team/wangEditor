@@ -112,6 +112,10 @@ export const withEventData = <T extends Editor>(editor: T) => {
     const rtf = data.getData('text/rtf')
 
     if (html && !rtf) {
+      if (DomEditor.checkMaxLength(e)) {
+        return
+      }
+
       e.dangerouslyInsertHtml(html)
       return
     }
