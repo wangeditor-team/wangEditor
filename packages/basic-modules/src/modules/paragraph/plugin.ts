@@ -10,7 +10,7 @@ import {
   Node as SlateNode,
   Text as SlateText,
 } from 'slate'
-import { IDomEditor } from '@wangeditor/core'
+import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 function deleteHandler(newEditor: IDomEditor): boolean {
   const [nodeEntry] = Editor.nodes(newEditor, {
@@ -66,11 +66,12 @@ function withParagraph<T extends IDomEditor>(editor: T): T {
     const childNodes = Array.from(domElem.childNodes)
     if (childNodes.length === 0) return
 
-    // 换行
-    insertBreak()
-
-    // 设置 paragraph
-    Transforms.setNodes(editor, { type: 'paragraph' })
+    const selectedElem = DomEditor.getSelectedElems(editor)[0]
+    if (DomEditor.getNodeType(selectedElem) !== 'paragraph') {
+      // 如果当前选中的不是 p ，则换行，并设置为 p
+      insertBreak()
+      Transforms.setNodes(editor, { type: 'paragraph' })
+    }
 
     // 插入子节点
     childNodes.forEach(child => {
@@ -85,6 +86,9 @@ function withParagraph<T extends IDomEditor>(editor: T): T {
         if (text) insertText(text)
       }
     })
+
+    // 最后换行
+    insertBreak()
   }
 
   // 返回 editor ，重要！
