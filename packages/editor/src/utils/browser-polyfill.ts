@@ -16,7 +16,7 @@ if (typeof global === 'undefined') {
 
   globalThisPolyfill()
   AggregateErrorPolyfill()
-} else if (global && global.navigator.userAgent.match('QQBrowser')) {
+} else if (global && global.navigator?.userAgent.match('QQBrowser')) {
   // 兼容 QQ 浏览器 AggregateError 报错
   globalThisPolyfill()
   AggregateErrorPolyfill()

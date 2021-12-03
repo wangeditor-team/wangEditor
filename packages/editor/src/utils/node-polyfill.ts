@@ -24,5 +24,10 @@ if (typeof global === 'object') {
       protocol: 'http:',
     }
     global.btoa = () => {}
+    global.crypto = {
+      getRandomValues: function (buffer: any) {
+        return nodeCrypto.randomFillSync(buffer)
+      },
+    }
   }
 }
