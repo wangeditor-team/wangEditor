@@ -7,6 +7,7 @@ export default {
   // 通用的词
   common: {
     ok: 'OK',
+    delete: 'Delete',
   },
 
   blockQuote: {
