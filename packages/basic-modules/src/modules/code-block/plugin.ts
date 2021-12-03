@@ -3,11 +3,13 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Node } from 'slate'
+import { Editor, Transforms, Node as SlateNode } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
+const EMPTY_P = { type: 'paragraph', children: [{ text: '' }] }
+
 function withCodeBlock<T extends IDomEditor>(editor: T): T {
-  const { insertBreak, normalizeNode, insertData } = editor
+  const { insertBreak, normalizeNode, insertData, insertDomElem, insertNode } = editor
   const newEditor = editor
 
   // 重写换行操作
@@ -18,12 +20,11 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
       return
     }
 
-    const codeStr = Node.string(codeNode)
+    const codeStr = SlateNode.string(codeNode)
 
     if (codeStr.slice(-2) === '\n\n') {
       // 结尾两处空行，则跳出 pre ，插入空行
-      const emptyP = { type: 'paragraph', children: [{ text: '' }] }
-      Transforms.insertNodes(editor, emptyP, {
+      Transforms.insertNodes(editor, EMPTY_P, {
         mode: 'highest', // 在最高层级插入，否则会插入到 pre 下面
       })
     } else {
@@ -43,8 +44,7 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
 
     // -------------- pre 不能是 editor 第一个节点，否则前面插入 p
     if (type === 'pre' && newEditor.children[0] === node) {
-      const p = { type: 'paragraph', children: [{ text: '' }] }
-      Transforms.insertNodes(newEditor, p, { at: path })
+      Transforms.insertNodes(newEditor, EMPTY_P, { at: path })
     }
 
     // 执行默认行为
@@ -62,6 +62,39 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
     // 获取文本，并插入到代码块
     const text = data.getData('text/plain')
     Editor.insertText(newEditor, text)
+  }
+
+  // insert <pre><code> DOM Element
+  newEditor.insertDomElem = (domElem: Element) => {
+    const tag = domElem.tagName.toLowerCase()
+    if (tag !== 'pre') {
+      insertDomElem(domElem) // 执行默认处理
+      return
+    }
+
+    const firstChild = domElem.children[0]
+    if (!firstChild) return
+
+    if (firstChild.tagName.toLowerCase() !== 'code') return
+
+    const text = firstChild.textContent
+    if (!text) return
+
+    insertNode({
+      type: 'pre',
+      children: [
+        {
+          type: 'code',
+          language: '',
+          children: [{ text }],
+        },
+      ],
+    })
+
+    // 插入 p ，跳出 code 内部
+    Transforms.insertNodes(newEditor, EMPTY_P, {
+      mode: 'highest',
+    })
   }
 
   // 返回 editor ，重要！

@@ -7,6 +7,7 @@ import { Editor, Location, Node, Ancestor, Element } from 'slate'
 import ee from 'event-emitter'
 import { IEditorConfig, AlertType, ISingleMenuConfig } from '../config/interface'
 import { IPositionStyle } from '../menus/interface'
+import { DOMElement } from '../utils/dom'
 
 export type ElementWithId = Element & { id: string }
 
@@ -34,6 +35,8 @@ export interface IDomEditor extends Editor {
   getParentNode: (node: Node) => Ancestor | null
   isEmpty: () => boolean
   clear: () => void
+  insertDomElem: (domElem: DOMElement) => void
+  dangerouslyInsertHtml: (html: string) => void
 
   // dom 相关
   id: string

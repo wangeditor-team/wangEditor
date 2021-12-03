@@ -26,21 +26,30 @@ import wangEditorCodeBlockModule from './modules/code-block'
 import wangEditorFullScreenModule from './modules/full-screen'
 
 export default [
+  // text style
   wangEditorTextStyleModule,
-  wangEditorHeaderModule,
-  wangEditorParagraphModule,
   wangEditorColorModule,
-  wangEditorLinkModule,
-  wangEditorImageModule,
-  wangEditorBlockQuoteModule,
-  wangEditorEmotionModule,
   wangEditorFontSizeAndFamilyModule,
   wangEditorIndentModule,
   wangEditorJustifyModule,
   wangEditorLineHeightModule,
-  wangEditorUndoRedoModule,
+
+  // void node
+  wangEditorImageModule,
   wangEditorDividerModule,
+
+  // inline node
+  wangEditorEmotionModule,
+  wangEditorLinkModule,
+
+  // block node —— 要放在 void 和 inline 后面！！！
   wangEditorCodeBlockModule,
+  wangEditorBlockQuoteModule,
+  wangEditorHeaderModule,
+  wangEditorParagraphModule,
+
+  // command
+  wangEditorUndoRedoModule,
   wangEditorFullScreenModule,
 ]
 

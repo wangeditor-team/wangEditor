@@ -11,8 +11,22 @@ import { EDITOR_TO_SELECTION, NODE_TO_KEY } from '../../utils/weak-maps'
 import { node2html } from '../../to-html/node2html'
 import { genElemId } from '../../formats/helper'
 import { Key } from '../../utils/key'
+import { DOMElement, getPlainText } from '../../utils/dom'
 import { findCurrentLineRange } from '../../utils/line'
 import { ElementWithId } from '../interface'
+
+const IGNORE_TAGS = new Set([
+  'doctype',
+  '!doctype',
+  'meta',
+  'script',
+  'style',
+  'link',
+  'frame',
+  'iframe',
+  'title',
+  'svg', // TODO 暂时忽略
+])
 
 export const withContent = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
@@ -241,6 +255,61 @@ export const withContent = <T extends Editor>(editor: T) => {
 
   e.getParentNode = (node: Node) => {
     return DomEditor.getParentNode(e, node)
+  }
+
+  /**
+   * 插入 DOMElement
+   * @param domElem DOM Element
+   */
+  e.insertDomElem = (domElem: DOMElement) => {
+    const tag = domElem.tagName.toLowerCase()
+    if (IGNORE_TAGS.has(tag)) return
+
+    const text = getPlainText(domElem)
+    if (!text) return
+
+    const lines = text.split(/\r\n|\r|\n/) // 换行
+    const length = lines.length
+    lines.forEach((line, index) => {
+      e.insertText(line)
+      if (index + 1 < length) {
+        Transforms.splitNodes(e, { always: true }) // 插入换行
+      }
+    })
+  }
+
+  /**
+   * 插入 html （不保证语义完全正确），用于粘贴
+   * @param html html string
+   */
+  e.dangerouslyInsertHtml = (html: string = '') => {
+    if (!html) return
+
+    const div = document.createElement('div')
+    div.innerHTML = html
+    div.setAttribute('hidden', 'true')
+    document.body.appendChild(div)
+    Array.from(div.childNodes).forEach(child => {
+      const { nodeType } = child
+      if (nodeType === 1) {
+        // DOM Element
+        try {
+          // 可第三方扩展，加 try 包裹
+          e.insertDomElem(child as DOMElement)
+        } catch (err) {
+          // 出错，则插入文本
+          const text = child.textContent
+          if (text) e.insertText(text)
+          console.error('insertDomElem error', child)
+        }
+      }
+      if (nodeType === 3) {
+        // DOM Text
+        const text = child.textContent
+        if (text) e.insertText(text)
+      }
+    })
+    document.body.removeChild(div)
   }
 
   return e
