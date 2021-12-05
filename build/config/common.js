@@ -33,6 +33,9 @@ export default {
     }),
     nodeResolve({
       browser: true, // 重要
+      // 声明加载 node_module package 时默认使用 package.json 的 main 属性指定的文件
+      // 之前加载 es module，默认不会被处理，导致最后生成的代码有箭头函数
+      mainFields: ['main'],
       extensions,
     }),
     commonjs(),
