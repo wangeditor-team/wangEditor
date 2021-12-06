@@ -62,6 +62,13 @@ function withParagraph<T extends IDomEditor>(editor: T): T {
       return
     }
 
+    // 空行
+    const innerHTML = domElem.innerHTML
+    if (innerHTML === '<br>' || innerHTML === '<br/>') {
+      insertBreak()
+      return
+    }
+
     // DOM 子节点
     const childNodes = Array.from(domElem.childNodes)
     if (childNodes.length === 0) return
