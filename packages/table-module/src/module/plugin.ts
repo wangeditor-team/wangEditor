@@ -111,16 +111,21 @@ function withTable<T extends IDomEditor>(editor: T): T {
     const topLevelNodes = newEditor.children || []
     const topLevelNodesLength = topLevelNodes.length
 
-    // --------------------- 表格不能是第一个元素，否则前面插入一个 p ---------------------
-    if (topLevelNodes[0] === node) {
-      const p = genEmptyParagraph()
-      Transforms.insertNodes(newEditor, p, { at: path })
-    }
+    const isFirstNode = topLevelNodes[0] === node
+    const isLastNode = topLevelNodes[topLevelNodesLength - 1] === node
 
-    // --------------------- 表格不能是最后一个元素，否则后面插入一个 p ---------------------
-    if (topLevelNodes[topLevelNodesLength - 1] === node) {
-      const p = genEmptyParagraph()
-      Transforms.insertNodes(newEditor, p, { at: [path[0] + 1] })
+    if (isFirstNode && !isLastNode) {
+      // -------------- table 仅是 editor 第一个节点，需要前面插入 p --------------
+      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: path })
+    }
+    if (isLastNode && !isFirstNode) {
+      // -------------- table 仅是 editor 最后一个节点，需要后面插入 p --------------
+      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: [path[0] + 1] })
+    }
+    if (isFirstNode && isLastNode) {
+      // -------------- table 是 editor 唯一一个节点，需要前后都插入 p --------------
+      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: path })
+      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: [path[0] + 2] })
     }
 
     // --------------------- table 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------

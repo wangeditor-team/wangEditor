@@ -93,6 +93,7 @@ class InsertTable implements IDropPanelMenu {
 
     // 初始化
     const $content = $('<div class="w-e-panel-content-table"></div>')
+    const $info = $('<span>0 &times; 0</span>') // 显示行列数量
 
     // 渲染 10 * 10 table ，以快速创建表格
     const $table = $('<table></table>')
@@ -110,6 +111,9 @@ class InsertTable implements IDropPanelMenu {
           if (target == null) return
           const $focusTd = $(target)
           const { x: focusX, y: focusY } = $focusTd.dataset()
+
+          // 显示行列数量
+          $info[0].innerHTML = `${focusX + 1} &times; ${focusY + 1}`
 
           // 修改 table td 样式
           $table.children().each(tr => {
@@ -140,6 +144,7 @@ class InsertTable implements IDropPanelMenu {
       $table.append($tr)
     }
     $content.append($table)
+    $content.append($info)
 
     // 记录，并返回
     this.$content = $content
