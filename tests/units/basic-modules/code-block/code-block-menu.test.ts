@@ -53,11 +53,12 @@ describe('code-block menu', () => {
     editor.select(startLocation)
     expect(menu.isDisabled(editor)).toBeFalsy()
 
-    Transforms.setNodes(editor, { type: 'pre' })
-    expect(menu.isDisabled(editor)).toBeFalsy()
-
     Transforms.setNodes(editor, { type: 'header1' })
     expect(menu.isDisabled(editor)).toBeTruthy() // 非 p pre ，则禁用
+
+    editor.insertNode({ type: 'pre', children: [{ type: 'code', children: [{ text: 'var' }] }] })
+    expect(menu.isDisabled(editor)).toBeFalsy()
+    // Transforms.removeNodes(editor, { mode: 'highest' }) // 移除 pre/code
   })
 
   it('exec - to code-block', () => {

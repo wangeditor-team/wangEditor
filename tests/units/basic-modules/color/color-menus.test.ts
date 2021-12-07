@@ -58,10 +58,11 @@ describe('color menus', () => {
       expect(menu.isDisabled(editor)).toBeFalsy()
     })
 
-    Transforms.setNodes(editor, { type: 'pre' })
+    editor.insertNode({ type: 'pre', children: [{ type: 'code', children: [{ text: 'var' }] }] })
     menus.forEach(({ menu }) => {
       expect(menu.isDisabled(editor)).toBeTruthy()
     })
+    // Transforms.removeNodes(editor, { mode: 'highest' }) // 移除 pre/code
   })
 
   it('get panel content elem', () => {

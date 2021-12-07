@@ -38,8 +38,9 @@ describe('justify menus', () => {
     editor.select(startLocation)
     expect(centerMenu.isDisabled(editor)).toBeFalsy()
 
-    Transforms.setNodes(editor, { type: 'pre' })
+    editor.insertNode({ type: 'pre', children: [{ type: 'code', children: [{ text: 'var' }] }] })
     expect(centerMenu.isDisabled(editor)).toBeTruthy()
+    // Transforms.removeNodes(editor, { mode: 'highest' }) // 移除 pre/code
   })
 
   it('exec', () => {

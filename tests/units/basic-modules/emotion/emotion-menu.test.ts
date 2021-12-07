@@ -28,8 +28,9 @@ describe('font family menu', () => {
     editor.select(startLocation)
     expect(menu.isDisabled(editor)).toBeFalsy()
 
-    Transforms.setNodes(editor, { type: 'pre' })
+    editor.insertNode({ type: 'pre', children: [{ type: 'code', children: [{ text: 'var' }] }] })
     expect(menu.isDisabled(editor)).toBeTruthy()
+    // Transforms.removeNodes(editor, { mode: 'highest' }) // 移除 pre/code
   })
 
   it('get panel content elem', () => {

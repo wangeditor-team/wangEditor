@@ -40,8 +40,9 @@ describe('header helper', () => {
     Transforms.setNodes(editor, { type: 'header1' })
     expect(isMenuDisabled(editor)).toBeFalsy()
 
-    Transforms.setNodes(editor, { type: 'pre' })
+    editor.insertNode({ type: 'pre', children: [{ type: 'code', children: [{ text: 'var' }] }] })
     expect(isMenuDisabled(editor)).toBeTruthy() // 只能用于 p header
+    // Transforms.removeNodes(editor, { mode: 'highest' }) // 移除 pre/code
   })
 
   it('set header type', () => {

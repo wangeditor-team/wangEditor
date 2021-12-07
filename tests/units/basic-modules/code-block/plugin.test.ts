@@ -43,19 +43,24 @@ describe('code-block plugin', () => {
 
   it('insert break', () => {
     editor.select(startLocation)
-    editor.insertNode(preElem) // 插入 code node
+    editor.insertNode(preElem) // 插入 code-block
+
+    // code-block 前后会自动生成两个 p
+    const pList1 = editor.getElemsByTypePrefix('paragraph')
+    expect(pList1.length).toBe(2)
+
     editor.select({
-      path: [1, 0, 0], // 选中 code node
+      path: [1, 0, 0], // 选中 code-block
       offset: 3,
     })
 
-    editor.insertBreak() // 第一次换行，在 code-block 内部
-    editor.insertBreak() // 第二次换行，在 code-block 内部
-    const pList1 = editor.getElemsByTypePrefix('paragraph')
-    expect(pList1.length).toBe(1)
-    expect(editor.getText()).toBe('\nvar\n\n') // 两次换行
+    // 换行都在 code-block 内部
+    editor.insertBreak()
+    editor.insertBreak()
+    editor.insertBreak()
+    expect(editor.getText()).toBe('\nvar\n\n\n\n')
 
-    editor.insertBreak() // 第三次换行，则生成新 p 节点
+    // 不会再生成新的 p
     const pList2 = editor.getElemsByTypePrefix('paragraph')
     expect(pList2.length).toBe(2)
   })
@@ -72,7 +77,7 @@ describe('code-block plugin', () => {
     data.setData('text/plain', ' hello')
 
     editor.insertData(data)
-    expect(editor.getText()).toBe('\nvar hello')
+    expect(editor.getText()).toBe('\nvar hello\n')
   })
 
   it('normalizeNode - code node 不能是顶级元素，否则替换为 p', () => {
@@ -85,10 +90,10 @@ describe('code-block plugin', () => {
 
   it('normalizeNode - pre node 不能是第一个节点，否则前面插入 p', () => {
     editor.select(startLocation)
-    Transforms.setNodes(editor, { type: 'pre' })
+    editor.insertNode({ type: 'pre', children: [{ type: 'code', children: [{ text: 'var' }] }] })
 
     const pList = editor.getElemsByTypePrefix('paragraph')
-    expect(pList.length).toBe(1)
+    expect(pList.length).toBe(2)
 
     const preList = editor.getElemsByTypePrefix('pre')
     expect(preList.length).toBe(1)
