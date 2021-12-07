@@ -44,7 +44,7 @@
       metaWithUrl: true, // 参数拼接到 url 上
       headers: { Accept: 'text/x-json' },
 
-      base64LimitKB: 5, // 5kb 以下插入 base64
+      base64LimitSize: 5 * 1024, // 5kb 以下插入 base64
 
       onBeforeUpload(files) {
         console.log('onBeforeUpload', files)

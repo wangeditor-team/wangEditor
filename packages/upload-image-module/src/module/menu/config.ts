@@ -15,7 +15,7 @@ export type IUploadConfigForImage = IUploadConfig & {
   // 用户自定义上传图片
   customUpload?: (files: File[], insertFn: InsertFn) => void
   // base64 限制（单位 kb） - 小于 xxx 就插入 base64 格式
-  base64LimitKB: number
+  base64LimitSize: number
   // 自定义选择图片，如图床
   customBrowseAndUpload?: (insertFn: InsertFn) => void
 }
@@ -63,7 +63,7 @@ export function genUploadImageConfig(): IUploadConfigForImage {
     // customUpload: (files, insertFn) => {},
 
     // 小于 xxx 就插入 base64
-    base64LimitKB: 0,
+    base64LimitSize: 0,
 
     // 自定义选择，并上传图片，如：图床 （用户配置）
     // customBrowseAndUpload: insertFn => {},

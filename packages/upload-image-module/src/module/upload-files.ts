@@ -131,11 +131,11 @@ export default function (editor: IDomEditor, files: FileList | null) {
   const fileListForUpload: File[] = []
 
   // 获取菜单配置
-  const { customUpload, base64LimitKB } = getMenuConfig(editor)
+  const { customUpload, base64LimitSize } = getMenuConfig(editor)
 
   fileList.forEach(file => {
-    const sizeKB = file.size / 1024 // size kb
-    if (base64LimitKB && sizeKB <= base64LimitKB) {
+    const size = file.size // size kb
+    if (base64LimitSize && size <= base64LimitSize) {
       // 允许 base64 ，而且 size 在 base64 限制之内，则插入 base64 格式
       insertBase64(editor, file)
     } else {

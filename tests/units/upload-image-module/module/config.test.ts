@@ -37,7 +37,7 @@ describe('Upload image default config', () => {
     expect(genUploadImageConfig().timeout).toBe(10 * 1000)
   })
 
-  test('The option base64LimitKB is "0" in default config', () => {
-    expect(genUploadImageConfig().base64LimitKB).toBe(0)
+  test('The option base64LimitSize is "0" in default config', () => {
+    expect(genUploadImageConfig().base64LimitSize).toBe(0)
   })
 })
