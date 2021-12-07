@@ -3,8 +3,12 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Node } from 'slate'
+import { Editor, Transforms } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
+
+function genEmptyP() {
+  return { type: 'paragraph', children: [{ text: '' }] }
+}
 
 function withCodeBlock<T extends IDomEditor>(editor: T): T {
   const { insertBreak, normalizeNode, insertData } = editor
@@ -18,17 +22,7 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
       return
     }
 
-    const codeStr = Node.string(codeNode)
-
-    if (codeStr.slice(-2) === '\n\n') {
-      // 结尾两处空行，则跳出 pre ，插入空行
-      const emptyP = { type: 'paragraph', children: [{ text: '' }] }
-      Transforms.insertNodes(editor, emptyP, {
-        mode: 'highest', // 在最高层级插入，否则会插入到 pre 下面
-      })
-    } else {
-      newEditor.insertText('\n') // code block 内部的文本换行
-    }
+    newEditor.insertText('\n')
   }
 
   // 重写 normalizeNode
@@ -38,13 +32,34 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
     // -------------- code node 不能是顶层，否则替换为 p --------------
     if (type === 'code' && path.length <= 1) {
       Transforms.setNodes(newEditor, { type: 'paragraph' }, { at: path })
-      return
     }
 
-    // -------------- pre 不能是 editor 第一个节点，否则前面插入 p
-    if (type === 'pre' && newEditor.children[0] === node) {
-      const p = { type: 'paragraph', children: [{ text: '' }] }
-      Transforms.insertNodes(newEditor, p, { at: path })
+    if (type === 'pre') {
+      const editorChildren = newEditor.children
+      const editorChildrenLength = editorChildren.length
+
+      const isFirstNode = editorChildren[0] === node
+      const isLastNode = editorChildren[editorChildrenLength - 1] === node
+
+      if (isFirstNode && !isLastNode) {
+        // -------------- pre 仅是 editor 第一个节点，需要前面插入 p --------------
+        Transforms.insertNodes(newEditor, genEmptyP(), { at: path })
+      }
+      if (isLastNode && !isFirstNode) {
+        // -------------- pre 仅是 editor 最后一个节点，需要后面插入 p --------------
+        Transforms.insertNodes(newEditor, genEmptyP(), { at: [path[0] + 1] })
+      }
+      if (isFirstNode && isLastNode) {
+        // -------------- pre 是 editor 唯一一个节点，需要前后都插入 p --------------
+        Transforms.insertNodes(newEditor, genEmptyP(), { at: path })
+        Transforms.insertNodes(newEditor, genEmptyP(), { at: [path[0] + 2] })
+      }
+
+      // -------------- pre 下面必须是 code --------------
+      if (DomEditor.getNodeType(node.children[0]) !== 'code') {
+        Transforms.unwrapNodes(newEditor)
+        Transforms.setNodes(newEditor, { type: 'paragraph' }, { mode: 'highest' })
+      }
     }
 
     // 执行默认行为
