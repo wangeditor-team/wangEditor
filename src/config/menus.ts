@@ -219,6 +219,4 @@ export default {
 
     // 菜单栏tooltip为上标还是下标
     menuTooltipPosition: 'up',
-
-    imageTooltip: 'push',
 }
