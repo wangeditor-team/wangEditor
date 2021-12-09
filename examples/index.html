@@ -44,9 +44,12 @@
         // 这行代码用来测试不同屏幕宽度，panel菜单的位置
         // editor.config.menus = [
         //     'image'
-        // ] 
+        // ]
 
         editor.config.showFullScreen = true
+        editor.config.imageTooltip = {
+            type: 'push', list: []
+        }
         editor.create()
     </script>
 </body>

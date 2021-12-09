@@ -10,6 +10,7 @@ import { EMPTY_P } from '../utils/const'
 class SelectionAndRange {
     public editor: Editor
     private _currentRange: Range | null | undefined = null
+    private _selectedDom: HTMLElement | null = null
 
     constructor(editor: Editor) {
         this.editor = editor
@@ -39,13 +40,14 @@ class SelectionAndRange {
             return
         }
         const range = selection.getRangeAt(0)
-
+        this.setSelectionContainerElemString(range)
         // 获取选区范围的 DOM 元素
         const $containerElem = this.getSelectionContainerElem(range)
         if (!$containerElem?.length) {
             // 当 选区范围内没有 DOM元素 则抛出
             return
         }
+
         if (
             $containerElem.attr('contenteditable') === 'false' ||
             $containerElem.parentUntil('[contenteditable=false]')
@@ -106,6 +108,24 @@ class SelectionAndRange {
             elem = r.commonAncestorContainer
             return $(elem.nodeType === 1 ? elem : elem.parentNode)
         }
+    }
+
+    private setSelectionContainerElemString(range?: Range) {
+        let r: Range | null | undefined
+        r = range
+        if (r) {
+            const dom = document.createElement('tag')
+            dom.appendChild(r.cloneContents().cloneNode(true))
+            this._selectedDom = dom
+        }
+    }
+
+    /**
+     * 获取选区范围的 DOM 元素
+     * @param range 选区范围
+     */
+    public getSelectionContainerElemString(): HTMLElement | null {
+        return this._selectedDom
     }
 
     /**
