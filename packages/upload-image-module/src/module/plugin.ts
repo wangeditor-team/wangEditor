@@ -18,6 +18,13 @@ function withUploadImage<T extends IDomEditor>(editor: T): T {
       return
     }
 
+    // 如有 text ，则优先粘贴 text
+    const text = data.getData('text/plain')
+    if (text) {
+      insertData(data)
+      return
+    }
+
     // 获取文件
     const { files } = data
     if (files.length <= 0) {
