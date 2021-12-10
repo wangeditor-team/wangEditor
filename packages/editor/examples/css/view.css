@@ -5,6 +5,11 @@
   overflow-x: auto;
 }
 
+.editor-content-view p,
+.editor-content-view li {
+  white-space: pre-wrap;
+}
+
 .editor-content-view blockquote {
   border-left: 8px solid #d0e5f2;
   padding: 10px 10px;

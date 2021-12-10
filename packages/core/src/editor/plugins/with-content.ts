@@ -3,7 +3,6 @@
  * @author wangfupeng
  */
 
-import xmlFormat from 'xml-formatter'
 import { Editor, Node, Text, Path, Operation, Range, Transforms, Element } from 'slate'
 import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../..'
@@ -129,22 +128,9 @@ export const withContent = <T extends Editor>(editor: T) => {
   }
 
   // 获取 html
-  e.getHtml = (opt: { withFormat?: boolean } = {}): string => {
-    const { withFormat = true } = opt
-
+  e.getHtml = (): string => {
     const { children = [] } = e
-    let html = children.map(child => node2html(child, e)).join('')
-    if (!withFormat) return html
-
-    // 格式化 html ，需要包裹一个 div
-    html = `<div>${html}</div>`
-    html = xmlFormat(html, {
-      collapseContent: true,
-    })
-    // 格式化完毕，去掉外层的 div
-    html = html.replace(/\r\n\s{4}/g, '\r\n')
-    html = html.replace(/^<div>\r\n/g, '')
-    html = html.replace(/\r\n<\/div>$/g, '')
+    const html = children.map(child => node2html(child, e)).join('')
     return html
   }
 

@@ -12382,13 +12382,6 @@ xdg-basedir@^4.0.0:
   resolved "https://registry.nlark.com/xdg-basedir/download/xdg-basedir-4.0.0.tgz#4bc8d9984403696225ef83a1573cbbcb4e79db13"
   integrity sha1-S8jZmEQDaWIl74OhVzy7y0552xM=
 
-xml-formatter@^2.4.0:
-  version "2.5.1"
-  resolved "https://registry.npmmirror.com/xml-formatter/download/xml-formatter-2.5.1.tgz#5f0625c815558fed15aab64547ea08bf7e9197ae"
-  integrity sha1-XwYlyBVVj+0VqrZFR+oIv36Rl64=
-  dependencies:
-    xml-parser-xo "^3.1.2"
-
 xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.nlark.com/xml-name-validator/download/xml-name-validator-3.0.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fxml-name-validator%2Fdownload%2Fxml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"

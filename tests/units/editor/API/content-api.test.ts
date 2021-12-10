@@ -23,11 +23,8 @@ describe('editor content API', () => {
       content: [{ type: 'paragraph', children: [{ text: 'hello', bold: true }] }],
     })
 
-    const html1 = editor.getHtml()
-    expect(html1).toBe('<p>\r\n    <strong>hello</strong>\r\n</p>') // 格式化 html
-
-    const html2 = editor.getHtml({ withFormat: false })
-    expect(html2).toBe('<p><strong>hello</strong></p>') // 非格式化
+    const html = editor.getHtml()
+    expect(html).toBe('<p><strong>hello</strong></p>')
   })
 
   it('getText', () => {
