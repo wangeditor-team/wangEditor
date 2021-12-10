@@ -251,12 +251,20 @@ export const withContent = <T extends Editor>(editor: T) => {
     const tag = domElem.tagName.toLowerCase()
     if (IGNORE_TAGS.has(tag)) return
 
-    const text = getPlainText(domElem)
+    const text = getPlainText(domElem).trim()
     if (!text) return
+
+    const display = getComputedStyle(domElem).getPropertyValue('display')
+    if (display === 'block') {
+      e.insertBreak()
+      Transforms.setNodes(e, { type: 'paragraph' })
+    }
 
     const lines = text.split(/\r\n|\r|\n/) // 换行
     const length = lines.length
     lines.forEach((line, index) => {
+      if (!line.trim()) return
+
       e.insertText(line)
       if (index + 1 < length) {
         Transforms.splitNodes(e, { always: true }) // 插入换行
@@ -279,7 +287,8 @@ export const withContent = <T extends Editor>(editor: T) => {
       const { nodeType } = child
       if (nodeType !== 1 && nodeType !== 3) return
 
-      const text = child.textContent || ''
+      let text = child.textContent || ''
+      text = text.replace(/\s/gm, '') // 去掉空格，换行符号
       if (DomEditor.checkMaxLength(e, text)) {
         return
       }

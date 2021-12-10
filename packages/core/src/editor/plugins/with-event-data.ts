@@ -111,9 +111,9 @@ export const withEventData = <T extends Editor>(editor: T) => {
 
     const text = data.getData('text/plain')
     const html = data.getData('text/html')
-    const rtf = data.getData('text/rtf')
+    // const rtf = data.getData('text/rtf')
 
-    if (html && !rtf) {
+    if (html) {
       if (DomEditor.checkMaxLength(e)) {
         return
       }
