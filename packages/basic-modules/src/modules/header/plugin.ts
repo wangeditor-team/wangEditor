@@ -7,7 +7,7 @@ import { Editor, Transforms } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 function withHeader<T extends IDomEditor>(editor: T): T {
-  const { insertBreak } = editor
+  const { insertBreak, insertDomElem, insertNode } = editor
   const newEditor = editor
 
   // 重写 insertBreak - header 末尾回车时要插入 paragraph
@@ -35,6 +35,28 @@ function withHeader<T extends IDomEditor>(editor: T): T {
     } else {
       insertBreak()
     }
+  }
+
+  // insert <h1> <h2> ... DOM Element
+  newEditor.insertDomElem = (domElem: Element) => {
+    const tag = domElem.tagName.toLowerCase()
+    const reg = /^h(\d)$/
+    const matchArr = tag.match(reg) // 如 ['h1', '1']
+    if (matchArr == null) {
+      insertDomElem(domElem) // 继续处理其他的
+      return
+    }
+
+    const level = matchArr[1]
+    if (level == null) return
+
+    const text = domElem.textContent
+    if (!text) return
+
+    insertNode({
+      type: `header${level}`,
+      children: [{ text }],
+    })
   }
 
   // 返回 editor ，重要！

@@ -9,7 +9,7 @@ import isUrl from 'is-url'
 import { isMenuDisabled, insertLink } from './helper'
 
 function withLink<T extends IDomEditor>(editor: T): T {
-  const { isInline, insertData } = editor
+  const { isInline, insertData, insertDomElem, insertNode, insertText } = editor
   const newEditor = editor
 
   // 重写 isInline
@@ -38,6 +38,29 @@ function withLink<T extends IDomEditor>(editor: T): T {
     if (selection == null) return
     const selectedText = Editor.string(newEditor, selection) // 获取选中的文字
     insertLink(newEditor, selectedText, text)
+  }
+
+  // insert <a> DOM Element
+  newEditor.insertDomElem = (domElem: Element) => {
+    if (domElem.tagName.toLowerCase() !== 'a') {
+      insertDomElem(domElem) // 继续其他的
+      return
+    }
+
+    const text = domElem.textContent
+    if (!text) return null
+
+    const href = domElem.getAttribute('href') || ''
+    const target = domElem.getAttribute('target') || '_blank'
+
+    insertText(' ')
+    insertNode({
+      type: 'link',
+      url: href,
+      target,
+      children: [{ text }],
+    })
+    insertText(' ')
   }
 
   // 返回 editor ，重要！
