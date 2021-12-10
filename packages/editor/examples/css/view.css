@@ -7,7 +7,7 @@
 
 .editor-content-view p,
 .editor-content-view li {
-  white-space: pre-wrap;
+  white-space: pre-wrap; /* 保留空格 */
 }
 
 .editor-content-view blockquote {

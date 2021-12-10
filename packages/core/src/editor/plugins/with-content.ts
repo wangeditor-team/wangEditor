@@ -127,7 +127,7 @@ export const withContent = <T extends Editor>(editor: T) => {
     e.insertText('    ')
   }
 
-  // 获取 html
+  // 获取 html （去掉了格式化 2021.12.10）
   e.getHtml = (): string => {
     const { children = [] } = e
     const html = children.map(child => node2html(child, e)).join('')
