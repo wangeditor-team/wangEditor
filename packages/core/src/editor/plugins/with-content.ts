@@ -13,6 +13,7 @@ import { Key } from '../../utils/key'
 import { DOMElement, getPlainText } from '../../utils/dom'
 import { findCurrentLineRange } from '../../utils/line'
 import { ElementWithId } from '../interface'
+import { NodeType } from '../../types'
 
 const IGNORE_TAGS = new Set([
   'doctype',
@@ -284,7 +285,7 @@ export const withContent = <T extends Editor>(editor: T) => {
     document.body.appendChild(div)
     Array.from(div.childNodes).forEach(child => {
       const { nodeType } = child
-      if (nodeType !== 1 && nodeType !== 3) return
+      if (nodeType !== NodeType.ELEMENT_NODE && nodeType !== NodeType.TEXT_NODE) return
 
       let text = child.textContent || ''
       text = text.replace(/\s/gm, '') // 去掉空格，换行符号
@@ -292,7 +293,7 @@ export const withContent = <T extends Editor>(editor: T) => {
         return
       }
 
-      if (nodeType === 1) {
+      if (nodeType === NodeType.ELEMENT_NODE) {
         // DOM Element
         try {
           // 可第三方扩展，加 try 包裹
@@ -303,7 +304,7 @@ export const withContent = <T extends Editor>(editor: T) => {
           console.error('insertDomElem error', child)
         }
       }
-      if (nodeType === 3) {
+      if (nodeType === NodeType.TEXT_NODE) {
         // DOM Text
         if (text) e.insertText(text)
       }
