@@ -1,4 +1,4 @@
-import { IDomEditor } from '../../../../../packages/core/src/editor/interface'
+import { IDomEditor } from '@wangeditor/core/src/editor/interface'
 import createEditor from '../../../../utils/create-editor'
 import * as slate from 'slate'
 
