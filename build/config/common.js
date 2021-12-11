@@ -13,6 +13,7 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 // import del from 'rollup-plugin-delete'
 
 export const extensions = ['.js', '.jsx', '.ts', '.tsx']
+const isProd = process.env.NODE_ENV === 'production'
 
 export default {
   input: path.resolve(__dirname, './src/index.ts'),
@@ -33,6 +34,9 @@ export default {
     }),
     nodeResolve({
       browser: true, // 重要
+      // 声明加载 node_module package 时默认使用 package.json 的 main 属性指定的文件
+      // 之前加载 es module，默认不会被处理，导致最后生成的代码有箭头函数
+      mainFields: isProd ? ['main'] : ['module', 'main'],
       extensions,
     }),
     commonjs(),
