@@ -16,6 +16,14 @@ export function genImageMenuConfig() {
     },
 
     /**
+     * 更新图片之后的回调
+     * @param node image node
+     */
+    onUpdatedImage(node: ImageElement | null) {
+      /*自定义*/
+    },
+
+    /**
      * 检查图片信息，支持 async fn
      * @param src image src
      * @param alt image alt
@@ -29,11 +37,12 @@ export function genImageMenuConfig() {
     },
 
     /**
-     * 更新图片之后的回调
-     * @param node image node
+     * parse image src
+     * @param src image src
+     * @returns new src
      */
-    onUpdatedImage(node: ImageElement | null) {
-      /*自定义*/
+    parseImageSrc(src: string): string {
+      return src
     },
   }
 }

@@ -32,6 +32,10 @@
       alert(`customAlert: \n${type}:\n${info}`)
     }
 
+    editorConfig.MENU_CONF['uploadImage'] = {
+      server: 'http://106.12.198.214:3000/api/upload-img',
+    }
+
     editorConfig.MENU_CONF['insertImage'] = {
       onInsertedImage(imageNode) {
         console.log('inserted image', imageNode)
@@ -41,7 +45,7 @@
           return '图片网址必须以 http/https 开头'
         }
         return true
-      }
+      },
 
       // // 异步检查
       // async checkImage(src, alt, url) {
@@ -54,7 +58,20 @@
       //       resolve(true)
       //     }, 1000)
       //   })
-      // }
+      // },
+
+      parseImageSrc(src) {
+        return src + '#123'
+      },
+
+      // // 异步转换
+      // async parseImageSrc(src) {
+      //   return new Promise((resolve, reject) => {
+      //     setTimeout(() => {
+      //       resolve(src + '#abc')
+      //     }, 1000)
+      //   })
+      // },
     }
     editorConfig.MENU_CONF['editImage'] = {
       onUpdatedImage(imageNode) {
@@ -65,7 +82,7 @@
           return '图片网址必须以 http/https 开头'
         }
         return true
-      }
+      },
 
       // // 异步检查
       // async checkImage(src, alt, url) {
@@ -78,7 +95,11 @@
       //       resolve(true)
       //     }, 1000)
       //   })
-      // }
+      // },
+
+      parseImageSrc(src) {
+        return src + '#123'
+      },
     }
     editorConfig.MENU_CONF['insertLink'] = {
       checkLink(text, url) {
@@ -88,7 +109,7 @@
           return '链接必须以 http/https 开头'
         }
         return true
-      }
+      },
 
       // // 异步检查
       // async checkLink(text, url) {
@@ -103,7 +124,22 @@
       //       resolve(true)
       //     }, 1000)
       //   })
-      // }
+      // },
+
+      parseLinkUrl(url) {
+        return url + '#123'
+      },
+
+      // // 异步转换
+      // async parseLinkUrl(url) {
+      //   console.log('parse insert link - ', url)
+
+      //   return new Promise((resolve, reject) => {
+      //     setTimeout(() => {
+      //       resolve(url + '#123')
+      //     }, 1000)
+      //   })
+      // },
     }
     editorConfig.MENU_CONF['editLink'] = {
       checkLink(text, url) {
@@ -111,7 +147,7 @@
           return '链接必须以 http/https 开头'
         }
         return true
-      }
+      },
 
       // // 异步检查
       // async checkLink(text, url) {
@@ -126,7 +162,11 @@
       //       resolve(true)
       //     }, 1000)
       //   })
-      // }
+      // },
+
+      parseLinkUrl(url) {
+        return url + '#123'
+      },
     }
     editorConfig.MENU_CONF['insertVideo'] = {
       onInsertedVideo(videoNode) {
@@ -138,7 +178,7 @@
           return '视频地址必须以 http/https 开头'
         }
         return true
-      }
+      },
 
       // // 异步检查
       // async checkVideo(src) {
@@ -151,7 +191,18 @@
       //       resolve(true)
       //     }, 1000)
       //   })
-      // }
+      // },
+
+      // 也支持 promise
+      parseVideoSrc(src) {
+        if (src.includes('.bilibili.com')) {
+          // 转换 bilibili url 为 iframe
+          const arr = location.pathname.split('/')
+          const vid = arr[arr.length - 1]
+          return `<iframe src="//player.bilibili.com/player.html?aid=421814407&bvid=${vid}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>`
+        }
+        return src
+      }
     }
 
     const editor = E.createEditor({

@@ -16,5 +16,14 @@ export function genLinkMenuConfig() {
       // 3. 返回 undefined（即没有任何返回），说明检查未通过，编辑器会阻止插入
       return true
     },
+
+    /**
+     * parse link url
+     * @param url url
+     * @returns newUrl
+     */
+    parseLinkUrl(url: string): string {
+      return url
+    },
   }
 }

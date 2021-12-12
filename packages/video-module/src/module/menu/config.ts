@@ -21,5 +21,14 @@ export function genMenuConfig() {
       // 3. 返回 undefined（即没有任何返回），说明检查未通过，编辑器会阻止插入
       return true
     },
+
+    /**
+     * 转换 video src
+     * @param src src
+     * @returns new src
+     */
+    parseVideoSrc(src: string): string {
+      return src
+    },
   }
 }

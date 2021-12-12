@@ -38,6 +38,22 @@ async function check(
   return true // 校验通过
 }
 
+/**
+ * 转换链接 url
+ * @param menuKey menu key
+ * @param editor editor
+ * @param url url
+ * @returns parsedUrl
+ */
+async function parse(menuKey: string, editor: IDomEditor, url: string): Promise<string> {
+  const { parseLinkUrl } = editor.getMenuConfig(menuKey)
+  if (parseLinkUrl) {
+    const newUrl = await parseLinkUrl(url)
+    return newUrl
+  }
+  return url
+}
+
 export function isMenuDisabled(editor: IDomEditor): boolean {
   if (editor.selection == null) return true
 
@@ -75,6 +91,9 @@ export async function insertLink(editor: IDomEditor, text: string, url: string) 
   const checkRes = await check('insertLink', editor, text, url)
   if (!checkRes) return // 校验未通过
 
+  // 转换 url
+  const parsedUrl = await parse('insertLink', editor, url)
+
   // 判断选区是否折叠
   const { selection } = editor
   if (selection == null) return
@@ -83,7 +102,7 @@ export async function insertLink(editor: IDomEditor, text: string, url: string) 
   // 新建一个 link node
   const linkNode: LinkElement = {
     type: 'link',
-    url: replaceSymbols(url),
+    url: replaceSymbols(parsedUrl),
     children: isCollapsed ? [{ text }] : [],
   }
 
@@ -112,8 +131,11 @@ export async function updateLink(editor: IDomEditor, text: string, url: string) 
   const checkRes = await check('editLink', editor, text, url)
   if (!checkRes) return // 校验未通过
 
+  // 转换 url
+  const parsedUrl = await parse('editLink', editor, url)
+
   // 修改链接
-  const props: Partial<LinkElement> = { url: replaceSymbols(url) }
+  const props: Partial<LinkElement> = { url: replaceSymbols(parsedUrl) }
   Transforms.setNodes(editor, props, {
     match: n => DomEditor.checkNodeType(n, 'link'),
   })

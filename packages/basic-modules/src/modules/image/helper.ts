@@ -32,6 +32,15 @@ async function check(
   return true
 }
 
+async function parseSrc(menuKey: string, editor: IDomEditor, src: string): Promise<string> {
+  const { parseImageSrc } = editor.getMenuConfig(menuKey)
+  if (parseImageSrc) {
+    const newSrc = await parseImageSrc(src)
+    return newSrc
+  }
+  return src
+}
+
 export async function insertImageNode(
   editor: IDomEditor,
   src: string,
@@ -41,10 +50,12 @@ export async function insertImageNode(
   const res = await check('insertImage', editor, src, alt, href)
   if (!res) return // 检查失败，终止操作
 
+  const parsedSrc = await parseSrc('insertImage', editor, src)
+
   // 新建一个 image node
   const image: ImageElement = {
     type: 'image',
-    src: replaceSymbols(src),
+    src: replaceSymbols(parsedSrc),
     href,
     alt,
     style: {},
@@ -69,13 +80,15 @@ export async function updateImageNode(
   const res = await check('editImage', editor, src, alt, href)
   if (!res) return // 检查失败，终止操作
 
+  const parsedSrc = await parseSrc('editImage', editor, src)
+
   const selectedImageNode = DomEditor.getSelectedNodeByType(editor, 'image')
   if (selectedImageNode == null) return
   const { style: curStyle = {} } = selectedImageNode as ImageElement
 
   // 修改图片
   const nodeProps: Partial<ImageElement> = {
-    src,
+    src: parsedSrc,
     alt,
     href,
     style: {

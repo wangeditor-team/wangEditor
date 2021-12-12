@@ -115,7 +115,7 @@ class InsertVideoMenu implements IModalMenu {
     if (this.isDisabled(editor)) return
 
     // 校验
-    const { onInsertedVideo, checkVideo } = editor.getMenuConfig('insertVideo')
+    const { onInsertedVideo, checkVideo, parseVideoSrc } = editor.getMenuConfig('insertVideo')
     const checkRes = await checkVideo(src)
     if (typeof checkRes === 'string') {
       // 校验失败，给出提示
@@ -127,14 +127,17 @@ class InsertVideoMenu implements IModalMenu {
       return
     }
 
-    if (src.trim().indexOf('<iframe') !== 0) {
-      src = replaceSymbols(src)
+    // 转换 src
+    let parsedSrc = await parseVideoSrc(src)
+
+    if (parsedSrc.trim().indexOf('<iframe') !== 0) {
+      parsedSrc = replaceSymbols(parsedSrc)
     }
 
     // 新建一个 video node
     const video: VideoElement = {
       type: 'video',
-      src,
+      src: parsedSrc,
       children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children
     }
 
