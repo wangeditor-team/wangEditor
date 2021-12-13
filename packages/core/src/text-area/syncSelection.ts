@@ -11,7 +11,7 @@ import { DomEditor } from '../editor/dom-editor'
 import TextArea from './TextArea'
 import { EDITOR_TO_ELEMENT, IS_FOCUSED } from '../utils/weak-maps'
 import { IS_FIREFOX } from '../utils/ua'
-import { hasEditableTarget, isTargetInsideVoid } from './helpers'
+import { hasEditableTarget, isTargetInsideNonReadonlyVoid } from './helpers'
 import { DOMElement } from '../utils/dom'
 
 /**
@@ -47,6 +47,10 @@ export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): vo
   if (hasDomSelection && hasDomSelectionInEditor && selection) {
     const slateRange = DomEditor.toSlateRange(editor, domSelection, {
       exactMatch: true,
+
+      // domSelection is not necessarily a valid Slate range
+      // (e.g. when clicking on contentEditable:false element)
+      suppressThrow: true,
     })
     if (slateRange && Range.equals(slateRange, selection)) {
       let canReturn = true
@@ -84,6 +88,7 @@ export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): vo
   if (selection && !DomEditor.hasRange(editor, selection)) {
     editor.selection = DomEditor.toSlateRange(editor, domSelection, {
       exactMatch: false,
+      suppressThrow: false,
     })
     return
   }
@@ -168,13 +173,14 @@ export function DOMSelectionToEditor(textarea: TextArea, editor: IDomEditor) {
   const { anchorNode, focusNode } = domSelection
 
   const anchorNodeSelectable =
-    hasEditableTarget(editor, anchorNode) || isTargetInsideVoid(editor, anchorNode)
+    hasEditableTarget(editor, anchorNode) || isTargetInsideNonReadonlyVoid(editor, anchorNode)
   const focusNodeSelectable =
-    hasEditableTarget(editor, focusNode) || isTargetInsideVoid(editor, focusNode)
+    hasEditableTarget(editor, focusNode) || isTargetInsideNonReadonlyVoid(editor, focusNode)
 
   if (anchorNodeSelectable && focusNodeSelectable) {
     const range = DomEditor.toSlateRange(editor, domSelection, {
       exactMatch: false,
+      suppressThrow: false,
     })
     Transforms.select(editor, range)
   } else {

@@ -16,7 +16,7 @@ export type ElementWithId = Element & { id: string }
 export interface IDomEditor extends Editor {
   // data 相关（粘贴、拖拽等）
   insertData: (data: DataTransfer) => void
-  setFragmentData: (data: DataTransfer) => void
+  setFragmentData: (data: Pick<DataTransfer, 'getData' | 'setData'>) => void
 
   // config
   getConfig: () => IEditorConfig

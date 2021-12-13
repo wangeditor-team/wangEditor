@@ -4,7 +4,7 @@
  */
 
 import { IDomEditor } from '../../editor/interface'
-import { DomEditor } from '../../editor/dom-editor'
+// import { DomEditor } from '../../editor/dom-editor'
 import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
 

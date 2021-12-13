@@ -37,7 +37,7 @@ import $, {
   hasShadowRoot,
   walkTextNodes,
 } from '../utils/dom'
-import { IS_CHROME } from '../utils/ua'
+import { IS_CHROME, IS_FIREFOX } from '../utils/ua'
 
 /**
  * 自定义全局 command
@@ -363,7 +363,7 @@ export const DomEditor = {
 
     // Else resolve a range from the caret position where the drop occured.
     let domRange
-    const { document } = window
+    const { document } = this.getWindow(editor)
 
     // COMPAT: In Firefox, `caretRangeFromPoint` doesn't exist. (2016/07/25)
     if (document.caretRangeFromPoint) {
@@ -384,6 +384,7 @@ export const DomEditor = {
     // Resolve a Slate range from the DOM range.
     const range = DomEditor.toSlateRange(editor, domRange, {
       exactMatch: false,
+      suppressThrow: false,
     })
     return range
   },
@@ -396,9 +397,10 @@ export const DomEditor = {
     domRange: DOMRange | DOMStaticRange | DOMSelection,
     options: {
       exactMatch: T
+      suppressThrow: T
     }
   ): T extends true ? Range | null : Range {
-    const { exactMatch } = options
+    const { exactMatch, suppressThrow } = options
     const el = isDOMSelection(domRange) ? domRange.anchorNode : domRange.startContainer
     let anchorNode
     let anchorOffset
@@ -436,19 +438,38 @@ export const DomEditor = {
       throw new Error(`Cannot resolve a Slate range from DOM range: ${domRange}`)
     }
 
-    const anchor = DomEditor.toSlatePoint(editor, [anchorNode, anchorOffset], exactMatch)
+    const anchor = DomEditor.toSlatePoint(editor, [anchorNode, anchorOffset], {
+      exactMatch,
+      suppressThrow,
+    })
     if (!anchor) {
       return null as T extends true ? Range | null : Range
     }
 
     const focus = isCollapsed
       ? anchor
-      : DomEditor.toSlatePoint(editor, [focusNode, focusOffset], exactMatch)
+      : DomEditor.toSlatePoint(editor, [focusNode, focusOffset], { exactMatch, suppressThrow })
     if (!focus) {
       return null as T extends true ? Range | null : Range
     }
 
-    return { anchor, focus } as unknown as T extends true ? Range | null : Range
+    // return { anchor, focus } as unknown as T extends true ? Range | null : Range
+
+    let range: Range = { anchor: anchor as Point, focus: focus as Point }
+    // if the selection is a hanging range that ends in a void
+    // and the DOM focus is an Element
+    // (meaning that the selection ends before the element)
+    // unhang the range to avoid mistakenly including the void
+    if (
+      Range.isExpanded(range) &&
+      Range.isForward(range) &&
+      isDOMElement(focusNode) &&
+      Editor.void(editor, { at: range.focus, mode: 'highest' })
+    ) {
+      range = Editor.unhangRange(editor, range, { voids: true })
+    }
+
+    return range as unknown as T extends true ? Range | null : Range
   },
 
   /**
@@ -457,8 +478,12 @@ export const DomEditor = {
   toSlatePoint<T extends boolean>(
     editor: IDomEditor,
     domPoint: DOMPoint,
-    exactMatch: T
+    options: {
+      exactMatch: T
+      suppressThrow: T
+    }
   ): T extends true ? Point | null : Point {
+    const { exactMatch, suppressThrow } = options
     const [nearestNode, nearestOffset] = exactMatch ? domPoint : normalizeDOMPoint(domPoint)
     const parentNode = nearestNode.parentNode as DOMElement
     let textNode: DOMElement | null = null
@@ -512,22 +537,26 @@ export const DomEditor = {
         }
       }
 
-      // COMPAT: If the parent node is a Slate zero-width space, editor is
-      // because the text node should have no characters. However, during IME
-      // composition the ASCII characters will be prepended to the zero-width
-      // space, so subtract 1 from the offset to account for the zero-width
-      // space character.
       if (
         domNode &&
         offset === domNode.textContent!.length &&
-        parentNode.hasAttribute('data-slate-zero-width')
+        // COMPAT: If the parent node is a Slate zero-width space, editor is
+        // because the text node should have no characters. However, during IME
+        // composition the ASCII characters will be prepended to the zero-width
+        // space, so subtract 1 from the offset to account for the zero-width
+        // space character.
+        (parentNode.hasAttribute('data-slate-zero-width') ||
+          // COMPAT: In Firefox, `range.cloneContents()` returns an extra trailing '\n'
+          // when the document ends with a new-line character. This results in the offset
+          // length being off by one, so we need to subtract one to account for this.
+          (IS_FIREFOX && domNode.textContent?.endsWith('\n')))
       ) {
         offset--
       }
     }
 
     if (!textNode) {
-      if (exactMatch) {
+      if (suppressThrow) {
         return null as T extends true ? Point | null : Point
       }
       throw new Error(`Cannot resolve a Slate point from DOM point: ${domPoint}`)
