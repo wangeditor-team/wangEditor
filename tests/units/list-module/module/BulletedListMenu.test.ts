@@ -65,10 +65,17 @@ describe('Module BaseMenu', () => {
       anchor: { path: [0, 0], offset: 0 },
       focus: { path: [0, 0], offset: 0 },
     }
-    const fn = function* () {
-      yield null as unknown as slate.NodeEntry<unknown>
+    // const fn = function* () {
+    //   yield null as unknown as slate.NodeEntry<unknown>
+    // }
+    // jest.spyOn(slate.Editor, 'nodes').mockReturnValue(fn())
+
+    const fn = function () {
+      return false
     }
-    jest.spyOn(slate.Editor, 'nodes').mockReturnValue(fn())
+    jest.spyOn(slate.Editor, 'isVoid').mockReturnValue(fn())
+    jest.spyOn(slate.Editor, 'isBlock').mockReturnValue(fn())
+
     expect(bulletedListMenu.isDisabled(editor)).toBe(false)
   })
 
