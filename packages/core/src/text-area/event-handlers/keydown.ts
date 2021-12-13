@@ -151,14 +151,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
 
   if (Hotkeys.isSelectAll(event)) {
     preventDefault(event)
-
-    const start = Editor.start(editor, [])
-    const end = Editor.end(editor, [])
-
-    Transforms.select(editor, {
-      anchor: start,
-      focus: end,
-    })
+    editor.selectAll()
     return
   }
 

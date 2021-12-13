@@ -3,7 +3,8 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Point, Element, Descendant, NodeEntry } from 'slate'
+import isEqual from 'lodash.isequal'
+import { Editor, Transforms, Point, Element, Descendant, NodeEntry, Node } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 function genEmptyParagraph() {
@@ -31,8 +32,15 @@ function deleteHandler(newEditor: IDomEditor): boolean {
 }
 
 function withTable<T extends IDomEditor>(editor: T): T {
-  const { insertBreak, deleteBackward, deleteForward, normalizeNode, insertData, handleTab } =
-    editor
+  const {
+    insertBreak,
+    deleteBackward,
+    deleteForward,
+    normalizeNode,
+    insertData,
+    handleTab,
+    selectAll,
+  } = editor
   const newEditor = editor
 
   // 重写 insertBreak - cell 内换行，只换行文本，不拆分 node
@@ -224,6 +232,42 @@ function withTable<T extends IDomEditor>(editor: T): T {
     }
 
     Editor.insertText(newEditor, text)
+  }
+
+  // 重写 table-cell 中的全选
+  newEditor.selectAll = () => {
+    const selection = newEditor.selection
+    if (selection == null) {
+      selectAll()
+      return
+    }
+
+    const cell = DomEditor.getSelectedNodeByType(newEditor, 'table-cell')
+    if (cell == null) {
+      selectAll()
+      return
+    }
+
+    if (isEqual(selection.anchor.path, selection.focus.path) === false) {
+      // 选中了多个 cell ，忽略
+      selectAll()
+      return
+    }
+
+    const text = Node.string(cell)
+    const textLength = text.length
+    if (textLength === 0) {
+      selectAll()
+      return
+    }
+
+    const path = DomEditor.findPath(newEditor, cell)
+    const textPath = [...path, 0]
+    const newSelection = {
+      anchor: { path: textPath, offset: 0 },
+      focus: { path: textPath, offset: textLength },
+    }
+    newEditor.select(newSelection) // 选中 table-cell 内部的全部文字
   }
 
   // 可继续修改其他 newEditor API ...

@@ -90,5 +90,18 @@ export const withSelection = <T extends Editor>(editor: T) => {
     return false
   }
 
+  /**
+   * 全选
+   */
+  e.selectAll = () => {
+    const start = Editor.start(e, [])
+    const end = Editor.end(e, [])
+
+    Transforms.select(e, {
+      anchor: start,
+      focus: end,
+    })
+  }
+
   return e
 }
