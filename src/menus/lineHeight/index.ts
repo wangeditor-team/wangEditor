@@ -69,8 +69,8 @@ class LineHeight extends DropListMenu implements MenuActive {
             //获取range 开头结束的dom
             const StartElem: DomElement = $(editor.selection.getSelectionStartElem())
             const EndElem: DomElement = $(editor.selection.getSelectionEndElem())
-            const childList: NodeListOf<ChildNode> | undefined = editor.selection.getRange()
-                ?.commonAncestorContainer.childNodes
+            const childList: NodeListOf<ChildNode> | undefined =
+                editor.selection.getRange()?.commonAncestorContainer.childNodes
             arrayDom_a.push(this.getDom(StartElem.elems[0]))
             childList?.forEach((item, index) => {
                 if (item === this.getDom(StartElem.elems[0])) {
