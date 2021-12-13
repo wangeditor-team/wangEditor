@@ -60,7 +60,7 @@ export function genDefaultHoverbarKeys() {
           if (editor.isVoid(elem)) return true
 
           const { type } = elem
-          if (['pre', 'code'].includes(type)) return true
+          if (['pre', 'code', 'table'].includes(type)) return true
         })
         if (notMatch) return false
 
