@@ -3,11 +3,25 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms } from 'slate'
+import { Editor, Transforms, Node } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 function genEmptyP() {
   return { type: 'paragraph', children: [{ text: '' }] }
+}
+
+function getLastTextLineBeforeSelection(codeNode: Node, editor: IDomEditor): string {
+  const selection = editor.selection
+  if (selection == null) return ''
+
+  const codeText = Node.string(codeNode)
+  const anchorOffset = selection.anchor.offset
+  const textBeforeAnchor = codeText.slice(0, anchorOffset) // 选区前的 text
+  const arr = textBeforeAnchor.split('\n') // 选区前的 text ，按换行拆分
+  const length = arr.length
+  if (length === 0) return ''
+
+  return arr[length - 1]
 }
 
 function withCodeBlock<T extends IDomEditor>(editor: T): T {
@@ -22,6 +36,18 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
       return
     }
 
+    // 回车时，根据当前行的空格，自动插入空格
+    const lastLineBeforeSelection = getLastTextLineBeforeSelection(codeNode, newEditor)
+    if (lastLineBeforeSelection) {
+      const arr = lastLineBeforeSelection.match(/^\s+/) // 行开始的空格
+      if (arr != null && arr[0] != null) {
+        const spaces = arr[0]
+        newEditor.insertText(`\n${spaces}`) // 换行后插入空格
+        return
+      }
+    }
+
+    // 普通换行
     newEditor.insertText('\n')
   }
 
