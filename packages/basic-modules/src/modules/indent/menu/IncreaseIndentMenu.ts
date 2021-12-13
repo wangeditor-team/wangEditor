@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Transforms, Element } from 'slate'
+import { Transforms, Element, Editor } from 'slate'
 import { IDomEditor, t } from '@wangeditor/core'
 import BaseMenu from './BaseMenu'
 import { INDENT_RIGHT_SVG } from '../../../constants/icon-svg'
@@ -30,7 +30,10 @@ class IncreaseIndentMenu extends BaseMenu {
       {
         indent: `${newNum}px`,
       },
-      { match: n => Element.isElement(n) }
+      {
+        match: n => Element.isElement(n),
+        mode: 'highest',
+      }
     )
   }
 }
