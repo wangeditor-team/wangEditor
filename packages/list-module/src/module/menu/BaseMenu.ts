@@ -31,21 +31,15 @@ abstract class BaseMenu implements IButtonMenu {
   isDisabled(editor: IDomEditor): boolean {
     if (editor.selection == null) return true
 
-    const [nodeEntry] = Editor.nodes(editor, {
-      match: n => {
-        const type = DomEditor.getNodeType(n)
+    const selectedElems = DomEditor.getSelectedElems(editor)
+    const notMatch = selectedElems.some((elem: Node) => {
+      if (Editor.isVoid(editor, elem) && Editor.isBlock(editor, elem)) return true
 
-        if (type === 'pre') return true // 代码块
-        if (Editor.isVoid(editor, n)) return true // void node
-        if (type === 'table') return true // table
-
-        return false
-      },
-      universal: true,
+      const { type } = elem
+      if (['pre', 'code', 'table'].includes(type)) return true
     })
+    if (notMatch) return true
 
-    // 命中，则禁用
-    if (nodeEntry) return true
     return false
   }
 
