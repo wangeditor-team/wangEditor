@@ -44,6 +44,8 @@
       metaWithUrl: true, // 参数拼接到 url 上
       headers: { Accept: 'text/x-json' },
 
+      maxFileSize: 10 * 1024 * 1024, // 10M
+
       base64LimitSize: 5 * 1024, // 5kb 以下插入 base64
 
       onBeforeUpload(files) {
@@ -80,14 +82,17 @@
       // },
 
       // // 用户自定义上传图片
-      // customUpload(files, insertFn) {
-      //   console.log('customUpload', files)
+      // customUpload(file, insertFn) {
+      //   console.log('customUpload', file)
 
-      //   // 插入一张图片，模拟异步
-      //   setTimeout(() => {
-      //     const src = 'https://www.baidu.com/img/flexible/logo/pc/result@2.png'
-      //     insertFn(src, '百度 logo', src)
-      //   }, 500)
+      //   return new Promise((resolve) => {
+      //     // 插入一张图片，模拟异步
+      //     setTimeout(() => {
+      //       const src = `https://www.baidu.com/img/flexible/logo/pc/result@2.png?r=${Math.random()}`
+      //       insertFn(src, '百度 logo', src)
+      //       resolve('ok')
+      //     }, 500)
+      //   })
       // },
 
       // // 自定义选择图片（如图床）

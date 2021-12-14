@@ -4,7 +4,7 @@
  */
 
 import { IDomEditor } from '@wangeditor/core'
-import { isMenuDisabled } from './helper'
+import { isInsertImageMenuDisabled } from '@wangeditor/basic-modules'
 import uploadFiles from './upload-files'
 
 function withUploadImage<T extends IDomEditor>(editor: T): T {
@@ -13,7 +13,7 @@ function withUploadImage<T extends IDomEditor>(editor: T): T {
 
   // 重写 insertData - 粘贴图片、拖拽上传图片
   newEditor.insertData = (data: DataTransfer) => {
-    if (isMenuDisabled(newEditor)) {
+    if (isInsertImageMenuDisabled(newEditor)) {
       insertData(data)
       return
     }

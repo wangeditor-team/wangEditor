@@ -3,12 +3,13 @@
  * @author wangfupeng
  */
 
-import { Editor } from 'slate'
+import { Editor, Transforms } from 'slate'
 import { DomEditor } from '@wangeditor/core'
 import createEditor from '../../../../tests/utils/create-editor'
 import {
   insertImageNode,
   updateImageNode,
+  isInsertImageMenuDisabled,
 } from '../../../../packages/basic-modules/src/modules/image/helper'
 
 describe('image helper', () => {
@@ -60,5 +61,21 @@ describe('image helper', () => {
 
     const imageNode = DomEditor.getSelectedNodeByType(editor, 'image')
     expect(imageNode).not.toBeNull()
+  })
+
+  it('is menu disable', async () => {
+    editor.deselect()
+    expect(isInsertImageMenuDisabled(editor)).toBeTruthy()
+
+    editor.select(startLocation)
+    expect(isInsertImageMenuDisabled(editor)).toBeFalsy()
+
+    editor.insertText('hello')
+    editor.select([])
+    expect(isInsertImageMenuDisabled(editor)).toBeTruthy()
+
+    editor.select(startLocation)
+    Transforms.setNodes(editor, { type: 'header1' })
+    expect(isInsertImageMenuDisabled(editor)).toBeTruthy()
   })
 })

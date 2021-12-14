@@ -4,9 +4,8 @@
  */
 
 import { IButtonMenu, IDomEditor, t } from '@wangeditor/core'
-import { insertImageNode } from '@wangeditor/basic-modules'
+import { insertImageNode, isInsertImageMenuDisabled } from '@wangeditor/basic-modules'
 import { UPLOAD_IMAGE_SVG } from '../../constants/svg'
-import { isMenuDisabled } from '../helper'
 import $ from '../../utils/dom'
 import { IUploadConfigForImage } from './config'
 import uploadFiles from '../upload-files'
@@ -27,7 +26,7 @@ class UploadImage implements IButtonMenu {
   }
 
   isDisabled(editor: IDomEditor): boolean {
-    return isMenuDisabled(editor)
+    return isInsertImageMenuDisabled(editor)
   }
 
   private getMenuConfig(editor: IDomEditor): IUploadConfigForImage {

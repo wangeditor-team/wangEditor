@@ -4,47 +4,29 @@
  */
 
 import Uppy, { UppyFile } from '@uppy/core'
-import { IDomEditor, t, createUploader } from '@wangeditor/core'
+import { IDomEditor, createUploader } from '@wangeditor/core'
 import { insertImageNode } from '@wangeditor/basic-modules'
 import { IUploadConfigForImage } from './menu/config'
 
 // 存储 editor uppy 的关系 - 缓存 uppy ，不重复创建
 const EDITOR_TO_UPPY_MAP = new WeakMap<IDomEditor, Uppy>()
 
-function getMenuConfig(editor: IDomEditor) {
-  return editor.getMenuConfig('uploadImage') as IUploadConfigForImage
-}
-
 /**
- * 插入 base64 格式
+ * 获取 uppy 实例（并通过 editor 缓存）
  * @param editor editor
- * @param file file
  */
-function insertBase64(editor: IDomEditor, file: File) {
-  const reader = new FileReader()
-  reader.readAsDataURL(file)
-  reader.onload = () => {
-    const { result } = reader
-    if (!result) return
-    const src = result.toString()
-    let href = src.indexOf('data:image') === 0 ? '' : src // base64 格式则不设置 href
-    insertImageNode(editor, src, file.name, href)
-  }
-}
+function getUppy(editor: IDomEditor): Uppy {
+  // 从缓存中获取
+  let uppy = EDITOR_TO_UPPY_MAP.get(editor)
+  if (uppy != null) return uppy
 
-/**
- * 上传图片
- * @param editor editor
- * @param files files
- */
-function uploadFiles(editor: IDomEditor, files: File[]) {
   const menuConfig = getMenuConfig(editor)
   const { onSuccess, onProgress, onFailed, customInsert, onError } = menuConfig
 
   // 上传完成之后
   const successHandler = (file: UppyFile, res: any) => {
     // 预期 res 格式：
-    // 成功：{ errno: 0, data: [ { url, alt, href }, {}, {} ] }
+    // 成功：{ errno: 0, data: { url, alt, href } } —— 注意，旧版的 data 是数组，要兼容一下
     // 失败：{ errno: !0, message: '失败信息' }
 
     if (customInsert) {
@@ -53,7 +35,7 @@ function uploadFiles(editor: IDomEditor, files: File[]) {
       return
     }
 
-    const { errno = 1, data = [] } = res
+    let { errno = 1, data = {} } = res
     if (errno !== 0) {
       console.error(`'${file.name}' upload failed`, res)
 
@@ -62,12 +44,18 @@ function uploadFiles(editor: IDomEditor, files: File[]) {
       return
     }
 
-    // 插入图片
-    data.forEach((item: { url: string; alt?: string; href?: string }) => {
-      const { url = '', alt = '', href = '' } = item
-      // 使用 basic-module 的 insertImageNode 方法插入图片，其中有用户配置的校验和 callback
+    if (Array.isArray(data)) {
+      // 返回的数组（旧版的，兼容一下）
+      data.forEach((item: { url: string; alt?: string; href?: string }) => {
+        const { url = '', alt = '', href = '' } = item
+        // 使用 basic-module 的 insertImageNode 方法插入图片，其中有用户配置的校验和 callback
+        insertImageNode(editor, url, alt, href)
+      })
+    } else {
+      // 返回的对象
+      const { url = '', alt = '', href = '' } = data
       insertImageNode(editor, url, alt, href)
-    })
+    }
 
     // success 回调
     onSuccess(file, res)
@@ -90,34 +78,60 @@ function uploadFiles(editor: IDomEditor, files: File[]) {
     onError && onError(file, err, res)
   }
 
-  let uppy = EDITOR_TO_UPPY_MAP.get(editor)
-  if (uppy == null) {
-    // 创建 uppy
-    uppy = createUploader({
-      ...menuConfig,
-      onProgress: progressHandler,
-      onSuccess: successHandler,
-      onError: errorHandler,
-    })
-    // 缓存 uppy
-    EDITOR_TO_UPPY_MAP.set(editor, uppy)
-  }
-
-  // 将文件添加到 uppy
-  files.forEach(file => {
-    if (uppy == null) return
-
-    const { name, type, size } = file
-    uppy.addFile({
-      name,
-      type,
-      size,
-      data: file,
-    })
-    // 上传单个文件
-    uppy.upload()
+  // 创建 uppy
+  uppy = createUploader({
+    ...menuConfig,
+    onProgress: progressHandler,
+    onSuccess: successHandler,
+    onError: errorHandler,
   })
-  // TODO 合并多个文件一起上传
+  // 缓存 uppy
+  EDITOR_TO_UPPY_MAP.set(editor, uppy)
+
+  return uppy
+}
+
+function getMenuConfig(editor: IDomEditor) {
+  return editor.getMenuConfig('uploadImage') as IUploadConfigForImage
+}
+
+/**
+ * 插入 base64 格式
+ * @param editor editor
+ * @param file file
+ */
+async function insertBase64(editor: IDomEditor, file: File) {
+  return new Promise(resolve => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const { result } = reader
+      if (!result) return
+      const src = result.toString()
+      let href = src.indexOf('data:image') === 0 ? '' : src // base64 格式则不设置 href
+      insertImageNode(editor, src, file.name, href)
+
+      resolve('ok')
+    }
+  })
+}
+
+/**
+ * 上传图片文件
+ * @param editor editor
+ * @param file file
+ */
+async function uploadFile(editor: IDomEditor, file: File) {
+  const uppy = getUppy(editor)
+
+  const { name, type, size } = file
+  uppy.addFile({
+    name,
+    type,
+    size,
+    data: file,
+  })
+  await uppy.upload()
 }
 
 /**
@@ -125,33 +139,28 @@ function uploadFiles(editor: IDomEditor, files: File[]) {
  * @param editor editor
  * @param files files
  */
-export default function (editor: IDomEditor, files: FileList | null) {
+export default async function (editor: IDomEditor, files: FileList | null) {
   if (files == null) return
   const fileList = Array.prototype.slice.call(files)
-  const fileListForUpload: File[] = []
 
   // 获取菜单配置
   const { customUpload, base64LimitSize } = getMenuConfig(editor)
 
-  fileList.forEach(file => {
+  // 按顺序上传
+  for await (const file of fileList) {
     const size = file.size // size kb
     if (base64LimitSize && size <= base64LimitSize) {
       // 允许 base64 ，而且 size 在 base64 限制之内，则插入 base64 格式
-      insertBase64(editor, file)
+      await insertBase64(editor, file)
     } else {
-      // 否则，加入上传列表
-      fileListForUpload.push(file)
+      // 上传
+      if (customUpload) {
+        // 自定义上传
+        await customUpload(file, (src, alt, href) => insertImageNode(editor, src, alt, href))
+      } else {
+        // 默认上传
+        await uploadFile(editor, file)
+      }
     }
-  })
-
-  if (fileListForUpload.length > 0) {
-    // 用户自定义上传，不用默认的上传
-    if (customUpload) {
-      customUpload(fileListForUpload, (src, alt, href) => insertImageNode(editor, src, alt, href))
-      return
-    }
-
-    // 上传图片
-    uploadFiles(editor, fileListForUpload)
   }
 }
