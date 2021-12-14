@@ -44,6 +44,7 @@ function handleOnKeydown(e: Event, textarea: TextArea, editor: IDomEditor) {
   const { readOnly } = editor.getConfig()
 
   if (readOnly) return
+  if (textarea.isComposing) return
   if (!hasEditableTarget(editor, event.target)) return
 
   // 触发 menu 快捷键

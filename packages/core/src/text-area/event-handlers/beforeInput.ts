@@ -51,6 +51,7 @@ function handleBeforeInput(e: Event, textarea: TextArea, editor: IDomEditor) {
     if (targetRange) {
       const range = DomEditor.toSlateRange(editor, targetRange, {
         exactMatch: false,
+        suppressThrow: false,
       })
       if (!selection || !Range.equals(selection, range)) {
         Transforms.select(editor, range)

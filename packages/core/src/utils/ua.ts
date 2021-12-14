@@ -32,6 +32,10 @@ export const IS_CHROME_LEGACY =
 
 export const IS_CHROME = typeof navigator !== 'undefined' && /Chrome/i.test(navigator.userAgent)
 
+// qq browser
+export const IS_QQBROWSER =
+  typeof navigator !== 'undefined' && /.*QQBrowser/.test(navigator.userAgent)
+
 // @ts-ignore 判断浏览器是否支持 beforeinput 事件 https://www.caniuse.com/?search=beforeinput
 // COMPAT: Firefox/Edge Legacy don't support the `beforeinput` event
 // Chrome Legacy doesn't support `beforeinput` correctly

@@ -68,7 +68,7 @@
     "lodash.throttle": "^4.1.1",
     "lodash.toarray": "^4.4.0",
     "nanoid": "^3.1.30",
-    "slate": "^0.63.0",
-    "snabbdom": "^3.0.1"
+    "slate": "^0.72.0",
+    "snabbdom": "^3.1.0"
   }
 }

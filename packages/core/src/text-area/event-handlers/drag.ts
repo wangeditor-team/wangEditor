@@ -13,6 +13,9 @@ export function handleOnDragstart(e: Event, textarea: TextArea, editor: IDomEdit
   const event = e as DragEvent
   if (!hasTarget(editor, event.target)) return
 
+  const { readOnly } = editor.getConfig()
+  if (readOnly) return
+
   const node = DomEditor.toSlateNode(editor, event.target)
   const path = DomEditor.findPath(editor, node)
   const voidMatch = Editor.isVoid(editor, node) || Editor.void(editor, { at: path, voids: true })

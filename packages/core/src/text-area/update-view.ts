@@ -48,14 +48,12 @@ function genRootElem(elemId: string, readOnly = false): Dom7Array {
         data-slate-editor
         data-slate-node="value"
         suppressContentEditableWarning
-        data-gramm="false"
         role="textarea"
         spellCheck="true"
         autoCorrect="true"
         autoCapitalize="true"
     ></div>`)
 
-  // data-gramm="false" - 禁用 chrome 插件 Grammarly ，它会修改 contenteditable 元素，带来奇怪的 bug
   // role="textarea" - 增强语义，div 语义太弱
 
   return $elem

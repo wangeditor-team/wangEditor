@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Path, Transforms } from 'slate'
+import { Editor, Path, Transforms, Node } from 'slate'
 import { IDomEditor } from '../../editor/interface'
 import { DomEditor } from '../../editor/dom-editor'
 import TextArea from '../TextArea'
@@ -19,16 +19,25 @@ function handleOnClick(event: Event, textarea: TextArea, editor: IDomEditor) {
 
   const node = DomEditor.toSlateNode(editor, event.target)
   const path = DomEditor.findPath(editor, node)
-  const start = Editor.start(editor, path)
-  const end = Editor.end(editor, path)
 
-  const startVoid = Editor.void(editor, { at: start })
-  const endVoid = Editor.void(editor, { at: end })
+  // At this time, the Slate document may be arbitrarily different,
+  // because onClick handlers can change the document before we get here.
+  // Therefore we must check that this path actually exists,
+  // and that it still refers to the same node.
+  if (Editor.hasPath(editor, path)) {
+    const lookupNode = Node.get(editor, path)
+    if (lookupNode === node) {
+      const start = Editor.start(editor, path)
+      const end = Editor.end(editor, path)
 
-  // 选中 void 元素 （文本可以通过监听 onSelectionChange 来选中）
-  if (startVoid && endVoid && Path.equals(startVoid[1], endVoid[1])) {
-    const range = Editor.range(editor, start)
-    Transforms.select(editor, range)
+      const startVoid = Editor.void(editor, { at: start })
+      const endVoid = Editor.void(editor, { at: end })
+
+      if (startVoid && endVoid && Path.equals(startVoid[1], endVoid[1])) {
+        const range = Editor.range(editor, start)
+        Transforms.select(editor, range)
+      }
+    }
   }
 }
 

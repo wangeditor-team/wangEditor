@@ -35,9 +35,15 @@ export function hasEditableTarget(
 }
 
 /**
- * Check if the target is inside void and in the editor.
+ * Check if the target is inside void and in an non-readonly editor.
  */
-export function isTargetInsideVoid(editor: IDomEditor, target: EventTarget | null): boolean {
+export function isTargetInsideNonReadonlyVoid(
+  editor: IDomEditor,
+  target: EventTarget | null
+): boolean {
+  const { readOnly } = editor.getConfig()
+  if (readOnly) return false
+
   const slateNode = hasTarget(editor, target) && DomEditor.toSlateNode(editor, target)
   return Editor.isVoid(editor, slateNode)
 }
