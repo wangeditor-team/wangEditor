@@ -239,24 +239,12 @@ describe('editor content API', () => {
     })
 
     test('dangerouslyInsertHtml should insert html string with link element to editor', () => {
-      const htmlString = '<a href="https://www.wangeditor.com/v5/" target="_blank">wangEditor</a>'
+      const htmlString = '<a href="https://www.baidu.com/" target="_blank">wangEditor</a>'
       editor.dangerouslyInsertHtml(htmlString)
 
-      expect(editor.children).toEqual([
-        {
-          type: 'paragraph',
-          children: [
-            { text: '' },
-            {
-              type: 'link',
-              children: [{ text: 'wangEditor' }],
-              url: 'https://www.wangeditor.com/v5/',
-              target: '_blank',
-            },
-            { text: ' ' },
-          ],
-        },
-      ])
+      const links = editor.getElemsByType('link')
+      expect(links.length).toBe(1)
+      expect(links[0].url).toBe('https://www.baidu.com/')
     })
 
     test('dangerouslyInsertHtml should insert html string with ul element to editor', () => {
