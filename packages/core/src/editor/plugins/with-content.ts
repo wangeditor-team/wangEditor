@@ -13,7 +13,7 @@ import { Key } from '../../utils/key'
 import { DOMElement, getPlainText } from '../../utils/dom'
 import { findCurrentLineRange } from '../../utils/line'
 import { ElementWithId } from '../interface'
-import { NodeType } from '../../types'
+import { NodeType } from '../../utils/dom'
 
 const IGNORE_TAGS = new Set([
   'doctype',
