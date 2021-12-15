@@ -271,7 +271,12 @@ export const getPlainText = (domNode: DOMNode) => {
 
     const display = getComputedStyle(domNode).getPropertyValue('display')
 
-    if (display === 'block' || display === 'list' || domNode.tagName === 'BR') {
+    if (
+      display === 'block' ||
+      display === 'list' ||
+      display === 'table-row' ||
+      domNode.tagName === 'BR'
+    ) {
       text += '\n'
     }
   }

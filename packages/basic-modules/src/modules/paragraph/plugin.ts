@@ -3,7 +3,13 @@
  * @author wangfupeng
  */
 
-import { Editor, Element, Transforms, Node, Text } from 'slate'
+import {
+  Editor,
+  Element as SlateElement,
+  Transforms,
+  Node as SlateNode,
+  Text as SlateText,
+} from 'slate'
 import { IDomEditor } from '@wangeditor/core'
 
 function deleteHandler(newEditor: IDomEditor): boolean {
@@ -14,12 +20,12 @@ function deleteHandler(newEditor: IDomEditor): boolean {
   if (nodeEntry == null) return false
 
   const n = nodeEntry[0]
-  if (!Element.isElement(n)) return false
+  if (!SlateElement.isElement(n)) return false
   if (n.type === 'paragraph') return false // 命中了 paragraph ，则不再继续判断
-  if (Node.string(n) !== '') return false // 未删除全部内容，则不再继续判断
+  if (SlateNode.string(n) !== '') return false // 未删除全部内容，则不再继续判断
 
   const { children = [] } = n
-  if (!Text.isText(children[0])) return false // n.children 不是 text （如 table），则不再继续判断
+  if (!SlateText.isText(children[0])) return false // n.children 不是 text （如 table），则不再继续判断
 
   // 至此，就命中了一个（非 paragraph）+（children 都是 text）+（内容为空）的顶级 node ，如 header blockQuote 等
   // 然后，将其却换为 paragraph
@@ -30,7 +36,7 @@ function deleteHandler(newEditor: IDomEditor): boolean {
 }
 
 function withParagraph<T extends IDomEditor>(editor: T): T {
-  const { deleteBackward, deleteForward } = editor
+  const { deleteBackward, deleteForward, insertDomElem, insertText, insertBreak } = editor
   const newEditor = editor
 
   // 删除非 p 的文本 elem（如 header blockQuote 等），删除没有内容时，切换为 p
@@ -47,6 +53,38 @@ function withParagraph<T extends IDomEditor>(editor: T): T {
 
     // 执行默认的删除
     deleteForward(unit)
+  }
+
+  // insert <p> DOM Element
+  newEditor.insertDomElem = (domElem: Element) => {
+    if (domElem.tagName.toLowerCase() !== 'p') {
+      insertDomElem(domElem) // 继续其他的 elem
+      return
+    }
+
+    // DOM 子节点
+    const childNodes = Array.from(domElem.childNodes)
+    if (childNodes.length === 0) return
+
+    // 换行
+    insertBreak()
+
+    // 设置 paragraph
+    Transforms.setNodes(editor, { type: 'paragraph' })
+
+    // 插入子节点
+    childNodes.forEach(child => {
+      const nodeType = child.nodeType
+      if (nodeType === 1) {
+        // @ts-ignore DOM Element ，继续插入
+        insertDomElem(child as Element)
+      }
+      if (nodeType === 3) {
+        // DOM Text
+        const text = child.textContent || ''
+        if (text) insertText(text)
+      }
+    })
   }
 
   // 返回 editor ，重要！

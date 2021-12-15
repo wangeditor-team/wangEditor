@@ -5,7 +5,7 @@
 
 import isEqual from 'lodash.isequal'
 import toArray from 'lodash.toarray'
-import { Editor, Node, Element, Path, Point, Range, Ancestor, Text, Transforms } from 'slate'
+import { Editor, Node, Element, Path, Point, Range, Ancestor, Text, Descendant } from 'slate'
 import type { IDomEditor } from './interface'
 import { Key } from '../utils/key'
 import TextArea from '../text-area/TextArea'
