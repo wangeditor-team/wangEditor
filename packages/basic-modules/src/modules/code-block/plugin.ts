@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Node } from 'slate'
+import { Editor, Transforms, Node as SlateNode } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 function genEmptyP() {
@@ -14,7 +14,7 @@ function getLastTextLineBeforeSelection(codeNode: Node, editor: IDomEditor): str
   const selection = editor.selection
   if (selection == null) return ''
 
-  const codeText = Node.string(codeNode)
+  const codeText = SlateNode.string(codeNode)
   const anchorOffset = selection.anchor.offset
   const textBeforeAnchor = codeText.slice(0, anchorOffset) // 选区前的 text
   const arr = textBeforeAnchor.split('\n') // 选区前的 text ，按换行拆分

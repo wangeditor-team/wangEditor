@@ -117,7 +117,6 @@ export const withEventData = <T extends Editor>(editor: T) => {
       if (DomEditor.checkMaxLength(e)) {
         return
       }
-
       e.dangerouslyInsertHtml(html)
       return
     }
