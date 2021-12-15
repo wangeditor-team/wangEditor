@@ -265,7 +265,6 @@ export const withContent = <T extends Editor>(editor: T) => {
     const length = lines.length
     lines.forEach((line, index) => {
       if (!line.trim()) return
-
       e.insertText(line)
       if (index + 1 < length) {
         Transforms.splitNodes(e, { always: true }) // 插入换行
