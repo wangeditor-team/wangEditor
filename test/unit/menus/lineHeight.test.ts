@@ -32,8 +32,13 @@ describe('LineHeight menu', () => {
         mockCmdFn(document)
         const cmdVal = '2'
         lineHeightMenu.command(cmdVal)
-        // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
-        expect(editor.$textElem.elems[0]).toContainHTML('<p style="line-height:2;"><br></p>')
+
+        // 空状态下，设置行高
+        expect(
+            editor.$textElem.elems[0].innerHTML.indexOf(
+                '<p data-we-empty-p="" style="line-height:2;"><br></p>'
+            )
+        ).toBeGreaterThanOrEqual(0)
     })
 
     test('lineHeight 菜单：选择多行增加行高', () => {
@@ -99,7 +104,8 @@ describe('LineHeight menu', () => {
 
         const cmdVal = '2'
         lineHeightMenu.command(cmdVal)
-        // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+
+        // 设置多行时，只针对p, 段落标签其设置
         expect(
             editor.$textElem.elems[0].innerHTML.indexOf(
                 '<div>345</div><div>234<span>123</span></div>'
@@ -110,15 +116,16 @@ describe('LineHeight menu', () => {
     test('lineHeight 菜单：增加行高， 如果不传value值，则设为默认行高，并且不设置 line-height 样式', () => {
         mockCmdFn(document)
 
-        editor.txt.html('<p style="color:red;">123</p>')
+        editor.txt.html('<p style="color:red">123</p>')
 
         const [startNode] = Array.from(editor.$textElem.elems[0].childNodes)
         lineHeightMenu.setRange(startNode, startNode)
 
         lineHeightMenu.command('')
         // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+
         expect(
-            editor.$textElem.elems[0].innerHTML.indexOf('<p style="color:red;">123</p>')
+            editor.$textElem.elems[0].innerHTML.indexOf('<p style="color:red">123</p>')
         ).toBeGreaterThanOrEqual(0)
     })
 
@@ -132,9 +139,10 @@ describe('LineHeight menu', () => {
 
         lineHeightMenu.command('2')
         // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
+
         expect(
             editor.$textElem.elems[0].innerHTML.indexOf(
-                '<p style="color:red;line-height:2;">123</p>'
+                '<p style="color:red; line-height:2;">123</p>'
             )
         ).toBeGreaterThanOrEqual(0)
     })

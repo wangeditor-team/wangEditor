@@ -9,7 +9,6 @@ import $, { DomElement } from '../../utils/dom-core'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 import lineHeightList from './lineHeightList'
-import { UA } from '../../utils/util'
 
 class LineHeight extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -39,163 +38,81 @@ class LineHeight extends DropListMenu implements MenuActive {
      * @param value value
      */
     public command(value: string): void {
-        let selection = window.getSelection ? window.getSelection() : document.getSelection()
-        //允许设置dom
-        const allowArray: string[] = ['P']
         const editor = this.editor
-        let st: string = ''
-        //恢复焦点
+
+        //重置选区
         editor.selection.restoreSelection()
-        const $selectionElem = $(editor.selection.getSelectionContainerElem())
 
-        if (!$selectionElem?.length) return
+        // 获取选区的祖先元素
+        const $containerElem = $(editor.selection.getSelectionContainerElem())
 
-        const $selectionAll = $(editor.selection.getSelectionContainerElem())
-        // let dom:HTMLElement= $selectionElem.elems[0]
-        let dom: HTMLElement = $(editor.selection.getSelectionStartElem()).elems[0]
-        //获取元素的style
-        let style: string | null = ''
-        let styleList: string[] = []
-        //点击默认的时候删除line-height属性 并重新设置 style
-        let styleStr: string = ''
+        if (!$containerElem.elems.length) return
 
         //选中多行操作
-        if ($selectionElem && editor.$textElem.equal($selectionElem)) {
-            let isIE = UA.isIE()
-            //获取range 开头结束的dom在 祖父元素的下标
-            let indexStore: Array<number> = []
-            let arrayDom_a: Array<HTMLElement> = []
-            let arrayDom_b: Array<HTMLElement> = []
-            //获取range 开头结束的dom
-            const StartElem: DomElement = $(editor.selection.getSelectionStartElem())
-            const EndElem: DomElement = $(editor.selection.getSelectionEndElem())
-            const childList: NodeListOf<ChildNode> | undefined = editor.selection.getRange()
-                ?.commonAncestorContainer.childNodes
-            arrayDom_a.push(this.getDom(StartElem.elems[0]))
-            childList?.forEach((item, index) => {
-                if (item === this.getDom(StartElem.elems[0])) {
-                    indexStore.push(index)
-                }
-                if (item === this.getDom(EndElem.elems[0])) {
-                    indexStore.push(index)
-                }
-            })
-            //遍历 获取头尾之间的dom元素
-            let i = 0
-            let d: HTMLElement
-            arrayDom_b.push(this.getDom(StartElem.elems[0]))
-            while (arrayDom_a[i] !== this.getDom(EndElem.elems[0])) {
-                d = $(arrayDom_a[i].nextElementSibling).elems[0]
-                if (allowArray.indexOf($(d).getNodeName()) !== -1) {
-                    arrayDom_b.push(d)
-                    arrayDom_a.push(d)
-                } else {
-                    arrayDom_a.push(d)
-                }
-                i++
-            }
+        if ($containerElem && editor.$textElem.equal($containerElem)) {
+            // 标识是否可以设置行高的样式
+            let setStyleLock: boolean = false
 
-            //设置段落选取 全选
-            if ($(arrayDom_a[0]).getNodeName() !== 'P') {
-                i = 0
-                //遍历集合得到第一个p标签的下标
-                for (var k = 0; k < arrayDom_a.length; k++) {
-                    if ($(arrayDom_a[k]).getNodeName() === 'P') {
-                        i = k
-                        break
-                    }
-                }
-                //i===0 说明选区中没有p段落
-                if (i === 0) {
+            //获取range 开头结束的dom
+            const selectionStartElem: HTMLElement = $(editor.selection.getSelectionStartElem())
+                .elems[0]
+            const SelectionEndElem: HTMLElement = $(editor.selection.getSelectionEndElem()).elems[0]
+
+            // 获取选区中，在contenteditable下的直接父元素
+            const StartElemWrap: HTMLElement = this.getDom(selectionStartElem)
+            const EndElemWrap: HTMLElement = this.getDom(SelectionEndElem)
+
+            const containerElemChildren = $containerElem.elems[0].children
+
+            for (let i = 0; i < containerElemChildren.length; i++) {
+                const item: HTMLElement = containerElemChildren[i] as HTMLElement
+
+                // 目前只支持p 段落标签设置行高
+                if ($(item).getNodeName() !== 'P') {
                     return
                 }
-                let _i = 0
-                while (_i !== i) {
-                    arrayDom_a.shift()
-                    _i++
-                }
-            }
-            //设置替换的选区
-            this.setRange(arrayDom_a[0], arrayDom_a[arrayDom_a.length - 1])
-            //生成innerHtml html字符串
-            arrayDom_a.forEach(item => {
-                style = item.getAttribute('style')
-                styleList = style ? style.split(';') : []
-                styleStr = this.styleProcessing(styleList)
 
-                if ($(item).getNodeName() === 'P') {
-                    //判断是否 点击默认
-                    if (value) {
-                        styleStr += value ? `line-height:${value};` : ''
+                if (item === StartElemWrap) {
+                    setStyleLock = true
+                }
+
+                // 证明在区间节点里
+                if (setStyleLock) {
+                    $(item).css('line-height', value)
+
+                    if (item === EndElemWrap) {
+                        setStyleLock = false
+
+                        // 当设置完选择的EndElemWrap时，就可以退出
+                        return
                     }
                 }
-
-                if (!isIE) {
-                    st += `<${$(item).getNodeName().toLowerCase()} style="${styleStr}">${
-                        item.innerHTML
-                    }</${$(item).getNodeName().toLowerCase()}>`
-                } else {
-                    $(item).css('line-height', value)
-                }
-            })
-
-            if (st) {
-                this.action(st, editor)
             }
 
-            //恢复已选择的选区
-            dom = $selectionAll.elems[0]
-            this.setRange(dom.children[indexStore[0]], dom.children[indexStore[1]])
+            //重新设置选区
+            editor.selection.createRangeByElems(selectionStartElem, SelectionEndElem)
+
             return
         }
 
-        //遍历dom 获取祖父元素 直到contenteditable属性的div标签
-        dom = this.getDom(dom)
+        // 单行操作
+        // 选中区间的dom元素
+        const selectElem = $containerElem.elems[0]
 
-        //校验允许lineheight设置标签
-        if (allowArray.indexOf($(dom).getNodeName()) === -1) {
+        // 获取选区中，在contenteditable下的直接父元素
+        const selectElemWrapdom = this.getDom(selectElem)
+
+        // 目前只支持p 段落标签设置行高
+        if ($(selectElemWrapdom).getNodeName() !== 'P') {
             return
         }
-        style = dom.getAttribute('style')
-        styleList = style ? style.split(';') : []
-        //全选 dom下所有的内容
-        selection?.selectAllChildren(dom)
-        //保存range
-        editor.selection.saveRange()
-        //判断是否存在value 默认 移除line-height
-        if (!value) {
-            if (style) {
-                styleStr = this.styleProcessing(styleList)
-                //避免没有其它属性 只留下 ‘style’ 减少代码
-                if (styleStr === '') {
-                    st = `<${$(dom).getNodeName().toLowerCase()}>${dom.innerHTML}</${$(dom)
-                        .getNodeName()
-                        .toLowerCase()}>`
-                } else {
-                    st = `<${$(dom).getNodeName().toLowerCase()} style="${styleStr}">${
-                        dom.innerHTML
-                    }</${$(dom).getNodeName().toLowerCase()}>`
-                }
-                this.action(st, editor)
-            }
-            return
-        }
-        if (style) {
-            //存在style 检索其它style属性
-            styleStr = this.styleProcessing(styleList) + `line-height:${value};`
-        } else {
-            styleStr = `line-height:${value};`
-        }
-        st = `<${$(dom).getNodeName().toLowerCase()} style="${styleStr}">${dom.innerHTML}</${$(dom)
-            .getNodeName()
-            .toLowerCase()}>`
 
-        //防止BLOCKQUOTE叠加 or IE下导致P嵌套出现误删
-        if ($(dom).getNodeName() === 'BLOCKQUOTE' || UA.isIE()) {
-            $(dom).css('line-height', value)
-        } else {
-            this.action(st, editor)
-        }
+        $(selectElemWrapdom).css('line-height', value)
+
+        //重新设置选区
+        editor.selection.createRangeByElems(selectElemWrapdom, selectElemWrapdom)
+
+        return
     }
 
     /**
@@ -221,15 +138,9 @@ class LineHeight extends DropListMenu implements MenuActive {
     }
 
     /**
-     * 执行 document.execCommand
-     *
-     */
-    public action(html_str: string, editor: Editor): void {
-        editor.cmd.do('insertHTML', html_str)
-    }
-
-    /**
      * style 处理
+     *
+     * 废弃的方法
      */
     public styleProcessing(styleList: Array<string>): string {
         let styleStr = ''
@@ -243,6 +154,8 @@ class LineHeight extends DropListMenu implements MenuActive {
 
     /**
      * 段落全选 比如：避免11变成111
+     *
+     * 废弃的方法
      */
     public setRange(startDom: Node, endDom: Node): void {
         const editor = this.editor
