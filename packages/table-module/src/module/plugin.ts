@@ -292,7 +292,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
     const $trList = $table.find('tr')
     $trList.forEach(tr => {
       let rowText = tr.textContent || ''
-      rowText = rowText.replace(/\r\n|\r|\n/g, '')
+      rowText = rowText.replace(/\r\n|\r|\n/g, ' ')
       newEditor.insertNode({ type: 'paragraph', children: [{ text: rowText }] })
     })
   }
