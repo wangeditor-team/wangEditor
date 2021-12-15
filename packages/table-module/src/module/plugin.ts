@@ -4,8 +4,17 @@
  */
 
 import isEqual from 'lodash.isequal'
-import { Editor, Transforms, Point, Element, Descendant, NodeEntry, Node } from 'slate'
+import {
+  Editor,
+  Transforms,
+  Point,
+  Element as SlateElement,
+  Descendant,
+  NodeEntry,
+  Node,
+} from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
+import $ from '../utils/dom'
 
 function genEmptyParagraph() {
   return { type: 'paragraph', children: [{ text: '' }] }
@@ -40,6 +49,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
     insertData,
     handleTab,
     selectAll,
+    insertDomElem,
   } = editor
   const newEditor = editor
 
@@ -69,14 +79,14 @@ function withTable<T extends IDomEditor>(editor: T): T {
   newEditor.handleTab = () => {
     const selectedNode = DomEditor.getSelectedNodeByType(newEditor, 'table')
     if (selectedNode) {
-      const above = Editor.above(editor) as NodeEntry<Element>
+      const above = Editor.above(editor) as NodeEntry<SlateElement>
 
       // 常规情况下选中文字外层 table-cell 进行跳转
       if (DomEditor.checkNodeType(above[0], 'table-cell')) {
         Transforms.select(editor, above[1])
       }
 
-      let next = Editor.next(editor) as NodeEntry<Element> | undefined
+      let next = Editor.next(editor) as NodeEntry<SlateElement> | undefined
       if (next) {
         if (next[0]?.text) {
           // 多个单元格同时选中按 tab 导致错位修复
@@ -115,7 +125,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
       // 未命中 table ，执行默认的 normalizeNode
       return normalizeNode([node, path])
     }
-    const { children: rows = [] } = node as Element
+    const { children: rows = [] } = node as SlateElement
     const topLevelNodes = newEditor.children || []
     const topLevelNodesLength = topLevelNodes.length
 
@@ -138,7 +148,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
     // --------------------- table 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------
     const nextNode = topLevelNodes[path[0] + 1] || {}
-    if (Element.isElement(nextNode)) {
+    if (SlateElement.isElement(nextNode)) {
       const { type: nextNodeType = '' } = nextNode
       if (
         nextNodeType !== 'paragraph' &&
@@ -156,7 +166,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
     // --------------------- table 前面不能是 table 或者 void（否则前面插入 p） ---------------------
     const prevNode = topLevelNodes[path[0] - 1] || {}
-    if (Element.isElement(prevNode)) {
+    if (SlateElement.isElement(prevNode)) {
       const prevNodeType = DomEditor.getNodeType(prevNode)
       if (prevNodeType === 'table' || newEditor.isVoid(prevNode)) {
         const p = genEmptyParagraph()
@@ -177,7 +187,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
     // 获取表格最多有多少列（表格结构乱掉之后，每一列数量不一样多）
     let maxColNum = 0
     rows.forEach((rowNode: Descendant) => {
-      if (!Element.isElement(rowNode)) return
+      if (!SlateElement.isElement(rowNode)) return
       const cells = rowNode.children || []
       const l = cells.length
       if (maxColNum < l) maxColNum = l // TODO 这里没有考虑到 colSpan 和单元格合并
@@ -185,7 +195,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
     // 遍历每一行，修整
     rows.forEach((rowNode: Descendant, index: number) => {
-      if (!Element.isElement(rowNode)) return
+      if (!SlateElement.isElement(rowNode)) return
       const cells = rowNode.children || []
       const rowPath = path.concat(index) // 当前 tr 的 path
 
@@ -203,7 +213,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
 
       // 遍历每一个 cell ，修整
       cells.forEach((cellNode, i) => {
-        if (!Element.isElement(cellNode)) return
+        if (!SlateElement.isElement(cellNode)) return
 
         if (cellNode.type !== 'table-cell') {
           const cellPath = rowPath.concat(i) // cell path
@@ -268,6 +278,23 @@ function withTable<T extends IDomEditor>(editor: T): T {
       focus: { path: textPath, offset: textLength },
     }
     newEditor.select(newSelection) // 选中 table-cell 内部的全部文字
+  }
+
+  newEditor.insertDomElem = (domElem: Element) => {
+    if (domElem.tagName.toLowerCase() !== 'table') {
+      insertDomElem(domElem) // 继续其他的 elem
+      return
+    }
+
+    // 插入 table DOM elem 暂时先插入纯文本，暂不支持解析为 table node
+    // 因为现在 table 还未支持单元格合并，万一插入一个 `colSpan !== 1` 的 table ，将会解析失败 - wangfupeng 2021.12.6
+    const $table = $(domElem)
+    const $trList = $table.find('tr')
+    $trList.forEach(tr => {
+      let rowText = tr.textContent || ''
+      rowText = rowText.replace(/\r\n|\r|\n/g, '')
+      newEditor.insertNode({ type: 'paragraph', children: [{ text: rowText }] })
+    })
   }
 
   // 可继续修改其他 newEditor API ...
