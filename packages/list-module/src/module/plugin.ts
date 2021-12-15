@@ -3,9 +3,11 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Node, Element } from 'slate'
+import { Editor, Transforms, Node as SlateNode, Element as SlateElement } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { checkList } from './helper'
+
+const EMPTY_P = { type: 'paragraph', children: [{ text: '' }] }
 
 function deleteHandler(newEditor: IDomEditor): boolean {
   const [nodeEntry] = Editor.nodes(newEditor, {
@@ -14,9 +16,9 @@ function deleteHandler(newEditor: IDomEditor): boolean {
   })
   if (nodeEntry == null) return false
   const n = nodeEntry[0]
-  if (!Element.isElement(n)) return false
+  if (!SlateElement.isElement(n)) return false
 
-  if (!Node.string(n) && checkList(n)) {
+  if (!SlateNode.string(n) && checkList(n)) {
     // 当 list 作为 editor 第一个节点且内容为空时
     // 移除 ul ol 的父节点
     Transforms.unwrapNodes(newEditor, {
@@ -33,7 +35,7 @@ function deleteHandler(newEditor: IDomEditor): boolean {
 }
 
 function withList<T extends IDomEditor>(editor: T): T {
-  const { insertBreak, deleteBackward } = editor
+  const { insertBreak, deleteBackward, insertDomElem, insertNode } = editor
   const newEditor = editor
 
   // 重写 insertBreak
@@ -50,15 +52,14 @@ function withList<T extends IDomEditor>(editor: T): T {
     const childrenLength = children.length
     if (selectedNode === children[childrenLength - 1]) {
       // 当前 list-item 是 list 的最后一个 child
-      const str = Node.string(selectedNode)
+      const str = SlateNode.string(selectedNode)
       if (str === '') {
         // 当前 list-item 无内容。则删除这个空白 list-item，并跳出 list ，插入一个空行
         Transforms.removeNodes(newEditor, {
           match: n => DomEditor.checkNodeType(n, 'list-item'),
         })
 
-        const p = { type: 'paragraph', children: [{ text: '' }] }
-        Transforms.insertNodes(newEditor, p, {
+        Transforms.insertNodes(newEditor, EMPTY_P, {
           mode: 'highest', // 在最高层级插入，否则会插入到 list 下面
         })
 
@@ -77,6 +78,38 @@ function withList<T extends IDomEditor>(editor: T): T {
 
     // 执行默认的删除
     deleteBackward(unit)
+  }
+
+  // insert <ul> <ol> <li> DOM Element
+  newEditor.insertDomElem = (domElem: Element) => {
+    const tag = domElem.tagName.toLowerCase()
+    if (tag !== 'ol' && tag !== 'ul') {
+      insertDomElem(domElem) // 继续其他的
+      return
+    }
+
+    const children: SlateElement[] = []
+    Array.from(domElem.children).forEach(child => {
+      const tag = child.tagName.toLowerCase()
+      if (tag !== 'li') return
+
+      const text = child.textContent
+      if (!text) return
+
+      children.push({ type: 'list-item', children: [{ text }] })
+    })
+
+    if (children.length === 0) return
+
+    insertNode({
+      type: tag === 'ol' ? 'numbered-list' : 'bulleted-list',
+      children,
+    })
+
+    // 插入 p ，跳出 list 内部
+    Transforms.insertNodes(newEditor, EMPTY_P, {
+      mode: 'highest',
+    })
   }
 
   // 返回 editor ，重要！

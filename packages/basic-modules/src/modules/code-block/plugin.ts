@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Node } from 'slate'
+import { Editor, Transforms, Node as SlateNode } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 function genEmptyP() {
@@ -14,7 +14,7 @@ function getLastTextLineBeforeSelection(codeNode: Node, editor: IDomEditor): str
   const selection = editor.selection
   if (selection == null) return ''
 
-  const codeText = Node.string(codeNode)
+  const codeText = SlateNode.string(codeNode)
   const anchorOffset = selection.anchor.offset
   const textBeforeAnchor = codeText.slice(0, anchorOffset) // 选区前的 text
   const arr = textBeforeAnchor.split('\n') // 选区前的 text ，按换行拆分
@@ -25,7 +25,7 @@ function getLastTextLineBeforeSelection(codeNode: Node, editor: IDomEditor): str
 }
 
 function withCodeBlock<T extends IDomEditor>(editor: T): T {
-  const { insertBreak, normalizeNode, insertData } = editor
+  const { insertBreak, normalizeNode, insertData, insertDomElem, insertNode } = editor
   const newEditor = editor
 
   // 重写换行操作
@@ -103,6 +103,39 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
     // 获取文本，并插入到代码块
     const text = data.getData('text/plain')
     Editor.insertText(newEditor, text)
+  }
+
+  // insert <pre><code> DOM Element
+  newEditor.insertDomElem = (domElem: Element) => {
+    const tag = domElem.tagName.toLowerCase()
+    if (tag !== 'pre') {
+      insertDomElem(domElem) // 执行默认处理
+      return
+    }
+
+    const firstChild = domElem.children[0]
+    if (!firstChild) return
+
+    if (firstChild.tagName.toLowerCase() !== 'code') return
+
+    const text = firstChild.textContent
+    if (!text) return
+
+    insertNode({
+      type: 'pre',
+      children: [
+        {
+          type: 'code',
+          language: '',
+          children: [{ text }],
+        },
+      ],
+    })
+
+    // 插入 p ，跳出 code 内部
+    Transforms.insertNodes(newEditor, genEmptyP(), {
+      mode: 'highest',
+    })
   }
 
   // 返回 editor ，重要！

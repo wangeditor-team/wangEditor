@@ -10,8 +10,23 @@ import { EDITOR_TO_SELECTION, NODE_TO_KEY } from '../../utils/weak-maps'
 import { node2html } from '../../to-html/node2html'
 import { genElemId } from '../../formats/helper'
 import { Key } from '../../utils/key'
+import { DOMElement, getPlainText } from '../../utils/dom'
 import { findCurrentLineRange } from '../../utils/line'
 import { ElementWithId } from '../interface'
+import { NodeType } from '../../utils/dom'
+
+const IGNORE_TAGS = new Set([
+  'doctype',
+  '!doctype',
+  'meta',
+  'script',
+  'style',
+  'link',
+  'frame',
+  'iframe',
+  'title',
+  'svg', // TODO 暂时忽略
+])
 
 export const withContent = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
@@ -227,6 +242,74 @@ export const withContent = <T extends Editor>(editor: T) => {
 
   e.getParentNode = (node: Node) => {
     return DomEditor.getParentNode(e, node)
+  }
+
+  /**
+   * 插入 DOMElement
+   * @param domElem DOM Element
+   */
+  e.insertDomElem = (domElem: DOMElement) => {
+    const tag = domElem.tagName.toLowerCase()
+    if (IGNORE_TAGS.has(tag)) return
+
+    const text = getPlainText(domElem).trim()
+    if (!text) return
+
+    const display = getComputedStyle(domElem).getPropertyValue('display')
+    if (display === 'block') {
+      e.insertBreak()
+      Transforms.setNodes(e, { type: 'paragraph' })
+    }
+
+    const lines = text.split(/\r\n|\r|\n/) // 换行
+    const length = lines.length
+    lines.forEach((line, index) => {
+      if (!line.trim()) return
+      e.insertText(line)
+      if (index + 1 < length) {
+        Transforms.splitNodes(e, { always: true }) // 插入换行
+      }
+    })
+  }
+
+  /**
+   * 插入 html （不保证语义完全正确），用于粘贴
+   * @param html html string
+   */
+  e.dangerouslyInsertHtml = (html: string = '') => {
+    if (!html) return
+
+    const div = document.createElement('div')
+    div.innerHTML = html
+    div.setAttribute('hidden', 'true')
+    document.body.appendChild(div)
+    Array.from(div.childNodes).forEach(child => {
+      const { nodeType } = child
+      if (nodeType !== NodeType.ELEMENT_NODE && nodeType !== NodeType.TEXT_NODE) return
+
+      let text = child.textContent || ''
+      text = text.replace(/\s/gm, '') // 去掉空格，换行符号
+      if (DomEditor.checkMaxLength(e, text)) {
+        return
+      }
+
+      if (nodeType === NodeType.ELEMENT_NODE) {
+        // DOM Element
+        try {
+          // 可第三方扩展，加 try 包裹
+          e.insertDomElem(child as DOMElement)
+        } catch (err) {
+          // 出错，则插入文本
+          if (text) e.insertText(text)
+          console.error('insertDomElem error', child)
+        }
+      }
+      if (nodeType === NodeType.TEXT_NODE) {
+        // DOM Text
+        if (text) e.insertText(text)
+      }
+    })
+    document.body.removeChild(div)
   }
 
   return e

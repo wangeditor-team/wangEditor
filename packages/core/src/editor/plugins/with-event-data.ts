@@ -110,7 +110,16 @@ export const withEventData = <T extends Editor>(editor: T) => {
     }
 
     const text = data.getData('text/plain')
-    // const html = data.getData('text/html')
+    const html = data.getData('text/html')
+    // const rtf = data.getData('text/rtf')
+
+    if (html) {
+      if (DomEditor.checkMaxLength(e)) {
+        return
+      }
+      e.dangerouslyInsertHtml(html)
+      return
+    }
 
     if (text) {
       const lines = text.split(/\r\n|\r|\n/)
@@ -129,6 +138,7 @@ export const withEventData = <T extends Editor>(editor: T) => {
         insertText(line)
         split = true
       }
+      return
     }
   }
 
