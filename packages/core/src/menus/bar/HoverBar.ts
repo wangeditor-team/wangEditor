@@ -4,7 +4,7 @@
  */
 
 import debounce from 'lodash.debounce'
-import { Editor, Node, Element, Text, Path } from 'slate'
+import { Editor, Node, Element, Text, Path, Range } from 'slate'
 import $ from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'
 import { promiseResolveThen } from '../../utils/util'
@@ -15,8 +15,32 @@ import { IBarItem, createBarItem } from '../bar-item/index'
 import { gen$barItemDivider } from '../helpers/helpers'
 import { getPositionBySelection, getPositionByNode, correctPosition } from '../helpers/position'
 import { IButtonMenu, ISelectMenu, IDropPanelMenu, IModalMenu } from '../interface'
+import { CustomElement } from '../../../../custom-types'
 
 type MenuType = IButtonMenu | ISelectMenu | IDropPanelMenu | IModalMenu
+
+/**
+ * 是否选中了 text （用于 text hoverbarKeys）
+ * @param editor editor
+ * @param n node
+ */
+function isSelectedText(editor: IDomEditor, n: Node) {
+  const { selection } = editor
+  if (selection == null) return false // 无选区
+  if (Range.isCollapsed(selection)) return false // 未选中文字，选区的是折叠的
+
+  const selectedElems = DomEditor.getSelectedElems(editor)
+  const notMatch = selectedElems.some((elem: CustomElement) => {
+    if (editor.isVoid(elem)) return true
+
+    const { type } = elem
+    if (['pre', 'code', 'table'].includes(type)) return true
+  })
+  if (notMatch) return false
+
+  if (Text.isText(n)) return true // 匹配 text node
+  return false
+}
 
 class HoverBar {
   private readonly $elem = $('<div class="w-e-bar w-e-bar-hidden w-e-hover-bar"></div>')
@@ -244,8 +268,15 @@ class HoverBar {
 
   private getHoverbarKeysConf() {
     const editor = this.getEditorInstance()
-    const editorConfig = editor.getConfig()
-    return editorConfig.hoverbarKeys || {}
+    const { hoverbarKeys = {} } = editor.getConfig()
+
+    const textHoverbarKeys = hoverbarKeys.text
+    if (textHoverbarKeys && textHoverbarKeys.match == null) {
+      // 对 text hoverbarKeys 增加 match 函数（否则无法判断是否选中了 text）
+      textHoverbarKeys.match = isSelectedText
+    }
+
+    return hoverbarKeys
   }
 
   /**
