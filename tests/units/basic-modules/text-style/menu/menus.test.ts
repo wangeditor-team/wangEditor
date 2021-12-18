@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms } from 'slate'
+import { Editor, Transforms, Element } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
 import BoldMenu from '../../../../../packages/basic-modules/src/modules/text-style/menu/BoldMenu'
 import CodeMenu from '../../../../../packages/basic-modules/src/modules/text-style/menu/CodeMenu'
@@ -64,15 +64,15 @@ describe('text style menus', () => {
           {
             type: 'code',
             children: [{ text: 'var' }],
-          },
+          } as Element,
         ],
-      })
+      } as Element)
       expect(menu.isDisabled(editor)).toBeTruthy() // 选中代码块，禁用各个 menu
 
       if (mark === 'bold') {
         // bold 菜单，在选中 header 时禁用
         editor.select(startLocation)
-        Transforms.setNodes(editor, { type: 'header1' })
+        Transforms.setNodes(editor, { type: 'header1' } as Partial<Element>)
         expect(menu.isDisabled(editor)).toBeTruthy()
       }
     })

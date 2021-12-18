@@ -31,7 +31,7 @@ describe('editor node API', () => {
       content: [p],
     })
 
-    const parentNode = editor.getParentNode(textNode)
+    const parentNode = editor.getParentNode(textNode) as any
     expect(parentNode).not.toBeNull()
     expect(parentNode.type).toBe('paragraph')
   })

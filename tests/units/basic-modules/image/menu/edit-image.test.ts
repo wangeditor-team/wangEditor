@@ -69,7 +69,7 @@ describe('edit image menu', () => {
       offset: 0,
     })
     const imageNode = menu.getModalPositionNode(editor)
-    expect(imageNode.src).toBe(src)
+    expect((imageNode as any).src).toBe(src)
   })
 
   it('get modal content elem', () => {

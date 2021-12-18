@@ -27,7 +27,7 @@ describe('Module BaseMenu', () => {
   test('BulletedListMenu invoke isActive should return true if selected node is list node', () => {
     jest
       .spyOn(core.DomEditor, 'getSelectedNodeByType')
-      .mockReturnValue({ type: 'bulleted-list', children: [] })
+      .mockReturnValue({ type: 'bulleted-list', children: [] } as slate.Element)
     expect(bulletedListMenu.isActive(editor)).toBe(true)
   })
 
@@ -52,9 +52,9 @@ describe('Module BaseMenu', () => {
         {
           type: 'table',
           children: [],
-        },
+        } as slate.Element,
         [0, 1],
-      ] as slate.NodeEntry<unknown>
+      ] as slate.NodeEntry<slate.Element>
     }
     jest.spyOn(slate.Editor, 'nodes').mockReturnValue(fn())
     expect(bulletedListMenu.isDisabled(editor)).toBe(true)
@@ -102,7 +102,7 @@ describe('Module BaseMenu', () => {
   test('BulletedListMenu invoke exec should set current select node to paragraph if list menu is active', () => {
     jest
       .spyOn(core.DomEditor, 'getSelectedNodeByType')
-      .mockReturnValue({ type: 'bulleted-list', children: [] })
+      .mockReturnValue({ type: 'bulleted-list', children: [] } as slate.Element)
 
     const mockFn = jest.fn()
     jest.spyOn(slate.Transforms, 'setNodes').mockImplementation(mockFn)
@@ -117,9 +117,9 @@ describe('Module BaseMenu', () => {
         {
           type: 'numbered-list',
           children: [],
-        },
+        } as slate.Element,
         [0, 1],
-      ] as slate.NodeEntry<unknown>
+      ] as slate.NodeEntry<slate.Element>
     }
     jest.spyOn(slate.Editor, 'nodes').mockReturnValue(fn())
 

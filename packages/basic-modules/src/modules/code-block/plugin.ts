@@ -3,14 +3,14 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Node as SlateNode } from 'slate'
+import { Editor, Transforms, Node as SlateNode, Element as SlateElement } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
-function genEmptyP() {
+function genEmptyP(): SlateElement {
   return { type: 'paragraph', children: [{ text: '' }] }
 }
 
-function getLastTextLineBeforeSelection(codeNode: Node, editor: IDomEditor): string {
+function getLastTextLineBeforeSelection(codeNode: SlateNode, editor: IDomEditor): string {
   const selection = editor.selection
   if (selection == null) return ''
 
@@ -82,7 +82,7 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
       }
 
       // -------------- pre 下面必须是 code --------------
-      if (DomEditor.getNodeType(node.children[0]) !== 'code') {
+      if (DomEditor.getNodeType((node as SlateElement).children[0]) !== 'code') {
         Transforms.unwrapNodes(newEditor)
         Transforms.setNodes(newEditor, { type: 'paragraph' }, { mode: 'highest' })
       }

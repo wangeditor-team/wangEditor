@@ -11,7 +11,7 @@ describe('link elem to html', () => {
 
     const url = 'https://www.wangeditor.com/'
     const target = '_blank'
-    const elem = { type: 'link', url, target }
+    const elem = { type: 'link', url, target, children: [] }
 
     const html = linkToHtmlConf.elemToHtml(elem, 'hello')
     expect(html).toBe(`<a href="${url}" target="${target}">hello</a>`)

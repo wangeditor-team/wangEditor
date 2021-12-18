@@ -17,7 +17,7 @@ describe('TableModule module', () => {
       jest.spyOn(core.DomEditor, 'getSelectedNodeByType').mockReturnValue({
         type: 'table',
         children: [{ text: '' }],
-      })
+      } as slate.Element)
 
       const mockFn = jest.fn()
       newEditor.insertText = mockFn
@@ -34,7 +34,7 @@ describe('TableModule module', () => {
       jest.spyOn(core.DomEditor, 'getSelectedNodeByType').mockReturnValue({
         type: 'table',
         children: [{ text: '' }],
-      })
+      } as slate.Element)
 
       const mockFn = jest.fn()
       slate.Editor.insertText = mockFn

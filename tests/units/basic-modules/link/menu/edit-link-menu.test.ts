@@ -65,7 +65,7 @@ describe('edit link menu', () => {
       path: [0, 1, 0], // 选区定位到 link 内部
       offset: 1,
     })
-    const node = menu.getModalPositionNode(editor)
+    const node = menu.getModalPositionNode(editor) as any
     expect(node.type).toBe('link')
     expect(node.url).toBe(linkNode.url)
   })

@@ -14,6 +14,7 @@ describe('videoModule module', () => {
 
     test('videoToHtmlConf elemToHtml fn should return html video string', () => {
       const element = {
+        type: 'video',
         src: 'test.mp4',
         children: [],
       }
@@ -26,6 +27,7 @@ describe('videoModule module', () => {
 
     test('videoToHtmlConf elemToHtml should return original string if src is a iframe html string', () => {
       const element = {
+        type: 'video',
         src: '<iframe src="test.mp4"></iframe>',
         children: [],
       }

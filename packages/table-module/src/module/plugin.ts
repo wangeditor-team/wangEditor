@@ -12,11 +12,12 @@ import {
   Descendant,
   NodeEntry,
   Node,
+  BaseText,
 } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import $ from '../utils/dom'
 
-function genEmptyParagraph() {
+function genEmptyParagraph(): SlateElement {
   return { type: 'paragraph', children: [{ text: '' }] }
 }
 
@@ -86,11 +87,11 @@ function withTable<T extends IDomEditor>(editor: T): T {
         Transforms.select(editor, above[1])
       }
 
-      let next = Editor.next(editor) as NodeEntry<SlateElement> | undefined
+      let next = Editor.next(editor)
       if (next) {
-        if (next[0]?.text) {
+        if (next[0] && (next[0] as BaseText).text) {
           // 多个单元格同时选中按 tab 导致错位修复
-          next = Editor.above(editor, { at: next[1] }) ?? next
+          next = (Editor.above(editor, { at: next[1] }) as NodeEntry<Descendant>) ?? next
         }
         Transforms.select(editor, next[1])
       } else {

@@ -12,7 +12,7 @@ describe('blockquote - render elem', () => {
   it('render blockquote elem', () => {
     expect(renderBlockQuoteConf.type).toBe('blockquote')
 
-    const elem = { type: 'blockquote' }
+    const elem = { type: 'blockquote', children: [] }
     const vnode = renderBlockQuoteConf.renderElem(elem, null, editor)
     expect(vnode.sel).toBe('blockquote')
   })

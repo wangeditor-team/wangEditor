@@ -244,7 +244,7 @@ describe('editor content API', () => {
 
       const links = editor.getElemsByType('link')
       expect(links.length).toBe(1)
-      expect(links[0].url).toBe('https://www.baidu.com/')
+      expect((links[0] as any).url).toBe('https://www.baidu.com/')
     })
 
     test('dangerouslyInsertHtml should insert html string with ul element to editor', () => {

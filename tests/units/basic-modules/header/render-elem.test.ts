@@ -18,7 +18,7 @@ describe('render header elem', () => {
   it('render h1', () => {
     expect(renderHeader1Conf.type).toBe('header1')
 
-    const elem = { type: 'header1' }
+    const elem = { type: 'header1', children: [] }
     const vnode = renderHeader1Conf.renderElem(elem, null, editor)
     expect(vnode.sel).toBe('h1')
   })
@@ -26,7 +26,7 @@ describe('render header elem', () => {
   it('render h2', () => {
     expect(renderHeader2Conf.type).toBe('header2')
 
-    const elem = { type: 'header2' }
+    const elem = { type: 'header2', children: [] }
     const vnode = renderHeader2Conf.renderElem(elem, null, editor)
     expect(vnode.sel).toBe('h2')
   })
@@ -34,7 +34,7 @@ describe('render header elem', () => {
   it('render h3', () => {
     expect(renderHeader3Conf.type).toBe('header3')
 
-    const elem = { type: 'header3' }
+    const elem = { type: 'header3', children: [] }
     const vnode = renderHeader3Conf.renderElem(elem, null, editor)
     expect(vnode.sel).toBe('h3')
   })
@@ -42,7 +42,7 @@ describe('render header elem', () => {
   it('render h4', () => {
     expect(renderHeader4Conf.type).toBe('header4')
 
-    const elem = { type: 'header4' }
+    const elem = { type: 'header4', children: [] }
     const vnode = renderHeader4Conf.renderElem(elem, null, editor)
     expect(vnode.sel).toBe('h4')
   })
@@ -50,7 +50,7 @@ describe('render header elem', () => {
   it('render h5', () => {
     expect(renderHeader5Conf.type).toBe('header5')
 
-    const elem = { type: 'header5' }
+    const elem = { type: 'header5', children: [] }
     const vnode = renderHeader5Conf.renderElem(elem, null, editor)
     expect(vnode.sel).toBe('h5')
   })

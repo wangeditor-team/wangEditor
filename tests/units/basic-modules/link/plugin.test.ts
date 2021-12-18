@@ -23,7 +23,7 @@ describe('link plugin', () => {
   const startLocation = Editor.start(editor, [])
 
   it('link is inline elem', () => {
-    const elem = { type: 'link' }
+    const elem = { type: 'link', children: [] }
     expect(editor.isInline(elem)).toBeTruthy()
   })
 
@@ -40,7 +40,7 @@ describe('link plugin', () => {
     setTimeout(() => {
       const links = editor.getElemsByTypePrefix('link')
       expect(links.length).toBe(1)
-      const linkElem = links[0]
+      const linkElem = links[0] as any
       expect(linkElem.url).toBe(url)
       done()
     })
