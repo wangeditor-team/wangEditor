@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms } from 'slate'
+import { Editor, Transforms, Element } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
 import CodeBlockMenu from '../../../../packages/basic-modules/src/modules/code-block/menu/CodeBlockMenu'
 
@@ -53,7 +53,7 @@ describe('code-block menu', () => {
     editor.select(startLocation)
     expect(menu.isDisabled(editor)).toBeFalsy()
 
-    Transforms.setNodes(editor, { type: 'header1' })
+    Transforms.setNodes(editor, { type: 'header1' } as Partial<Element>)
     expect(menu.isDisabled(editor)).toBeTruthy() // 非 p pre ，则禁用
 
     editor.insertNode({ type: 'pre', children: [{ type: 'code', children: [{ text: 'var' }] }] })

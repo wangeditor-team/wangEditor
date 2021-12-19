@@ -26,5 +26,5 @@
     "build",
     "__tests__"
   ],
-  "include": ["./tests/setup/index.ts"]
+  "include": ["./tests/setup/index.ts", "./packages/custom-types.d.ts"]
 }

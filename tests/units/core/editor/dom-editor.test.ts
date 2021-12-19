@@ -56,7 +56,7 @@ describe('Core DomEditor', () => {
       },
     })
 
-    const [node1, node2] = editor.children[0].children
+    const [node1, node2] = (editor.children[0] as any).children
     const keyId1 = DomEditor.findKey(editor, node1).id
     const keyId2 = DomEditor.findKey(editor, node2).id
 

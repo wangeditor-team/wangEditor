@@ -3,10 +3,9 @@
  * @author wangfupeng
  */
 
-import { Editor, Node, Transforms } from 'slate'
+import { Editor, Node, Transforms, Element } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { checkList } from '../helper'
-// import { ListItemElement, NumberedListElement, BulletedListElement } from '../custom-types'
 
 abstract class BaseMenu implements IButtonMenu {
   abstract readonly type: string // 'bulleted-list' / 'numbered-list'
@@ -32,10 +31,10 @@ abstract class BaseMenu implements IButtonMenu {
     if (editor.selection == null) return true
 
     const selectedElems = DomEditor.getSelectedElems(editor)
-    const notMatch = selectedElems.some((elem: Node) => {
+    const notMatch = selectedElems.some((elem: Element) => {
       if (Editor.isVoid(editor, elem) && Editor.isBlock(editor, elem)) return true
 
-      const { type } = elem
+      const { type } = elem as Element
       if (['pre', 'code', 'table'].includes(type)) return true
     })
     if (notMatch) return true

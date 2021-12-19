@@ -15,7 +15,7 @@ describe('code-block render elem', () => {
   it('render code elem', () => {
     expect(renderCodeConf.type).toBe('code')
 
-    const elem = { type: 'code' }
+    const elem = { type: 'code', children: [] }
     const vnode = renderCodeConf.renderElem(elem, null, editor)
     expect(vnode.sel).toBe('code')
   })
@@ -23,7 +23,7 @@ describe('code-block render elem', () => {
   it('render pre elem', () => {
     expect(renderPreConf.type).toBe('pre')
 
-    const elem = { type: 'pre' }
+    const elem = { type: 'pre', children: [] }
     const vnode = renderPreConf.renderElem(elem, null, editor)
     expect(vnode.sel).toBe('pre')
   })

@@ -7,7 +7,7 @@ import { Editor, Transforms, Node as SlateNode, Element as SlateElement } from '
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { checkList } from './helper'
 
-const EMPTY_P = { type: 'paragraph', children: [{ text: '' }] }
+const EMPTY_P: SlateElement = { type: 'paragraph', children: [{ text: '' }] }
 
 function deleteHandler(newEditor: IDomEditor): boolean {
   const [nodeEntry] = Editor.nodes(newEditor, {

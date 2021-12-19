@@ -62,7 +62,7 @@ describe('module plugin', () => {
 
     const newEditor = withList(editor)
     const fn = function* a() {
-      yield [null] as unknown as slate.NodeEntry<unknown>
+      yield [null] as unknown as slate.NodeEntry<slate.Element>
     }
     jest.spyOn(slate.Editor, 'nodes').mockReturnValue(fn())
 
@@ -81,10 +81,10 @@ describe('module plugin', () => {
       yield [
         {
           type: 'paragraph',
-          children: {},
-        },
+          children: [],
+        } as slate.Element,
         [0, 1],
-      ] as slate.NodeEntry<unknown>
+      ] as slate.NodeEntry<slate.Element>
     }
     jest.spyOn(slate.Editor, 'nodes').mockReturnValue(fn())
 
@@ -104,9 +104,9 @@ describe('module plugin', () => {
         {
           type: 'paragraph',
           children: [{ text: '' }],
-        },
+        } as slate.Element,
         [0, 1],
-      ] as slate.NodeEntry<unknown>
+      ] as slate.NodeEntry<slate.Element>
     }
     jest.spyOn(slate.Editor, 'nodes').mockReturnValue(fn())
 
@@ -124,9 +124,9 @@ describe('module plugin', () => {
         {
           type: 'bulleted-list',
           children: [{ text: '' }],
-        },
+        } as slate.Element,
         [0, 1],
-      ] as slate.NodeEntry<unknown>
+      ] as slate.NodeEntry<slate.Element>
     }
     jest.spyOn(slate.Editor, 'nodes').mockReturnValue(fn())
     const mock = jest.spyOn(slate.Transforms, 'setNodes')

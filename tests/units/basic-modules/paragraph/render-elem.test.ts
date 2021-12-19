@@ -12,7 +12,7 @@ describe('paragraph - render elem', () => {
   it('render paragraph', () => {
     expect(renderParagraphConf.type).toBe('paragraph')
 
-    const elem = { type: 'paragraph' }
+    const elem = { type: 'paragraph', children: [] }
     const vnode = renderParagraphConf.renderElem(elem, null, editor)
     expect(vnode.sel).toBe('p')
   })

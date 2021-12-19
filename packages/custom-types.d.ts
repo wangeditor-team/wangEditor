@@ -2,8 +2,6 @@
  * @description 自定义扩展 slate 接口属性
  * @author wangfupeng
  */
-
-import { Descendant } from 'slate'
 import { StyledText } from './basic-modules/src/modules/text-style/custom-types'
 import { ColorText } from './basic-modules/src/modules/color/custom-types'
 import { FontSizeAndFamilyText } from './basic-modules/src/modules/font-size-family/custom-types'
@@ -39,9 +37,11 @@ type PureText = {
   text: string
 }
 
+type CustomText = PureText | StyledText | FontSizeAndFamilyText | ColorText
+
 type BaseElement = {
   type: string
-  children: Descendant[]
+  children: Array<CustomElement | CustomText>
 }
 
 type CustomElement =
@@ -72,7 +72,7 @@ type CustomElement =
 declare module 'slate' {
   interface CustomTypes {
     // 扩展 Text
-    Text: PureText | StyledText | FontSizeAndFamilyText | ColorText
+    Text: CustomText
 
     // 扩展 Element
     Element: CustomElement

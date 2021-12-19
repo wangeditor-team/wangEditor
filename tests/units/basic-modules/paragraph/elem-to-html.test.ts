@@ -10,7 +10,7 @@ describe('paragraph - elem to html', () => {
   it('paragraph to html', () => {
     expect(pToHtmlConf.type).toBe('paragraph')
 
-    const elem = { type: 'paragraph' }
+    const elem = { type: 'paragraph', children: [] }
     const html = pToHtmlConf.elemToHtml(elem, 'hello')
     expect(html).toBe('<p>hello</p>')
   })
