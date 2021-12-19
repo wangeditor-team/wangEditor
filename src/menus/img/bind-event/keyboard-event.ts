@@ -51,5 +51,13 @@ export default function bindEventKeyboardEvent(editor: Editor) {
             lastChildNodeInPrevNode =
                 lastChildNodeInPrevNode.childNodes[lastChildNodeInPrevNode.childNodes.length - 1]
         }
+
+        if (
+            lastChildNodeInPrevNode instanceof HTMLElement &&
+            lastChildNodeInPrevNode.tagName === 'IMG'
+        ) {
+            lastChildNodeInPrevNode.remove()
+            e.preventDefault()
+        }
     })
 }
