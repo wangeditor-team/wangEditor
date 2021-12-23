@@ -43,8 +43,16 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
      */
     function insertLink(text: string, link: string): void {
         // fix: 修复列表下无法设置超链接的问题(替换选中文字中的标签)
-        const subStr = new RegExp(/(<\/*ul>)|(<\/*li>)|(<\/*ol>)/g)
-        text = text.replace(subStr, '')
+
+        // const TagRegExp = new RegExp(/(<\/?ul>)|(<\/?li>)|(<\/?ol>)/g)
+
+        // const resultText = text.replace(TagRegExp, '')
+
+        /**
+         * fix: 插入链接后再修改链接地址问题，会导致页面链接有问题
+         *
+         * 同上，列表无法插入链接的原因，是因为在insertLink, 处理text时有问题。
+         */
         if (isActive(editor)) {
             // 选区处于链接中，则选中整个菜单，再执行 insertHTML
             selectLinkElem()
@@ -142,20 +150,23 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                             let text = $text.val().trim()
 
                             let html: string = ''
-                            if (selection && !selection?.isCollapsed)
+
+                            if (selection && !selection?.isCollapsed) {
                                 html = insertHtml(selection, topNode)?.trim()
+                            }
 
                             // 去除html的tag标签
-                            let htmlText = html?.replace(/<.*?>/g, '')
-                            let htmlTextLen = htmlText?.length ?? 0
+                            const htmlText = html?.replace(/<.*?>/g, '')
+                            const htmlTextLen = htmlText?.length ?? 0
+
                             // 当input中的text的长度大于等于选区的文字时
                             // 需要判断两者相同的长度的text内容是否相同
                             // 相同则只需把多余的部分添加上去即可，否则使用input中的内容
                             if (htmlTextLen <= text.length) {
-                                let startText = text.substring(0, htmlTextLen)
-                                let endText = text.substring(htmlTextLen)
+                                const startText = text.substring(0, htmlTextLen)
+                                const endText = text.substring(htmlTextLen)
                                 if (htmlText === startText) {
-                                    text = html + endText
+                                    text = htmlText + endText
                                 }
                             }
                             // 链接为空，则不插入
