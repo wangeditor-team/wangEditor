@@ -4,13 +4,20 @@
  */
 
 import Editor from '../../editor/index'
-import { PanelConf, PanelTabConf } from '../menu-constructors/Panel'
+import { PanelConf, PanelTabConf, TabEventConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
-import $ from '../../utils/dom-core'
+import $, { DomElement } from '../../utils/dom-core'
 import UploadVideo from './upload-video'
 import { EMPTY_P } from '../../utils/const'
 
-export default function (editor: Editor, video: string): PanelConf {
+export type VideoPanelConf = {
+    onlyUploadConf?: {
+        $elem: DomElement
+        events: TabEventConf[]
+    }
+} & PanelConf
+
+export default function (editor: Editor): VideoPanelConf {
     const config = editor.config
     const uploadVideo = new UploadVideo(editor)
 
@@ -48,59 +55,72 @@ export default function (editor: Editor, video: string): PanelConf {
         return false
     }
 
+    /**
+     * 设置模板的类名和icon图标
+     * w-e-menu是作为button菜单的模板
+     * w-e-up-img-container是做为panel菜单的窗口内容的模板
+     * @param containerClass 模板最外层的类名
+     * @param iconClass 模板中icon的类名
+     * @param titleName 模板中标题的名称 需要则设置不需要则设为空字符
+     */
+    const getUploadVideoTpl = (containerClass: string, iconClass: string, titleName: string) =>
+        `<div class="${containerClass}" data-title="${titleName}">
+            <div id="${btnStartId}" class="w-e-up-btn">
+                <i class="${iconClass}"></i>
+            </div>
+            <div style="display:none;">
+                <input id="${inputUploadId}" type="file" accept="video/*"/>
+            </div>
+        </div>`
+
+    const uploadEvents = [
+        // 触发选择视频
+        {
+            selector: '#' + btnStartId,
+            type: 'click',
+            fn: () => {
+                const $file = $('#' + inputUploadId)
+                const fileElem = $file.elems[0]
+                if (fileElem) {
+                    fileElem.click()
+                } else {
+                    // 返回 true 可关闭 panel
+                    return true
+                }
+            },
+        },
+        // 选择视频完毕
+        {
+            selector: '#' + inputUploadId,
+            type: 'change',
+            fn: () => {
+                const $file = $('#' + inputUploadId)
+                const fileElem = $file.elems[0]
+                if (!fileElem) {
+                    // 返回 true 可关闭 panel
+                    return true
+                }
+
+                // 获取选中的 file 对象列表
+                const fileList = (fileElem as any).files
+                if (fileList.length) {
+                    uploadVideo.uploadVideo(fileList)
+                }
+
+                // 返回 true 可关闭 panel
+                return true
+            },
+        },
+    ]
+
     // tabs配置
     // const fileMultipleAttr = config.uploadVideoMaxLength === 1 ? '' : 'multiple="multiple"'
     const tabsConf: PanelTabConf[] = [
         {
             // tab 的标题
             title: editor.i18next.t('menus.panelMenus.video.上传视频'),
-            tpl: `<div class="w-e-up-video-container">
-                    <div id="${btnStartId}" class="w-e-up-btn">
-                        <i class="w-e-icon-upload2"></i>
-                    </div>
-                    <div style="display:none;">
-                        <input id="${inputUploadId}" type="file" accept="video/*"/>
-                    </div>
-                 </div>`,
-            events: [
-                // 触发选择视频
-                {
-                    selector: '#' + btnStartId,
-                    type: 'click',
-                    fn: () => {
-                        const $file = $('#' + inputUploadId)
-                        const fileElem = $file.elems[0]
-                        if (fileElem) {
-                            fileElem.click()
-                        } else {
-                            // 返回 true 可关闭 panel
-                            return true
-                        }
-                    },
-                },
-                // 选择视频完毕
-                {
-                    selector: '#' + inputUploadId,
-                    type: 'change',
-                    fn: () => {
-                        const $file = $('#' + inputUploadId)
-                        const fileElem = $file.elems[0]
-                        if (!fileElem) {
-                            // 返回 true 可关闭 panel
-                            return true
-                        }
-
-                        // 获取选中的 file 对象列表
-                        const fileList = (fileElem as any).files
-                        if (fileList.length) {
-                            uploadVideo.uploadVideo(fileList)
-                        }
-
-                        // 返回 true 可关闭 panel
-                        return true
-                    },
-                },
-            ],
+            tpl: getUploadVideoTpl('w-e-up-video-container', 'w-e-icon-upload2', ''),
+            events: uploadEvents
         },
         {
             // tab 的标题
@@ -146,12 +166,16 @@ export default function (editor: Editor, video: string): PanelConf {
         }, // tab end
     ]
 
-    const conf: PanelConf = {
+    const conf: VideoPanelConf = {
         width: 300,
         height: 0,
 
         // panel 中可包含多个 tab
         tabs: [], // tabs end
+        onlyUploadConf: {
+            $elem: $(getUploadVideoTpl('w-e-menu', 'w-e-icon-play', '视频')),
+            events: uploadEvents,
+        },
     }
 
     // 显示“上传视频”
@@ -161,6 +185,7 @@ export default function (editor: Editor, video: string): PanelConf {
     // 显示“插入视频”
     if (config.showLinkVideo) {
         conf.tabs.push(tabsConf[1])
+        conf.onlyUploadConf = undefined
     }
 
     return conf
