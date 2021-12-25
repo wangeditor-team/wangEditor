@@ -343,9 +343,7 @@ class Text {
         // 键盘 down 时的 hooks
         $textElem.on('keydown', (e: KeyboardEvent) => {
             const keydownEvents = eventHooks.keydownEvents
-            setTimeout(() => {
-                keydownEvents.forEach(fn => fn(e))
-            })
+            keydownEvents.forEach(fn => fn(e))
         })
 
         // delete 键 up 时 hooks
