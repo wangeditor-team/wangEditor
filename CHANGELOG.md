@@ -1,3 +1,14 @@
+## [4.7.11](https://github.com/wangeditor-team/wangEditor/compare/v4.7.10...v4.7.11) (2021-12-25)
+
+
+### Bug Fixes
+
+* 插入链接后再修改的问题 ([fcaef96](https://github.com/wangeditor-team/wangEditor/commit/fcaef96983e764d0014238d498531344526c3345))
+* 删除文字的时候前一张图片不会被删除 ([7c63218](https://github.com/wangeditor-team/wangEditor/commit/7c63218812604c8791f8ab06b656fa197779d2a6))
+* 删除文字的时候前一张图片不会被删除 ([bac1b1e](https://github.com/wangeditor-team/wangEditor/commit/bac1b1ea2b597d3c7240506258703eb1792ec2c9))
+* 修复选中段落设置行高，最后一行的内容会被重复添加的问题 ([46e49a9](https://github.com/wangeditor-team/wangEditor/commit/46e49a92e84f5dc29a67386f5b3d41dad29b41a5))
+* delete text will delete img too ([2d060d5](https://github.com/wangeditor-team/wangEditor/commit/2d060d5fb16ee1edf281383acf99299c0971f47c))
+
 ## [4.7.10](https://github.com/wangeditor-team/wangEditor/compare/v4.7.9...v4.7.10) (2021-12-01)
 
 
