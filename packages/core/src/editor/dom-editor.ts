@@ -707,6 +707,19 @@ export const DomEditor = {
 
   // 清理暴露的 text 节点（拼音输入时经常出现）
   cleanExposedTexNodeInSelectionBlock(editor: IDomEditor) {
+    // 有时候全选删除新增的文本节点可能不在段落内，因此遍历textArea删除掉
+    const { $textArea } = DomEditor.getTextarea(editor)
+    const childNodes = $textArea?.[0].childNodes
+    if (childNodes) {
+      for (const node of Array.from(childNodes)) {
+        if (node.nodeType === 3) {
+          node.remove()
+        } else {
+          break
+        }
+      }
+    }
+
     const nodeEntries = Editor.nodes(editor, {
       match: n => {
         if (Element.isElement(n)) {
