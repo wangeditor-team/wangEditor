@@ -4,66 +4,120 @@
  */
 
 import { createEditor, createToolbar } from '../../../packages/editor/src/index'
+import { ICreateEditorOption, ICreateToolbarOption } from '../../../packages/editor/src/create'
 
-describe('create', () => {
-  it('create editor and toolbar - default mode', () => {
-    const editorContainer = document.createElement('div')
-    document.body.appendChild(editorContainer)
+function customCreateEditor(config: Partial<ICreateEditorOption> = {}) {
+  const editorContainer = document.createElement('div')
+  document.body.appendChild(editorContainer)
 
-    // create editor
-    const editor = createEditor({
-      selector: editorContainer,
+  // create editor
+  const editor = createEditor({
+    selector: editorContainer,
+    ...config,
+  })
+
+  return editor
+}
+
+function customCreateToolbar(config: Partial<ICreateToolbarOption> = {}) {
+  const toolbarContainer = document.createElement('div')
+  document.body.appendChild(toolbarContainer)
+
+  // create editor
+  const editor = customCreateEditor()
+
+  // create toolbar
+  const toolbar = createToolbar({
+    editor,
+    selector: toolbarContainer,
+    ...config,
+  })
+
+  return toolbar
+}
+
+describe('create editor and toolbar', () => {
+  test('create editor with default mode', () => {
+    const editor = customCreateEditor()
+
+    expect(editor.id).not.toBeNull()
+  })
+
+  test('create editor with default mode that has text hoverbar', () => {
+    const editor = customCreateEditor()
+    const config = editor.getConfig()
+
+    expect(config.hoverbarKeys!.text).not.toBeNull()
+  })
+
+  test('create editor with simple mode', () => {
+    const editor = customCreateEditor({
+      mode: 'simple',
     })
     expect(editor.id).not.toBeNull()
+  })
 
-    const toolbarContainer = document.createElement('div')
-    document.body.appendChild(toolbarContainer)
-
-    // create toolbar
-    const toolbar = createToolbar({
-      editor,
-      selector: toolbarContainer,
+  test('create editor with simple mode that does not has text hoverbar', () => {
+    const editor = customCreateEditor({
+      mode: 'simple',
     })
-    expect(toolbar.$box).not.toBeNull()
+    const config = editor.getConfig()
 
-    // 重新创建，应该报错
+    expect(config.hoverbarKeys!.text).toBeUndefined()
+  })
+
+  test('create editor can not be called twice with same container', () => {
+    const editorContainer = document.createElement('div')
+    document.body.appendChild(editorContainer)
+    // create editor
+    customCreateEditor({
+      selector: editorContainer,
+    })
+
     try {
-      createEditor({
+      customCreateEditor({
         selector: editorContainer,
       })
     } catch (ex) {
-      expect(ex).not.toBeNull()
-    }
-    try {
-      createToolbar({
-        editor,
-        selector: toolbarContainer,
-      })
-    } catch (ex) {
-      expect(ex).not.toBeNull()
+      expect(ex.message.indexOf('Repeated create editor by selector')).not.toBe(-1)
     }
   })
 
-  it('create editor and toolbar - simple mode', () => {
-    const editorContainer = document.createElement('div')
-    document.body.appendChild(editorContainer)
+  test('create toolbar with default mode', () => {
+    const toolbar = customCreateToolbar()
+    expect(toolbar.$box).not.toBeNull()
+  })
 
-    // create editor
-    const editor = createEditor({
-      selector: editorContainer,
-      mode: 'simple',
-    })
-    expect(editor.id).not.toBeNull()
-
-    const toolbarContainer = document.createElement('div')
-    document.body.appendChild(toolbarContainer)
-
-    // create toolbar
-    const toolbar = createToolbar({
-      editor,
-      selector: toolbarContainer,
+  test('create toolbar with simple mode', () => {
+    const toolbar = customCreateToolbar({
       mode: 'simple',
     })
     expect(toolbar.$box).not.toBeNull()
+  })
+
+  test('create toolbar with simple mode that the config hoverbarKeys is different from default mode', () => {
+    const simpleToolbar = customCreateToolbar({
+      mode: 'simple',
+    })
+    const defaultToolbar = customCreateToolbar()
+    expect(simpleToolbar.getConfig().toolbarKeys).not.toEqual(
+      defaultToolbar.getConfig().toolbarKeys
+    )
+  })
+
+  test('create toolbar can not be called twice with same container', () => {
+    const toolbarContainer = document.createElement('div')
+    document.body.appendChild(toolbarContainer)
+
+    customCreateToolbar({
+      selector: toolbarContainer,
+    })
+    try {
+      customCreateToolbar({
+        selector: toolbarContainer,
+      })
+    } catch (ex) {
+      expect(ex.message.indexOf('Repeated create toolbar by selector')).not.toBe(-1)
+    }
   })
 })

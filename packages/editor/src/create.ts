@@ -15,14 +15,14 @@ import {
   Toolbar,
 } from '@wangeditor/core'
 
-interface ICreateEditorOption {
+export interface ICreateEditorOption {
   selector: string | DOMElement
   config: Partial<IEditorConfig>
   content: Descendant[]
   mode: string
 }
 
-interface ICreateToolbarOption {
+export interface ICreateToolbarOption {
   editor: IDomEditor | null
   selector: string | DOMElement
   config?: Partial<IToolbarConfig>
