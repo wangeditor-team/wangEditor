@@ -11,30 +11,53 @@ describe('editor config', () => {
     return Editor.start(editor, [])
   }
 
-  it('readOnly', () => {
+  it('if set placeholder option, it will show placeholder element when editor content is empty', () => {
+    const container = document.createElement('div')
+    createEditor({
+      selector: container,
+      config: {
+        placeholder: 'editor placeholder',
+      },
+    })
+    const el = container.querySelector('.w-e-text-placeholder')
+    expect(el!.textContent).toBe('editor placeholder')
+  })
+
+  it('if set placeholder option, it will hide placeholder element when editor content is not empty', () => {
+    const container = document.createElement('div')
+    createEditor({
+      selector: container,
+      config: {
+        placeholder: 'editor placeholder',
+      },
+      content: [{ type: 'paragraph', children: [{ text: '123' }] }],
+    })
+    const el = container.querySelector('.w-e-text-placeholder')
+    expect(el).toBeNull()
+  })
+
+  it('if set readOnly option, isDisabled return true', () => {
     const editor = createEditor({
       config: {
         readOnly: true,
       },
     })
     expect(editor.isDisabled()).toBeTruthy()
+  })
+
+  it('if set readOnly option, can not insert text to editor', () => {
+    const editor = createEditor({
+      config: {
+        readOnly: true,
+      },
+    })
 
     editor.select(getStartLocation(editor))
     editor.insertText('xxx') // readOnly 时无法插入文本
     expect(editor.getText()).toBe('')
   })
 
-  it('autoFocus', () => {
-    createEditor({
-      config: {
-        autoFocus: false,
-      },
-    })
-    // @ts-ignore
-    expect(document.activeElement.tagName).toBe('BODY')
-  })
-
-  it('maxLength', done => {
+  it('if set maxLength option, the editor can not update content when text length is equal to maxLength', done => {
     const editor = createEditor({
       config: {
         maxLength: 10,
@@ -54,67 +77,73 @@ describe('editor config', () => {
     expect(editor.getText()).toBe('1234567890')
   })
 
-  it('onCreated', done => {
+  it('if set onCreated option, it will be called when created editor', done => {
+    const fn = jest.fn()
+
     createEditor({
       config: {
-        onCreated: () => {
-          done() // 触发回调，才能完成该测试
-        },
+        onCreated: fn,
       },
     })
-  })
 
-  it('onChange', done => {
-    const editor = createEditor({
-      config: {
-        onChange: () => {
-          done() // 触发回调，才能完成该测试
-        },
-      },
-    })
     setTimeout(() => {
-      editor.select(getStartLocation(editor)) // 选区变化，触发 onchange
+      expect(fn).toHaveBeenCalled()
+      done()
     })
   })
 
-  it('onDestroyed', done => {
+  it('if set onChange option, it will be called when change editor selection', done => {
+    const fn = jest.fn()
+
     const editor = createEditor({
       config: {
-        onDestroyed: () => {
-          done() // 触发回调，才能完成该测试
-        },
+        onChange: fn,
       },
     })
+
+    editor.select(getStartLocation(editor)) // 选区变化，触发 onchange
+    setTimeout(() => {
+      expect(fn).toHaveBeenCalledWith(editor)
+      done()
+    })
+  })
+
+  it('if set onChange option, it will be called when change editor content', done => {
+    const fn = jest.fn()
+
+    const editor = createEditor({
+      config: {
+        onChange: fn,
+      },
+    })
+
+    editor.select(getStartLocation(editor))
+
+    // 避免选区干扰
+    setTimeout(() => {
+      editor.insertText('123')
+    }, 50)
+    setTimeout(() => {
+      expect(fn).toHaveBeenCalledTimes(2)
+      done()
+    }, 80)
+  })
+
+  it('if set onDestroyed option, it will be called when destroy editor', done => {
+    const fn = jest.fn()
+    const editor = createEditor({
+      config: {
+        onDestroyed: fn,
+      },
+    })
+
     setTimeout(() => {
       editor.destroy()
     })
+
+    setTimeout(() => {
+      expect(fn).toHaveBeenCalledWith(editor)
+      done()
+    }, 20)
   })
-
-  // it('onFocus', done => {
-  //   const editor = createEditor({
-  //     config: {
-  //       autoFocus: false,
-  //       onFocus: () => {
-  //         done() // 触发回调，才能完成该测试
-  //       },
-  //     },
-  //   })
-  //   setTimeout(() => {
-  //     editor.focus()
-  //   }, 500)
-  // })
-
-  // it('onBlur', done => {
-  //   const editor = createEditor({
-  //     config: {
-  //       onBlur: () => {
-  //         done() // 触发回调，才能完成该测试
-  //       },
-  //     },
-  //   })
-  //   setTimeout(() => {
-  //     console.log(111, document.activeElement)
-  //     editor.blur()
-  //   })
-  // })
 })

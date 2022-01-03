@@ -49,4 +49,19 @@ describe('toolbar config', () => {
     const { excludeKeys = [] } = toolbar.getConfig()
     expect(excludeKeys).toEqual(keys)
   })
+
+  it('if set insertKeys, it will insert key to specify position', done => {
+    const keys = ['headerSelect', 'italic']
+    const toolbar = createToolbar(editor, {
+      insertKeys: {
+        index: 8,
+        keys,
+      },
+    })
+    setTimeout(() => {
+      const { toolbarKeys = [] } = toolbar.getConfig()
+      expect(toolbarKeys.slice(8, 8 + keys.length)).toEqual(keys)
+      done()
+    })
+  })
 })
