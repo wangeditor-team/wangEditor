@@ -24,6 +24,12 @@ class SelectList extends PanelAndModal {
     if (width) {
       this.$elem.css('width', `${width}px`)
     }
+
+    this.$elem.on('mousedown', (e: Event) => {
+      // selectList 如有滚动条，可能会点击拖拽，参考 https://github.com/wangeditor-team/wangEditor-v5/issues/325
+      // 此时需要阻止冒泡，因为在 $container.on('mousedown', () => editor.hidePanelOrModal()) ，$container 就是 `.w-e-text-container`
+      e.stopPropagation()
+    })
   }
 
   /**
