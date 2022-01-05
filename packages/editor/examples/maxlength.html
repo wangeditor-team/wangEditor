@@ -38,9 +38,9 @@
     const editorConfig = { MENU_CONF: {} }
     editorConfig.placeholder = '请输入内容'
 
-    editorConfig.maxLength = 140 // 慎用，可能影响性能，需在文档中说明
+    editorConfig.maxLength = 100 // 慎用，可能影响性能，需在文档中说明
     editorConfig.onMaxLength = (editor) => {
-      console.log('on max length', editor)
+      console.log('onMaxLength')
     }
 
     editorConfig.onChange = (editor) => {
@@ -57,7 +57,7 @@
 
     const editor = E.createEditor({
       selector: '#editor-text-area',
-      content: window.content1,
+      // content: window.content1,
       config: editorConfig
     })
     const toolbar = E.createToolbar({

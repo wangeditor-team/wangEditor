@@ -11,6 +11,7 @@ import { withContent } from '../editor/plugins/with-content'
 import { withEventData } from '../editor/plugins/with-event-data'
 import { withEmitter } from '../editor/plugins/with-emitter'
 import { withSelection } from '../editor/plugins/with-selection'
+import { withMaxLength } from '../editor/plugins/with-max-length'
 import TextArea from '../text-area/TextArea'
 import HoverBar from '../menus/bar/HoverBar'
 import { genEditorConfig } from '../config/index'
@@ -46,7 +47,9 @@ export default function (option: Partial<ICreateOption>) {
 
   // 创建实例 - 使用插件
   let editor = withHistory(
-    withEmitter(withSelection(withContent(withConfig(withDOM(withEventData(createEditor()))))))
+    withMaxLength(
+      withEmitter(withSelection(withContent(withConfig(withDOM(withEventData(createEditor()))))))
+    )
   )
   if (selector) {
     // 检查是否对同一个 DOM 重复创建
@@ -60,7 +63,7 @@ export default function (option: Partial<ICreateOption>) {
   EDITOR_TO_CONFIG.set(editor, editorConfig)
   const { hoverbarKeys = {} } = editorConfig
 
-  // editor plugins
+  // 注册第三方插件
   plugins.forEach(plugin => {
     editor = plugin(editor)
   })

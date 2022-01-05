@@ -145,17 +145,8 @@ export const withDOM = <T extends Editor>(editor: T) => {
     if (progress < 1) return
 
     // 显示进度条
-    const { $progressBar } = DomEditor.getTextarea(e)
-    $progressBar.css('width', `${progress}%`)
-
-    // 进度 100% 之后，定时隐藏
-    if (progress >= 100) {
-      setTimeout(() => {
-        $progressBar.hide()
-        $progressBar.css('width', '0')
-        $progressBar.show()
-      }, 1000)
-    }
+    const textarea = DomEditor.getTextarea(e)
+    textarea.changeProgress(progress)
   }
 
   // 隐藏 panel 或 modal

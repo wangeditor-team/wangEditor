@@ -114,9 +114,6 @@ export const withEventData = <T extends Editor>(editor: T) => {
     // const rtf = data.getData('text/rtf')
 
     if (html) {
-      if (DomEditor.checkMaxLength(e)) {
-        return
-      }
       e.dangerouslyInsertHtml(html)
       return
     }
@@ -126,11 +123,6 @@ export const withEventData = <T extends Editor>(editor: T) => {
       let split = false
 
       for (const line of lines) {
-        // 检查 maxLength - 继续插入 line ，是否会立即超出 maxLength ？得提前做判断
-        if (DomEditor.checkMaxLength(e, line)) {
-          return
-        }
-
         if (split) {
           Transforms.splitNodes(e, { always: true })
         }
@@ -140,16 +132,6 @@ export const withEventData = <T extends Editor>(editor: T) => {
       }
       return
     }
-  }
-
-  e.insertFragment = (nodes: Node[]) => {
-    // 检查 maxLength
-    const str = DomEditor.getNodesStr(nodes)
-    if (DomEditor.checkMaxLength(e, str)) {
-      return
-    }
-
-    insertFragment(nodes)
   }
 
   return e

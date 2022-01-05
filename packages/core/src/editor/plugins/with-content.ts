@@ -124,19 +124,6 @@ export const withContent = <T extends Editor>(editor: T) => {
     onChange()
   }
 
-  e.insertText = (s: string) => {
-    // 若触发 maxLength ，则不继续插入
-    //【注意1】拼音的 maxLength 限制，不在这里，在 compositionStart 和 compositionEnd 里处理
-    //【注意2】粘贴的 maxLength 限制，在 insertData 和 insertFragment
-    const res = DomEditor.checkMaxLength(e)
-    if (res) {
-      return
-    }
-
-    // 执行默认的 insertText
-    insertText(s)
-  }
-
   // tab
   e.handleTab = () => {
     e.insertText('    ')
@@ -288,10 +275,7 @@ export const withContent = <T extends Editor>(editor: T) => {
       if (nodeType !== NodeType.ELEMENT_NODE && nodeType !== NodeType.TEXT_NODE) return
 
       let text = child.textContent || ''
-      text = text.replace(/\s/gm, '') // 去掉空格，换行符号
-      if (DomEditor.checkMaxLength(e, text)) {
-        return
-      }
+      text = text.replace(/\r|\n|(\r\n)/g, '').trim() // 去掉换行，前后空格
 
       if (nodeType === NodeType.ELEMENT_NODE) {
         // DOM Element
