@@ -11,7 +11,7 @@ export function textToHtml(textNode: Text, textHtml: string): string {
 
   // color bgColor 在另外的菜单
 
-  let res = textHtml
+  let res = textHtml || '<br>'
 
   if (bold) res = `<strong>${res}</strong>`
   if (code) res = `<code>${res}</code>`
