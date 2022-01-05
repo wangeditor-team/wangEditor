@@ -237,7 +237,10 @@ export const withContent = <T extends Editor>(editor: T) => {
       },
       mode: 'highest',
     })
-    Transforms.insertNodes(e, initialEditorValue)
+
+    if (e.children.length === 0) {
+      Transforms.insertNodes(e, initialEditorValue)
+    }
   }
 
   e.getParentNode = (node: Node) => {
