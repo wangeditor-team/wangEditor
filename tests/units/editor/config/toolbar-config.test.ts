@@ -50,18 +50,20 @@ describe('toolbar config', () => {
     expect(excludeKeys).toEqual(keys)
   })
 
-  it('if set insertKeys, it will insert key to specify position', done => {
-    const keys = ['headerSelect', 'italic']
-    const toolbar = createToolbar(editor, {
-      insertKeys: {
-        index: 8,
-        keys,
-      },
-    })
-    setTimeout(() => {
-      const { toolbarKeys = [] } = toolbar.getConfig()
-      expect(toolbarKeys.slice(8, 8 + keys.length)).toEqual(keys)
-      done()
-    })
-  })
+  // // 这里先注释掉 - wangfupeng 2022.01.06
+  // // 因为 insertKeys 不应该修改 toolbarKeys 的值，还因此引发了一个 bug wangEditor-v5/issues/330
+  // it('if set insertKeys, it will insert key to specify position', done => {
+  //   const keys = ['headerSelect', 'italic']
+  //   const toolbar = createToolbar(editor, {
+  //     insertKeys: {
+  //       index: 8,
+  //       keys,
+  //     },
+  //   })
+  //   setTimeout(() => {
+  //     const { toolbarKeys = [] } = toolbar.getConfig()
+  //     expect(toolbarKeys.slice(8, 8 + keys.length)).toEqual(keys)
+  //     done()
+  //   })
+  // })
 })

@@ -5,6 +5,7 @@
       "bodyparser",
       "browserslist",
       "chmod",
+      "clonedeep",
       "compositionend",
       "compositionstart",
       "config",

@@ -4,6 +4,7 @@
  */
 
 import debounce from 'lodash.debounce'
+import clonedeep from 'lodash.clonedeep'
 import $, { Dom7Array, DOMElement } from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'
 import { promiseResolveThen } from '../../utils/util'
@@ -66,18 +67,19 @@ class Toolbar {
     const { toolbarKeys = [], insertKeys = { index: 0, keys: [] }, excludeKeys = [] } = this.config // 格式如 ['a', '|', 'b', 'c', '|', 'd']
 
     // 新插入菜单
+    const toolbarKeysWithInsertedKeys = clonedeep(toolbarKeys)
     if (insertKeys.keys.length > 0) {
       if (typeof insertKeys.keys === 'string') {
         insertKeys.keys = [insertKeys.keys]
       }
 
       insertKeys.keys.forEach((k, i) => {
-        toolbarKeys.splice(insertKeys.index + i, 0, k)
+        toolbarKeysWithInsertedKeys.splice(insertKeys.index + i, 0, k)
       })
     }
 
     // 排除某些菜单
-    const filteredKeys = toolbarKeys.filter(key => {
+    const filteredKeys = toolbarKeysWithInsertedKeys.filter(key => {
       if (typeof key === 'string') {
         // 普通菜单
         if (excludeKeys.includes(key)) return false
