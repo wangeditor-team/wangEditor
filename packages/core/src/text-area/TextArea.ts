@@ -24,7 +24,8 @@ class TextArea {
   $textAreaContainer: Dom7Array
   $scroll: Dom7Array
   $textArea: Dom7Array | null = null
-  readonly $progressBar = $('<div class="w-e-progress-bar"></div>')
+  private readonly $progressBar = $('<div class="w-e-progress-bar"></div>')
+  private readonly $maxLengthInfo = $('<div class="w-e-max-length-info"></div>')
   isComposing: boolean = false
   isUpdatingSelection: boolean = false
   isDraggingInternally: boolean = false
@@ -42,6 +43,7 @@ class TextArea {
     this.$box = $box
     const $container = $(`<div class="w-e-text-container"></div>`)
     $container.append(this.$progressBar) // 进度条
+    $container.append(this.$maxLengthInfo) // max length 提示信息
     $box.append($container)
     const $scroll = $(`<div class="w-e-scroll"></div>`)
     $container.append($scroll)
@@ -74,6 +76,9 @@ class TextArea {
 
       // 监听 onfocus onblur
       this.onFocusAndOnBlur()
+
+      // 实时修改 maxLength 提示信息
+      editor.on('change', this.changeMaxLengthInfo.bind(this))
 
       // 绑定 DOM 事件
       this.bindEvent()
@@ -137,6 +142,37 @@ class TextArea {
 
       this.latestEditorSelection = editor.selection // 重新记录 selection
     })
+  }
+
+  /**
+   * 修改 maxLength 提示信息
+   */
+  private changeMaxLengthInfo() {
+    const editor = this.editorInstance
+    const { maxLength } = editor.getConfig()
+    if (maxLength) {
+      const leftLength = DomEditor.getLeftLengthOfMaxLength(editor)
+      const curLength = maxLength - leftLength
+      this.$maxLengthInfo[0].innerHTML = `${curLength}/${maxLength}`
+    }
+  }
+
+  /**
+   * 修改进度条
+   * @param progress 进度
+   */
+  changeProgress(progress: number) {
+    const $progressBar = this.$progressBar
+    $progressBar.css('width', `${progress}%`)
+
+    // 进度 100% 之后，定时隐藏
+    if (progress >= 100) {
+      setTimeout(() => {
+        $progressBar.hide()
+        $progressBar.css('width', '0')
+        $progressBar.show()
+      }, 1000)
+    }
   }
 
   /**

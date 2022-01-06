@@ -98,22 +98,24 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
   }
 
   const { data } = event
+  if (!data) return
 
-  // 检查 maxLength
-  //【注意】这里只处理拼音输入的 maxLength 限制，英文、数组的限制，在 editor.insertText 中处理
-  if (DomEditor.checkMaxLength(editor, data)) {
-    const domRange = DomEditor.toDOMRange(editor, selection)
-    domRange.startContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
-    textarea.changeViewState() // 重新定位光标
-    return
-  }
-
-  // COMPAT: In Chrome, `beforeinput` events for compositions
-  // aren't correct and never fire the "insertFromComposition"
-  // type that we need. So instead, insert whenever a composition
-  // ends since it will already have been committed to the DOM.
-
-  if (data) {
+  // 检查 maxLength -【注意】这里只处理拼音输入的 maxLength 限制。其他限制，在插件 with-max-length.ts 中处理
+  const { maxLength } = editor.getConfig()
+  if (maxLength) {
+    const leftLengthOfMaxLength = DomEditor.getLeftLengthOfMaxLength(editor)
+    if (leftLengthOfMaxLength < data.length) {
+      const domRange = DomEditor.toDOMRange(editor, selection)
+      domRange.startContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
+      if (leftLengthOfMaxLength > 0) {
+        // 剩余长度 >0 ，但小于 data 长度，截取一部分插入
+        Editor.insertText(editor, data.slice(0, leftLengthOfMaxLength))
+      }
+      textarea.changeViewState() // 重新定位光标
+    } else {
+      Editor.insertText(editor, data)
+    }
+  } else {
     Editor.insertText(editor, data)
   }
 

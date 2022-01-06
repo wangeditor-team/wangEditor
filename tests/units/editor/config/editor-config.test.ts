@@ -68,13 +68,13 @@ describe('editor config', () => {
     })
     editor.select(getStartLocation(editor))
 
-    // 插入 10 个字符，正好等于 maxLength
-    editor.insertText('1234567890')
-    expect(editor.getText()).toBe('1234567890')
+    // 插入 9 个字符，小于 maxLength
+    editor.insertText('123456789')
+    expect(editor.getText()).toBe('123456789')
 
-    // 再插入字符，则不会插入成功
-    editor.insertText('xx')
-    expect(editor.getText()).toBe('1234567890')
+    // 再插入其他字符，则只能插入一个
+    editor.insertText('abc')
+    expect(editor.getText()).toBe('123456789a')
   })
 
   it('if set onCreated option, it will be called when created editor', done => {

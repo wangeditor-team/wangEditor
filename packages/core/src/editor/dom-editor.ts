@@ -683,26 +683,25 @@ export const DomEditor = {
   },
 
   /**
-   * 是否触发 maxLength ？
+   * 获取：距离触发 maxLength，还可以插入多少字符
    * @param editor editor
-   * @param willInsertText 即将输入的文字
    */
-  checkMaxLength(editor: IDomEditor, willInsertText: string = ''): boolean {
+  getLeftLengthOfMaxLength(editor: IDomEditor): number {
     const { maxLength, onMaxLength } = editor.getConfig()
 
-    if (typeof maxLength === 'number' && maxLength > 0) {
-      const editorText = editor.getText()
+    // 未设置 maxLength ，则返回 number 最大值
+    if (typeof maxLength !== 'number' || maxLength <= 0) return Infinity
 
-      if (!willInsertText) willInsertText = ' ' // 这些加一个空格，下面判断时就可以写 `>` 而不是 `>=`
+    const editorText = editor.getText().replace(/\r|\n|(\r\n)/g, '') // 去掉换行
+    const curLength = editorText.length
+    const leftLength = maxLength - curLength
 
-      if (editorText.length + willInsertText.length > maxLength) {
-        // 触发 maxLength 限制，不再继续插入文字
-        if (onMaxLength) onMaxLength(editor)
-        return true
-      }
+    if (leftLength <= 0) {
+      // 触发 maxLength 限制，不再继续插入文字
+      if (onMaxLength) onMaxLength(editor)
     }
 
-    return false
+    return leftLength
   },
 
   // 清理暴露的 text 节点（拼音输入时经常出现）
