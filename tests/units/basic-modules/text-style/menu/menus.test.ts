@@ -68,13 +68,6 @@ describe('text style menus', () => {
         ],
       } as Element)
       expect(menu.isDisabled(editor)).toBeTruthy() // 选中代码块，禁用各个 menu
-
-      if (mark === 'bold') {
-        // bold 菜单，在选中 header 时禁用
-        editor.select(startLocation)
-        Transforms.setNodes(editor, { type: 'header1' } as Partial<Element>)
-        expect(menu.isDisabled(editor)).toBeTruthy()
-      }
     })
   })
 

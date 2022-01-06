@@ -28,7 +28,7 @@ import {
 } from './elem-to-html'
 import withHeader from './plugin'
 
-const bold: Partial<IModuleConf> = {
+const header: Partial<IModuleConf> = {
   renderElems: [
     renderHeader1Conf,
     renderHeader2Conf,
@@ -54,4 +54,4 @@ const bold: Partial<IModuleConf> = {
   editorPlugin: withHeader,
 }
 
-export default bold
+export default header
