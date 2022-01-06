@@ -27,9 +27,11 @@ import wangEditorFullScreenModule from './modules/full-screen'
 
 export default [
   // text style
-  wangEditorTextStyleModule,
+  wangEditorTextStyleModule, //【注意】要放在 color fontSize 和 fontFamily 的前面！！！
   wangEditorColorModule,
   wangEditorFontSizeAndFamilyModule,
+
+  // elem style
   wangEditorIndentModule,
   wangEditorJustifyModule,
   wangEditorLineHeightModule,
@@ -42,7 +44,7 @@ export default [
   wangEditorEmotionModule,
   wangEditorLinkModule,
 
-  // block node —— 要放在 void 和 inline 后面！！！
+  // block node —— 【注意】要放在 void-node 和 inline-node 后面！！！
   wangEditorCodeBlockModule,
   wangEditorBlockQuoteModule,
   wangEditorHeaderModule,

@@ -8,7 +8,7 @@ import { textToHtml } from '../../../../packages/basic-modules/src/modules/text-
 describe('text style - text to html', () => {
   it('text to html', () => {
     const textNode = {
-      text: '',
+      text: 'hello',
       bold: true,
       italic: true,
       underline: true,
@@ -18,9 +18,9 @@ describe('text style - text to html', () => {
       sup: true,
     }
 
-    const html = textToHtml(textNode, 'hello')
+    const html = textToHtml(textNode, '')
     expect(html).toBe(
-      '<sup><sub><s><u><em><code><strong>hello</strong></code></em></u></s></sub></sup>'
+      '<span><sup><sub><s><u><em><code><strong>hello</strong></code></em></u></s></sub></sup></span>'
     )
   })
 })

@@ -15,7 +15,7 @@ export function textStyleToHtml(node: Text | Element, elemHtml: string): string 
   if (!fontSize && !fontFamily) return elemHtml
 
   // 如果当前 elemHtml 是 node.text ，则包裹一个 <span> ，否则无法设置样式
-  if (elemHtml === replaceSymbols(text)) {
+  if (elemHtml === replaceSymbols(text) || elemHtml === '<br>') {
     elemHtml = `<span>${elemHtml}</span>`
   }
 

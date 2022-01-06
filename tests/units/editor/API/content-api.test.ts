@@ -50,7 +50,7 @@ describe('editor content API', () => {
     })
 
     const html = editor.getHtml()
-    expect(html).toBe('<p><strong>hello</strong></p>')
+    expect(html).toBe('<p><span><strong>hello</strong></span></p>')
   })
 
   it('getText', () => {
@@ -296,8 +296,8 @@ describe('editor content API', () => {
     })
 
     ignoreTag.forEach(tag => {
-      test(`insert html string with ${tag} element should to be ingore`, () => {
-        const htmlString = `<${tag}></tag>`
+      test(`insert html string with ${tag} element should to be ignore`, () => {
+        const htmlString = `<${tag}></${tag}>`
         editor.dangerouslyInsertHtml(htmlString)
 
         expect(editor.getHtml().indexOf(tag)).toBe(-1)
