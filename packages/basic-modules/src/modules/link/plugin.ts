@@ -76,7 +76,10 @@ function withLink<T extends IDomEditor>(editor: T): T {
       target,
       children: [{ text }],
     })
-    insertText(' ')
+
+    // https://github.com/wangeditor-team/wangEditor-v5/issues/332
+    // 不能直接使用 insertText, 会造成添加的空格被添加到链接文本中，参考上面 issue，替换为 insertFragment 方式添加空格
+    editor.insertFragment([{ text: ' ' }])
   }
 
   // 返回 editor ，重要！
