@@ -20,20 +20,6 @@ export function registerTextStyleToHtmlHandler(fn: TextStyleToHtmlFnType) {
   TEXT_STYLE_TO_HTML_FN_LIST.push(fn)
 }
 
-// ------------------------------------ text node -> html ------------------------------------
-
-export type TextToHtmlFnType = (textNode: SlateText, textHtml: string) => string
-
-export const TEXT_TO_HTML_FN_LIST: TextToHtmlFnType[] = []
-
-/**
- * 注册 textToHtml 函数
- * @param fn textToHtml 函数
- */
-export function registerTextToHtmlHandler(fn: TextToHtmlFnType) {
-  TEXT_TO_HTML_FN_LIST.push(fn)
-}
-
 // ------------------------------------ elem node -> html ------------------------------------
 
 export type ElemToHtmlFnType = (

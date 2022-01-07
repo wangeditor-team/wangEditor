@@ -4,28 +4,26 @@
  */
 
 import { Element, Text } from 'slate'
-import $ from '../../utils/dom'
-import { replaceSymbols } from '../../utils/util'
+import $, { getOuterHTML } from '../../utils/dom'
 import { ColorText } from './custom-types'
 
-export function textStyleToHtml(node: Text | Element, elemHtml: string): string {
-  if (!Text.isText(node)) return elemHtml
+/**
+ * style to html
+ * @param textNode slate text node
+ * @param textHtml text html 格式如 `<span ...>xxx</span>`
+ * @returns styled html
+ */
+export function textStyleToHtml(textNode: Text | Element, textHtml: string): string {
+  if (!Text.isText(textNode)) return textHtml
 
-  const { color, bgColor, text } = node as ColorText
-  if (!color && !bgColor) return elemHtml
-
-  // 如果当前 elemHtml 是 node.text ，则包裹一个 <span> ，否则无法设置样式
-  if (elemHtml === replaceSymbols(text) || elemHtml === '<br>') {
-    elemHtml = `<span>${elemHtml}</span>`
-  }
+  const { color, bgColor } = textNode as ColorText
+  if (!color && !bgColor) return textHtml
 
   // 设置样式
-  const $elem = $(elemHtml)
-  if (color) $elem.css('color', color)
-  if (bgColor) $elem.css('background-color', bgColor)
+  const $text = $(textHtml)
+  if (color) $text.css('color', color)
+  if (bgColor) $text.css('background-color', bgColor)
 
   // 输出 html
-  const $div = $('<div></div>')
-  $div.append($elem)
-  return $div.html()
+  return getOuterHTML($text)
 }

@@ -6,7 +6,7 @@
 import { Text } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import { DomEditor } from '../editor/dom-editor'
-import { TEXT_TO_HTML_FN_LIST, TEXT_STYLE_TO_HTML_FN_LIST } from './index'
+import { TEXT_STYLE_TO_HTML_FN_LIST } from './index'
 
 function replaceSymbols(str: string) {
   return str
@@ -30,11 +30,14 @@ function textToHtml(textNode: Text, editor: IDomEditor): string {
   const hasPre = parents.some(p => DomEditor.getNodeType(p) === 'pre') // 上级节点中，是否存在 <pre>
   // 在 <pre> 标签不替换，其他都替换
   if (!hasPre) {
-    textHtml = textHtml.replace(/\n|\r/g, '<br/>')
+    textHtml = textHtml.replace(/\n|\r/g, '<br>')
   }
 
-  // 生成 text -> html
-  TEXT_TO_HTML_FN_LIST.forEach(fn => (textHtml = fn(textNode, textHtml)))
+  // 空标签
+  if (!textHtml) textHtml = '<br>'
+
+  // text html 必须用 <span> 包裹
+  textHtml = `<span>${textHtml}</span>`
 
   // 增加文本样式，如 color bgColor
   TEXT_STYLE_TO_HTML_FN_LIST.forEach(fn => (textHtml = fn(textNode, textHtml)))

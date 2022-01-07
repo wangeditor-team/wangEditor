@@ -27,7 +27,7 @@ import wangEditorFullScreenModule from './modules/full-screen'
 
 export default [
   // text style
-  wangEditorTextStyleModule, //【注意】要放在 color fontSize 和 fontFamily 的前面！！！
+  wangEditorTextStyleModule,
   wangEditorColorModule,
   wangEditorFontSizeAndFamilyModule,
 

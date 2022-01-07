@@ -7,7 +7,7 @@ import { Element as SlateElement, Descendant } from 'slate'
 import { VNode } from 'snabbdom'
 import { IDomEditor } from '../editor/interface'
 
-// ------------------------------------ 处理 text 样式 ------------------------------------
+// ------------------------------------ render style ------------------------------------
 
 export type RenderStyleFnType = (node: Descendant, vnode: VNode) => VNode
 
