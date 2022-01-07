@@ -6,7 +6,7 @@
 import { Text } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import { DomEditor } from '../editor/dom-editor'
-import { TEXT_STYLE_TO_HTML_FN_LIST } from './index'
+import { STYLE_TO_HTML_FN_LIST } from './index'
 
 function replaceSymbols(str: string) {
   return str
@@ -40,7 +40,7 @@ function textToHtml(textNode: Text, editor: IDomEditor): string {
   textHtml = `<span>${textHtml}</span>`
 
   // 增加文本样式，如 color bgColor
-  TEXT_STYLE_TO_HTML_FN_LIST.forEach(fn => (textHtml = fn(textNode, textHtml)))
+  STYLE_TO_HTML_FN_LIST.forEach(fn => (textHtml = fn(textNode, textHtml)))
 
   return textHtml
 }

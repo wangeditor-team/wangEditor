@@ -5,7 +5,7 @@
 
 import { IModuleConf } from '@wangeditor/core'
 import { renderStyle } from './render-style'
-import { textStyleToHtml } from './text-style-to-html'
+import { styleToHtml } from './style-to-html'
 import {
   boldMenuConf,
   underlineMenuConf,
@@ -30,7 +30,7 @@ const textStyle: Partial<IModuleConf> = {
     supMenuConf,
     clearStyleMenuConf,
   ],
-  textStyleToHtml,
+  styleToHtml,
   editorPlugin: withTextStyle,
 }
 

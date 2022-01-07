@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Element, Text } from 'slate'
+import { Text, Descendant } from 'slate'
 import $, { getOuterHTML } from '../../utils/dom'
 import { ColorText } from './custom-types'
 
@@ -13,7 +13,7 @@ import { ColorText } from './custom-types'
  * @param textHtml text html 格式如 `<span ...>xxx</span>`
  * @returns styled html
  */
-export function textStyleToHtml(textNode: Text | Element, textHtml: string): string {
+export function styleToHtml(textNode: Descendant, textHtml: string): string {
   if (!Text.isText(textNode)) return textHtml
 
   const { color, bgColor } = textNode as ColorText

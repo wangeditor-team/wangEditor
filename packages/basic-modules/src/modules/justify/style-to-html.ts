@@ -3,11 +3,11 @@
  * @author wangfupeng
  */
 
-import { Element, Text } from 'slate'
+import { Element, Descendant } from 'slate'
 import $ from '../../utils/dom'
 import { JustifyElement } from './custom-types'
 
-export function textStyleToHtml(node: Text | Element, elemHtml: string): string {
+export function styleToHtml(node: Descendant, elemHtml: string): string {
   if (!Element.isElement(node)) return elemHtml
 
   const { textAlign } = node as JustifyElement // 如 'left'/'right'/'center' 等

@@ -6,7 +6,7 @@
 import './assets/index.less'
 
 import { RenderStyleFnType, IRenderElemConf } from './formats/index'
-import { TextStyleToHtmlFnType, IElemToHtmlConf } from './to-html/index'
+import { styleToHtmlFnType, IElemToHtmlConf } from './to-html/index'
 import { IRegisterMenuConf } from './menus/index'
 import { IDomEditor } from './editor/interface'
 
@@ -44,7 +44,7 @@ export interface IModuleConf {
   renderElems: Array<IRenderElemConf>
 
   // to html
-  textStyleToHtml: TextStyleToHtmlFnType
+  styleToHtml: styleToHtmlFnType
   elemsToHtml: Array<IElemToHtmlConf>
 
   // 注册插件

@@ -3,24 +3,24 @@
  * @author wangfupeng
  */
 
-import { Text as SlateText, Element as SlateElement } from 'slate'
+import { Element as SlateElement, Descendant } from 'slate'
 import { IDomEditor } from '../editor/interface'
 
-// ------------------------------------ text style ------------------------------------
+// ------------------------------------ style to html ------------------------------------
 
-export type TextStyleToHtmlFnType = (node: SlateText | SlateElement, elemHtml: string) => string
+export type styleToHtmlFnType = (node: Descendant, elemHtml: string) => string
 
-export const TEXT_STYLE_TO_HTML_FN_LIST: TextStyleToHtmlFnType[] = []
+export const STYLE_TO_HTML_FN_LIST: styleToHtmlFnType[] = []
 
 /**
  * 注册 toHtml 处理文本样式的函数
  * @param fn 处理 toHtml 文本样式的函数
  */
-export function registerTextStyleToHtmlHandler(fn: TextStyleToHtmlFnType) {
-  TEXT_STYLE_TO_HTML_FN_LIST.push(fn)
+export function registerStyleToHtmlHandler(fn: styleToHtmlFnType) {
+  STYLE_TO_HTML_FN_LIST.push(fn)
 }
 
-// ------------------------------------ elem node -> html ------------------------------------
+// ------------------------------------ elem node to html ------------------------------------
 
 export type ElemToHtmlFnType = (
   elemNode: SlateElement,

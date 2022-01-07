@@ -22,8 +22,8 @@ import {
 
   // to html
   IElemToHtmlConf,
-  TextStyleToHtmlFnType,
-  registerTextStyleToHtmlHandler,
+  styleToHtmlFnType,
+  registerStyleToHtmlHandler,
   registerElemToHtmlConf,
 } from '@wangeditor/core'
 
@@ -93,9 +93,9 @@ class Boot {
     registerElemToHtmlConf(elemToHtmlConf)
   }
 
-  // 注册 textStyleToHtml
-  static registerTextStyleToHtml(fn: TextStyleToHtmlFnType) {
-    registerTextStyleToHtmlHandler(fn)
+  // 注册 styleToHtml
+  static registerStyleToHtml(fn: styleToHtmlFnType) {
+    registerStyleToHtmlHandler(fn)
   }
 }
 

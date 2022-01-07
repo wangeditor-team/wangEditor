@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Text, Element } from 'slate'
+import { Text, Descendant } from 'slate'
 import { StyledText } from './custom-types'
 import $, { getOuterHTML } from '../../utils/dom'
 
@@ -15,7 +15,7 @@ import $, { getOuterHTML } from '../../utils/dom'
  * @param textHtml text html 格式如 `<span ...>xxx</span>`
  * @returns styled html
  */
-export function textStyleToHtml(textNode: Text | Element, textHtml: string): string {
+export function styleToHtml(textNode: Descendant, textHtml: string): string {
   if (!Text.isText(textNode)) return textHtml
 
   const { bold, italic, underline, code, through, sub, sup } = textNode as StyledText

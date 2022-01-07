@@ -5,12 +5,12 @@
 
 import { IModuleConf } from '@wangeditor/core'
 import { renderStyle } from './render-style'
-import { textStyleToHtml } from './text-style-to-html'
+import { styleToHtml } from './style-to-html'
 import { lineHeightMenuConf } from './menu/index'
 
 const lineHeight: Partial<IModuleConf> = {
   renderStyle,
-  textStyleToHtml,
+  styleToHtml,
   menus: [lineHeightMenuConf],
 }
 

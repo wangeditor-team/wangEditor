@@ -5,13 +5,13 @@
 
 import { IModuleConf } from '@wangeditor/core'
 import { renderStyle } from './render-style'
-import { textStyleToHtml } from './text-style-to-html'
+import { styleToHtml } from './style-to-html'
 import { colorMenuConf, bgColorMenuConf } from './menu/index'
 import withColor from './plugin'
 
 const color: Partial<IModuleConf> = {
   renderStyle,
-  textStyleToHtml,
+  styleToHtml,
   menus: [colorMenuConf, bgColorMenuConf],
   editorPlugin: withColor,
 }
