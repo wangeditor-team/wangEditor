@@ -16,8 +16,8 @@ import {
 
   // 渲染 modal -> view
   IRenderElemConf,
-  RenderTextStyleFnType,
-  registerTextStyleHandler,
+  RenderStyleFnType,
+  registerStyleHandler,
   registerRenderElemConf,
 
   // to html
@@ -85,9 +85,9 @@ class Boot {
     registerRenderElemConf(renderElemConf)
   }
 
-  // 注册 renderTextStyle
-  static registerRenderTextStyle(fn: RenderTextStyleFnType) {
-    registerTextStyleHandler(fn)
+  // 注册 renderStyle
+  static registerRenderStyle(fn: RenderStyleFnType) {
+    registerStyleHandler(fn)
   }
 
   // 注册 elemToHtml

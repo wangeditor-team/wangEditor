@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { renderTextStyle } from '../../../../packages/code-highlight/src/module/render-text-style'
+import { renderStyle } from '../../../../packages/code-highlight/src/module/render-style'
 import { jsx } from 'snabbdom'
 
 describe('code-highlight render text style', () => {
@@ -12,7 +12,7 @@ describe('code-highlight render text style', () => {
     const vnode = <span>let</span>
 
     // @ts-ignore 忽略 vnode 格式检查
-    const newVnode = renderTextStyle(leafNode, vnode)
+    const newVnode = renderStyle(leafNode, vnode)
     expect(newVnode.data?.props?.className).toBe('token keyword')
   })
 })

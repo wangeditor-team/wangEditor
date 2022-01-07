@@ -10,7 +10,7 @@ function registerModule(module: Partial<IModuleConf>) {
   const {
     menus,
     renderElems,
-    renderTextStyle,
+    renderStyle,
     elemsToHtml,
     textToHtml,
     textStyleToHtml,
@@ -23,8 +23,8 @@ function registerModule(module: Partial<IModuleConf>) {
   if (renderElems) {
     renderElems.forEach(renderElemConf => Boot.registerRenderElem(renderElemConf))
   }
-  if (renderTextStyle) {
-    Boot.registerRenderTextStyle(renderTextStyle)
+  if (renderStyle) {
+    Boot.registerRenderStyle(renderStyle)
   }
   if (elemsToHtml) {
     elemsToHtml.forEach(elemToHtmlConf => Boot.registerElemToHtml(elemToHtmlConf))

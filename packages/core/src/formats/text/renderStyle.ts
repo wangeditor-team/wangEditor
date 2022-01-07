@@ -5,7 +5,7 @@
 
 import { Text as SlateText } from 'slate'
 import { VNode } from 'snabbdom'
-import { TEXT_STYLE_HANDLER_LIST } from '../index'
+import { RENDER_STYLE_HANDLER_LIST } from '../index'
 
 /**
  * 给字符串增加样式
@@ -15,7 +15,7 @@ import { TEXT_STYLE_HANDLER_LIST } from '../index'
 function addTextVnodeStyle(leafNode: SlateText, textVnode: VNode): VNode {
   let newTextVnode = textVnode
 
-  TEXT_STYLE_HANDLER_LIST.forEach(styleHandler => {
+  RENDER_STYLE_HANDLER_LIST.forEach(styleHandler => {
     newTextVnode = styleHandler(leafNode, newTextVnode)
   })
 

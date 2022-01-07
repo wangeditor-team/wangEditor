@@ -4,12 +4,12 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { renderTextStyle } from './render-text-style'
+import { renderStyle } from './render-style'
 import { selectLangMenuConf } from './menu/index'
 import { codeToHtmlConf } from './elem-to-html'
 
 const codeHighlightModule: Partial<IModuleConf> = {
-  renderTextStyle,
+  renderStyle,
   menus: [selectLangMenuConf],
   elemsToHtml: [codeToHtmlConf],
 }

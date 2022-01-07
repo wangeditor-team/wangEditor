@@ -4,7 +4,7 @@
  */
 
 import { jsx } from 'snabbdom'
-import { renderTextStyle } from '../../../../packages/basic-modules/src/modules/text-style/text-style'
+import { renderStyle } from '../../../../packages/basic-modules/src/modules/text-style/render-style'
 import { StyledText } from '../../../../packages/basic-modules/src/modules/text-style/custom-types'
 
 describe('text style - render text style', () => {
@@ -16,37 +16,37 @@ describe('text style - render text style', () => {
 
     textNode.bold = true
     // @ts-ignore 忽略 vnode 格式
-    newVnode = renderTextStyle(textNode, vnode)
+    newVnode = renderStyle(textNode, vnode)
     expect(newVnode.sel).toBe('strong')
 
     textNode.code = true
     // @ts-ignore 忽略 vnode 格式
-    newVnode = renderTextStyle(textNode, vnode)
+    newVnode = renderStyle(textNode, vnode)
     expect(newVnode.sel).toBe('code')
 
     textNode.italic = true
     // @ts-ignore 忽略 vnode 格式
-    newVnode = renderTextStyle(textNode, vnode)
+    newVnode = renderStyle(textNode, vnode)
     expect(newVnode.sel).toBe('em')
 
     textNode.underline = true
     // @ts-ignore 忽略 vnode 格式
-    newVnode = renderTextStyle(textNode, vnode)
+    newVnode = renderStyle(textNode, vnode)
     expect(newVnode.sel).toBe('u')
 
     textNode.through = true
     // @ts-ignore 忽略 vnode 格式
-    newVnode = renderTextStyle(textNode, vnode)
+    newVnode = renderStyle(textNode, vnode)
     expect(newVnode.sel).toBe('s')
 
     textNode.sub = true
     // @ts-ignore 忽略 vnode 格式
-    newVnode = renderTextStyle(textNode, vnode)
+    newVnode = renderStyle(textNode, vnode)
     expect(newVnode.sel).toBe('sub')
 
     textNode.sup = true
     // @ts-ignore 忽略 vnode 格式
-    newVnode = renderTextStyle(textNode, vnode)
+    newVnode = renderStyle(textNode, vnode)
     expect(newVnode.sel).toBe('sup')
   })
 })

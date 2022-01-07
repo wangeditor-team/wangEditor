@@ -4,12 +4,12 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { renderTextStyle } from './render-text-style'
+import { renderStyle } from './render-style'
 import { textStyleToHtml } from './text-style-to-html'
 import { indentMenuConf, delIndentMenuConf } from './menu/index'
 
 const indent: Partial<IModuleConf> = {
-  renderTextStyle,
+  renderStyle,
   textStyleToHtml,
   menus: [indentMenuConf, delIndentMenuConf],
 }

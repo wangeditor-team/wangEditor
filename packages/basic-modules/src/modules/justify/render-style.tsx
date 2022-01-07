@@ -3,18 +3,18 @@
  * @author wangfupeng
  */
 
-import { Text, Element } from 'slate'
+import { Descendant, Element } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { addVnodeStyle } from '../../utils/vdom'
 import { JustifyElement } from './custom-types'
 
 /**
- * 添加文本样式
- * @param node slate node
+ * 添加样式
+ * @param node slate elem
  * @param vnode vnode
  * @returns vnode
  */
-export function renderTextStyle(node: Text | Element, vnode: VNode): VNode {
+export function renderStyle(node: Descendant, vnode: VNode): VNode {
   if (!Element.isElement(node)) return vnode
 
   const { textAlign } = node as JustifyElement // 如 'left'/'right'/'center' 等

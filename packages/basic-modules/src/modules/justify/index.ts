@@ -4,7 +4,7 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { renderTextStyle } from './render-text-style'
+import { renderStyle } from './render-style'
 import { textStyleToHtml } from './text-style-to-html'
 import {
   justifyLeftMenuConf,
@@ -14,7 +14,7 @@ import {
 } from './menu/index'
 
 const justify: Partial<IModuleConf> = {
-  renderTextStyle,
+  renderStyle,
   textStyleToHtml,
   menus: [justifyLeftMenuConf, justifyRightMenuConf, justifyCenterMenuConf, justifyJustifyMenuConf],
 }
