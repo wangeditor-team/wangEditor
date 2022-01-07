@@ -30,6 +30,8 @@ export default [
   wangEditorTextStyleModule,
   wangEditorColorModule,
   wangEditorFontSizeAndFamilyModule,
+
+  // elem style
   wangEditorIndentModule,
   wangEditorJustifyModule,
   wangEditorLineHeightModule,
@@ -42,7 +44,7 @@ export default [
   wangEditorEmotionModule,
   wangEditorLinkModule,
 
-  // block node —— 要放在 void 和 inline 后面！！！
+  // block node —— 【注意】要放在 void-node 和 inline-node 后面！！！
   wangEditorCodeBlockModule,
   wangEditorBlockQuoteModule,
   wangEditorHeaderModule,

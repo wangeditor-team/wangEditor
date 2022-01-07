@@ -5,8 +5,8 @@
 
 import './assets/index.less'
 
-import { RenderTextStyleFnType, IRenderElemConf } from './formats/index'
-import { TextStyleToHtmlFnType, TextToHtmlFnType, IElemToHtmlConf } from './to-html/index'
+import { RenderStyleFnType, IRenderElemConf } from './formats/index'
+import { styleToHtmlFnType, IElemToHtmlConf } from './to-html/index'
 import { IRegisterMenuConf } from './menus/index'
 import { IDomEditor } from './editor/interface'
 
@@ -40,12 +40,11 @@ export interface IModuleConf {
   menus: Array<IRegisterMenuConf>
 
   // 渲染 modal -> view
-  renderTextStyle: RenderTextStyleFnType
+  renderStyle: RenderStyleFnType
   renderElems: Array<IRenderElemConf>
 
   // to html
-  textStyleToHtml: TextStyleToHtmlFnType
-  textToHtml: TextToHtmlFnType
+  styleToHtml: styleToHtmlFnType
   elemsToHtml: Array<IElemToHtmlConf>
 
   // 注册插件

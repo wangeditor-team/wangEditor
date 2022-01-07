@@ -4,7 +4,7 @@
  */
 
 import { jsx } from 'snabbdom'
-import { renderTextStyle } from '../../../../packages/basic-modules/src/modules/indent/render-text-style'
+import { renderStyle } from '../../../../packages/basic-modules/src/modules/indent/render-style'
 
 describe('indent - render text style', () => {
   it('render text style', () => {
@@ -13,7 +13,7 @@ describe('indent - render text style', () => {
     const vnode = <p>hello</p>
 
     // @ts-ignore
-    const newVnode = renderTextStyle(elem, vnode)
+    const newVnode = renderStyle(elem, vnode)
     // @ts-ignore
     expect(newVnode.data.style.paddingLeft).toBe(indent)
   })

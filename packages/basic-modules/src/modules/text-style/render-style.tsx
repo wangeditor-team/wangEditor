@@ -3,17 +3,17 @@
  * @author wangfupeng
  */
 
-import { Text as SlateText, Element as SlateElement } from 'slate'
+import { Descendant } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { StyledText } from './custom-types'
 
 /**
- * 添加文本样式
- * @param node slate node
+ * 添加样式
+ * @param node slate text
  * @param vnode vnode
  * @returns vnode
  */
-export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
+export function renderStyle(node: Descendant, vnode: VNode): VNode {
   const { bold, italic, underline, code, through, sub, sup } = node as StyledText
   let styleVnode: VNode = vnode
 

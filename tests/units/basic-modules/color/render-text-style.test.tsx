@@ -4,7 +4,7 @@
  */
 
 import { jsx } from 'snabbdom'
-import { renderTextStyle } from '../../../../packages/basic-modules/src/modules/color/render-text-style'
+import { renderStyle } from '../../../../packages/basic-modules/src/modules/color/render-style'
 
 describe('color - render text style', () => {
   it('render color style', () => {
@@ -14,7 +14,7 @@ describe('color - render text style', () => {
     const vnode = <span>hello</span>
 
     // @ts-ignore
-    const newVnode = renderTextStyle(textNode, vnode) as any
+    const newVnode = renderStyle(textNode, vnode) as any
     expect(newVnode.sel).toBe('span')
     expect(newVnode.data.style.color).toBe(color)
     expect(newVnode.data.style.backgroundColor).toBe(bgColor)

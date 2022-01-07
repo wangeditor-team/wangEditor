@@ -6,7 +6,7 @@
 import { Editor, Element } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import { node2html } from './node2html'
-import { ElemToHtmlFnType, ELEM_TO_HTML_CONF, TEXT_STYLE_TO_HTML_FN_LIST } from './index'
+import { ElemToHtmlFnType, ELEM_TO_HTML_CONF, STYLE_TO_HTML_FN_LIST } from './index'
 
 /**
  * 默认的 toHtml 函数
@@ -46,7 +46,7 @@ function elemToHtml(elemNode: Element, editor: IDomEditor): string {
 
   // 添加样式（如 text-align line-height 等）
   if (!isVoid) {
-    TEXT_STYLE_TO_HTML_FN_LIST.forEach(fn => (elemHtml = fn(elemNode, elemHtml)))
+    STYLE_TO_HTML_FN_LIST.forEach(fn => (elemHtml = fn(elemNode, elemHtml)))
   }
 
   return elemHtml

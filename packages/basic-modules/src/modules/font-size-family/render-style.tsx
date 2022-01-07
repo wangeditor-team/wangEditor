@@ -3,18 +3,18 @@
  * @author wangfupeng
  */
 
-import { Text as SlateText, Element as SlateElement } from 'slate'
+import { Descendant } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { addVnodeStyle } from '../../utils/vdom'
 import { FontSizeAndFamilyText } from './custom-types'
 
 /**
- * 添加文本样式
- * @param node slate node
+ * 添加样式
+ * @param node slate elem
  * @param vnode vnode
  * @returns vnode
  */
-export function renderTextStyle(node: SlateText | SlateElement, vnode: VNode): VNode {
+export function renderStyle(node: Descendant, vnode: VNode): VNode {
   const { fontSize, fontFamily } = node as FontSizeAndFamilyText
   let styleVnode: VNode = vnode
 

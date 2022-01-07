@@ -28,6 +28,7 @@ import {
   find,
   width,
   height,
+  Dom7Array,
 } from 'dom7'
 export { Dom7Array } from 'dom7'
 
@@ -56,3 +57,13 @@ $.fn.width = width
 $.fn.height = height
 
 export default $
+
+/**
+ * 获取 outerHTML
+ * @param $elem dom7 elem
+ */
+export function getOuterHTML($elem: Dom7Array) {
+  const $div = $('<div></div>')
+  $div.append($elem)
+  return $div.html()
+}

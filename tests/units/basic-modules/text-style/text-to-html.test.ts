@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { textToHtml } from '../../../../packages/basic-modules/src/modules/text-style/text-to-html'
+import { styleToHtml } from '../../../../packages/basic-modules/src/modules/text-style/style-to-html'
 
 describe('text style - text to html', () => {
   it('text to html', () => {
@@ -18,9 +18,9 @@ describe('text style - text to html', () => {
       sup: true,
     }
 
-    const html = textToHtml(textNode, 'hello')
+    const html = styleToHtml(textNode, '<span>hello</span>')
     expect(html).toBe(
-      '<sup><sub><s><u><em><code><strong>hello</strong></code></em></u></s></sub></sup>'
+      '<span><sup><sub><s><u><em><code><strong>hello</strong></code></em></u></s></sub></sup></span>'
     )
   })
 })

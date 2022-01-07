@@ -16,16 +16,14 @@ import {
 
   // 渲染 modal -> view
   IRenderElemConf,
-  RenderTextStyleFnType,
-  registerTextStyleHandler,
+  RenderStyleFnType,
+  registerStyleHandler,
   registerRenderElemConf,
 
   // to html
   IElemToHtmlConf,
-  TextToHtmlFnType,
-  TextStyleToHtmlFnType,
-  registerTextStyleToHtmlHandler,
-  registerTextToHtmlHandler,
+  styleToHtmlFnType,
+  registerStyleToHtmlHandler,
   registerElemToHtmlConf,
 } from '@wangeditor/core'
 
@@ -85,9 +83,9 @@ class Boot {
     registerRenderElemConf(renderElemConf)
   }
 
-  // 注册 renderTextStyle
-  static registerRenderTextStyle(fn: RenderTextStyleFnType) {
-    registerTextStyleHandler(fn)
+  // 注册 renderStyle
+  static registerRenderStyle(fn: RenderStyleFnType) {
+    registerStyleHandler(fn)
   }
 
   // 注册 elemToHtml
@@ -95,14 +93,9 @@ class Boot {
     registerElemToHtmlConf(elemToHtmlConf)
   }
 
-  // 注册 textToHtml
-  static registerTextToHtml(fn: TextToHtmlFnType) {
-    registerTextToHtmlHandler(fn)
-  }
-
-  // 注册 textStyleToHtml
-  static registerTextStyleToHtml(fn: TextStyleToHtmlFnType) {
-    registerTextStyleToHtmlHandler(fn)
+  // 注册 styleToHtml
+  static registerStyleToHtml(fn: styleToHtmlFnType) {
+    registerStyleToHtmlHandler(fn)
   }
 }
 

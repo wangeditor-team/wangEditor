@@ -3,23 +3,23 @@
  * @author wangfupeng
  */
 
-import { Text as SlateText, Element as SlateElement } from 'slate'
+import { Element as SlateElement, Descendant } from 'slate'
 import { VNode } from 'snabbdom'
 import { IDomEditor } from '../editor/interface'
 
-// ------------------------------------ 处理 text 样式 ------------------------------------
+// ------------------------------------ render style ------------------------------------
 
-export type RenderTextStyleFnType = (node: SlateText | SlateElement, vnode: VNode) => VNode
+export type RenderStyleFnType = (node: Descendant, vnode: VNode) => VNode
 
 // 存储：处理文本样式的函数，如 b u color 等
-export const TEXT_STYLE_HANDLER_LIST: RenderTextStyleFnType[] = []
+export const RENDER_STYLE_HANDLER_LIST: RenderStyleFnType[] = []
 
 /**
  * 注册处理文本样式的函数
  * @param fn 处理文本样式的函数
  */
-export function registerTextStyleHandler(fn: RenderTextStyleFnType) {
-  TEXT_STYLE_HANDLER_LIST.push(fn)
+export function registerStyleHandler(fn: RenderStyleFnType) {
+  RENDER_STYLE_HANDLER_LIST.push(fn)
 }
 
 // ------------------------------------ render elem ------------------------------------

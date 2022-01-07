@@ -7,15 +7,7 @@ import Boot from '../Boot'
 import { IModuleConf } from '@wangeditor/core'
 
 function registerModule(module: Partial<IModuleConf>) {
-  const {
-    menus,
-    renderElems,
-    renderTextStyle,
-    elemsToHtml,
-    textToHtml,
-    textStyleToHtml,
-    editorPlugin,
-  } = module
+  const { menus, renderElems, renderStyle, elemsToHtml, styleToHtml, editorPlugin } = module
 
   if (menus) {
     menus.forEach(menu => Boot.registerMenu(menu))
@@ -23,17 +15,14 @@ function registerModule(module: Partial<IModuleConf>) {
   if (renderElems) {
     renderElems.forEach(renderElemConf => Boot.registerRenderElem(renderElemConf))
   }
-  if (renderTextStyle) {
-    Boot.registerRenderTextStyle(renderTextStyle)
+  if (renderStyle) {
+    Boot.registerRenderStyle(renderStyle)
   }
   if (elemsToHtml) {
     elemsToHtml.forEach(elemToHtmlConf => Boot.registerElemToHtml(elemToHtmlConf))
   }
-  if (textToHtml) {
-    Boot.registerTextToHtml(textToHtml)
-  }
-  if (textStyleToHtml) {
-    Boot.registerTextStyleToHtml(textStyleToHtml)
+  if (styleToHtml) {
+    Boot.registerStyleToHtml(styleToHtml)
   }
   if (editorPlugin) {
     Boot.registerPlugin(editorPlugin)

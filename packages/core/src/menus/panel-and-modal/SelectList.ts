@@ -56,6 +56,7 @@ class SelectList extends PanelAndModal {
       }
 
       $li.append($(`<span data-value="${value}">${text}</span>`))
+      $li.attr('title', text)
       $list.append($li)
     })
     $elem.append($list)
