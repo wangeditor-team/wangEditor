@@ -14,4 +14,12 @@ describe('paragraph - elem to html', () => {
     const html = pToHtmlConf.elemToHtml(elem, 'hello')
     expect(html).toBe('<p>hello</p>')
   })
+
+  it('paragraph to html with empty children', () => {
+    expect(pToHtmlConf.type).toBe('paragraph')
+
+    const elem = { type: 'paragraph', children: [] }
+    const html = pToHtmlConf.elemToHtml(elem, '')
+    expect(html).toBe('<p><br></p>')
+  })
 })
