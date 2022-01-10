@@ -1,5 +1,5 @@
 /**
- * @description register formats
+ * @description render indent style
  * @author wangfupeng
  */
 

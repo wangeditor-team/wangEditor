@@ -1,5 +1,5 @@
 /**
- * @description register formats
+ * @description render font-size font-family style
  * @author wangfupeng
  */
 

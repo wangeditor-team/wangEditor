@@ -5,7 +5,7 @@
 
 import './assets/index.less'
 
-import { RenderStyleFnType, IRenderElemConf } from './formats/index'
+import { RenderStyleFnType, IRenderElemConf } from './render/index'
 import { styleToHtmlFnType, IElemToHtmlConf } from './to-html/index'
 import { IRegisterMenuConf } from './menus/index'
 import { IDomEditor } from './editor/interface'
@@ -20,10 +20,10 @@ export { IEditorConfig, IToolbarConfig } from './config/interface'
 export * from './editor/interface'
 export * from './editor/dom-editor'
 
-// 注册 formats
-export * from './formats/index'
+// 注册 render
+export * from './render/index'
 
-// to html
+// 注册 toHtml
 export * from './to-html/index'
 
 // menu 的接口、注册、方法等

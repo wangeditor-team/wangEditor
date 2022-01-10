@@ -8,7 +8,7 @@ import { IDomEditor } from '../editor/interface'
 import TextArea from './TextArea'
 import { genPatchFn, normalizeVnodeData } from '../utils/vdom'
 import $, { Dom7Array, getDefaultView, getElementById } from '../utils/dom'
-import { node2Vnode } from '../formats/node2Vnode'
+import { node2Vnode } from '../render/node2Vnode'
 import {
   IS_FIRST_PATCH,
   TEXTAREA_TO_PATCH_FN,

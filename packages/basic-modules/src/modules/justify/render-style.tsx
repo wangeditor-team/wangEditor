@@ -1,5 +1,5 @@
 /**
- * @description register formats
+ * @description render justify style
  * @author wangfupeng
  */
 
