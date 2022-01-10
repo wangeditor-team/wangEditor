@@ -53,6 +53,20 @@ describe('editor content API', () => {
     expect(html).toBe('<p><span><strong>hello</strong></span></p>')
   })
 
+  it('getHtml with void element', () => {
+    const editor = createEditor({
+      content: [
+        { type: 'paragraph', children: [{ text: 'hello', bold: true }] },
+        { type: 'image', children: [{ text: '' }], src: 'test.jpg' },
+      ],
+    })
+
+    const html = editor.getHtml()
+    expect(html).toBe(
+      '<p><span><strong>hello</strong></span></p><img src="test.jpg" alt="" data-href="" style=""/>'
+    )
+  })
+
   it('getText', () => {
     const editor = createEditor({
       content: [
@@ -117,21 +131,64 @@ describe('editor content API', () => {
     expect(images.length).toBe(0)
   })
 
-  it('deleteBackward and deleteForward', () => {
+  it('deleteBackward with character', () => {
     const editor = createEditor({
       content: [{ type: 'paragraph', children: [{ text: 'hello' }] }],
     })
     editor.select(getStartLocation(editor)) // 光标在开始位置
-    Transforms.move(editor, { distance: 2, unit: 'character' }) // 光标移动 3 个字符
+    Transforms.move(editor, { distance: 2, unit: 'character' }) // 光标移动 2 个字符
 
     editor.deleteBackward('character') // 向后删除
     expect(editor.getText()).toBe('hllo')
-
-    editor.deleteForward('character') // 向前删除
-    expect(editor.getText()).toBe('hlo')
   })
 
-  it('getFragment and deleteFragment', () => {
+  it('deleteBackward with word', () => {
+    const editor = createEditor({
+      content: [{ type: 'paragraph', children: [{ text: 'hello world' }] }],
+    })
+    editor.select(getStartLocation(editor)) // 光标在开始位置
+    Transforms.move(editor, { distance: 1, unit: 'word' }) // 光标移动 1 个单词
+
+    editor.deleteBackward('word') // 向后删除
+    expect(editor.getText()).toBe(' world')
+  })
+
+  it('deleteForward with character', () => {
+    const editor = createEditor({
+      content: [{ type: 'paragraph', children: [{ text: 'hello' }] }],
+    })
+    editor.select(getStartLocation(editor)) // 光标在开始位置
+    Transforms.move(editor, { distance: 1, unit: 'character' }) // 光标移动 1 个字符
+
+    editor.deleteForward('character') // 向前删除
+    expect(editor.getText()).toBe('hllo')
+  })
+
+  it('deleteForward with word', () => {
+    const editor = createEditor({
+      content: [{ type: 'paragraph', children: [{ text: 'hello world' }] }],
+    })
+    editor.select(getStartLocation(editor)) // 光标在开始位置
+    Transforms.move(editor, { distance: 1, unit: 'word' }) // 光标移动 1 个 word
+
+    editor.deleteForward('word') // 向前删除
+    expect(editor.getText()).toBe('hello')
+  })
+
+  it('deleteForward with line', () => {
+    const editor = createEditor({
+      content: [
+        { type: 'paragraph', children: [{ text: 'hello' }] },
+        { type: 'paragraph', children: [{ text: 'world' }] },
+      ],
+    })
+    editor.select(getStartLocation(editor)) // 光标在开始位置
+
+    editor.deleteForward('line') // 向前删除
+    expect(editor.getText()).toBe('\nworld')
+  })
+
+  it('getFragment', () => {
     const editor = createEditor({
       content: [{ type: 'paragraph', children: [{ text: 'hello' }] }],
     })
@@ -149,6 +206,23 @@ describe('editor content API', () => {
 
     const fragment = editor.getFragment() // 获取选中内容
     expect(Node.string(fragment[0])).toBe('hel')
+  })
+
+  it('deleteFragment', () => {
+    const editor = createEditor({
+      content: [{ type: 'paragraph', children: [{ text: 'hello' }] }],
+    })
+    // 选中 'hel'lo
+    editor.select({
+      anchor: {
+        path: [0, 0],
+        offset: 0,
+      },
+      focus: {
+        path: [0, 0],
+        offset: 3,
+      },
+    })
 
     editor.deleteFragment() // 删除选中内容
     expect(editor.getText()).toBe('lo')
@@ -178,7 +252,7 @@ describe('editor content API', () => {
     expect(editor.getText()).toBe('')
   })
 
-  it('undo and redo', () => {
+  it('undo', () => {
     const editor = createEditor()
     editor.select(getStartLocation(editor)) // 光标在开始位置
 
@@ -187,7 +261,16 @@ describe('editor content API', () => {
     // @ts-ignore
     editor.undo()
     expect(editor.getText()).toBe('')
+  })
 
+  it('redo', () => {
+    const editor = createEditor()
+    editor.select(getStartLocation(editor)) // 光标在开始位置
+
+    editor.insertText('hello')
+
+    // @ts-ignore
+    editor.undo()
     // @ts-ignore
     editor.redo()
     expect(editor.getText()).toBe('hello')

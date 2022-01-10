@@ -3,14 +3,19 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms } from 'slate'
+import { Editor, Transforms, Element, Point } from 'slate'
 import { DomEditor } from '@wangeditor/core'
+import { IDomEditor } from '../../../../packages/core/src/editor/interface'
 import createEditor from '../../../../tests/utils/create-editor'
 import withParagraph from '../../../../packages/basic-modules/src/modules/paragraph/plugin'
 
+let editor: IDomEditor
+let startLocation: Point
 describe('paragraph plugin', () => {
-  const editor = withParagraph(createEditor())
-  const startLocation = Editor.start(editor, [])
+  beforeEach(() => {
+    editor = withParagraph(createEditor())
+    startLocation = Editor.start(editor, [])
+  })
 
   it('delete to clear text', () => {
     editor.select(startLocation)
@@ -23,5 +28,41 @@ describe('paragraph plugin', () => {
     editor.deleteForward('character') // 向前删除
     const selectedParagraph2 = DomEditor.getSelectedNodeByType(editor, 'paragraph')
     expect(selectedParagraph2).not.toBeNull() // 执行删除后，header 变为 paragraph
+  })
+
+  it('paragraph plugin insertDomElem api', () => {
+    const startLocation = Editor.start(editor, [])
+    editor.select(startLocation)
+    const p = document.createElement('p')
+    p.innerText = 'hello'
+
+    editor.insertDomElem(p)
+
+    const selectedParagraph2 = DomEditor.getSelectedNodeByType(editor, 'paragraph')
+    expect(selectedParagraph2).not.toBeNull()
+  })
+
+  it('paragraph plugin insertDomElem api with paragraph only has br', () => {
+    editor.select(startLocation)
+    const p = document.createElement('p')
+    p.innerHTML = '<br>'
+
+    editor.insertDomElem(p)
+
+    const selectedParagraph2 = DomEditor.getSelectedNodeByType(editor, 'paragraph')
+    expect(selectedParagraph2).not.toBeNull()
+    expect(editor.getText()).toBe('\n')
+  })
+
+  it('paragraph plugin insertDomElem api with paragraph only has children', () => {
+    editor.select(startLocation)
+    const p = document.createElement('p')
+    p.innerHTML = '<span>hello</span>'
+
+    editor.insertDomElem(p)
+
+    const selectedParagraph2 = DomEditor.getSelectedNodeByType(editor, 'paragraph')
+    expect(selectedParagraph2).not.toBeNull()
+    expect(editor.isEmpty()).toBeFalsy()
   })
 })
