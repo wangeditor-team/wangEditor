@@ -237,3 +237,19 @@ export function hexToRgb(hex: string) {
 
     return `rgb(${r}, ${g}, ${b})`
 }
+
+/**
+ * 通过标签拆分的形式对处理浏览器自身转义字符的问题
+ * @param innerText string
+ */
+
+export function escapeHtml(innerText: string): string {
+    if (!innerText) return ''
+    const splitArr = innerText.split('&')
+    const outHtml = splitArr
+        .map((v, index) => {
+            return `<span>${v}${index === splitArr.length - 1 ? '' : '&'}</span>`
+        })
+        .join('')
+    return outHtml
+}

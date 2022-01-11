@@ -5,7 +5,7 @@
 
 import Editor from '../../editor/index'
 import { PanelConf } from '../menu-constructors/Panel'
-import { getRandom } from '../../utils/util'
+import { escapeHtml, getRandom } from '../../utils/util'
 import $, { DomElement } from '../../utils/dom-core'
 import isActive from './is-active'
 import { insertHtml } from './util'
@@ -56,10 +56,10 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
         if (isActive(editor)) {
             // 选区处于链接中，则选中整个菜单，再执行 insertHTML
             selectLinkElem()
-            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${escapeHtml(text)}</a>`)
         } else {
             // 选区未处于链接中，直接插入即可
-            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${escapeHtml(text)}</a>`)
         }
     }
 
@@ -107,29 +107,29 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                 title: editor.i18next.t('menus.panelMenus.link.链接'),
                 // 模板
                 tpl: `<div>
-                        <input
-                            id="${inputTextId}"
-                            type="text"
-                            class="block"
-                            value="${text}"
-                            placeholder="${editor.i18next.t('menus.panelMenus.link.链接文字')}"/>
-                        </td>
-                        <input
-                            id="${inputLinkId}"
-                            type="text"
-                            class="block"
-                            value="${link}"
-                            placeholder="${editor.i18next.t('如')} https://..."/>
-                        </td>
-                        <div class="w-e-button-container">
-                            <button type="button" id="${btnOkId}" class="right">
-                                ${editor.i18next.t('插入')}
-                            </button>
-                            <button type="button" id="${btnDelId}" class="gray right" style="display:${delBtnDisplay}">
-                                ${editor.i18next.t('menus.panelMenus.link.取消链接')}
-                            </button>
-                        </div>
-                    </div>`,
+                         <input
+                             id="${inputTextId}"
+                             type="text"
+                             class="block"
+                             value="${text}"
+                             placeholder="${editor.i18next.t('menus.panelMenus.link.链接文字')}"/>
+                         </td>
+                         <input
+                             id="${inputLinkId}"
+                             type="text"
+                             class="block"
+                             value="${link}"
+                             placeholder="${editor.i18next.t('如')} https://..."/>
+                         </td>
+                         <div class="w-e-button-container">
+                             <button type="button" id="${btnOkId}" class="right">
+                                 ${editor.i18next.t('插入')}
+                             </button>
+                             <button type="button" id="${btnDelId}" class="gray right" style="display:${delBtnDisplay}">
+                                 ${editor.i18next.t('menus.panelMenus.link.取消链接')}
+                             </button>
+                         </div>
+                     </div>`,
                 // 事件绑定
                 events: [
                     // 插入链接

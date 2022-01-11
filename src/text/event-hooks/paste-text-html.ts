@@ -5,23 +5,23 @@
 
 import Editor from '../../editor/index'
 import { getPasteText, getPasteHtml } from '../paste/paste-event'
-import { isFunction } from '../../utils/util'
+import { escapeHtml, isFunction } from '../../utils/util'
 import { urlRegex } from '../../utils/const'
 import { DomElement } from '../../utils/dom-core'
 
 /**
- * 格式化html
- * @param val 粘贴的html
- * @author Gavin
- * @description
-    格式化html，需要特别注意
-    功能：
-        1. 将htmlText中的div，都替换成p标签
-        2. 将处理后的htmlText模拟先插入到真实dom中，处理P截断问题。
-
-    注意点：
-        由于P不能嵌套p，会导致标签截断，从而将<p><p>xx</p></p>这样一个结构插入到页面时，会出现很多问题，包括光标位置问题，页面凭空多很多元素的问题。
- */
+  * 格式化html
+  * @param val 粘贴的html
+  * @author Gavin
+  * @description
+     格式化html，需要特别注意
+     功能：
+         1. 将htmlText中的div，都替换成p标签
+         2. 将处理后的htmlText模拟先插入到真实dom中，处理P截断问题。
+ 
+     注意点：
+         由于P不能嵌套p，会导致标签截断，从而将<p><p>xx</p></p>这样一个结构插入到页面时，会出现很多问题，包括光标位置问题，页面凭空多很多元素的问题。
+  */
 function formatHtml(htmlText: string) {
     const paste = htmlText
         .replace(/<div>/gim, '<p>') // div 全部替换为 p 标签
@@ -36,6 +36,33 @@ function formatHtml(htmlText: string) {
     return tempContainer.innerHTML.replace(/<p><\/p>/gim, '') // 将被截断的p，都替换掉
 }
 
+function myFlat(arr: Array<any>): Array<any> {
+    return arr.reduce((pre, item) => pre.concat(Array.isArray(item) ? myFlat(item) : item), [])
+}
+
+function loopNode(el: HTMLElement): Array<HTMLElement> {
+    if (!el?.children?.length) {
+        return [el]
+    }
+    const list = Array.from(el.children) as Array<HTMLElement>
+    return myFlat([el, list.map(loopNode)])
+}
+/**
+ * 通过拆分标签的方式转义html中的特殊字符，避免显示异常
+ * @param html 粘贴的html
+ * @author Ding
+ */
+
+function defEscapeHtml(html: string): string {
+    const dom = document.createElement('div')
+    dom.innerHTML = html
+    /* 插入时，粘贴的非图片、非url内容被转成了P标签 */
+    const list = loopNode(dom).filter(item => item.nodeName === 'P')
+    list.forEach(v => {
+        v.innerHTML = escapeHtml(v.innerText)
+    })
+    return dom.innerHTML
+}
 /**
  * 格式化html
  * @param val 粘贴的html
@@ -122,12 +149,12 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 pasteText = '' + (pasteTextHandle(pasteText) || '') // html
             }
 
-            const insertUrl = urlRegex.exec(pasteText)![0]
-            const otherText = pasteText.replace(urlRegex, '')
+            const insertUrl: string = urlRegex.exec(pasteText)![0]
 
+            const otherText = pasteText.replace(urlRegex, '')
             return editor.cmd.do(
                 'insertHTML',
-                `<a href="${insertUrl}" target="_blank">${insertUrl}</a>${otherText}`
+                `<a href="${insertUrl}" target="_blank">${escapeHtml(insertUrl)}</a>${otherText}`
             ) // html
         }
         // table 中（td、th），待开发。。。
@@ -147,10 +174,11 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
             if (isCssStyle && pasteFilterStyle) {
                 editor.cmd.do('insertHTML', `${formatHtml(pasteText)}`) // text
             } else {
-                const html = formatHtml(pasteHtml)
+                const html = formatHtml(defEscapeHtml(pasteHtml))
                 // 如果是段落，为了兼容 firefox 和 chrome差异，自定义插入
                 if (isParagraphHtml(html)) {
                     const $textEl = editor.$textElem
+
                     editor.cmd.do('insertHTML', html)
                     // 全选的情况下覆盖原有内容
                     if ($textEl.equal($selectionElem)) {
