@@ -7,6 +7,7 @@ import { IModuleConf } from '@wangeditor/core'
 import withImage from './plugin'
 import { renderImageConf } from './render-elem'
 import { imageToHtmlConf } from './elem-to-html'
+import { parseHtmlConf } from './parse-elem-html'
 import {
   insertImageMenuConf,
   deleteImageMenuConf,
@@ -20,6 +21,7 @@ import {
 const image: Partial<IModuleConf> = {
   renderElems: [renderImageConf],
   elemsToHtml: [imageToHtmlConf],
+  parseElemsHtml: [parseHtmlConf],
   menus: [
     insertImageMenuConf,
     deleteImageMenuConf,

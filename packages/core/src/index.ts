@@ -7,6 +7,7 @@ import './assets/index.less'
 
 import { RenderStyleFnType, IRenderElemConf } from './render/index'
 import { styleToHtmlFnType, IElemToHtmlConf } from './to-html/index'
+import { IPreParseHtmlConf, ParseStyleHtmlFnType, IParseElemHtmlConf } from './parse-html/index'
 import { IRegisterMenuConf } from './menus/index'
 import { IDomEditor } from './editor/interface'
 
@@ -25,6 +26,9 @@ export * from './render/index'
 
 // 注册 toHtml
 export * from './to-html/index'
+
+// 注册 parseHtml
+export * from './parse-html/index'
 
 // menu 的接口、注册、方法等
 export * from './menus/index'
@@ -46,6 +50,11 @@ export interface IModuleConf {
   // to html
   styleToHtml: styleToHtmlFnType
   elemsToHtml: Array<IElemToHtmlConf>
+
+  // parse html
+  preParseHtml: Array<IPreParseHtmlConf>
+  parseStyleHtml: ParseStyleHtmlFnType
+  parseElemsHtml: Array<IParseElemHtmlConf>
 
   // 注册插件
   editorPlugin: <T extends IDomEditor>(editor: T) => T

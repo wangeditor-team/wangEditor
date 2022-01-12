@@ -52,3 +52,31 @@ export function addQueryToUrl(url: string, data: object): string {
     return urlWithoutHash
   }
 }
+
+/**
+ * 替换 html 特殊字符，如 > 替换为 &gt;
+ * @param str html str
+ */
+export function replaceHtmlSpecialSymbols(str: string) {
+  return str
+    .replace(/ /g, '&nbsp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/®/g, '&reg;')
+    .replace(/©/g, '&copy;')
+    .replace(/™/g, '&trade;')
+}
+
+/**
+ *【反转】替换 html 特殊字符，如 &gt; 替换为 >
+ * @param str html str
+ */
+export function deReplaceHtmlSpecialSymbols(str: string) {
+  return str
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&reg;/g, '®')
+    .replace(/&copy;/g, '©')
+    .replace(/&trade;/g, '™')
+}

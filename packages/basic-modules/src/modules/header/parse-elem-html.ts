@@ -1,0 +1,57 @@
+/**
+ * @description parse html
+ * @author wangfupeng
+ */
+
+import { Descendant } from 'slate'
+import { Dom7Array } from 'dom7'
+import { IDomEditor } from '@wangeditor/core'
+import {
+  Header1Element,
+  Header2Element,
+  Header3Element,
+  Header4Element,
+  Header5Element,
+} from './custom-types'
+
+function genParser<T>(level: number) {
+  function parseHtml($elem: Dom7Array, children: Descendant[], editor: IDomEditor): T {
+    // 无 children ，则用纯文本
+    if (children.length === 0) {
+      children = [{ text: $elem.text().replace(/\s+/gm, ' ') }]
+    }
+
+    const elem = {
+      type: `header${level}`,
+      children,
+    } as unknown as T
+
+    return elem
+  }
+  return parseHtml
+}
+
+export const parseHeader1HtmlConf = {
+  selector: 'h1',
+  parseElemHtml: genParser<Header1Element>(1),
+}
+
+export const parseHeader2HtmlConf = {
+  selector: 'h2',
+  parseElemHtml: genParser<Header2Element>(2),
+}
+
+export const parseHeader3HtmlConf = {
+  selector: 'h3',
+  parseElemHtml: genParser<Header3Element>(3),
+}
+
+export const parseHeader4HtmlConf = {
+  selector: 'h4',
+  parseElemHtml: genParser<Header4Element>(4),
+}
+
+export const parseHeader5HtmlConf = {
+  selector: 'h5',
+  parseElemHtml: genParser<Header5Element>(5),
+}

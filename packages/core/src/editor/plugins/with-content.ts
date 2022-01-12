@@ -7,7 +7,7 @@ import { Editor, Node, Text, Path, Operation, Range, Transforms, Element } from 
 import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../..'
 import { EDITOR_TO_SELECTION, NODE_TO_KEY } from '../../utils/weak-maps'
-import { node2html } from '../../to-html/node2html'
+import node2html from '../../to-html/node2html'
 import { genElemId } from '../../render/helper'
 import { Key } from '../../utils/key'
 import { DOMElement, getPlainText } from '../../utils/dom'

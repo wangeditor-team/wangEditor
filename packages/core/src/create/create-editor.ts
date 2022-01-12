@@ -29,13 +29,16 @@ import {
   EDITOR_TO_HOVER_BAR,
 } from '../utils/weak-maps'
 import bindNodeRelation from './bind-node-relation'
+import $ from '../utils/dom'
+import parseElemHtml from '../parse-html/parse-elem-html'
 
 type PluginFnType = <T extends IDomEditor>(editor: T) => T
 
 interface ICreateOption {
   selector: string | DOMElement
   config: Partial<IEditorConfig>
-  content: Descendant[]
+  content?: Descendant[]
+  html?: string
   plugins: PluginFnType[]
 }
 
@@ -43,7 +46,7 @@ interface ICreateOption {
  * 创建编辑器
  */
 export default function (option: Partial<ICreateOption>) {
-  const { selector = '', config = {}, content, plugins = [] } = option
+  const { selector = '', config = {}, content, html, plugins = [] } = option
 
   // 创建实例 - 使用插件
   let editor = withHistory(
@@ -69,10 +72,19 @@ export default function (option: Partial<ICreateOption>) {
   })
 
   // 初始化内容（要在 config 和 plugins 后面）
-  if (content && content.length) {
-    editor.children = content
-  } else {
-    editor.children = genDefaultContent()
+  if (content) {
+    editor.children = content // 传入 JSON content
+  }
+  if (html) {
+    // 传入 html ，转换为 JSON content
+    const $content = $(`<div>${html}</div>`)
+    editor.children = Array.from($content.children()).map(child => {
+      const $child = $(child)
+      return parseElemHtml($child, editor)
+    })
+  }
+  if (editor.children.length === 0) {
+    editor.children = genDefaultContent() // 默认内容
   }
   DomEditor.normalizeContent(editor) // 格式化，用户输入的 content 可能不规范（如两个相连的 text 没有合并）
 

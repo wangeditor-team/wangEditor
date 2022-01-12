@@ -25,6 +25,15 @@ import {
   styleToHtmlFnType,
   registerStyleToHtmlHandler,
   registerElemToHtmlConf,
+
+  // parseHtml
+  PreParseHtmlFnType,
+  IPreParseHtmlConf,
+  registerPreParseHtmlConf,
+  ParseStyleHtmlFnType,
+  IParseElemHtmlConf,
+  registerParseElemHtmlConf,
+  registerParseStyleHtmlHandler,
 } from '@wangeditor/core'
 
 type PluginType = <T extends IDomEditor>(editor: T) => T
@@ -96,6 +105,21 @@ class Boot {
   // 注册 styleToHtml
   static registerStyleToHtml(fn: styleToHtmlFnType) {
     registerStyleToHtmlHandler(fn)
+  }
+
+  // 注册 preParseHtml
+  static registerPreParseHtml(preParseHtmlConf: IPreParseHtmlConf) {
+    registerPreParseHtmlConf(preParseHtmlConf)
+  }
+
+  // 注册 parseElemHtml
+  static registerParseElemHtml(parseElemHtmlConf: IParseElemHtmlConf) {
+    registerParseElemHtmlConf(parseElemHtmlConf)
+  }
+
+  // 注册 parseStyleHtml
+  static registerParseStyleHtml(fn: ParseStyleHtmlFnType) {
+    registerParseStyleHtmlHandler(fn)
   }
 }
 
