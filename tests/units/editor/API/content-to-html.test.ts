@@ -11,7 +11,7 @@ describe('convert to html or text', () => {
     const editor = createWithSelector({
       content: [{ type: 'paragraph', children: [{ text: 'hello', bold: true }] }],
     })
-    expect(editor.getHtml()).toBe('<p><span><strong>hello</strong></span></p>')
+    expect(editor.getHtml()).toBe('<p><strong>hello</strong></p>')
   })
 
   it('convert to html if not give selector option', () => {
@@ -19,7 +19,7 @@ describe('convert to html or text', () => {
       // 不传入 selector ，只有 content
       content: [{ type: 'paragraph', children: [{ text: 'hello', bold: true }] }],
     })
-    expect(editor.getHtml()).toBe('<p><span><strong>hello</strong></span></p>')
+    expect(editor.getHtml()).toBe('<p><strong>hello</strong></p>')
   })
 
   it('convert to text if give selector option', () => {

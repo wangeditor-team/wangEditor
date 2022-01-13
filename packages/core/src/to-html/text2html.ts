@@ -22,7 +22,7 @@ function textToHtml(textNode: Text, editor: IDomEditor): string {
   const hasPre = parents.some(p => DomEditor.getNodeType(p) === 'pre') // 上级节点中，是否存在 <pre>
   // 在 <pre> 标签不替换，其他都替换
   if (!hasPre) {
-    textHtml = textHtml.replace(/\n|\r/g, '<br>')
+    textHtml = textHtml.replace(/\r\n|\r|\n/g, '<br>')
   }
 
   // 在 <pre> 内部，&nbsp; 替换为空格
@@ -30,15 +30,20 @@ function textToHtml(textNode: Text, editor: IDomEditor): string {
     textHtml = textHtml.replace(/&nbsp;/g, ' ')
   }
 
-  // 空标签
-  if (!textHtml) textHtml = '<br>'
-
-  // text html 必须用 <span> 包裹
-  textHtml = `<span>${textHtml}</span>`
+  // 处理空字符串
+  if (textHtml === '') {
+    const parentNode = DomEditor.getParentNode(null, textNode)
+    if (parentNode && parentNode.children.length === 0) {
+      // textNode 是唯一的子节点，则改为 <br>
+      textHtml = '<br>'
+    } else {
+      // 其他情况的 空字符串 ，直接返回
+      return textHtml
+    }
+  }
 
   // 增加文本样式，如 color bgColor
   STYLE_TO_HTML_FN_LIST.forEach(fn => (textHtml = fn(textNode, textHtml)))
-
   return textHtml
 }
 

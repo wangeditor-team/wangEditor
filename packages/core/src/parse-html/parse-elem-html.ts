@@ -11,7 +11,7 @@ import parseTextElemHtml from './parse-text-elem-html'
 import { getTagName } from '../utils/dom'
 import { PRE_PARSE_HTML_CONF_LIST } from '../index'
 
-// 常见的 text tag （不用太全面，因为 wangEditor 产出的 text 全部包裹了 span ，所以只再兼容其他常见的即可）
+// 常见的 text tag
 const TEXT_TAGS = ['span', 'b', 'strong', 'i', 'em', 's', 'strike', 'u', 'font']
 
 /**

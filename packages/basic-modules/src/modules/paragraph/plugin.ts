@@ -10,33 +10,7 @@ import {
   Node as SlateNode,
   Text as SlateText,
 } from 'slate'
-import { IDomEditor, DomEditor } from '@wangeditor/core'
-
-/**
- * 是否是空 p
- * @param domElem dom elem
- */
-function isEmptyParagraph(domElem: Element): boolean {
-  if (domElem.tagName.toLowerCase() !== 'p') {
-    throw new Error('domElem is not a <p>')
-  }
-
-  const innerHTML = domElem.innerHTML
-  if (innerHTML === '') return true
-
-  if (innerHTML === '<br>' || innerHTML === '<br/>') {
-    return true
-  }
-
-  const children = Array.from(domElem.children)
-  if (children.length === 1) {
-    if (children[0].tagName.toLowerCase() === 'br') {
-      return true
-    }
-  }
-
-  return false
-}
+import { IDomEditor } from '@wangeditor/core'
 
 function deleteHandler(newEditor: IDomEditor): boolean {
   const [nodeEntry] = Editor.nodes(newEditor, {

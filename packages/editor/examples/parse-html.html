@@ -88,21 +88,22 @@ return a;
     document.getElementById('btn-v5-html').addEventListener('click', () => {
       textarea.value = `<h1>标题1</h1>
 <h3>标题3</h3>
-<blockquote><span>引用文字</span>123</blockquote>
+<blockquote>引用文字<strong>123</strong></blockquote>
+<p>hello&nbsp;<span style="color: rgb(235, 144, 58);"><i><u>多样式&nbsp;</u></i></span><strong>word</strong>~😊😬</p>
 <p>
-  <span>hello&nbsp;</span>
-  <span><strong>word</strong></span>
-  <span>~😊😬</span>
+  <span>span包裹1&nbsp;</span>
+  <span><strong>span包裹2&nbsp;</strong></span>
+  <span style="color: rgb(235, 144, 58);"><strong><u>span包裹3</u></strong></span>
 </p>
 <hr>
 <p>
   <a href="https://www.baidu.com/" target="_blank">百度</a>
-  <span>&nbsp;</span>
-  <span><code>var</code></span>
+  &nbsp;
+  <code>var</code>
 </p>
-<p style="line-height: 2.5;"><span>行高文字 line-height</span></p>
-<p style="text-align: center;"><span>对齐方式 text-align</span></p>
-<p style="padding-left: 32px;"><span>增加缩进 indent</span></p>
+<p style="line-height: 2.5;">行高文字 line-height</p>
+<p style="text-align: center;">对齐方式 text-align</p>
+<p style="padding-left: 32px;">增加缩进 indent</p>
 <p>
   <img src="https://www.baidu.com/img/flexible/logo/pc/result.png"
     alt="google"
@@ -115,24 +116,18 @@ return a;
   <span>&nbsp;</span>
   <span style="font-family: 标楷体;">设置字体</span>
 </p>
-<p>
-  <span style="color: rgb(235, 144, 58);">颜色</span>
-  <span>&nbsp;</span>
-  <span style="background-color: rgb(255, 236, 61);">颜色</span>
-  <span>&nbsp;</span>
-  <span style="color: rgb(89, 89, 89); background-color: rgb(212, 177, 6);">颜色</span>
-</p>
+<p><span style="color: rgb(235, 144, 58);">颜色</span>&nbsp;<span style="background-color: rgb(255, 236, 61);">颜色</span>&nbsp;<span style="color: rgb(217, 217, 217); background-color: rgb(54, 88, 226);">颜色</span></p>
 <pre><code class="language-javascript"><span>const a = 10;
 function fn() {
-// 代码
+  // 代码
 }</span></code></pre>
 <ul>
   <li>项目A</li>
   <li>项目B</li>
-  <li><span>项目C&nbsp;</span><span><strong>word</strong></span></li>
+  <li>项目C&nbsp;<strong>word</strong>~</li>
 </ul>
 <ol>
-  <li><span>项目1&nbsp;</span><a href="https://www.baidu.com/" target="_blank">百度</a></li>
+  <li>项目1&nbsp;<a href="https://www.baidu.com/" target="_blank">百度</a></li>
   <li>项目2</li>
   <li>项目3</li>
 </ol>
@@ -142,7 +137,7 @@ function fn() {
 <div data-w-e-type="video" data-w-e-isVoid>
   <video controls="true"><source src="https://www.w3school.com.cn/i/movie.ogg" type="video/mp4"/></video>
 </div>
-<p><span>hello</span></p>
+<p><br></p>
 <table style="width: 100%;">
   <tbody>
     <tr><th colSpan="1" rowSpan="1"><span>a</span></th><th colSpan="1" rowSpan="1"><span>b</span></th><th colSpan="1" rowSpan="1"><span>c</span></th></tr>
@@ -151,9 +146,9 @@ function fn() {
 </table>
 <div>
   其他标签
-</div>`
+</div>
+`
     })
-    
   </script>
 </body>
 </html>

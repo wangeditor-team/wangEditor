@@ -61,8 +61,13 @@ function parseTableHtml(
 ): TableElement {
   // 判断 fullWidth
   let fullWidth = false
-  fullWidth = getStyleValue($elem, 'width') === '100%'
-  fullWidth = $elem.attr('width') === '100%' // 兼容 V4
+
+  if (!fullWidth) {
+    fullWidth = getStyleValue($elem, 'width') === '100%'
+  }
+  if (!fullWidth) {
+    fullWidth = $elem.attr('width') === '100%' // 兼容 V4
+  }
 
   return {
     type: 'table',

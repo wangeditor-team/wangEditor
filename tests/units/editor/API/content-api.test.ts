@@ -50,7 +50,7 @@ describe('editor content API', () => {
     })
 
     const html = editor.getHtml()
-    expect(html).toBe('<p><span><strong>hello</strong></span></p>')
+    expect(html).toBe('<p><strong>hello</strong></p>')
   })
 
   it('getHtml with void element', () => {
@@ -63,7 +63,7 @@ describe('editor content API', () => {
 
     const html = editor.getHtml()
     expect(html).toBe(
-      '<p><span><strong>hello</strong></span></p><img src="test.jpg" alt="" data-href="" style=""/>'
+      '<p><strong>hello</strong></p><img src="test.jpg" alt="" data-href="" style=""/>'
     )
   })
 

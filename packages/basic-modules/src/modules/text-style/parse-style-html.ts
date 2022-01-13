@@ -6,25 +6,18 @@
 import { Dom7Array } from 'dom7'
 import { Descendant, Text } from 'slate'
 import { StyledText } from './custom-types'
-import { getTagName } from '../../utils/dom'
 
 /**
  * $text 是否匹配 tags
  * @param $text $text
- * @param tags tags，如 ['b', 'strong']
+ * @param selector selector 如 'b,strong' 或 'sub'
  */
-function isMatch($text: Dom7Array, tags: string[] | string): boolean {
-  const tagName = getTagName($text)
-  if (typeof tags === 'string') tags = [tags]
+function isMatch($text: Dom7Array, selector: string): boolean {
+  if ($text.length === 0) return false
 
-  const length = tags.length
-  for (let i = 0; i < length; i++) {
-    const tag = tags[i]
-    if (tagName === tag) return true
-    break
-  }
+  if ($text[0].matches(selector)) return true
 
-  if ($text.find(tags.join(',')).length > 0) return true
+  if ($text.find(selector).length > 0) return true
 
   return false
 }
@@ -35,12 +28,12 @@ export function parseStyleHtml($text: Dom7Array, node: Descendant): Descendant {
   const textNode = node as StyledText
 
   // bold
-  if (isMatch($text, ['b', 'strong'])) {
+  if (isMatch($text, 'b,strong')) {
     textNode.bold = true
   }
 
   // italic
-  if (isMatch($text, ['i', 'em'])) {
+  if (isMatch($text, 'i,em')) {
     textNode.italic = true
   }
 
@@ -50,7 +43,7 @@ export function parseStyleHtml($text: Dom7Array, node: Descendant): Descendant {
   }
 
   // through
-  if (isMatch($text, ['s', 'strike'])) {
+  if (isMatch($text, 's,strike')) {
     textNode.through = true
   }
 
