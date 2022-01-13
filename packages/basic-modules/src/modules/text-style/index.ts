@@ -17,7 +17,6 @@ import {
   supMenuConf,
   clearStyleMenuConf,
 } from './menu/index'
-import withTextStyle from './plugin'
 
 const textStyle: Partial<IModuleConf> = {
   renderStyle,
@@ -33,7 +32,6 @@ const textStyle: Partial<IModuleConf> = {
   ],
   styleToHtml,
   parseStyleHtml,
-  editorPlugin: withTextStyle,
 }
 
 export default textStyle

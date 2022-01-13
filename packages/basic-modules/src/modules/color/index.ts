@@ -9,7 +9,6 @@ import { styleToHtml } from './style-to-html'
 import { preParseHtmlConf } from './pre-parse-html'
 import { parseStyleHtml } from './parse-style-html'
 import { colorMenuConf, bgColorMenuConf } from './menu/index'
-import withColor from './plugin'
 
 const color: Partial<IModuleConf> = {
   renderStyle,
@@ -17,7 +16,6 @@ const color: Partial<IModuleConf> = {
   preParseHtml: [preParseHtmlConf],
   parseStyleHtml,
   menus: [colorMenuConf, bgColorMenuConf],
-  editorPlugin: withColor,
 }
 
 export default color

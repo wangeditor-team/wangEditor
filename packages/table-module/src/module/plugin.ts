@@ -50,7 +50,6 @@ function withTable<T extends IDomEditor>(editor: T): T {
     insertData,
     handleTab,
     selectAll,
-    insertDomElem,
   } = editor
   const newEditor = editor
 
@@ -279,23 +278,6 @@ function withTable<T extends IDomEditor>(editor: T): T {
       focus: { path: textPath, offset: textLength },
     }
     newEditor.select(newSelection) // 选中 table-cell 内部的全部文字
-  }
-
-  newEditor.insertDomElem = (domElem: Element) => {
-    if (domElem.tagName.toLowerCase() !== 'table') {
-      insertDomElem(domElem) // 继续其他的 elem
-      return
-    }
-
-    // 插入 table DOM elem 暂时先插入纯文本，暂不支持解析为 table node
-    // 因为现在 table 还未支持单元格合并，万一插入一个 `colSpan !== 1` 的 table ，将会解析失败 - wangfupeng 2021.12.6
-    const $table = $(domElem)
-    const $trList = $table.find('tr')
-    $trList.forEach(tr => {
-      let rowText = tr.textContent || ''
-      rowText = rowText.replace(/\r\n|\r|\n/g, ' ')
-      newEditor.insertNode({ type: 'paragraph', children: [{ text: rowText }] })
-    })
   }
 
   // 可继续修改其他 newEditor API ...

@@ -7,7 +7,7 @@
 import { IDomEditor } from '@wangeditor/core'
 
 function withImage<T extends IDomEditor>(editor: T): T {
-  const { isInline, isVoid, insertDomElem, insertNode } = editor
+  const { isInline, isVoid, insertNode } = editor
   const newEditor = editor
 
   // 重写 isInline
@@ -30,25 +30,6 @@ function withImage<T extends IDomEditor>(editor: T): T {
     }
 
     return isVoid(elem)
-  }
-
-  // insert <img> DOM Element
-  newEditor.insertDomElem = (domElem: Element) => {
-    if (domElem.tagName.toLowerCase() !== 'img') {
-      insertDomElem(domElem)
-      return
-    }
-
-    const src = domElem.getAttribute('src') || ''
-    const alt = domElem.getAttribute('alt') || ''
-    if (!src) return
-
-    insertNode({
-      type: 'image',
-      src,
-      alt,
-      children: [{ text: '' }],
-    })
   }
 
   // 返回 editor ，重要！
