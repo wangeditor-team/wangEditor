@@ -9,7 +9,7 @@ import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 
 const SPECIAL_NODE_LIST = ['LI']
-const SPECIAL_TOP_NODE_LIST = ['UL', 'BLOCKQUOTE']
+const SPECIAL_TOP_NODE_LIST = ['BLOCKQUOTE']
 
 class Justify extends DropListMenu implements MenuActive {
     constructor(editor: Editor) {
