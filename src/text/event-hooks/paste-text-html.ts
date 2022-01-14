@@ -10,18 +10,18 @@ import { urlRegex } from '../../utils/const'
 import { DomElement } from '../../utils/dom-core'
 
 /**
-  * 格式化html
-  * @param val 粘贴的html
-  * @author Gavin
-  * @description
-     格式化html，需要特别注意
-     功能：
-         1. 将htmlText中的div，都替换成p标签
-         2. 将处理后的htmlText模拟先插入到真实dom中，处理P截断问题。
- 
-     注意点：
-         由于P不能嵌套p，会导致标签截断，从而将<p><p>xx</p></p>这样一个结构插入到页面时，会出现很多问题，包括光标位置问题，页面凭空多很多元素的问题。
-  */
+ * 格式化html
+ * @param val 粘贴的html
+ * @author Gavin
+ * @description
+ 格式化html，需要特别注意
+    功能：
+        1. 将htmlText中的div，都替换成p标签
+        2. 将处理后的htmlText模拟先插入到真实dom中，处理P截断问题。
+
+    注意点：
+        由于P不能嵌套p，会导致标签截断，从而将<p><p>xx</p></p>这样一个结构插入到页面时，会出现很多问题，包括光标位置问题，页面凭空多很多元素的问题。
+*/
 function formatHtml(htmlText: string) {
     const paste = htmlText
         .replace(/<div>/gim, '<p>') // div 全部替换为 p 标签

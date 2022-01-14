@@ -107,28 +107,28 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                 title: editor.i18next.t('menus.panelMenus.link.链接'),
                 // 模板
                 tpl: `<div>
-                         <input
-                             id="${inputTextId}"
-                             type="text"
-                             class="block"
-                             value="${text}"
-                             placeholder="${editor.i18next.t('menus.panelMenus.link.链接文字')}"/>
-                         </td>
-                         <input
-                             id="${inputLinkId}"
-                             type="text"
-                             class="block"
-                             value="${link}"
-                             placeholder="${editor.i18next.t('如')} https://..."/>
-                         </td>
-                         <div class="w-e-button-container">
-                             <button type="button" id="${btnOkId}" class="right">
-                                 ${editor.i18next.t('插入')}
-                             </button>
-                             <button type="button" id="${btnDelId}" class="gray right" style="display:${delBtnDisplay}">
-                                 ${editor.i18next.t('menus.panelMenus.link.取消链接')}
-                             </button>
-                         </div>
+                        <input
+                            id="${inputTextId}"
+                            type="text"
+                            class="block"
+                            value="${text}"
+                            placeholder="${editor.i18next.t('menus.panelMenus.link.链接文字')}"/>
+                        </td>
+                        <input
+                            id="${inputLinkId}"
+                            type="text"
+                            class="block"
+                            value="${link}"
+                            placeholder="${editor.i18next.t('如')} https://..."/>
+                        </td>
+                        <div class="w-e-button-container">
+                            <button type="button" id="${btnOkId}" class="right">
+                                ${editor.i18next.t('插入')}
+                            </button>
+                            <button type="button" id="${btnDelId}" class="gray right" style="display:${delBtnDisplay}">
+                                ${editor.i18next.t('menus.panelMenus.link.取消链接')}
+                            </button>
+                        </div>
                      </div>`,
                 // 事件绑定
                 events: [
