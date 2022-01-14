@@ -112,7 +112,7 @@ export function forEach<T extends unknown[] | Obj | ArrObj>(
  * @param fakeArr 类数组
  * @param fn 回调函数
  */
-export function arrForEach<T extends { length: number; [key: number]: unknown }>(
+export function arrForEach<T extends { length: number;[key: number]: unknown }>(
     fakeArr: T,
     fn: (this: T, item: T[number], index: number) => boolean | unknown
 ): void {
@@ -236,4 +236,12 @@ export function hexToRgb(hex: string) {
     const b = colors[3]
 
     return `rgb(${r}, ${g}, ${b})`
+}
+/**
+ * 处理设置的像素值
+ * @param unit string | number  500 || '500px' || '50vh' || '50%'
+ */
+export function handlePx(unit: string | number): string {
+    if (typeof unit === 'number') return unit + 'px'
+    return unit
 }

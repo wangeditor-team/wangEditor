@@ -1,6 +1,7 @@
 import createEditor, { selector } from '../../helpers/create-editor'
 import { setFullScreen, setUnFullScreen } from '../../../src/editor/init-fns/set-full-screen'
 import $ from 'jquery'
+import { handlePx } from '../../../src/utils/util';
 
 const EDIT_CONTAINER_FULLSCREEN_CLASS = 'w-e-full-screen-editor'
 
@@ -19,5 +20,5 @@ test.only('调用 setUnFullScreen 取消编辑器全屏模式', () => {
     expect($iconElem.get(0).className).toContain('w-e-icon-fullscreen')
     expect($editorParent.className).not.toContain(EDIT_CONTAINER_FULLSCREEN_CLASS)
     expect($editorParent.style.zIndex).toBe('auto')
-    expect($textContainerElem.elems[0].style.height).toBe(editor.config.height + 'px')
+    expect($textContainerElem.elems[0].style.height).toBe(handlePx(editor.config.height))
 })

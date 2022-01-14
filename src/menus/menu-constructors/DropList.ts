@@ -5,6 +5,7 @@
 import $, { DomElement } from '../../utils/dom-core'
 import DropListMenu from './DropListMenu'
 import { EMPTY_FN } from '../../utils/const'
+import { handlePx } from '../../utils/util';
 
 export type DropListItem = {
     $elem: DomElement
@@ -108,7 +109,7 @@ class DropList {
             // 加入 DOM 之前先定位位置
             const menuHeight = $menuELem.getBoundingClientRect().height || 0
             const width = this.conf.width || 100 // 默认为 100
-            $container.css('margin-top', menuHeight + 'px').css('width', width + 'px')
+            $container.css('margin-top', handlePx(menuHeight)).css('width', handlePx(width))
 
             // 加入到 DOM
             $menuELem.append($container)

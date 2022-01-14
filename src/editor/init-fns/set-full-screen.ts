@@ -7,6 +7,7 @@ import Editor from '../index'
 import $ from '../../utils/dom-core'
 
 import '../../assets/style/full-screen.less'
+import { handlePx } from '../../utils/util';
 
 const iconFullScreenText = 'w-e-icon-fullscreen' // 全屏icon class
 const iconExitFullScreenText = 'w-e-icon-fullscreen_exit' // 退出全屏icon class
@@ -46,7 +47,7 @@ export const setUnFullScreen = (editor: Editor) => {
     $iconElem.addClass(iconFullScreenText)
     $editorParent.removeClass(classfullScreenEditor)
     $editorParent.css('z-index', 'auto')
-    $textContainerElem.css('height', config.height + 'px')
+    $textContainerElem.css('height', handlePx(config.height))
 }
 
 /**

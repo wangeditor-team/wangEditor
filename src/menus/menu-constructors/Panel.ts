@@ -6,6 +6,7 @@
 import $, { DomElement } from '../../utils/dom-core'
 import PanelMenu from './PanelMenu'
 import { EMPTY_FN } from '../../utils/const'
+import { handlePx } from '../../utils/util';
 
 // Panel 配置格式
 export type TabEventConf = {
@@ -77,7 +78,7 @@ class Panel {
         }
 
         $container
-            .css('width', width + 'px')
+            .css('width', handlePx(width))
             .css('margin-top', `${top}px`)
             .css('margin-left', `${left}px`)
             .css('z-index', menu.editor.zIndex.get('panel'))
@@ -97,7 +98,7 @@ class Panel {
         // 设置高度
         const height = conf.height // height: 0 即不用设置
         if (height) {
-            $tabContentContainer.css('height', height + 'px').css('overflow-y', 'auto')
+            $tabContentContainer.css('height', handlePx(height)).css('overflow-y', 'auto')
         }
 
         // tabs
