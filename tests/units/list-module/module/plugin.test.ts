@@ -9,6 +9,36 @@ import * as core from '@wangeditor/core'
 import * as slate from 'slate'
 
 describe('module plugin', () => {
+  test('Use withList editor invoke insertBreak should insert empty if current selectNode is list last child and content is empty', () => {
+    const editor = createEditor({
+      content: [
+        {
+          type: 'numbered-list',
+          children: [
+            {
+              type: 'list-item',
+              children: [{ text: 'hello' }],
+            },
+            {
+              type: 'list-item',
+              children: [{ text: '' }],
+            },
+          ],
+        },
+      ],
+    })
+    editor.select({ path: [0, 1, 0], offset: 0 }) // 选中第二个 list-item
+
+    const newEditor = withList(editor)
+    newEditor.insertBreak() // 回车换行
+
+    const listItems = newEditor.getElemsByType('list-item')
+    expect(listItems.length).toBe(1) // list-item 变为一个
+
+    const paragraphs = newEditor.getElemsByType('paragraph')
+    expect(paragraphs.length).toBe(1) // 生成一个 paragraph
+  })
+
   test('Use withList editor invoke original insertBreak if current selectNode is not list', () => {
     const editor = createEditor()
     const mockInsertBreakFn = jest.fn()
@@ -19,40 +49,6 @@ describe('module plugin', () => {
     newEditor.insertBreak()
 
     expect(mockInsertBreakFn).toBeCalled()
-  })
-
-  test('Use withList editor invoke insertBreak should insert empty if current selectNode is list last child and content is empty', () => {
-    const editor = createEditor()
-    const selectNode = {
-      type: 'list-item',
-      children: [],
-    }
-    const listNode = {
-      type: 'numbered-list',
-      children: [
-        {
-          type: 'list-item',
-          children: [{ text: '123' }],
-        },
-        selectNode,
-      ],
-    }
-
-    const newEditor = withList(editor)
-    jest.spyOn(core.DomEditor, 'getSelectedNodeByType').mockReturnValue(selectNode)
-    jest.spyOn(core.DomEditor, 'getParentNode').mockReturnValue(listNode)
-
-    const mockInstance = jest.spyOn(slate.Transforms, 'insertNodes')
-
-    newEditor.insertBreak()
-
-    expect(mockInstance).toBeCalledWith(
-      newEditor,
-      { type: 'paragraph', children: [{ text: '' }] },
-      {
-        mode: 'highest',
-      }
-    )
   })
 
   test('Use withList editor invoke deleteBackward should execute original deleteBackward if current selected nodes is null', () => {
