@@ -7,7 +7,9 @@ import { Editor, Transforms, Node as SlateNode, Element as SlateElement } from '
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { checkList } from './helper'
 
-const EMPTY_P: SlateElement = { type: 'paragraph', children: [{ text: '' }] }
+function genEmptyP(): SlateElement {
+  return { type: 'paragraph', children: [{ text: '' }] }
+}
 
 function deleteHandler(newEditor: IDomEditor): boolean {
   const [nodeEntry] = Editor.nodes(newEditor, {
@@ -40,6 +42,12 @@ function withList<T extends IDomEditor>(editor: T): T {
 
   // 重写 insertBreak
   newEditor.insertBreak = () => {
+    const selection = newEditor.selection
+    if (selection == null) {
+      insertBreak()
+      return
+    }
+
     const selectedNode = DomEditor.getSelectedNodeByType(newEditor, 'list-item')
     if (selectedNode == null) {
       // 未匹配到 list-item
@@ -58,10 +66,11 @@ function withList<T extends IDomEditor>(editor: T): T {
         Transforms.removeNodes(newEditor, {
           match: n => DomEditor.checkNodeType(n, 'list-item'),
         })
-
-        Transforms.insertNodes(newEditor, EMPTY_P, {
-          mode: 'highest', // 在最高层级插入，否则会插入到 list 下面
+        const emptyParagraphPath = [selection.anchor.path[0] + 1] // 在 ul/ol 的下一行
+        Transforms.insertNodes(newEditor, genEmptyP(), {
+          at: emptyParagraphPath,
         })
+        newEditor.select({ path: emptyParagraphPath.concat(0), offset: 0 }) // 选中空行的文字
 
         return // 阻止默认的 insertBreak ，重要！！！
       }
@@ -107,7 +116,7 @@ function withList<T extends IDomEditor>(editor: T): T {
     })
 
     // 插入 p ，跳出 list 内部
-    Transforms.insertNodes(newEditor, EMPTY_P, {
+    Transforms.insertNodes(newEditor, genEmptyP(), {
       mode: 'highest',
     })
   }
