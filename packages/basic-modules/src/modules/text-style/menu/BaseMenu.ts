@@ -20,11 +20,18 @@ abstract class BaseMenu implements IButtonMenu {
    */
   getValue(editor: IDomEditor): string | boolean {
     const mark = this.mark
-    const [match] = Editor.nodes(editor, {
-      // @ts-ignore
-      match: n => n[mark] === true,
-    })
-    return !!match
+    const curMarks = Editor.marks(editor)
+
+    // 当 curMarks 存在时，说明用户手动设置，以 curMarks 为准
+    if (curMarks) {
+      return curMarks[mark]
+    } else {
+      const [match] = Editor.nodes(editor, {
+        // @ts-ignore
+        match: n => n[mark] === true,
+      })
+      return !!match
+    }
   }
 
   isActive(editor: IDomEditor): boolean {
