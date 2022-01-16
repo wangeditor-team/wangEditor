@@ -69,7 +69,6 @@ abstract class BaseMenu implements IDropPanelMenu {
 
         const { selection } = editor
         if (selection == null) return
-        if (Range.isCollapsed(selection)) return
 
         const $li = $(target)
         const val = $li.attr('data-value')
