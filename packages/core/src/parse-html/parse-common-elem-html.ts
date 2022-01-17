@@ -18,8 +18,8 @@ import { NodeType } from '../utils/dom'
 function genChildren($elem: Dom7Array, editor: IDomEditor): Descendant[] {
   const children: Descendant[] = []
 
-  // void node（ html 中编辑的，如 video 的 html 中会有 data-w-e-isVoid 属性 ），不需要生成 children
-  const isVoid = $elem.attr('data-w-e-isVoid') != null
+  // void node（ html 中编辑的，如 video 的 html 中会有 data-w-e-is-void 属性 ），不需要生成 children
+  const isVoid = $elem.attr('data-w-e-is-void') != null
   if (isVoid) {
     return children
   }
@@ -66,7 +66,6 @@ function genChildren($elem: Dom7Array, editor: IDomEditor): Descendant[] {
  * @param children children
  */
 function defaultParser($elem: Dom7Array, children: Descendant[], editor: IDomEditor): Element {
-  console.log('defaultParser...', $elem[0].outerHTML)
   return {
     type: 'paragraph',
     children: [{ text: $elem.text().replace(/\s+/gm, ' ') }],

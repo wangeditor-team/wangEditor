@@ -18,7 +18,7 @@ function preParse($video: Dom7Array) {
   const $parent = $video.parent()
   if ($parent.attr('data-w-e-type') === 'video') return $video
 
-  const $container = $(`<div data-w-e-type="video" data-w-e-isVoid></div>`)
+  const $container = $(`<div data-w-e-type="video" data-w-e-is-void></div>`)
   $container.append($video)
 
   return $container

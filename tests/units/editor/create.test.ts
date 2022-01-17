@@ -120,4 +120,17 @@ describe('create editor and toolbar', () => {
       expect(ex.message.indexOf('Repeated create toolbar by selector')).not.toBe(-1)
     }
   })
+
+  test('create editor with html', () => {
+    const html = `<h1>header</h1>
+<p>hello&nbsp;<strong>world</strong>
+</p><p><br></p>`
+
+    const editor = customCreateEditor({ html })
+    expect(editor.children).toEqual([
+      { type: 'header1', children: [{ text: 'header' }] },
+      { type: 'paragraph', children: [{ text: 'hello ' }, { text: 'world', bold: true }] },
+      { type: 'paragraph', children: [{ text: '' }] },
+    ])
+  })
 })

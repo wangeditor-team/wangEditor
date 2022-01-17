@@ -17,7 +17,7 @@ function parseCodeHtml($elem: Dom7Array, children: Descendant[], editor: IDomEdi
 }
 
 export const parseCodeHtmlConf = {
-  selector: 'code',
+  selector: 'pre>code', // 匹配 <pre> 下的 <code>
   parseElemHtml: parseCodeHtml,
 }
 

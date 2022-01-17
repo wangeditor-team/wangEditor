@@ -242,8 +242,6 @@ export const withContent = <T extends Editor>(editor: T) => {
   e.dangerouslyInsertHtml = (html: string = '') => {
     if (!html) return
 
-    console.log('html...', html)
-
     // ------------- 把 html 转换为 $elems -------------
     let $elems = $(html)
     $elems = $elems.filter(el => {
@@ -256,8 +254,6 @@ export const withContent = <T extends Editor>(editor: T) => {
       return true
     })
     if ($elems.length === 0) return
-
-    console.log('$elems...', $elems)
 
     // ------------- 把 $elems 转换为 nodes -------------
     const $div = $('<div hidden="true"></div>')
@@ -291,7 +287,6 @@ export const withContent = <T extends Editor>(editor: T) => {
         nodes.push({ type: 'paragraph', children: [{ text: line }] }) // 没行都生成一个 paragraph
       })
     })
-    console.log('nodes...', nodes)
 
     // ------------- 将 nodes 插入到编辑器 -------------
     if (nodes.length) {
