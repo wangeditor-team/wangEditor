@@ -8,7 +8,7 @@ import { VideoElement } from './custom-types'
 
 function videoToHtml(elemNode: Element, childrenHtml?: string): string {
   const { src = '' } = elemNode as VideoElement
-  let res = '<div class="wangeditor-video-container">\n'
+  let res = '<div data-w-e-type="video" data-w-e-is-void>\n'
 
   if (src.trim().indexOf('<iframe') === 0) {
     // iframe 形式

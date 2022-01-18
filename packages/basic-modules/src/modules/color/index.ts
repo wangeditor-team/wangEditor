@@ -6,14 +6,16 @@
 import { IModuleConf } from '@wangeditor/core'
 import { renderStyle } from './render-style'
 import { styleToHtml } from './style-to-html'
+import { preParseHtmlConf } from './pre-parse-html'
+import { parseStyleHtml } from './parse-style-html'
 import { colorMenuConf, bgColorMenuConf } from './menu/index'
-import withColor from './plugin'
 
 const color: Partial<IModuleConf> = {
   renderStyle,
   styleToHtml,
+  preParseHtml: [preParseHtmlConf],
+  parseStyleHtml,
   menus: [colorMenuConf, bgColorMenuConf],
-  editorPlugin: withColor,
 }
 
 export default color

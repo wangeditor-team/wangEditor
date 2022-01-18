@@ -5,7 +5,7 @@
 
 import { Editor, Element } from 'slate'
 import { IDomEditor } from '../editor/interface'
-import { node2html } from './node2html'
+import node2html from './node2html'
 import { ElemToHtmlFnType, ELEM_TO_HTML_CONF, STYLE_TO_HTML_FN_LIST } from './index'
 
 /**

@@ -18,7 +18,8 @@ import {
 export interface ICreateEditorOption {
   selector: string | DOMElement
   config: Partial<IEditorConfig>
-  content: Descendant[]
+  content?: Descendant[]
+  html?: string
   mode: string
 }
 
@@ -33,7 +34,7 @@ export interface ICreateToolbarOption {
  * 创建 editor 实例
  */
 export function createEditor(option: Partial<ICreateEditorOption> = {}): IDomEditor {
-  const { selector = '', content = [], config = {}, mode = 'default' } = option
+  const { selector = '', content = [], html, config = {}, mode = 'default' } = option
 
   let globalConfig = mode === 'simple' ? Boot.simpleEditorConfig : Boot.editorConfig
 
@@ -51,6 +52,7 @@ export function createEditor(option: Partial<ICreateEditorOption> = {}): IDomEdi
       hoverbarKeys: newHoverbarKeys,
     },
     content,
+    html,
     plugins: Boot.plugins,
   })
 

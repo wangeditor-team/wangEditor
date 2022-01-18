@@ -9,7 +9,7 @@ import isUrl from 'is-url'
 import { isMenuDisabled, insertLink } from './helper'
 
 function withLink<T extends IDomEditor>(editor: T): T {
-  const { isInline, insertData, normalizeNode, insertDomElem, insertNode, insertText } = editor
+  const { isInline, insertData, normalizeNode, insertNode, insertText } = editor
   const newEditor = editor
 
   // 重写 isInline
@@ -54,32 +54,6 @@ function withLink<T extends IDomEditor>(editor: T): T {
     }
 
     return normalizeNode([node, path])
-  }
-
-  // insert <a> DOM Element
-  newEditor.insertDomElem = (domElem: Element) => {
-    if (domElem.tagName.toLowerCase() !== 'a') {
-      insertDomElem(domElem) // 继续其他的
-      return
-    }
-
-    const text = domElem.textContent
-    if (!text) return null
-
-    const href = domElem.getAttribute('href') || ''
-    const target = domElem.getAttribute('target') || '_blank'
-
-    insertText(' ')
-    insertNode({
-      type: 'link',
-      url: href,
-      target,
-      children: [{ text }],
-    })
-
-    // https://github.com/wangeditor-team/wangEditor-v5/issues/332
-    // 不能直接使用 insertText, 会造成添加的空格被添加到链接文本中，参考上面 issue，替换为 insertFragment 方式添加空格
-    editor.insertFragment([{ text: ' ' }])
   }
 
   // 返回 editor ，重要！

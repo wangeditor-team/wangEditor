@@ -33,6 +33,7 @@ import {
   remove,
   find,
   each,
+  Dom7Array,
 } from 'dom7'
 export { Dom7Array } from 'dom7'
 
@@ -365,4 +366,15 @@ export enum NodeType {
   DOCUMENT_NODE = 9,
   DOCUMENT_TYPE_NODE = 10,
   DOCUMENT_FRAGMENT_NODE = 11,
+}
+
+/**
+ * 获取 tagName lower-case
+ * @param $elem $elem
+ */
+export function getTagName($elem: Dom7Array): string {
+  if ($elem.length === 0) return ''
+  const elem = $elem[0]
+  if (elem.nodeType !== NodeType.ELEMENT_NODE) return ''
+  return elem.tagName.toLowerCase()
 }

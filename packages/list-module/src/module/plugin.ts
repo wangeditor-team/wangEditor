@@ -37,7 +37,7 @@ function deleteHandler(newEditor: IDomEditor): boolean {
 }
 
 function withList<T extends IDomEditor>(editor: T): T {
-  const { insertBreak, deleteBackward, insertDomElem, insertNode } = editor
+  const { insertBreak, deleteBackward, insertNode } = editor
   const newEditor = editor
 
   // 重写 insertBreak
@@ -87,38 +87,6 @@ function withList<T extends IDomEditor>(editor: T): T {
 
     // 执行默认的删除
     deleteBackward(unit)
-  }
-
-  // insert <ul> <ol> <li> DOM Element
-  newEditor.insertDomElem = (domElem: Element) => {
-    const tag = domElem.tagName.toLowerCase()
-    if (tag !== 'ol' && tag !== 'ul') {
-      insertDomElem(domElem) // 继续其他的
-      return
-    }
-
-    const children: SlateElement[] = []
-    Array.from(domElem.children).forEach(child => {
-      const tag = child.tagName.toLowerCase()
-      if (tag !== 'li') return
-
-      const text = child.textContent
-      if (!text) return
-
-      children.push({ type: 'list-item', children: [{ text }] })
-    })
-
-    if (children.length === 0) return
-
-    insertNode({
-      type: tag === 'ol' ? 'numbered-list' : 'bulleted-list',
-      children,
-    })
-
-    // 插入 p ，跳出 list 内部
-    Transforms.insertNodes(newEditor, genEmptyP(), {
-      mode: 'highest',
-    })
   }
 
   // 返回 editor ，重要！

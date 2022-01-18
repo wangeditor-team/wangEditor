@@ -3,17 +3,18 @@
  * @author wangfupeng
  */
 
-import { Editor, Node, Text, Path, Operation, Range, Transforms, Element } from 'slate'
+import { Editor, Node, Text, Path, Operation, Range, Transforms, Element, Descendant } from 'slate'
 import { DomEditor } from '../dom-editor'
 import { IDomEditor } from '../..'
 import { EDITOR_TO_SELECTION, NODE_TO_KEY } from '../../utils/weak-maps'
-import { node2html } from '../../to-html/node2html'
+import node2html from '../../to-html/node2html'
 import { genElemId } from '../../render/helper'
 import { Key } from '../../utils/key'
-import { DOMElement, getPlainText } from '../../utils/dom'
+import $, { DOMElement, getPlainText, getTagName, NodeType } from '../../utils/dom'
 import { findCurrentLineRange } from '../../utils/line'
 import { ElementWithId } from '../interface'
-import { NodeType } from '../../utils/dom'
+import { PARSE_ELEM_HTML_CONF, TEXT_TAGS } from '../../parse-html/index'
+import parseElemHtml from '../../parse-html/parse-elem-html'
 
 const IGNORE_TAGS = new Set([
   'doctype',
@@ -235,68 +236,69 @@ export const withContent = <T extends Editor>(editor: T) => {
   }
 
   /**
-   * 插入 DOMElement
-   * @param domElem DOM Element
-   */
-  e.insertDomElem = (domElem: DOMElement) => {
-    const tag = domElem.tagName.toLowerCase()
-    if (IGNORE_TAGS.has(tag)) return
-
-    const text = getPlainText(domElem).trim()
-    if (!text) return
-
-    const display = getComputedStyle(domElem).getPropertyValue('display')
-    if (display === 'block') {
-      e.insertBreak()
-      Transforms.setNodes(e, { type: 'paragraph' })
-    }
-
-    const lines = text.split(/\r\n|\r|\n/) // 换行
-    const length = lines.length
-    lines.forEach((line, index) => {
-      if (!line.trim()) return
-      e.insertText(line)
-      if (index + 1 < length) {
-        Transforms.splitNodes(e, { always: true }) // 插入换行
-      }
-    })
-  }
-
-  /**
    * 插入 html （不保证语义完全正确），用于粘贴
    * @param html html string
    */
   e.dangerouslyInsertHtml = (html: string = '') => {
     if (!html) return
 
-    const div = document.createElement('div')
-    div.innerHTML = html
-    div.setAttribute('hidden', 'true')
-    document.body.appendChild(div)
-    Array.from(div.childNodes).forEach(child => {
-      const { nodeType } = child
-      if (nodeType !== NodeType.ELEMENT_NODE && nodeType !== NodeType.TEXT_NODE) return
+    // ------------- 把 html 转换为 $elems -------------
+    let $elems = $(html)
+    $elems = $elems.filter(el => {
+      if (el.nodeType !== NodeType.ELEMENT_NODE) return false
 
-      let text = child.textContent || ''
-      text = text.replace(/\r|\n|(\r\n)/g, '').trim() // 去掉换行，前后空格
+      const $el = $(el)
+      const tagName = getTagName($el)
+      if (IGNORE_TAGS.has(tagName)) return false // 过滤掉忽略的 tag
 
-      if (nodeType === NodeType.ELEMENT_NODE) {
-        // DOM Element
-        try {
-          // 可第三方扩展，加 try 包裹
-          e.insertDomElem(child as DOMElement)
-        } catch (err) {
-          // 出错，则插入文本
-          if (text) e.insertText(text)
-          console.error('insertDomElem error', child)
+      return true
+    })
+    if ($elems.length === 0) return
+
+    // ------------- 把 $elems 转换为 nodes -------------
+    const $div = $('<div hidden="true"></div>')
+    $div.append($elems)
+    $('body').append($div) // 添加到 body ，以便获取 style ，判断文字换行
+
+    const nodes: Descendant[] = []
+    $elems.forEach(el => {
+      // 判断当前的 el 是否是可识别的 tag
+      let isParseMatch = false
+      if (TEXT_TAGS.includes(el.tagName.toLowerCase())) {
+        // text elem，如 <span>
+        isParseMatch = true
+      } else {
+        for (let selector in PARSE_ELEM_HTML_CONF) {
+          if (el.matches(selector)) {
+            // 普通 elem，如 <p> <a> 等（非 text elem）
+            isParseMatch = true
+            break
+          }
         }
       }
-      if (nodeType === NodeType.TEXT_NODE) {
-        // DOM Text
-        if (text) e.insertText(text)
+
+      // 匹配上了，则生成 slate elem
+      if (isParseMatch) {
+        const $el = $(el)
+        nodes.push(parseElemHtml($el, e))
+        return
       }
+
+      // 没有匹配上，则插入纯文本
+      const text = getPlainText(el).trim()
+      if (!text) return
+      const textLines = text.split(/\r\n|\r|\n/) // 换行
+      textLines.forEach((line, index) => {
+        if (!line.trim()) return
+        nodes.push({ type: 'paragraph', children: [{ text: line }] }) // 没行都生成一个 paragraph
+      })
     })
-    document.body.removeChild(div)
+
+    // ------------- 将 nodes 插入到编辑器 -------------
+    if (nodes.length) {
+      e.insertFragment(nodes)
+    }
+    $div.remove()
   }
 
   return e

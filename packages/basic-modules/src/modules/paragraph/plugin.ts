@@ -10,33 +10,7 @@ import {
   Node as SlateNode,
   Text as SlateText,
 } from 'slate'
-import { IDomEditor, DomEditor } from '@wangeditor/core'
-
-/**
- * 是否是空 p
- * @param domElem dom elem
- */
-function isEmptyParagraph(domElem: Element): boolean {
-  if (domElem.tagName.toLowerCase() !== 'p') {
-    throw new Error('domElem is not a <p>')
-  }
-
-  const innerHTML = domElem.innerHTML
-  if (innerHTML === '') return true
-
-  if (innerHTML === '<br>' || innerHTML === '<br/>') {
-    return true
-  }
-
-  const children = Array.from(domElem.children)
-  if (children.length === 1) {
-    if (children[0].tagName.toLowerCase() === 'br') {
-      return true
-    }
-  }
-
-  return false
-}
+import { IDomEditor } from '@wangeditor/core'
 
 function deleteHandler(newEditor: IDomEditor): boolean {
   const [nodeEntry] = Editor.nodes(newEditor, {
@@ -62,7 +36,7 @@ function deleteHandler(newEditor: IDomEditor): boolean {
 }
 
 function withParagraph<T extends IDomEditor>(editor: T): T {
-  const { deleteBackward, deleteForward, insertDomElem, insertText, insertBreak } = editor
+  const { deleteBackward, deleteForward, insertText, insertBreak } = editor
   const newEditor = editor
 
   // 删除非 p 的文本 elem（如 header blockQuote 等），删除没有内容时，切换为 p
@@ -79,49 +53,6 @@ function withParagraph<T extends IDomEditor>(editor: T): T {
 
     // 执行默认的删除
     deleteForward(unit)
-  }
-
-  // insert <p> DOM Element
-  newEditor.insertDomElem = (domElem: Element) => {
-    if (domElem.tagName.toLowerCase() !== 'p') {
-      insertDomElem(domElem) // 继续其他的 elem
-      return
-    }
-
-    // 空行
-    const isEmpty = isEmptyParagraph(domElem)
-    if (isEmpty) {
-      insertBreak()
-      return
-    }
-
-    // DOM 子节点
-    const childNodes = Array.from(domElem.childNodes)
-    if (childNodes.length === 0) return
-
-    const selectedElem = DomEditor.getSelectedElems(editor)[0]
-    if (DomEditor.getNodeType(selectedElem) !== 'paragraph') {
-      // 如果当前选中的不是 p ，则换行，并设置为 p
-      insertBreak()
-      Transforms.setNodes(editor, { type: 'paragraph' })
-    }
-
-    // 插入子节点
-    childNodes.forEach(child => {
-      const nodeType = child.nodeType
-      if (nodeType === 1) {
-        // @ts-ignore DOM Element ，继续插入
-        insertDomElem(child as Element)
-      }
-      if (nodeType === 3) {
-        // DOM Text
-        const text = child.textContent || ''
-        if (text) insertText(text)
-      }
-    })
-
-    // 最后换行
-    insertBreak()
   }
 
   // 返回 editor ，重要！

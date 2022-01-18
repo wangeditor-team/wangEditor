@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dom7 demo</title>
+</head>
+<body>
+  <p>dom7 demo</p>
+
+  <script src="https://cdn.jsdelivr.net/npm/dom7@4.0.2/dom7.min.js"></script>
+  <script>
+    const $text = Dom7('<span data-a><b>hello</b></span>')
+    const $p = Dom7('<p style="line-height: 2.5; color: red;"><span>行高文字 line-height</span></p>')
+    // Dom7('body').append(p)
+
+    const tableStr = `
+      <table border="0" width="100%" cellpadding="0" cellspacing="0"><tbody><tr><th></th><th></th><th></th><th></th><th></th></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+    `
+    const $table = Dom7(tableStr)
+    const $tbody = $table.find('tbody')
+    const $tr = $table.find('tr')
+    $table.append($tr)
+    $tbody.remove()
+  </script>
+</body>
+</html>

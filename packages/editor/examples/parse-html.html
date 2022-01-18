@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回显 html</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p style="background-color: #ccc; padding: 5px 0;"><b>回显 html</b> - 使用 html 初始化编辑器内容</p>
+
+  <div style="margin: 10px 0;">
+    <button id="btn-v4-html">填入 V4 html 示例</button>
+    <button id="btn-v5-html">填入 V5 html 示例</button>
+    <span style="color: red;"><b>【注意】只识别从 wangEditor 生成的 html</b> ，不可以随意自定义 html 代码（html 格式太灵活了，不会全部兼容）</span>
+  </div>
+  <textarea id="text-html" style="width: 100%; height: 300px; font-size: 12px;" placeholder="输入 html 然后创建编辑器">&lt;p&gt;hello world&lt;/p&gt;</textarea>
+
+  <div style="margin: 10px 0;">
+    <button id="btn-create">创建编辑器</button>
+    （如有 JS 报错，再次创建时要刷新页面）
+  </div>
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+    const textarea = document.getElementById('text-html')
+    let editor
+
+    // 创建编辑器
+    document.getElementById('btn-create').addEventListener('click', () => {
+      if (editor) editor.destroy()
+
+      const html = textarea.value
+      editor = E.createEditor({
+        selector: '#editor-text-area',
+        html,
+      })
+      E.createToolbar({
+        editor,
+        selector: '#editor-toolbar',
+      })
+    })
+
+    // 填入 v4 html
+    document.getElementById('btn-v4-html').addEventListener('click', () => {
+      textarea.value = `<p>你好&nbsp;<font size="6">世界</font> <font face="黑体">黑体文字</font>！</p>
+<p>欢迎<font color="#eeece0">使用</font> <b>wangEditor</b> <span style="background-color: rgb(139, 170, 74);">富文本</span>编辑器</p>
+<h1 id="94fco">标题</h1>
+<blockquote><p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p></blockquote>
+<p>欢迎<i>使用</i> <b>wangEditor</b><u>富文本</u><strike>编辑器</strike>~</p>
+<p style="padding-left:2em;">缩进&nbsp;<a href="http://106.12.198.214:8881/dev/examples/" target="_blank">链接</a></p>
+<p data-we-empty-p="" style="line-height:3;">行高&nbsp;</p><p>
+  <img src="http://www.wangeditor.com/imgs/logo.jpeg"/></p>
+<p style="text-align:center;">欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+<ol>
+  <li>abc</li>
+  <li>def</li>
+</ol>
+<ul><li>123</li><li>123</li></ul>
+<p>
+  <img src="http://www.wangeditor.com/imgs/logo.jpeg" alt="111" data-href="http%3A%2F%2F106.12.198.214%3A8881%2Fdev%2Fexamples%2F" style="max-width:100%;" contenteditable="false"/>
+</p>
+<table border="0" width="100%" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr><th>是的</th><th>你好</th><th>世界</th></tr><tr><td>aaa</td><td></td><td></td></tr>
+    <tr><td>bb</td><td>33</td><td></td></tr><tr><td></td><td></td><td>55</td></tr>
+    <tr><td></td><td></td><td></td></tr>
+  </tbody>
+</table>
+<p>123123 🤣😎</p>
+<pre><code class="JavaScript"><xmp>const a = 100;
+function fn() {
+return a;
+}</xmp></code></pre>
+<p><br/></p>
+<p><br/></p>`
+    })
+
+    // 填入 v5 html
+    document.getElementById('btn-v5-html').addEventListener('click', () => {
+      textarea.value = `<h1>标题1</h1>
+<h3>标题3</h3>
+<blockquote>引用文字<strong>123</strong></blockquote>
+<p>hello&nbsp;<span style="color: rgb(235, 144, 58);"><i><u>多样式&nbsp;</u></i></span><strong>word</strong>~😊😬</p>
+<p>
+  <span>span包裹1&nbsp;</span>
+  <span><strong>span包裹2&nbsp;</strong></span>
+  <span style="color: rgb(235, 144, 58);"><strong><u>span包裹3</u></strong></span>
+</p>
+<hr>
+<p>
+  <a href="https://www.baidu.com/" target="_blank">百度</a>
+  &nbsp;
+  <code>var</code>
+</p>
+<p style="line-height: 2.5;">行高文字 line-height</p>
+<p style="text-align: center;">对齐方式 text-align</p>
+<p style="padding-left: 32px;">增加缩进 indent</p>
+<p>
+  <img src="https://www.baidu.com/img/flexible/logo/pc/result.png"
+    alt="google"
+    data-href="https://www.google.com.hk/"
+    style="width: 217.00px;height: 70.75px;"
+  />
+</p>
+<p>
+  <span style="font-size: 19px;">设置字号</span>
+  <span>&nbsp;</span>
+  <span style="font-family: 标楷体;">设置字体</span>
+</p>
+<p><span style="color: rgb(235, 144, 58);">颜色</span>&nbsp;<span style="background-color: rgb(255, 236, 61);">颜色</span>&nbsp;<span style="color: rgb(217, 217, 217); background-color: rgb(54, 88, 226);">颜色</span></p>
+<pre><code class="language-javascript"><span>const a = 10;
+function fn() {
+  // 代码
+}</span></code></pre>
+<ul>
+  <li>项目A</li>
+  <li>项目B</li>
+  <li>项目C&nbsp;<strong>word</strong>~</li>
+</ul>
+<ol>
+  <li>项目1&nbsp;<a href="https://www.baidu.com/" target="_blank">百度</a></li>
+  <li>项目2</li>
+  <li>项目3</li>
+</ol>
+<div data-w-e-type="video" data-w-e-is-void>
+  <iframe src="//player.bilibili.com/player.html?aid=250348909&bvid=BV1Pv411w7Xr&cid=401518678&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+</div>
+<div data-w-e-type="video" data-w-e-is-void>
+  <video controls="true"><source src="https://www.w3school.com.cn/i/movie.ogg" type="video/mp4"/></video>
+</div>
+<p><br></p>
+<table style="width: 100%;">
+  <tbody>
+    <tr><th colSpan="1" rowSpan="1"><span>a</span></th><th colSpan="1" rowSpan="1"><span>b</span></th><th colSpan="1" rowSpan="1"><span>c</span></th></tr>
+    <tr><td colSpan="1" rowSpan="1"><span>1</span></td><td colSpan="1" rowSpan="1"><span>2</span></td><td colSpan="1" rowSpan="1"><span>3</span></td></tr>
+  </tbody>
+</table>
+<div>
+  其他标签
+</div>
+`
+    })
+  </script>
+</body>
+</html>

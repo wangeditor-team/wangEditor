@@ -29,40 +29,4 @@ describe('paragraph plugin', () => {
     const selectedParagraph2 = DomEditor.getSelectedNodeByType(editor, 'paragraph')
     expect(selectedParagraph2).not.toBeNull() // 执行删除后，header 变为 paragraph
   })
-
-  it('paragraph plugin insertDomElem api', () => {
-    const startLocation = Editor.start(editor, [])
-    editor.select(startLocation)
-    const p = document.createElement('p')
-    p.innerText = 'hello'
-
-    editor.insertDomElem(p)
-
-    const selectedParagraph2 = DomEditor.getSelectedNodeByType(editor, 'paragraph')
-    expect(selectedParagraph2).not.toBeNull()
-  })
-
-  it('paragraph plugin insertDomElem api with paragraph only has br', () => {
-    editor.select(startLocation)
-    const p = document.createElement('p')
-    p.innerHTML = '<br>'
-
-    editor.insertDomElem(p)
-
-    const selectedParagraph2 = DomEditor.getSelectedNodeByType(editor, 'paragraph')
-    expect(selectedParagraph2).not.toBeNull()
-    expect(editor.getText()).toBe('\n')
-  })
-
-  it('paragraph plugin insertDomElem api with paragraph only has children', () => {
-    editor.select(startLocation)
-    const p = document.createElement('p')
-    p.innerHTML = '<span>hello</span>'
-
-    editor.insertDomElem(p)
-
-    const selectedParagraph2 = DomEditor.getSelectedNodeByType(editor, 'paragraph')
-    expect(selectedParagraph2).not.toBeNull()
-    expect(editor.isEmpty()).toBeFalsy()
-  })
 })

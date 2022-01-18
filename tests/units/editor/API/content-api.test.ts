@@ -50,7 +50,7 @@ describe('editor content API', () => {
     })
 
     const html = editor.getHtml()
-    expect(html).toBe('<p><span><strong>hello</strong></span></p>')
+    expect(html).toBe('<p><strong>hello</strong></p>')
   })
 
   it('getHtml with void element', () => {
@@ -63,7 +63,7 @@ describe('editor content API', () => {
 
     const html = editor.getHtml()
     expect(html).toBe(
-      '<p><span><strong>hello</strong></span></p><img src="test.jpg" alt="" data-href="" style=""/>'
+      '<p><strong>hello</strong></p><img src="test.jpg" alt="" data-href="" style=""/>'
     )
   })
 
@@ -285,13 +285,14 @@ describe('editor content API', () => {
       // insertText 必须要设置 selection 才能生效
       setEditorSelection(editor)
 
-      const htmlString = '<div>wangEditor!</p>'
+      const htmlString = '<div>wangEditor!</div>'
       editor.dangerouslyInsertHtml(htmlString)
 
       expect(editor.getText().indexOf('wangEditor')).toBeGreaterThan(-1)
     })
 
     test('dangerouslyInsertHtml should insert html string with header element to editor', () => {
+      setEditorSelection(editor)
       const htmlString = '<h1>wangEditor</h1>'
       editor.dangerouslyInsertHtml(htmlString)
 
@@ -299,13 +300,15 @@ describe('editor content API', () => {
     })
 
     test('dangerouslyInsertHtml should insert html string with pre element to editor', () => {
-      const htmlString = '<pre><code>var name="wangEditor"</code></h1>'
+      setEditorSelection(editor)
+      const htmlString = '<pre><code>var name="wangEditor"</code></pre>'
       editor.dangerouslyInsertHtml(htmlString)
 
       expect(editor.getText().indexOf('wangEditor')).toBeGreaterThan(-1)
     })
 
     test('dangerouslyInsertHtml should insert html string with img element to editor', () => {
+      setEditorSelection(editor)
       const htmlString = '<img src="test.png" alt="test" />'
       editor.dangerouslyInsertHtml(htmlString)
 
@@ -314,7 +317,14 @@ describe('editor content API', () => {
           type: 'paragraph',
           children: [
             { text: '' },
-            { type: 'image', src: 'test.png', alt: 'test', children: [{ text: '' }] },
+            {
+              type: 'image',
+              src: 'test.png',
+              alt: 'test',
+              href: '',
+              style: { width: '', height: '' },
+              children: [{ text: '' }],
+            },
             { text: '' },
           ],
         },
@@ -322,6 +332,7 @@ describe('editor content API', () => {
     })
 
     test('dangerouslyInsertHtml should insert html string with link element to editor', () => {
+      setEditorSelection(editor)
       const htmlString = '<a href="https://www.baidu.com/" target="_blank">wangEditor</a>'
       editor.dangerouslyInsertHtml(htmlString)
 
@@ -331,11 +342,11 @@ describe('editor content API', () => {
     })
 
     test('dangerouslyInsertHtml should insert html string with ul element to editor', () => {
+      setEditorSelection(editor)
       const htmlString = '<ul><li>1</li><li>2</li></ul>'
       editor.dangerouslyInsertHtml(htmlString)
 
       expect(editor.children).toEqual([
-        { type: 'paragraph', children: [{ text: '' }] },
         {
           type: 'bulleted-list',
           children: [
@@ -343,16 +354,15 @@ describe('editor content API', () => {
             { type: 'list-item', children: [{ text: '2' }] },
           ],
         },
-        { type: 'paragraph', children: [{ text: '' }] },
       ])
     })
 
     test('dangerouslyInsertHtml should insert html string with ol element to editor', () => {
+      setEditorSelection(editor)
       const htmlString = '<ol><li>1</li><li>2</li></ol>'
       editor.dangerouslyInsertHtml(htmlString)
 
       expect(editor.children).toEqual([
-        { type: 'paragraph', children: [{ text: '' }] },
         {
           type: 'numbered-list',
           children: [
@@ -360,11 +370,11 @@ describe('editor content API', () => {
             { type: 'list-item', children: [{ text: '2' }] },
           ],
         },
-        { type: 'paragraph', children: [{ text: '' }] },
       ])
     })
 
     test('dangerouslyInsertHtml should can not insert html string to editor if over max length', () => {
+      setEditorSelection(editor)
       editor = createEditor({
         config: {
           maxLength: 20,
@@ -380,6 +390,7 @@ describe('editor content API', () => {
 
     ignoreTag.forEach(tag => {
       test(`insert html string with ${tag} element should to be ignore`, () => {
+        setEditorSelection(editor)
         const htmlString = `<${tag}></${tag}>`
         editor.dangerouslyInsertHtml(htmlString)
 
