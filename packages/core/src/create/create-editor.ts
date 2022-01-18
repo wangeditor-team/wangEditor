@@ -72,9 +72,6 @@ export default function (option: Partial<ICreateOption>) {
   })
 
   // 初始化内容（要在 config 和 plugins 后面）
-  if (content) {
-    editor.children = content // 传入 JSON content
-  }
   if (html) {
     // 传入 html ，转换为 JSON content
     const $content = $(`<div>${html}</div>`)
@@ -82,6 +79,9 @@ export default function (option: Partial<ICreateOption>) {
       const $child = $(child)
       return parseElemHtml($child, editor)
     })
+  }
+  if (content && content.length) {
+    editor.children = content // 传入 JSON content
   }
   if (editor.children.length === 0) {
     editor.children = genDefaultContent() // 默认内容
