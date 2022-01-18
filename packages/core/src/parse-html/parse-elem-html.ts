@@ -9,10 +9,7 @@ import { IDomEditor } from '../editor/interface'
 import parseCommonElemHtml from './parse-common-elem-html'
 import parseTextElemHtml from './parse-text-elem-html'
 import { getTagName } from '../utils/dom'
-import { PRE_PARSE_HTML_CONF_LIST } from '../index'
-
-// 常见的 text tag
-const TEXT_TAGS = ['span', 'b', 'strong', 'i', 'em', 's', 'strike', 'u', 'font']
+import { PRE_PARSE_HTML_CONF_LIST, TEXT_TAGS } from '../index'
 
 /**
  * 处理 DOM Elem html

@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Descendant } from 'slate'
+import { Descendant, Text } from 'slate'
 import { Dom7Array } from 'dom7'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { TableCellElement, TableRowElement, TableElement } from './custom-types'
@@ -14,6 +14,12 @@ function parseCellHtml(
   children: Descendant[],
   editor: IDomEditor
 ): TableCellElement {
+  children = children.filter(child => {
+    if (Text.isText(child)) return true
+    if (editor.isInline(child)) return true
+    return false
+  })
+
   // 无 children ，则用纯文本
   if (children.length === 0) {
     children = [{ text: $elem.text().replace(/\s+/gm, ' ') }]

@@ -7,6 +7,9 @@ import { Dom7Array } from 'dom7'
 import { Element as SlateElement, Descendant } from 'slate'
 import { IDomEditor } from '../editor/interface'
 
+// 常见的 text tag
+export const TEXT_TAGS = ['span', 'b', 'strong', 'i', 'em', 's', 'strike', 'u', 'font']
+
 // ------------------------------------ pre-parse html ------------------------------------
 export type PreParseHtmlFnType = ($node: Dom7Array) => Dom7Array
 

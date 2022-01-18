@@ -13,7 +13,7 @@ import { Key } from '../../utils/key'
 import $, { DOMElement, getPlainText, getTagName, NodeType } from '../../utils/dom'
 import { findCurrentLineRange } from '../../utils/line'
 import { ElementWithId } from '../interface'
-import { PARSE_ELEM_HTML_CONF } from '../../parse-html/index'
+import { PARSE_ELEM_HTML_CONF, TEXT_TAGS } from '../../parse-html/index'
 import parseElemHtml from '../../parse-html/parse-elem-html'
 
 const IGNORE_TAGS = new Set([
@@ -262,12 +262,18 @@ export const withContent = <T extends Editor>(editor: T) => {
 
     const nodes: Descendant[] = []
     $elems.forEach(el => {
-      // 当前注册的 parseHtmlConf ，是否能匹配到 el
+      // 判断当前的 el 是否是可识别的 tag
       let isParseMatch = false
-      for (let selector in PARSE_ELEM_HTML_CONF) {
-        if (el.matches(selector)) {
-          isParseMatch = true
-          break
+      if (TEXT_TAGS.includes(el.tagName.toLowerCase())) {
+        // text elem，如 <span>
+        isParseMatch = true
+      } else {
+        for (let selector in PARSE_ELEM_HTML_CONF) {
+          if (el.matches(selector)) {
+            // 普通 elem，如 <p> <a> 等（非 text elem）
+            isParseMatch = true
+            break
+          }
         }
       }
 
