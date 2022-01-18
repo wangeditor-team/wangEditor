@@ -79,7 +79,7 @@ class InsertVideoMenu implements IModalMenu {
       // 绑定事件（第一次渲染时绑定，不要重复绑定）
       $content.on('click', `#${buttonId}`, async e => {
         e.preventDefault()
-        const src = $(`#${srcInputId}`).val().trim()
+        const src = $content.find(`#${srcInputId}`).val().trim()
         await this.insertVideo(editor, src)
         editor.hidePanelOrModal() // 隐藏 modal
       })
@@ -100,7 +100,7 @@ class InsertVideoMenu implements IModalMenu {
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {
-      $(`#${srcInputId}`).focus()
+      $inputSrc.focus()
     })
 
     return $content

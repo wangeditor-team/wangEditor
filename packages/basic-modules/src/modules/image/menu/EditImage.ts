@@ -94,9 +94,9 @@ class EditImage implements IModalMenu {
       $content.on('click', `#${buttonId}`, e => {
         e.preventDefault()
 
-        const src = $(`#${srcInputId}`).val()
-        const alt = $(`#${altInputId}`).val()
-        const href = $(`#${hrefInputId}`).val()
+        const src = $content.find(`#${srcInputId}`).val()
+        const alt = $content.find(`#${altInputId}`).val()
+        const href = $content.find(`#${hrefInputId}`).val()
         this.updateImage(editor, src, alt, href)
         editor.hidePanelOrModal() // 隐藏 modal
       })
@@ -122,7 +122,7 @@ class EditImage implements IModalMenu {
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {
-      $(`#${srcInputId}`).focus()
+      $inputSrc.focus()
     })
 
     return $content
