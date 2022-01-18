@@ -97,7 +97,7 @@ class EditLinkMenu implements IModalMenu {
 
         const n = DomEditor.getSelectedNodeByType(editor, 'link')
         const text = n ? Node.string(n) : ''
-        const url = $(`#${urlInputId}`).val()
+        const url = $content.find(`#${urlInputId}`).val()
         updateLink(editor, text, url) // 修改链接
 
         editor.hidePanelOrModal() // 隐藏 modal
@@ -120,7 +120,7 @@ class EditLinkMenu implements IModalMenu {
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {
-      $(`#${urlInputId}`).focus()
+      $inputUrl.focus()
     })
 
     return $content

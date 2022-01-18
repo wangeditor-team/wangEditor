@@ -73,8 +73,8 @@ class InsertLinkMenu implements IModalMenu {
       // 绑定事件（第一次渲染时绑定，不要重复绑定）
       $content.on('click', `#${buttonId}`, e => {
         e.preventDefault()
-        const text = $(`#${textInputId}`).val()
-        const url = $(`#${urlInputId}`).val()
+        const text = $content.find(`#${textInputId}`).val()
+        const url = $content.find(`#${urlInputId}`).val()
         insertLink(editor, text, url) // 插入链接
         editor.hidePanelOrModal() // 隐藏 modal
       })
@@ -104,7 +104,7 @@ class InsertLinkMenu implements IModalMenu {
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {
-      $(`#${textInputId}`).focus()
+      $inputText.focus()
     })
 
     return $content
