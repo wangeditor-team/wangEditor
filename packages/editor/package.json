@@ -1,6 +1,6 @@
 {
   "name": "@wangeditor/editor",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "Web rich text editor, Web 富文本编辑器",
   "keywords": [
     "wangeditor",
@@ -51,7 +51,7 @@
   "dependencies": {
     "@uppy/core": "^2.1.1",
     "@uppy/xhr-upload": "^2.0.3",
-    "@wangeditor/basic-modules": "^0.10.0",
+    "@wangeditor/basic-modules": "^0.10.1",
     "@wangeditor/code-highlight": "^0.8.0",
     "@wangeditor/core": "^0.14.0",
     "@wangeditor/list-module": "^0.8.0",
