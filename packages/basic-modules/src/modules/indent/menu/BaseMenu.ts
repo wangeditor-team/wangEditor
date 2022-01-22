@@ -12,7 +12,7 @@ abstract class BaseMenu implements IButtonMenu {
   readonly tag = 'button'
 
   /**
-   * 获取 node.indent 的值，如 '32px'
+   * 获取 node.indent 的值，如 `2em`
    * @param editor editor
    */
   getValue(editor: IDomEditor): string | boolean {

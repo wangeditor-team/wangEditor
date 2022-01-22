@@ -41,7 +41,7 @@ describe('increase indent menu', () => {
     editor.select(startLocation)
     expect(menu.getValue(editor)).toBe('')
 
-    menu.exec(editor, '10')
-    expect(menu.getValue(editor)).toBe('42px') // 10 + 32
+    menu.exec(editor, '')
+    expect(menu.getValue(editor)).toBe('2em')
   })
 })

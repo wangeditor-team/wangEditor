@@ -8,14 +8,14 @@ import { parseStyleHtml } from '../../../../packages/basic-modules/src/modules/i
 
 describe('indent - parse style', () => {
   it('parse style', () => {
-    const $p = $('<p style="padding-left: 32px;"></p>')
+    const $p = $('<p style="text-indent: 2em;"></p>')
     const p = { type: 'paragraph', children: [{ text: 'hello' }] }
 
     // parse
     const res = parseStyleHtml($p, p)
     expect(res).toEqual({
       type: 'paragraph',
-      indent: '32px',
+      indent: '2em',
       children: [{ text: 'hello' }],
     })
   })

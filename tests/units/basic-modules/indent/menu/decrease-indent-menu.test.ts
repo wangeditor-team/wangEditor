@@ -41,11 +41,11 @@ describe('decrease indent menu', () => {
 
   it('exec', () => {
     editor.select(startLocation)
-    Transforms.setNodes(editor, { indent: '64px' })
+    Transforms.setNodes(editor, { indent: '2em' })
 
     expect(menu.isDisabled(editor)).toBeFalsy() // 有 indent 则取消 disabled
 
-    menu.exec(editor, '64px')
-    expect(menu.getValue(editor)).toBe('32px') // 64 - 32
+    menu.exec(editor, '')
+    expect(menu.getValue(editor)).toBe('')
   })
 })
