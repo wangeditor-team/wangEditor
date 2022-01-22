@@ -4,9 +4,9 @@
  */
 
 import { IDomEditor } from '@wangeditor/core'
-import createEditor from '../../../../tests/utils/create-editor'
-import { codeToHtmlConf } from '../../../../packages/code-highlight/src/module/elem-to-html'
-import { content, codeNode, language } from '../content'
+import createEditor from '../../utils/create-editor'
+import { codeToHtmlConf } from '@wangeditor/code-highlight/src/module/elem-to-html'
+import { content, codeNode, language } from './content'
 
 describe('code-highlight elem to html', () => {
   let editor: IDomEditor | null = null

@@ -1,5 +1,5 @@
-import uploadFiles from '../../../../packages/upload-image-module/src/module/upload-files'
-import createEditor from '../../../utils/create-editor'
+import uploadFiles from '@wangeditor/upload-image-module/src/module/upload-files'
+import createEditor from '../../utils/create-editor'
 import * as core from '@wangeditor/core'
 
 function mockFile(filename: string) {

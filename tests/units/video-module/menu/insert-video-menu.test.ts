@@ -3,8 +3,8 @@
  * @author luochao
  */
 
-import createEditor from '../../../../tests/utils/create-editor'
-import InsertVideoMenu from '../../../../packages/video-module/src/module/menu/InsertVideoMenu'
+import createEditor from '../../../utils/create-editor'
+import InsertVideoMenu from '@wangeditor/video-module/src/module/menu/InsertVideoMenu'
 import * as core from '@wangeditor/core'
 import * as slate from 'slate'
 

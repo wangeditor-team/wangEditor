@@ -1,6 +1,6 @@
-import { IDomEditor } from '../../../../packages/editor/src'
-import UploadImageMenu from '../../../../packages/upload-image-module/src/module/menu/UploadImageMenu'
-import createEditor from '../../../utils/create-editor'
+import { IDomEditor } from '../../../packages/editor/src'
+import UploadImageMenu from '@wangeditor/upload-image-module/src/module/menu/UploadImageMenu'
+import createEditor from '../../utils/create-editor'
 
 let editor: IDomEditor
 let menu: UploadImageMenu

@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { renderStyle } from '../../../../packages/code-highlight/src/module/render-style'
+import { renderStyle } from '../../../packages/code-highlight/src/module/render-style'
 import { jsx } from 'snabbdom'
 
 describe('code-highlight render text style', () => {

@@ -4,9 +4,9 @@
  */
 
 import { $ } from 'dom7'
-import createEditor from '../../../utils/create-editor'
-import { preParseHtmlConf } from '../../../../packages/video-module/src/module/pre-parse-html'
-import { parseHtmlConf } from '../../../../packages/video-module/src/module/parse-elem-html'
+import createEditor from '../../utils/create-editor'
+import { preParseHtmlConf } from '@wangeditor/video-module/src/module/pre-parse-html'
+import { parseHtmlConf } from '@wangeditor/video-module/src/module/parse-elem-html'
 
 describe('video - pre parse html', () => {
   it('iframe', () => {

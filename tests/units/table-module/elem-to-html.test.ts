@@ -7,7 +7,7 @@ import {
   tableCellToHtmlConf,
   tableToHtmlConf,
   tableRowToHtmlConf,
-} from '../../../../packages/table-module/src/module/elem-to-html'
+} from '@wangeditor/table-module/src/module/elem-to-html'
 import * as core from '@wangeditor/core'
 import { Ancestor } from 'slate'
 

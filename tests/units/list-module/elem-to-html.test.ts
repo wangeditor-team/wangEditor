@@ -7,7 +7,7 @@ import {
   bulletedToHtmlConf,
   numberedToHtmlConf,
   listItemToHtmlConf,
-} from '../../../../packages/list-module/src/module/elem-to-html'
+} from '@wangeditor/list-module/src/module/elem-to-html'
 
 describe('module elem-to-html', () => {
   const fixtures = [

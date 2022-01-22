@@ -3,7 +3,7 @@
  * @author luochao
  */
 
-import { genTag, checkList } from '../../../../packages/list-module/src/module/helper'
+import { genTag, checkList } from '@wangeditor/list-module/src/module/helper'
 
 describe('List-module module', () => {
   describe('module helper util genTag', () => {
