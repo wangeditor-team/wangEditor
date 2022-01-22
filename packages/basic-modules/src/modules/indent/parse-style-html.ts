@@ -13,7 +13,7 @@ export function parseStyleHtml($elem: Dom7Array, node: Descendant): Descendant {
 
   const elemNode = node as IndentElement
 
-  const indent = getStyleValue($elem, 'padding-left')
+  const indent = getStyleValue($elem, 'text-indent')
   if (indent) {
     elemNode.indent = indent
   }

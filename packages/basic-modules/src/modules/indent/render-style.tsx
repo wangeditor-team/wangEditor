@@ -17,11 +17,11 @@ import { IndentElement } from './custom-types'
 export function renderStyle(node: Descendant, vnode: VNode): VNode {
   if (!Element.isElement(node)) return vnode
 
-  const { indent } = node as IndentElement // 如 '32px'
+  const { indent } = node as IndentElement // 如 '2em'
   let styleVnode: VNode = vnode
 
   if (indent) {
-    addVnodeStyle(styleVnode, { paddingLeft: indent })
+    addVnodeStyle(styleVnode, { textIndent: indent })
   }
 
   return styleVnode

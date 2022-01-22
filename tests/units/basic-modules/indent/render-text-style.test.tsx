@@ -8,13 +8,13 @@ import { renderStyle } from '../../../../packages/basic-modules/src/modules/inde
 
 describe('indent - render text style', () => {
   it('render text style', () => {
-    const indent = '32px'
+    const indent = '2em'
     const elem = { type: 'paragraph', indent, children: [] }
     const vnode = <p>hello</p>
 
     // @ts-ignore
     const newVnode = renderStyle(elem, vnode)
     // @ts-ignore
-    expect(newVnode.data.style.paddingLeft).toBe(indent)
+    expect(newVnode.data.style.textIndent).toBe(indent)
   })
 })
