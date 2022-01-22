@@ -3,8 +3,8 @@
  * @author luochao
  */
 
-import withList from '../../../../packages/list-module/src/module/plugin'
-import createEditor from '../../../../tests/utils/create-editor'
+import withList from '@wangeditor/list-module/src/module/plugin'
+import createEditor from '../../utils/create-editor'
 import * as core from '@wangeditor/core'
 import * as slate from 'slate'
 

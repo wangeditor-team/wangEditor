@@ -3,8 +3,8 @@
  * @author luochao
  */
 
-import BulletedListMenu from '../../../../packages/list-module/src/module/menu/BulletedListMenu'
-import createEditor from '../../../../tests/utils/create-editor'
+import BulletedListMenu from '@wangeditor/list-module/src/module/menu/BulletedListMenu'
+import createEditor from '../../../utils/create-editor'
 import * as core from '@wangeditor/core'
 import * as slate from 'slate'
 

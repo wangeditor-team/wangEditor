@@ -3,8 +3,8 @@
  * @author luochao
  */
 
-import NumberedListMenu from '../../../../packages/list-module/src/module/menu/NumberedListMenu'
-import createEditor from '../../../../tests/utils/create-editor'
+import NumberedListMenu from '@wangeditor/list-module/src/module/menu/NumberedListMenu'
+import createEditor from '../../../utils/create-editor'
 import * as core from '@wangeditor/core'
 import * as slate from 'slate'
 

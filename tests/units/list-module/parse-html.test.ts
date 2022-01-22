@@ -4,12 +4,12 @@
  */
 
 import { $ } from 'dom7'
-import createEditor from '../../../utils/create-editor'
+import createEditor from '../../utils/create-editor'
 import {
   parseItemHtmlConf,
   parseBulletedListHtmlConf,
   parseNumberedListHtmlConf,
-} from '../../../../packages/list-module/src/module/parse-elem-html'
+} from '@wangeditor/list-module/src/module/parse-elem-html'
 
 describe('list - parse html', () => {
   const editor = createEditor()

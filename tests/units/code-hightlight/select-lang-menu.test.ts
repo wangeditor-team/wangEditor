@@ -4,9 +4,9 @@
  */
 
 import { IDomEditor } from '@wangeditor/core'
-import createEditor from '../../../../tests/utils/create-editor'
-import { content, codeLocation, paragraphLocation, language } from '../content'
-import SelectLangMenu from '../../../../packages/code-highlight/src/module/menu/SelectLangMenu'
+import createEditor from '../../../tests/utils/create-editor'
+import { content, codeLocation, paragraphLocation, language } from './content'
+import SelectLangMenu from '../../../packages/code-highlight/src/module/menu/SelectLangMenu'
 
 describe('code-highlight select lang menu', () => {
   let editor: IDomEditor | null = null

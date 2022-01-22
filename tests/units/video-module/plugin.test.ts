@@ -3,8 +3,8 @@
  * @author luochao
  */
 
-import withVideo from '../../../../packages/video-module/src/module/plugin'
-import createEditor from '../../../../tests/utils/create-editor'
+import withVideo from '@wangeditor/video-module/src/module/plugin'
+import createEditor from '../../utils/create-editor'
 
 describe('videoModule module', () => {
   describe('module plugin', () => {

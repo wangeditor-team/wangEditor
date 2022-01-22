@@ -3,8 +3,8 @@
  * @author luochao
  */
 
-import createEditor from '../../../../tests/utils/create-editor'
-import withTable from '../../../../packages/table-module/src/module/plugin'
+import createEditor from '../../utils/create-editor'
+import withTable from '@wangeditor/table-module/src/module/plugin'
 import * as core from '@wangeditor/core'
 import * as slate from 'slate'
 
