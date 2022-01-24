@@ -9,6 +9,7 @@ import { isMenuDisabled } from '../helper'
 
 abstract class BaseMenu implements IButtonMenu {
   abstract readonly mark: string
+  protected readonly marksNeedToRemove: string[] = [] // 增加 mark 的同时，需要移除哪些 mark （互斥，不能共存的）
   abstract readonly title: string
   abstract readonly iconSvg: string
   abstract readonly hotkey: string
@@ -49,13 +50,18 @@ abstract class BaseMenu implements IButtonMenu {
    * @param value 是否有 mark
    */
   exec(editor: IDomEditor, value: string | boolean) {
-    const mark = this.mark
+    const { mark, marksNeedToRemove } = this
     if (value) {
       // 已，则取消
       editor.removeMark(mark)
     } else {
       // 没有，则执行
       editor.addMark(mark, true)
+
+      // 移除互斥、不能共存的 marks
+      if (marksNeedToRemove) {
+        marksNeedToRemove.forEach(m => editor.removeMark(m))
+      }
     }
   }
 }
