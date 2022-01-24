@@ -8,7 +8,19 @@ import { Element as SlateElement, Descendant } from 'slate'
 import { IDomEditor } from '../editor/interface'
 
 // 常见的 text tag
-export const TEXT_TAGS = ['span', 'b', 'strong', 'i', 'em', 's', 'strike', 'u', 'font']
+export const TEXT_TAGS = [
+  'span',
+  'b',
+  'strong',
+  'i',
+  'em',
+  's',
+  'strike',
+  'u',
+  'font',
+  'sub',
+  'sup',
+]
 
 // ------------------------------------ pre-parse html ------------------------------------
 export type PreParseHtmlFnType = ($node: Dom7Array) => Dom7Array
