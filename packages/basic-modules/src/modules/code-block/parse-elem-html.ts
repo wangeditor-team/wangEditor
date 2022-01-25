@@ -22,6 +22,11 @@ export const parseCodeHtmlConf = {
 }
 
 function parsePreHtml($elem: Dom7Array, children: Descendant[], editor: IDomEditor): PreElement {
+  children = children.filter(child => DomEditor.getNodeType(child) === 'code')
+  if (children.length === 0) {
+    children = [{ type: 'code', language: '', children: [{ text: $elem[0].textContent || '' }] }]
+  }
+
   return {
     type: 'pre',
     // @ts-ignore
