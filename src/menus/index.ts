@@ -134,8 +134,8 @@ class Menus {
                     return
                 }
 
-                if ($target.parentUntil('.w-e-droplist') != null) {
-                    // 处于droplist中时隐藏
+                if ($target.parentUntil('.w-e-droplist') != null || $target.parentUntil('.w-e-panel-container') != null) {
+                    // 处于droplist或者panel中时隐藏
                     hide()
                 } else {
                     if ($target.attr('data-title')) {
