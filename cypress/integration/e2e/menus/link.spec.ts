@@ -111,4 +111,23 @@ describe('插入超链接', () => {
         cy.get('@Editable').find('a').should('not.exist')
         cy.get('@Editable').contains(linkText)
     })
+    it('插入超链接之后隐藏tooltip-up', () => {
+        cy.get('@Editable').type(text)
+
+        cy.get('@Editable').contains(text)
+
+        cy.getByClass('toolbar').children().eq(pos).click()
+
+        cy.getByClass('panel-container').as('Panel').should('be.visible')
+
+        cy.get('@Panel').find('.w-e-panel-tab-title').contains('链接')
+
+        cy.get('@Panel').find('.w-e-panel-tab-content input').should('have.length', 2)
+        cy.get('@Panel').find('.w-e-panel-tab-content input').eq(0).type(linkText)
+        cy.get('@Panel').find('.w-e-panel-tab-content input').eq(1).type(link)
+
+        cy.get('@Panel').find('.w-e-panel-tab-content .w-e-button-container .right').eq(0).click()
+
+        cy.getByClass('panel-container').as('Panel').should('not.exist')
+    })
 })
