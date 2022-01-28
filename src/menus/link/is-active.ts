@@ -4,12 +4,14 @@
  */
 
 import Editor from '../../editor/index'
+import { getTopLinkNode } from './util';
 
 function isActive(editor: Editor): boolean {
-    const $selectionELem = editor.selection.getSelectionContainerElem()
+    let $selectionELem = editor.selection.getSelectionContainerElem()
     if (!$selectionELem?.length) {
         return false
     }
+    $selectionELem = getTopLinkNode($selectionELem)
     if ($selectionELem.getNodeName() === 'A') {
         return true
     } else {

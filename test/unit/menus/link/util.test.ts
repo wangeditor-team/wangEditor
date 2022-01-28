@@ -1,4 +1,5 @@
-import { insertHtml } from '../../../../src/menus/link/util'
+import { insertHtml, getTopLinkNode } from '../../../../src/menus/link/util'
+import $ from '../../../../src/utils/dom-core'
 
 /**
  * 生成带选区的selection对象
@@ -124,5 +125,23 @@ describe('测试insertHtml函数', () => {
 
         const htmlString = insertHtml(selection, p)
         expect(htmlString).toBe('345<font face="华文仿宋">test</font>678')
+    })
+    test('测试获取a标签 text 和 href', () => {
+        document.body.innerHTML = `<a href="url" target="_blank">欢迎使用wangEditor</a>`
+        let a = $('a')
+        a = getTopLinkNode(a)
+        let text = a.text()
+        let href = a.attr('href')
+        expect(text).toBe('欢迎使用wangEditor')
+        expect(href).toBe('url')
+    })
+    test('测试嵌套结构获取a标签 text 和 href', () => {
+        document.body.innerHTML = `<a href="url" target="_blank">富文<font size="5">本<strike>编辑器</strike></font></a>`
+        let a = $('strike')
+        a = getTopLinkNode(a)
+        let text = a.text()
+        let href = a.attr('href')
+        expect(text).toBe('富文本编辑器')
+        expect(href).toBe('url')
     })
 })

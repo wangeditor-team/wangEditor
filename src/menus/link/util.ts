@@ -1,3 +1,4 @@
+import { DomElement } from '../../utils/dom-core'
 /**
  * 获取除了包裹在整行区域的顶级Node
  * @param node 最外层node下的某个childNode
@@ -15,6 +16,24 @@ function getTopNode(node: Node, topText: string): Node {
     } while (pointerNode?.nodeName !== 'P')
 
     return topNode
+}
+/**
+ * 获取嵌套的a标签
+ * <a href="123" target="_blank">
+ *  <font size="6">编辑器</font>
+ * </a>
+ * @param elem 选取的节点
+ */
+function getTopLinkNode(elem: DomElement): DomElement {
+    if (!elem) return elem
+    if (elem && elem.length && elem.getNodeName() === 'A') {
+        return elem
+    }
+    let parent = elem.parent()
+    while (parent.length && parent.getNodeName() !== 'A') {
+        parent = parent.parent()
+    }
+    return parent && parent.length ? parent : elem
 }
 
 /**
@@ -155,4 +174,4 @@ function addContainer(tagArr: Node[], content: string): string {
     return content
 }
 
-export { getTopNode, makeHtmlString, createPartHtml, insertHtml }
+export { getTopNode, makeHtmlString, createPartHtml, insertHtml, getTopLinkNode }
