@@ -94,7 +94,8 @@ editor.create();
 - 164999061（人已满）
 - 710646022（人已满）
 - 901247714（人已满）
-- 606602511
+- 606602511（人已满）
+- 764778054
 
 提交 bug 或建议
 - [github issues](https://github.com/wangeditor-team/wangeditor/issues) 提交问题

@@ -12,6 +12,7 @@ import Panel from '../menu-constructors/Panel'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event/index'
 import { EMPTY_P } from '../../utils/const'
+import { getTopLinkNode } from './util';
 
 class Link extends PanelMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -62,7 +63,7 @@ class Link extends PanelMenu implements MenuActive {
             if (!$linkElem) {
                 return
             }
-
+            $linkElem = getTopLinkNode($linkElem)
             // 弹出 panel
             this.createPanel($linkElem.text(), $linkElem.attr('href'))
         } else {
