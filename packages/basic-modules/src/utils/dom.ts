@@ -59,6 +59,15 @@ $.fn.height = height
 export default $
 
 /**
+ * 判断 str 是不是纯字符串，而不是 html tag
+ * @param str str
+ */
+export function isPlainText(str: string) {
+  const $container = $(`<div>${str}</div>`)
+  return $container.children().length === 0
+}
+
+/**
  * 获取 outerHTML
  * @param $elem dom7 elem
  */

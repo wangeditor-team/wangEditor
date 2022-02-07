@@ -12,6 +12,10 @@
 </head>
 <body>
   <p>simple mode</p>
+  <p>
+    <b>bold</b>
+    <a href="./default-mode.html">default mode</a>
+  </p>
 
   <!-- 编辑器 -->
   <div>
@@ -34,6 +38,7 @@
     editorConfig.onChange = (editor) => {
       const contentStr = JSON.stringify(editor.children, null, 2)
       document.getElementById('text-content').innerHTML = contentStr
+      console.log(editor.getHtml())
     }
 
     const editor = E.createEditor({

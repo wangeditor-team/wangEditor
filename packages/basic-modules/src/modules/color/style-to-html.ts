@@ -4,7 +4,7 @@
  */
 
 import { Text, Descendant } from 'slate'
-import $, { getOuterHTML, getTagName } from '../../utils/dom'
+import $, { getOuterHTML, getTagName, isPlainText } from '../../utils/dom'
 import { ColorText } from './custom-types'
 
 /**
@@ -19,15 +19,19 @@ export function styleToHtml(textNode: Descendant, textHtml: string): string {
   const { color, bgColor } = textNode as ColorText
   if (!color && !bgColor) return textHtml
 
-  let $text = $()
-  try {
-    $text = $(textHtml) // textHtml 可能是 html tag ，也可能是纯字符串，所以要 try
-  } catch (err) {} // eslint-disable-line
+  let $text
 
-  // 如果 textHtml 不是 <span> 标签，则包裹一层
-  const tagName = getTagName($text)
-  if (tagName !== 'span') {
+  if (isPlainText(textHtml)) {
+    // textHtml 是纯文本，不是 html tag
     $text = $(`<span>${textHtml}</span>`)
+  } else {
+    // textHtml 是 html tag
+    $text = $(textHtml)
+    const tagName = getTagName($text)
+    if (tagName !== 'span') {
+      // 如果不是 span ，则包裹一层，接下来要设置 css
+      $text = $(`<span>${textHtml}</span>`)
+    }
   }
 
   // 设置样式
