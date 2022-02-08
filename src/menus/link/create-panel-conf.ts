@@ -7,7 +7,7 @@ import Editor from '../../editor/index'
 import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $, { DomElement } from '../../utils/dom-core'
-import isActive from './is-active'
+import isActive, { getParentNodeA, EXTRA_TAG } from './is-active'
 import { insertHtml } from './util'
 
 export default function (editor: Editor, text: string, link: string): PanelConf {
@@ -78,9 +78,35 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
         }
         // 选中整个链接
         selectLinkElem()
-        // 用文本替换链接
-        const selectionText = $selectedLink.text()
-        editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
+
+        /**
+         * 替换链接
+         *
+         * 两种情况
+         * 1. 特殊标签里嵌套a，也要保留特殊标签：<b><a></a></b>  先加粗后添加链接
+         * 2. a标签里面可能会含有其他元素如：b, i等，要保留： <a><b></b></a> 先添加链接后加粗
+         */
+
+        if ($selectedLink.getNodeName() === 'A') {
+            const linkElem = $selectedLink.elems[0]
+            const linkParentNode = linkElem.parentElement
+
+            // 判断父级元素是不是特殊元素
+            if (linkParentNode && EXTRA_TAG.includes(linkParentNode.nodeName)) {
+                // 将特殊元素的内容设置为a标签的内容
+                linkParentNode.innerHTML = linkElem.innerHTML
+            } else {
+                // 如果父级不是特殊元素，直接设置内容
+                editor.cmd.do('insertHTML', '<span>' + linkElem.innerHTML + '</span>')
+            }
+        } else {
+            // 如果链接上选区是特殊元素，需要获取最近的a标签，获取html结果，以保留特殊元素
+            const parentNodeA = getParentNodeA($selectedLink)!
+
+            const selectionContent = parentNodeA.innerHTML
+
+            editor.cmd.do('insertHTML', '<span>' + selectionContent + '</span>')
+        }
     }
 
     /**
@@ -143,6 +169,10 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                         selector: '#' + btnOkId,
                         type: 'click',
                         fn: () => {
+                            // 获取链接区间的顶层元素
+                            const $selectionContainerElem = editor.selection.getSelectionContainerElem()!
+                            const $elem = $selectionContainerElem?.elems[0]
+
                             // 获取选取
                             editor.selection.restoreSelection()
                             const topNode = editor.selection
@@ -181,6 +211,34 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                             if (!text) text = link
                             // 校验链接是否满足用户的规则，若不满足则不插入
                             if (!checkLink(text, link)) return
+
+                            /**
+                             * 插入链接
+                             * 1、针对首次插入链接，利用选区插入a标签即可
+                             * 1、针对：<a><b>xxxx</b></a> 情况，用户操作修改或者替换链接时，编辑得到a，修改已有a标签的href
+                             * 2、针对：<b><a>xxxx</a></b> 情况, 用户操作修改或者替换链接时，只要修改已有a标签的href
+                             */
+
+                            // 选区范围是a标签，直接替换href链接即可
+                            if ($elem?.nodeName === 'A') {
+                                $elem.setAttribute('href', link)
+
+                                return true
+                            }
+
+                            // 不是a标签，并且为特殊元素, 需要检查是不是首次设置链接，还是已经设置过链接。
+                            if ($elem?.nodeName !== 'A' && EXTRA_TAG.includes($elem.nodeName)) {
+                                const nodeA = getParentNodeA($selectionContainerElem)
+
+                                // 防止第一次设置就为特殊元素，这种情况应该为首次设置链接
+                                if (nodeA) {
+                                    nodeA.setAttribute('href', link)
+
+                                    return true
+                                }
+                            }
+
+                            // 首次插入链接
                             insertLink(text, link)
 
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
