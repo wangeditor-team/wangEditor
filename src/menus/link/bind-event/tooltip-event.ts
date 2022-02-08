@@ -6,6 +6,7 @@
 import $, { DomElement } from '../../../utils/dom-core'
 import Tooltip, { TooltipConfType } from '../../menu-constructors/Tooltip'
 import Editor from '../../../editor/index'
+import { EXTRA_TAG } from '../is-active'
 
 /**
  * 生成 Tooltip 的显示隐藏函数
@@ -50,9 +51,26 @@ function createShowHideFn(editor: Editor) {
                                 style=${$selectIMG?.getAttribute('style')}>`
                         )
                     } else {
-                        // 用文字，替换链接
-                        const selectionText = $link.text()
-                        editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
+                        /**
+                         * 替换链接
+                         *
+                         * 两种情况
+                         * 1. a标签里面可能会含有其他元素如：b, i等，要保留： <a><b></b></a> 先添加链接后加粗
+                         * 2. 特殊标签里嵌套a，也要保留特殊标签：<b><a></a></b>  先加粗后添加链接
+                         */
+                        const linkElem = $link.elems[0]
+
+                        // a标签里面的html结构
+                        const selectionContent = linkElem.innerHTML
+
+                        // a标签的父元素
+                        const linkParentNode = linkElem.parentElement
+
+                        if (linkParentNode && EXTRA_TAG.includes(linkParentNode.nodeName)) {
+                            linkParentNode.innerHTML = selectionContent
+                        } else {
+                            editor.cmd.do('insertHTML', '<span>' + selectionContent + '</span>')
+                        }
                     }
 
                     // 返回 true，表示执行完之后，隐藏 tooltip。否则不隐藏。

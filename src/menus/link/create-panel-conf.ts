@@ -7,7 +7,7 @@ import Editor from '../../editor/index'
 import { PanelConf } from '../menu-constructors/Panel'
 import { getRandom } from '../../utils/util'
 import $, { DomElement } from '../../utils/dom-core'
-import isActive from './is-active'
+import isActive, { getParentNodeA, EXTRA_TAG } from './is-active'
 import { insertHtml } from './util'
 
 export default function (editor: Editor, text: string, link: string): PanelConf {
@@ -72,9 +72,35 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
         }
         // 选中整个链接
         selectLinkElem()
-        // 用文本替换链接
-        const selectionText = $selectedLink.text()
-        editor.cmd.do('insertHTML', '<span>' + selectionText + '</span>')
+
+        /**
+         * 替换链接
+         *
+         * 两种情况
+         * 1. 特殊标签里嵌套a，也要保留特殊标签：<b><a></a></b>  先加粗后添加链接
+         * 2. a标签里面可能会含有其他元素如：b, i等，要保留： <a><b></b></a> 先添加链接后加粗
+         */
+
+        if ($selectedLink.getNodeName() === 'A') {
+            const linkElem = $selectedLink.elems[0]
+            const linkParentNode = linkElem.parentElement
+
+            // 判断父级元素是不是特殊元素
+            if (linkParentNode && EXTRA_TAG.includes(linkParentNode.nodeName)) {
+                // 将特殊元素的内容设置为a标签的内容
+                linkParentNode.innerHTML = linkElem.innerHTML
+            } else {
+                // 如果父级不是特殊元素，直接设置内容
+                editor.cmd.do('insertHTML', '<span>' + linkElem.innerHTML + '</span>')
+            }
+        } else {
+            // 如果链接上选区是特殊元素，需要获取最近的a标签，获取html结果，以保留特殊元素
+            const parentNodeA = getParentNodeA($selectedLink)!
+
+            const selectionContent = parentNodeA.innerHTML
+
+            editor.cmd.do('insertHTML', '<span>' + selectionContent + '</span>')
+        }
     }
 
     /**
