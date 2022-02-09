@@ -4,7 +4,13 @@
  */
 
 import { t } from '@wangeditor/core'
-import { INDENT_RIGHT_SVG, JUSTIFY_LEFT_SVG, IMAGE_SVG, MORE_SVG } from '../../constants/svg'
+import {
+  INDENT_RIGHT_SVG,
+  JUSTIFY_LEFT_SVG,
+  IMAGE_SVG,
+  MORE_SVG,
+  VIDEO_SVG,
+} from '../../constants/svg'
 
 export function genDefaultToolbarKeys() {
   return [
@@ -59,7 +65,12 @@ export function genDefaultToolbarKeys() {
     // 'deleteImage',
     // 'editImage',
     // 'viewImageLink',
-    'insertVideo',
+    {
+      key: 'group-video', // 以 group 开头
+      title: t('editor.video'),
+      iconSvg: VIDEO_SVG,
+      menuKeys: ['insertVideo', 'uploadVideo'],
+    },
     // 'deleteVideo',
     'insertTable',
     'codeBlock',
@@ -102,6 +113,7 @@ export function genSimpleToolbarKeys() {
       iconSvg: IMAGE_SVG,
       menuKeys: ['insertImage', 'uploadImage'],
     },
+    'insertVideo',
     'insertTable',
     'codeBlock',
     '|',

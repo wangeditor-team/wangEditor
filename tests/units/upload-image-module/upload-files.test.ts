@@ -1,4 +1,4 @@
-import uploadFiles from '@wangeditor/upload-image-module/src/module/upload-files'
+import uploadImages from '@wangeditor/upload-image-module/src/module/upload-images'
 import createEditor from '../../utils/create-editor'
 import * as core from '@wangeditor/core'
 
@@ -8,14 +8,14 @@ function mockFile(filename: string) {
 }
 
 describe('Upload image menu upload files util', () => {
-  test('uploadFiles should do nothing if give null value to fileList argument', async () => {
+  test('uploadImages should do nothing if give null value to fileList argument', async () => {
     const editor = createEditor()
-    const res = await uploadFiles(editor, null)
+    const res = await uploadImages(editor, null)
     expect(res).toBeUndefined()
   })
 
   // // 下面两个 case 执行代码会报错（提示函数未被调用），暂时找不到原因，先注释掉 - wangfupeng 2021.12.14
-  // test('uploadFiles should invoke customUpload if give customUpload to config', async () => {
+  // test('uploadImages should invoke customUpload if give customUpload to config', async () => {
   //   const fn = jest.fn()
   //   const editor = createEditor({
   //     config: {
@@ -27,18 +27,18 @@ describe('Upload image menu upload files util', () => {
   //     },
   //   })
 
-  //   uploadFiles(editor, [mockFile('test.jpg')] as unknown as FileList)
+  //   uploadImages(editor, [mockFile('test.jpg')] as unknown as FileList)
 
   //   expect(fn).toBeCalled()
   // })
 
-  // test('uploadFiles should invoke core createUploader if not give customUpload to config', async () => {
+  // test('uploadImages should invoke core createUploader if not give customUpload to config', async () => {
   //   const fn = jest.fn()
   //   const editor = createEditor()
 
   //   jest.spyOn(core, 'createUploader').mockImplementation(fn)
 
-  //   uploadFiles(editor, [mockFile('test.jpg')] as unknown as FileList)
+  //   uploadImages(editor, [mockFile('test.jpg')] as unknown as FileList)
 
   //   expect(fn).toBeCalled()
   // })

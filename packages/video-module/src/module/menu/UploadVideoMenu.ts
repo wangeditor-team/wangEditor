@@ -1,22 +1,23 @@
 /**
- * @description upload image menu
+ * @description upload video menu
  * @author wangfupeng
  */
 
+import { Range } from 'slate'
 import { IButtonMenu, IDomEditor, t } from '@wangeditor/core'
-import { insertImageNode, isInsertImageMenuDisabled } from '@wangeditor/basic-modules'
-import { UPLOAD_IMAGE_SVG } from '../../constants/svg'
 import $ from '../../utils/dom'
-import { IUploadConfigForImage } from './config'
-import uploadImages from '../upload-images'
+import { UPLOAD_VIDEO_SVG } from '../../constants/svg'
+import { IUploadConfigForVideo } from './config'
+import insertVideo from '../helper/insert-video'
+import uploadVideos from '../helper/upload-videos'
 
-class UploadImage implements IButtonMenu {
-  readonly title = t('uploadImgModule.uploadImage')
-  readonly iconSvg = UPLOAD_IMAGE_SVG
+class UploadVideoMenu implements IButtonMenu {
+  readonly title = t('videoModule.uploadVideo')
+  readonly iconSvg = UPLOAD_VIDEO_SVG
   readonly tag = 'button'
 
   getValue(editor: IDomEditor): string | boolean {
-    // 插入菜单，不需要 value
+    // 无需获取 val
     return ''
   }
 
@@ -25,21 +26,12 @@ class UploadImage implements IButtonMenu {
     return false
   }
 
-  isDisabled(editor: IDomEditor): boolean {
-    return isInsertImageMenuDisabled(editor)
-  }
-
-  private getMenuConfig(editor: IDomEditor): IUploadConfigForImage {
-    // 获取配置，见 `./config.js`
-    return editor.getMenuConfig('uploadImage') as IUploadConfigForImage
-  }
-
   exec(editor: IDomEditor, value: string | boolean) {
     const { allowedFileTypes = [], customBrowseAndUpload } = this.getMenuConfig(editor)
 
     // 自定义选择图片，并上传，如图床
     if (customBrowseAndUpload) {
-      customBrowseAndUpload((src, alt, href) => insertImageNode(editor, src, alt, href))
+      customBrowseAndUpload(src => insertVideo(editor, src))
       return
     }
 
@@ -58,9 +50,22 @@ class UploadImage implements IButtonMenu {
     // 选中文件
     $inputFile.on('change', () => {
       const files = ($inputFile[0] as HTMLInputElement).files
-      uploadImages(editor, files) // 上传文件
+      uploadVideos(editor, files) // 上传文件
     })
+  }
+
+  isDisabled(editor: IDomEditor): boolean {
+    const { selection } = editor
+    if (selection == null) return true
+    if (!Range.isCollapsed(selection)) return true // 选区非折叠，禁用
+
+    return false
+  }
+
+  private getMenuConfig(editor: IDomEditor): IUploadConfigForVideo {
+    // 获取配置，见 `./config.js`
+    return editor.getMenuConfig('uploadVideo') as IUploadConfigForVideo
   }
 }
 
-export default UploadImage
+export default UploadVideoMenu

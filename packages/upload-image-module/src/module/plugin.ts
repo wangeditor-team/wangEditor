@@ -5,7 +5,7 @@
 
 import { IDomEditor } from '@wangeditor/core'
 import { isInsertImageMenuDisabled } from '@wangeditor/basic-modules'
-import uploadFiles from './upload-files'
+import uploadImages from './upload-images'
 
 function withUploadImage<T extends IDomEditor>(editor: T): T {
   const { insertData } = editor
@@ -41,7 +41,7 @@ function withUploadImage<T extends IDomEditor>(editor: T): T {
 
     if (_hasImageFiles) {
       // 有图片文件，则上传图片
-      uploadFiles(editor, files)
+      uploadImages(editor, files)
     } else {
       // 如果没有， 则继续 insertData
       insertData(data)

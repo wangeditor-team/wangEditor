@@ -91,6 +91,10 @@
     //   // return true // 执行默认粘贴
     // }
 
+    const toolbarConfig = {
+      // excludeKeys: ['uploadVideo'],
+    }
+
     // create
     let editor, toolbar
     document.getElementById('btn-create').addEventListener('click', () => {
@@ -105,7 +109,7 @@
         editor,
         selector: '#editor-toolbar',
         // selector: document.getElementById('editor-toolbar')
-        // config: {}
+        config: toolbarConfig
       })
     })
     console.log(`如果页面没有编辑器，点击 'create' 按钮创建`)

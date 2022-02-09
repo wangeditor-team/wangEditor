@@ -9,8 +9,8 @@ describe('Upload image default config', () => {
     expect(genUploadImageConfig().server).toBe('')
   })
 
-  test('The option fieldName is "wangeditor-uploaded-file" in default config', () => {
-    expect(genUploadImageConfig().fieldName).toBe('wangeditor-uploaded-file')
+  test('The option fieldName is "wangeditor-uploaded-image" in default config', () => {
+    expect(genUploadImageConfig().fieldName).toBe('wangeditor-uploaded-image')
   })
 
   test('The option maxFileSize is "2M" in default config', () => {
