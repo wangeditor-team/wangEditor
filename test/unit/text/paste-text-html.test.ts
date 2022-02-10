@@ -63,7 +63,7 @@ describe('text utils getPasteImgs test', () => {
         expect(document.execCommand).toBeCalledWith('insertHTML', false, 'mock123\n')
     })
 
-    test('如果复制的文本内容是 url，则插入链接', () => {
+    test('如果复制的文本内容是包含单个 url，则插入链接', () => {
         mockCommand(document)
 
         jest.spyOn(document, 'queryCommandSupported').mockImplementation(() => true)
@@ -77,20 +77,44 @@ describe('text utils getPasteImgs test', () => {
         const pasteText = 'http://www.wangeditor.com'
 
         jest.spyOn(pasteEvents, 'getPasteText').mockImplementation(() => pasteText)
-        jest.spyOn(pasteEvents, 'getPasteHtml').mockImplementation(() => '<p>1234</p>')
-        jest.spyOn(editor.selection, 'getSelectionContainerElem').mockImplementation(() =>
-            $('<p></p>')
-        )
 
         pasteEventList.forEach(fn => {
             fn(new Event(''))
         })
 
-        expect(document.execCommand).toBeCalledWith(
-            'insertHTML',
-            false,
-            `<a href="${pasteText}" target="_blank">${pasteText}</a>`
-        )
+        expect(
+            editor.$textElem
+                .html()
+                .indexOf(`<a href="${pasteText}" target="_blank">${pasteText}</a>`)
+        ).toBeGreaterThan(0)
+    })
+
+    test('如果复制的文本内容是包含多个 url，则插入多个链接', () => {
+        mockCommand(document)
+
+        jest.spyOn(document, 'queryCommandSupported').mockImplementation(() => true)
+
+        const editor = createEditor(document, selector())
+
+        const pasteEventList: Function[] = []
+
+        pasteTextHtml(editor, pasteEventList)
+
+        const pasteText = 'http://www.wangeditor.com文案文案http://www.wangeditor.com文案'
+
+        jest.spyOn(pasteEvents, 'getPasteText').mockImplementation(() => pasteText)
+
+        pasteEventList.forEach(fn => {
+            fn(new Event(''))
+        })
+
+        expect(
+            editor.$textElem
+                .html()
+                .indexOf(
+                    '<a href="http://www.wangeditor.com" target="_blank">http://www.wangeditor.com</a>文案文案<a href="http://www.wangeditor.com" target="_blank">http://www.wangeditor.com</a>文案'
+                )
+        ).toBeGreaterThan(0)
     })
 
     test('如果复制的内容没有 html 内容，直接返回', () => {

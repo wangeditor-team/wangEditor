@@ -113,7 +113,7 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
             return
         }
 
-        // 如果用户开启闭粘贴样式注释则将复制进来为url的直接转为链接 否则不转换
+        // 如果用户开启闭粘贴样式注释则将复制进来为url的直接转为链接 否则不转换。
         //  在群中有用户提到关闭样式粘贴复制的文字进来后链接直接转为文字了，不符合预期，这里优化下
         if (urlRegex.test(pasteText) && pasteFilterStyle) {
             //当复制的内容为链接时，也应该判断用户是否定义了处理粘贴的事件
@@ -122,13 +122,41 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                 pasteText = '' + (pasteTextHandle(pasteText) || '') // html
             }
 
-            const insertUrl = urlRegex.exec(pasteText)![0]
-            const otherText = pasteText.replace(urlRegex, '')
+            // 当复制一个链接和文本时，需要区分出文本和a链接, 如：http://www.baidu.com  搜索。 issue: #3129
+            // 目前也支持粘贴文案：粘贴http://www.baidu.com粘贴http://www.baidu.com，连个链接。
+            const resultText = pasteText.replace(urlRegex, function (link: string) {
+                return `<a href="${link}" target="_blank">${link}</a>`
+            })
+            const range = editor.selection.getRange()
 
-            return editor.cmd.do(
-                'insertHTML',
-                `<a href="${insertUrl}" target="_blank">${insertUrl}</a>${otherText}`
-            ) // html
+            // 文本转义问题，如果直接使用innerHTML插入html结构，地址中的特殊字符会被转义
+            // 先生成元素，替换里面的文本，利用insertElem插入到页面
+            const div = document.createElement('div')
+            const fragment = document.createDocumentFragment()
+
+            div.innerHTML = resultText
+
+            if (range == null) return
+
+            // 将div里的dom结构，搬到fragment里
+            while (div.childNodes.length) {
+                fragment.append(div.childNodes[0])
+            }
+
+            // 修改a 链接文案，使用innerText插入文本，这样就避免了使用innerHTML时把特殊符号转义
+            const linkEle = fragment.querySelectorAll('a')
+            linkEle.forEach(ele => {
+                ele.innerText = ele.href
+            })
+
+            if (range.insertNode) {
+                range.deleteContents()
+                range.insertNode(fragment)
+            }
+
+            editor.selection.clearWindowSelectionRange()
+
+            return
         }
         // table 中（td、th），待开发。。。
         if (!pasteHtml) {

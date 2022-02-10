@@ -53,13 +53,19 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
          *
          * 同上，列表无法插入链接的原因，是因为在insertLink, 处理text时有问题。
          */
+
+        const $elem: DomElement = $(`<a href="${link}" target="_blank">${text}</a>`)
+
+        // fix: 字符转义问题，https://xxx.org?bar=1&macro=2 => https://xxx.org?bar=1¯o=2
+        $elem.elems[0].innerText = text
+
         if (isActive(editor)) {
             // 选区处于链接中，则选中整个菜单，再执行 insertHTML
             selectLinkElem()
-            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+            editor.cmd.do('insertElem', $elem)
         } else {
             // 选区未处于链接中，直接插入即可
-            editor.cmd.do('insertHTML', `<a href="${link}" target="_blank">${text}</a>`)
+            editor.cmd.do('insertElem', $elem)
         }
     }
 
