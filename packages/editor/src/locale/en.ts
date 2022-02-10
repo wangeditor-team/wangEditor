@@ -9,5 +9,6 @@ export default {
     justify: 'Justify',
     indent: 'Indent',
     image: 'Image',
+    video: 'Video',
   },
 }

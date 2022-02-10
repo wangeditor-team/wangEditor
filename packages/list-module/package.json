@@ -43,7 +43,6 @@
   "peerDependencies": {
     "@wangeditor/core": "^0.7.1",
     "dom7": "^3.0.0",
-    "is-hotkey": "^0.2.0",
     "slate": "^0.72.0",
     "snabbdom": "^3.1.0"
   }

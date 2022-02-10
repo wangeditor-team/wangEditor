@@ -9,5 +9,6 @@ export default {
     justify: '对齐',
     indent: '缩进',
     image: '图片',
+    video: '视频',
   },
 }
