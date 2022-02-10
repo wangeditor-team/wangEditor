@@ -88,4 +88,7 @@ export default {
     undo: 'undo',
     redo: 'Redo',
   },
+  todo: {
+    todo: 'Todo',
+  },
 }

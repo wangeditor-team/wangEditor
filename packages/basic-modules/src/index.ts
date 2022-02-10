@@ -14,6 +14,7 @@ import wangEditorHeaderModule from './modules/header'
 import wangEditorColorModule from './modules/color'
 import wangEditorLinkModule from './modules/link'
 import wangEditorImageModule from './modules/image'
+import wangEditorTodoModule from './modules/todo'
 import wangEditorBlockQuoteModule from './modules/blockquote'
 import wangEditorEmotionModule from './modules/emotion'
 import wangEditorFontSizeAndFamilyModule from './modules/font-size-family'
@@ -49,6 +50,7 @@ export default [
   wangEditorBlockQuoteModule,
   wangEditorHeaderModule,
   wangEditorParagraphModule,
+  wangEditorTodoModule,
 
   // command
   wangEditorUndoRedoModule,

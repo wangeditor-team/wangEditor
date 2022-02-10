@@ -38,6 +38,7 @@ export function genDefaultToolbarKeys() {
     '|',
     'bulletedList',
     'numberedList',
+    'todo',
     {
       key: 'group-justify', // 以 group 开头
       title: t('editor.justify'),
@@ -102,6 +103,7 @@ export function genSimpleToolbarKeys() {
     '|',
     'bulletedList',
     'numberedList',
+    'todo',
     'justifyLeft',
     'justifyRight',
     'justifyCenter',

@@ -20,6 +20,7 @@ import {
 } from './basic-modules/src/modules/header/custom-types'
 import { DividerElement } from './basic-modules/src/modules/divider/custom-types'
 import { ImageElement } from './basic-modules/src/modules/image/custom-types'
+import { TodoElement } from './basic-modules/src/modules/todo/custom-types'
 import { PreElement, CodeElement } from './basic-modules/src/modules/code-block/custom-types'
 import { VideoElement } from './video-module/src/module/custom-types'
 import {
@@ -59,6 +60,7 @@ type CustomElement =
   | Header5Element
   | DividerElement
   | ImageElement
+  | TodoElement
   | PreElement
   | CodeElement
   | VideoElement

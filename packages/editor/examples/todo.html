@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todo demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <p>todo</p>
+
+  <!-- 编辑器 -->
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    const editorConfig = { MENU_CONF: {} }
+
+    const editor = E.createEditor({
+      selector: '#editor-text-area',
+      content: [
+        { type: 'paragraph', children: [{ text: 'hello' }] },
+        { type: 'todo', checked: false, children: [{ text: '吃饭' }] },
+        { type: 'todo', checked: false, children: [{ text: '睡觉' }] },
+        { type: 'todo', checked: true, children: [{ text: '看电影' }] },
+      ],
+      config: editorConfig
+    })
+
+    const toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+      // config: {}
+    })
+  </script>
+</body>
+
+</html>
