@@ -7,7 +7,7 @@ import PanelMenu from '../menu-constructors/PanelMenu'
 import Editor from '../../editor/index'
 import $, { DomElement } from '../../utils/dom-core'
 import createPanelConf from './create-panel-conf'
-import isActive from './is-active'
+import isActive, { getParentNodeA } from './is-active'
 import Panel from '../menu-constructors/Panel'
 import { MenuActive } from '../menu-constructors/Menu'
 import bindEvent from './bind-event/index'
@@ -57,14 +57,27 @@ class Link extends PanelMenu implements MenuActive {
         }
 
         if (this.isActive) {
+            let text = ''
+            let href = ''
+
             // 菜单被激活，说明选区在链接里
             $linkElem = editor.selection.getSelectionContainerElem()
+
             if (!$linkElem) {
                 return
             }
 
+            if ($linkElem.getNodeName() !== 'A') {
+                const parentNodeA = getParentNodeA($linkElem)!
+
+                $linkElem = $(parentNodeA)
+            }
+
+            text = $linkElem.text()
+            href = $linkElem.attr('href')
+
             // 弹出 panel
-            this.createPanel($linkElem.text(), $linkElem.attr('href'))
+            this.createPanel(text, href)
         } else {
             // 菜单未被激活，说明选区不在链接里
             if (editor.selection.isSelectionEmpty()) {
