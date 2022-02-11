@@ -125,7 +125,7 @@ class Boot {
   }
 
   // 注册 module
-  static registerModule(module: IModuleConf) {
+  static registerModule(module: Partial<IModuleConf>) {
     registerModule(module)
   }
 }
