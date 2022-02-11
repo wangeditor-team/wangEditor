@@ -80,6 +80,28 @@ export function genModalInputElems(
 }
 
 /**
+ * 生成 modal textarea elems
+ * @param labelText label text
+ * @param textareaId input dom id
+ * @param placeholder input placeholder
+ * @returns [$container, $textarea]
+ */
+export function genModalTextareaElems(
+  labelText: string,
+  textareaId: string,
+  placeholder?: string
+): Dom7Array[] {
+  const $container = $('<label class="babel-container"></label>')
+  $container.append(`<span>${labelText}</span>`)
+  const $textarea = $(
+    `<textarea type="text" id="${textareaId}" placeholder="${placeholder || ''}"></textarea>`
+  )
+  $container.append($textarea)
+
+  return [$container, $textarea]
+}
+
+/**
  * 生成 modal button elems
  * @param buttonId button dom id
  * @param buttonText button text

@@ -9,6 +9,7 @@ import {
   // 配置
   IEditorConfig,
   IToolbarConfig,
+  IModuleConf,
 
   // 注册菜单
   IRegisterMenuConf,
@@ -35,6 +36,7 @@ import {
   registerParseElemHtmlConf,
   registerParseStyleHtmlHandler,
 } from '@wangeditor/core'
+import registerModule from './register-builtin-modules/register'
 
 type PluginType = <T extends IDomEditor>(editor: T) => T
 
@@ -120,6 +122,11 @@ class Boot {
   // 注册 parseStyleHtml
   static registerParseStyleHtml(fn: ParseStyleHtmlFnType) {
     registerParseStyleHtmlHandler(fn)
+  }
+
+  // 注册 module
+  static registerModule(module: IModuleConf) {
+    registerModule(module)
   }
 }
 

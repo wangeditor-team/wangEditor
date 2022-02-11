@@ -28,6 +28,15 @@ function parseElemHtml($elem: Dom7Array, editor: IDomEditor): Descendant {
 
   const tagName = getTagName($elem)
 
+  // <span> 判断有没有 data-w-e-type 属性。有则是 elem ，没有则是 text
+  if (tagName === 'span') {
+    if ($elem.attr('data-w-e-type')) {
+      return parseCommonElemHtml($elem, editor)
+    } else {
+      return parseTextElemHtml($elem, editor)
+    }
+  }
+
   // <code> 特殊处理
   if (tagName === 'code') {
     const parentTagName = getTagName($elem.parent())

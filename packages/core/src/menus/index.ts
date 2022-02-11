@@ -19,6 +19,10 @@ export {
 } from './interface'
 
 // 输出 modal 相关方法
-export { genModalInputElems, genModalButtonElems } from './panel-and-modal/Modal'
+export {
+  genModalInputElems,
+  genModalButtonElems,
+  genModalTextareaElems,
+} from './panel-and-modal/Modal'
 
 export { Toolbar }

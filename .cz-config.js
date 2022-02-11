@@ -40,7 +40,7 @@ module.exports = {
     {
       value: 'workflow',
       name:
-        '📦  workflow: Changes that only affect the workflow. Such as updateing build systems or CI etc.',
+        '📦  workflow: Changes that only affect the workflow. Such as updating build systems or CI etc.',
     },
     {
       value: 'style',
