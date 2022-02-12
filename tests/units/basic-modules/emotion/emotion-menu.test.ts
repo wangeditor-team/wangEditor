@@ -34,7 +34,7 @@ describe('font family menu', () => {
   })
 
   it('get panel content elem', () => {
-    const $elem = menu.getPanelContentElem(editor)
-    expect($elem.length).toBe(1)
+    const elem = menu.getPanelContentElem(editor)
+    expect(elem instanceof HTMLElement).toBeTruthy()
   })
 })

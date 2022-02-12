@@ -5,7 +5,7 @@
 
 import { Node } from 'slate'
 import { IDomEditor } from '../editor/interface'
-import { Dom7Array } from '../utils/dom'
+import { DOMElement } from '../utils/dom'
 
 export interface IMenuGroup {
   key: string
@@ -54,13 +54,13 @@ export interface ISelectMenu extends IBaseMenu {
 
 export interface IDropPanelMenu extends IBaseMenu {
   readonly showDropPanel: boolean // 点击 'button' 显示 dropPanel
-  getPanelContentElem: (editor: IDomEditor) => Dom7Array // showDropPanel 情况下，获取 content elem
+  getPanelContentElem: (editor: IDomEditor) => DOMElement // showDropPanel 情况下，获取 content elem
 }
 
 export interface IModalMenu extends IBaseMenu {
   readonly showModal: boolean // 点击 'button' 显示 modal
   readonly modalWidth: number
-  getModalContentElem: (editor: IDomEditor) => Dom7Array // showModal 情况下，获取 content elem
+  getModalContentElem: (editor: IDomEditor) => DOMElement // showModal 情况下，获取 content elem
   getModalPositionNode: (editor: IDomEditor) => Node | null // 获取 modal 定位的 node ，null 即依据选区定位
 }
 

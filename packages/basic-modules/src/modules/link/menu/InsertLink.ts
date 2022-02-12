@@ -11,7 +11,7 @@ import {
   genModalButtonElems,
   t,
 } from '@wangeditor/core'
-import $, { Dom7Array } from '../../../utils/dom'
+import $, { Dom7Array, DOMElement } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { LINK_SVG } from '../../../constants/icon-svg'
 import { isMenuDisabled, insertLink } from '../helper'
@@ -57,7 +57,7 @@ class InsertLinkMenu implements IModalMenu {
     return null // modal 依据选区定位
   }
 
-  getModalContentElem(editor: IDomEditor): Dom7Array {
+  getModalContentElem(editor: IDomEditor): DOMElement {
     const { selection } = editor
     const { textInputId, urlInputId, buttonId } = this
 
@@ -107,7 +107,7 @@ class InsertLinkMenu implements IModalMenu {
       $inputText.focus()
     })
 
-    return $content
+    return $content[0]
   }
 }
 

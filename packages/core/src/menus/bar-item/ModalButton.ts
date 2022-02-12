@@ -83,8 +83,8 @@ class ModalButton extends BaseButton {
     const toolbar = DomEditor.getToolbar(editor)
     const { modalAppendToBody } = toolbar?.getConfig() || {}
 
-    const $content = menu.getModalContentElem(editor)
-    modal.renderContent($content)
+    const contentElem = menu.getModalContentElem(editor)
+    modal.renderContent(contentElem)
 
     if (modalAppendToBody) {
       // appendTo body 时，用户自己设置 modal 定位

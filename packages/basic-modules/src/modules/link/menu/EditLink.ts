@@ -12,7 +12,7 @@ import {
   genModalButtonElems,
   t,
 } from '@wangeditor/core'
-import $, { Dom7Array } from '../../../utils/dom'
+import $, { Dom7Array, DOMElement } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { PENCIL_SVG } from '../../../constants/icon-svg'
 import { updateLink } from '../helper'
@@ -79,7 +79,7 @@ class EditLinkMenu implements IModalMenu {
     return DomEditor.getSelectedNodeByType(editor, 'link')
   }
 
-  getModalContentElem(editor: IDomEditor): Dom7Array {
+  getModalContentElem(editor: IDomEditor): DOMElement {
     const { urlInputId, buttonId } = this
 
     // 获取 input button elem
@@ -123,7 +123,7 @@ class EditLinkMenu implements IModalMenu {
       $inputUrl.focus()
     })
 
-    return $content
+    return $content[0]
   }
 }
 

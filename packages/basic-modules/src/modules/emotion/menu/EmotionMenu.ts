@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import { IDropPanelMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
-import $, { Dom7Array } from '../../../utils/dom'
+import $, { Dom7Array, DOMElement } from '../../../utils/dom'
 import { EMOTION_SVG } from '../../../constants/icon-svg'
 
 class EmotionMenu implements IDropPanelMenu {
@@ -49,7 +49,7 @@ class EmotionMenu implements IDropPanelMenu {
     return false
   }
 
-  getPanelContentElem(editor: IDomEditor): Dom7Array {
+  getPanelContentElem(editor: IDomEditor): DOMElement {
     if (this.$content == null) {
       // 第一次渲染
       const $content = $('<ul class="w-e-panel-content-emotion"></ul>')
@@ -69,7 +69,7 @@ class EmotionMenu implements IDropPanelMenu {
     }
 
     const $content = this.$content
-    if ($content == null) return $()
+    if ($content == null) return document.createElement('ul')
     $content.html('') // 清空之后再重置内容
 
     // 获取菜单配置
@@ -81,7 +81,7 @@ class EmotionMenu implements IDropPanelMenu {
       $content.append($li)
     })
 
-    return $content
+    return $content[0]
   }
 }
 

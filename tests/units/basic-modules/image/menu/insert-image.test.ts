@@ -46,9 +46,7 @@ describe('insert image menu', () => {
   // getModalPositionNode 无逻辑，不用测试
 
   it('get modal content elem', () => {
-    const $elem = menu.getModalContentElem(editor)
-    expect($elem.length).toBe(1)
-    const elem = $elem[0]
+    const elem = menu.getModalContentElem(editor)
     expect(elem.tagName).toBe('DIV')
 
     // insertImage 在 helper.test.ts 中测试

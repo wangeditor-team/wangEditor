@@ -39,8 +39,8 @@ class DropPanelButton extends BaseButton {
     if (this.dropPanel == null) {
       // 初次创建
       const dropPanel = new DropPanel(editor)
-      const $content = menu.getPanelContentElem(editor)
-      dropPanel.renderContent($content)
+      const contentElem = menu.getPanelContentElem(editor)
+      dropPanel.renderContent(contentElem)
       dropPanel.appendTo(this.$elem)
       dropPanel.show()
 
@@ -54,8 +54,8 @@ class DropPanelButton extends BaseButton {
         dropPanel.hide()
       } else {
         // 当前未处于显示状态，则重新渲染内容 ，并显示
-        const $content = menu.getPanelContentElem(editor)
-        dropPanel.renderContent($content)
+        const contentElem = menu.getPanelContentElem(editor)
+        dropPanel.renderContent(contentElem)
         dropPanel.show()
       }
     }

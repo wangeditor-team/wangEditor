@@ -12,7 +12,7 @@ import {
   genModalButtonElems,
   t,
 } from '@wangeditor/core'
-import $, { Dom7Array } from '../../../utils/dom'
+import $, { Dom7Array, DOMElement } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { PENCIL_SVG } from '../../../constants/icon-svg'
 import { updateImageNode } from '../helper'
@@ -72,7 +72,7 @@ class EditImage implements IModalMenu {
     return this.getImageNode(editor)
   }
 
-  getModalContentElem(editor: IDomEditor): Dom7Array {
+  getModalContentElem(editor: IDomEditor): DOMElement {
     const { srcInputId, altInputId, hrefInputId, buttonId } = this
 
     const selectedImageNode = this.getImageNode(editor)
@@ -125,7 +125,7 @@ class EditImage implements IModalMenu {
       $inputSrc.focus()
     })
 
-    return $content
+    return $content[0]
   }
 
   private updateImage(

@@ -11,7 +11,7 @@ import {
   genModalButtonElems,
   t,
 } from '@wangeditor/core'
-import $, { Dom7Array } from '../../../utils/dom'
+import $, { Dom7Array, DOMElement } from '../../../utils/dom'
 import { genRandomStr } from '../../../utils/util'
 import { IMAGE_SVG } from '../../../constants/icon-svg'
 import { insertImageNode, isInsertImageMenuDisabled } from '../helper'
@@ -58,7 +58,7 @@ class InsertImage implements IModalMenu {
     return null // modal 依据选区定位
   }
 
-  getModalContentElem(editor: IDomEditor): Dom7Array {
+  getModalContentElem(editor: IDomEditor): DOMElement {
     const { srcInputId, altInputId, hrefInputId, buttonId } = this
 
     // 获取 input button elem
@@ -104,7 +104,7 @@ class InsertImage implements IModalMenu {
       $inputSrc.focus()
     })
 
-    return $content
+    return $content[0]
   }
 
   private insertImage(editor: IDomEditor, src: string, alt: string = '', href: string = '') {

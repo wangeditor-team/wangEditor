@@ -4,7 +4,7 @@
  */
 
 import { IDomEditor } from '../../editor/interface'
-import { Dom7Array } from '../../utils/dom'
+import { Dom7Array, DOMElement } from '../../utils/dom'
 import { EDITOR_TO_PANEL_AND_MODAL, PANEL_OR_MODAL_TO_EDITOR } from '../../utils/weak-maps'
 
 abstract class PanelAndModal {
@@ -36,10 +36,10 @@ abstract class PanelAndModal {
    */
   abstract genSelfElem(): Dom7Array | null
 
-  renderContent($content: Dom7Array) {
+  renderContent(contentElem: DOMElement) {
     const { $elem } = this
     $elem.html('') // 先清空，再填充内容
-    $elem.append($content)
+    $elem.append(contentElem)
 
     // 添加自己额外的 elem
     const $selfElem = this.genSelfElem()

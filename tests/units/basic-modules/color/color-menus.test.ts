@@ -67,8 +67,8 @@ describe('color menus', () => {
 
   it('get panel content elem', () => {
     menus.forEach(({ menu }) => {
-      const $elem = menu.getPanelContentElem(editor)
-      expect($elem.length).toBe(1)
+      const elem = menu.getPanelContentElem(editor)
+      expect(elem instanceof HTMLElement).toBeTruthy()
     })
   })
 })

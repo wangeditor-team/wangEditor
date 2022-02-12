@@ -5,7 +5,7 @@
 
 import { Editor, Range } from 'slate'
 import { IDropPanelMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
-import $, { Dom7Array } from '../../../utils/dom'
+import $, { Dom7Array, DOMElement } from '../../../utils/dom'
 import { CLEAN_SVG } from '../../../constants/icon-svg'
 
 abstract class BaseMenu implements IDropPanelMenu {
@@ -54,7 +54,7 @@ abstract class BaseMenu implements IDropPanelMenu {
     return false
   }
 
-  getPanelContentElem(editor: IDomEditor): Dom7Array {
+  getPanelContentElem(editor: IDomEditor): DOMElement {
     const mark = this.mark
 
     if (this.$content == null) {
@@ -84,7 +84,7 @@ abstract class BaseMenu implements IDropPanelMenu {
       this.$content = $content
     }
     const $content = this.$content
-    if ($content == null) return $()
+    if ($content == null) return document.createElement('ul')
     $content.html('') // 清空之后再重置内容
 
     // 当前选中文本的颜色之
@@ -119,7 +119,7 @@ abstract class BaseMenu implements IDropPanelMenu {
     `)
     $content.prepend($clearLi)
 
-    return $content
+    return $content[0]
   }
 }
 

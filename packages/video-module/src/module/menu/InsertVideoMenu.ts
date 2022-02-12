@@ -11,7 +11,7 @@ import {
   genModalButtonElems,
   t,
 } from '@wangeditor/core'
-import $, { Dom7Array } from '../../utils/dom'
+import $, { Dom7Array, DOMElement } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
 import { VIDEO_SVG } from '../../constants/svg'
 import insertVideo from '../helper/insert-video'
@@ -60,7 +60,7 @@ class InsertVideoMenu implements IModalMenu {
     return null // modal 依据选区定位
   }
 
-  getModalContentElem(editor: IDomEditor): Dom7Array {
+  getModalContentElem(editor: IDomEditor): DOMElement {
     const { srcInputId, buttonId } = this
 
     // 获取 input button elem
@@ -102,7 +102,7 @@ class InsertVideoMenu implements IModalMenu {
       $inputSrc.focus()
     })
 
-    return $content
+    return $content[0]
   }
 }
 

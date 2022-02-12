@@ -5,7 +5,7 @@
 
 import { Editor, Transforms, Range, Node } from 'slate'
 import { IDropPanelMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
-import $, { Dom7Array } from '../../utils/dom'
+import $, { Dom7Array, DOMElement } from '../../utils/dom'
 import { genRandomStr } from '../../utils/util'
 import { TABLE_SVG } from '../../constants/svg'
 import { TableElement, TableCellElement, TableRowElement } from '../custom-types'
@@ -87,9 +87,9 @@ class InsertTable implements IDropPanelMenu {
    *  获取 panel 内容
    * @param editor editor
    */
-  getPanelContentElem(editor: IDomEditor): Dom7Array {
+  getPanelContentElem(editor: IDomEditor): DOMElement {
     // 已有，直接返回
-    if (this.$content) return this.$content
+    if (this.$content) return this.$content[0]
 
     // 初始化
     const $content = $('<div class="w-e-panel-content-table"></div>')
@@ -148,7 +148,7 @@ class InsertTable implements IDropPanelMenu {
 
     // 记录，并返回
     this.$content = $content
-    return $content
+    return $content[0]
   }
 
   private insertTable(editor: IDomEditor, rowNumStr: string, colNumStr: string) {

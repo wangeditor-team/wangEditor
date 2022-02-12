@@ -55,7 +55,7 @@ describe('videoModule module', () => {
     })
 
     test('InsertVideoMenu invoke getModalContentElem should return HTML element', () => {
-      expect(insertVideoMenu.getModalContentElem(editor)[0] instanceof HTMLElement).toBe(true)
+      expect(insertVideoMenu.getModalContentElem(editor) instanceof HTMLElement).toBe(true)
     })
   })
 })

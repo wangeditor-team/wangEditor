@@ -72,9 +72,7 @@ describe('edit link menu', () => {
 
   it('get modal content elem', () => {
     editor.select(startLocation)
-    const $elem = menu.getModalContentElem(editor)
-    expect($elem.length).toBe(1)
-    const elem = $elem[0]
+    const elem = menu.getModalContentElem(editor)
     expect(elem.tagName).toBe('DIV')
   })
 })
