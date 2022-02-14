@@ -4,15 +4,17 @@
  */
 
 import { Descendant, Text } from 'slate'
-import { Dom7Array } from 'dom7'
+import $, { DOMElement } from '../utils/dom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { ListItemElement, BulletedListElement, NumberedListElement } from './custom-types'
 
 function parseItemHtml(
-  $elem: Dom7Array,
+  elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
 ): ListItemElement {
+  const $elem = $(elem)
+
   children = children.filter(child => {
     if (Text.isText(child)) return true
     if (editor.isInline(child)) return true
@@ -37,7 +39,7 @@ export const parseItemHtmlConf = {
 }
 
 function parseBulletedListHtml(
-  $elem: Dom7Array,
+  elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
 ): BulletedListElement {
@@ -54,7 +56,7 @@ export const parseBulletedListHtmlConf = {
 }
 
 function parseNumberedListHtml(
-  $elem: Dom7Array,
+  elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
 ): NumberedListElement {

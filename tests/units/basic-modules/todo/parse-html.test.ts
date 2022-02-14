@@ -17,7 +17,7 @@ describe('todo - parse html', () => {
     expect($todo[0].matches(parseHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseHtmlConf.parseElemHtml($todo, [], editor)
+    const res = parseHtmlConf.parseElemHtml($todo[0], [], editor)
     expect(res).toEqual({
       type: 'todo',
       checked: true,
@@ -33,7 +33,7 @@ describe('todo - parse html', () => {
     expect($todo[0].matches(parseHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseHtmlConf.parseElemHtml($todo, children, editor)
+    const res = parseHtmlConf.parseElemHtml($todo[0], children, editor)
     expect(res).toEqual({
       type: 'todo',
       checked: false,

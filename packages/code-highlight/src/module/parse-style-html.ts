@@ -3,12 +3,14 @@
  * @author wangfupeng
  */
 
-import { Dom7Array } from 'dom7'
+import $, { DOMElement } from '../utils/dom'
 import { Descendant, Element } from 'slate'
 import { DomEditor } from '@wangeditor/core'
 import { CodeElement } from '../custom-types'
 
-export function parseCodeStyleHtml($elem: Dom7Array, node: Descendant): Descendant {
+export function parseCodeStyleHtml(elem: DOMElement, node: Descendant): Descendant {
+  const $elem = $(elem)
+
   if (!Element.isElement(node)) return node
   if (DomEditor.getNodeType(node) !== 'code') return node // 只针对 pre/code 元素
 

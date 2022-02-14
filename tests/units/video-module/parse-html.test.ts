@@ -16,8 +16,8 @@ describe('video - pre parse html', () => {
     expect($iframe[0].matches(preParseHtmlConf.selector)).toBeTruthy()
 
     // pre parse
-    const $res = preParseHtmlConf.preParseHtml($iframe)
-    expect($res[0].outerHTML).toBe(
+    const res = preParseHtmlConf.preParseHtml($iframe[0])
+    expect(res.outerHTML).toBe(
       '<div data-w-e-type="video" data-w-e-is-void=""><iframe></iframe></div>'
     )
   })
@@ -29,8 +29,8 @@ describe('video - pre parse html', () => {
     expect($video[0].matches(preParseHtmlConf.selector)).toBeTruthy()
 
     // pre parse
-    const $res = preParseHtmlConf.preParseHtml($video)
-    expect($res[0].outerHTML).toBe(
+    const res = preParseHtmlConf.preParseHtml($video[0])
+    expect(res.outerHTML).toBe(
       '<div data-w-e-type="video" data-w-e-is-void=""><video></video></div>'
     )
   })
@@ -47,7 +47,7 @@ describe('video - parse html', () => {
     expect($container[0].matches(parseHtmlConf.selector)).toBeTruthy()
 
     // parse
-    expect(parseHtmlConf.parseElemHtml($container, [], editor)).toEqual({
+    expect(parseHtmlConf.parseElemHtml($container[0], [], editor)).toEqual({
       type: 'video',
       src: iframeHtml,
       children: [{ text: '' }], // void 元素有一个空 text
@@ -63,7 +63,7 @@ describe('video - parse html', () => {
     expect($container[0].matches(parseHtmlConf.selector)).toBeTruthy()
 
     // parse
-    expect(parseHtmlConf.parseElemHtml($container, [], editor)).toEqual({
+    expect(parseHtmlConf.parseElemHtml($container[0], [], editor)).toEqual({
       type: 'video',
       src,
       children: [{ text: '' }], // void 元素有一个空 text

@@ -3,16 +3,16 @@
  * @author wangfupeng
  */
 
-import { Dom7Array } from 'dom7'
-import { getTagName } from '../../utils/dom'
+import $, { DOMElement, getTagName } from '../../utils/dom'
 
 /**
  * pre-prase font ，兼容 V4
- * @param $font $font
+ * @param fontElem fontElem
  */
-function preParse($font: Dom7Array) {
+function preParse(fontElem: DOMElement): DOMElement {
+  const $font = $(fontElem)
   const tagName = getTagName($font)
-  if (tagName !== 'font') return $font
+  if (tagName !== 'font') return fontElem
 
   // 处理 color （V4 使用 <font color="#ccc">xx</font> 格式）
   const color = $font.attr('color') || ''
@@ -21,7 +21,7 @@ function preParse($font: Dom7Array) {
     $font.css('color', color)
   }
 
-  return $font
+  return $font[0]
 }
 
 export const preParseHtmlConf = {

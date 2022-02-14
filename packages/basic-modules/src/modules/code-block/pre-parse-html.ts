@@ -3,25 +3,26 @@
  * @author wangfupeng
  */
 
-import { Dom7Array } from 'dom7'
+import $, { DOMElement } from '../../utils/dom'
 import { getTagName } from '../../utils/dom'
 
 /**
  * pre-prase <code> ，去掉其中的 <xmp> （兼容 V4）
- * @param $code $code
+ * @param codeElem codeElem
  */
-function preParse($code: Dom7Array) {
+function preParse(codeElem: DOMElement): DOMElement {
+  const $code = $(codeElem)
   const tagName = getTagName($code)
-  if (tagName !== 'code') return $code
+  if (tagName !== 'code') return codeElem
 
   const $xmp = $code.find('xmp')
-  if ($xmp.length === 0) return $code // 不是 V4 格式
+  if ($xmp.length === 0) return codeElem // 不是 V4 格式
 
   const codeText = $xmp.text()
   $xmp.remove()
   $code.text(codeText)
 
-  return $code
+  return $code[0]
 }
 
 export const preParseHtmlConf = {

@@ -17,7 +17,7 @@ describe('paragraph - parse html', () => {
     expect($elem[0].matches(parseParagraphHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseParagraphHtmlConf.parseElemHtml($elem, [], editor)
+    const res = parseParagraphHtmlConf.parseElemHtml($elem[0], [], editor)
     expect(res).toEqual({
       type: 'paragraph',
       children: [{ text: 'hello world' }],
@@ -29,7 +29,7 @@ describe('paragraph - parse html', () => {
     const children = [{ text: 'hello ' }, { text: 'world', bold: true }]
 
     // parse
-    const res = parseParagraphHtmlConf.parseElemHtml($elem, children, editor)
+    const res = parseParagraphHtmlConf.parseElemHtml($elem[0], children, editor)
     expect(res).toEqual({
       type: 'paragraph',
       children: [{ text: 'hello ' }, { text: 'world', bold: true }],

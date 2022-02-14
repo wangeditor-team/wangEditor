@@ -81,10 +81,13 @@ class EditImage implements IModalMenu {
     }
 
     // 获取 input button elem
-    const [$srcContainer, $inputSrc] = genModalInputElems(t('image.src'), srcInputId)
-    const [$altContainer, $inputAlt] = genModalInputElems(t('image.desc'), altInputId)
-    const [$hrefContainer, $inputHref] = genModalInputElems(t('image.link'), hrefInputId)
-    const [$buttonContainer] = genModalButtonElems(buttonId, t('common.ok'))
+    const [srcContainerElem, inputSrcElem] = genModalInputElems(t('image.src'), srcInputId)
+    const $inputSrc = $(inputSrcElem)
+    const [altContainerElem, inputAltElem] = genModalInputElems(t('image.desc'), altInputId)
+    const $inputAlt = $(inputAltElem)
+    const [hrefContainerElem, inputHrefElem] = genModalInputElems(t('image.link'), hrefInputId)
+    const $inputHref = $(inputHrefElem)
+    const [buttonContainerElem] = genModalButtonElems(buttonId, t('common.ok'))
 
     if (this.$content == null) {
       // 第一次渲染
@@ -109,10 +112,10 @@ class EditImage implements IModalMenu {
     $content.html('') // 先清空内容
 
     // append inputs and button
-    $content.append($srcContainer)
-    $content.append($altContainer)
-    $content.append($hrefContainer)
-    $content.append($buttonContainer)
+    $content.append(srcContainerElem)
+    $content.append(altContainerElem)
+    $content.append(hrefContainerElem)
+    $content.append(buttonContainerElem)
 
     // 设置 input val
     const { src, alt = '', href = '' } = selectedImageNode as ImageElement

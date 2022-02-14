@@ -4,12 +4,12 @@
  */
 
 import { Descendant } from 'slate'
-import { Dom7Array } from 'dom7'
 import { IDomEditor } from '@wangeditor/core'
 import { ImageElement } from './custom-types'
-import { getStyleValue } from '../../utils/dom'
+import $, { DOMElement, getStyleValue } from '../../utils/dom'
 
-function parseHtml($elem: Dom7Array, children: Descendant[], editor: IDomEditor): ImageElement {
+function parseHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor): ImageElement {
+  const $elem = $(elem)
   let href = $elem.attr('data-href') || ''
   href = decodeURIComponent(href) // 兼容 V4
 

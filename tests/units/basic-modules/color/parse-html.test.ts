@@ -16,8 +16,8 @@ describe('color - pre parse html', () => {
     expect($font[0].matches(preParseHtmlConf.selector)).toBeTruthy()
 
     // pre parse
-    const $res = preParseHtmlConf.preParseHtml($font)
-    expect($res[0].outerHTML).toBe('<font style="color: rgb(204, 204, 204);">hello</font>')
+    const res = preParseHtmlConf.preParseHtml($font[0])
+    expect(res.outerHTML).toBe('<font style="color: rgb(204, 204, 204);">hello</font>')
   })
 })
 
@@ -29,7 +29,7 @@ describe('color - parse style html', () => {
     const textNode = { text: 'hello' }
 
     // parse style
-    const res = parseStyleHtml($span, textNode)
+    const res = parseStyleHtml($span[0], textNode)
     expect(res).toEqual({
       text: 'hello',
       color: 'rgb(235, 144, 58)',

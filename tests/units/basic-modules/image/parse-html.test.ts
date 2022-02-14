@@ -19,7 +19,7 @@ describe('image - parse html', () => {
     expect($img[0].matches(parseHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseHtmlConf.parseElemHtml($img, [], editor)
+    const res = parseHtmlConf.parseElemHtml($img[0], [], editor)
     expect(res).toEqual({
       type: 'image',
       src: 'hello.png',

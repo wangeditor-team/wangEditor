@@ -4,16 +4,17 @@
  */
 
 import { Descendant, Text } from 'slate'
-import { Dom7Array } from 'dom7'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { TableCellElement, TableRowElement, TableElement } from './custom-types'
-import { getTagName, getStyleValue } from '../utils/dom'
+import $, { Dom7Array, getTagName, getStyleValue, DOMElement } from '../utils/dom'
 
 function parseCellHtml(
-  $elem: Dom7Array,
+  elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
 ): TableCellElement {
+  const $elem = $(elem)
+
   children = children.filter(child => {
     if (Text.isText(child)) return true
     if (editor.isInline(child)) return true
@@ -44,7 +45,7 @@ export const parseCellHtmlConf = {
 }
 
 function parseRowHtml(
-  $elem: Dom7Array,
+  elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
 ): TableRowElement {
@@ -61,10 +62,12 @@ export const parseRowHtmlConf = {
 }
 
 function parseTableHtml(
-  $elem: Dom7Array,
+  elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
 ): TableElement {
+  const $elem = $(elem)
+
   // 判断 fullWidth
   let fullWidth = false
 

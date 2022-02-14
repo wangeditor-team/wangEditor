@@ -83,8 +83,9 @@ class EditLinkMenu implements IModalMenu {
     const { urlInputId, buttonId } = this
 
     // 获取 input button elem
-    const [$urlContainer, $inputUrl] = genModalInputElems(t('link.url'), urlInputId)
-    const [$buttonContainer] = genModalButtonElems(buttonId, t('common.ok'))
+    const [urlContainerElem, inputUrlElem] = genModalInputElems(t('link.url'), urlInputId)
+    const $inputUrl = $(inputUrlElem)
+    const [buttonContainerElem] = genModalButtonElems(buttonId, t('common.ok'))
 
     if (this.$content == null) {
       // 第一次渲染
@@ -111,8 +112,8 @@ class EditLinkMenu implements IModalMenu {
     $content.html('') // 先清空内容
 
     // append input and button
-    $content.append($urlContainer)
-    $content.append($buttonContainer)
+    $content.append(urlContainerElem)
+    $content.append(buttonContainerElem)
 
     // 设置 input val
     const url = this.getValue(editor)

@@ -3,14 +3,14 @@
  * @author wangfupeng
  */
 
-import { Dom7Array } from 'dom7'
-import { getStyleValue } from '../../utils/dom'
+import $, { DOMElement, getStyleValue } from '../../utils/dom'
 
 /**
  * pre-prase text-indent 兼容 V4 和 V5 早期格式（都使用 padding-left）
- * @param $elem $elem
+ * @param elem elem
  */
-function preParse($elem: Dom7Array) {
+function preParse(elem: DOMElement): DOMElement {
+  const $elem = $(elem)
   const paddingLeft = getStyleValue($elem, 'padding-left')
 
   if (/\dem/.test(paddingLeft)) {
@@ -27,7 +27,7 @@ function preParse($elem: Dom7Array) {
     }
   }
 
-  return $elem
+  return $elem[0]
 }
 
 export const preParseHtmlConf = {

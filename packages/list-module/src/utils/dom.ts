@@ -3,10 +3,7 @@
  * @author wangfupeng
  */
 
-import { $, attr } from 'dom7'
-
-$.fn.attr = attr
-
+import { $ } from 'dom7'
 export { Dom7Array } from 'dom7'
 
 export default $

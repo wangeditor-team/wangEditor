@@ -4,15 +4,17 @@
  */
 
 import { Descendant, Text } from 'slate'
-import { Dom7Array } from 'dom7'
+import $, { DOMElement } from '../../utils/dom'
 import { IDomEditor } from '@wangeditor/core'
 import { BlockQuoteElement } from './custom-types'
 
 function parseHtml(
-  $elem: Dom7Array,
+  elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
 ): BlockQuoteElement {
+  const $elem = $(elem)
+
   children = children.filter(child => {
     if (Text.isText(child)) return true
     if (editor.isInline(child)) return true

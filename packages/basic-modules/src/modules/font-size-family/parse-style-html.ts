@@ -3,12 +3,12 @@
  * @author wangfupeng
  */
 
-import { Dom7Array } from 'dom7'
 import { Descendant, Text } from 'slate'
 import { FontSizeAndFamilyText } from './custom-types'
-import { getStyleValue } from '../../utils/dom'
+import $, { DOMElement, getStyleValue } from '../../utils/dom'
 
-export function parseStyleHtml($text: Dom7Array, node: Descendant): Descendant {
+export function parseStyleHtml(text: DOMElement, node: Descendant): Descendant {
+  const $text = $(text)
   if (!Text.isText(node)) return node
 
   const textNode = node as FontSizeAndFamilyText

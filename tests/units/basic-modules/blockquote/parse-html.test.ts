@@ -17,7 +17,7 @@ describe('blockquote - parse html', () => {
     expect($elem[0].matches(parseHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseHtmlConf.parseElemHtml($elem, [], editor)
+    const res = parseHtmlConf.parseElemHtml($elem[0], [], editor)
     expect(res).toEqual({
       type: 'blockquote',
       children: [{ text: 'hello world' }],
@@ -29,7 +29,7 @@ describe('blockquote - parse html', () => {
     const children = [{ text: 'hello ' }, { text: 'world', bold: true }]
 
     // parse
-    const res = parseHtmlConf.parseElemHtml($elem, children, editor)
+    const res = parseHtmlConf.parseElemHtml($elem[0], children, editor)
     expect(res).toEqual({
       type: 'blockquote',
       children: [{ text: 'hello ' }, { text: 'world', bold: true }],

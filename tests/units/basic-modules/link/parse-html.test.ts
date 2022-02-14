@@ -17,7 +17,7 @@ describe('link - parse html', () => {
     expect($link[0].matches(parseHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseHtmlConf.parseElemHtml($link, [], editor)
+    const res = parseHtmlConf.parseElemHtml($link[0], [], editor)
     expect(res).toEqual({
       type: 'link',
       url: 'http://localhost/',
@@ -34,7 +34,7 @@ describe('link - parse html', () => {
     expect($link[0].matches(parseHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseHtmlConf.parseElemHtml($link, children, editor)
+    const res = parseHtmlConf.parseElemHtml($link[0], children, editor)
     expect(res).toEqual({
       type: 'link',
       url: 'http://localhost/',

@@ -16,8 +16,8 @@ describe('font size family - pre parse html', () => {
     expect($font[0].matches(preParseHtmlConf.selector)).toBeTruthy()
 
     // pre parse
-    const $res = preParseHtmlConf.preParseHtml($font)
-    expect($res[0].outerHTML).toBe('<font style="font-size: 12px; font-family: 黑体;">hello</font>')
+    const res = preParseHtmlConf.preParseHtml($font[0])
+    expect(res.outerHTML).toBe('<font style="font-size: 12px; font-family: 黑体;">hello</font>')
   })
 })
 
@@ -27,7 +27,7 @@ describe('font size family - parse style html', () => {
     const textNode = { text: 'hello' }
 
     // parse style
-    const res = parseStyleHtml($span, textNode)
+    const res = parseStyleHtml($span[0], textNode)
     expect(res).toEqual({
       text: 'hello',
       fontSize: '12px',

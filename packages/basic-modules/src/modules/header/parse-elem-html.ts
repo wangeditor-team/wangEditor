@@ -4,7 +4,7 @@
  */
 
 import { Descendant, Text } from 'slate'
-import { Dom7Array } from 'dom7'
+import $, { DOMElement } from '../../utils/dom'
 import { IDomEditor } from '@wangeditor/core'
 import {
   Header1Element,
@@ -15,7 +15,8 @@ import {
 } from './custom-types'
 
 function genParser<T>(level: number) {
-  function parseHtml($elem: Dom7Array, children: Descendant[], editor: IDomEditor): T {
+  function parseHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor): T {
+    const $elem = $(elem)
     children = children.filter(child => {
       if (Text.isText(child)) return true
       if (editor.isInline(child)) return true
@@ -27,12 +28,12 @@ function genParser<T>(level: number) {
       children = [{ text: $elem.text().replace(/\s+/gm, ' ') }]
     }
 
-    const elem = {
+    const headerNode = {
       type: `header${level}`,
       children,
     } as unknown as T
 
-    return elem
+    return headerNode
   }
   return parseHtml
 }

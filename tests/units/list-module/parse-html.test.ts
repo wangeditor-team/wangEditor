@@ -22,7 +22,7 @@ describe('list - parse html', () => {
     expect($elem[0].matches(parseItemHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseItemHtmlConf.parseElemHtml($elem, children, editor)
+    const res = parseItemHtmlConf.parseElemHtml($elem[0], children, editor)
     expect(res).toEqual({
       type: 'list-item',
       children: [{ text: 'hello ' }, { text: 'world', bold: true }],
@@ -36,7 +36,7 @@ describe('list - parse html', () => {
     expect($elem[0].matches(parseItemHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseItemHtmlConf.parseElemHtml($elem, [], editor)
+    const res = parseItemHtmlConf.parseElemHtml($elem[0], [], editor)
     expect(res).toEqual({
       type: 'list-item',
       children: [{ text: 'hello world' }],
@@ -54,7 +54,7 @@ describe('list - parse html', () => {
     expect($elem[0].matches(parseBulletedListHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseBulletedListHtmlConf.parseElemHtml($elem, children, editor)
+    const res = parseBulletedListHtmlConf.parseElemHtml($elem[0], children, editor)
     expect(res).toEqual({
       type: 'bulleted-list',
       children,
@@ -72,7 +72,7 @@ describe('list - parse html', () => {
     expect($elem[0].matches(parseNumberedListHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseNumberedListHtmlConf.parseElemHtml($elem, children, editor)
+    const res = parseNumberedListHtmlConf.parseElemHtml($elem[0], children, editor)
     expect(res).toEqual({
       type: 'numbered-list',
       children,

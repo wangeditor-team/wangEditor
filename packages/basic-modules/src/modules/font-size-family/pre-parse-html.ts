@@ -3,8 +3,7 @@
  * @author wangfupeng
  */
 
-import { Dom7Array } from 'dom7'
-import { getTagName } from '../../utils/dom'
+import $, { DOMElement, getTagName } from '../../utils/dom'
 
 // V4 font-size 对应关系（V4 使用 <font size="1">xxx</font> 格式）
 const FONT_SIZE_MAP_FOR_V4 = {
@@ -19,11 +18,12 @@ const FONT_SIZE_MAP_FOR_V4 = {
 
 /**
  * pre-prase font ，兼容 V4
- * @param $font $font
+ * @param fontElem fontElem
  */
-function preParse($font: Dom7Array) {
+function preParse(fontElem: DOMElement): DOMElement {
+  const $font = $(fontElem)
   const tagName = getTagName($font)
-  if (tagName !== 'font') return $font
+  if (tagName !== 'font') return fontElem
 
   // 处理 size （V4 使用 <font size="1">xxx</font> 格式）
   const size = $font.attr('size') || ''
@@ -39,7 +39,7 @@ function preParse($font: Dom7Array) {
     $font.css('font-family', face)
   }
 
-  return $font
+  return $font[0]
 }
 
 export const preParseHtmlConf = {

@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Dom7Array } from 'dom7'
+import $, { Dom7Array } from 'dom7'
 import { Descendant } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import parseCommonElemHtml from './parse-common-elem-html'
@@ -22,7 +22,7 @@ function parseElemHtml($elem: Dom7Array, editor: IDomEditor): Descendant {
   PRE_PARSE_HTML_CONF_LIST.forEach(conf => {
     const { selector, preParseHtml } = conf
     if ($elem[0].matches(selector)) {
-      $elem = preParseHtml($elem)
+      $elem = $(preParseHtml($elem[0]))
     }
   })
 

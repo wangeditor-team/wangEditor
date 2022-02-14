@@ -3,14 +3,14 @@
  * @author wangfupeng
  */
 
-import { Dom7Array } from 'dom7'
-import $, { getTagName } from '../utils/dom'
+import $, { getTagName, DOMElement } from '../utils/dom'
 
 /**
  * pre-prase video ，兼容 V4
- * @param $elem $elem
+ * @param elem elem
  */
-function preParse($elem: Dom7Array) {
+function preParse(elem: DOMElement): DOMElement {
+  const $elem = $(elem)
   let $video = $elem
 
   const elemTagName = getTagName($elem)
@@ -28,16 +28,16 @@ function preParse($elem: Dom7Array) {
   }
 
   const videoTagName = getTagName($video)
-  if (videoTagName !== 'iframe' && videoTagName !== 'video') return $video
+  if (videoTagName !== 'iframe' && videoTagName !== 'video') return $video[0]
 
   // 已经符合 V5 格式
   const $parent = $video.parent()
-  if ($parent.attr('data-w-e-type') === 'video') return $video
+  if ($parent.attr('data-w-e-type') === 'video') return $video[0]
 
   const $container = $(`<div data-w-e-type="video" data-w-e-is-void></div>`)
   $container.append($video)
 
-  return $container
+  return $container[0]
 }
 
 export const preParseHtmlConf = {

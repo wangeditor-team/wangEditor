@@ -4,9 +4,9 @@
  */
 
 import { Descendant } from 'slate'
-import { Dom7Array } from 'dom7'
 import { IDomEditor } from '@wangeditor/core'
 import { VideoElement } from './custom-types'
+import $, { DOMElement } from '../utils/dom'
 
 function genVideoElem(src: string): VideoElement {
   return {
@@ -16,7 +16,8 @@ function genVideoElem(src: string): VideoElement {
   }
 }
 
-function parseHtml($elem: Dom7Array, children: Descendant[], editor: IDomEditor): VideoElement {
+function parseHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor): VideoElement {
+  const $elem = $(elem)
   let src = ''
 
   // <iframe> 形式

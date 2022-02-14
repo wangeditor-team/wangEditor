@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Dom7Array } from 'dom7'
+import { DOMElement } from '../utils/dom'
 import { Element as SlateElement, Descendant } from 'slate'
 import { IDomEditor } from '../editor/interface'
 
@@ -23,7 +23,7 @@ export const TEXT_TAGS = [
 ]
 
 // ------------------------------------ pre-parse html ------------------------------------
-export type PreParseHtmlFnType = ($node: Dom7Array) => Dom7Array
+export type PreParseHtmlFnType = ($node: DOMElement) => DOMElement
 
 export interface IPreParseHtmlConf {
   selector: string // css 选择器，如 `p` `div[data-type="xxx"]`
@@ -42,7 +42,7 @@ export function registerPreParseHtmlConf(conf: IPreParseHtmlConf) {
 
 // ------------------------------------ parse style html ------------------------------------
 
-export type ParseStyleHtmlFnType = ($node: Dom7Array, node: Descendant) => Descendant
+export type ParseStyleHtmlFnType = ($node: DOMElement, node: Descendant) => Descendant
 
 export const PARSE_STYLE_HTML_FN_LIST: ParseStyleHtmlFnType[] = []
 
@@ -57,7 +57,7 @@ export function registerParseStyleHtmlHandler(fn: ParseStyleHtmlFnType) {
 // ------------------------------------ parse elem html ------------------------------------
 
 export type ParseElemHtmlFnType = (
-  $elem: Dom7Array,
+  $elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
 ) => SlateElement

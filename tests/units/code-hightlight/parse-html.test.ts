@@ -11,7 +11,7 @@ describe('code highlight - parse style html', () => {
     const $code = $('<code class="language-javascript"></code>') // v5 html format
     const code = { type: 'code', children: [{ text: 'var a = 100;' }] }
 
-    const res = parseCodeStyleHtml($code, code)
+    const res = parseCodeStyleHtml($code[0], code)
     expect(res).toEqual({
       type: 'code',
       language: 'javascript',
@@ -23,7 +23,7 @@ describe('code highlight - parse style html', () => {
     const $code = $('<code class="Javascript"></code>') // v4 html format
     const code = { type: 'code', children: [{ text: 'var a = 100;' }] }
 
-    const res = parseCodeStyleHtml($code, code)
+    const res = parseCodeStyleHtml($code[0], code)
     expect(res).toEqual({
       type: 'code',
       language: 'javascript',

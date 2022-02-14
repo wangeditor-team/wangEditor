@@ -18,7 +18,7 @@ describe('header - parse html', () => {
     expect($h1[0].matches(parseHeader1HtmlConf.selector)).toBeTruthy()
 
     // parse html
-    const res = parseHeader1HtmlConf.parseElemHtml($h1, children, editor)
+    const res = parseHeader1HtmlConf.parseElemHtml($h1[0], children, editor)
     expect(res).toEqual({
       type: `header1`,
       children: [{ text: 'hello ' }, { text: 'world', bold: true }],
@@ -32,7 +32,7 @@ describe('header - parse html', () => {
     expect($h1[0].matches(parseHeader1HtmlConf.selector)).toBeTruthy()
 
     // parse html
-    const res = parseHeader1HtmlConf.parseElemHtml($h1, [], editor)
+    const res = parseHeader1HtmlConf.parseElemHtml($h1[0], [], editor)
     expect(res).toEqual({
       type: `header1`,
       children: [{ text: 'hello world' }],

@@ -17,7 +17,7 @@ describe('text style - parse style html', () => {
   //   const textNode = { text: 'hello' }
 
   //   // parse style
-  //   const res = parseStyleHtml($text, textNode)
+  //   const res = parseStyleHtml($text[0], textNode)
   //   expect(res).toEqual({
   //     text: 'hello',
   //     bold: true,

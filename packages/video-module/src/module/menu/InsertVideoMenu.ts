@@ -64,12 +64,13 @@ class InsertVideoMenu implements IModalMenu {
     const { srcInputId, buttonId } = this
 
     // 获取 input button elem
-    const [$srcContainer, $inputSrc] = genModalInputElems(
+    const [srcContainerElem, inputSrcElem] = genModalInputElems(
       t('videoModule.videoSrc'),
       srcInputId,
       t('videoModule.insertPlaceHolder')
     )
-    const [$buttonContainer] = genModalButtonElems(buttonId, t('videoModule.ok'))
+    const $inputSrc = $(inputSrcElem)
+    const [buttonContainerElem] = genModalButtonElems(buttonId, t('videoModule.ok'))
 
     if (this.$content == null) {
       // 第一次渲染
@@ -91,8 +92,8 @@ class InsertVideoMenu implements IModalMenu {
     $content.html('') // 先清空内容
 
     // append inputs and button
-    $content.append($srcContainer)
-    $content.append($buttonContainer)
+    $content.append(srcContainerElem)
+    $content.append(buttonContainerElem)
 
     // 设置 input val
     $inputSrc.val('')

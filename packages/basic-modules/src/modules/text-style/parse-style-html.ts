@@ -3,9 +3,9 @@
  * @author wangfupeng
  */
 
-import { Dom7Array } from 'dom7'
 import { Descendant, Text } from 'slate'
 import { StyledText } from './custom-types'
+import $, { Dom7Array, DOMElement } from '../../utils/dom'
 
 /**
  * $text 是否匹配 tags
@@ -22,7 +22,9 @@ function isMatch($text: Dom7Array, selector: string): boolean {
   return false
 }
 
-export function parseStyleHtml($text: Dom7Array, node: Descendant): Descendant {
+export function parseStyleHtml(textElem: DOMElement, node: Descendant): Descendant {
+  const $text = $(textElem)
+
   if (!Text.isText(node)) return node
 
   const textNode = node as StyledText

@@ -17,7 +17,7 @@ describe('divider - parse html', () => {
     expect($hr[0].matches(parseHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const res = parseHtmlConf.parseElemHtml($hr, [], editor)
+    const res = parseHtmlConf.parseElemHtml($hr[0], [], editor)
     expect(res).toEqual({
       type: 'divider',
       children: [{ text: '' }], // void node 有一个空白 text

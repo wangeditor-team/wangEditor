@@ -62,9 +62,11 @@ class InsertLinkMenu implements IModalMenu {
     const { textInputId, urlInputId, buttonId } = this
 
     // 获取 input button elem
-    const [$textContainer, $inputText] = genModalInputElems(t('link.text'), textInputId)
-    const [$urlContainer, $inputUrl] = genModalInputElems(t('link.url'), urlInputId)
-    const [$buttonContainer] = genModalButtonElems(buttonId, t('common.ok'))
+    const [textContainerElem, inputTextElem] = genModalInputElems(t('link.text'), textInputId)
+    const $inputText = $(inputTextElem)
+    const [urlContainerElem, inputUrlElem] = genModalInputElems(t('link.url'), urlInputId)
+    const $inputUrl = $(inputUrlElem)
+    const [buttonContainerElem] = genModalButtonElems(buttonId, t('common.ok'))
 
     if (this.$content == null) {
       // 第一次渲染
@@ -87,9 +89,9 @@ class InsertLinkMenu implements IModalMenu {
     $content.html('') // 先清空内容
 
     // append inputs and button
-    $content.append($textContainer)
-    $content.append($urlContainer)
-    $content.append($buttonContainer)
+    $content.append(textContainerElem)
+    $content.append(urlContainerElem)
+    $content.append(buttonContainerElem)
 
     // 设置 input val
     if (selection == null || Range.isCollapsed(selection)) {

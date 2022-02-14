@@ -17,8 +17,8 @@ describe('todo - pre-parse html', () => {
     expect($ul[0].matches(preParseHtmlConf.selector)).toBeTruthy()
 
     // parse
-    const $res = preParseHtmlConf.preParseHtml($ul)
-    expect($res[0].outerHTML).toBe(
+    const res = preParseHtmlConf.preParseHtml($ul[0])
+    expect(res.outerHTML).toBe(
       '<div data-w-e-type="todo"><input type="checkbox">hello <b>world</b></div>'
     )
   })

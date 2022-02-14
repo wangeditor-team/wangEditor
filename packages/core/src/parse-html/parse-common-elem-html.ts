@@ -8,7 +8,7 @@ import { Editor, Element, Descendant } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import parseElemHtml from './parse-elem-html'
 import { PARSE_ELEM_HTML_CONF, ParseElemHtmlFnType, PARSE_STYLE_HTML_FN_LIST } from './index'
-import { NodeType } from '../utils/dom'
+import { NodeType, DOMElement } from '../utils/dom'
 
 /**
  * 生成 slate node children
@@ -62,13 +62,13 @@ function genChildren($elem: Dom7Array, editor: IDomEditor): Descendant[] {
 
 /**
  * 默认的 parseElemHtml ，直接转换为 paragraph
- * @param $elem $elem
+ * @param elem elem
  * @param children children
  */
-function defaultParser($elem: Dom7Array, children: Descendant[], editor: IDomEditor): Element {
+function defaultParser(elem: DOMElement, children: Descendant[], editor: IDomEditor): Element {
   return {
     type: 'paragraph',
-    children: [{ text: $elem.text().replace(/\s+/gm, ' ') }],
+    children: [{ text: $(elem).text().replace(/\s+/gm, ' ') }],
   }
 }
 
@@ -96,7 +96,7 @@ function parseCommonElemHtml($elem: Dom7Array, editor: IDomEditor): Element {
 
   // parse
   const parser = getParser($elem)
-  let elem = parser($elem, children, editor)
+  let elem = parser($elem[0], children, editor)
 
   const isVoid = Editor.isVoid(editor, elem)
   if (!isVoid) {
@@ -107,7 +107,7 @@ function parseCommonElemHtml($elem: Dom7Array, editor: IDomEditor): Element {
 
     // 处理 style
     PARSE_STYLE_HTML_FN_LIST.forEach(fn => {
-      elem = fn($elem, elem) as Element
+      elem = fn($elem[0], elem) as Element
     })
   }
 

@@ -3,11 +3,11 @@
  * @author wangfupeng
  */
 
-import $, { Dom7Array } from '../../utils/dom'
+import $, { Dom7Array, DOMElement } from '../../utils/dom'
 import { IPositionStyle } from '../interface'
 import PanelAndModal from './BaseClass'
 import { IDomEditor } from '../../editor/interface'
-import { DomEditor } from '../../editor/dom-editor'
+// import { DomEditor } from '../../editor/dom-editor'
 import { SVG_CLOSE } from '../../constants/svg'
 
 class Modal extends PanelAndModal {
@@ -70,13 +70,13 @@ export function genModalInputElems(
   labelText: string,
   inputId: string,
   placeholder?: string
-): Dom7Array[] {
+): DOMElement[] {
   const $container = $('<label class="babel-container"></label>')
   $container.append(`<span>${labelText}</span>`)
   const $input = $(`<input type="text" id="${inputId}" placeholder="${placeholder || ''}">`)
   $container.append($input)
 
-  return [$container, $input]
+  return [$container[0], $input[0]]
 }
 
 /**
@@ -90,7 +90,7 @@ export function genModalTextareaElems(
   labelText: string,
   textareaId: string,
   placeholder?: string
-): Dom7Array[] {
+): DOMElement[] {
   const $container = $('<label class="babel-container"></label>')
   $container.append(`<span>${labelText}</span>`)
   const $textarea = $(
@@ -98,7 +98,7 @@ export function genModalTextareaElems(
   )
   $container.append($textarea)
 
-  return [$container, $textarea]
+  return [$container[0], $textarea[0]]
 }
 
 /**
@@ -107,10 +107,10 @@ export function genModalTextareaElems(
  * @param buttonText button text
  * @returns [ $container, $button ]
  */
-export function genModalButtonElems(buttonId: string, buttonText: string): Dom7Array[] {
+export function genModalButtonElems(buttonId: string, buttonText: string): DOMElement[] {
   const $buttonContainer = $('<div class="button-container"></div>')
   const $button = $(`<button type="button" id="${buttonId}">${buttonText}</button>`)
   $buttonContainer.append($button)
 
-  return [$buttonContainer, $button]
+  return [$buttonContainer[0], $button[0]]
 }

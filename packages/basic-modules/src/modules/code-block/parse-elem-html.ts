@@ -4,11 +4,13 @@
  */
 
 import { Descendant } from 'slate'
-import { Dom7Array } from 'dom7'
+import $, { DOMElement } from '../../utils/dom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { PreElement, CodeElement } from './custom-types'
 
-function parseCodeHtml($elem: Dom7Array, children: Descendant[], editor: IDomEditor): CodeElement {
+function parseCodeHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor): CodeElement {
+  const $elem = $(elem)
+
   return {
     type: 'code',
     language: '', // language 在 code-highlight 中实现
@@ -21,7 +23,9 @@ export const parseCodeHtmlConf = {
   parseElemHtml: parseCodeHtml,
 }
 
-function parsePreHtml($elem: Dom7Array, children: Descendant[], editor: IDomEditor): PreElement {
+function parsePreHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor): PreElement {
+  const $elem = $(elem)
+
   children = children.filter(child => DomEditor.getNodeType(child) === 'code')
   if (children.length === 0) {
     children = [{ type: 'code', language: '', children: [{ text: $elem[0].textContent || '' }] }]

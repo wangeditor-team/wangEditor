@@ -4,15 +4,17 @@
  */
 
 import { Descendant, Text } from 'slate'
-import { Dom7Array } from 'dom7'
 import { IDomEditor } from '@wangeditor/core'
 import { ParagraphElement } from './custom-types'
+import $, { DOMElement } from '../../utils/dom'
 
 function parseParagraphHtml(
-  $elem: Dom7Array,
+  elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
 ): ParagraphElement {
+  const $elem = $(elem)
+
   children = children.filter(child => {
     if (Text.isText(child)) return true
     if (editor.isInline(child)) return true

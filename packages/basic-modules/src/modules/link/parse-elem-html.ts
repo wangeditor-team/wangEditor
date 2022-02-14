@@ -4,11 +4,12 @@
  */
 
 import { Descendant, Text } from 'slate'
-import { Dom7Array } from 'dom7'
 import { IDomEditor } from '@wangeditor/core'
 import { LinkElement } from './custom-types'
+import $, { DOMElement } from '../../utils/dom'
 
-function parseHtml($elem: Dom7Array, children: Descendant[], editor: IDomEditor): LinkElement {
+function parseHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor): LinkElement {
+  const $elem = $(elem)
   children = children.filter(child => {
     if (Text.isText(child)) return true
     if (editor.isInline(child)) return true
