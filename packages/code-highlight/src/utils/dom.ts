@@ -5,7 +5,7 @@
 
 import $, { attr } from 'dom7'
 
-$.fn.attr = attr
+if (attr) $.fn.attr = attr
 
 export { Dom7Array } from 'dom7'
 

@@ -36,33 +36,33 @@ import $, {
 } from 'dom7'
 export { Dom7Array } from 'dom7'
 
-$.fn.css = css
-$.fn.append = append
-$.fn.addClass = addClass
-$.fn.removeClass = removeClass
-$.fn.hasClass = hasClass
-$.fn.on = on
-$.fn.focus = focus
-$.fn.attr = attr
-$.fn.removeAttr = removeAttr
-$.fn.hide = hide
-$.fn.show = show
-// $.fn.scrollTop = scrollTop
-// $.fn.scrollLeft = scrollLeft
-$.fn.offset = offset
-$.fn.width = width
-$.fn.height = height
-$.fn.parent = parent
-$.fn.parents = parents
-$.fn.is = is
-$.fn.dataset = dataset
-$.fn.val = val
-$.fn.text = text
-$.fn.html = html
-$.fn.children = children
-$.fn.remove = remove
-$.fn.find = find
-$.fn.each = each
+if (css) $.fn.css = css
+if (append) $.fn.append = append
+if (addClass) $.fn.addClass = addClass
+if (removeClass) $.fn.removeClass = removeClass
+if (hasClass) $.fn.hasClass = hasClass
+if (on) $.fn.on = on
+if (focus) $.fn.focus = focus
+if (attr) $.fn.attr = attr
+if (removeAttr) $.fn.removeAttr = removeAttr
+if (hide) $.fn.hide = hide
+if (show) $.fn.show = show
+// if (scrollTop) $.fn.scrollTop = scrollTop
+// if (scrollLeft) $.fn.scrollLeft = scrollLeft
+if (offset) $.fn.offset = offset
+if (width) $.fn.width = width
+if (height) $.fn.height = height
+if (parent) $.fn.parent = parent
+if (parents) $.fn.parents = parents
+if (is) $.fn.is = is
+if (dataset) $.fn.dataset = dataset
+if (val) $.fn.val = val
+if (text) $.fn.text = text
+if (html) $.fn.html = html
+if (children) $.fn.children = children
+if (remove) $.fn.remove = remove
+if (find) $.fn.find = find
+if (each) $.fn.each = each
 
 export default $
 

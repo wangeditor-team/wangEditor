@@ -31,29 +31,29 @@ import $, {
 } from 'dom7'
 export { Dom7Array } from 'dom7'
 
-$.fn.css = css
-$.fn.append = append
-$.fn.prepend = prepend
-$.fn.addClass = addClass
-$.fn.removeClass = removeClass
-$.fn.hasClass = hasClass
-$.fn.on = on
-$.fn.off = off
-$.fn.focus = focus
-$.fn.attr = attr
-$.fn.removeAttr = removeAttr
-$.fn.hide = hide
-$.fn.show = show
-$.fn.parents = parents
-$.fn.dataset = dataset
-$.fn.val = val
-$.fn.text = text
-$.fn.html = html
-$.fn.children = children
-$.fn.remove = remove
-$.fn.find = find
-$.fn.width = width
-$.fn.height = height
+if (css) $.fn.css = css
+if (append) $.fn.append = append
+if (prepend) $.fn.prepend = prepend
+if (addClass) $.fn.addClass = addClass
+if (removeClass) $.fn.removeClass = removeClass
+if (hasClass) $.fn.hasClass = hasClass
+if (on) $.fn.on = on
+if (off) $.fn.off = off
+if (focus) $.fn.focus = focus
+if (attr) $.fn.attr = attr
+if (removeAttr) $.fn.removeAttr = removeAttr
+if (hide) $.fn.hide = hide
+if (show) $.fn.show = show
+if (parents) $.fn.parents = parents
+if (dataset) $.fn.dataset = dataset
+if (val) $.fn.val = val
+if (text) $.fn.text = text
+if (html) $.fn.html = html
+if (children) $.fn.children = children
+if (remove) $.fn.remove = remove
+if (find) $.fn.find = find
+if (width) $.fn.width = width
+if (height) $.fn.height = height
 
 export default $
 

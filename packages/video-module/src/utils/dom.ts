@@ -6,14 +6,14 @@
 import $, { append, on, focus, attr, val, html, parent, hasClass, Dom7Array } from 'dom7'
 export { Dom7Array } from 'dom7'
 
-$.fn.append = append
-$.fn.on = on
-$.fn.focus = focus
-$.fn.attr = attr
-$.fn.val = val
-$.fn.html = html
-$.fn.parent = parent
-$.fn.hasClass = hasClass
+if (append) $.fn.append = append
+if (on) $.fn.on = on
+if (focus) $.fn.focus = focus
+if (attr) $.fn.attr = attr
+if (val) $.fn.val = val
+if (html) $.fn.html = html
+if (parent) $.fn.parent = parent
+if (hasClass) $.fn.hasClass = hasClass
 
 export default $
 

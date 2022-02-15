@@ -20,18 +20,18 @@ import $, {
 } from 'dom7'
 export { Dom7Array } from 'dom7'
 
-$.fn.append = append
-$.fn.on = on
-$.fn.focus = focus
-$.fn.attr = attr
-$.fn.val = val
-$.fn.html = html
-$.fn.dataset = dataset
-$.fn.addClass = addClass
-$.fn.removeClass = removeClass
-$.fn.children = children
-$.fn.each = each
-$.fn.find = find
+if (append) $.fn.append = append
+if (on) $.fn.on = on
+if (focus) $.fn.focus = focus
+if (attr) $.fn.attr = attr
+if (val) $.fn.val = val
+if (html) $.fn.html = html
+if (dataset) $.fn.dataset = dataset
+if (addClass) $.fn.addClass = addClass
+if (removeClass) $.fn.removeClass = removeClass
+if (children) $.fn.children = children
+if (each) $.fn.each = each
+if (find) $.fn.find = find
 
 export default $
 
