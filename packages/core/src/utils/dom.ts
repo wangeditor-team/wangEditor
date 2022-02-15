@@ -4,8 +4,7 @@
  */
 
 import { htmlVoidElements } from 'html-void-elements'
-import {
-  $,
+import $, {
   css,
   append,
   addClass,

@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { $, append, on, remove, val, click, hide } from 'dom7'
+import $, { append, on, remove, val, click, hide } from 'dom7'
 export { Dom7Array } from 'dom7'
 
 $.fn.append = append

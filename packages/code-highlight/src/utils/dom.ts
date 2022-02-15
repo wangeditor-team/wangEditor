@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { $, attr } from 'dom7'
+import $, { attr } from 'dom7'
 
 $.fn.attr = attr
 

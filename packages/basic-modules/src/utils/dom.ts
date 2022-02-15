@@ -3,8 +3,7 @@
  * @author wangfupeng
  */
 
-import {
-  $,
+import $, {
   css,
   append,
   prepend,
