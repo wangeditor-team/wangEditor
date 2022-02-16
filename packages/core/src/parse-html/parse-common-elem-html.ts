@@ -4,11 +4,33 @@
  */
 
 import $, { Dom7Array } from 'dom7'
-import { Editor, Element, Descendant } from 'slate'
+import { Editor, Element, Descendant, Text } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import parseElemHtml from './parse-elem-html'
 import { PARSE_ELEM_HTML_CONF, ParseElemHtmlFnType, PARSE_STYLE_HTML_FN_LIST } from './index'
 import { NodeType, DOMElement } from '../utils/dom'
+
+/**
+ * 往 children 最后一个 item（如果是 text node） 插入文字
+ * @param children children
+ * @param str str
+ * @returns 是否插入成功
+ */
+function tryInsertTextToChildrenLastItem(children: Descendant[], str: string): boolean {
+  const len = children.length
+  if (len) {
+    const lastItem = children[len - 1]
+    if (Text.isText(lastItem)) {
+      const keys = Object.keys(lastItem)
+      if (keys.length === 1 && keys[0] === 'text') {
+        // lastItem 必须是纯文本，没有 marks
+        lastItem.text = lastItem.text + str
+        return true
+      }
+    }
+  }
+  return false
+}
 
 /**
  * 生成 slate node children
@@ -24,19 +46,31 @@ function genChildren($elem: Dom7Array, editor: IDomEditor): Descendant[] {
     return children
   }
 
+  const childNodes = $elem[0].childNodes
+
   // 处理空行（只有一个 child ，是 <br>）
-  if ($elem[0].children.length === 1) {
-    if ($elem[0].children[0].nodeName === 'BR') {
+  if (childNodes.length === 1) {
+    if (childNodes[0].nodeName === 'BR') {
       children.push({ text: '' })
       return children // 直接返回
     }
   }
 
   // 遍历 DOM 子节点，生成 slate elem node children
-  const childNodes = $elem[0].childNodes
   childNodes.forEach(child => {
     if (child.nodeType === NodeType.ELEMENT_NODE) {
-      // elem
+      // <br> ，则往 children 最后一个元素（如果是 text ）追加 `\n`
+      if (child.nodeName === 'BR') {
+        // 尝试把 text 插入到最后一个 children
+        const res = tryInsertTextToChildrenLastItem(children, '\n')
+        if (!res) {
+          // 若插入失败，则新建 item
+          children.push({ text: '\n' })
+        }
+        return
+      }
+
+      // 其他 elem
       const $child = $(child)
       children.push(parseElemHtml($child, editor))
       return
@@ -52,7 +86,12 @@ function genChildren($elem: Dom7Array, editor: IDomEditor): Descendant[] {
       // text
       text = text.replace(/\s+/gm, ' ')
       if (text) {
-        children.push({ text })
+        // 尝试把 text 插入到最后一个 children
+        const res = tryInsertTextToChildrenLastItem(children, text)
+        if (!res) {
+          // 若插入失败，则新建 item
+          children.push({ text })
+        }
       }
       return
     }

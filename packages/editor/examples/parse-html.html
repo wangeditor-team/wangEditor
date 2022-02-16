@@ -82,7 +82,7 @@
 <p>123123 🤣😎</p>
 <pre><code class="JavaScript"><xmp>const a = 100;
 function fn() {
-return a;
+  return a;
 }</xmp></code></pre>
 <p><br/></p>
 <ul class="w-e-todo"><li><span contenteditable="false"><input type="checkbox"/></span>吃饭</li></ul>
@@ -94,7 +94,8 @@ return a;
     // 填入 v5 html
     document.getElementById('btn-v5-html').addEventListener('click', () => {
       textarea.value = `<h1>标题1</h1>
-<h3>标题3</h3>
+<h3>标题3<br>-换行1<br>-换行2<br>-换行3</h3>
+<p><br></p>
 <blockquote>引用文字<strong>123</strong></blockquote>
 <p>hello&nbsp;<span style="color: rgb(235, 144, 58);"><i><u>多样式&nbsp;</u></i></span><strong>word</strong>~😊😬</p>
 <p>
@@ -125,9 +126,14 @@ return a;
   <span style="font-family: 标楷体;">设置字体</span>
 </p>
 <p><span style="color: rgb(235, 144, 58);">颜色</span>&nbsp;<span style="background-color: rgb(255, 236, 61);">颜色</span>&nbsp;<span style="color: rgb(217, 217, 217); background-color: rgb(54, 88, 226);">颜色</span></p>
+<pre><code class="language-javascript">const a = 10;
+function fn() {
+  // 代码1
+}</code></pre>
+<p><br></p>
 <pre><code class="language-javascript"><span>const a = 10;
 function fn() {
-  // 代码
+  // 代码2
 }</span></code></pre>
 <ul>
   <li>项目A</li>
@@ -148,8 +154,8 @@ function fn() {
 <p><br></p>
 <table style="width: 100%;">
   <tbody>
-    <tr><th colSpan="1" rowSpan="1"><span>a</span></th><th colSpan="1" rowSpan="1"><span>b</span></th><th colSpan="1" rowSpan="1"><span>c</span></th></tr>
-    <tr><td colSpan="1" rowSpan="1"><span>1</span></td><td colSpan="1" rowSpan="1"><span>2</span></td><td colSpan="1" rowSpan="1"><span>3</span></td></tr>
+    <tr><th colSpan="1" rowSpan="1">a<br>a1<br>a2</th><th colSpan="1" rowSpan="1"><span>b</span></th><th colSpan="1" rowSpan="1"><span>c</span></th></tr>
+    <tr><td colSpan="1" rowSpan="1"><span style="color: rgb(235, 144, 58);"><strong>1<br>2<br>3<strong></span></td><td colSpan="1" rowSpan="1"><span>2</span></td><td colSpan="1" rowSpan="1"><span>3</span></td></tr>
   </tbody>
 </table>
 <p><br></p>
