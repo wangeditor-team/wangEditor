@@ -5,7 +5,7 @@ const name = 'WangEditorBasicModules'
 
 const configList = []
 
-// esm - 开发环境不需要 CDN 引入，只需要 npm 引入，所以优先输出 esm
+// esm
 const esmConf = createRollupConfig({
   output: {
     file: pkg.module,
@@ -15,16 +15,14 @@ const esmConf = createRollupConfig({
 })
 configList.push(esmConf)
 
-if (IS_PRD) {
-  // umd
-  const umdConf = createRollupConfig({
-    output: {
-      file: pkg.main,
-      format: 'umd',
-      name,
-    },
-  })
-  configList.push(umdConf)
-}
+// umd
+const umdConf = createRollupConfig({
+  output: {
+    file: pkg.main,
+    format: 'umd',
+    name,
+  },
+})
+configList.push(umdConf)
 
 export default configList

@@ -5,20 +5,28 @@
 
 import postcss from 'rollup-plugin-postcss'
 import autoprefixer from 'autoprefixer'
-import commonConfig from './common'
+import genCommonConf from './common'
 
-const { input, output = {}, plugins = [], external } = commonConfig
+/**
+ * 生成 dev config
+ * @param {string} format 'umd' 'esm'
+ */
+function genDevConf(format) {
+  const { input, output = {}, plugins = [], external } = genCommonConf(format)
 
-export default {
-  input,
-  output,
-  external,
-  plugins: [
-    ...plugins,
+  return {
+    input,
+    output,
+    external,
+    plugins: [
+      ...plugins,
 
-    postcss({
-      plugins: [autoprefixer()],
-      extract: 'css/style.css',
-    }),
-  ],
+      postcss({
+        plugins: [autoprefixer()],
+        extract: 'css/style.css',
+      }),
+    ],
+  }
 }
+
+export default genDevConf

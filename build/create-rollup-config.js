@@ -5,8 +5,8 @@
 
 import { merge } from 'lodash'
 import { visualizer } from 'rollup-plugin-visualizer'
-import devConf from './config/dev'
-import prdConf from './config/prd'
+import genDevConf from './config/dev'
+import genPrdConf from './config/prd'
 
 // 环境变量
 const ENV = process.env.NODE_ENV || 'production'
@@ -20,12 +20,13 @@ export const IS_PRD = ENV.indexOf('production') >= 0
  */
 export function createRollupConfig(customConfig = {}) {
   const { input, output = {}, plugins = [] } = customConfig
+  const { format } = output
 
   let baseConfig
   if (IS_PRD) {
-    baseConfig = prdConf
+    baseConfig = genPrdConf(format)
   } else {
-    baseConfig = devConf
+    baseConfig = genDevConf(format)
   }
 
   if (IS_SIZE_STATS) {

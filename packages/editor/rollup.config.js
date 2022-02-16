@@ -5,7 +5,7 @@ const name = 'wangEditor'
 
 const configList = []
 
-// umd - 开发环境需要 CDN 引入方式来测试，所以优先输出 umd
+// umd
 const umdConf = createRollupConfig({
   output: {
     file: pkg.main,
@@ -15,16 +15,14 @@ const umdConf = createRollupConfig({
 })
 configList.push(umdConf)
 
-if (IS_PRD) {
-  // esm
-  const esmConf = createRollupConfig({
-    output: {
-      file: pkg.module,
-      format: 'esm',
-      name,
-    },
-  })
-  configList.push(esmConf)
-}
+// esm
+const esmConf = createRollupConfig({
+  output: {
+    file: pkg.module,
+    format: 'esm',
+    name,
+  },
+})
+configList.push(esmConf)
 
 export default configList
