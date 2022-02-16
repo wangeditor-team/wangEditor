@@ -28,6 +28,7 @@ import $, {
   width,
   height,
   Dom7Array,
+  filter,
 } from 'dom7'
 export { Dom7Array } from 'dom7'
 
@@ -54,6 +55,7 @@ if (remove) $.fn.remove = remove
 if (find) $.fn.find = find
 if (width) $.fn.width = width
 if (height) $.fn.height = height
+if (filter) $.fn.filter = filter
 
 export default $
 
@@ -63,7 +65,14 @@ export default $
  */
 export function isPlainText(str: string) {
   const $container = $(`<div>${str}</div>`)
-  return $container.children().length === 0
+
+  // 获取 children length （过滤 `<br>`）
+  const childrenLength = $container.children().filter((child: DOMElement) => {
+    if (child.tagName === 'BR') return false
+    return true
+  }).length
+
+  return childrenLength === 0
 }
 
 /**

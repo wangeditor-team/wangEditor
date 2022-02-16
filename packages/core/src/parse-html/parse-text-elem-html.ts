@@ -16,9 +16,14 @@ import { deReplaceHtmlSpecialSymbols } from '../utils/util'
  * @returns slate text
  */
 function parseTextElemHtml($text: Dom7Array, editor: IDomEditor): Text {
+  if ($text.parents('pre').length === 0) {
+    // 不在 <pre> 内部
+    // 1. 替换无用空格、换行； 2. 将 <br> 替换为 `\n`
+    $text[0].innerHTML = $text[0].innerHTML.replace(/\s+/gm, ' ').replace(/<br>/g, '\n')
+  }
+
   // 用 textContent ，不能用 .text() 。后者无法识别 text 开头和末尾的 &nbsp;
   let text = $text[0].textContent || ''
-  text = text.replace(/\s+/gm, ' ')
 
   //【翻转】替换 html 特殊字符，如 &lt; 替换为 <
   text = deReplaceHtmlSpecialSymbols(text)
