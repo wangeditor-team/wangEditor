@@ -58,6 +58,9 @@ export interface IEditorConfig {
 
   // 悬浮菜单栏 menu
   hoverbarKeys?: IHoverbarConf
+
+  // 自由扩展其他配置
+  EXTEND_CONF?: any
 }
 
 /**

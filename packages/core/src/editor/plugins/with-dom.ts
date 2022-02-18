@@ -236,5 +236,13 @@ export const withDOM = <T extends Editor>(editor: T) => {
     }, 200)
   }
 
+  /**
+   * 获取编辑区域 DOM 容器
+   */
+  e.getEditableContainer = () => {
+    const textarea = DomEditor.getTextarea(e)
+    return textarea.$textAreaContainer[0]
+  }
+
   return e
 }

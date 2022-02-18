@@ -55,6 +55,7 @@ export interface IDomEditor extends Editor {
   toDOMNode: (node: Node) => HTMLElement
   fullScreen: () => void
   unFullScreen: () => void
+  getEditableContainer: () => DOMElement
 
   // selection 相关
   select: (at: Location) => void
