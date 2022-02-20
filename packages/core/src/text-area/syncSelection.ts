@@ -115,16 +115,21 @@ export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): vo
     }
 
     // 滚动到选区
-    const leafEl = newDomRange.startContainer.parentElement!
-    leafEl.getBoundingClientRect = newDomRange.getBoundingClientRect.bind(newDomRange)
-    scrollIntoView(leafEl, {
-      scrollMode: 'if-needed',
-      boundary: editorElement,
-      block: 'end',
-      behavior: 'smooth',
-    })
-    // @ts-ignore
-    delete leafEl.getBoundingClientRect
+    let leafEl = newDomRange.startContainer.parentElement! as Element
+    const spacer = leafEl.closest('[data-slate-spacer]')
+
+    // 这个 if 防止选中图片时发生滚动
+    if (!spacer) {
+      leafEl.getBoundingClientRect = newDomRange.getBoundingClientRect.bind(newDomRange)
+      scrollIntoView(leafEl, {
+        scrollMode: 'if-needed',
+        boundary: editorElement.parentElement,
+        block: 'end',
+        behavior: 'smooth',
+      })
+      // @ts-ignore
+      delete leafEl.getBoundingClientRect
+    }
   } else {
     domSelection.removeAllRanges()
   }
