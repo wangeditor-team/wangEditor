@@ -88,7 +88,8 @@ function renderElement(elemNode: SlateElement, editor: IDomEditor): VNode {
 
     // 重写 vnode
     vnode = (
-      <Tag>
+      // 设置 position: relative，保证 absolute 的 textWrapperVnode 不乱跑
+      <Tag style={{ position: 'relative' }}>
         {vnode}
         {textWrapperVnode}
       </Tag>
