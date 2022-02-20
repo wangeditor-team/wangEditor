@@ -53,11 +53,16 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
          *
          * 同上，列表无法插入链接的原因，是因为在insertLink, 处理text时有问题。
          */
+        const resultText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;') // Link xss
 
-        const $elem: DomElement = $(`<a href="${link}" target="_blank">${text}</a>`)
+        const $elem: DomElement = $(`<a target="_blank">${resultText}</a>`)
+        const linkDom = $elem.elems[0] as HTMLAnchorElement
 
         // fix: 字符转义问题，https://xxx.org?bar=1&macro=2 => https://xxx.org?bar=1¯o=2
-        $elem.elems[0].innerText = text
+        linkDom.innerText = text
+
+        // 避免拼接字符串，带来的字符串嵌套问题：如: <a href=""><img src=1 xx />"> 造成xss攻击
+        linkDom.href = link
 
         if (isActive(editor)) {
             // 选区处于链接中，则选中整个菜单，再执行 insertHTML
@@ -132,6 +137,9 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
         width: 300,
         height: 0,
 
+        // 拼接字符串的：xss 攻击：
+        //    如值为："><img src=1 onerror=alert(/xss/)>， 插入后：value=""><img src=1 onerror=alert(/xss/)>", 插入一个img元素
+
         // panel 中可包含多个 tab
         tabs: [
             {
@@ -143,14 +151,12 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                             id="${inputTextId}"
                             type="text"
                             class="block"
-                            value="${text}"
                             placeholder="${editor.i18next.t('menus.panelMenus.link.链接文字')}"/>
                         </td>
                         <input
                             id="${inputLinkId}"
                             type="text"
                             class="block"
-                            value="${link}"
                             placeholder="${editor.i18next.t('如')} https://..."/>
                         </td>
                         <div class="w-e-button-container">
@@ -222,6 +228,7 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                             // 选区范围是a标签，直接替换href链接即可
                             if ($elem?.nodeName === 'A') {
                                 $elem.setAttribute('href', link)
+                                $elem.innerText = text
 
                                 return true
                             }
@@ -232,7 +239,11 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
 
                                 // 防止第一次设置就为特殊元素，这种情况应该为首次设置链接
                                 if (nodeA) {
+                                    // 链接设置a
                                     nodeA.setAttribute('href', link)
+
+                                    // 文案还是要设置刚开始的元素内的文字，比如加粗的元素，不然会将加粗替代
+                                    $elem.innerText = text
 
                                     return true
                                 }
@@ -261,6 +272,35 @@ export default function (editor: Editor, text: string, link: string): PanelConf 
                 ],
             }, // tab end
         ], // tabs end
+        /**
+         * 设置input的值，分别为文案和链接地址设置值
+         *
+         * 利用dom 设置链接文案的值，防止回填拼接引号问题, 出现xss攻击
+         *
+         * @param $container 对应上面生成的dom容器
+         * @param type text | link
+         */
+        setLinkValue($container: DomElement, type: string) {
+            let inputId = ''
+            let inputValue = ''
+            let inputDom
+
+            // 设置链接文案
+            if (type === 'text') {
+                inputId = `#${inputTextId}`
+                inputValue = text
+            }
+
+            // 这只链接地址
+            if (type === 'link') {
+                inputId = `#${inputLinkId}`
+                inputValue = link
+            }
+
+            inputDom = $container.find(inputId).elems[0] as HTMLInputElement
+
+            inputDom.value = inputValue
+        },
     }
 
     return conf

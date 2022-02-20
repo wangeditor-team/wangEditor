@@ -73,7 +73,7 @@ class Link extends PanelMenu implements MenuActive {
                 $linkElem = $(parentNodeA)
             }
 
-            text = $linkElem.text()
+            text = $linkElem.elems[0].innerText
             href = $linkElem.attr('href')
 
             // 弹出 panel

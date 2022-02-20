@@ -20,7 +20,7 @@ export default function (editor: Editor, text: string, languageType: string): Pa
      * 插入代码块
      * @param text 文字
      */
-    function insertCode(text: string): void {
+    function insertCode(languateType: string, code: string): void {
         // 选区处于链接中，则选中整个菜单，再执行 insertHTML
         let active = isActive(editor)
 
@@ -29,10 +29,21 @@ export default function (editor: Editor, text: string, languageType: string): Pa
         }
 
         const content = editor.selection.getSelectionStartElem()?.elems[0].innerHTML
+
         if (content) {
             editor.cmd.do('insertHTML', EMPTY_P)
         }
-        editor.cmd.do('insertHTML', text)
+
+        // 过滤标签，防止xss
+        let formatCode = code.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+        // 高亮渲染
+        if (editor.highlight) {
+            formatCode = editor.highlight.highlightAuto(formatCode).value
+        }
+
+        //增加pre标签
+        editor.cmd.do('insertHTML', `<pre><code class="${languateType}">${formatCode}</code></pre>`)
 
         const $code = editor.selection.getSelectionStartElem()
         const $codeElem = $code?.getNodeTop(editor)
@@ -109,21 +120,12 @@ export default function (editor: Editor, text: string, languageType: string): Pa
                         selector: '#' + btnOkId,
                         type: 'click',
                         fn: () => {
-                            let formatCode, codeDom
-
                             const $code = document.getElementById(inputIFrameId)
                             const $select = $('#' + languageId)
 
                             let languageType = $select.val()
                             // @ts-ignore
                             let code = $code.value
-
-                            // 高亮渲染
-                            if (editor.highlight) {
-                                formatCode = editor.highlight.highlightAuto(code).value
-                            } else {
-                                formatCode = `<xmp>${code}</xmp>`
-                            }
 
                             // 代码为空，则不插入
                             if (!code) return
@@ -132,11 +134,8 @@ export default function (editor: Editor, text: string, languageType: string): Pa
                             if (isActive(editor)) {
                                 return false
                             } else {
-                                //增加pre标签
-                                codeDom = `<pre><code class="${languageType}">${formatCode}</code></pre>`
-
                                 // @ts-ignore
-                                insertCode(codeDom)
+                                insertCode(languageType, code)
                             }
 
                             // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭

@@ -43,7 +43,7 @@ describe('link菜单', () => {
 
         // 此处触发 editor.cmd.do('insertHTML', xx)，可以被 jest 成功执行，具体参考 mockCmdFn 的描述
         expect(
-            editor.$textElem.html().indexOf(`<a href="${link}" target="_blank">${text}</a>`)
+            editor.$textElem.html().indexOf(`<a target="_blank" href="${link}">${text}</a>`)
         ).toBeGreaterThan(0)
     })
 })
