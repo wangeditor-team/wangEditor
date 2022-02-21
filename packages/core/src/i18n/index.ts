@@ -5,6 +5,9 @@
 
 import i18next from 'i18next'
 
+// i18n nameSpace
+const NS = 'translation'
+
 i18next.init({
   lng: 'zh-CN',
   // debug: true,
@@ -17,7 +20,7 @@ i18next.init({
  * @param resources 多语言配置
  */
 export function i18nAddResources(lng: string, resources: object) {
-  i18next.addResourceBundle(lng, 'translation', resources, true, true)
+  i18next.addResourceBundle(lng, NS, resources, true, true)
 }
 
 /**
@@ -26,6 +29,14 @@ export function i18nAddResources(lng: string, resources: object) {
  */
 export function i18nChangeLanguage(lng: string) {
   i18next.changeLanguage(lng)
+}
+
+/**
+ * 获取多语言配置
+ * @param lng lang
+ */
+export function i18nGetResources(lng: string) {
+  return i18next.getResourceBundle(lng, NS)
 }
 
 /**

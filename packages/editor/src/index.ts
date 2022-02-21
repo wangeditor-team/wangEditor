@@ -31,6 +31,7 @@ export {
   Toolbar,
   i18nChangeLanguage,
   i18nAddResources,
+  i18nGetResources,
   t,
 } from '@wangeditor/core'
 
