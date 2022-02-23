@@ -35,9 +35,6 @@ const COMMON_HOVERBAR_KEYS = {
       'deleteTable',
     ],
   },
-  divider: {
-    menuKeys: ['deleteDivider'],
-  },
 }
 
 export function genDefaultHoverbarKeys() {

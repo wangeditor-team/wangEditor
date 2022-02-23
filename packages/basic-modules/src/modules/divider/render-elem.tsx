@@ -4,7 +4,7 @@
  */
 
 import { Element as SlateElement } from 'slate'
-import { jsx, VNode } from 'snabbdom'
+import { h, VNode } from 'snabbdom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
 function renderDivider(
@@ -17,15 +17,22 @@ function renderDivider(
   // 是否选中
   const selected = DomEditor.isNodeSelected(editor, elemNode)
 
-  const vnode = (
-    <div
-      contentEditable={false}
-      className="w-e-textarea-divider"
-      data-selected={selected ? 'true' : ''} // 标记为 选中
-      style={renderStyle}
-    >
-      <hr />
-    </div>
+  const vnode = h(
+    'div',
+    {
+      props: {
+        contentEditable: false,
+        className: 'w-e-textarea-divider',
+      },
+      dataset: {
+        selected: selected ? 'true' : '',
+      },
+      style: renderStyle,
+      on: {
+        mousedown: event => event.preventDefault(),
+      },
+    },
+    [h('hr')]
   )
   // 【注意】void node 中，renderElem 不用处理 children 。core 会统一处理。
 
