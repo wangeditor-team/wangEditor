@@ -4,7 +4,7 @@
  */
 
 import InsertVideoMenu from './InsertVideoMenu'
-import DeleteVideoMenu from './DeleteVideoMenu'
+// import DeleteVideoMenu from './DeleteVideoMenu'
 import UploadVideoMenu from './UploadVideoMenu'
 import { genInsertVideoMenuConfig, genUploadVideoMenuConfig } from './config'
 
@@ -30,9 +30,10 @@ export const uploadVideoMenuConf = {
   config: genUploadVideoMenuConfig(),
 }
 
-export const deleteVideoMenuConf = {
-  key: 'deleteVideo',
-  factory() {
-    return new DeleteVideoMenu()
-  },
-}
+// export const deleteVideoMenuConf = {
+//   key: 'deleteVideo',
+//   factory() {
+//     return new DeleteVideoMenu()
+//   },
+// }
+// 键盘能删除 video 了，注释掉这个菜单 wangfupeng 22.02.23

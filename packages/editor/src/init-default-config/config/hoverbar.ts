@@ -18,9 +18,6 @@ const COMMON_HOVERBAR_KEYS = {
       'deleteImage',
     ],
   },
-  video: {
-    menuKeys: ['deleteVideo'],
-  },
   pre: {
     menuKeys: ['codeBlock', 'codeSelectLang'],
   },

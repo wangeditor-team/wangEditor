@@ -4,7 +4,7 @@
  */
 
 import { Element } from 'slate'
-import { jsx, VNode } from 'snabbdom'
+import { h, jsx, VNode } from 'snabbdom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { VideoElement } from './custom-types'
 
@@ -19,7 +19,6 @@ function renderVideo(elemNode: Element, children: VNode[] | null, editor: IDomEd
     // iframe 形式，第三方视频
     vnode = (
       <div
-        contentEditable={false}
         className="w-e-textarea-video-container"
         data-selected={selected ? 'true' : ''} // 标记为 选中
         innerHTML={src} // 内嵌第三方 iframe 视频
@@ -29,9 +28,9 @@ function renderVideo(elemNode: Element, children: VNode[] | null, editor: IDomEd
     // 其他，mp4 格式
     vnode = (
       <div
-        contentEditable={false}
         className="w-e-textarea-video-container"
         data-selected={selected ? 'true' : ''} // 标记为 选中
+        on-click={e => console.log(123)}
       >
         <video controls>
           <source src={src} type="video/mp4" />
@@ -43,7 +42,20 @@ function renderVideo(elemNode: Element, children: VNode[] | null, editor: IDomEd
 
   // 【注意】void node 中，renderElem 不用处理 children 。core 会统一处理。
 
-  return vnode
+  const containerVnode = h(
+    'div',
+    {
+      props: {
+        contentEditable: false,
+      },
+      on: {
+        mousedown: e => e.preventDefault(),
+      },
+    },
+    vnode
+  )
+
+  return containerVnode
 }
 
 const renderVideoConf = {
