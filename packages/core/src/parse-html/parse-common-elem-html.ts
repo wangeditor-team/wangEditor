@@ -83,8 +83,6 @@ function genChildren($elem: Dom7Array, editor: IDomEditor): Descendant[] {
         return
       }
 
-      // text
-      text = text.replace(/\s+/gm, ' ')
       if (text) {
         // 尝试把 text 插入到最后一个 children
         const res = tryInsertTextToChildrenLastItem(children, text)
