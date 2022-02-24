@@ -109,6 +109,11 @@ class ModalButton extends BaseButton {
       // 修正 modal 定位，避免超出 textContainer 边界（ appendTo body 则不用设置，用户自己设置 ）
       correctPosition(editor, modal.$elem)
     }
+
+    // 让 editor 失焦，否则点击 modal 触发 onChange 会导致 modal 隐藏
+    setTimeout(() => {
+      editor.blur()
+    })
   }
 }
 
