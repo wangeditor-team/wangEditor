@@ -9,6 +9,7 @@ import { IDomEditor } from '../editor/interface'
 import parseElemHtml from './parse-elem-html'
 import { PARSE_ELEM_HTML_CONF, ParseElemHtmlFnType, PARSE_STYLE_HTML_FN_LIST } from './index'
 import { NodeType, DOMElement } from '../utils/dom'
+import { replaceSpace160 } from './helper'
 
 /**
  * 往 children 最后一个 item（如果是 text node） 插入文字
@@ -84,6 +85,9 @@ function genChildren($elem: Dom7Array, editor: IDomEditor): Descendant[] {
       }
 
       if (text) {
+        // 把 charCode 160 的空格（`&nbsp` 转换的），替换为 charCode 32 的空格（JS 默认的）
+        text = replaceSpace160(text)
+
         // 尝试把 text 插入到最后一个 children
         const res = tryInsertTextToChildrenLastItem(children, text)
         if (!res) {

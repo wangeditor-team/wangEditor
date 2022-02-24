@@ -8,6 +8,7 @@ import { Text } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import { PARSE_STYLE_HTML_FN_LIST } from './index'
 import { deReplaceHtmlSpecialSymbols } from '../utils/util'
+import { replaceSpace160 } from './helper'
 
 /**
  * 处理 text elem ，如 <span> <strong> <em> 等（并不是 DOM Text Node）
@@ -27,6 +28,9 @@ function parseTextElemHtml($text: Dom7Array, editor: IDomEditor): Text {
 
   //【翻转】替换 html 特殊字符，如 &lt; 替换为 <
   text = deReplaceHtmlSpecialSymbols(text)
+
+  // 把 charCode 160 的空格（`&nbsp` 转换的），替换为 charCode 32 的空格（JS 默认的）
+  text = replaceSpace160(text)
 
   // 生成 text node
   let textNode = { text }

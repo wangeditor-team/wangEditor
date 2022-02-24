@@ -131,13 +131,7 @@ describe('create editor and toolbar', () => {
       { type: 'header1', children: [{ text: 'header' }] },
       {
         type: 'paragraph',
-        children: [
-          {
-            // JS 中默认的空格 charCode === 32 ，而 `&nbsp;` 转换的空格 charCode === 160
-            text: 'hello' + String.fromCharCode(160),
-          },
-          { text: 'world', bold: true },
-        ],
+        children: [{ text: 'hello ' }, { text: 'world', bold: true }],
       },
       { type: 'paragraph', children: [{ text: '' }] },
     ])
