@@ -47,11 +47,6 @@ class InsertCol implements IButtonMenu {
     })
     const [selectedCellNode, selectedCellPath] = cellEntry
 
-    // 【注意】临时记录 tableNode path ，重要！！！ 执行完之后再删除
-    // 这样做，可以避免被 normalize 误伤
-    const selectedTablePath = selectedCellPath.slice(0, 1)
-    DomEditor.recordChangingPath(editor, selectedTablePath)
-
     const rowNode = DomEditor.getParentNode(editor, selectedCellNode)
     if (rowNode == null) return
     const tableNode = DomEditor.getParentNode(editor, rowNode) as TableElement
@@ -80,9 +75,6 @@ class InsertCol implements IButtonMenu {
         }
       })
     })
-
-    // 及时删除记录，重要！！！
-    DomEditor.deleteChangingPath(editor)
   }
 }
 

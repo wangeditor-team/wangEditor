@@ -646,18 +646,6 @@ export const DomEditor = {
     return isAtLineEnd
   },
 
-  // 临时记录当前正在发生变化的 node path
-  recordChangingPath(editor: IDomEditor, path: Path) {
-    CHANGING_NODE_PATH.set(editor, path)
-  },
-  deleteChangingPath(editor: IDomEditor) {
-    CHANGING_NODE_PATH.delete(editor)
-  },
-  isChangingPath(editor: IDomEditor, path: Path): boolean {
-    const curPath = CHANGING_NODE_PATH.get(editor) || []
-    return isEqual(curPath, path)
-  },
-
   // 获取 textarea 实例
   getTextarea(editor: IDomEditor): TextArea {
     const textarea = EDITOR_TO_TEXTAREA.get(editor)

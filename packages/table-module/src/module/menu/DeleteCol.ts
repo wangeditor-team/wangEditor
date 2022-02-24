@@ -55,11 +55,6 @@ class DeleteCol implements IButtonMenu {
 
     // ------------------------- 不只有 1 列，则继续 -------------------------
 
-    // 【注意】临时记录 tableNode path ，重要！！！ 执行完之后再删除
-    // 这样做，可以避免被 normalize 误伤
-    const selectedTablePath = selectedCellPath.slice(0, 1)
-    DomEditor.recordChangingPath(editor, selectedTablePath)
-
     const tableNode = DomEditor.getParentNode(editor, rowNode)
     if (tableNode == null) return
 
@@ -82,9 +77,6 @@ class DeleteCol implements IButtonMenu {
         }
       })
     })
-
-    // 及时删除记录，重要！！！
-    DomEditor.deleteChangingPath(editor)
   }
 }
 

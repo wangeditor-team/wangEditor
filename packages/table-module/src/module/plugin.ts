@@ -3,7 +3,6 @@
  * @author wangfupeng
  */
 
-import isEqual from 'lodash.isequal'
 import {
   Editor,
   Transforms,
@@ -13,9 +12,10 @@ import {
   NodeEntry,
   Node,
   BaseText,
+  Path,
 } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import $ from '../utils/dom'
+// import $ from '../utils/dom'
 
 function genEmptyParagraph(): SlateElement {
   return { type: 'paragraph', children: [{ text: '' }] }
@@ -175,53 +175,6 @@ function withTable<T extends IDomEditor>(editor: T): T {
         })
       }
     }
-
-    // --------------------- 保证 table 结构完整性（某些操作可能会导致操作 table 结构不完整） ---------------------
-    // 是否正在修改中
-    const changing = DomEditor.isChangingPath(newEditor, path)
-    if (changing) {
-      // table 正在修改中，则不操作
-      return normalizeNode([node, path])
-    }
-
-    // 获取表格最多有多少列（表格结构乱掉之后，每一列数量不一样多）
-    let maxColNum = 0
-    rows.forEach((rowNode: Descendant) => {
-      if (!SlateElement.isElement(rowNode)) return
-      const cells = rowNode.children || []
-      const l = cells.length
-      if (maxColNum < l) maxColNum = l // TODO 这里没有考虑到 colSpan 和单元格合并
-    })
-
-    // 遍历每一行，修整
-    rows.forEach((rowNode: Descendant, index: number) => {
-      if (!SlateElement.isElement(rowNode)) return
-      const cells = rowNode.children || []
-      const rowPath = path.concat(index) // 当前 tr 的 path
-
-      // 如果当前行，缺失 cell ，则补充
-      // TODO 这里没有考虑到 colSpan 和单元格合并
-      if (cells.length < maxColNum) {
-        for (let i = cells.length; i < maxColNum; i++) {
-          const cellPath = rowPath.concat(i) // cell path
-          const newCell = { type: 'table-cell', children: [{ text: '' }] }
-          Transforms.insertNodes(newEditor, newCell, {
-            at: cellPath,
-          })
-        }
-      }
-
-      // 遍历每一个 cell ，修整
-      cells.forEach((cellNode, i) => {
-        if (!SlateElement.isElement(cellNode)) return
-
-        if (cellNode.type !== 'table-cell') {
-          const cellPath = rowPath.concat(i) // cell path
-          Transforms.setNodes(newEditor, { type: 'table-cell' }, { at: cellPath })
-        }
-      })
-      // table row 修复结束
-    })
   }
 
   // 重写 insertData - 粘贴文本
@@ -258,7 +211,8 @@ function withTable<T extends IDomEditor>(editor: T): T {
       return
     }
 
-    if (isEqual(selection.anchor.path, selection.focus.path) === false) {
+    const { anchor, focus } = selection
+    if (!Path.equals(anchor.path.slice(0, 3), focus.path.slice(0, 3))) {
       // 选中了多个 cell ，忽略
       selectAll()
       return
@@ -272,10 +226,11 @@ function withTable<T extends IDomEditor>(editor: T): T {
     }
 
     const path = DomEditor.findPath(newEditor, cell)
-    const textPath = [...path, 0]
+    const start = Editor.start(newEditor, path)
+    const end = Editor.end(newEditor, path)
     const newSelection = {
-      anchor: { path: textPath, offset: 0 },
-      focus: { path: textPath, offset: textLength },
+      anchor: start,
+      focus: end,
     }
     newEditor.select(newSelection) // 选中 table-cell 内部的全部文字
   }
