@@ -4,7 +4,7 @@
  */
 
 import { Range } from 'slate'
-import { IButtonMenu, IDomEditor, t } from '@wangeditor/core'
+import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import $ from '../../utils/dom'
 import { UPLOAD_VIDEO_SVG } from '../../constants/svg'
 import { IUploadConfigForVideo } from './config'
@@ -58,6 +58,15 @@ class UploadVideoMenu implements IButtonMenu {
     const { selection } = editor
     if (selection == null) return true
     if (!Range.isCollapsed(selection)) return true // 选区非折叠，禁用
+
+    const selectedElems = DomEditor.getSelectedElems(editor)
+    const hasVoidOrPre = selectedElems.some(elem => {
+      const type = DomEditor.getNodeType(elem)
+      if (type === 'pre') return true
+      if (editor.isVoid(elem)) return true
+      return false
+    })
+    if (hasVoidOrPre) return true // void 或 pre ，禁用
 
     return false
   }

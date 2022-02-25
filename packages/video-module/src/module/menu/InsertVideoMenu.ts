@@ -7,6 +7,7 @@ import { Range, Node } from 'slate'
 import {
   IModalMenu,
   IDomEditor,
+  DomEditor,
   genModalInputElems,
   genModalButtonElems,
   t,
@@ -52,6 +53,15 @@ class InsertVideoMenu implements IModalMenu {
     const { selection } = editor
     if (selection == null) return true
     if (!Range.isCollapsed(selection)) return true // 选区非折叠，禁用
+
+    const selectedElems = DomEditor.getSelectedElems(editor)
+    const hasVoidOrPre = selectedElems.some(elem => {
+      const type = DomEditor.getNodeType(elem)
+      if (type === 'pre') return true
+      if (editor.isVoid(elem)) return true
+      return false
+    })
+    if (hasVoidOrPre) return true // void 或 pre ，禁用
 
     return false
   }

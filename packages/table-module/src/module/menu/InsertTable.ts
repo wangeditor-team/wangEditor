@@ -74,11 +74,15 @@ class InsertTable implements IDropPanelMenu {
     if (selection == null) return true
     if (!Range.isCollapsed(selection)) return true // 选区非折叠，禁用
 
-    const [nodeEntry] = Editor.nodes(editor, {
-      match: n => DomEditor.checkNodeType(n, 'table'),
-      universal: true,
+    const selectedElems = DomEditor.getSelectedElems(editor)
+    const hasVoidOrPreOrTable = selectedElems.some(elem => {
+      const type = DomEditor.getNodeType(elem)
+      if (type === 'pre') return true
+      if (type === 'table') return true
+      if (editor.isVoid(elem)) return true
+      return false
     })
-    if (nodeEntry != null) return true // 当前处于 table ，禁用
+    if (hasVoidOrPreOrTable) return true // 匹配到，禁用
 
     return false
   }

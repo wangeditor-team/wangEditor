@@ -26,11 +26,15 @@ class InsertDividerMenu implements IButtonMenu {
     const { selection } = editor
     if (selection == null) return true
 
-    const selectedNode = DomEditor.getSelectedNodeByType(editor, 'divider')
-    if (selectedNode) {
-      // 当前选中了 divider node ，则禁用
-      return true
-    }
+    const selectedElems = DomEditor.getSelectedElems(editor)
+    const hasVoidOrTableOrPre = selectedElems.some(elem => {
+      if (editor.isVoid(elem)) return true
+      const type = DomEditor.getNodeType(elem)
+      if (type === 'table') return true
+      if (type === 'pre') return true
+    })
+    if (hasVoidOrTableOrPre) return true // 匹配，则 disable
+
     return false
   }
 

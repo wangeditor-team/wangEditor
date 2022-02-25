@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Element, Transforms, Node } from 'slate'
+import { Editor, Element, Transforms, Node, Range } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { CODE_BLOCK_SVG } from '../../../constants/icon-svg'
 import { CodeElement } from '../custom-types'
@@ -39,21 +39,20 @@ class CodeBlockMenu implements IButtonMenu {
   }
 
   isDisabled(editor: IDomEditor): boolean {
-    if (editor.selection == null) return true
+    const { selection } = editor
+    if (selection == null) return true
 
-    const [nodeEntry] = Editor.nodes(editor, {
-      match: n => {
-        const type = DomEditor.getNodeType(n)
-        if (type === 'pre') return true // 代码块
-        if (type === 'paragraph') return true // p
-        return false
-      },
-      universal: true,
+    const selectedElems = DomEditor.getSelectedElems(editor)
+
+    const hasVoid = selectedElems.some(elem => editor.isVoid(elem))
+    if (hasVoid) return true
+
+    const isMatch = selectedElems.some(elem => {
+      const type = DomEditor.getNodeType(elem)
+      if (type === 'pre' || type === 'paragraph') return true // 匹配 pre 或 paragraph
     })
-
-    // 未匹配 p pre ，则禁用
-    if (nodeEntry == null) return true
-    return false
+    if (isMatch) return false // 匹配到，则 enable
+    return true // 否则 disable
   }
 
   exec(editor: IDomEditor, value: string | boolean) {

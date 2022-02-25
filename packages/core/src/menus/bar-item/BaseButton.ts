@@ -106,6 +106,9 @@ abstract class BaseButton implements IBarItem {
       disabled = true
     }
 
+    // 永远 enable
+    if (this.menu.awaysEnable) disabled = false
+
     const className = 'disabled'
     if (disabled) {
       // 设置为 disabled

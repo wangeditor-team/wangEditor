@@ -10,6 +10,7 @@ class FullScreen implements IButtonMenu {
   title = t('fullScreen.title')
   iconSvg = FULL_SCREEN_SVG
   tag = 'button'
+  awaysEnable = true
 
   getValue(editor: IDomEditor): string | boolean {
     return ''
