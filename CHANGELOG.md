@@ -1,3 +1,17 @@
+## [4.7.12](https://github.com/wangeditor-team/wangEditor/compare/v4.7.11...v4.7.12) (2022-02-25)
+
+
+### Bug Fixes
+
+* 链接修改字号后再点链接按钮无法看到链接地址 ([b396a1e](https://github.com/wangeditor-team/wangEditor/commit/b396a1e42cab307a6681ca03321b58162bfc396c))
+* 修复UI无序列表全选不居中问题 ([158628d](https://github.com/wangeditor-team/wangEditor/commit/158628d3e9a80eab910334d0ad4f5a43dad2f0e8))
+* url或者常规文本中HTML转义字符显示异常 ([03310ee](https://github.com/wangeditor-team/wangEditor/commit/03310eedc40283c2e228281f1f7eeea9c06c8fa9))
+
+
+### Features
+
+* xss ([6257a2e](https://github.com/wangeditor-team/wangEditor/commit/6257a2e166346913c34ac5cfb31b6a46e9544c5a))
+
 ## [4.7.11](https://github.com/wangeditor-team/wangEditor/compare/v4.7.10...v4.7.11) (2021-12-25)
 
 
