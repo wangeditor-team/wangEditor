@@ -73,6 +73,42 @@ describe('upload img', () => {
         mockImgOnloadAndOnError()
     })
 
+    test('调用 insertImg 利用html拼接，在url里插入xss攻击的代码', () => {
+        const uploadImg = createUploadImgInstance()
+
+        // 根据源码拼接字符串的xss攻击
+        const imgUrl = '"><img src=1 onerror=alert(/xss/)>'
+        let resultSrc = imgUrl.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+        mockSupportCommand()
+
+        uploadImg.insertImg(imgUrl)
+
+        expect(document.execCommand).toBeCalledWith(
+            'insertHTML',
+            false,
+            `<img src='${resultSrc}' style="max-width:100%;" contenteditable="false"/>`
+        )
+    })
+
+    test('调用 insertImg 利用html拼接，在alt里插入xss攻击的代码', () => {
+        const uploadImg = createUploadImgInstance()
+
+        // 根据源码拼接字符串的xss攻击
+        const imgAlt = '"><img src=1 onerror=alert(/xss/)>'
+        let resultAlt = imgAlt.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+        mockSupportCommand()
+
+        uploadImg.insertImg(imgUrl, imgAlt)
+
+        expect(document.execCommand).toBeCalledWith(
+            'insertHTML',
+            false,
+            `<img src='${imgUrl}' alt='${resultAlt}' style="max-width:100%;" contenteditable="false"/>`
+        )
+    })
+
     test('调用 insertImg 可以网编辑器里插入图片', () => {
         const uploadImg = createUploadImgInstance()
 
@@ -83,7 +119,7 @@ describe('upload img', () => {
         expect(document.execCommand).toBeCalledWith(
             'insertHTML',
             false,
-            `<img src="${imgUrl}" style="max-width:100%;" contenteditable="false"/>`
+            `<img src='${imgUrl}' style="max-width:100%;" contenteditable="false"/>`
         )
     })
 
@@ -101,7 +137,7 @@ describe('upload img', () => {
         expect(document.execCommand).toBeCalledWith(
             'insertHTML',
             false,
-            `<img src="${imgUrl}" style="max-width:100%;" contenteditable="false"/>`
+            `<img src='${imgUrl}' style="max-width:100%;" contenteditable="false"/>`
         )
         expect(callback).toBeCalledWith(imgUrl, undefined, undefined)
     })

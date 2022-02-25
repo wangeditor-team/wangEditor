@@ -35,13 +35,40 @@ class UploadImg {
             return editor.i18next.t(prefix + text)
         }
 
-        // 设置图片alt
-        const altText = alt ? `alt="${alt}" ` : ''
-        const hrefText = href ? `data-href="${encodeURIComponent(href)}" ` : ''
+        /**
+         * fix: insertImg xss
+         */
+
+        // 过滤src, 防止xss
+        let resultSrc = src.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+        // 因为下面要单引号拼接字符串, 所以要将单引号替换成双引号
+        resultSrc = resultSrc.replace("'", '"')
+
+        let hrefText = ''
+
+        // 设置图片的元数据 data-
+        if (href) {
+            hrefText = href.replace("'", '"')
+
+            hrefText = `data-href='${encodeURIComponent(hrefText)}' `
+        }
+
+        let altText = ''
+        // 设置图片alt, 过滤xss标签攻击
+        if (alt) {
+            altText = alt.replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+            // 因为下面要单引号拼接字符串, 所以要将单引号替换成双引号
+            altText = altText.replace("'", '"')
+
+            altText = `alt='${altText}' `
+        }
+
         // 先插入图片，无论是否能成功
         editor.cmd.do(
             'insertHTML',
-            `<img src="${src}" ${altText}${hrefText}style="max-width:100%;" contenteditable="false"/>`
+            `<img src='${resultSrc}' ${altText}${hrefText}style="max-width:100%;" contenteditable="false"/>`
         )
         // 执行回调函数
         config.linkImgCallback(src, alt, href)
