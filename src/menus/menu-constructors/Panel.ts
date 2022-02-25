@@ -23,6 +23,7 @@ export type PanelConf = {
     width: number | 0
     height: number | 0
     tabs: PanelTabConf[]
+    setLinkValue?: ($container: DomElement, type: string) => void
 }
 
 class Panel {
@@ -159,6 +160,10 @@ class Panel {
 
         // 添加到 DOM
         menu.$elem.append($container)
+
+        // 设置tab内input的值
+        conf.setLinkValue && conf.setLinkValue($container, 'text')
+        conf.setLinkValue && conf.setLinkValue($container, 'link')
 
         // 绑定 conf events 的事件，只有添加到 DOM 之后才能绑定成功
         tabs.forEach((tab: PanelTabConf, index: number) => {
