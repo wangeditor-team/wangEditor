@@ -4,7 +4,7 @@
  */
 
 import createEditor from '../../../../tests/utils/create-editor'
-import withImage from '../../../../packages/basic-modules/src/modules/image/plugin'
+import withImage from '../../src/modules/image/plugin'
 
 describe('image plugin', () => {
   const editor = withImage(createEditor())

@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import withDivider from '../../../../packages/basic-modules/src/modules/divider/plugin'
+import withDivider from '../../src/modules/divider/plugin'
 
 describe('divider plugin', () => {
   let editor: any

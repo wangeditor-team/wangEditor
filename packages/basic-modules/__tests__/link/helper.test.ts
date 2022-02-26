@@ -5,11 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import {
-  isMenuDisabled,
-  insertLink,
-  updateLink,
-} from '../../../../packages/basic-modules/src/modules/link/helper'
+import { isMenuDisabled, insertLink, updateLink } from '../../src/modules/link/helper'
 
 describe('link module helper', () => {
   let editor: any

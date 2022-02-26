@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import TodoMenu from '../../../../../packages/basic-modules/src/modules/todo/menu/Todo'
+import TodoMenu from '../../../src/modules/todo/menu/Todo'
 
 describe('todo-menu', () => {
   let editor: any

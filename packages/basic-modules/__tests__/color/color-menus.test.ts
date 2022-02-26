@@ -5,8 +5,8 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import ColorMenu from '../../../../packages/basic-modules/src/modules/color/menu/ColorMenu'
-import BgColorMenu from '../../../../packages/basic-modules/src/modules/color/menu/BgColorMenu'
+import ColorMenu from '../../src/modules/color/menu/ColorMenu'
+import BgColorMenu from '../../src/modules/color/menu/BgColorMenu'
 
 describe('color menus', () => {
   let editor: any

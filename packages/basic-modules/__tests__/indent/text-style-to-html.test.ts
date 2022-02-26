@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { styleToHtml } from '../../../../packages/basic-modules/src/modules/indent/style-to-html'
+import { styleToHtml } from '../../src/modules/indent/style-to-html'
 
 describe('indent - text style to html', () => {
   it('text style to html', () => {

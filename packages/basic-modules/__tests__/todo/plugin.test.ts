@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import withTodo from '../../../../packages/basic-modules/src/modules/todo/plugin'
+import withTodo from '../../src/modules/todo/plugin'
 import createEditor from '../../../../tests/utils/create-editor'
 
 describe('todo - plugin', () => {

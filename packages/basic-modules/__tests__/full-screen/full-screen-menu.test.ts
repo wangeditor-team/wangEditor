@@ -4,7 +4,7 @@
  */
 
 import createEditor from '../../../../tests/utils/create-editor'
-import FullScreen from '../../../../packages/basic-modules/src/modules/full-screen/menu/FullScreen'
+import FullScreen from '../../src/modules/full-screen/menu/FullScreen'
 
 describe('full screen menu', () => {
   const editor = createEditor()

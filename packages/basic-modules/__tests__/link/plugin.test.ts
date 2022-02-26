@@ -4,7 +4,7 @@
  */
 
 import { Editor } from 'slate'
-import withLink from '../../../../packages/basic-modules/src/modules/link/plugin'
+import withLink from '../../src/modules/link/plugin'
 import createEditor from '../../../../tests/utils/create-editor'
 
 // 模拟 DataTransfer

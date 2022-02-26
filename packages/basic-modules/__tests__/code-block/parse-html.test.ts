@@ -5,11 +5,8 @@
 
 import { $ } from 'dom7'
 import createEditor from '../../../../tests/utils/create-editor'
-import {
-  parseCodeHtmlConf,
-  parsePreHtmlConf,
-} from '../../../../packages/basic-modules/src/modules/code-block/parse-elem-html'
-import { preParseHtmlConf } from '../../../../packages/basic-modules/src/modules/code-block/pre-parse-html'
+import { parseCodeHtmlConf, parsePreHtmlConf } from '../../src/modules/code-block/parse-elem-html'
+import { preParseHtmlConf } from '../../src/modules/code-block/pre-parse-html'
 
 describe('code block - pre parse html', () => {
   it('pre parse html', () => {

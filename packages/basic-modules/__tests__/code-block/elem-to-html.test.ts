@@ -3,10 +3,7 @@
  * @author wangfupeng
  */
 
-import {
-  codeToHtmlConf,
-  preToHtmlConf,
-} from '../../../../packages/basic-modules/src/modules/code-block/elem-to-html'
+import { codeToHtmlConf, preToHtmlConf } from '../../src/modules/code-block/elem-to-html'
 
 describe('code-block - elem to html', () => {
   it('code to html', () => {

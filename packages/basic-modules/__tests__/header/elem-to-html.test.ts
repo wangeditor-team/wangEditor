@@ -9,7 +9,7 @@ import {
   header3ToHtmlConf,
   header4ToHtmlConf,
   header5ToHtmlConf,
-} from '../../../../packages/basic-modules/src/modules/header/elem-to-html'
+} from '../../src/modules/header/elem-to-html'
 
 describe('header - elem to html', () => {
   const elem = { type: 'header1', children: [{ text: '' }] }

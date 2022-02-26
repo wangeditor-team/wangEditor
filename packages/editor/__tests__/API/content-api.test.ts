@@ -5,7 +5,7 @@
 
 import { Editor, Transforms, Node, Selection } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import { IDomEditor } from '@wangeditor/core/src/editor/interface'
+import { IDomEditor } from '@wangeditor/core'
 
 let editor: IDomEditor
 

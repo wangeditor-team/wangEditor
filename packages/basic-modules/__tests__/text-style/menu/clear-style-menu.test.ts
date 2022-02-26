@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import ClearStyleMenu from '../../../../../packages/basic-modules/src/modules/text-style/menu/ClearStyleMenu'
+import ClearStyleMenu from '../../../src/modules/text-style/menu/ClearStyleMenu'
 
 describe('clear style menu', () => {
   let editor = createEditor()

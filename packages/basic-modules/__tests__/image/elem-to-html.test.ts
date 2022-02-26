@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { imageToHtmlConf } from '../../../../packages/basic-modules/src/modules/image/elem-to-html'
+import { imageToHtmlConf } from '../../src/modules/image/elem-to-html'
 
 describe('image to html', () => {
   it('to html', () => {

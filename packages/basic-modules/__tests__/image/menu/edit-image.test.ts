@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import EditImage from '../../../../../packages/basic-modules/src/modules/image/menu/EditImage'
+import EditImage from '../../../src/modules/image/menu/EditImage'
 
 describe('edit image menu', () => {
   const menu = new EditImage()

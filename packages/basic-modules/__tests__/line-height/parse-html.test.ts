@@ -4,7 +4,7 @@
  */
 
 import { $ } from 'dom7'
-import { parseStyleHtml } from '../../../../packages/basic-modules/src/modules/line-height/parse-style-html'
+import { parseStyleHtml } from '../../src/modules/line-height/parse-style-html'
 
 describe('line height - parse style', () => {
   it('parse style', () => {

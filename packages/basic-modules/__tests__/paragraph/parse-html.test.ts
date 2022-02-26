@@ -5,7 +5,7 @@
 
 import { $ } from 'dom7'
 import createEditor from '../../../../tests/utils/create-editor'
-import { parseParagraphHtmlConf } from '../../../../packages/basic-modules/src/modules/paragraph/parse-elem-html'
+import { parseParagraphHtmlConf } from '../../src/modules/paragraph/parse-elem-html'
 
 describe('paragraph - parse html', () => {
   const editor = createEditor()

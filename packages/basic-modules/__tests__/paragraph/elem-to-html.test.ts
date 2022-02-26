@@ -4,7 +4,7 @@ import { html } from 'dom7'
  * @author wangfupeng
  */
 
-import { pToHtmlConf } from '../../../../packages/basic-modules/src/modules/paragraph/elem-to-html'
+import { pToHtmlConf } from '../../src/modules/paragraph/elem-to-html'
 
 describe('paragraph - elem to html', () => {
   it('paragraph to html', () => {

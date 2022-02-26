@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import withBlockquote from '../../../../packages/basic-modules/src/modules/blockquote/plugin'
+import withBlockquote from '../../src/modules/blockquote/plugin'
 
 describe('blockquote plugin', () => {
   let editor = withBlockquote(createEditor())

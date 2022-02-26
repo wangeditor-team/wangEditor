@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import { renderDividerConf } from '../../../../packages/basic-modules/src/modules/divider/render-elem'
+import { renderDividerConf } from '../../src/modules/divider/render-elem'
 
 describe('divider - render elem test', () => {
   const editor = createEditor()

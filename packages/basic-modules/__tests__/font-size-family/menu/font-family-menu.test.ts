@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import FontFamilyMenu from '../../../../../packages/basic-modules/src/modules/font-size-family/menu/FontFamilyMenu'
+import FontFamilyMenu from '../../../src/modules/font-size-family/menu/FontFamilyMenu'
 
 describe('font family menu', () => {
   const menu = new FontFamilyMenu()

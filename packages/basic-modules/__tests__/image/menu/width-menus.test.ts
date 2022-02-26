@@ -5,9 +5,9 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import Width30 from '../../../../../packages/basic-modules/src/modules/image/menu/Width30'
-import Width50 from '../../../../../packages/basic-modules/src/modules/image/menu/Width50'
-import Width100 from '../../../../../packages/basic-modules/src/modules/image/menu/Width100'
+import Width30 from '../../../src/modules/image/menu/Width30'
+import Width50 from '../../../src/modules/image/menu/Width50'
+import Width100 from '../../../src/modules/image/menu/Width100'
 
 describe('image width menus', () => {
   const width30Menu = new Width30()

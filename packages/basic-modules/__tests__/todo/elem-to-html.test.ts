@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { todoToHtmlConf } from '../../../../packages/basic-modules/src/modules/todo/elem-to-html'
+import { todoToHtmlConf } from '../../src/modules/todo/elem-to-html'
 
 describe('todo - elem to html', () => {
   it('todo elem to html', () => {

@@ -4,7 +4,7 @@
  */
 
 import { $ } from 'dom7'
-import { preParseHtmlConf } from '../../../../packages/basic-modules/src/modules/todo/pre-parse-html'
+import { preParseHtmlConf } from '../../src/modules/todo/pre-parse-html'
 
 describe('todo - pre-parse html', () => {
   it('pre-parse html', () => {

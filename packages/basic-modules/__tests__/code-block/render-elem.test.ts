@@ -4,10 +4,7 @@
  */
 
 import createEditor from '../../../../tests/utils/create-editor'
-import {
-  renderPreConf,
-  renderCodeConf,
-} from '../../../../packages/basic-modules/src/modules/code-block/render-elem'
+import { renderPreConf, renderCodeConf } from '../../src/modules/code-block/render-elem'
 
 describe('code-block render elem', () => {
   const editor = createEditor()

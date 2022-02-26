@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { styleToHtml } from '../../../../packages/basic-modules/src/modules/justify/style-to-html'
+import { styleToHtml } from '../../src/modules/justify/style-to-html'
 
 describe('justify text-style-to-html', () => {
   it('text style to html', () => {

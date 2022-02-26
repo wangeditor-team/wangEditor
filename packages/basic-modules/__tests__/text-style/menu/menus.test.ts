@@ -5,13 +5,13 @@
 
 import { Editor, Transforms, Element } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import BoldMenu from '../../../../../packages/basic-modules/src/modules/text-style/menu/BoldMenu'
-import CodeMenu from '../../../../../packages/basic-modules/src/modules/text-style/menu/CodeMenu'
-import ItalicMenu from '../../../../../packages/basic-modules/src/modules/text-style/menu/ItalicMenu'
-import SubMenu from '../../../../../packages/basic-modules/src/modules/text-style/menu/SubMenu'
-import SupMenu from '../../../../../packages/basic-modules/src/modules/text-style/menu/SupMenu'
-import ThroughMenu from '../../../../../packages/basic-modules/src/modules/text-style/menu/ThroughMenu'
-import UnderlineMenu from '../../../../../packages/basic-modules/src/modules/text-style/menu/UnderlineMenu'
+import BoldMenu from '../../../src/modules/text-style/menu/BoldMenu'
+import CodeMenu from '../../../src/modules/text-style/menu/CodeMenu'
+import ItalicMenu from '../../../src/modules/text-style/menu/ItalicMenu'
+import SubMenu from '../../../src/modules/text-style/menu/SubMenu'
+import SupMenu from '../../../src/modules/text-style/menu/SupMenu'
+import ThroughMenu from '../../../src/modules/text-style/menu/ThroughMenu'
+import UnderlineMenu from '../../../src/modules/text-style/menu/UnderlineMenu'
 
 const MENU_INFO_LIST = [
   { mark: 'bold', menu: new BoldMenu() },

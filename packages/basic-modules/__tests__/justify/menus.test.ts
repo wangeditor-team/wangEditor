@@ -5,10 +5,10 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import JustifyCenterMenu from '../../../../packages/basic-modules/src/modules/justify/menu/JustifyCenterMenu'
-import JustifyJustifyMenu from '../../../../packages/basic-modules/src/modules/justify/menu/JustifyJustifyMenu'
-import JustifyLeftMenu from '../../../../packages/basic-modules/src/modules/justify/menu/JustifyLeftMenu'
-import JustifyRightMenu from '../../../../packages/basic-modules/src/modules/justify/menu/JustifyRightMenu'
+import JustifyCenterMenu from '../../src/modules/justify/menu/JustifyCenterMenu'
+import JustifyJustifyMenu from '../../src/modules/justify/menu/JustifyJustifyMenu'
+import JustifyLeftMenu from '../../src/modules/justify/menu/JustifyLeftMenu'
+import JustifyRightMenu from '../../src/modules/justify/menu/JustifyRightMenu'
 
 describe('justify menus', () => {
   let editor: any

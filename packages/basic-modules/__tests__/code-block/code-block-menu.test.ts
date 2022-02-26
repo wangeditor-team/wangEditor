@@ -5,7 +5,7 @@
 
 import { Editor, Transforms, Element } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import CodeBlockMenu from '../../../../packages/basic-modules/src/modules/code-block/menu/CodeBlockMenu'
+import CodeBlockMenu from '../../src/modules/code-block/menu/CodeBlockMenu'
 
 describe('code-block menu', () => {
   const menu = new CodeBlockMenu()

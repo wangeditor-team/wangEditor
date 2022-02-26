@@ -4,7 +4,7 @@
  */
 
 import createEditor from '../../../../tests/utils/create-editor'
-import { renderLinkConf } from '../../../../packages/basic-modules/src/modules/link/render-elem'
+import { renderLinkConf } from '../../src/modules/link/render-elem'
 
 describe('link render elem', () => {
   const editor = createEditor()

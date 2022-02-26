@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import ViewLink from '../../../../../packages/basic-modules/src/modules/link/menu/ViewLink'
+import ViewLink from '../../../src/modules/link/menu/ViewLink'
 
 describe('view link menu', () => {
   let editor: any

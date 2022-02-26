@@ -4,7 +4,7 @@
  */
 
 import createEditor from '../../../../tests/utils/create-editor'
-import { renderTodoConf } from '../../../../packages/basic-modules/src/modules/todo/render-elem'
+import { renderTodoConf } from '../../src/modules/todo/render-elem'
 
 describe('todo - render elem', () => {
   const editor = createEditor()

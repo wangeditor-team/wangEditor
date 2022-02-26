@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import withHeader from '../../../../packages/basic-modules/src/modules/header/plugin'
+import withHeader from '../../src/modules/header/plugin'
 
 describe('header plugin', () => {
   const editor = withHeader(createEditor())

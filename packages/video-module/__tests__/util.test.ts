@@ -3,7 +3,7 @@
  * @author luochao
  */
 
-import { genRandomStr } from '@wangeditor/video-module/src/utils/util'
+import { genRandomStr } from '../src/utils/util'
 
 describe('videoModule util', () => {
   describe('utils util', () => {

@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { styleToHtml } from '../../../../packages/basic-modules/src/modules/font-size-family/style-to-html'
+import { styleToHtml } from '../../src/modules/font-size-family/style-to-html'
 
 describe('font size and family - text style to html', () => {
   it('text style to html', () => {

@@ -4,7 +4,7 @@
  */
 
 import { jsx } from 'snabbdom'
-import { renderStyle } from '../../../../packages/basic-modules/src/modules/indent/render-style'
+import { renderStyle } from '../../src/modules/indent/render-style'
 
 describe('indent - render text style', () => {
   it('render text style', () => {

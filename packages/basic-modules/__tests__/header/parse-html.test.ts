@@ -5,7 +5,7 @@
 
 import { $ } from 'dom7'
 import createEditor from '../../../../tests/utils/create-editor'
-import { parseHeader1HtmlConf } from '../../../../packages/basic-modules/src/modules/header/parse-elem-html'
+import { parseHeader1HtmlConf } from '../../src/modules/header/parse-elem-html'
 
 describe('header - parse html', () => {
   const editor = createEditor()

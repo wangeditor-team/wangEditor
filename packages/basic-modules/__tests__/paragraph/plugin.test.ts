@@ -3,11 +3,10 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Element, Point } from 'slate'
-import { DomEditor } from '@wangeditor/core'
-import { IDomEditor } from '../../../../packages/core/src/editor/interface'
+import { Editor, Transforms, Point } from 'slate'
+import { DomEditor, IDomEditor } from '@wangeditor/core'
 import createEditor from '../../../../tests/utils/create-editor'
-import withParagraph from '../../../../packages/basic-modules/src/modules/paragraph/plugin'
+import withParagraph from '../../src/modules/paragraph/plugin'
 
 let editor: IDomEditor
 let startLocation: Point

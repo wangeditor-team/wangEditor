@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import InsertDividerMenu from '../../../../packages/basic-modules/src/modules/divider/menu/InsertDividerMenu'
+import InsertDividerMenu from '../../src/modules/divider/menu/InsertDividerMenu'
 
 describe('divider plugin', () => {
   const menu = new InsertDividerMenu()

@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import InsertImage from '../../../../../packages/basic-modules/src/modules/image/menu/InsertImage'
+import InsertImage from '../../../src/modules/image/menu/InsertImage'
 
 describe('insert image menu', () => {
   const menu = new InsertImage()

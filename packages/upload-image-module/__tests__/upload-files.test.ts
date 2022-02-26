@@ -1,4 +1,4 @@
-import uploadImages from '@wangeditor/upload-image-module/src/module/upload-images'
+import uploadImages from '../src/module/upload-images'
 import createEditor from '../../../tests/utils/create-editor'
 import * as core from '@wangeditor/core'
 

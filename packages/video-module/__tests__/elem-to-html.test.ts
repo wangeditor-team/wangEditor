@@ -3,7 +3,7 @@
  * @author luochao
  */
 
-import { videoToHtmlConf } from '@wangeditor/video-module/src/module/elem-to-html'
+import { videoToHtmlConf } from '../src/module/elem-to-html'
 
 describe('videoModule module', () => {
   describe('module elem-to-html', () => {

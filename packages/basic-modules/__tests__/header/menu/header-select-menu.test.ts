@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import HeaderSelectMenu from '../../../../../packages/basic-modules/src/modules/header/menu/HeaderSelectMenu'
+import HeaderSelectMenu from '../../../src/modules/header/menu/HeaderSelectMenu'
 
 describe('header select menu', () => {
   const editor = createEditor()

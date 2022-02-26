@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import LineHeightMenu from '../../../../packages/basic-modules/src/modules/line-height/menu/LineHeightMenu'
+import LineHeightMenu from '../../src/modules/line-height/menu/LineHeightMenu'
 
 describe('line-height menu', () => {
   let editor: any

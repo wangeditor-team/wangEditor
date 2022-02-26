@@ -4,7 +4,7 @@
  */
 
 import { jsx } from 'snabbdom'
-import { renderStyle } from '../../../../packages/basic-modules/src/modules/justify/render-style'
+import { renderStyle } from '../../src/modules/justify/render-style'
 
 describe('justify - render text style', () => {
   it('render text style', () => {

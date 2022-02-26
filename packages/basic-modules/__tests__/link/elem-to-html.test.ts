@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { linkToHtmlConf } from '../../../../packages/basic-modules/src/modules/link/elem-to-html'
+import { linkToHtmlConf } from '../../src/modules/link/elem-to-html'
 
 describe('link elem to html', () => {
   it('link to html', () => {

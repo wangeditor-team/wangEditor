@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import ViewImageLink from '../../../../../packages/basic-modules/src/modules/image/menu/ViewImageLink'
+import ViewImageLink from '../../../src/modules/image/menu/ViewImageLink'
 
 describe('view image link menu', () => {
   const menu = new ViewImageLink()

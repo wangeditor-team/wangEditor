@@ -5,8 +5,8 @@
 
 import { $ } from 'dom7'
 // import createEditor from '../../../utils/create-editor'
-import { parseStyleHtml } from '../../../../packages/basic-modules/src/modules/font-size-family/parse-style-html'
-import { preParseHtmlConf } from '../../../../packages/basic-modules/src/modules/font-size-family/pre-parse-html'
+import { parseStyleHtml } from '../../src/modules/font-size-family/parse-style-html'
+import { preParseHtmlConf } from '../../src/modules/font-size-family/pre-parse-html'
 
 describe('font size family - pre parse html', () => {
   it('pre parse html', () => {

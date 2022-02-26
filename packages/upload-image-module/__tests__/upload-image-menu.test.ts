@@ -1,5 +1,5 @@
 import { IDomEditor } from '../../../packages/editor/src'
-import UploadImageMenu from '@wangeditor/upload-image-module/src/module/menu/UploadImageMenu'
+import UploadImageMenu from '../src/module/menu/UploadImageMenu'
 import createEditor from '../../../tests/utils/create-editor'
 
 let editor: IDomEditor

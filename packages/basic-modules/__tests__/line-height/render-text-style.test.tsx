@@ -4,7 +4,7 @@
  */
 
 import { jsx } from 'snabbdom'
-import { renderStyle } from '../../../../packages/basic-modules/src/modules/line-height/render-style'
+import { renderStyle } from '../../src/modules/line-height/render-style'
 
 describe('line-height render-text-style', () => {
   it('render text style', () => {

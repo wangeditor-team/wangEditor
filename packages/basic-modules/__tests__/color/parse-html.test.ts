@@ -4,8 +4,8 @@
  */
 
 import { $ } from 'dom7'
-import { parseStyleHtml } from '../../../../packages/basic-modules/src/modules/color/parse-style-html'
-import { preParseHtmlConf } from '../../../../packages/basic-modules/src/modules/color/pre-parse-html'
+import { parseStyleHtml } from '../../src/modules/color/parse-style-html'
+import { preParseHtmlConf } from '../../src/modules/color/pre-parse-html'
 
 describe('color - pre parse html', () => {
   it('pre parse html', () => {

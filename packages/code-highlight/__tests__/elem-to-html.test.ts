@@ -5,7 +5,7 @@
 
 import { IDomEditor } from '@wangeditor/core'
 import createEditor from '../../../tests/utils/create-editor'
-import { codeToHtmlConf } from '@wangeditor/code-highlight/src/module/elem-to-html'
+import { codeToHtmlConf } from '../src/module/elem-to-html'
 import { content, codeNode, language } from './content'
 
 describe('code-highlight elem to html', () => {

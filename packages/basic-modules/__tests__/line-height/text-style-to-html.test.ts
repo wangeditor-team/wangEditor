@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { styleToHtml } from '../../../../packages/basic-modules/src/modules/line-height/style-to-html'
+import { styleToHtml } from '../../src/modules/line-height/style-to-html'
 
 describe('line-height text-style-to-html', () => {
   it('text style to html', () => {

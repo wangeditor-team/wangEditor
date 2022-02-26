@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import withCodeBlock from '../../../../packages/basic-modules/src/modules/code-block/plugin'
+import withCodeBlock from '../../src/modules/code-block/plugin'
 
 // 模拟 DataTransfer
 class MyDataTransfer {

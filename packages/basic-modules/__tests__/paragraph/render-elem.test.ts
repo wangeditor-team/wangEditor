@@ -4,7 +4,7 @@
  */
 
 import createEditor from '../../../../tests/utils/create-editor'
-import { renderParagraphConf } from '../../../../packages/basic-modules/src/modules/paragraph/render-elem'
+import { renderParagraphConf } from '../../src/modules/paragraph/render-elem'
 
 describe('paragraph - render elem', () => {
   const editor = createEditor()

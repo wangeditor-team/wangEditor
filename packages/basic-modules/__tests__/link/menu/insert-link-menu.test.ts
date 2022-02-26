@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import InsertLinkMenu from '../../../../../packages/basic-modules/src/modules/link/menu/InsertLink'
+import InsertLinkMenu from '../../../src/modules/link/menu/InsertLink'
 
 describe('insert link menu', () => {
   const editor = createEditor()

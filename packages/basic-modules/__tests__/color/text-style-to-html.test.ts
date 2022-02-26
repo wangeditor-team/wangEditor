@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { styleToHtml } from '../../../../packages/basic-modules/src/modules/color/style-to-html'
+import { styleToHtml } from '../../src/modules/color/style-to-html'
 
 describe('color - text style to html', () => {
   it('color to html', () => {

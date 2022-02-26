@@ -4,7 +4,7 @@
  */
 
 import { jsx } from 'snabbdom'
-import { renderStyle } from '../../../../packages/basic-modules/src/modules/font-size-family/render-style'
+import { renderStyle } from '../../src/modules/font-size-family/render-style'
 
 describe('font size and family - render text style', () => {
   it('render text style', () => {

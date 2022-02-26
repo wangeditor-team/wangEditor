@@ -10,7 +10,7 @@ import {
   parseCellHtmlConf,
   parseRowHtmlConf,
   parseTableHtmlConf,
-} from '@wangeditor/table-module/src/module/parse-elem-html'
+} from '../src/module/parse-elem-html'
 
 // TODO 此处有一个关于 Dom7 的 bug ，先注释掉 - wangfupeng 2022.01.17
 // describe('table - pre parse html', () => {

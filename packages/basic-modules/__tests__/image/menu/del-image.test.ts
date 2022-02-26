@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import DeleteImage from '../../../../../packages/basic-modules/src/modules/image/menu/DeleteImage'
+import DeleteImage from '../../../src/modules/image/menu/DeleteImage'
 
 describe('delete image menu', () => {
   const menu = new DeleteImage()

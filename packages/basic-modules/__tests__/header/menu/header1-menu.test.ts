@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import Header1ButtonMenu from '../../../../../packages/basic-modules/src/modules/header/menu/Header1ButtonMenu'
+import Header1ButtonMenu from '../../../src/modules/header/menu/Header1ButtonMenu'
 
 describe('header1 menu', () => {
   const editor = createEditor()

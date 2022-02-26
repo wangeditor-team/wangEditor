@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import EmotionMenu from '../../../../packages/basic-modules/src/modules/emotion/menu/EmotionMenu'
+import EmotionMenu from '../../src/modules/emotion/menu/EmotionMenu'
 
 describe('font family menu', () => {
   const menu = new EmotionMenu()

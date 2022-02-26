@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import EditLink from '../../../../../packages/basic-modules/src/modules/link/menu/EditLink'
+import EditLink from '../../../src/modules/link/menu/EditLink'
 
 describe('edit link menu', () => {
   let editor: any

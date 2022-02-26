@@ -4,7 +4,7 @@
  */
 
 import { Editor } from 'slate'
-import { renderImageConf } from '../../../../packages/basic-modules/src/modules/image/render-elem'
+import { renderImageConf } from '../../src/modules/image/render-elem'
 import createEditor from '../../../../tests/utils/create-editor'
 
 describe('image render elem', () => {

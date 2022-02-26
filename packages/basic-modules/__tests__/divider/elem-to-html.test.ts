@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { dividerToHtmlConf } from '../../../../packages/basic-modules/src/modules/divider/elem-to-html'
+import { dividerToHtmlConf } from '../../src/modules/divider/elem-to-html'
 
 describe('divider - elem to html', () => {
   it('divider to html', () => {

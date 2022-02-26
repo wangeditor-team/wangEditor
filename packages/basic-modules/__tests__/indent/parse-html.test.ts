@@ -4,7 +4,7 @@
  */
 
 import { $ } from 'dom7'
-import { parseStyleHtml } from '../../../../packages/basic-modules/src/modules/indent/parse-style-html'
+import { parseStyleHtml } from '../../src/modules/indent/parse-style-html'
 
 describe('indent - parse style', () => {
   it('parse style', () => {

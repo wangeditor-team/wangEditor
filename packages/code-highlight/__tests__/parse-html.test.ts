@@ -4,7 +4,7 @@
  */
 
 import { $ } from 'dom7'
-import { parseCodeStyleHtml } from '@wangeditor/code-highlight/src/module/parse-style-html'
+import { parseCodeStyleHtml } from '../src/module/parse-style-html'
 
 describe('code highlight - parse style html', () => {
   it('v5 format', () => {

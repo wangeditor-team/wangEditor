@@ -4,7 +4,7 @@
  */
 
 import { jsx } from 'snabbdom'
-import { renderStyle } from '../../../../packages/basic-modules/src/modules/color/render-style'
+import { renderStyle } from '../../src/modules/color/render-style'
 
 describe('color - render text style', () => {
   it('render color style', () => {

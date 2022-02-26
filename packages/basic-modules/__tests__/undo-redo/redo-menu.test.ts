@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import RedoMenu from '../../../../packages/basic-modules/src/modules/undo-redo/menu/RedoMenu'
+import RedoMenu from '../../src/modules/undo-redo/menu/RedoMenu'
 
 describe('redo menu', () => {
   const editor = createEditor()

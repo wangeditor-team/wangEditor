@@ -1,4 +1,4 @@
-import { genUploadImageConfig } from '@wangeditor/upload-image-module/src/module/menu/config'
+import { genUploadImageConfig } from '../src/module/menu/config'
 
 describe('Upload image default config', () => {
   test('Upload image invoke genUploadImageConfig should generate default config', () => {

@@ -5,7 +5,7 @@
 
 import { Editor } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import UnLink from '../../../../../packages/basic-modules/src/modules/link/menu/UnLink'
+import UnLink from '../../../src/modules/link/menu/UnLink'
 
 describe('unlink menu test', () => {
   let editor: any

@@ -3,7 +3,7 @@
  * @author luochao
  */
 
-import withVideo from '@wangeditor/video-module/src/module/plugin'
+import withVideo from '../src/module/plugin'
 import createEditor from '../../../tests/utils/create-editor'
 
 describe('videoModule module', () => {

@@ -5,7 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../../tests/utils/create-editor'
-import DecreaseIndentMenu from '../../../../../packages/basic-modules/src/modules/indent/menu/DecreaseIndentMenu'
+import DecreaseIndentMenu from '../../../src/modules/indent/menu/DecreaseIndentMenu'
 
 describe('decrease indent menu', () => {
   let editor: any

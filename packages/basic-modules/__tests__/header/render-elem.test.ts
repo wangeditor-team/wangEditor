@@ -10,7 +10,7 @@ import {
   renderHeader3Conf,
   renderHeader4Conf,
   renderHeader5Conf,
-} from '../../../../packages/basic-modules/src/modules/header/render-elem'
+} from '../../src/modules/header/render-elem'
 
 describe('render header elem', () => {
   const editor = createEditor()

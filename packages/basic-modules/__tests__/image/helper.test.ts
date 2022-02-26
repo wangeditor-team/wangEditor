@@ -10,7 +10,7 @@ import {
   insertImageNode,
   updateImageNode,
   isInsertImageMenuDisabled,
-} from '../../../../packages/basic-modules/src/modules/image/helper'
+} from '../../src/modules/image/helper'
 
 describe('image helper', () => {
   let editor: any

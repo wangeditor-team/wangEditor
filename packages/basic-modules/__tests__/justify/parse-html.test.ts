@@ -4,7 +4,7 @@
  */
 
 import { $ } from 'dom7'
-import { parseStyleHtml } from '../../../../packages/basic-modules/src/modules/justify/parse-style-html'
+import { parseStyleHtml } from '../../src/modules/justify/parse-style-html'
 
 describe('text align - parse style', () => {
   it('parse style', () => {

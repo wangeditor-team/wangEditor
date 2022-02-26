@@ -5,11 +5,7 @@
 
 import { Editor, Transforms } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
-import {
-  getHeaderType,
-  isMenuDisabled,
-  setHeaderType,
-} from '../../../../packages/basic-modules/src/modules/header/helper'
+import { getHeaderType, isMenuDisabled, setHeaderType } from '../../src/modules/header/helper'
 
 describe('header helper', () => {
   let editor: any

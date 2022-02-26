@@ -5,7 +5,7 @@
 
 import { IDomEditor } from '@wangeditor/core'
 import createEditor from '../../../tests/utils/create-editor'
-import codeHighLightDecorate from '../../../packages/code-highlight/src/decorate/index'
+import codeHighLightDecorate from '../src/decorate/index'
 import { content, textNode, textNodePath } from './content'
 
 describe('code-highlight decorate', () => {
