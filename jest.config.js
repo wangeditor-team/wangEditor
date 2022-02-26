@@ -1,5 +1,5 @@
 module.exports = {
-  roots: ['<rootDir>/tests'],
+  roots: ['<rootDir>/packages'],
   testEnvironment: 'jsdom',
   testMatch: ['**/(*.)+(spec|test).+(ts|js|tsx)'],
   transform: {
