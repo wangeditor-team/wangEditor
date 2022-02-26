@@ -41,7 +41,7 @@
     "url": "https://github.com/wangeditor-team/wangEditor-v5/issues"
   },
   "peerDependencies": {
-    "@wangeditor/core": "^0.7.1",
+    "@wangeditor/core": "0.x",
     "dom7": "^3.0.0",
     "lodash.throttle": "^4.1.1",
     "nanoid": "^3.2.0",
