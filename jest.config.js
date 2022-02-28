@@ -1,5 +1,5 @@
 module.exports = {
-  roots: ['<rootDir>/tests'],
+  roots: ['<rootDir>/packages'],
   testEnvironment: 'jsdom',
   testMatch: ['**/(*.)+(spec|test).+(ts|js|tsx)'],
   transform: {
@@ -18,4 +18,5 @@ module.exports = {
   transformIgnorePatterns: ['node_modules/(?!(html-void-elements)/)'],
   setupFilesAfterEnv: ['<rootDir>/tests/setup/index.ts'],
   collectCoverageFrom: ['<rootDir>/packages/**/src/**/*.(ts|tsx)'],
+  coveragePathIgnorePatterns: ['dist', 'locale'],
 }
