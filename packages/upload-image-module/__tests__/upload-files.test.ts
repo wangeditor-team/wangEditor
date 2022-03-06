@@ -14,32 +14,58 @@ describe('Upload image menu upload files util', () => {
     expect(res).toBeUndefined()
   })
 
-  // // 下面两个 case 执行代码会报错（提示函数未被调用），暂时找不到原因，先注释掉 - wangfupeng 2021.12.14
-  // test('uploadImages should invoke customUpload if give customUpload to config', async () => {
-  //   const fn = jest.fn()
-  //   const editor = createEditor({
-  //     config: {
-  //       MENU_CONF: {
-  //         uploadImage: {
-  //           customUpload: fn,
-  //         },
-  //       },
-  //     },
-  //   })
+  test('uploadImages should invoke customUpload if give customUpload to config', async () => {
+    const fn = jest.fn()
+    const editor = createEditor({
+      config: {
+        MENU_CONF: {
+          uploadImage: {
+            customUpload: fn,
+          },
+        },
+      },
+    })
 
-  //   uploadImages(editor, [mockFile('test.jpg')] as unknown as FileList)
+    await uploadImages(editor, [mockFile('test.jpg')] as unknown as FileList)
 
-  //   expect(fn).toBeCalled()
-  // })
+    expect(fn).toBeCalled()
+  })
 
-  // test('uploadImages should invoke core createUploader if not give customUpload to config', async () => {
-  //   const fn = jest.fn()
-  //   const editor = createEditor()
+  test('uploadImages should insert image with base64 string if file size less than base64LimitSize config', async () => {
+    const fn = jest.fn()
+    const editor = createEditor({
+      config: {
+        MENU_CONF: {
+          uploadImage: {
+            customUpload: fn,
+            base64LimitSize: 10,
+          },
+        },
+      },
+    })
 
-  //   jest.spyOn(core, 'createUploader').mockImplementation(fn)
+    const mockReadAsDataURL = jest.spyOn(FileReader.prototype, 'readAsDataURL')
 
-  //   uploadImages(editor, [mockFile('test.jpg')] as unknown as FileList)
+    await uploadImages(editor, [mockFile('test.jpg')] as unknown as FileList)
 
-  //   expect(fn).toBeCalled()
-  // })
+    expect(mockReadAsDataURL).toBeCalled()
+  })
+
+  test('uploadImages should invoke core createUploader if not give customUpload to config', async () => {
+    const fn = jest.fn().mockImplementation(
+      () =>
+        // 这里需要返回一个 duck 类型的 uppy 对象，防止后面代码执行报错
+        ({
+          addFile: jest.fn(),
+          upload: jest.fn(),
+        } as any)
+    )
+    const editor = createEditor()
+
+    jest.spyOn(core, 'createUploader').mockImplementation(fn)
+
+    await uploadImages(editor, [mockFile('test.jpg')] as unknown as FileList)
+
+    expect(fn).toBeCalled()
+  })
 })
