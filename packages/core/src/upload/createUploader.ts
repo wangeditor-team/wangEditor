@@ -42,6 +42,7 @@ function createUploader(config: IUploadConfig): Uppy {
 
   // 是否要追加 url 参数
   let url = server
+  // todo 这个地方设置了 metaWithUrl 类型为 false，代码不可能进来
   if (metaWithUrl) {
     url = addQueryToUrl(url, meta)
   }
