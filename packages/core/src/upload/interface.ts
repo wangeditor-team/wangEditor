@@ -16,7 +16,7 @@ export interface IUploadConfig {
   maxFileSize?: number
   maxNumberOfFiles?: number
   meta?: Record<string, unknown>
-  metaWithUrl: false
+  metaWithUrl: boolean
   headers?:
     | Headers
     | ((file: UppyFile<Record<string, unknown>, Record<string, unknown>>) => Headers)

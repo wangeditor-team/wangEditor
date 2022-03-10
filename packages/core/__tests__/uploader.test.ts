@@ -14,7 +14,10 @@ describe('uploader', () => {
     const uppy = createUploader({
       server: '/upload',
       fieldName: 'file1',
-      metaWithUrl: false,
+      metaWithUrl: true,
+      meta: {
+        token: 'xxx',
+      },
       onSuccess: (file, res) => {},
       onFailed: (file, res) => {},
       onError: (file, err, res) => {},
@@ -139,6 +142,40 @@ describe('uploader', () => {
       onFailed: (file, res) => {},
       onError: fn,
     })
+
+    // reference https://github.com/transloadit/uppy/blob/main/packages/%40uppy/xhr-upload/src/index.test.js
+    uppy.addFile({
+      source: 'jest',
+      name: 'foo.jpg',
+      type: 'image/jpeg',
+      data: new Blob([Buffer.alloc(8192)]),
+    })
+
+    return uppy.upload().catch(() => {
+      expect(fn).toBeCalled()
+    })
+  })
+
+  test('it should invoke console.error method if file be uploaded failed and not pass onError option', () => {
+    nock(server)
+      .defaultReplyHeaders({
+        'access-control-allow-method': 'POST',
+        'access-control-allow-origin': '*',
+      })
+      .options('/')
+      .reply(200, {})
+      .post('/')
+      .reply(400, {})
+
+    const fn = jest.fn()
+    console.error = fn
+    const uppy = createUploader({
+      server,
+      fieldName: 'file1',
+      metaWithUrl: false,
+      onSuccess: () => {},
+      onFailed: (file, res) => {},
+    } as any)
 
     // reference https://github.com/transloadit/uppy/blob/main/packages/%40uppy/xhr-upload/src/index.test.js
     uppy.addFile({
