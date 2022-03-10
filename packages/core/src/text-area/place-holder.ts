@@ -19,7 +19,7 @@ export function handlePlaceholder(textarea: TextArea, editor: IDomEditor) {
   const isEmpty = editor.isEmpty()
 
   // 内容为空，且目前未显示 placeholder ，则显示
-  if (isEmpty && !textarea.showPlaceholder) {
+  if (isEmpty && !textarea.showPlaceholder && !textarea.isComposing) {
     if (textarea.$placeholder == null) {
       const $placeholder = $(`<div class="w-e-text-placeholder">${placeholder}</div>`)
       textarea.$textAreaContainer.append($placeholder)
