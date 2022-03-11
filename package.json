@@ -83,6 +83,7 @@
     "less": "^3.11.1",
     "lint-staged": "^10.2.2",
     "lodash": "^4.17.21",
+    "nock": "^13.2.4",
     "nodemon": "^2.0.6",
     "postcss": "^8.2.15",
     "prettier": "^2.0.5",
