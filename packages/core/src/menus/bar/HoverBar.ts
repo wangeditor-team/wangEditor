@@ -297,6 +297,8 @@ class HoverBar {
    * 销毁 hoverbar
    */
   destroy() {
+    // fix https://github.com/wangeditor-team/wangEditor-v5/issues/410
+    this.changeHoverbarState.cancel()
     // 销毁 DOM
     this.$elem.remove()
 
