@@ -30,6 +30,21 @@ describe('videoModule module', () => {
       expect(newEditor.isVoid(videoElem)).toBeTruthy()
     })
 
+    test('使用 withVideo 插件后，对于非 video 元素，直接调用 original isVoid 方法', () => {
+      const editor = createEditor()
+      const fn = jest.fn()
+      editor.isVoid = fn
+
+      const newEditor = withVideo(editor)
+      const videoElem = {
+        type: 'paragraph',
+        children: [{ text: '' }],
+      }
+      newEditor.isVoid(videoElem)
+
+      expect(fn).toBeCalled()
+    })
+
     test('使用 withVideo 插件后，Editor 调用 normalizeNode 方法确保 Video 元素后面有 paragraph、block、header 等元素', () => {
       const videoElem = {
         type: 'video',

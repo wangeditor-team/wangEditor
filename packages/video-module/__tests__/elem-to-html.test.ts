@@ -3,7 +3,9 @@
  * @author luochao
  */
 
-import { videoToHtmlConf } from '../src/module/elem-to-html'
+import videoModule from '../src/'
+
+const videoToHtmlConf = videoModule.elemsToHtml![0]
 
 describe('videoModule module', () => {
   describe('module elem-to-html', () => {
@@ -18,7 +20,7 @@ describe('videoModule module', () => {
         src: 'test.mp4',
         children: [],
       }
-      const res = videoToHtmlConf.elemToHtml(element)
+      const res = videoToHtmlConf.elemToHtml(element, '')
 
       expect(res).toEqual(
         '<div data-w-e-type="video" data-w-e-is-void>\n<video controls="true"><source src="test.mp4" type="video/mp4"/></video>\n</div>'
