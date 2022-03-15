@@ -29,10 +29,17 @@ export {
   IEditorConfig,
   IToolbarConfig,
   Toolbar,
+  // 第三方模块 - 多语言
   i18nChangeLanguage,
   i18nAddResources,
   i18nGetResources,
   t,
+  // 第三方模块 - modal 中用到的 API
+  genModalTextareaElems,
+  genModalInputElems,
+  genModalButtonElems,
+  // 第三方模块 - 上传时用到
+  createUploader,
 } from '@wangeditor/core'
 
 // 导出 slate API 和接口 （需重命名，加 `Slate` 前缀）
