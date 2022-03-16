@@ -19,7 +19,7 @@ function setEditorSelection(
 }
 
 describe('videoModule module', () => {
-  describe('module DeleteVideoMenu', () => {
+  describe('module InsertVideoMenu', () => {
     const insertVideoMenu = new InsertVideoMenu()
     const editor = createEditor()
 

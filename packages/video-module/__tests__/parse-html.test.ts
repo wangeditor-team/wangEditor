@@ -5,8 +5,11 @@
 
 import { $ } from 'dom7'
 import createEditor from '../../../tests/utils/create-editor'
-import { preParseHtmlConf } from '../src/module/pre-parse-html'
-import { parseHtmlConf } from '../src/module/parse-elem-html'
+import videoModule from '../src'
+
+const { parseElemsHtml, preParseHtml } = videoModule
+const [parseHtmlConf] = parseElemsHtml!
+const [preParseHtmlConf] = preParseHtml!
 
 describe('video - pre parse html', () => {
   it('iframe', () => {
@@ -24,6 +27,19 @@ describe('video - pre parse html', () => {
 
   it('video', () => {
     const $video = $('<video></video>')
+
+    // match selector
+    expect($video[0].matches(preParseHtmlConf.selector)).toBeTruthy()
+
+    // pre parse
+    const res = preParseHtmlConf.preParseHtml($video[0])
+    expect(res.outerHTML).toBe(
+      '<div data-w-e-type="video" data-w-e-is-void=""><video></video></div>'
+    )
+  })
+
+  it('it should parse video element which is wrapped by p', () => {
+    const $video = $('<p><video></video></p>')
 
     // match selector
     expect($video[0].matches(preParseHtmlConf.selector)).toBeTruthy()
