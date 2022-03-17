@@ -57,7 +57,14 @@ class SelectLangMenu implements ISelectMenu {
     if (elem == null) return ''
     if (!Element.isElement(elem)) return ''
 
-    return elem.language || ''
+    const lang = elem.language.toString()
+
+    // 当前 elem.language 是否在已配置的 langs 中？
+    const { codeLangs = [] } = editor.getMenuConfig('codeSelectLang')
+    const hasLang = codeLangs.some(item => item.value === lang)
+
+    if (hasLang) return lang
+    return ''
   }
 
   isDisabled(editor: IDomEditor): boolean {

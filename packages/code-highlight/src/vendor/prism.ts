@@ -88,7 +88,11 @@ export function getPrismTokenLength(token: any) {
  */
 export function getPrismTokens(textNode: Text, language: string) {
   if (!language) return []
-  return Prism.tokenize(textNode.text, Prism.languages[language])
+
+  const langGrammar = Prism.languages[language]
+  if (!langGrammar) return []
+
+  return Prism.tokenize(textNode.text, langGrammar)
 
   // tokens 即 Prism 对整个字符串的拆分，有普通文字也有高亮的关键字
   // 例如 `const a = 100;` 的 tokens 是一个数组 [ token, ' a ', token, ' ', token ] ，有对象有字符串，对象就表示关键字
