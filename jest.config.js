@@ -18,5 +18,12 @@ module.exports = {
   transformIgnorePatterns: ['node_modules/(?!(html-void-elements)/)'],
   setupFilesAfterEnv: ['<rootDir>/tests/setup/index.ts'],
   collectCoverageFrom: ['<rootDir>/packages/**/src/**/*.(ts|tsx)'],
-  coveragePathIgnorePatterns: ['dist', 'locale'],
+  coveragePathIgnorePatterns: [
+    'dist',
+    'locale',
+    'index.ts',
+    'config.ts',
+    'browser-polyfill.ts',
+    'node-polyfill.ts',
+  ],
 }
