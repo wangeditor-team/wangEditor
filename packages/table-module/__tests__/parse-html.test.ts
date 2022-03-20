@@ -5,26 +5,41 @@
 
 import { $ } from 'dom7'
 import createEditor from '../../../tests/utils/create-editor'
-// import { preParseTableHtmlConf } from '../../../../packages/table-module/src/module/pre-parse-html'
+import { preParseTableHtmlConf } from '../src/module/pre-parse-html'
 import {
   parseCellHtmlConf,
   parseRowHtmlConf,
   parseTableHtmlConf,
 } from '../src/module/parse-elem-html'
 
-// TODO 此处有一个关于 Dom7 的 bug ，先注释掉 - wangfupeng 2022.01.17
-// describe('table - pre parse html', () => {
-//   it('pre parse', () => {
-//     const $table = $('<table><tbody><tr><td>hello</td></tr></tbody></table>')
+describe('table - pre parse html', () => {
+  it('pre parse', () => {
+    const $table = $('<table><tbody><tr><td>hello</td></tr></tbody></table>')
 
-//     // match selector
-//     expect($table[0].matches(preParseTableHtmlConf.selector)).toBeTruthy()
+    // match selector
+    expect($table[0].matches(preParseTableHtmlConf.selector)).toBeTruthy()
 
-//     // pre parse
-//     const res = preParseTableHtmlConf.preParseHtml($table[0])
-//     expect(res.outerHTML).toBe('<table><tr><td>hello</td></tr></table>')
-//   })
-// })
+    // pre parse
+    const res = preParseTableHtmlConf.preParseHtml($table[0])
+    expect(res.outerHTML).toBe('<table><tr><td>hello</td></tr></table>')
+  })
+
+  it('it should return fake element if pass fake table element', () => {
+    const fakeTable = $('<div>hello</div>')
+
+    // pre parse
+    const res = preParseTableHtmlConf.preParseHtml(fakeTable[0])
+    expect(res.outerHTML).toBe('<div>hello</div>')
+  })
+
+  it('it should return directly if pass table element without body', () => {
+    const table = $('<table><tr><td>hello</td></tr></table>')
+
+    // pre parse
+    const res = preParseTableHtmlConf.preParseHtml(table[0])
+    expect(res.outerHTML).toBe('<table><tr><td>hello</td></tr></table>')
+  })
+})
 
 describe('table - parse html', () => {
   const editor = createEditor()
