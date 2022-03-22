@@ -63,7 +63,7 @@ class TextArea {
       })
 
       // 点击编辑区域，关闭 panel
-      $container.on('mousedown', () => editor.hidePanelOrModal())
+      $container.on('click', () => editor.hidePanelOrModal())
 
       // editor onchange 时更新视图
       editor.on('change', this.changeViewState.bind(this))

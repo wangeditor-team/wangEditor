@@ -55,7 +55,7 @@ class EmotionMenu implements IDropPanelMenu {
       const $content = $('<ul class="w-e-panel-content-emotion"></ul>')
 
       // 绑定事件（仅第一次绑定，不可重复绑定）
-      $content.on('mousedown', 'li', (e: Event) => {
+      $content.on('click', 'li', (e: Event) => {
         const { target } = e
         if (target == null) return
         e.preventDefault()

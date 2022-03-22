@@ -22,7 +22,7 @@ class Modal extends PanelAndModal {
     const { $elem } = this
 
     // mousedown 阻止冒泡，因为在 $textContainer 通过 mousedown 隐藏 panel & modal
-    $elem.on('mousedown', e => e.stopPropagation())
+    $elem.on('click', e => e.stopPropagation())
 
     // esc 关闭 modal
     $elem.on('keyup', e => {
