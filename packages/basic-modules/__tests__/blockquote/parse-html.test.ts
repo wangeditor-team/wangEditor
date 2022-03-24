@@ -4,6 +4,7 @@
  */
 
 import { $ } from 'dom7'
+import { BaseElement } from 'slate'
 import createEditor from '../../../../tests/utils/create-editor'
 import { parseHtmlConf } from '../../src/modules/blockquote/parse-elem-html'
 
@@ -33,6 +34,28 @@ describe('blockquote - parse html', () => {
     expect(res).toEqual({
       type: 'blockquote',
       children: [{ text: 'hello ' }, { text: 'world', bold: true }],
+    })
+  })
+
+  it('with inline children', () => {
+    const $elem = $('<blockquote></blockquote>')
+    const children: any[] = [
+      { text: 'hello ' },
+      { type: 'link', url: 'http://wangeditor.com' },
+      { type: 'paragraph', children: [] },
+    ]
+
+    const isInline = editor.isInline
+    editor.isInline = (element: any) => {
+      if (element.type === 'link') return true
+      return isInline(element)
+    }
+
+    // parse
+    const res = parseHtmlConf.parseElemHtml($elem[0], children, editor)
+    expect(res).toEqual({
+      type: 'blockquote',
+      children: [{ text: 'hello ' }, { type: 'link', url: 'http://wangeditor.com' }],
     })
   })
 })
