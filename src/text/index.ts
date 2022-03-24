@@ -115,7 +115,7 @@ class Text {
      */
     public togglePlaceholder(): void {
         const html = this.html()
-        const $placeholder = this.editor.$textContainerElem.find('.placeholder')
+        const $placeholder = this.editor.$textContainerElem.find('.w-e-placeholder')
         $placeholder.hide()
         if (this.editor.isComposing) return
         if (!html || html === ' ') $placeholder.show()

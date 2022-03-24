@@ -62,8 +62,8 @@ describe('Editor Text test', () => {
 
     test('编辑器初始化后，调用 txt togglePlaceholder 如果 editor txt 没有 html 内容则会展示 placeholder', () => {
         editor.txt.togglePlaceholder()
-        expect(editor.$textContainerElem.find('.placeholder').elems[0]).not.toBeUndefined()
-        expect(editor.$textContainerElem.find('.placeholder').elems[0]).toHaveStyle('display:block')
+        expect(editor.$textContainerElem.find('.w-e-placeholder').elems[0]).not.toBeUndefined()
+        expect(editor.$textContainerElem.find('.w-e-placeholder').elems[0]).toHaveStyle('display:block')
     })
 
     test('编辑器初始化后，调用 txt togglePlaceholder 如果 editor txt 有 html 内容则不展示 placeholder', () => {
@@ -71,7 +71,7 @@ describe('Editor Text test', () => {
 
         editor.txt.togglePlaceholder()
 
-        expect(editor.$textContainerElem.find('.placeholder').elems[0]).toHaveStyle('display:none')
+        expect(editor.$textContainerElem.find('.w-e-placeholder').elems[0]).toHaveStyle('display:none')
     })
 
     test('编辑器初始化后，调用 txt clear 方法，清空编辑内容，只留下 EMPTY_P', () => {

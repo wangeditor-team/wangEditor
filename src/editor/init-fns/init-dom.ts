@@ -67,7 +67,7 @@ export default function (editor: Editor): void {
     } else {
         $placeholder = $(`<div>${i18next.t(placeholder)}</div>`)
     }
-    $placeholder.addClass('placeholder')
+    $placeholder.addClass('w-e-placeholder')
 
     // 初始化编辑区域内容
     if ($children && $children.length) {
