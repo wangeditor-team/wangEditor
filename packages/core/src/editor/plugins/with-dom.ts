@@ -80,6 +80,8 @@ export const withDOM = <T extends Editor>(editor: T) => {
   // destroy
   e.destroy = () => {
     // 销毁相关实例（会销毁 DOM）
+    if (e.isDestroyed) return
+    // fix https://github.com/wangeditor-team/wangEditor-v5/issues/457
     const textarea = DomEditor.getTextarea(e)
     textarea.destroy()
     EDITOR_TO_TEXTAREA.delete(e)
