@@ -296,7 +296,11 @@ export const withContent = <T extends Editor>(editor: T) => {
 
     // ------------- 将 nodes 插入到编辑器 -------------
     if (nodes.length) {
-      e.insertFragment(nodes)
+      try {
+        e.insertFragment(nodes) // 插入 nodes
+      } catch (ex) {
+        e.insertText(getPlainText($div[0])) // 意外情况，则插入纯文本
+      }
     }
     $div.remove()
   }
