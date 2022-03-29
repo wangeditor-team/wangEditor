@@ -4,7 +4,7 @@
  */
 
 import { Editor } from 'slate'
-import createEditor from '../../../../tests/utils/create-editor'
+import createCoreEditor from '../create-core-editor' // packages/core 不依赖 packages/editor ，不能使用后者的 createEditor
 
 describe('editor config', () => {
   function getStartLocation(editor) {
@@ -13,7 +13,7 @@ describe('editor config', () => {
 
   it('if set placeholder option, it will show placeholder element when editor content is empty', () => {
     const container = document.createElement('div')
-    createEditor({
+    createCoreEditor({
       selector: container,
       config: {
         placeholder: 'editor placeholder',
@@ -25,7 +25,7 @@ describe('editor config', () => {
 
   it('if set placeholder option, it will hide placeholder element when editor content is not empty', () => {
     const container = document.createElement('div')
-    createEditor({
+    createCoreEditor({
       selector: container,
       config: {
         placeholder: 'editor placeholder',
@@ -37,7 +37,7 @@ describe('editor config', () => {
   })
 
   it('if set readOnly option, isDisabled return true', () => {
-    const editor = createEditor({
+    const editor = createCoreEditor({
       config: {
         readOnly: true,
       },
@@ -46,7 +46,7 @@ describe('editor config', () => {
   })
 
   it('if set readOnly option, can not insert text to editor', () => {
-    const editor = createEditor({
+    const editor = createCoreEditor({
       config: {
         readOnly: true,
       },
@@ -58,7 +58,7 @@ describe('editor config', () => {
   })
 
   it('if set maxLength option, the editor can not update content when text length is equal to maxLength', done => {
-    const editor = createEditor({
+    const editor = createCoreEditor({
       config: {
         maxLength: 10,
         onMaxLength: () => {
@@ -80,7 +80,7 @@ describe('editor config', () => {
   it('if set onCreated option, it will be called when created editor', done => {
     const fn = jest.fn()
 
-    createEditor({
+    createCoreEditor({
       config: {
         onCreated: fn,
       },
@@ -95,7 +95,7 @@ describe('editor config', () => {
   it('if set onChange option, it will be called when change editor selection', done => {
     const fn = jest.fn()
 
-    const editor = createEditor({
+    const editor = createCoreEditor({
       config: {
         onChange: fn,
       },
@@ -111,7 +111,7 @@ describe('editor config', () => {
   it('if set onChange option, it will be called when change editor content', done => {
     const fn = jest.fn()
 
-    const editor = createEditor({
+    const editor = createCoreEditor({
       config: {
         onChange: fn,
       },
@@ -131,7 +131,7 @@ describe('editor config', () => {
 
   it('if set onDestroyed option, it will be called when destroy editor', done => {
     const fn = jest.fn()
-    const editor = createEditor({
+    const editor = createCoreEditor({
       config: {
         onDestroyed: fn,
       },

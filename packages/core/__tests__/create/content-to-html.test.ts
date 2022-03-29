@@ -3,27 +3,39 @@
  * @author wangfupeng
  */
 
-import { createEditor } from '../../../../packages/editor/src/index'
-import createWithSelector from '../../../../tests/utils/create-editor'
+import createEditor from '../../src/create/create-editor'
 
 describe('convert to html or text', () => {
+  let container = document.createElement('div')
+
+  beforeEach(() => {
+    container = document.createElement('div')
+    document.body.appendChild(container)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(container)
+  })
+
   it('convert to html if give selector option', () => {
-    const editor = createWithSelector({
-      content: [{ type: 'paragraph', children: [{ text: 'hello', bold: true }] }],
+    const editor = createEditor({
+      selector: container,
+      content: [{ type: 'paragraph', children: [{ text: 'hello' }] }],
     })
-    expect(editor.getHtml()).toBe('<p><strong>hello</strong></p>')
+    expect(editor.getHtml()).toBe('<div>hello</div>')
   })
 
   it('convert to html if not give selector option', () => {
     const editor = createEditor({
       // 不传入 selector ，只有 content
-      content: [{ type: 'paragraph', children: [{ text: 'hello', bold: true }] }],
+      content: [{ type: 'paragraph', children: [{ text: 'hello' }] }],
     })
-    expect(editor.getHtml()).toBe('<p><strong>hello</strong></p>')
+    expect(editor.getHtml()).toBe('<div>hello</div>')
   })
 
   it('convert to text if give selector option', () => {
-    const editor = createWithSelector({
+    const editor = createEditor({
+      selector: container,
       content: [
         { type: 'paragraph', children: [{ text: 'hello' }] },
         { type: 'paragraph', children: [{ text: 'world' }] },

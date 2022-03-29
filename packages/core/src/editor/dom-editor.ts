@@ -3,9 +3,8 @@
  * @author wangfupeng
  */
 
-import isEqual from 'lodash.isequal'
 import toArray from 'lodash.toarray'
-import { Editor, Node, Element, Path, Point, Range, Ancestor, Text, Descendant } from 'slate'
+import { Editor, Node, Element, Path, Point, Range, Ancestor, Text } from 'slate'
 import type { IDomEditor } from './interface'
 import { Key } from '../utils/key'
 import TextArea from '../text-area/TextArea'
@@ -18,7 +17,6 @@ import {
   NODE_TO_INDEX,
   NODE_TO_KEY,
   NODE_TO_PARENT,
-  CHANGING_NODE_PATH,
   EDITOR_TO_TEXTAREA,
   EDITOR_TO_TOOLBAR,
   EDITOR_TO_HOVER_BAR,

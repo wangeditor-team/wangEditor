@@ -3,7 +3,12 @@
  * @author wangfupeng
  */
 
-import createEditor from '../../../../tests/utils/create-editor'
+import createCoreEditor from '../../create-core-editor' // packages/core 不依赖 packages/editor ，不能使用后者的 createEditor
+import { withConfig } from '../../../src/editor/plugins/with-config'
+
+function createEditor(...args) {
+  return withConfig(createCoreEditor(...args))
+}
 
 describe('editor config API', () => {
   it('get config', () => {
@@ -25,6 +30,5 @@ describe('editor config API', () => {
     const editor = createEditor()
     const menuKeys = editor.getAllMenuKeys()
     expect(Array.isArray(menuKeys)).toBeTruthy()
-    expect(menuKeys.length).toBeGreaterThan(50) // 内置了 50+ 菜单
   })
 })
