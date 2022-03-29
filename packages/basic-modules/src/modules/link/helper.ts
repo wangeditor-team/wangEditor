@@ -68,6 +68,20 @@ export function isMenuDisabled(editor: IDomEditor): boolean {
 }
 
 /**
+ * 生成 link node
+ * @param url url
+ * @param text text
+ */
+function genLinkNode(url: string, text?: string): LinkElement {
+  const linkNode: LinkElement = {
+    type: 'link',
+    url: replaceSymbols(url),
+    children: text ? [{ text }] : [],
+  }
+  return linkNode
+}
+
+/**
  * 插入 link
  * @param editor editor
  * @param text text
@@ -93,25 +107,31 @@ export async function insertLink(editor: IDomEditor, text: string, url: string) 
   const { selection } = editor
   if (selection == null) return
   const isCollapsed = Range.isCollapsed(selection)
-  // 新建一个 link node
-  const linkNode: LinkElement = {
-    type: 'link',
-    url: replaceSymbols(parsedUrl),
-    children: isCollapsed ? [{ text }] : [],
-  }
 
   // 执行：插入链接
   if (isCollapsed) {
     // 链接前后插入空格，方便操作
     editor.insertText(' ')
+
+    const linkNode = genLinkNode(parsedUrl, text)
     Transforms.insertNodes(editor, linkNode)
 
     // https://github.com/wangeditor-team/wangEditor-v5/issues/332
     // 不能直接使用 insertText, 会造成添加的空格被添加到链接文本中，参考上面 issue，替换为 insertFragment 方式添加空格
     editor.insertFragment([{ text: ' ' }])
   } else {
-    Transforms.wrapNodes(editor, linkNode, { split: true })
-    Transforms.collapse(editor, { edge: 'end' })
+    const selectedText = Editor.string(editor, selection) // 选中的文字
+    if (selectedText !== text) {
+      // 选中的文字和输入的文字不一样，则删掉文字，插入链接
+      editor.deleteFragment()
+      const linkNode = genLinkNode(parsedUrl, text)
+      Transforms.insertNodes(editor, linkNode)
+    } else {
+      // 选中的文字和输入的文字一样，则只包裹链接即可
+      const linkNode = genLinkNode(parsedUrl)
+      Transforms.wrapNodes(editor, linkNode, { split: true })
+      Transforms.collapse(editor, { edge: 'end' })
+    }
   }
 }
 
