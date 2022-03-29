@@ -4,8 +4,13 @@
  */
 
 import { Editor, Transforms, Node, Selection } from 'slate'
-import createEditor from '../../../../tests/utils/create-editor'
-import { IDomEditor } from '@wangeditor/core'
+import createCoreEditor from '../../create-core-editor' // packages/core 不依赖 packages/editor ，不能使用后者的 createEditor
+import { withContent } from '../../../src/editor/plugins/with-content'
+import { IDomEditor } from '../../../src/editor/interface'
+
+function createEditor(...args) {
+  return withContent(createCoreEditor(...args))
+}
 
 let editor: IDomEditor
 
@@ -46,25 +51,23 @@ describe('editor content API', () => {
 
   it('getHtml', () => {
     const editor = createEditor({
-      content: [{ type: 'paragraph', children: [{ text: 'hello', bold: true }] }],
+      content: [{ type: 'paragraph', children: [{ text: 'hello' }] }],
     })
 
     const html = editor.getHtml()
-    expect(html).toBe('<p><strong>hello</strong></p>')
+    expect(html).toBe('<div>hello</div>')
   })
 
   it('getHtml with void element', () => {
     const editor = createEditor({
       content: [
-        { type: 'paragraph', children: [{ text: 'hello', bold: true }] },
+        { type: 'paragraph', children: [{ text: 'hello' }] },
         { type: 'image', children: [{ text: '' }], src: 'test.jpg' },
       ],
     })
 
     const html = editor.getHtml()
-    expect(html).toBe(
-      '<p><strong>hello</strong></p><img src="test.jpg" alt="" data-href="" style=""/>'
-    )
+    expect(html).toBe('<div>hello</div><div></div>')
   })
 
   it('getText', () => {
@@ -276,10 +279,13 @@ describe('editor content API', () => {
     expect(editor.getText()).toBe('hello')
   })
 
-  describe('dangerouslyInsertHtml api', () => {
+  describe('dangerouslyInsertHtml API', () => {
     beforeEach(() => {
       editor = createEditor()
     })
+
+    // 现在使用的是 packages/core 的 createEditor ，创建的 editor 没有内置各种 module
+    // 所以 dangerouslyInsertHtml 在此测试基本功能即可。其他 tag 在各自的 module 中测试
 
     test('dangerouslyInsertHtml should insert text with no blank to editor', () => {
       // insertText 必须要设置 selection 才能生效
@@ -291,103 +297,6 @@ describe('editor content API', () => {
       expect(editor.getText().indexOf('wangEditor')).toBeGreaterThan(-1)
     })
 
-    test('dangerouslyInsertHtml should insert html string with header element to editor', () => {
-      setEditorSelection(editor)
-      const htmlString = '<h1>wangEditor</h1>'
-      editor.dangerouslyInsertHtml(htmlString)
-
-      expect(editor.getText().indexOf('wangEditor')).toBeGreaterThan(-1)
-    })
-
-    test('dangerouslyInsertHtml should insert html string with pre element to editor', () => {
-      setEditorSelection(editor)
-      const htmlString = '<pre><code>var name="wangEditor"</code></pre>'
-      editor.dangerouslyInsertHtml(htmlString)
-
-      expect(editor.getText().indexOf('wangEditor')).toBeGreaterThan(-1)
-    })
-
-    test('dangerouslyInsertHtml should insert html string with img element to editor', () => {
-      setEditorSelection(editor)
-      const htmlString = '<img src="test.png" alt="test" />'
-      editor.dangerouslyInsertHtml(htmlString)
-
-      expect(editor.children).toEqual([
-        {
-          type: 'paragraph',
-          children: [
-            { text: '' },
-            {
-              type: 'image',
-              src: 'test.png',
-              alt: 'test',
-              href: '',
-              style: { width: '', height: '' },
-              children: [{ text: '' }],
-            },
-            { text: '' },
-          ],
-        },
-      ])
-    })
-
-    test('dangerouslyInsertHtml should insert html string with link element to editor', () => {
-      setEditorSelection(editor)
-      const htmlString = '<a href="https://www.baidu.com/" target="_blank">wangEditor</a>'
-      editor.dangerouslyInsertHtml(htmlString)
-
-      const links = editor.getElemsByType('link')
-      expect(links.length).toBe(1)
-      expect((links[0] as any).url).toBe('https://www.baidu.com/')
-    })
-
-    test('dangerouslyInsertHtml should insert html string with ul element to editor', () => {
-      setEditorSelection(editor)
-      const htmlString = '<ul><li>1</li><li>2</li></ul>'
-      editor.dangerouslyInsertHtml(htmlString)
-
-      expect(editor.children).toEqual([
-        {
-          type: 'bulleted-list',
-          children: [
-            { type: 'list-item', children: [{ text: '1' }] },
-            { type: 'list-item', children: [{ text: '2' }] },
-          ],
-        },
-      ])
-    })
-
-    test('dangerouslyInsertHtml should insert html string with ol element to editor', () => {
-      setEditorSelection(editor)
-      const htmlString = '<ol><li>1</li><li>2</li></ol>'
-      editor.dangerouslyInsertHtml(htmlString)
-
-      expect(editor.children).toEqual([
-        {
-          type: 'numbered-list',
-          children: [
-            { type: 'list-item', children: [{ text: '1' }] },
-            { type: 'list-item', children: [{ text: '2' }] },
-          ],
-        },
-      ])
-    })
-
-    test('dangerouslyInsertHtml should can not insert html string to editor if over max length', () => {
-      setEditorSelection(editor)
-      editor = createEditor({
-        config: {
-          maxLength: 20,
-        },
-        content: [{ type: 'paragraph', children: [{ text: '123456789012345678' }] }],
-      })
-
-      const htmlString = '<h1>wangEditor</h1>'
-      editor.dangerouslyInsertHtml(htmlString)
-
-      expect(editor.getText().indexOf('wangEditor')).toBe(-1)
-    })
-
     ignoreTag.forEach(tag => {
       test(`insert html string with ${tag} element should to be ignore`, () => {
         setEditorSelection(editor)
@@ -397,5 +306,28 @@ describe('editor content API', () => {
         expect(editor.getHtml().indexOf(tag)).toBe(-1)
       })
     })
+  })
+
+  it('getParentNode', () => {
+    const textNode = { text: 'hello' }
+    const p = { type: 'paragraph', children: [textNode] }
+    const editor = createEditor({
+      content: [p],
+    })
+
+    const parentNode = editor.getParentNode(textNode) as any
+    expect(parentNode).not.toBeNull()
+    expect(parentNode.type).toBe('paragraph')
+  })
+
+  it('insertNode', () => {
+    const editor = createEditor()
+    editor.select(getStartLocation(editor))
+
+    const p = { type: 'paragraph', children: [{ text: 'hello' }] }
+    editor.insertNode(p)
+
+    const pList = editor.getElemsByTypePrefix('paragraph')
+    expect(pList.length).toBe(2)
   })
 })

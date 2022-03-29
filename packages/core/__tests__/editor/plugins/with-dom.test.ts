@@ -4,7 +4,12 @@
  */
 
 import { Editor } from 'slate'
-import createEditor from '../../../../tests/utils/create-editor'
+import createCoreEditor from '../../create-core-editor' // packages/core 不依赖 packages/editor ，不能使用后者的 createEditor
+import { withDOM } from '../../../src/editor/plugins/with-dom'
+
+function createEditor(...args) {
+  return withDOM(createCoreEditor(...args))
+}
 
 describe('editor DOM API', () => {
   function getStartLocation(editor) {
@@ -59,6 +64,19 @@ describe('editor DOM API', () => {
     setTimeout(() => {
       editor.destroy()
       expect(editor.isDestroyed).toBeTruthy()
+      done()
+    })
+  })
+
+  it('toDOMNode', done => {
+    const p = { type: 'paragraph', children: [{ text: 'hello' }] }
+    const editor = createEditor({
+      content: [p],
+    })
+
+    setTimeout(() => {
+      const domNode = editor.toDOMNode(p)
+      expect(domNode.tagName).toBe('DIV')
       done()
     })
   })

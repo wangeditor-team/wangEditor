@@ -3,8 +3,8 @@
  * @author wangfupeng
  */
 
-import createUploader from '../src/upload/createUploader'
-import { IUploadConfig } from '../src/upload/interface'
+import createUploader from '../../src/upload/createUploader'
+import { IUploadConfig } from '../../src/upload/interface'
 import nock from 'nock'
 
 const server = 'https://fake-endpoint.wangeditor-v5.com'
