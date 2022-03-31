@@ -123,7 +123,7 @@ class BarItemSelect implements IBarItem {
 
     const $button = this.$button
     const $downArrow = gen$downArrow() // 向下的箭头图标
-    $button.html('')
+    $button.empty()
     $button.text(optText)
     $button.append($downArrow)
   }

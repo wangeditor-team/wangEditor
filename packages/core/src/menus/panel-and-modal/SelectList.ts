@@ -38,7 +38,7 @@ class SelectList extends PanelAndModal {
    */
   renderList(options: IOption[]) {
     const $elem = this.$elem
-    $elem.html('') // 先清空内容，再重新渲染
+    $elem.empty() // 先清空内容，再重新渲染
 
     const $list = $(`<ul></ul>`)
     options.forEach(opt => {

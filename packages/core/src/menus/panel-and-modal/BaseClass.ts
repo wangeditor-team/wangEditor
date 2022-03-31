@@ -38,7 +38,7 @@ abstract class PanelAndModal {
 
   renderContent(contentElem: DOMElement) {
     const { $elem } = this
-    $elem.html('') // 先清空，再填充内容
+    $elem.empty() // 先清空，再填充内容
     $elem.append(contentElem)
 
     // 添加自己额外的 elem

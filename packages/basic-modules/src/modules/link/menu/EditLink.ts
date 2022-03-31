@@ -109,7 +109,7 @@ class EditLinkMenu implements IModalMenu {
     }
 
     const $content = this.$content
-    $content.html('') // 先清空内容
+    $content.empty() // 先清空内容
 
     // append input and button
     $content.append(urlContainerElem)

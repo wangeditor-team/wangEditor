@@ -29,6 +29,7 @@ import $, {
   height,
   Dom7Array,
   filter,
+  empty,
 } from 'dom7'
 export { Dom7Array } from 'dom7'
 
@@ -56,6 +57,7 @@ if (find) $.fn.find = find
 if (width) $.fn.width = width
 if (height) $.fn.height = height
 if (filter) $.fn.filter = filter
+if (empty) $.fn.empty = empty
 
 export default $
 

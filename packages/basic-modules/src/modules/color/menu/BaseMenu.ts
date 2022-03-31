@@ -85,7 +85,7 @@ abstract class BaseMenu implements IDropPanelMenu {
     }
     const $content = this.$content
     if ($content == null) return document.createElement('ul')
-    $content.html('') // 清空之后再重置内容
+    $content.empty() // 清空之后再重置内容
 
     // 当前选中文本的颜色之
     const selectedColor = this.getValue(editor)

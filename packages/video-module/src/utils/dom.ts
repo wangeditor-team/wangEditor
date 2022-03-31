@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import $, { append, on, focus, attr, val, html, parent, hasClass, Dom7Array } from 'dom7'
+import $, { append, on, focus, attr, val, html, parent, hasClass, Dom7Array, empty } from 'dom7'
 export { Dom7Array } from 'dom7'
 
 if (append) $.fn.append = append
@@ -14,6 +14,7 @@ if (val) $.fn.val = val
 if (html) $.fn.html = html
 if (parent) $.fn.parent = parent
 if (hasClass) $.fn.hasClass = hasClass
+if (empty) $.fn.empty = empty
 
 export default $
 

@@ -32,6 +32,7 @@ import $, {
   remove,
   find,
   each,
+  empty,
   Dom7Array,
 } from 'dom7'
 export { Dom7Array } from 'dom7'
@@ -63,6 +64,7 @@ if (children) $.fn.children = children
 if (remove) $.fn.remove = remove
 if (find) $.fn.find = find
 if (each) $.fn.each = each
+if (empty) $.fn.empty = empty
 
 export default $
 

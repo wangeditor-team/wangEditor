@@ -83,7 +83,7 @@ class HoverBar {
 
     // 及时先清空内容，否则影响下次
     this.hoverbarItems = []
-    $elem.html('')
+    $elem.empty()
 
     this.isShow = false
   }
