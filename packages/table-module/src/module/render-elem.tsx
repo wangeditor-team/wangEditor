@@ -14,6 +14,8 @@ import { TableCellElement, TableRowElement, TableElement } from './custom-types'
  * @param tableElem table elem
  */
 function getContentEditable(editor: IDomEditor, tableElem: SlateElement): boolean {
+  if (editor.isDisabled()) return false
+
   const { selection } = editor
   if (selection == null) return true
   if (Range.isCollapsed(selection)) return true
