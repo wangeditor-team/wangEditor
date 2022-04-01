@@ -9,6 +9,7 @@ import PanelAndModal from './BaseClass'
 import { IDomEditor } from '../../editor/interface'
 // import { DomEditor } from '../../editor/dom-editor'
 import { SVG_CLOSE } from '../../constants/svg'
+import { PANEL_OR_MODAL_TO_EDITOR } from '../../utils/weak-maps'
 
 class Modal extends PanelAndModal {
   type = 'modal'
@@ -41,7 +42,12 @@ class Modal extends PanelAndModal {
   genSelfElem(): Dom7Array | null {
     // 关闭按钮
     const $closeButton = $(`<span class="btn-close">${SVG_CLOSE}</span>`)
-    $closeButton.on('click', () => this.hide())
+    const editor = PANEL_OR_MODAL_TO_EDITOR.get(this)
+
+    $closeButton.on('click', () => {
+      this.hide()
+      editor?.restoreSelection()
+    })
     return $closeButton
   }
 
