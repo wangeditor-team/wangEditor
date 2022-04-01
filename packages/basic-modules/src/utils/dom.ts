@@ -82,9 +82,8 @@ export function isPlainText(str: string) {
  * @param $elem dom7 elem
  */
 export function getOuterHTML($elem: Dom7Array) {
-  const $div = $('<div></div>')
-  $div.append($elem)
-  return $div.html()
+  if ($elem.length === 0) return ''
+  return $elem[0].outerHTML
 }
 
 /**

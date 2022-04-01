@@ -4,7 +4,7 @@
  */
 
 import { Element, Descendant } from 'slate'
-import $ from '../../utils/dom'
+import $, { getOuterHTML } from '../../utils/dom'
 import { JustifyElement } from './custom-types'
 
 export function styleToHtml(node: Descendant, elemHtml: string): string {
@@ -18,7 +18,6 @@ export function styleToHtml(node: Descendant, elemHtml: string): string {
   $elem.css('text-align', textAlign)
 
   // 输出 html
-  const $div = $('<div></div>')
-  $div.append($elem)
-  return $div.html()
+  const outerHtml = getOuterHTML($elem)
+  return outerHtml
 }
