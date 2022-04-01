@@ -7,7 +7,7 @@
   left: 0;
   top: 0;
   background-color: @toolbar-bg-color;
-  margin-top: 40px;
+  margin-top: @toolbar-height;
   min-width: 100px;
   .shadowBordered(10px);
 
@@ -41,4 +41,12 @@
       }
     }
   }
+}
+
+// 当 bar 处于页面下方，则 selectList 要显示在 bar 上方
+.w-e-bar-bottom .w-e-select-list {
+  top: inherit;
+  bottom: 0;
+  margin-top: 0;
+  margin-bottom: @toolbar-height;
 }

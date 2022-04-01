@@ -88,9 +88,36 @@ class HoverBar {
     this.isShow = false
   }
 
+  /**
+   * 判断 hoverbar 是否在网页下部？
+   * 如果是，SelectList 和 DropPanel 要显示在 hoverbar 上面
+   */
+  private checkPositionBottom() {
+    const $elem = this.$elem
+
+    let isBottom = false
+    const { innerHeight } = window
+    const minDistance = 360 // 距离底部最小 360px
+    if (innerHeight && innerHeight >= minDistance) {
+      const { bottom } = $elem[0].getBoundingClientRect()
+      if (innerHeight - bottom < minDistance) {
+        // hoverbar 距离底部不足 360
+        isBottom = true
+      }
+    }
+    if (isBottom) {
+      $elem.addClass('w-e-bar-bottom')
+    } else {
+      $elem.removeClass('w-e-bar-bottom')
+    }
+  }
+
   private show() {
     this.$elem.removeClass('w-e-bar-hidden').addClass('w-e-bar-show')
     this.isShow = true
+
+    // 判断 hoverbar 是否在网页下部
+    this.checkPositionBottom()
   }
 
   private changeItemsState() {

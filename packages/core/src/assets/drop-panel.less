@@ -10,3 +10,11 @@
   min-width: 200px;
   padding: 10px;
 }
+
+// 当 bar 处于页面下方，则 dropPanel 要显示在 bar 上方
+.w-e-bar-bottom .w-e-drop-panel {
+  top: inherit;
+  bottom: 0;
+  margin-top: 0;
+  margin-bottom: @toolbar-height;
+}
