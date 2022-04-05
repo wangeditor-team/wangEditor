@@ -126,7 +126,7 @@ describe('Table Module Insert Table Menu', () => {
     jest.spyOn(slate.Transforms, 'insertNodes').mockImplementation(fn)
 
     tdEl.dispatchEvent(
-      new MouseEvent('mousedown', {
+      new MouseEvent('click', {
         view: window,
         bubbles: true,
         cancelable: true,

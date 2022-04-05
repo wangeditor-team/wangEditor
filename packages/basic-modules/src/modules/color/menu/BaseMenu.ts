@@ -62,7 +62,7 @@ abstract class BaseMenu implements IDropPanelMenu {
       const $content = $('<ul class="w-e-panel-content-color"></ul>')
 
       // 绑定事件（只在第一次绑定，不要重复绑定）
-      $content.on('mousedown', 'li', (e: Event) => {
+      $content.on('click', 'li', (e: Event) => {
         const { target } = e
         if (target == null) return
         e.preventDefault()

@@ -135,8 +135,8 @@ class InsertTable implements IDropPanelMenu {
           })
         })
 
-        // 绑定 mousedown
-        $td.on('mousedown', (e: Event) => {
+        // 绑定 click
+        $td.on('click', (e: Event) => {
           e.preventDefault()
           const { target } = e
           if (target == null) return

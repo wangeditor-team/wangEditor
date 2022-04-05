@@ -56,7 +56,7 @@ class BarItemSelect implements IBarItem {
     this.setSelectedValue()
 
     // select button click
-    this.$button.on('mousedown', (e: Event) => {
+    this.$button.on('click', (e: Event) => {
       e.preventDefault()
       const editor = getEditorInstance(this)
       editor.hidePanelOrModal() // 隐藏当前的各种 panel
@@ -83,7 +83,7 @@ class BarItemSelect implements IBarItem {
       selectList.show()
 
       // 初次创建，绑定事件
-      selectList.$elem.on('mousedown', 'li', (e: Event) => {
+      selectList.$elem.on('click', 'li', (e: Event) => {
         const { target } = e
         if (target == null) return
 

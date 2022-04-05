@@ -55,7 +55,7 @@ abstract class BaseButton implements IBarItem {
     this.setDisabled()
 
     // button click
-    this.$button.on('mousedown', e => {
+    this.$button.on('click', e => {
       e.preventDefault()
       const editor = getEditorInstance(this)
 
