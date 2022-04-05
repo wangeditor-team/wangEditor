@@ -16,6 +16,10 @@ import { TodoElement } from './custom-types'
  * @returns vnode
  */
 function renderTodo(elemNode: SlateElement, children: VNode[] | null, editor: IDomEditor): VNode {
+  // 判断 disabled
+  let disabled = false
+  if (editor.isDisabled()) disabled = true
+
   const { checked } = elemNode as TodoElement
   const vnode = (
     <div style={{ margin: '5px 0' }}>
@@ -23,6 +27,7 @@ function renderTodo(elemNode: SlateElement, children: VNode[] | null, editor: ID
         <input
           type="checkbox"
           checked={checked}
+          disabled={disabled}
           on={{
             change: event => {
               const path = DomEditor.findPath(editor, elemNode)

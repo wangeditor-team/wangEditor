@@ -184,13 +184,15 @@ function renderImage(elemNode: SlateElement, children: VNode[] | null, editor: I
   // 【注意】void node 中，renderElem 不用处理 children 。core 会统一处理。
   const vnode = <img style={imageStyle} src={src} alt={alt} data-href={href} />
 
-  if (!selected) {
-    // 未选中，渲染普通 image container
-    return renderContainer(editor, elemNode, vnode, { width, height })
+  const isDisabled = editor.isDisabled()
+
+  if (selected && !isDisabled) {
+    // 选中，未禁用 - 渲染 resize container
+    return renderResizeContainer(editor, elemNode, vnode, { width, height })
   }
 
-  // 选中，渲染 resize container
-  return renderResizeContainer(editor, elemNode, vnode, { width, height })
+  // 其他，渲染普通 image container
+  return renderContainer(editor, elemNode, vnode, { width, height })
 }
 
 const renderImageConf = {
