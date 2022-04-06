@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor multi editor</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+  <link href="./css/layout.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+
+  <script src="./js/custom-elem.js"></script>
+</head>
+
+<body>
+  <demo-nav title="wangEditor multi editor"></demo-nav>
+  <div class="page-container">
+    <div class="page-left">
+      <demo-menu></demo-menu>
+    </div>
+    <div class="page-right">
+
+      <div style="display: flex;">
+        <div style="flex: 1">
+          <div style="border: 1px solid #ccc; margin-right: 5px;">
+            <div id="editor-toolbar-1" style="border-bottom: 1px solid #ccc;"></div>
+            <div id="editor-text-area-1" style="height: 400px;"></div>
+          </div>
+          <div id="content-view-1" class="editor-content-view"></div>
+        </div>
+        <div style="flex: 1">
+          <div style="border: 1px solid #ccc; margin-left: 5px;">
+            <div id="editor-toolbar-2" style="border-bottom: 1px solid #ccc;"></div>
+            <div id="editor-text-area-2" style="height: 400px;"></div>
+          </div>
+          <div id="content-view-2" class="editor-content-view"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    // 切换语言
+    const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+    E.i18nChangeLanguage(LANG)
+
+    // 第一个编辑器
+    const editor1 = E.createEditor({
+      selector: '#editor-text-area-1',
+      config: {
+        placeholder: 'Type here...',
+        autoFocus: false,
+        MENU_CONF: {
+          uploadImage: {
+            fieldName: 'your-file-name1',
+            base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
+          }
+        },
+        onChange(editor) {
+          document.getElementById('content-view-1').innerHTML = editor.getHtml()
+        }
+      },
+      html: '<p>editor1</p><p><br></p>'
+    })
+    const toolbar1 = E.createToolbar({
+      editor: editor1,
+      selector: '#editor-toolbar-1',
+      config: {}
+    })
+
+    // 第二个编辑器
+    const editor2 = E.createEditor({
+      selector: '#editor-text-area-2',
+      config: {
+        placeholder: 'Type here...',
+        autoFocus: false,
+        MENU_CONF: {
+          uploadImage: {
+            fieldName: 'your-file-name2',
+            base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
+          }
+        },
+        onChange(editor) {
+          document.getElementById('content-view-2').innerHTML = editor.getHtml()
+        }
+      },
+      html: '<p>editor2</p><p><br></p>',
+      mode: 'simple'
+    })
+    const toolbar2 = E.createToolbar({
+      editor: editor2,
+      selector: '#editor-toolbar-2',
+      config: {}
+    })
+  </script>
+</body>
+
+</html>

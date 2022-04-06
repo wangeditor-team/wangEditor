@@ -14,7 +14,7 @@
 
 <body>
   <p>
-    upload video
+    Upload video
   </p>
 
   <!-- 编辑器 -->
@@ -29,6 +29,10 @@
   <script src="../dist/index.js"></script>
   <script>
     const E = window.wangEditor
+
+      // 切换语言
+      const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+      E.i18nChangeLanguage(LANG)
 
     const editorConfig = { MENU_CONF: {} }
     editorConfig.MENU_CONF['insertVideo'] = {
@@ -111,7 +115,7 @@
 
     const editor = E.createEditor({
       selector: '#editor-text-area',
-      // content: window.content1,
+      html: '<p>Upload video...</p><p><br></p>',
       config: editorConfig
     })
 

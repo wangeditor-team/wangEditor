@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor catalog</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+  <link href="./css/layout.css" rel="stylesheet">
+
+  <script src="./js/custom-elem.js"></script>
+
+  <style>
+    #header-container {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+
+    #header-container li {
+      color: #333;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    #header-container li:hover {
+      text-decoration: underline;
+    }
+
+    #header-container li[type="header1"] {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    #header-container li[type="header2"] {
+      font-size: 16px;
+      padding-left: 15px;
+      font-weight: bold;
+    }
+
+    #header-container li[type="header3"] {
+      font-size: 14px;
+      padding-left: 30px;
+    }
+
+    #header-container li[type="header4"] {
+      font-size: 12px;
+      padding-left: 45px;
+    }
+
+    #header-container li[type="header5"] {
+      font-size: 12px;
+      padding-left: 60px;
+    }
+  </style>
+</head>
+
+<body>
+  <demo-nav title="wangEditor catalog"></demo-nav>
+  <div class="page-container">
+    <div class="page-left">
+      <demo-menu></demo-menu>
+    </div>
+    <div class="page-right" style="display: flex;">
+      <!-- 编辑器 DOM -->
+      <div style="border: 1px solid #ccc; flex: 1">
+        <div id="editor-toolbar" style="border-bottom: 1px solid #ccc;"></div>
+        <div id="editor-text-area" style="height: 350px"></div>
+      </div>
+
+      <!-- 标题目录 -->
+      <div style="width: 200px; background-color: #f1f1f1;">
+        <ul id="header-container"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    // 切换语言
+    const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+    E.i18nChangeLanguage(LANG)
+
+    // 标题 DOM 容器
+    const headerContainer = document.getElementById('header-container')
+    headerContainer.addEventListener('mousedown', event => {
+      if (event.target.tagName !== 'LI') return
+      event.preventDefault()
+      const id = event.target.id
+      editor.scrollToElem(id) // 滚动到标题
+    })
+
+    window.editor = E.createEditor({
+      selector: '#editor-text-area',
+      html: '<h1>标题</h1><h2>标题A</h2><p>文本</p><p>文本</p><p>文本</p><h3>标题A1</h3><p>文本</p><p>文本</p><p>文本</p><h3>标题A2</h3><p>文本</p><p>文本</p><p>文本</p><h2>标题B</h2><p>文本</p><p>文本</p><p>文本</p><h3>标题B1</h3><p>文本</p><p>文本</p><p>文本</p><h3>标题B2</h3><p>文本</p><p>文本</p><p>文本</p>',
+      config: {
+        placeholder: 'Type here...',
+        MENU_CONF: {
+          uploadImage: {
+            fieldName: 'your-fileName',
+            base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
+          }
+        },
+        onChange(editor) {
+          const headers = editor.getElemsByTypePrefix('header')
+          headerContainer.innerHTML = headers.map(header => {
+            const text = E.SlateNode.string(header)
+            const { id, type } = header
+            return `<li id="${id}" type="${type}">${text}</li>`
+          }).join('')
+        }
+      }
+    })
+
+    window.toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+      config: {}
+    })
+  </script>
+</body>
+
+</html>

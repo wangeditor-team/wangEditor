@@ -1,5 +1,5 @@
-# demo
+# wangEditor demo
 
-官网 demo ，非测试用
+修改左侧目录，在 demo 目录搜索 `MENU_CONF`
 
-发布 npm 之后，会同步
+demo 部署参考 `deploy-demos.yml` 配置

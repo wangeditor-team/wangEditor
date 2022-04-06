@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +23,7 @@
     }
 
     #editor-toolbar {
-      width: 1300px;
+      width: 1350px;
       background-color: #FCFCFC;
       margin: 0 auto;
     }
@@ -59,18 +60,14 @@
     #editor-text-area {
       min-height: 900px;
       margin-top: 20px;
-      height: 400px;
     }
   </style>
 </head>
+
 <body>
   <div id="top-container">
     <p>
-      仿腾讯文档
-      &nbsp;
-      <a href="./index.html">默认模式</a>
-      &nbsp;
-      <a href="./simple-mode.html">简洁模式</a>
+      <a href="./index.html">&lt;&lt; 返回 Back to demo</a>
     </p>
   </div>
   <div style="border-bottom: 1px solid #e8e8e8;">
@@ -79,7 +76,7 @@
   <div id="content">
     <div id="editor-container">
       <div id="title-container">
-        <input value="请输入标题">
+        <input placeholder="Page title...">
       </div>
       <div id="editor-text-area"></div>
     </div>
@@ -89,21 +86,29 @@
   <script>
     const E = window.wangEditor
 
-    const editorConfig = { MENU_CONF: {} }
-    editorConfig.placeholder = '请输入内容'
-    editorConfig.scroll = false // 禁止编辑器滚动
-    editorConfig.MENU_CONF['uploadImage'] = {
-      server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
-      fieldName: 'like-yuque-fileName'
-    }
-    editorConfig.onChange = (editor) => {
-      // console.log('content', editor.children)
+    // 切换语言
+    const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+    E.i18nChangeLanguage(LANG)
+
+    const editorConfig = {
+      placeholder: 'Type here...',
+      scroll: false, // 禁止编辑器滚动
+      MENU_CONF: {
+        uploadImage: {
+          fieldName: 'your-fileName',
+          base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
+        }
+      },
+      onChange(editor) {
+        console.log(editor.getHtml())
+      }
     }
 
     // 先创建 editor
     const editor = E.createEditor({
       selector: '#editor-text-area',
-      content: window.content1,
+      content: [],
+      // html: '',
       config: editorConfig
     })
 
@@ -125,4 +130,5 @@
     })
   </script>
 </body>
+
 </html>
