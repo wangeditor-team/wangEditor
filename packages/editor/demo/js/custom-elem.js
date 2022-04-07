@@ -209,21 +209,21 @@ const MENU_CONF = [
     },
   },
   {
-    'zh-CN': { text: 'Vue2 demo', link: 'https://github.com/wangfupeng1988/vue2-wangeditor-demo' },
-    en: { text: 'Vue2 Component', link: 'https://github.com/wangfupeng1988/vue2-wangeditor-demo' },
+    'zh-CN': { text: 'Vue2 demo', link: 'https://www.wangeditor.com/v5/guide/for-frame.html#vue2' },
+    en: { text: 'Vue2 demo', link: 'https://www.wangeditor.com/v5/en/guide/for-frame.html#vue2' },
   },
   {
-    'zh-CN': { text: 'Vue3 demo', link: 'https://github.com/wangfupeng1988/vue3-wangeditor-demo' },
-    en: { text: 'Vue3 Component', link: 'https://github.com/wangfupeng1988/vue3-wangeditor-demo' },
+    'zh-CN': { text: 'Vue3 demo', link: 'https://www.wangeditor.com/v5/guide/for-frame.html#vue3' },
+    en: { text: 'Vue3 demo', link: 'https://www.wangeditor.com/v5/en/guide/for-frame.html#vue3' },
   },
   {
     'zh-CN': {
       text: 'React demo',
-      link: 'https://github.com/wangfupeng1988/react-wangeditor-demo',
+      link: 'https://www.wangeditor.com/v5/guide/for-frame.html#react',
     },
     en: {
-      text: 'React Component',
-      link: 'https://github.com/wangfupeng1988/react-wangeditor-demo',
+      text: 'React demo',
+      link: 'https://www.wangeditor.com/v5/en/guide/for-frame.html#react',
     },
   },
   {
