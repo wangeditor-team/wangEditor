@@ -32,7 +32,7 @@ interface IBaseMenu {
   readonly title: string
   readonly iconSvg?: string
   readonly hotkey?: string // 快捷键，使用 https://www.npmjs.com/package/is-hotkey
-  readonly awaysEnable?: boolean // 永远不 disabled ，如“全屏”
+  readonly alwaysEnable?: boolean // 永远不 disabled ，如“全屏”
 
   readonly tag: string // 'button' | 'select'
   readonly width?: number // 设置 button 宽度
