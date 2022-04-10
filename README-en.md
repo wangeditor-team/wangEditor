@@ -1,4 +1,4 @@
-# wangEditor (v5)
+# wangEditor v5
 
 [中文](./README.md)
 
