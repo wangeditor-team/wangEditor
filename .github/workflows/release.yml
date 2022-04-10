@@ -40,6 +40,6 @@ jobs:
           wait-on: 'http://localhost:8881/examples/default-mode.html'   
 
       - name: Publish npm
-        run: yarn run release:package
+        run: yarn run release:publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
