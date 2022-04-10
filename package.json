@@ -12,6 +12,7 @@
     "release:publish:canary": "lerna publish --canary",
     "release:next": "yarn prerelease && lerna publish --dist-tag next",
     "release:publish": "lerna publish from-git --yes",
+    "release:package": "lerna publish from-package --yes",
     "prerelease": "yarn build",
     "format": "yarn prettier --write",
     "lint": "eslint \"packages/*/+(src|__tests__)/**/*.+(ts|tsx)\"",
