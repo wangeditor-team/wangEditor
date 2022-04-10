@@ -1,6 +1,6 @@
 {
   "name": "@wangeditor/code-highlight",
-  "version": "0.9.6",
+  "version": "1.0.0",
   "description": "wangEditor code-highlight module",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "contributors": [],
@@ -41,7 +41,7 @@
     "url": "https://github.com/wangeditor-team/wangEditor-v5/issues"
   },
   "peerDependencies": {
-    "@wangeditor/core": "0.x",
+    "@wangeditor/core": "1.x",
     "dom7": "^3.0.0",
     "slate": "^0.72.0",
     "snabbdom": "^3.1.0"

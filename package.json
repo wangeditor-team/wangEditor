@@ -7,7 +7,7 @@
     "dev": "sh build/build-all.sh dev",
     "build": "sh build/build-all.sh",
     "bootstrap": "lerna bootstrap --use-workspaces",
-    "release:version": "git pull origin main && lerna version --conventional-commits --no-changelog && node ./scripts/release-tag.js",
+    "release:version": "git pull origin main && lerna version --conventional-commits && node ./scripts/release-tag.js",
     "release:publish:experimental": "lerna publish --dist-tag experimental",
     "release:publish:canary": "lerna publish --canary",
     "release:next": "yarn prerelease && lerna publish --dist-tag next",
