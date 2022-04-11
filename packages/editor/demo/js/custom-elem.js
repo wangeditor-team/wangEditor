@@ -105,13 +105,13 @@
       rightContainer.className = 'right-container'
       if (LANG === 'en') {
         rightContainer.innerHTML = `
-        <a href="https://www.wangeditor.com/v5/en/">Document</a>
+        <a href="https://www.wangeditor.com/en/">Document</a>
         &nbsp;
         <a href="https://github.com/wangeditor-team/wangEditor-v5/tree/main/packages/editor/demo">Source</a>
       `
       } else {
         rightContainer.innerHTML = `
-        <a href="https://www.wangeditor.com/v5/">文档</a>
+        <a href="https://www.wangeditor.com/">文档</a>
         &nbsp;
         <a href="https://github.com/wangeditor-team/wangEditor-v5/tree/main/packages/editor/demo">源码</a>
       `
@@ -209,21 +209,21 @@ const MENU_CONF = [
     },
   },
   {
-    'zh-CN': { text: 'Vue2 demo', link: 'https://www.wangeditor.com/v5/guide/for-frame.html#vue2' },
-    en: { text: 'Vue2 demo', link: 'https://www.wangeditor.com/v5/en/guide/for-frame.html#vue2' },
+    'zh-CN': { text: 'Vue2 demo', link: 'https://www.wangeditor.com/v5/for-frame.html#vue2' },
+    en: { text: 'Vue2 demo', link: 'https://www.wangeditor.com/en/v5/for-frame.html#vue2' },
   },
   {
-    'zh-CN': { text: 'Vue3 demo', link: 'https://www.wangeditor.com/v5/guide/for-frame.html#vue3' },
-    en: { text: 'Vue3 demo', link: 'https://www.wangeditor.com/v5/en/guide/for-frame.html#vue3' },
+    'zh-CN': { text: 'Vue3 demo', link: 'https://www.wangeditor.com/v5/for-frame.html#vue3' },
+    en: { text: 'Vue3 demo', link: 'https://www.wangeditor.com/en/v5/for-frame.html#vue3' },
   },
   {
     'zh-CN': {
       text: 'React demo',
-      link: 'https://www.wangeditor.com/v5/guide/for-frame.html#react',
+      link: 'https://www.wangeditor.com/v5/for-frame.html#react',
     },
     en: {
       text: 'React demo',
-      link: 'https://www.wangeditor.com/v5/en/guide/for-frame.html#react',
+      link: 'https://www.wangeditor.com/en/v5/for-frame.html#react',
     },
   },
   {

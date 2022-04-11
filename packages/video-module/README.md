@@ -1,3 +1,3 @@
 # wangEditor video-module
 
-Video module built in [wangEditor](https://www.wangeditor.com/v5/) by default.
+Video module built in [wangEditor](https://www.wangeditor.com/) by default.

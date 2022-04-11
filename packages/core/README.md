@@ -1,6 +1,6 @@
 # wangEditor core
 
-[wangEditor](https://www.wangeditor.com/v5/) core.
+[wangEditor](https://www.wangeditor.com/) core.
 
 ## Main Functionalities
 - View（ model -> vdom -> DOM ） + Selection
