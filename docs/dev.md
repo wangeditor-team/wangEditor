@@ -11,7 +11,7 @@
 
 ### 打包
 
-- 下载代码到本地，进入 `wangEditor-v5` 目录
+- 下载代码到本地，进入 `wangEditor` 目录
 - 安装所有依赖 `yarn bootstrap`
 - 打包所有模块 `yarn dev` 或者 `yarn build`
 

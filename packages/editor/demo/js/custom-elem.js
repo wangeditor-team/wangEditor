@@ -107,13 +107,13 @@
         rightContainer.innerHTML = `
         <a href="https://www.wangeditor.com/en/">Document</a>
         &nbsp;
-        <a href="https://github.com/wangeditor-team/wangEditor-v5/tree/main/packages/editor/demo">Source</a>
+        <a href="https://github.com/wangeditor-team/wangEditor/tree/master/packages/editor/demo">Source</a>
       `
       } else {
         rightContainer.innerHTML = `
         <a href="https://www.wangeditor.com/">文档</a>
         &nbsp;
-        <a href="https://github.com/wangeditor-team/wangEditor-v5/tree/main/packages/editor/demo">源码</a>
+        <a href="https://github.com/wangeditor-team/wangEditor/tree/master/packages/editor/demo">源码</a>
       `
       }
 
@@ -161,21 +161,21 @@ const MENU_CONF = [
   {
     'zh-CN': {
       text: '上传图片',
-      link: 'http://106.12.198.214:8882/main/examples/upload-image.html',
+      link: 'http://106.12.198.214:8882/master/examples/upload-image.html',
     },
     en: {
       text: 'Upload Image',
-      link: 'http://106.12.198.214:8882/main/examples/upload-image.html?lang=en',
+      link: 'http://106.12.198.214:8882/master/examples/upload-image.html?lang=en',
     },
   },
   {
     'zh-CN': {
       text: '上传视频',
-      link: 'http://106.12.198.214:8882/main/examples/upload-video.html',
+      link: 'http://106.12.198.214:8882/master/examples/upload-video.html',
     },
     en: {
       text: 'Upload Video',
-      link: 'http://106.12.198.214:8882/main/examples/upload-video.html?lang=en',
+      link: 'http://106.12.198.214:8882/master/examples/upload-video.html?lang=en',
     },
   },
   {
@@ -201,11 +201,11 @@ const MENU_CONF = [
   {
     'zh-CN': {
       text: 'Shadow DOM',
-      link: 'http://106.12.198.214:8882/main/examples/shadow-dom.html',
+      link: 'http://106.12.198.214:8882/master/examples/shadow-dom.html',
     },
     en: {
       text: 'Shadow DOM',
-      link: 'http://106.12.198.214:8882/main/examples/shadow-dom.html?lang=en',
+      link: 'http://106.12.198.214:8882/master/examples/shadow-dom.html?lang=en',
     },
   },
   {

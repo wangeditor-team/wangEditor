@@ -116,7 +116,7 @@ export async function insertLink(editor: IDomEditor, text: string, url: string) 
     const linkNode = genLinkNode(parsedUrl, text)
     Transforms.insertNodes(editor, linkNode)
 
-    // https://github.com/wangeditor-team/wangEditor-v5/issues/332
+    // https://github.com/wangeditor-team/wangEditor/issues/332
     // 不能直接使用 insertText, 会造成添加的空格被添加到链接文本中，参考上面 issue，替换为 insertFragment 方式添加空格
     editor.insertFragment([{ text: ' ' }])
   } else {

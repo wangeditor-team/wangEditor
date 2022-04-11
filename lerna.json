@@ -18,7 +18,7 @@
     }
   },
   "changelog": {
-    "repo": "wangeditor-team/wangEditor-v5",
+    "repo": "wangeditor-team/wangEditor",
     "labels": {
       "tag: new feature": ":rocket: New Feature",
       "tag: breaking change": ":boom: Breaking Change",
