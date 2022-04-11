@@ -14,7 +14,7 @@
     },
     "version": {
       "message": "chore(release): publish",
-      "allowBranch": "main"
+      "allowBranch": "master"
     }
   },
   "changelog": {
