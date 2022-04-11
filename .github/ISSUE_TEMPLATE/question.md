@@ -13,7 +13,7 @@ about: 请按照该模板填写，以便我们能真正了解你的问题，否�
 
 ## 是否查阅了文档 ？
 
-（文档链接 [doc.wangEditor.com](https://doc.wangeditor.com/) ）
+（文档链接 [www.wangeditor.com](https://www.wangeditor.com/) ）
 
 *是/否*
 
@@ -24,4 +24,3 @@ about: 请按照该模板填写，以便我们能真正了解你的问题，否�
 - 步骤一
 - 步骤二
 - 步骤三
-
