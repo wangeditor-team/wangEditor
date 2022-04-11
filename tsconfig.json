@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "ES2015",
+    "lib": [
+      "es6",
+      "dom",
+      "esnext"
+    ],
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "jsxFactory": "jsx", /* snabbdom jsx */
+    "downlevelIteration": true,
+    "allowJs": true
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "__tests__"
+  ],
+  "include": ["./tests/setup/index.ts", "./packages/custom-types.d.ts"]
+}

@@ -1,0 +1,70 @@
+{
+  "name": "@wangeditor/core",
+  "version": "1.0.0",
+  "description": "wangEditor core",
+  "author": "wangfupeng1988 <wangfupeng1988@163.com>",
+  "contributors": [],
+  "homepage": "https://github.com/wangeditor-team/wangEditor-v5#readme",
+  "license": "MIT",
+  "types": "dist/core/src/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "browser": {
+    "./dist/index.js": "./dist/index.js",
+    "./dist/index.esm.js": "./dist/index.esm.js"
+  },
+  "directories": {
+    "lib": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangeditor-team/wangEditor-v5.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "test-c": "jest --coverage",
+    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js",
+    "dev-watch": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "dev-size-stats": "cross-env NODE_ENV=development:size_stats rollup -c rollup.config.js",
+    "size-stats": "cross-env NODE_ENV=production:size_stats rollup -c rollup.config.js"
+  },
+  "bugs": {
+    "url": "https://github.com/wangeditor-team/wangEditor-v5/issues"
+  },
+  "peerDependencies": {
+    "@uppy/core": "^2.1.1",
+    "@uppy/xhr-upload": "^2.0.3",
+    "dom7": "^3.0.0",
+    "is-hotkey": "^0.2.0",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.foreach": "^4.5.0",
+    "lodash.isequal": "^4.5.0",
+    "lodash.throttle": "^4.1.1",
+    "lodash.toarray": "^4.4.0",
+    "nanoid": "^3.2.0",
+    "slate": "^0.72.0",
+    "snabbdom": "^3.1.0"
+  },
+  "dependencies": {
+    "@types/event-emitter": "^0.3.3",
+    "event-emitter": "^0.3.5",
+    "html-void-elements": "^2.0.0",
+    "i18next": "^20.4.0",
+    "scroll-into-view-if-needed": "^2.2.28",
+    "slate-history": "^0.66.0"
+  },
+  "devDependencies": {
+    "@types/is-hotkey": "^0.1.2"
+  }
+}

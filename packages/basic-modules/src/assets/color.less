@@ -1,0 +1,42 @@
+@import "../../../vars.less";
+
+.w-e-panel-content-color {
+  list-style: none;
+  text-align: left;
+  width: 230px;
+
+  li {
+    display: inline-block;
+    padding: 2px;
+    cursor: pointer;
+    border-radius: 3px 3px;
+    border: 1px solid @toolbar-bg-color;
+
+    &:hover {
+      border-color: @toolbar-color;
+    }
+
+    .color-block {
+      width: 17px;
+      height: 17px;
+      border: 1px solid @toolbar-border-color;
+      border-radius: 3px 3px;
+    }
+  }
+
+  .active {
+    border-color: @toolbar-color;
+  }
+
+  .clear {
+    width: 100%;
+    line-height: 1.5;
+    margin-bottom: 5px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      margin-bottom: -4px;
+    }
+  }
+}

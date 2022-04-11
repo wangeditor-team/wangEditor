@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>huge doc</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>huge doc 大文件</p>
+
+  <!-- 编辑器 -->
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area" style="height: 800px;"></div>
+  </div>
+
+  <!-- 内容状态 -->
+  <p style="background-color: #f1f1f1;">
+    当前文字数量：<span id="total-length"></span>；
+    选中文字数量：<span id="selected-length"></span>；
+    选中文字："<span id="selected-text"></span>"
+  </p>
+
+  <script src="./js/huge-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    const editorConfig = { MENU_CONF: {} }
+    editorConfig.placeholder = '请输入内容'
+    editorConfig.onChange = (editor) => {
+      // 选中文字
+      const selectionText = editor.getSelectionText()
+      document.getElementById('selected-text').innerHTML = selectionText
+      document.getElementById('selected-length').innerHTML = selectionText.length
+      // 全部文字
+      document.getElementById('total-length').innerHTML = editor.getText().length
+    }
+
+    const editor = E.createEditor({
+      selector: '#editor-text-area',
+      content: window.content2,
+      config: editorConfig
+    })
+    const toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+    })
+  </script>
+</body>
+</html>

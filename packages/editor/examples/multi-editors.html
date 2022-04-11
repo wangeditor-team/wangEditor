@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>多编辑器 demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+  <style>
+    .container {
+      display: flex;
+    }
+    .container-item {
+      flex: 1;
+      margin: 0 5px;
+      max-width: 50%;
+    }
+  </style>
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>多编辑器 demo</p>
+
+  <div class="container">
+    <div class="container-item">
+      <div id="editor-toolbar-1" class="editor-toolbar"></div>
+      <div id="editor-text-area-1" class="editor-text-area"></div>
+      <div id="content-view-1" class="editor-content-view"></div>
+    </div>
+    <div class="container-item">
+      <div id="editor-toolbar-2" class="editor-toolbar"></div>
+      <div id="editor-text-area-2" class="editor-text-area"></div>
+      <div id="content-view-2" class="editor-content-view"></div>
+    </div>
+  </div>
+
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    // --------------------- editor1 ---------------------
+    const editorConfig1 = { MENU_CONF: {} }
+    editorConfig1.placeholder = '请输入内容1...'
+    editorConfig1.MENU_CONF['uploadImage'] = {
+      server: 'http://106.12.198.214:3000/api/upload-img',
+      fieldName: 'index-1-fileName'
+    }
+    editorConfig1.onChange = (editor) => {
+      Promise.resolve().then(() => {
+        document.getElementById('content-view-1').innerHTML = editor1.getHtml()
+      })
+    }
+
+    const editor1 = E.createEditor({
+      selector: '#editor-text-area-1',
+      config: editorConfig1,
+      content: [{ type: 'paragraph', children: [{ text: '编辑器1' }] }]
+    })
+    const toolbar1 = E.createToolbar({
+      editor: editor1,
+      selector: '#editor-toolbar-1',
+      config: {}
+    })
+
+
+    // --------------------- editor2 ---------------------
+    const editorConfig2 = { MENU_CONF: {} }
+    editorConfig2.placeholder = '请输入内容2...'
+    editorConfig2.hoverbarKeys = {
+      // 禁用部分 hoverbar
+      'link': [],
+      'table': []
+    }
+    editorConfig2.MENU_CONF['uploadImage'] = {
+      server: 'http://106.12.198.214:3000/api/upload-img',
+      fieldName: 'index-2-fileName'
+    }
+    editorConfig2.onChange = (editor) => {
+      Promise.resolve().then(() => {
+        document.getElementById('content-view-2').innerHTML = editor2.getHtml()
+      })
+    }
+
+    const editor2 = E.createEditor({
+      selector: '#editor-text-area-2',
+      config: editorConfig2,
+      content: [{ type: 'paragraph', children: [{ text: '编辑器2' }] }],
+      mode: 'simple'
+    })
+    const toolbar2 = E.createToolbar({
+      editor: editor2,
+      selector: '#editor-toolbar-2',
+      mode: 'simple'
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>maxLength demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>maxLength（慎用，可能影响性能）</p>
+
+  <!-- 编辑器 -->
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <!-- 内容状态 -->
+  <p style="background-color: #f1f1f1;">
+    当前文字数量：<span id="total-length"></span>；
+    选中文字数量：<span id="selected-length"></span>；
+    选中文字："<span id="selected-text"></span>"
+  </p>
+
+  <!-- 显示内容 -->
+  <div id="editor-content-view" class="editor-content-view"></div>
+
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    const editorConfig = { MENU_CONF: {} }
+    editorConfig.placeholder = '请输入内容'
+
+    editorConfig.maxLength = 100 // 慎用，可能影响性能，需在文档中说明
+    editorConfig.onMaxLength = (editor) => {
+      console.log('onMaxLength')
+    }
+
+    editorConfig.onChange = (editor) => {
+      const html = editor.getHtml()
+      document.getElementById('editor-content-view').innerHTML = html
+
+      // 选中文字
+      const selectionText = editor.getSelectionText()
+      document.getElementById('selected-text').innerHTML = selectionText
+      document.getElementById('selected-length').innerHTML = selectionText.length
+      // 全部文字
+      document.getElementById('total-length').innerHTML = editor.getText().length
+    }
+
+    const editor = E.createEditor({
+      selector: '#editor-text-area',
+      // content: window.content1,
+      config: editorConfig
+    })
+    const toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+    })
+  </script>
+</body>
+</html>

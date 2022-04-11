@@ -1,0 +1,30 @@
+@import "../../../vars.less"; // var and mixin
+
+.w-e-bar {
+  background-color: @toolbar-bg-color;
+  padding: 0 5px;
+  font-size: @size;
+  color: @toolbar-color;
+
+  svg {
+    width: @size;
+    height: @size;
+    fill: @toolbar-color;
+  }
+}
+.w-e-bar-show {
+  display: flex;
+}
+.w-e-bar-hidden {
+  display: none;
+}
+
+.w-e-hover-bar {
+  position: absolute;
+  .shadowBordered();
+}
+
+.w-e-toolbar {
+  flex-wrap: wrap;
+  position: relative;
+}

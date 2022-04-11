@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {},
+  "include": [
+    "./src/**/*",
+    "../custom-types.d.ts"
+  ]
+}

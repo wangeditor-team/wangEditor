@@ -1,0 +1,142 @@
+@import "../../../vars.less"; // var and mixin
+
+.w-e-bar-divider {
+  display: inline-flex;
+  width: 1px;
+  height: @toolbar-height;
+  background-color: @toolbar-border-color; // 分割线 bgColor
+  margin: 0 5px;
+}
+
+.w-e-bar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4px;
+  height: @toolbar-height;
+
+  button {
+    border: none;
+    background: transparent;
+    height: calc(@toolbar-height - 8px);
+    padding: 0 8px;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: @toolbar-color;
+    white-space: nowrap; /* 不换行 */
+    overflow: hidden;
+
+    &:hover {
+      background-color: @toolbar-active-bg-color;
+      color: @toolbar-active-color;
+    }
+
+    .title {
+      margin-left: 5px;
+    }
+  }
+
+  .active {
+    background-color: @toolbar-active-bg-color;
+    color: @toolbar-active-color;
+  }
+
+  .disabled {
+    color: @toolbar-disabled-color;
+    cursor: not-allowed;
+
+    svg {
+      fill: @toolbar-disabled-color;
+    }
+
+    &:hover {
+      background-color: @toolbar-bg-color;
+      color: @toolbar-disabled-color;
+  
+      svg {
+        fill: @toolbar-disabled-color;
+      }
+    }
+  }
+}
+
+// ------------------------------------- 分割线 -------------------------------------
+
+// tooltip - bottom
+.w-e-menu-tooltip-v5 {
+  &:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    background-color: @toolbar-active-color; // tooltip 颜色反转，黑底白字
+    color: @toolbar-bg-color;  // tooltip 颜色反转，黑底白字
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.6s;
+    font-size: 0.75em;
+    visibility: hidden;
+    top: @toolbar-height;
+    white-space: pre;
+  }
+  // arrow
+  &:after {
+    content: "";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+    opacity: 0;
+    transition: opacity 0.6s;
+    border-color:  transparent transparent @toolbar-active-color transparent;
+    visibility: hidden;
+    top: 30px;
+  }
+  &:hover:before,
+  &:hover:after {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+// tooltip - right
+.w-e-menu-tooltip-v5.tooltip-right {
+  &:before {
+    left: 100%;
+    top: 10px;
+  }
+  // arrow
+  &:after {
+    left: 100%;
+    margin-left: -10px;
+    top: 16px;
+    border-color:  transparent @toolbar-active-color transparent transparent;
+  }
+}
+
+// ------------------------------------- 分割线 -------------------------------------
+
+// barItem group
+.w-e-bar-item-group {
+  .w-e-bar-item-menus-container {
+    display: none; /* 默认隐藏 */
+
+    z-index: 1;
+    background-color: @toolbar-bg-color;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: @toolbar-height;
+    .shadowBordered(10px);
+  }
+  &:hover {
+    /* hover 时显示下级菜单 */
+    .w-e-bar-item-menus-container {
+      display: block;
+    }
+  }
+}
+

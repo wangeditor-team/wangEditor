@@ -1,0 +1,74 @@
+{
+  "name": "@wangeditor/editor",
+  "version": "5.0.0",
+  "description": "Web rich text editor, Web 富文本编辑器",
+  "keywords": [
+    "wangeditor",
+    "rich text",
+    "editor",
+    "富文本",
+    "编辑器"
+  ],
+  "author": "wangfupeng1988 <wangfupeng1988@163.com>",
+  "contributors": [],
+  "homepage": "https://www.wangeditor.com/",
+  "license": "MIT",
+  "types": "dist/editor/src/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "browser": {
+    "./dist/index.js": "./dist/index.js",
+    "./dist/index.esm.js": "./dist/index.esm.js"
+  },
+  "directories": {
+    "lib": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangeditor-team/wangEditor-v5.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "test-c": "jest --coverage",
+    "example": "concurrently \"yarn dev-watch\" \"http-server -p 8881 -c-1\" ",
+    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js",
+    "dev-watch": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "dev-size-stats": "cross-env NODE_ENV=development:size_stats rollup -c rollup.config.js",
+    "size-stats": "cross-env NODE_ENV=production:size_stats rollup -c rollup.config.js"
+  },
+  "bugs": {
+    "url": "https://github.com/wangeditor-team/wangEditor-v5/issues"
+  },
+  "dependencies": {
+    "@uppy/core": "^2.1.1",
+    "@uppy/xhr-upload": "^2.0.3",
+    "@wangeditor/basic-modules": "^1.0.0",
+    "@wangeditor/code-highlight": "^1.0.0",
+    "@wangeditor/core": "^1.0.0",
+    "@wangeditor/list-module": "^1.0.0",
+    "@wangeditor/table-module": "^1.0.0",
+    "@wangeditor/upload-image-module": "^1.0.0",
+    "@wangeditor/video-module": "^1.0.0",
+    "dom7": "^3.0.0",
+    "is-hotkey": "^0.2.0",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.foreach": "^4.5.0",
+    "lodash.isequal": "^4.5.0",
+    "lodash.throttle": "^4.1.1",
+    "lodash.toarray": "^4.4.0",
+    "nanoid": "^3.2.0",
+    "slate": "^0.72.0",
+    "snabbdom": "^3.1.0"
+  }
+}

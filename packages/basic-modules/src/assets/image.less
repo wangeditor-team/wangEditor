@@ -1,0 +1,58 @@
+@import "../../../vars.less";
+
+// 拖拽，修改图片尺寸
+.w-e-text-container [data-slate-editor] {
+  .w-e-image-container {
+    display: inline-block;
+    margin: 0 10px;
+
+    &:hover {
+      box-shadow: 0 0 0 2px @textarea-selected-border-color;
+    }
+  }
+  .w-e-selected-image-container {
+    position: relative;
+    overflow: hidden;
+
+    .w-e-image-dragger {
+      width: 7px;
+      height: 7px;
+      background-color: @textarea-handler-bg-color;
+      position: absolute;
+    }
+    .left-top {
+      top: 0;
+      left: 0;
+      cursor: nwse-resize;
+    }
+    .right-top {
+      top: 0;
+      right: 0;
+      cursor: nesw-resize;
+    }
+    .left-bottom {
+      left: 0;
+      bottom: 0;
+      cursor: nesw-resize;
+    }
+    .right-bottom {
+      right: 0;
+      bottom: 0;
+      cursor: nwse-resize;
+    }
+
+    // 选中之后，不需要 hover 效果
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+
+// 禁用编辑器时，img hover 不要有样式
+.w-e-text-container [contenteditable="false"] {
+  .w-e-image-container {
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}

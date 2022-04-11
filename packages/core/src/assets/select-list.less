@@ -1,0 +1,52 @@
+@import "../../../vars.less"; // var and mixin
+
+
+.w-e-select-list {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: @toolbar-bg-color;
+  margin-top: @toolbar-height;
+  min-width: 100px;
+  .shadowBordered(10px);
+
+  max-height: 350px;
+  overflow-y: auto;
+
+  ul {
+    list-style: none;
+    line-height: 1;
+
+    .selected {
+      background-color: @toolbar-active-bg-color;
+    }
+    li {
+      cursor: pointer;
+      padding: 7px 0 7px 25px;
+      position: relative;
+      text-align: left;
+      white-space: nowrap; /* 不换行 */
+
+      &:hover {
+        background-color: @toolbar-active-bg-color;
+      }
+
+      svg {
+        position: absolute;
+        left: 0;
+        margin-left: 5px;
+        top: 50%;
+        margin-top: -7px;
+      }
+    }
+  }
+}
+
+// 当 bar 处于页面下方，则 selectList 要显示在 bar 上方
+.w-e-bar-bottom .w-e-select-list {
+  top: inherit;
+  bottom: 0;
+  margin-top: 0;
+  margin-bottom: @toolbar-height;
+}

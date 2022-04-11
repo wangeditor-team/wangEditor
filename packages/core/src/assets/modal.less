@@ -1,0 +1,86 @@
+@import "../../../vars.less"; // var and mixin
+
+.w-e-modal {
+  z-index: 1;
+  background-color: @toolbar-bg-color;
+  position: absolute;
+  padding: 20px 15px 0 15px;
+  min-width: 100px;
+  min-height: 40px;
+  color: @toolbar-color;
+  text-align: left;
+  font-size: @size;
+  .shadowBordered(10px);
+
+  .btn-close {
+    position: absolute;
+    right: 8px;
+    top: 7px;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+
+    svg {
+      width: 10px;
+      height: 10px;
+      fill: @toolbar-color;
+    }
+  }
+
+  .babel-container {
+    display: block;
+    margin-bottom: 15px;
+
+    span {
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+
+  .button-container {
+    margin-bottom: 15px;
+  }
+
+  button {
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    user-select: none;
+    touch-action: manipulation;
+    height: 32px;
+    padding: 4.5px 15px;
+    color: @toolbar-color;
+    background-color: @modal-button-bg-color;
+    text-align: center;
+    border: 1px solid @modal-button-border-color;
+    border-radius: 4px;
+  }
+
+  textarea,
+  input[type="text"],
+  input[type="number"] {
+    font-variant: tabular-nums;
+    font-feature-settings: "tnum";
+    padding: 4.5px 11px;
+    color: @toolbar-color;
+    background-color: @toolbar-bg-color;
+    border: 1px solid @modal-button-border-color;
+    border-radius: 4px;
+    transition: all .3s;
+    width: 100%;
+  }
+
+  textarea {
+    min-height: 60px;
+  }
+}
+
+// modal 有可能直接 append 到 <body> 下面
+body .w-e-modal {
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+}

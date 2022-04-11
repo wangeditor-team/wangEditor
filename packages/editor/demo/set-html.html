@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor set HTML</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+  <link href="./css/layout.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+
+  <script src="./js/custom-elem.js"></script>
+</head>
+
+<body>
+  <demo-nav title="wangEditor set HTML"></demo-nav>
+  <div class="page-container">
+    <div class="page-left">
+      <demo-menu></demo-menu>
+    </div>
+    <div class="page-right">
+      <textarea id="editor-content-textarea" style="width: 100%; height: 100px; outline: none;"></textarea>
+      <div style="margin-top: 10px;">
+        <button id="btn-set-html">Set HTML</button>
+      </div>
+
+      <!-- 编辑器 DOM -->
+      <div style="border: 1px solid #ccc; margin-top: 20px;">
+        <div id="editor-toolbar" style="border-bottom: 1px solid #ccc;"></div>
+        <div id="editor-text-area" style="height: 350px"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    // 切换语言
+    const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+    E.i18nChangeLanguage(LANG)
+
+    window.editor = E.createEditor({
+      selector: '#editor-text-area',
+      html: '<p>编辑器创建时的默认内容。</p><p>Default content set when editor created.</p><p><br></p>',
+      config: {
+        placeholder: 'Type here...',
+        MENU_CONF: {
+          uploadImage: {
+            fieldName: 'your-fileName',
+            base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
+          }
+        },
+        onChange(editor) {
+          const html = editor.getHtml()
+          console.log(html)
+        }
+      }
+    })
+
+    window.toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+      config: {}
+    })
+
+    // textarea 初始化值
+    const textarea = document.getElementById('editor-content-textarea')
+    textarea.value = '<p>wangEditor 只识别 editor.getHtml() 生成的 html 格式，不可以随意自定义 html 代码（html 格式太灵活了，不会全部兼容）</p>\n<p>wangEditor can only understand the HTML format from editor.getHtml() , but not all HTML formats.</p>\n<p><br></p>'
+
+    // Set HTML
+    document.getElementById('btn-set-html').addEventListener('click', () => {
+      if (editor.isDisabled()) editor.enable()
+      if (!editor.isFocused()) editor.focus()
+
+      editor.select([])
+      editor.deleteFragment()
+
+      E.SlateTransforms.setNodes(editor, { type: 'paragraph' }, { mode: 'highest' })
+      editor.dangerouslyInsertHtml(textarea.value)
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12.x
+          registry-url: https://registry.npmjs.com
+
+      - name: Install dependencies
+        run: yarn run bootstrap
+
+      - name: Build packages
+        run: yarn build
+
+      - name: Unit test
+        run: yarn run test 
+
+      - name: E2E test
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          start: yarn run example
+          wait-on: 'http://localhost:8881/examples/default-mode.html'   
+
+      - name: Publish npm
+        run: yarn run release:publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor code highlight</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/layout.css" rel="stylesheet">
+
+  <script src="./js/custom-elem.js"></script>
+
+  <!-- 引入 prism css -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism.css" rel="stylesheet">
+</head>
+
+<body>
+  <demo-nav title="wangEditor code highlight"></demo-nav>
+  <div class="page-container">
+    <div class="page-left">
+      <demo-menu></demo-menu>
+    </div>
+    <div class="page-right">
+
+      <!-- 静态 -->
+      <div style="border: 1px solid #ccc; padding: 0 10px; border-radius: 5px;">
+        <p>wangEditor 输出的 Javascript 代码：</p>
+        <pre><code class="language-javascript">const a = 100;
+function fn(x) { return x + 10 };
+// 注释
+</code></pre>
+
+        <p>wangEditor 输出的 HTML 代码：</p>
+        <pre><code class="language-html">&lt;div&gt;text1&lt;/div&gt;</code></pre>
+      </div>
+
+      <!-- 动态 -->
+      <div id="content-container"
+        style="border: 1px solid #ccc; padding: 0 10px; margin-top: 15px; border-radius: 5px;"></div>
+      <div style="margin-top: 15px;">
+        <button id="btn-render">Dynamic render HTML</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 引入 prism js -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/plugins/autoloader/prism-autoloader.min.js"></script>
+
+  <script>
+    const html = `<p>wangEditor&nbsp;输入的 Javascript 代码：</p><pre><code class="language-javascript">function fn(a) {
+  if (typeof a === 'number') {
+      return a + 100 // comments
+  }
+  return 0
+}</code></pre><p><br></p>`
+
+    document.getElementById('btn-render').addEventListener('click', () => {
+      document.getElementById('content-container').innerHTML = html
+      Prism.highlightAll()
+    })
+
+  </script>
+</body>
+
+</html>

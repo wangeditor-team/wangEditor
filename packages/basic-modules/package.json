@@ -1,0 +1,57 @@
+{
+  "name": "@wangeditor/basic-modules",
+  "version": "1.0.0",
+  "description": "wangEditor basic modules",
+  "author": "wangfupeng1988 <wangfupeng1988@163.com>",
+  "contributors": [],
+  "homepage": "https://github.com/wangeditor-team/wangEditor-v5#readme",
+  "license": "MIT",
+  "types": "dist/basic-modules/src/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "browser": {
+    "./dist/index.js": "./dist/index.js",
+    "./dist/index.esm.js": "./dist/index.esm.js"
+  },
+  "directories": {
+    "lib": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangeditor-team/wangEditor-v5.git"
+  },
+  "scripts": {
+    "test": "jest",
+    "test-c": "jest --coverage",
+    "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js",
+    "dev-watch": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "dev-size-stats": "cross-env NODE_ENV=development:size_stats rollup -c rollup.config.js",
+    "size-stats": "cross-env NODE_ENV=production:size_stats rollup -c rollup.config.js"
+  },
+  "bugs": {
+    "url": "https://github.com/wangeditor-team/wangEditor-v5/issues"
+  },
+  "peerDependencies": {
+    "@wangeditor/core": "1.x",
+    "dom7": "^3.0.0",
+    "lodash.throttle": "^4.1.1",
+    "nanoid": "^3.2.0",
+    "slate": "^0.72.0",
+    "snabbdom": "^3.1.0"
+  },
+  "dependencies": {
+    "is-url": "^1.2.4"
+  },
+  "devDependencies": {
+    "@types/is-url": "^1.2.29"
+  }
+}

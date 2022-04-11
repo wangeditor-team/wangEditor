@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>simple mode</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>simple mode</p>
+  <p>
+    <b>bold</b>
+    <a href="./default-mode.html">default mode</a>
+  </p>
+
+  <!-- 编辑器 -->
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <div style="margin-top: 20px;">
+    <textarea id="text-content" readonly style="width: 100%; height: 500px;"></textarea>
+  </div>
+
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    // editor 配置
+    const editorConfig = {}
+    editorConfig.placeholder = '请输入内容123...'
+    editorConfig.onChange = (editor) => {
+      const contentStr = JSON.stringify(editor.children, null, 2)
+      document.getElementById('text-content').innerHTML = contentStr
+      console.log(editor.getHtml())
+    }
+
+    const editor = E.createEditor({
+      selector: '#editor-text-area',
+      config: editorConfig,
+      // content: window.content1,
+      // html: '<p>hello</p>',
+      mode: 'simple'
+    })
+
+    const toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+      config: {},
+      mode: 'simple'
+    })
+  </script>
+</body>
+</html>

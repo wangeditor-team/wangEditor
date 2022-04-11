@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wangEditor 仿腾讯文档</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+  <style>
+    html,
+    body {
+      background-color: #fff;
+      height: 100%;
+      overflow: hidden;
+      color: #333;
+    }
+
+    #top-container {
+      border-bottom: 1px solid #e8e8e8;
+      padding-left: 30px;
+    }
+
+    #editor-toolbar {
+      width: 1350px;
+      background-color: #FCFCFC;
+      margin: 0 auto;
+    }
+
+    #content {
+      height: calc(100% - 40px);
+      background-color: rgb(245, 245, 245);
+      overflow-y: auto;
+      position: relative;
+    }
+
+    #editor-container {
+      width: 850px;
+      margin: 30px auto 150px auto;
+      background-color: #fff;
+      padding: 20px 50px 50px 50px;
+      border: 1px solid #e8e8e8;
+      box-shadow: 0 2px 10px rgb(0 0 0 / 12%);
+    }
+
+    #title-container {
+      padding: 20px 0;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    #title-container input {
+      font-size: 30px;
+      border: 0;
+      outline: none;
+      width: 100%;
+      line-height: 1;
+    }
+
+    #editor-text-area {
+      min-height: 900px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="top-container">
+    <p>
+      <a href="./index.html">&lt;&lt; 返回 Back to demo</a>
+    </p>
+  </div>
+  <div style="border-bottom: 1px solid #e8e8e8;">
+    <div id="editor-toolbar"></div>
+  </div>
+  <div id="content">
+    <div id="editor-container">
+      <div id="title-container">
+        <input placeholder="Page title...">
+      </div>
+      <div id="editor-text-area"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    // 切换语言
+    const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+    E.i18nChangeLanguage(LANG)
+
+    const editorConfig = {
+      placeholder: 'Type here...',
+      scroll: false, // 禁止编辑器滚动
+      MENU_CONF: {
+        uploadImage: {
+          fieldName: 'your-fileName',
+          base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
+        }
+      },
+      onChange(editor) {
+        console.log(editor.getHtml())
+      }
+    }
+
+    // 先创建 editor
+    const editor = E.createEditor({
+      selector: '#editor-text-area',
+      content: [],
+      // html: '',
+      config: editorConfig
+    })
+
+    // 创建 toolbar
+    const toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+      config: {
+        excludeKeys: 'fullScreen',
+      }
+    })
+
+    // 点击空白处 focus 编辑器
+    document.getElementById('editor-text-area').addEventListener('click', e => {
+      if (e.target.id === 'editor-text-area') {
+        editor.blur()
+        editor.focus(true) // focus 到末尾
+      }
+    })
+  </script>
+</body>
+
+</html>

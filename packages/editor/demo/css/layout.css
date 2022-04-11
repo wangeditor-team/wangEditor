@@ -1,0 +1,18 @@
+/* body {
+  margin: 20px;
+} */
+
+.page-container {
+  margin-top: 15px;
+  display: flex;
+}
+
+.page-left {
+  width: 150px;
+  padding: 0 10px;
+}
+
+.page-right {
+  padding: 0 10px;
+  flex: 1;
+}

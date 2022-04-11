@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>menu config demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>menu 配置，包括：hoverbar toolbar</p>
+
+  <!-- 编辑器 -->
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+    const DomEditor = window.wangEditor.DomEditor
+
+    const editorConfig = { MENU_CONF: {} }
+    editorConfig.placeholder = '请输入内容'
+
+    editorConfig.hoverbarKeys = {
+      text: {
+        menuKeys: ['bold', 'insertLink'],
+      },
+      'link': {
+        menuKeys: ['editLink', 'unLink', 'viewLink'],
+      },
+      'image': {
+        menuKeys: [
+          'imageWidth30',
+          'imageWidth50',
+          'imageWidth100',
+          'editImage',
+          'viewImageLink',
+          'deleteImage',
+        ],
+      }
+      // 其他参考 https://github.com/wangeditor-team/wangEditor-v5/blob/main/packages/editor/src/config/hoverbar.ts
+    }
+
+    // 各个菜单的配置
+    editorConfig.MENU_CONF['color'] = {
+      colors: ['#000', '#333', '#999', '#ccc']
+    }
+    editorConfig.MENU_CONF['fontSize'] = {
+      fontSizeList: ['12px', '16px', '24px', '40px']
+    }
+    // 其他菜单配置项可通过 editor.getMenuConfig(menuKey) 查询，然后使用 editorConfig.MENU_CONF[menuKey] 修改
+
+    const editor = E.createEditor({
+      selector: '#editor-text-area',
+      content: window.content1,
+      config: editorConfig
+    })
+    const toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+      config: {
+        toolbarKeys: [
+          '|', // 第一个是 `|` 不显示
+          'headerSelect',
+          'blockquote',
+          '|', '|', '|', // 多个紧挨者的 `|` 只显示一个
+          'bold',
+          'underline',
+          'italic',
+          {
+            key: 'group-more-style', // 以 group 开头
+            title: '更多样式',
+            iconSvg: '<svg viewBox="0 0 1024 1024"><path d="M204.8 505.6m-76.8 0a76.8 76.8 0 1 0 153.6 0 76.8 76.8 0 1 0-153.6 0Z"></path><path d="M505.6 505.6m-76.8 0a76.8 76.8 0 1 0 153.6 0 76.8 76.8 0 1 0-153.6 0Z"></path><path d="M806.4 505.6m-76.8 0a76.8 76.8 0 1 0 153.6 0 76.8 76.8 0 1 0-153.6 0Z"></path></svg>',
+            menuKeys: ['through', 'code'],
+          },
+          'color',
+          'bgColor',
+          'clearStyle',
+          '|',
+          'fontSize',
+          'fontFamily',
+          'lineHeight',
+          '|',
+          'undo',
+          'redo',
+          '|', // 最后一个是 `|` 不显示
+        ],
+        // insertKeys: {
+        //   index: 5,
+        //   keys: ['insertImage', 'insertVideo']
+        // },
+        // excludeKeys: ['headerSelect', 'underline', 'clearStyle', 'fontFamily', 'group-image']
+      },
+    })
+  </script>
+</body>
+</html>

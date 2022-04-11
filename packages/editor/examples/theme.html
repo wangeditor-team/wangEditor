@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+  <link href="../dist/css/style.css" rel="stylesheet">
+  <style>
+    html.dark  {
+      --w-e-textarea-bg-color: #999;
+    }
+  </style>
+</head>
+<body>
+  <p>
+    Theme
+    <button id="btn1">切换主题</button>
+  </p>
+
+  <!-- 编辑器 -->
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+    const editorConfig = {
+      placeholder: '请输入内容...',
+      MENU_CONF: {}
+    }
+    editorConfig.MENU_CONF['uploadImage'] = {
+      server: 'http://106.12.198.214:3000/api/upload-img',
+      fieldName: 'custom-fileName',
+    }
+    const editor = E.createEditor({
+      selector: '#editor-text-area',
+      config: editorConfig,
+      content: window.content1
+    })
+    const toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+      config: {}
+    })
+
+    document.getElementById('btn1').addEventListener('mousedown', e => {
+      e.preventDefault()
+      e.stopPropagation()
+
+      const html = document.getElementsByTagName('html')[0]
+      if (html == null) return
+
+      const curClass = html.getAttribute('class')
+      if (curClass) {
+        html.removeAttribute('class')
+      } else {
+        html.setAttribute('class', 'dark')
+      }
+    })
+  </script>
+</body>
+</html>

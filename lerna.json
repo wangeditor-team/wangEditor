@@ -1,0 +1,33 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "version": "independent",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "command": {
+    "publish": {
+      "ignoreChanges": ["ignored-file", "*.md"],
+      "message": "chore(release): publish",
+      "conventionalCommits": true,
+      "registry": "https://npm.pkg.github.com" 
+    },
+    "version": {
+      "message": "chore(release): publish",
+      "allowBranch": "main"
+    }
+  },
+  "changelog": {
+    "repo": "wangeditor-team/wangEditor-v5",
+    "labels": {
+      "tag: new feature": ":rocket: New Feature",
+      "tag: breaking change": ":boom: Breaking Change",
+      "tag: bug fix": ":bug: Bug Fix",
+      "tag: enhancement": ":nail_care: Enhancement",
+      "tag: documentation": ":memo: Documentation",
+      "tag: internal": ":house: Internal"
+    },
+    "cacheDir": ".changelog"
+  },
+  "changelogPreset": "angular"
+}

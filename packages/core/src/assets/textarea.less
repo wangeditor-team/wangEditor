@@ -1,0 +1,63 @@
+@import "../../../vars.less"; // var and mixin
+
+.w-e-text-container {
+  color: @textarea-color;
+  background-color: @textarea-bg-color;
+  position: relative;
+  height: 100%;
+}
+
+.w-e-text-container .w-e-scroll {
+  height: 100%;
+  // overflow-y: auto; // 在 js 中设置，根据 config 判断是否增加 scroll
+  -webkit-overflow-scrolling: touch;
+}
+
+.w-e-text-container [data-slate-editor] {
+  outline: 0;
+  white-space: pre-wrap; /* 【重要】可以显示空格，在连续多空格的情况下 */
+  word-wrap: break-word;
+  padding: 0 10px;
+  border-top: 1px solid transparent; // 防止 margin-top 溢出
+  min-height: 100%;
+
+  p {
+    margin: 15px 0;
+  }
+  h1,h2,h3,h4,h5 {
+    margin: 20px 0 20px 0;
+  }
+
+  img {
+    max-width: 100%;
+    min-width: 20px;
+    min-height: 20px;
+    cursor: default;
+    display: inline !important;
+  }
+
+  // 选中的节点
+  [data-selected="true"] {
+    box-shadow: 0 0 0 2px @textarea-selected-border-color;
+  }
+}
+
+.w-e-text-placeholder {
+  color: @textarea-slight-color;
+  position: absolute;
+  font-style: italic;
+  width: 90%;
+  left: 10px;
+  top: 17px;
+  pointer-events: none; // 忽略鼠标行为，重要
+  user-select: none;
+}
+
+.w-e-max-length-info {
+  position: absolute;
+  color: @textarea-slight-color;
+  bottom: 0.5em;
+  right: 1em;
+  pointer-events: none; // 忽略鼠标行为，重要
+  user-select: none;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>destroy demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/view.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <p>执行大量循环，频繁执行 创建/销毁 ，监控内存是否明显增加</p>
+  <p>循环次数 <input id="input-num" type="number" value="100" /> <button id="btn-go">开始</button></p>
+  <p>可使用 Chrome devTools 的 Performance 和 Memory 工具来检测 js 内存</p>
+  <!-- 编辑器 -->
+  <div style="width: 950px; margin: 0 auto;">
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+</body>
+
+<script src="js/init-content.js"></script>
+<script src="../dist/index.js"></script>
+<script>
+  (function () {
+    const E = window.wangEditor
+
+    document.getElementById('btn-go')?.addEventListener('click', () => {
+      let editor, toolbar
+
+      // ----------------------------- editor config -----------------------------
+      const editorConfig = {}
+      editorConfig.placeholder = '请输入内容'
+      editorConfig.onCreated = (editor) => {
+        console.log('on created', editor.id)
+      }
+      editorConfig.onDestroyed = (editor) => {
+        console.log('on destroyed', editor.id)
+      }
+
+      // ----------------------------- 获取 循环次数 -----------------------------
+      const maxNum = parseInt(document.getElementById('input-num').value)
+      if (!maxNum) {
+        console.error('循环次数，值非法 ', maxNum)
+        return
+      }
+      if (maxNum >= 1000) {
+        console.error('循环次数太多，耗时会比较长！')
+        return
+      }
+
+      // ----------------------------- 开始循环 -----------------------------
+      console.log('go...')
+      let num = 0
+      const intervalId = setInterval(() => {
+        if (num >= maxNum) {
+          clearInterval(intervalId)
+          return
+        }
+
+        if (editor == null) {
+          console.log('createCore', num)
+
+          // 先创建 editor 再创建 toolbar
+          editor = E.createEditor({
+            selector: '#editor-text-area',
+            config: editorConfig,
+            content: window.content1
+          })
+          toolbar = E.createToolbar({
+            editor,
+            selector: '#editor-toolbar'
+          })
+        } else {
+          console.log('destroyCore', num)
+          editor.destroy()
+          editor = null
+          num++ // 计数
+        }
+      }, 100)
+      console.log('end...')
+    })
+  })()
+</script>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New menu</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <p>New menu</p>
+  <p>
+    <button id="btn-create">create editor</button>
+    <button id="btn-destroy">destroy editor</button>
+  </p>
+
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    // ---------- 注册新菜单 start ----------
+    class MyButtonMenu {
+        constructor() {
+            this.title = 'menu1',
+            this.tag = 'button'
+        }
+        getValue() { return '' }
+        isActive() { return false }
+        isDisabled() { return false }
+        exec(editor) {
+            console.log(editor)
+            alert('menu1 exec')
+        }
+    }
+    const menuConf = {
+      key: 'my-menu-1', // menu key ，唯一。注册之后，需通过 toolbarKeys 配置到工具栏
+      factory() {
+        return new MyButtonMenu()
+      },
+    }
+    E.Boot.registerMenu(menuConf)
+    // ---------- 注册新菜单 end ----------
+
+    // editor 配置
+    const editorConfig = {
+      placeholder: '请输入内容...',
+      onChange(editor) {}
+    }
+
+    // toolbar 配置
+    const toolbarConfig = {
+        // toolbarKeys: ['headerSelect', 'bold', 'my-menu-1'],
+        // excludeKeys: [],
+        insertKeys: {
+            index: 3,
+            keys: 'my-menu-1'
+        }
+    }
+
+    let editor, toolbar
+
+    // create
+    document.getElementById('btn-create').addEventListener('click', () => {
+      editor = E.createEditor({
+        selector: '#editor-text-area',
+        config: editorConfig
+      })
+
+      toolbar = E.createToolbar({
+        editor,
+        selector: '#editor-toolbar',
+        config: toolbarConfig,
+      })
+    })
+
+    // destroy
+    document.getElementById('btn-destroy').addEventListener('click', () => {
+      editor.destroy()
+      editor = null
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>headers demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <p id="p1">获取标题、滚动到标题</p>
+
+  <!-- 编辑器 -->
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+  <!-- 显示 headers -->
+  <div style="margin-top: 20px;">
+    <div style="margin-bottom: 10px;">
+      <input id="input-id" placeholder="header id" />
+      <button id="btn-scroll-to">scrollTo</button>
+    </div>
+    <textarea readonly id="text-headers" style="width: 800px; height: 400px;"></textarea>
+  </div>
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="js/init-content.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    const editorConfig = {}
+    editorConfig.onCreated = (editor) => {
+      console.log('on created', editor)
+    }
+    editorConfig.onChange = (editor) => {
+      // 获取并展示 headers
+      const headers = editor.getElemsByTypePrefix('header')
+      $('#text-headers').val(JSON.stringify(headers, null, 4))
+    }
+
+    // 先创建 editor ，再创建 toolbar
+    const editor = E.createEditor({
+      selector: '#editor-text-area',
+      config: editorConfig,
+      content: window.content1
+    })
+    const toolbar =E.createToolbar({
+      editor,
+      selector: '#editor-toolbar'
+    })
+    
+    // scrollTo
+    const $inputId = $('#input-id')
+    $('#btn-scroll-to').on('click', () => {
+      const id = $inputId.val()
+      editor.scrollToElem(id)
+      $inputId.val('')
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+@import "../../../vars.less";
+
+.w-e-text-container [data-slate-editor] {
+  table {
+    border-collapse: collapse;
+
+    td,th {
+      border: 1px solid @textarea-border-color;
+      padding: 3px 5px;
+      min-width: 50px;
+      text-align: left;
+      line-height: 1.5;
+    }
+    th {
+      background-color: @textarea-slight-bg-color;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  // 宽度 100%
+  table.full-width {
+    width: 100%;
+
+    td.th {
+      min-width: 0;
+    }
+  }
+}
+
+// --------------------------------- 分割线 ---------------------------------
+
+.w-e-panel-content-table {
+  background-color: @toolbar-bg-color;
+
+  table {
+    border-collapse: collapse;
+  }
+
+  td {
+    border: 1px solid @toolbar-border-color;
+    padding: 3px 5px;
+    width: 20px;
+    height: 15px;
+    cursor: pointer;
+  }
+  td.active {
+    background-color: @toolbar-active-bg-color;
+  }
+}

@@ -1,0 +1,33 @@
+// 注意：css vars 全部都定义在 packages/editor/src/assets/index.less
+
+@size: 14px;
+
+// textarea - less vars
+@textarea-color: var(--w-e-textarea-color);
+@textarea-bg-color: var(--w-e-textarea-bg-color);
+@textarea-selected-border-color: var(--w-e-textarea-selected-border-color);
+@textarea-slight-color: var(--w-e-textarea-slight-color);
+@textarea-slight-bg-color: var(--w-e-textarea-slight-bg-color);
+@textarea-border-color: var(--w-e-textarea-border-color);
+@textarea-slight-border-color: var( --w-e-textarea-slight-border-color);
+@textarea-handler-bg-color: var(--w-e-textarea-handler-bg-color);
+
+// toolbar - less vars
+@toolbar-color: var(--w-e-toolbar-color);
+@toolbar-bg-color: var(--w-e-toolbar-bg-color);
+@toolbar-active-color: var(--w-e-toolbar-active-color);
+@toolbar-active-bg-color: var(--w-e-toolbar-active-bg-color);
+@toolbar-disabled-color: var(--w-e-toolbar-disabled-color);
+@toolbar-border-color: var(--w-e-toolbar-border-color);
+@toolbar-height: 40px;
+
+// modal - less vars
+@modal-button-bg-color: var(--w-e-modal-button-bg-color);
+@modal-button-border-color: var(--w-e-modal-button-border-color);
+
+// less mixins
+.shadowBordered(@shadowRadius: 5px) {
+  border: 1px solid @toolbar-border-color;
+  border-radius: 3px;
+  box-shadow: 0 2px @shadowRadius #0000001f;
+}
