@@ -26,7 +26,7 @@ describe('image render elem', () => {
   it('render image - unselected image', () => {
     expect(renderImageConf.type).toBe('image')
 
-    const src = 'http://www.wangeditor.com/imgs/logo.jpeg'
+    const src = 'https://www.wangeditor.com/imgs/logo.png'
     const href = 'https://www.wangeditor.com/'
     const elem = {
       type: 'image',
@@ -50,7 +50,7 @@ describe('image render elem', () => {
   })
 
   it('render image - selected image', () => {
-    const src = 'http://www.wangeditor.com/imgs/logo.jpeg'
+    const src = 'https://www.wangeditor.com/imgs/logo.png'
     const href = 'https://www.wangeditor.com/'
     const elem = {
       type: 'image',

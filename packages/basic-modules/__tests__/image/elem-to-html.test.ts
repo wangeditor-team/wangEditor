@@ -9,7 +9,7 @@ describe('image to html', () => {
   it('to html', () => {
     expect(imageToHtmlConf.type).toBe('image')
 
-    const src = 'http://www.wangeditor.com/imgs/logo.jpeg'
+    const src = 'https://www.wangeditor.com/imgs/logo.png'
     const href = 'https://www.wangeditor.com/'
     const elem = {
       type: 'image',

@@ -16,7 +16,7 @@ describe('image helper', () => {
   let editor: any
   let startLocation: any
 
-  const src = 'http://www.wangeditor.com/imgs/logo.jpeg'
+  const src = 'https://www.wangeditor.com/imgs/logo.png'
   const alt = 'logo'
   const href = 'https://www.wangeditor.com/'
 

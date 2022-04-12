@@ -42,7 +42,7 @@ window.content1 = [
       { text: '图片' },
       {
         type: 'image',
-        src: 'http://www.wangeditor.com/imgs/logo.jpeg',
+        src: 'https://www.wangeditor.com/imgs/logo.png',
         children: [{ text: '' }], // void node 要有一个空 text
       },
       { text: 'image' },
