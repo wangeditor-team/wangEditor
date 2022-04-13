@@ -209,6 +209,10 @@ const MENU_CONF = [
     },
   },
   {
+    'zh-CN': { text: '扩展菜单', link: './extend-menu.html' },
+    en: { text: 'Extend menu', link: './extend-menu.html?lang=en' },
+  },
+  {
     'zh-CN': { text: 'Vue2 demo', link: 'https://www.wangeditor.com/v5/for-frame.html#vue2' },
     en: { text: 'Vue2 demo', link: 'https://www.wangeditor.com/en/v5/for-frame.html#vue2' },
   },
