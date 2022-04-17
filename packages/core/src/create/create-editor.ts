@@ -28,6 +28,7 @@ import {
   HOVER_BAR_TO_EDITOR,
   EDITOR_TO_HOVER_BAR,
 } from '../utils/weak-maps'
+import { SELECTOR_TO_EDITOR } from '../utils/maps'
 import bindNodeRelation from './bind-node-relation'
 import $ from '../utils/dom'
 import parseElemHtml from '../parse-html/parse-elem-html'
@@ -54,10 +55,18 @@ export default function (option: Partial<ICreateOption>) {
       withEmitter(withSelection(withContent(withConfig(withDOM(withEventData(createEditor()))))))
     )
   )
+
   if (selector) {
+    const storeEditor = SELECTOR_TO_EDITOR.get(selector)
+    // 如果是已经存在的创建过的直接返回存储的那个
+    if (storeEditor) {
+      return storeEditor
+    }
     // 检查是否对同一个 DOM 重复创建
     if (isRepeatedCreateTextarea(editor, selector)) {
       throw new Error(`Repeated create editor by selector '${selector}'`)
+    } else {
+      SELECTOR_TO_EDITOR.set(selector, editor)
     }
   }
 
