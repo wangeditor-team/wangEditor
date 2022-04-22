@@ -16,9 +16,7 @@ export const IS_FIREFOX =
 
 export const IS_FIREFOX_LEGACY =
   typeof navigator !== 'undefined' &&
-  /^(?!.*Seamonkey)(?=.*Firefox\/(?:[0-7][0-9]|[0-8][0-6])(?:\.)).*/i.test(
-    navigator.userAgent
-  )
+  /^(?!.*Seamonkey)(?=.*Firefox\/(?:[0-7][0-9]|[0-8][0-6])(?:\.)).*/i.test(navigator.userAgent)
 
 export const IS_SAFARI =
   typeof navigator !== 'undefined' && /Version\/[\d\.]+.*Safari/.test(navigator.userAgent) // eslint-disable-line
