@@ -33,14 +33,18 @@ export const withContent = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
   const { onChange, insertText, apply, deleteBackward } = e
 
+  e.insertText = (text: string) => {
+    const { readOnly } = e.getConfig()
+    if (readOnly) return
+
+    insertText(text)
+  }
+
   // 重写 apply 方法
   // apply 方法非常重要，它最终执行 operation https://docs.slatejs.org/concepts/05-operations
   // operation 的接口定义参考 slate src/interfaces/operation.ts
   e.apply = (op: Operation) => {
     const matches: [Path, Key][] = []
-
-    const { readOnly } = e.getConfig()
-    if (readOnly) return
 
     switch (op.type) {
       case 'insert_text':
