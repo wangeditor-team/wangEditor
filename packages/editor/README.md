@@ -11,4 +11,4 @@
 
 交流
 - [提交问题和建议](https://github.com/wangeditor-team/wangEditor/issues)
-- 加入 QQ 群 `681464059`
+- 加入 QQ 群（[官网](https://www.wangeditor.com/)有群号）
