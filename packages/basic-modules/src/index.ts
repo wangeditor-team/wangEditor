@@ -25,6 +25,7 @@ import wangEditorUndoRedoModule from './modules/undo-redo'
 import wangEditorDividerModule from './modules/divider'
 import wangEditorCodeBlockModule from './modules/code-block'
 import wangEditorFullScreenModule from './modules/full-screen'
+import wangEditorCommonModule from './modules/common'
 
 export default [
   // text style
@@ -55,6 +56,7 @@ export default [
   // command
   wangEditorUndoRedoModule,
   wangEditorFullScreenModule,
+  wangEditorCommonModule,
 ]
 
 // 输出 image 操作，供 updateImageModule 使用

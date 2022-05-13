@@ -3,9 +3,13 @@
  * @author wangfupeng
  */
 
-import { Transforms } from 'slate'
+import { Transforms, Element } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { CustomElement } from '../../../custom-types'
+
+function genEmptyP(): Element {
+  return { type: 'paragraph', children: [{ text: '' }] }
+}
 
 function withVideo<T extends IDomEditor>(editor: T): T {
   const { isVoid, normalizeNode } = editor
@@ -28,20 +32,13 @@ function withVideo<T extends IDomEditor>(editor: T): T {
 
     // ----------------- video 后面必须跟一个 p header blockquote -----------------
     if (type === 'video') {
-      const topLevelNodes = newEditor.children || []
-      const nextNode = topLevelNodes[path[0] + 1] || {}
-      const nextNodeType = DomEditor.getNodeType(nextNode)
-      if (
-        nextNodeType !== 'paragraph' &&
-        nextNodeType !== 'blockquote' &&
-        !nextNodeType.startsWith('header')
-      ) {
-        // video node 后面不是 p 或 header ，则插入一个空 p
-        const p = { type: 'paragraph', children: [{ text: '' }] }
-        const insertPath = [path[0] + 1]
-        Transforms.insertNodes(newEditor, p, {
-          at: insertPath, // 在后面插入
-        })
+      const editorChildren = newEditor.children
+      const editorChildrenLength = editorChildren.length
+      const isLastNode = editorChildren[editorChildrenLength - 1] === node
+
+      if (isLastNode) {
+        // -------------- video 是 editor 最后一个节点，需要后面插入 p --------------
+        Transforms.insertNodes(newEditor, genEmptyP(), { at: [path[0] + 1] })
       }
     }
 

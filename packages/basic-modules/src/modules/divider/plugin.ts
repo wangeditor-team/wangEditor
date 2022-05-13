@@ -6,6 +6,10 @@
 import { Transforms, Element } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
+function genEmptyP(): Element {
+  return { type: 'paragraph', children: [{ text: '' }] }
+}
+
 function withDivider<T extends IDomEditor>(editor: T): T {
   const { isVoid, normalizeNode } = editor
   const newEditor = editor
@@ -29,23 +33,13 @@ function withDivider<T extends IDomEditor>(editor: T): T {
       return normalizeNode([node, path])
     }
 
-    // editor 顶级 node
-    const topLevelNodes = newEditor.children || []
+    const editorChildren = newEditor.children
+    const editorChildrenLength = editorChildren.length
+    const isLastNode = editorChildren[editorChildrenLength - 1] === node
 
-    // --------------------- divider 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------
-    const nextNode = topLevelNodes[path[0] + 1] || {}
-    const { type: nextNodeType = '' } = nextNode as Element
-    if (
-      nextNodeType !== 'paragraph' &&
-      nextNodeType !== 'blockquote' &&
-      !nextNodeType.startsWith('header')
-    ) {
-      // divider node 后面不是 p 或 header ，则插入一个空 p
-      const p = { type: 'paragraph', children: [{ text: '' }] }
-      const insertPath = [path[0] + 1]
-      Transforms.insertNodes(newEditor, p, {
-        at: insertPath, // 在分割线后面插入
-      })
+    if (isLastNode) {
+      // -------------- divider 是 editor 最后一个节点，需要后面插入 p --------------
+      Transforms.insertNodes(newEditor, genEmptyP(), { at: [path[0] + 1] })
     }
   }
 

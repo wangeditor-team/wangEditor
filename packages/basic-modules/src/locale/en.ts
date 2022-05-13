@@ -8,6 +8,7 @@ export default {
   common: {
     ok: 'OK',
     delete: 'Delete',
+    enter: 'Enter',
   },
 
   blockQuote: {

@@ -125,25 +125,13 @@ function withTable<T extends IDomEditor>(editor: T): T {
       // 未命中 table ，执行默认的 normalizeNode
       return normalizeNode([node, path])
     }
-    const { children: rows = [] } = node as SlateElement
     const topLevelNodes = newEditor.children || []
     const topLevelNodesLength = topLevelNodes.length
-
-    const isFirstNode = topLevelNodes[0] === node
     const isLastNode = topLevelNodes[topLevelNodesLength - 1] === node
 
-    if (isFirstNode && !isLastNode) {
-      // -------------- table 仅是 editor 第一个节点，需要前面插入 p --------------
-      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: path })
-    }
-    if (isLastNode && !isFirstNode) {
-      // -------------- table 仅是 editor 最后一个节点，需要后面插入 p --------------
+    if (isLastNode) {
+      // -------------- table 是 editor 最后一个节点，需要后面插入 p --------------
       Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: [path[0] + 1] })
-    }
-    if (isFirstNode && isLastNode) {
-      // -------------- table 是 editor 唯一一个节点，需要前后都插入 p --------------
-      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: path })
-      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: [path[0] + 2] })
     }
 
     // --------------------- table 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------
