@@ -749,4 +749,11 @@ export const DomEditor = {
     const editorChildrenLength = editorChildren.length
     return editorChildren[editorChildrenLength - 1] === node
   },
+
+  /**
+   * 生成空白 paragraph
+   */
+  genEmptyParagraph(): Element {
+    return { type: 'paragraph', children: [{ text: '' }] }
+  },
 }

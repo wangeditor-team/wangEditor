@@ -15,11 +15,6 @@ import {
   Path,
 } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-// import $ from '../utils/dom'
-
-function genEmptyParagraph(): SlateElement {
-  return { type: 'paragraph', children: [{ text: '' }] }
-}
 
 // table cell 内部的删除处理
 function deleteHandler(newEditor: IDomEditor): boolean {
@@ -98,7 +93,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
         const topLevelNodesLength = topLevelNodes.length
         // 在最后一个单元格按tab时table末尾如果没有p则插入p后光标切到p上
         if (DomEditor.checkNodeType(topLevelNodes[topLevelNodesLength - 1], 'table')) {
-          const p = genEmptyParagraph()
+          const p = DomEditor.genEmptyParagraph()
           Transforms.insertNodes(newEditor, p, { at: [topLevelNodesLength] })
           // 在表格末尾插入p后再次执行使光标切到p上
           newEditor.handleTab()
@@ -129,7 +124,8 @@ function withTable<T extends IDomEditor>(editor: T): T {
     // -------------- table 是 editor 最后一个节点，需要后面插入 p --------------
     const isLast = DomEditor.isLastNode(newEditor, node)
     if (isLast) {
-      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: [path[0] + 1] })
+      const p = DomEditor.genEmptyParagraph()
+      Transforms.insertNodes(newEditor, p, { at: [path[0] + 1] })
     }
   }
 

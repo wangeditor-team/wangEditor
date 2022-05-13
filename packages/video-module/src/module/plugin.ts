@@ -3,13 +3,9 @@
  * @author wangfupeng
  */
 
-import { Transforms, Element } from 'slate'
+import { Transforms } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { CustomElement } from '../../../custom-types'
-
-function genEmptyP(): Element {
-  return { type: 'paragraph', children: [{ text: '' }] }
-}
 
 function withVideo<T extends IDomEditor>(editor: T): T {
   const { isVoid, normalizeNode } = editor
@@ -35,7 +31,7 @@ function withVideo<T extends IDomEditor>(editor: T): T {
       // -------------- video 是 editor 最后一个节点，需要后面插入 p --------------
       const isLast = DomEditor.isLastNode(newEditor, node)
       if (isLast) {
-        Transforms.insertNodes(newEditor, genEmptyP(), { at: [path[0] + 1] })
+        Transforms.insertNodes(newEditor, DomEditor.genEmptyParagraph(), { at: [path[0] + 1] })
       }
     }
 

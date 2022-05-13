@@ -7,10 +7,6 @@ import { Editor, Transforms, Node as SlateNode, Element as SlateElement } from '
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { checkList } from './helper'
 
-function genEmptyP(): SlateElement {
-  return { type: 'paragraph', children: [{ text: '' }] }
-}
-
 function deleteHandler(newEditor: IDomEditor): boolean {
   const [nodeEntry] = Editor.nodes(newEditor, {
     match: n => newEditor.children[0] === n, // editor 第一个节点
@@ -67,7 +63,7 @@ function withList<T extends IDomEditor>(editor: T): T {
           match: n => DomEditor.checkNodeType(n, 'list-item'),
         })
         const emptyParagraphPath = [selection.anchor.path[0] + 1] // 在 ul/ol 的下一行
-        Transforms.insertNodes(newEditor, genEmptyP(), {
+        Transforms.insertNodes(newEditor, DomEditor.genEmptyParagraph(), {
           at: emptyParagraphPath,
         })
         newEditor.select({ path: emptyParagraphPath.concat(0), offset: 0 }) // 选中空行的文字

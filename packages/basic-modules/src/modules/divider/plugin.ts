@@ -6,10 +6,6 @@
 import { Transforms, Element } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
-function genEmptyP(): Element {
-  return { type: 'paragraph', children: [{ text: '' }] }
-}
-
 function withDivider<T extends IDomEditor>(editor: T): T {
   const { isVoid, normalizeNode } = editor
   const newEditor = editor
@@ -36,7 +32,7 @@ function withDivider<T extends IDomEditor>(editor: T): T {
     // -------------- divider 是 editor 最后一个节点，需要后面插入 p --------------
     const isLast = DomEditor.isLastNode(newEditor, node)
     if (isLast) {
-      Transforms.insertNodes(newEditor, genEmptyP(), { at: [path[0] + 1] })
+      Transforms.insertNodes(newEditor, DomEditor.genEmptyParagraph(), { at: [path[0] + 1] })
     }
   }
 

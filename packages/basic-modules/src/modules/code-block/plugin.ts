@@ -6,10 +6,6 @@
 import { Editor, Transforms, Node as SlateNode, Element as SlateElement } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 
-function genEmptyP(): SlateElement {
-  return { type: 'paragraph', children: [{ text: '' }] }
-}
-
 function getLastTextLineBeforeSelection(codeNode: SlateNode, editor: IDomEditor): string {
   const selection = editor.selection
   if (selection == null) return ''
@@ -64,7 +60,7 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
       // -------------- pre 是 editor 最后一个节点，需要后面插入 p --------------
       const isLast = DomEditor.isLastNode(newEditor, node)
       if (isLast) {
-        Transforms.insertNodes(newEditor, genEmptyP(), { at: [path[0] + 1] })
+        Transforms.insertNodes(newEditor, DomEditor.genEmptyParagraph(), { at: [path[0] + 1] })
       }
 
       // -------------- pre 下面必须是 code --------------
