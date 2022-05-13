@@ -125,43 +125,11 @@ function withTable<T extends IDomEditor>(editor: T): T {
       // 未命中 table ，执行默认的 normalizeNode
       return normalizeNode([node, path])
     }
-    const topLevelNodes = newEditor.children || []
-    const topLevelNodesLength = topLevelNodes.length
-    const isLastNode = topLevelNodes[topLevelNodesLength - 1] === node
 
-    if (isLastNode) {
-      // -------------- table 是 editor 最后一个节点，需要后面插入 p --------------
+    // -------------- table 是 editor 最后一个节点，需要后面插入 p --------------
+    const isLast = DomEditor.isLastNode(newEditor, node)
+    if (isLast) {
       Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: [path[0] + 1] })
-    }
-
-    // --------------------- table 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------
-    const nextNode = topLevelNodes[path[0] + 1] || {}
-    if (SlateElement.isElement(nextNode)) {
-      const { type: nextNodeType = '' } = nextNode
-      if (
-        nextNodeType !== 'paragraph' &&
-        nextNodeType !== 'blockquote' &&
-        !nextNodeType.startsWith('header')
-      ) {
-        // table node 后面不是 p 或 header ，则插入一个空 p
-        const p = genEmptyParagraph()
-        const insertPath = [path[0] + 1]
-        Transforms.insertNodes(newEditor, p, {
-          at: insertPath, // 在表格后面插入
-        })
-      }
-    }
-
-    // --------------------- table 前面不能是 table 或者 void（否则前面插入 p） ---------------------
-    const prevNode = topLevelNodes[path[0] - 1] || {}
-    if (SlateElement.isElement(prevNode)) {
-      const prevNodeType = DomEditor.getNodeType(prevNode)
-      if (prevNodeType === 'table' || newEditor.isVoid(prevNode)) {
-        const p = genEmptyParagraph()
-        Transforms.insertNodes(newEditor, p, {
-          at: path, // 在表格前面插入
-        })
-      }
     }
   }
 

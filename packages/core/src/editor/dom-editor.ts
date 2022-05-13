@@ -738,4 +738,15 @@ export const DomEditor = {
       }
     }
   },
+
+  /**
+   * 是否是编辑器里最后一个元素
+   * @param editor editor
+   * @param node node
+   */
+  isLastNode(editor: IDomEditor, node: Node) {
+    const editorChildren = editor.children || []
+    const editorChildrenLength = editorChildren.length
+    return editorChildren[editorChildrenLength - 1] === node
+  },
 }

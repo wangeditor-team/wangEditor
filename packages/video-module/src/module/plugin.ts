@@ -32,12 +32,9 @@ function withVideo<T extends IDomEditor>(editor: T): T {
 
     // ----------------- video 后面必须跟一个 p header blockquote -----------------
     if (type === 'video') {
-      const editorChildren = newEditor.children
-      const editorChildrenLength = editorChildren.length
-      const isLastNode = editorChildren[editorChildrenLength - 1] === node
-
-      if (isLastNode) {
-        // -------------- video 是 editor 最后一个节点，需要后面插入 p --------------
+      // -------------- video 是 editor 最后一个节点，需要后面插入 p --------------
+      const isLast = DomEditor.isLastNode(newEditor, node)
+      if (isLast) {
         Transforms.insertNodes(newEditor, genEmptyP(), { at: [path[0] + 1] })
       }
     }

@@ -61,12 +61,9 @@ function withCodeBlock<T extends IDomEditor>(editor: T): T {
     }
 
     if (type === 'pre') {
-      const editorChildren = newEditor.children
-      const editorChildrenLength = editorChildren.length
-      const isLastNode = editorChildren[editorChildrenLength - 1] === node
-
-      if (isLastNode) {
-        // -------------- pre 是 editor 最后一个节点，需要后面插入 p --------------
+      // -------------- pre 是 editor 最后一个节点，需要后面插入 p --------------
+      const isLast = DomEditor.isLastNode(newEditor, node)
+      if (isLast) {
         Transforms.insertNodes(newEditor, genEmptyP(), { at: [path[0] + 1] })
       }
 
