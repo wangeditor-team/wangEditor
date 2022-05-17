@@ -309,5 +309,43 @@ export const withContent = <T extends Editor>(editor: T) => {
     $div.remove()
   }
 
+  /**
+   * 重置 HTML 内容
+   * @param html html string
+   */
+  e.setHtml = (html: string = '') => {
+    if (!html) return
+
+    // 记录编辑器当前状态
+    const isEditorDisabled = e.isDisabled()
+    const isEditorFocused = e.isFocused()
+    const editorSelectionStr = JSON.stringify(e.selection)
+
+    // 删除并重新设置 HTML
+    e.enable()
+    e.focus()
+    e.select([])
+    e.deleteFragment()
+    Transforms.setNodes(editor, { type: 'paragraph' }, { mode: 'highest' })
+    e.dangerouslyInsertHtml(html)
+
+    // 恢复编辑器状态
+    if (!isEditorFocused) {
+      e.deselect()
+      e.blur()
+    }
+    if (isEditorDisabled) {
+      e.deselect()
+      e.disable()
+    }
+    if (e.isFocused()) {
+      try {
+        e.select(JSON.parse(editorSelectionStr)) // 选中原来的位置
+      } catch (ex) {
+        e.select(Editor.start(e, [])) // 选中开始
+      }
+    }
+  }
+
   return e
 }

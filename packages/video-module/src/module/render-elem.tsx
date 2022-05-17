@@ -30,7 +30,6 @@ function renderVideo(elemNode: Element, children: VNode[] | null, editor: IDomEd
       <div
         className="w-e-textarea-video-container"
         data-selected={selected ? 'true' : ''} // 标记为 选中
-        on-click={e => console.log(123)}
       >
         <video controls>
           <source src={src} type="video/mp4" />

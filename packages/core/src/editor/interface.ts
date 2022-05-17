@@ -36,6 +36,7 @@ export interface IDomEditor extends Editor {
   isEmpty: () => boolean
   clear: () => void
   dangerouslyInsertHtml: (html: string) => void
+  setHtml: (html: string) => void
 
   // dom 相关
   id: string
