@@ -12,5 +12,7 @@ type EmptyText = {
 export type VideoElement = {
   type: 'video'
   src: string
+  width?: string
+  height?: string
   children: EmptyText[]
 }

@@ -33,7 +33,7 @@ export default async function (editor: IDomEditor, src: string) {
   // 转换 src
   let parsedSrc = await parseVideoSrc(src)
 
-  if (parsedSrc.trim().indexOf('<iframe') !== 0) {
+  if (parsedSrc.trim().indexOf('<iframe ') !== 0) {
     parsedSrc = replaceSymbols(parsedSrc)
   }
 

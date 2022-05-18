@@ -11,5 +11,8 @@ export default {
     videoSrc: 'video source',
     insertPlaceHolder: 'video file url, or third-party <iframe>',
     ok: 'Ok',
+    editSize: 'Edit size',
+    width: 'Width',
+    height: 'Height',
   },
 }

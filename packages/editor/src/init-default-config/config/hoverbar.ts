@@ -37,7 +37,7 @@ const COMMON_HOVERBAR_KEYS = {
     menuKeys: ['enter'],
   },
   video: {
-    menuKeys: ['enter'],
+    menuKeys: ['enter', 'editVideoSize'],
   },
 }
 
