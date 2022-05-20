@@ -6,7 +6,7 @@
 import { Transforms, Range } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { FULL_WIDTH_SVG } from '../../constants/svg'
-import { TableCellElement, TableRowElement, TableElement } from '../custom-types'
+import { TableElement } from '../custom-types'
 
 class TableFullWidth implements IButtonMenu {
   readonly title = t('tableModule.widthAuto')
@@ -17,7 +17,7 @@ class TableFullWidth implements IButtonMenu {
   getValue(editor: IDomEditor): string | boolean {
     const tableNode = DomEditor.getSelectedNodeByType(editor, 'table')
     if (tableNode == null) return false
-    return !!(tableNode as TableElement).fullWidth
+    return (tableNode as TableElement).width === '100%'
   }
 
   isActive(editor: IDomEditor): boolean {
@@ -39,9 +39,10 @@ class TableFullWidth implements IButtonMenu {
 
   exec(editor: IDomEditor, value: string | boolean) {
     if (this.isDisabled(editor)) return
-    const newValue = value ? null : true
 
-    const props: Partial<TableElement> = { fullWidth: newValue }
+    const props: Partial<TableElement> = {
+      width: value ? 'auto' : '100%', // 切换 'auto' 和 '100%'
+    }
     Transforms.setNodes(editor, props, { mode: 'highest' })
   }
 }

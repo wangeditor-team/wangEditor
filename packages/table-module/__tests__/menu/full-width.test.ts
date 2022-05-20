@@ -31,13 +31,13 @@ describe('Table Module Full Width Menu', () => {
     expect(fullWidthMenu.getValue(editor)).toBeFalsy()
   })
 
-  test('getValue should get truthy value if editor selected node is table with fullWidth property', () => {
+  test(`getValue should get truthy value if editor selected table's width is 100%`, () => {
     const fullWidthMenu = new FullWidth()
     const editor = createEditor()
 
     jest
       .spyOn(core.DomEditor, 'getSelectedNodeByType')
-      .mockImplementation(() => ({ fullWidth: true } as any))
+      .mockImplementation(() => ({ width: '100%' } as any))
     expect(fullWidthMenu.getValue(editor)).toBeTruthy()
   })
 

@@ -1,12 +1,13 @@
 /**
- * @description render elem
+ * @description render table
  * @author wangfupeng
  */
 
 import { Editor, Element as SlateElement, Range, Point, Path } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import { TableCellElement, TableRowElement, TableElement } from './custom-types'
+import { TableElement } from '../custom-types'
+import { getFirstRowCells } from '../helpers'
 
 /**
  * 计算 table 是否可编辑。如果选区跨域 table 和外部内容，删除，会导致 table 结构打乱。所以，有时要让 table 不可编辑
@@ -44,54 +45,51 @@ function renderTable(elemNode: SlateElement, children: VNode[] | null, editor: I
   // 是否可编辑
   const editable = getContentEditable(editor, elemNode)
 
-  // 宽度自适应
-  const { fullWidth = false } = elemNode as TableElement
-  let classNames: string[] = []
-  if (fullWidth) classNames.push('full-width')
+  // 宽度
+  const { width = 'auto' } = elemNode as TableElement
+
+  // 是否选中
+  const selected = DomEditor.isNodeSelected(editor, elemNode)
+
+  // 第一行的 cells ，以计算列宽
+  const firstRowCells = getFirstRowCells(elemNode as TableElement)
 
   const vnode = (
-    <table className={classNames.join(' ')} contentEditable={editable}>
-      <tbody>{children}</tbody>
-    </table>
+    <div
+      className="table-container"
+      data-selected={selected}
+      on={{
+        mousedown: (e: MouseEvent) => {
+          // @ts-ignore 阻止光标定位到 table 后面
+          if (e.target.tagName === 'DIV') e.preventDefault()
+
+          // 是否需要定位到 table 内部
+          const tablePath = DomEditor.findPath(editor, elemNode)
+          const tableStart = Editor.start(editor, tablePath)
+          const { selection } = editor
+          if (selection == null) {
+            editor.select(tableStart) // 选中 table 内部
+            return
+          }
+          const { path } = selection.anchor
+          if (path[0] === tablePath[0]) return // 当前选区，就在 table 内部
+
+          editor.select(tableStart) // 选中 table 内部
+        },
+      }}
+    >
+      <table width={width} contentEditable={editable}>
+        <colgroup>
+          {firstRowCells.map(cell => {
+            const { width = 'auto' } = cell
+            return <col width={width}></col>
+          })}
+        </colgroup>
+        <tbody>{children}</tbody>
+      </table>
+    </div>
   )
   return vnode
 }
 
-function renderTableRow(
-  elemNode: SlateElement,
-  children: VNode[] | null,
-  editor: IDomEditor
-): VNode {
-  const vnode = <tr>{children}</tr>
-  return vnode
-}
-
-function renderTableCell(
-  cellNode: SlateElement,
-  children: VNode[] | null,
-  editor: IDomEditor
-): VNode {
-  const { colSpan = 1, rowSpan = 1, isHeader = false } = cellNode as TableCellElement
-  const Tag = isHeader ? 'th' : 'td'
-  const vnode = (
-    <Tag colSpan={colSpan} rowSpan={rowSpan}>
-      {children}
-    </Tag>
-  )
-  return vnode
-}
-
-export const renderTableConf = {
-  type: 'table',
-  renderElem: renderTable,
-}
-
-export const renderTableRowConf = {
-  type: 'table-row',
-  renderElem: renderTableRow,
-}
-
-export const renderTableCellConf = {
-  type: 'table-cell',
-  renderElem: renderTableCell,
-}
+export default renderTable
