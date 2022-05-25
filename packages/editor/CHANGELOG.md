@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.0.1...@wangeditor/editor@5.1.0) (2022-05-25)
+
+
+### Features
+
+* editVideoSize ([375eecb](https://github.com/wangeditor-team/wangEditor/commit/375eecba826eac681268c55c47bcd922f7157d63))
+* enter menu ([988fc31](https://github.com/wangeditor-team/wangEditor/commit/988fc31f31de3d37dffbf54abb784cceb8e6118d))
+* setHtml ([f4f91b8](https://github.com/wangeditor-team/wangEditor/commit/f4f91b883298091e3679ca6b206ae0d796003772))
+
+
+
+
+
 ## 5.0.1 (2022-04-18)
 
 

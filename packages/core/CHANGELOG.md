@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.0.1...@wangeditor/core@1.1.0) (2022-05-25)
+
+
+### Bug Fixes
+
+* 修复 readonly 模式下,特定内容下editor初始化报错的问题 ([f3bc8b8](https://github.com/wangeditor-team/wangEditor/commit/f3bc8b8d485765cfa8fa7d19e530aa1a1b4bc4e2))
+* 粘贴 HTML 后 font-size font-family line-height 不显示 ([2281957](https://github.com/wangeditor-team/wangEditor/commit/2281957020a30de9cda1c5e9d5e20c6668b7f592))
+
+
+### Features
+
+* editVideoSize ([375eecb](https://github.com/wangeditor-team/wangEditor/commit/375eecba826eac681268c55c47bcd922f7157d63))
+* setHtml ([f4f91b8](https://github.com/wangeditor-team/wangEditor/commit/f4f91b883298091e3679ca6b206ae0d796003772))
+
+
+
+
+
 ## 1.0.1 (2022-04-18)
 
 

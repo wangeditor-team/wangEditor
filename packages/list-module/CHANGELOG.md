@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/list-module@1.0.1...@wangeditor/list-module@1.0.2) (2022-05-25)
+
+**Note:** Version bump only for package @wangeditor/list-module
+
+
+
+
+
 ## 1.0.1 (2022-04-18)
 
 

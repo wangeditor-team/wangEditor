@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.0.1...@wangeditor/basic-modules@1.1.0) (2022-05-25)
+
+
+### Bug Fixes
+
+* 粘贴 HTML 后 font-size font-family line-height 不显示 ([2281957](https://github.com/wangeditor-team/wangEditor/commit/2281957020a30de9cda1c5e9d5e20c6668b7f592))
+
+
+### Features
+
+* enter menu ([988fc31](https://github.com/wangeditor-team/wangEditor/commit/988fc31f31de3d37dffbf54abb784cceb8e6118d))
+
+
+
+
+
 ## 1.0.1 (2022-04-18)
 
 

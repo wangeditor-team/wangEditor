@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/table-module@1.0.1...@wangeditor/table-module@1.1.0) (2022-05-25)
+
+
+### Bug Fixes
+
+* 从表格后面删除，删除最后一个单元格 ([b327fcd](https://github.com/wangeditor-team/wangEditor/commit/b327fcd4669b1b1fad0e8b38b7d88db04c300e37))
+
+
+### Features
+
+* enter menu ([988fc31](https://github.com/wangeditor-team/wangEditor/commit/988fc31f31de3d37dffbf54abb784cceb8e6118d))
+* 表格拖拽列宽 ([46ea2c0](https://github.com/wangeditor-team/wangEditor/commit/46ea2c0f831b03ebca5fddfd59d682fed0b3476e))
+
+
+
+
+
 ## 1.0.1 (2022-04-18)
 
 

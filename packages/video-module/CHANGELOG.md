@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/video-module@1.0.1...@wangeditor/video-module@1.1.0) (2022-05-25)
+
+
+### Features
+
+* editVideoSize ([375eecb](https://github.com/wangeditor-team/wangEditor/commit/375eecba826eac681268c55c47bcd922f7157d63))
+* enter menu ([988fc31](https://github.com/wangeditor-team/wangEditor/commit/988fc31f31de3d37dffbf54abb784cceb8e6118d))
+* setHtml ([f4f91b8](https://github.com/wangeditor-team/wangEditor/commit/f4f91b883298091e3679ca6b206ae0d796003772))
+* 表格拖拽列宽 ([46ea2c0](https://github.com/wangeditor-team/wangEditor/commit/46ea2c0f831b03ebca5fddfd59d682fed0b3476e))
+
+
+
+
+
 ## 1.0.1 (2022-04-18)
 
 
