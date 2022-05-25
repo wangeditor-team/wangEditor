@@ -6,6 +6,7 @@
 import {
   Editor,
   Transforms,
+  Location,
   Point,
   Element as SlateElement,
   Descendant,
@@ -34,6 +35,26 @@ function deleteHandler(newEditor: IDomEditor): boolean {
   }
 
   return false
+}
+
+/**
+ * 判断该 location 有没有命中 table
+ * @param editor editor
+ * @param location location
+ */
+function isTableLocation(editor: IDomEditor, location: Location): boolean {
+  const tables = Editor.nodes(editor, {
+    at: location,
+    match: n => {
+      const type = DomEditor.getNodeType(n)
+      return type === 'table'
+    },
+  })
+  let hasTable = false
+  for (const table of tables) {
+    hasTable = true // 找到了 table
+  }
+  return hasTable
 }
 
 function withTable<T extends IDomEditor>(editor: T): T {
@@ -65,6 +86,19 @@ function withTable<T extends IDomEditor>(editor: T): T {
   newEditor.deleteBackward = unit => {
     const res = deleteHandler(newEditor)
     if (res) return // 命中 table cell ，自己处理删除
+
+    // 防止从 table 后面的 p 删除时，删除最后一个 cell - issues/4221
+    const { selection } = newEditor
+    if (selection) {
+      const before = Editor.before(newEditor, selection) // 前一个 location
+      if (before) {
+        const isTableOnBeforeLocation = isTableLocation(newEditor, before) // before 是否是 table
+        const isTableOnCurSelection = isTableLocation(newEditor, selection) // 当前是否是 table
+        if (isTableOnBeforeLocation && !isTableOnCurSelection) {
+          return // 如果当前不是 table ，前面是 table ，则不执行删除。否则会删除 table 最后一个 cell
+        }
+      }
+    }
 
     // 执行默认的删除
     deleteBackward(unit)
