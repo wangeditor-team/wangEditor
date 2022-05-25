@@ -7,7 +7,7 @@
   <title>code-highlight demo</title>
 
   <!-- 引入 prism css -->
-  <link href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism.css" rel="stylesheet">
+  <link href="https://unpkg.com/prismjs@latest/themes/prism.css" rel="stylesheet">
 </head>
 <body>
   <p>由 wangEditor 生成的代码，可支持代码高亮显示。使用 <a href="https://prismjs.com/" target="_blank">prism.js</a> ，支持多主题</p>
@@ -29,9 +29,9 @@
   </div>
 
   <!-- 引入 prism js -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/prism.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-core.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/plugins/autoloader/prism-autoloader.min.js"></script>
+  <script src="https://unpkg.com/prismjs@latest/prism.js"></script>
+  <script src="https://unpkg.com/prismjs@latest/components/prism-core.js"></script>
+  <script src="https://unpkg.com/prismjs@latest/plugins/autoloader/prism-autoloader.js"></script>
   <script>
     document.getElementById('btn-test').addEventListener('click', () => {
       document.getElementById('code1').innerHTML = 'const b = 200;\nfunction fn(y) { return y + 20 };\n// comment'
