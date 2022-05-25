@@ -52,6 +52,7 @@ describe('table - parse html', () => {
       isHeader: false,
       colSpan: 1,
       rowSpan: 1,
+      width: 'auto',
       children: [{ text: 'hello world' }],
     })
 
@@ -63,6 +64,7 @@ describe('table - parse html', () => {
       isHeader: true,
       colSpan: 1,
       rowSpan: 1,
+      width: 'auto',
       children,
     })
   })
@@ -92,7 +94,7 @@ describe('table - parse html', () => {
 
     expect(parseTableHtmlConf.parseElemHtml($table[0], children, editor)).toEqual({
       type: 'table',
-      fullWidth: true,
+      width: '100%',
       children,
     })
   })

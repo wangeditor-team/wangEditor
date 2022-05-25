@@ -110,6 +110,7 @@ export function getPositionByNode(
 
   // 根据 node 获取 elem
   const isVoidElem = Element.isElement(node) && editor.isVoid(node)
+  const isInlineElem = Element.isElement(node) && editor.isInline(node)
   const elem = NODE_TO_ELEMENT.get(node)
   if (elem == null) return defaultStyle // 默认 position
   let {
@@ -167,13 +168,18 @@ export function getPositionByNode(
       // 非 void node - left 和 elem left 对齐
       positionStyle.left = `${relativeLeft}px`
     } else {
-      // void node 需要计算
-      if (relativeLeft > (containerWidth - elemWidth) / 2) {
-        // elem 在 container 的右侧，则 modal 显示在 elem 左侧
-        positionStyle.right = `${containerWidth - relativeLeft + 5}px`
+      if (isInlineElem) {
+        // inline void node 需要计算
+        if (relativeLeft > (containerWidth - elemWidth) / 2) {
+          // elem 在 container 的右侧，则 modal 显示在 elem 左侧
+          positionStyle.right = `${containerWidth - relativeLeft + 5}px`
+        } else {
+          // 否则 elem 在 container 左侧，则 modal 显示在 elem 右侧
+          positionStyle.left = `${relativeLeft + elemWidth + 5}px`
+        }
       } else {
-        // 否则 elem 在 container 左侧，则 modal 显示在 elem 右侧
-        positionStyle.left = `${relativeLeft + elemWidth + 5}px`
+        // block void node 水平靠左即可
+        positionStyle.left = `20px`
       }
     }
 

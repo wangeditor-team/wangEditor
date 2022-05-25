@@ -5,7 +5,7 @@
 
 import { IModuleConf } from '@wangeditor/core'
 import withTable from './plugin'
-import { renderTableConf, renderTableRowConf, renderTableCellConf } from './render-elem'
+import { renderTableConf, renderTableRowConf, renderTableCellConf } from './render-elem/index'
 import { tableToHtmlConf, tableRowToHtmlConf, tableCellToHtmlConf } from './elem-to-html'
 import { preParseTableHtmlConf } from './pre-parse-html'
 import { parseCellHtmlConf, parseRowHtmlConf, parseTableHtmlConf } from './parse-elem-html'

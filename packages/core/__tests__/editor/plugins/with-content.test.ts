@@ -330,4 +330,42 @@ describe('editor content API', () => {
     const pList = editor.getElemsByTypePrefix('paragraph')
     expect(pList.length).toBe(2)
   })
+
+  describe('setHtml', () => {
+    it('setHtml normal', () => {
+      const editor = createEditor({ html: '<div>hello</div>' })
+      editor.select(getStartLocation(editor))
+
+      const newHtml = '<div>world</div>'
+      editor.setHtml(newHtml)
+
+      expect(editor.getHtml()).toBe(newHtml)
+    })
+
+    it('setHtml blur', () => {
+      const editor = createEditor({
+        html: '<div>hello</div>',
+        autoFocus: false,
+      })
+      expect(editor.isFocused()).toBe(false)
+
+      const newHtml = '<div>world</div>'
+      editor.setHtml(newHtml)
+
+      expect(editor.getHtml()).toBe(newHtml)
+      expect(editor.isFocused()).toBe(false)
+    })
+
+    it('setHtml disabled', () => {
+      const editor = createEditor({ html: '<div>hello</div>' })
+      editor.disable()
+      expect(editor.isDisabled()).toBe(true)
+
+      const newHtml = '<div>world</div>'
+      editor.setHtml(newHtml)
+
+      expect(editor.getHtml()).toBe(newHtml)
+      expect(editor.isDisabled()).toBe(true)
+    })
+  })
 })

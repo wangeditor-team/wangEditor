@@ -19,10 +19,11 @@ const COMMON_HOVERBAR_KEYS = {
     ],
   },
   pre: {
-    menuKeys: ['codeBlock', 'codeSelectLang'],
+    menuKeys: ['enter', 'codeBlock', 'codeSelectLang'],
   },
   table: {
     menuKeys: [
+      'enter',
       'tableHeader',
       'tableFullWidth',
       'insertTableRow',
@@ -31,6 +32,12 @@ const COMMON_HOVERBAR_KEYS = {
       'deleteTableCol',
       'deleteTable',
     ],
+  },
+  divider: {
+    menuKeys: ['enter'],
+  },
+  video: {
+    menuKeys: ['enter', 'editVideoSize'],
   },
 }
 

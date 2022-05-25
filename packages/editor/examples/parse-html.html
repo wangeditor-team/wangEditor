@@ -21,6 +21,7 @@
 
   <div style="margin: 10px 0;">
     <button id="btn-create">创建编辑器</button>
+    <button id="btn-set-html">setHtml</button>
     （如有 JS 报错，再次创建时要刷新页面）
   </div>
   <div>
@@ -48,6 +49,14 @@
         selector: '#editor-toolbar',
       })
     })
+
+      // setHtml
+      document.getElementById('btn-set-html').addEventListener('click', () => {
+        if (!editor) alert('editor 尚未创建')
+
+        const html = textarea.value
+        editor.setHtml(html)
+      })
 
     // 填入 v4 html
     document.getElementById('btn-v4-html').addEventListener('click', () => {

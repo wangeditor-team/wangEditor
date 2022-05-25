@@ -28,20 +28,10 @@ function withVideo<T extends IDomEditor>(editor: T): T {
 
     // ----------------- video 后面必须跟一个 p header blockquote -----------------
     if (type === 'video') {
-      const topLevelNodes = newEditor.children || []
-      const nextNode = topLevelNodes[path[0] + 1] || {}
-      const nextNodeType = DomEditor.getNodeType(nextNode)
-      if (
-        nextNodeType !== 'paragraph' &&
-        nextNodeType !== 'blockquote' &&
-        !nextNodeType.startsWith('header')
-      ) {
-        // video node 后面不是 p 或 header ，则插入一个空 p
-        const p = { type: 'paragraph', children: [{ text: '' }] }
-        const insertPath = [path[0] + 1]
-        Transforms.insertNodes(newEditor, p, {
-          at: insertPath, // 在后面插入
-        })
+      // -------------- video 是 editor 最后一个节点，需要后面插入 p --------------
+      const isLast = DomEditor.isLastNode(newEditor, node)
+      if (isLast) {
+        Transforms.insertNodes(newEditor, DomEditor.genEmptyParagraph(), { at: [path[0] + 1] })
       }
     }
 

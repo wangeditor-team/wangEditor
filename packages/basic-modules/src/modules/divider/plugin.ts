@@ -29,23 +29,10 @@ function withDivider<T extends IDomEditor>(editor: T): T {
       return normalizeNode([node, path])
     }
 
-    // editor 顶级 node
-    const topLevelNodes = newEditor.children || []
-
-    // --------------------- divider 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------
-    const nextNode = topLevelNodes[path[0] + 1] || {}
-    const { type: nextNodeType = '' } = nextNode as Element
-    if (
-      nextNodeType !== 'paragraph' &&
-      nextNodeType !== 'blockquote' &&
-      !nextNodeType.startsWith('header')
-    ) {
-      // divider node 后面不是 p 或 header ，则插入一个空 p
-      const p = { type: 'paragraph', children: [{ text: '' }] }
-      const insertPath = [path[0] + 1]
-      Transforms.insertNodes(newEditor, p, {
-        at: insertPath, // 在分割线后面插入
-      })
+    // -------------- divider 是 editor 最后一个节点，需要后面插入 p --------------
+    const isLast = DomEditor.isLastNode(newEditor, node)
+    if (isLast) {
+      Transforms.insertNodes(newEditor, DomEditor.genEmptyParagraph(), { at: [path[0] + 1] })
     }
   }
 

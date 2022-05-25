@@ -56,7 +56,7 @@ describe('video - parse html', () => {
   const editor = createEditor()
 
   it('iframe', () => {
-    const iframeHtml = '<iframe src="xxx"></iframe>'
+    const iframeHtml = '<iframe src="xxx" width="500" height="300"></iframe>'
     const $container = $(`<div data-w-e-type="video" data-w-e-is-void>${iframeHtml}</div>`)
 
     // match selector
@@ -66,6 +66,8 @@ describe('video - parse html', () => {
     expect(parseHtmlConf.parseElemHtml($container[0], [], editor)).toEqual({
       type: 'video',
       src: iframeHtml,
+      width: '500',
+      height: '300',
       children: [{ text: '' }], // void 元素有一个空 text
     })
   })
@@ -82,6 +84,8 @@ describe('video - parse html', () => {
     expect(parseHtmlConf.parseElemHtml($container[0], [], editor)).toEqual({
       type: 'video',
       src,
+      width: 'auto',
+      height: 'auto',
       children: [{ text: '' }], // void 元素有一个空 text
     })
   })
