@@ -50,7 +50,7 @@ function withLink<T extends IDomEditor>(editor: T): T {
     // 如果链接内容为空，则删除
     const str = Node.string(node)
     if (str === '') {
-      Transforms.removeNodes(newEditor, { at: path })
+      return Transforms.removeNodes(newEditor, { at: path })
     }
 
     return normalizeNode([node, path])
