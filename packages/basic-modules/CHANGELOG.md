@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.0...@wangeditor/basic-modules@1.1.1) (2022-06-02)
+
+
+### Bug Fixes
+
+* issue 4308 - 自定义字号、字体无法回显 ([ad38b8c](https://github.com/wangeditor-team/wangEditor/commit/ad38b8ce6dbcff1d65785c8d6701238ad351f562))
+* 修复在空字符上插入 link 报错的问题 ([e838f06](https://github.com/wangeditor-team/wangEditor/commit/e838f069f556a5d3206e48a5ed76f8d1e0ae3d05))
+
+
+
+
+
 # [1.1.0](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.0.1...@wangeditor/basic-modules@1.1.0) (2022-05-25)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.0...@wangeditor/core@1.1.1) (2022-06-02)
+
+
+### Bug Fixes
+
+* issue 4308 - 自定义字号、字体无法回显 ([ad38b8c](https://github.com/wangeditor-team/wangEditor/commit/ad38b8ce6dbcff1d65785c8d6701238ad351f562))
+
+
+
+
+
 # [1.1.0](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.0.1...@wangeditor/core@1.1.0) (2022-05-25)
 
 
