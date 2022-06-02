@@ -148,7 +148,7 @@ function parseCommonElemHtml($elem: Dom7Array, editor: IDomEditor): Element {
 
     // 处理 style
     PARSE_STYLE_HTML_FN_LIST.forEach(fn => {
-      elem = fn($elem[0], elem) as Element
+      elem = fn($elem[0], elem, editor) as Element
     })
   }
 

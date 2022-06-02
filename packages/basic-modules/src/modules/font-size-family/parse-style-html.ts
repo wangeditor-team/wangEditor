@@ -4,25 +4,25 @@
  */
 
 import { Descendant, Text } from 'slate'
+import { IDomEditor } from '@wangeditor/core'
 import { FontSizeAndFamilyText } from './custom-types'
 import $, { DOMElement, getStyleValue } from '../../utils/dom'
-import { genFontSizeConfig, getFontFamilyConfig } from './menu/config'
 
-export function parseStyleHtml(text: DOMElement, node: Descendant): Descendant {
+export function parseStyleHtml(text: DOMElement, node: Descendant, editor: IDomEditor): Descendant {
   const $text = $(text)
   if (!Text.isText(node)) return node
 
   const textNode = node as FontSizeAndFamilyText
 
-  const fontSizeConfig = genFontSizeConfig()
+  const { fontSizeList = [] } = editor.getMenuConfig('fontSize')
   const fontSize = getStyleValue($text, 'font-size')
-  if (fontSize && fontSizeConfig.includes(fontSize)) {
+  if (fontSize && fontSizeList.includes(fontSize)) {
     textNode.fontSize = fontSize
   }
 
-  const fontFamilyConf = getFontFamilyConfig()
+  const { fontFamilyList = [] } = editor.getMenuConfig('fontFamily')
   const fontFamily = getStyleValue($text, 'font-family')
-  if (fontFamily && fontFamilyConf.includes(fontFamily)) {
+  if (fontFamily && fontFamilyList.includes(fontFamily)) {
     textNode.fontFamily = fontFamily
   }
 

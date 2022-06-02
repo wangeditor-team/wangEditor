@@ -4,7 +4,7 @@
  */
 
 import { $ } from 'dom7'
-// import createEditor from '../../../utils/create-editor'
+import createEditor from '../../../../tests/utils/create-editor'
 import { parseStyleHtml } from '../../src/modules/font-size-family/parse-style-html'
 import { preParseHtmlConf } from '../../src/modules/font-size-family/pre-parse-html'
 
@@ -22,12 +22,14 @@ describe('font size family - pre parse html', () => {
 })
 
 describe('font size family - parse style html', () => {
+  const editor = createEditor()
+
   it('parse style html', () => {
     const $span = $('<span style="font-size: 12px; font-family: 黑体;"></span>')
     const textNode = { text: 'hello' }
 
     // parse style
-    const res = parseStyleHtml($span[0], textNode)
+    const res = parseStyleHtml($span[0], textNode, editor)
     expect(res).toEqual({
       text: 'hello',
       fontSize: '12px',

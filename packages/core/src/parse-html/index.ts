@@ -42,7 +42,11 @@ export function registerPreParseHtmlConf(conf: IPreParseHtmlConf) {
 
 // ------------------------------------ parse style html ------------------------------------
 
-export type ParseStyleHtmlFnType = ($node: DOMElement, node: Descendant) => Descendant
+export type ParseStyleHtmlFnType = (
+  $node: DOMElement,
+  node: Descendant,
+  editor: IDomEditor
+) => Descendant
 
 export const PARSE_STYLE_HTML_FN_LIST: ParseStyleHtmlFnType[] = []
 

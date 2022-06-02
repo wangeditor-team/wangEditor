@@ -5,10 +5,14 @@
 
 import $, { DOMElement } from '../utils/dom'
 import { Descendant, Element } from 'slate'
-import { DomEditor } from '@wangeditor/core'
+import { DomEditor, IDomEditor } from '@wangeditor/core'
 import { CodeElement } from '../custom-types'
 
-export function parseCodeStyleHtml(elem: DOMElement, node: Descendant): Descendant {
+export function parseCodeStyleHtml(
+  elem: DOMElement,
+  node: Descendant,
+  editor: IDomEditor
+): Descendant {
   const $elem = $(elem)
 
   if (!Element.isElement(node)) return node

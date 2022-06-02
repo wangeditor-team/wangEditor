@@ -4,16 +4,19 @@
  */
 
 import { $ } from 'dom7'
+import createEditor from '../../../../tests/utils/create-editor'
 import { parseStyleHtml } from '../../src/modules/indent/parse-style-html'
 import { preParseHtmlConf } from '../../src/modules/indent/pre-parse-html'
 
 describe('indent - parse style', () => {
+  const editor = createEditor()
+
   it('parse style', () => {
     const $p = $('<p style="text-indent: 2em;"></p>')
     const paragraph = { type: 'paragraph', children: [{ text: 'hello' }] }
 
     // parse
-    const res = parseStyleHtml($p[0], paragraph)
+    const res = parseStyleHtml($p[0], paragraph, editor)
     expect(res).toEqual({
       type: 'paragraph',
       indent: '2em',
