@@ -100,8 +100,8 @@
     editorConfig.placeholder = '请输入内容'
     editorConfig.scroll = false // 禁止编辑器滚动
     editorConfig.MENU_CONF['uploadImage'] = {
-      server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
-      fieldName: 'like-yuque-fileName'
+      fieldName: 'your-fileName',
+      base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
     }
     editorConfig.onChange = (editor) => {
       // console.log('content', editor.children)

@@ -45,8 +45,7 @@
     const editorConfig1 = { MENU_CONF: {} }
     editorConfig1.placeholder = '请输入内容1...'
     editorConfig1.MENU_CONF['uploadImage'] = {
-      server: 'http://106.12.198.214:3000/api/upload-img',
-      fieldName: 'index-1-fileName'
+      base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
     }
     editorConfig1.onChange = (editor) => {
       Promise.resolve().then(() => {
@@ -75,8 +74,8 @@
       'table': []
     }
     editorConfig2.MENU_CONF['uploadImage'] = {
-      server: 'http://106.12.198.214:3000/api/upload-img',
-      fieldName: 'index-2-fileName'
+      fieldName: 'your-fileName',
+      base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
     }
     editorConfig2.onChange = (editor) => {
       Promise.resolve().then(() => {

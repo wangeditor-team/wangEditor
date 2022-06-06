@@ -39,6 +39,10 @@ jobs:
       run: yarn build
     - name: Unit test
       run: yarn run test
+
+
+
+    # 2022.06.07 百度云服务器到期，就不再部署到测试机了 - wangfupeng
     - name: set ssh key # 临时设置 ssh key
       run: |
         mkdir -p ~/.ssh/

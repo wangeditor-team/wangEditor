@@ -35,8 +35,8 @@
       MENU_CONF: {}
     }
     editorConfig.MENU_CONF['uploadImage'] = {
-      server: 'http://106.12.198.214:3000/api/upload-img',
-      fieldName: 'custom-fileName',
+      fieldName: 'your-fileName',
+      base64LimitSize: 10 * 1024 * 1024 // 10M 以下插入 base64
     }
     const editor = E.createEditor({
       selector: '#editor-text-area',

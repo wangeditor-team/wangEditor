@@ -161,21 +161,21 @@ const MENU_CONF = [
   {
     'zh-CN': {
       text: '上传图片',
-      link: 'http://106.12.198.214:8882/master/examples/upload-image.html',
+      link: 'https://github.com/wangeditor-team/server',
     },
     en: {
       text: 'Upload Image',
-      link: 'http://106.12.198.214:8882/master/examples/upload-image.html?lang=en',
+      link: 'https://github.com/wangeditor-team/server',
     },
   },
   {
     'zh-CN': {
       text: '上传视频',
-      link: 'http://106.12.198.214:8882/master/examples/upload-video.html',
+      link: 'https://github.com/wangeditor-team/server',
     },
     en: {
       text: 'Upload Video',
-      link: 'http://106.12.198.214:8882/master/examples/upload-video.html?lang=en',
+      link: 'https://github.com/wangeditor-team/server',
     },
   },
   {
@@ -201,11 +201,11 @@ const MENU_CONF = [
   {
     'zh-CN': {
       text: 'Shadow DOM',
-      link: 'http://106.12.198.214:8882/master/examples/shadow-dom.html',
+      link: 'https://github.com/wangeditor-team/wangEditor/blob/master/packages/editor/examples/shadow-dom.html',
     },
     en: {
       text: 'Shadow DOM',
-      link: 'http://106.12.198.214:8882/master/examples/shadow-dom.html?lang=en',
+      link: 'https://github.com/wangeditor-team/wangEditor/blob/master/packages/editor/examples/shadow-dom.html',
     },
   },
   {
