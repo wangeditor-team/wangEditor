@@ -12,7 +12,8 @@
   <script src="./js/custom-elem.js"></script>
 
   <!-- 引入 prism css -->
-  <link href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism.css" rel="stylesheet">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism.css" rel="stylesheet"> -->
+  <link href="https://unpkg.com/prismjs@latest/themes/prism.css" rel="stylesheet">
 </head>
 
 <body>
@@ -45,9 +46,12 @@ function fn(x) { return x + 10 };
   </div>
 
   <!-- 引入 prism js -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/prism.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-core.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/plugins/autoloader/prism-autoloader.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/prism.min.js"></script> -->
+  <script src="https://unpkg.com/prismjs@latest/prism.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-core.min.js"></script> -->
+  <script src="https://unpkg.com/prismjs@latest/components/prism-core.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/prismjs@latest/plugins/autoloader/prism-autoloader.min.js"></script> -->
+  <script src="https://unpkg.com/prismjs@latest/plugins/autoloader/prism-autoloader.js"></script>
 
   <script>
     const html = `<p>wangEditor&nbsp;输入的 Javascript 代码：</p><pre><code class="language-javascript">function fn(a) {
