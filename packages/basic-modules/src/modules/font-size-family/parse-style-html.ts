@@ -22,7 +22,11 @@ export function parseStyleHtml(text: DOMElement, node: Descendant, editor: IDomE
 
   const { fontFamilyList = [] } = editor.getMenuConfig('fontFamily')
   const fontFamily = getStyleValue($text, 'font-family')
-  if (fontFamily && fontFamilyList.includes(fontFamily)) {
+
+  // getFontFamilyConfig 配置支持对象形式
+  const includesFamily = fontFamilyList.find(item => item.value && item.value === fontFamily) || fontFamilyList.includes(fontFamily)
+
+  if (fontFamily && includesFamily) {
     textNode.fontFamily = fontFamily
   }
 
