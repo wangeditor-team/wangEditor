@@ -57,10 +57,12 @@ export const withDOM = <T extends Editor>(editor: T) => {
   e.blur = () => {
     const el = DomEditor.toDOMNode(e, e)
     const root = DomEditor.findDocumentOrShadowRoot(e)
+    const { onBlur } = e.getConfig()
     IS_FOCUSED.set(e, false)
 
-    if (root.activeElement === el) {
-      el.blur()
+    // fix: https://github.com/wangeditor-team/wangEditor/issues/4330
+    if (root.activeElement === el || root.activeElement === document.body) {
+      onBlur && onBlur(e)
       Transforms.deselect(e) // 手动执行一次光标deselect, 触发onchange回掉，改变Toolbar的状态
     }
   }
