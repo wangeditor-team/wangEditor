@@ -22,7 +22,7 @@ function handleOnFocus(event: Event, textarea: TextArea, editor: IDomEditor) {
     return
   }
 
-  IS_FOCUSED.set(editor, true)
+  editor.focus()
 }
 
 export default handleOnFocus

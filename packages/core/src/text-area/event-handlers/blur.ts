@@ -70,7 +70,7 @@ function handleOnBlur(e: Event, textarea: TextArea, editor: IDomEditor) {
   }
 
   // 检验完毕，可正式触发 onblur
-  IS_FOCUSED.delete(editor)
+  editor.blur()
 }
 
 export default handleOnBlur

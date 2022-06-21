@@ -75,7 +75,7 @@ class TextArea {
       }
 
       // 监听 onfocus onblur
-      this.onFocusAndOnBlur()
+      // this.onFocusAndOnBlur()
 
       // 实时修改 maxLength 提示信息
       editor.on('change', this.changeMaxLengthInfo.bind(this))

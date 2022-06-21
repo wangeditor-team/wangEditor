@@ -46,6 +46,9 @@ export const withDOM = <T extends Editor>(editor: T) => {
     if (root.activeElement !== el) {
       el.focus({ preventScroll: true })
     }
+
+    const { onFocus } = e.getConfig()
+    onFocus && onFocus(e)
   }
 
   // isFocused
@@ -57,20 +60,15 @@ export const withDOM = <T extends Editor>(editor: T) => {
   e.blur = () => {
     const el = DomEditor.toDOMNode(e, e)
     const root = DomEditor.findDocumentOrShadowRoot(e)
-
-    // 在没有获焦时，调用editor.blur()，需手动调用一次onBlur回调
-    // fix: https://github.com/wangeditor-team/wangEditor/issues/4330
-    if (!IS_FOCUSED.get(e) && root.activeElement === document.body) {
-      const { onBlur } = e.getConfig()
-      onBlur && onBlur(e)
-      return
-    }
     IS_FOCUSED.set(e, false)
 
     if (root.activeElement === el) {
       el.blur()
       Transforms.deselect(e) // 手动执行一次光标deselect, 触发onchange回掉，改变Toolbar的状态
     }
+
+    const { onBlur } = e.getConfig()
+    onBlur && onBlur(e)
   }
 
   // 手动更新试图
