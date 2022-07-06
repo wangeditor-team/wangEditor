@@ -27,10 +27,8 @@ module.exports = {
     scopes: [...packages],
     customScopesAlign: !scopeComplete ? 'top' : 'bottom',
     defaultScope: scopeComplete,
-    alias: {
-      f: 'docs: fix typos',
-      b: 'chore: bump dependencies',
-    },
+    allowEmptyIssuePrefixs: false,
+    allowCustomIssuePrefixs: false,
     types: [
       {
         value: 'WIP',
