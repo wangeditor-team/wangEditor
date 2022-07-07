@@ -63,6 +63,8 @@ function renderTable(elemNode: SlateElement, children: VNode[] | null, editor: I
           // @ts-ignore 阻止光标定位到 table 后面
           if (e.target.tagName === 'DIV') e.preventDefault()
 
+          if (editor.isDisabled()) return
+
           // 是否需要定位到 table 内部
           const tablePath = DomEditor.findPath(editor, elemNode)
           const tableStart = Editor.start(editor, tablePath)
