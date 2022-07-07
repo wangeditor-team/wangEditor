@@ -42,7 +42,7 @@ export interface IDomEditor extends Editor {
   id: string
   isDestroyed: boolean
   isFullScreen: boolean
-  focus: () => void
+  focus: (isEnd?: boolean) => void
   isFocused: () => boolean
   blur: () => void
   updateView: () => void
