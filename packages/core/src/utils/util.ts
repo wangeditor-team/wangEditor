@@ -58,13 +58,20 @@ export function addQueryToUrl(url: string, data: object): string {
  * @param str html str
  */
 export function replaceHtmlSpecialSymbols(str: string) {
-  return str
-    .replace(/ /g, '&nbsp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/®/g, '&reg;')
-    .replace(/©/g, '&copy;')
-    .replace(/™/g, '&trade;')
+  return (
+    str
+      /**
+       * 遇到两个空格时才替换，一个空格不替换
+       * 两个英文单词之间有一个空格，就不用替换，否则无法默认换行 issue #4403
+       */
+      .replace(/ {2}/g, ' &nbsp;')
+
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/®/g, '&reg;')
+      .replace(/©/g, '&copy;')
+      .replace(/™/g, '&trade;')
+  )
 }
 
 /**
