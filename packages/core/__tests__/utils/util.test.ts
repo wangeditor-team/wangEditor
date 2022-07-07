@@ -30,11 +30,11 @@ describe('utils', () => {
   it('replace html symbol', () => {
     const html = '<p>hello  world</p>'
     const res = replaceHtmlSpecialSymbols(html)
-    expect(res).toBe('&lt;p&gt;hello&nbsp;&nbsp;world&lt;/p&gt;')
+    expect(res).toBe('&lt;p&gt;hello &nbsp;world&lt;/p&gt;')
   })
 
   it('replace html symbol', () => {
-    const html = '&lt;p&gt;hello&nbsp;&nbsp;world&lt;/p&gt;'
+    const html = '&lt;p&gt;hello &nbsp;world&lt;/p&gt;'
     const res = deReplaceHtmlSpecialSymbols(html)
     expect(res).toBe('<p>hello  world</p>')
   })
