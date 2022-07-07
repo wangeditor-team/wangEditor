@@ -16,6 +16,7 @@ import {
   TOOLBAR_TO_EDITOR,
   EDITOR_TO_HOVER_BAR,
   HOVER_BAR_TO_EDITOR,
+  EDITOR_TO_SELECTION,
 } from '../../utils/weak-maps'
 
 let ID = 1
@@ -35,16 +36,22 @@ export const withDOM = <T extends Editor>(editor: T) => {
   // focus
   e.focus = (isEnd?: boolean) => {
     const el = DomEditor.toDOMNode(e, e)
-    const root = DomEditor.findDocumentOrShadowRoot(e)
+    el.focus({ preventScroll: true })
+
     IS_FOCUSED.set(e, true)
 
+    // 恢复选区
     if (isEnd) {
+      // 选区定位到结尾
       const end = Editor.end(e, [])
       Transforms.select(e, end)
-    }
-
-    if (root.activeElement !== el) {
-      el.focus({ preventScroll: true })
+    } else {
+      const selection = EDITOR_TO_SELECTION.get(e)
+      if (selection) {
+        Transforms.select(e, selection) // 选区定位到之前的位置
+      } else {
+        Transforms.select(e, Editor.start(e, [])) // 选区定位到开始
+      }
     }
   }
 
@@ -56,13 +63,12 @@ export const withDOM = <T extends Editor>(editor: T) => {
   // blur
   e.blur = () => {
     const el = DomEditor.toDOMNode(e, e)
-    const root = DomEditor.findDocumentOrShadowRoot(e)
-    IS_FOCUSED.set(e, false)
+    el.blur()
 
-    if (root.activeElement === el) {
-      el.blur()
-      Transforms.deselect(e) // 手动执行一次光标deselect, 触发onchange回掉，改变Toolbar的状态
-    }
+    // 手动执行一次光标 deselect, 触发 onchange 回调，改变 Toolbar 的状态
+    Transforms.deselect(e)
+
+    IS_FOCUSED.set(e, false)
   }
 
   // 手动更新试图
