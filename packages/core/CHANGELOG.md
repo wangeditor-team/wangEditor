@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.1...@wangeditor/core@1.1.2) (2022-07-11)
+
+
+### Bug Fixes
+
+* editor.focus() 参数语法错误 ([334fa21](https://github.com/wangeditor-team/wangEditor/commit/334fa217d43fdaa95454e7c85a53526b7b777fda))
+* focus blur 问题 ([4a1997b](https://github.com/wangeditor-team/wangEditor/commit/4a1997b9f19cdce9d6aa6ff4e8e13d439b12af05))
+* 单词之间空格问题 issue 4403 ([2f1d6f5](https://github.com/wangeditor-team/wangEditor/commit/2f1d6f5275c8a9e106b66213bb276c58a70aff79))
+
+
+
+
+
 ## [1.1.1](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.0...@wangeditor/core@1.1.1) (2022-06-02)
 
 

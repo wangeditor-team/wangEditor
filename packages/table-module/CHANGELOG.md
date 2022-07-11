@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/table-module@1.1.0...@wangeditor/table-module@1.1.1) (2022-07-11)
+
+
+### Bug Fixes
+
+* disabled 时，点击 table 会弹出菜单栏 ([9aa4b80](https://github.com/wangeditor-team/wangEditor/commit/9aa4b80a8c3cd29ca57dd62d69f5811868998f5c))
+
+
+
+
+
 # [1.1.0](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/table-module@1.0.1...@wangeditor/table-module@1.1.0) (2022-05-25)
 
 

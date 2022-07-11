@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.2](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.1.1...@wangeditor/editor@5.1.2) (2022-07-11)
+
+**Note:** Version bump only for package @wangeditor/editor
+
+
+
+
+
 ## [5.1.1](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.1.0...@wangeditor/editor@5.1.1) (2022-06-02)
 
 **Note:** Version bump only for package @wangeditor/editor

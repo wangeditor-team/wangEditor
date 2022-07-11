@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.1...@wangeditor/basic-modules@1.1.2) (2022-07-11)
+
+
+### Bug Fixes
+
+* editor.focus() 参数语法错误 ([334fa21](https://github.com/wangeditor-team/wangEditor/commit/334fa217d43fdaa95454e7c85a53526b7b777fda))
+* 修复html回显时，部分字体回显问题 ([c83ffa7](https://github.com/wangeditor-team/wangEditor/commit/c83ffa70da655d03bfd639f2d1fd04986440ead2))
+
+
+
+
+
 ## [1.1.1](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.0...@wangeditor/basic-modules@1.1.1) (2022-06-02)
 
 
