@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.4](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.1.3...@wangeditor/editor@5.1.4) (2022-07-11)
+
+
+### Bug Fixes
+
+* 尝试修复 nuxt 报错 issue[#4409](https://github.com/wangeditor-team/wangEditor/issues/4409) ([71c7426](https://github.com/wangeditor-team/wangEditor/commit/71c7426959174119096fb6e8ac3f71957e28e243))
+
+
+
+
+
 ## [5.1.3](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.1.2...@wangeditor/editor@5.1.3) (2022-07-11)
 
 
