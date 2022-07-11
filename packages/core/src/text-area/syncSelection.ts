@@ -18,14 +18,15 @@ import { DOMElement } from '../utils/dom'
  * editor onchange 时，将 editor selection 同步给 DOM
  * @param textarea textarea
  * @param editor editor
+ * @param focus 是否强制更新选区
  */
-export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): void {
+export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor, focus = false): void {
   const { selection } = editor
   const root = DomEditor.findDocumentOrShadowRoot(editor)
   const domSelection = root.getSelection()
 
   if (!domSelection) return
-  if (textarea.isComposing) return
+  if (textarea.isComposing && !focus) return
   if (!editor.isFocused()) return
 
   const hasDomSelection = domSelection.type !== 'None'
