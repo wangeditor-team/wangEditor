@@ -11,6 +11,7 @@ import { hasEditableTarget } from '../helpers'
 import { IS_SAFARI, IS_CHROME, IS_FIREFOX } from '../../utils/ua'
 import { DOMNode } from '../../utils/dom'
 import { hidePlaceholder } from '../place-holder'
+import { editorSelectionToDOM } from '../syncSelection'
 
 const EDITOR_TO_TEXT: WeakMap<IDomEditor, string> = new WeakMap()
 const EDITOR_TO_START_CONTAINER: WeakMap<IDomEditor, DOMNode> = new WeakMap()
@@ -29,6 +30,14 @@ export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDo
   const { selection } = editor
   if (selection && Range.isExpanded(selection)) {
     Editor.deleteFragment(editor)
+
+    Promise.resolve().then(() => {
+      // deleteFragment 会在一个 Promise 后更新 dom，导致浏览器选区不正确
+      // 因此这里延迟一下再设置选区，使选区在正确位置
+      // 这里 model 选区没有发生变化，不能使用 editor.restoreSelection
+      // restoreSelection 会对比前后 model 选区是否相同，相同就不更新了
+      editorSelectionToDOM(textarea, editor, true)
+    })
   }
 
   if (selection && Range.isCollapsed(selection)) {
