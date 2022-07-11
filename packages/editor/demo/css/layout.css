@@ -15,4 +15,5 @@
 .page-right {
   padding: 0 10px;
   flex: 1;
+  width: calc(100vw - 170px);
 }
