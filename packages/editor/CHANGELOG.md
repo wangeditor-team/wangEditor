@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.3](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.1.2...@wangeditor/editor@5.1.3) (2022-07-11)
+
+
+### Bug Fixes
+
+* scroll 滚动问题 ([bc133e1](https://github.com/wangeditor-team/wangEditor/commit/bc133e1e4ca89ab5042cbc0971578ad144499805))
+
+
+
+
+
 ## [5.1.2](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.1.1...@wangeditor/editor@5.1.2) (2022-07-11)
 
 **Note:** Version bump only for package @wangeditor/editor

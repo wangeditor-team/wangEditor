@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.2...@wangeditor/core@1.1.3) (2022-07-11)
+
+
+### Bug Fixes
+
+* scroll 滚动问题 ([bc133e1](https://github.com/wangeditor-team/wangEditor/commit/bc133e1e4ca89ab5042cbc0971578ad144499805))
+* 修复选中内容输入时,出现光标位置不对或者输入重复内容的问题 ([9596a4c](https://github.com/wangeditor-team/wangEditor/commit/9596a4ccaca2e2c4eed7ffc16fc4b042f73cef5d))
+
+
+
+
+
 ## [1.1.2](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.1...@wangeditor/core@1.1.2) (2022-07-11)
 
 
