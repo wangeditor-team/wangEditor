@@ -22,6 +22,7 @@ import { DOMElement } from '../utils/dom'
  */
 export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor, focus = false): void {
   const { selection } = editor
+  const config = editor.getConfig()
   const root = DomEditor.findDocumentOrShadowRoot(editor)
   const domSelection = root.getSelection()
 
@@ -122,9 +123,10 @@ export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor, foc
     // 这个 if 防止选中图片时发生滚动
     if (!spacer) {
       leafEl.getBoundingClientRect = newDomRange.getBoundingClientRect.bind(newDomRange)
+      const body = document.body
       scrollIntoView(leafEl, {
         scrollMode: 'if-needed',
-        boundary: editorElement.parentElement,
+        boundary: config.scroll ? editorElement.parentElement : body, // issue 4215
         block: 'end',
         behavior: 'smooth',
       })
