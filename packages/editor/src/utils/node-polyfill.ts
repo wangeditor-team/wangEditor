@@ -30,4 +30,9 @@ if (typeof global === 'object') {
       },
     }
   }
+
+  if (global.document != null) {
+    // code-highlight 会用到 document.currentScript ，SSR 环境下可能会报错 （issue 4409）
+    document.currentScript = null
+  }
 }
