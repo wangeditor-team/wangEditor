@@ -10,7 +10,7 @@ import { EDITOR_TO_SELECTION, NODE_TO_KEY } from '../../utils/weak-maps'
 import node2html from '../../to-html/node2html'
 import { genElemId } from '../../render/helper'
 import { Key } from '../../utils/key'
-import $, { DOMElement, getPlainText, getTagName, NodeType } from '../../utils/dom'
+import $, { DOMElement, NodeType } from '../../utils/dom'
 import { findCurrentLineRange } from '../../utils/line'
 import { ElementWithId } from '../interface'
 import { PARSE_ELEM_HTML_CONF, TEXT_TAGS } from '../../parse-html/index'
@@ -246,29 +246,57 @@ export const withContent = <T extends Editor>(editor: T) => {
   e.dangerouslyInsertHtml = (html: string = '') => {
     if (!html) return
 
-    // ------------- 把 html 转换为 $elems -------------
-    let $elems = $(html)
-    $elems = $elems.filter(el => {
-      if (el.nodeType !== NodeType.ELEMENT_NODE) return false
+    const { selection } = e
+    if (selection == null) return
 
-      const $el = $(el)
-      const tagName = getTagName($el)
-      if (IGNORE_TAGS.has(tagName)) return false // 过滤掉忽略的 tag
+    // ------------- 把 html 转换为 DOM nodes -------------
+    const div = document.createElement('div')
+    div.innerHTML = html
+    let domNodes = Array.from(div.childNodes)
 
-      return true
+    // 过滤一下，只保留 elem 和 text ，并却掉一些无用标签（如 style script 等）
+    domNodes = domNodes.filter(n => {
+      const { nodeType, nodeName } = n
+      // Text Node
+      if (nodeType === NodeType.TEXT_NODE) return true
+
+      // Element Node
+      if (nodeType === NodeType.ELEMENT_NODE) {
+        // 过滤掉忽略的 tag
+        if (IGNORE_TAGS.has(nodeName.toLowerCase())) return false
+        else return true
+      }
+      return false
     })
-    if ($elems.length === 0) return
+    if (domNodes.length === 0) return
 
-    // ------------- 把 $elems 转换为 nodes -------------
-    const $div = $('<div hidden="true"></div>')
-    $div.append($elems)
-    $('body').append($div) // 添加到 body ，以便获取 style ，判断文字换行
+    // ------------- 把 DOM nodes 转换为 slate nodes ，并插入到编辑器 -------------
+    div.setAttribute('hidden', 'true')
+    document.body.appendChild(div)
 
-    const nodes: Descendant[] = []
-    $elems.forEach(el => {
+    domNodes.forEach(n => {
+      const { nodeType, nodeName, textContent = '' } = n
+
+      // ------ Text node ------
+      if (nodeType === NodeType.TEXT_NODE) {
+        if (!textContent || !textContent.trim()) return // 无内容的 Text
+
+        // 插入文本
+        //【注意】insertNode 和 insertText 有区别：后者会继承光标处的文本样式（如加粗）；前者会加入纯文本，无样式；
+        e.insertNode({ text: textContent })
+        return
+      }
+
+      // ------ Element Node ------
+      if (nodeName === 'BR') {
+        editor.insertText('\n') // 换行
+        return
+      }
+
       // 判断当前的 el 是否是可识别的 tag
+      const el = n as DOMElement
       let isParseMatch = false
-      if (TEXT_TAGS.includes(el.tagName.toLowerCase())) {
+      if (TEXT_TAGS.includes(nodeName.toLowerCase())) {
         // text elem，如 <span>
         isParseMatch = true
       } else {
@@ -281,32 +309,40 @@ export const withContent = <T extends Editor>(editor: T) => {
         }
       }
 
-      // 匹配上了，则生成 slate elem
+      // 匹配上了，则生成 slate elem 并插入
       if (isParseMatch) {
+        // 当前如果是空行，记录 path
+        let emptyParagraphPath: Path | null = null
+        if (DomEditor.isSelectedEmptyParagraph(e)) {
+          emptyParagraphPath = [selection.anchor.path[0]] // paragraph 是顶级元素，值取 path 第一位即可
+        }
+
+        // 生成并插入
         const $el = $(el)
-        nodes.push(parseElemHtml($el, e))
+        const newNode = parseElemHtml($el, e)
+        e.insertNode(newNode)
+
+        // 如果当前选中 void node ，则选区移动一下
+        if (DomEditor.isSelectedVoidNode(e)) e.move(1)
+
+        // 删除空行
+        if (emptyParagraphPath) {
+          Transforms.removeNodes(editor, { at: emptyParagraphPath })
+        }
+
         return
       }
 
-      // 没有匹配上，则插入纯文本
-      const text = getPlainText(el).trim()
-      if (!text) return
-      const textLines = text.split(/\r\n|\r|\n/) // 换行
-      textLines.forEach((line, index) => {
-        if (!line.trim()) return
-        nodes.push({ type: 'paragraph', children: [{ text: line }] }) // 没行都生成一个 paragraph
-      })
+      // 没有匹配上（如 div ）
+      const display = window.getComputedStyle(el).display
+      if (!DomEditor.isSelectedEmptyParagraph(e)) {
+        // 当前不是空行，且 非 inline - 则换行
+        if (display.indexOf('inline') < 0) e.insertBreak()
+      }
+      e.dangerouslyInsertHtml(el.innerHTML) // 继续插入子内容
     })
 
-    // ------------- 将 nodes 插入到编辑器 -------------
-    if (nodes.length) {
-      try {
-        e.insertFragment(nodes) // 插入 nodes
-      } catch (ex) {
-        e.insertText(getPlainText($div[0])) // 意外情况，则插入纯文本
-      }
-    }
-    $div.remove()
+    div.remove() // 粘贴完了，移除 div
   }
 
   /**
