@@ -15,7 +15,8 @@ export function parseStyleHtml(elem: DOMElement, node: Descendant, editor: IDomE
   const elemNode = node as IndentElement
 
   const indent = getStyleValue($elem, 'text-indent')
-  if (indent) {
+  const indentNumber = parseInt(indent, 10)
+  if (indent && indentNumber > 0) {
     elemNode.indent = indent
   }
 
