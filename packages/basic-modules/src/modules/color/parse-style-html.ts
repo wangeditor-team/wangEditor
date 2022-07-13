@@ -19,7 +19,8 @@ export function parseStyleHtml(text: DOMElement, node: Descendant, editor: IDomE
     textNode.color = color
   }
 
-  const bgColor = getStyleValue($text, 'background-color')
+  let bgColor = getStyleValue($text, 'background-color')
+  if (!bgColor) bgColor = getStyleValue($text, 'background') // word 背景色
   if (bgColor) {
     textNode.bgColor = bgColor
   }
