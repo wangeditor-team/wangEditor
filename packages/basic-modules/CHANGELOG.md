@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.2...@wangeditor/basic-modules@1.1.3) (2022-07-13)
+
+
+### Bug Fixes
+
+* parse indent style 负数 ([c8d746e](https://github.com/wangeditor-team/wangEditor/commit/c8d746e0464bdda626313c17af4d015681ccc3e8))
+* 兼容 word 文字背景色 ([e820b26](https://github.com/wangeditor-team/wangEditor/commit/e820b26730d34480994a343ab262c043c30a4495))
+
+
+
+
+
 ## [1.1.2](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.1...@wangeditor/basic-modules@1.1.2) (2022-07-11)
 
 

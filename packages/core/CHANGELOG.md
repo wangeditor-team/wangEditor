@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.4...@wangeditor/core@1.1.5) (2022-07-13)
+
+
+### Bug Fixes
+
+* setHtml 问题 - table 后面 p 格式错误 ([b525b4a](https://github.com/wangeditor-team/wangEditor/commit/b525b4aaa69b834204232774971367beba7db975))
+
+
+
+
+
 ## [1.1.4](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.3...@wangeditor/core@1.1.4) (2022-07-12)
 
 **Note:** Version bump only for package @wangeditor/core
