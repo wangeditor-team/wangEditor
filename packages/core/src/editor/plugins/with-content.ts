@@ -246,9 +246,6 @@ export const withContent = <T extends Editor>(editor: T) => {
   e.dangerouslyInsertHtml = (html: string = '') => {
     if (!html) return
 
-    const { selection } = e
-    if (selection == null) return
-
     // ------------- 把 html 转换为 DOM nodes -------------
     const div = document.createElement('div')
     div.innerHTML = html
@@ -275,6 +272,9 @@ export const withContent = <T extends Editor>(editor: T) => {
     document.body.appendChild(div)
 
     domNodes.forEach(n => {
+      const { selection } = e
+      if (selection == null) return
+
       const { nodeType, nodeName, textContent = '' } = n
 
       // ------ Text node ------
@@ -311,16 +311,26 @@ export const withContent = <T extends Editor>(editor: T) => {
 
       // 匹配上了，则生成 slate elem 并插入
       if (isParseMatch) {
+        const { focus } = selection
+        const focusPath = focus.path
+
         // 当前如果是空行，记录 path
         let emptyParagraphPath: Path | null = null
         if (DomEditor.isSelectedEmptyParagraph(e)) {
-          emptyParagraphPath = [selection.anchor.path[0]] // paragraph 是顶级元素，值取 path 第一位即可
+          emptyParagraphPath = [focusPath[0]] // paragraph 是顶级元素，值取 path 第一位即可
         }
 
         // 生成并插入
         const $el = $(el)
-        const newNode = parseElemHtml($el, e)
-        e.insertNode(newNode)
+        const newElem = parseElemHtml($el, e) as Element
+
+        if (e.isInline(newElem)) {
+          // inline elem 直接插入
+          e.insertNode(newElem)
+        } else {
+          // block elem ，另起一行插入 —— 重要
+          Transforms.insertNodes(e, newElem, { mode: 'highest' })
+        }
 
         // 如果当前选中 void node ，则选区移动一下
         if (DomEditor.isSelectedVoidNode(e)) e.move(1)
