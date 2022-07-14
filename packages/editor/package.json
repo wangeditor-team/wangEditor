@@ -1,6 +1,6 @@
 {
   "name": "@wangeditor/editor",
-  "version": "5.1.7",
+  "version": "5.1.8",
   "description": "Web rich text editor, Web 富文本编辑器",
   "keywords": [
     "wangeditor",
@@ -57,7 +57,7 @@
     "@wangeditor/list-module": "^1.0.2",
     "@wangeditor/table-module": "^1.1.1",
     "@wangeditor/upload-image-module": "^1.0.1",
-    "@wangeditor/video-module": "^1.1.0",
+    "@wangeditor/video-module": "^1.1.1",
     "dom7": "^3.0.0",
     "is-hotkey": "^0.2.0",
     "lodash.camelcase": "^4.3.0",
