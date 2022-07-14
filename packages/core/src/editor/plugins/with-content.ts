@@ -311,15 +311,6 @@ export const withContent = <T extends Editor>(editor: T) => {
 
       // 匹配上了，则生成 slate elem 并插入
       if (isParseMatch) {
-        const { focus } = selection
-        const focusPath = focus.path
-
-        // 当前如果是空行，记录 path
-        let emptyParagraphPath: Path | null = null
-        if (DomEditor.isSelectedEmptyParagraph(e)) {
-          emptyParagraphPath = [focusPath[0]] // paragraph 是顶级元素，值取 path 第一位即可
-        }
-
         // 生成并插入
         const $el = $(el)
         const newElem = parseElemHtml($el, e) as Element
@@ -334,11 +325,6 @@ export const withContent = <T extends Editor>(editor: T) => {
 
         // 如果当前选中 void node ，则选区移动一下
         if (DomEditor.isSelectedVoidNode(e)) e.move(1)
-
-        // 删除空行
-        if (emptyParagraphPath) {
-          Transforms.removeNodes(editor, { at: emptyParagraphPath })
-        }
 
         return
       }
