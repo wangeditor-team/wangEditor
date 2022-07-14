@@ -31,12 +31,12 @@ function getUppy(editor: IDomEditor): Uppy {
   // 上传完成之后
   const successHandler = (file: UppyFile, res: any) => {
     // 预期 res 格式：
-    // 成功：{ errno: 0, data: { url } }
+    // 成功：{ errno: 0, data: { url, poster } }
     // 失败：{ errno: !0, message: '失败信息' }
 
     if (customInsert) {
       // 用户自定义插入视频，此时 res 格式可能不符合预期
-      customInsert(res, src => insertVideo(editor, src))
+      customInsert(res, (src, poster) => insertVideo(editor, src, poster))
       return
     }
 
@@ -49,8 +49,8 @@ function getUppy(editor: IDomEditor): Uppy {
       return
     }
 
-    const { url = '' } = data
-    insertVideo(editor, url)
+    const { url = '', poster = '' } = data
+    insertVideo(editor, url, poster)
 
     // success 回调
     onSuccess(file, res)
@@ -116,7 +116,7 @@ export default async function (editor: IDomEditor, files: FileList | null) {
     // 上传
     if (customUpload) {
       // 自定义上传
-      await customUpload(file, src => insertVideo(editor, src))
+      await customUpload(file, (src, poster) => insertVideo(editor, src, poster))
     } else {
       // 默认上传
       await uploadFile(editor, file)

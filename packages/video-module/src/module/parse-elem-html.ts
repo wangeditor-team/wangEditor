@@ -8,10 +8,16 @@ import { IDomEditor } from '@wangeditor/core'
 import { VideoElement } from './custom-types'
 import $, { DOMElement } from '../utils/dom'
 
-function genVideoElem(src: string, width = 'auto', height = 'auto'): VideoElement {
+function genVideoElem(
+  src: string,
+  poster: string = '',
+  width = 'auto',
+  height = 'auto'
+): VideoElement {
   return {
     type: 'video',
     src,
+    poster,
     width,
     height,
     children: [{ text: '' }], // void 元素有一个空 text
@@ -21,6 +27,7 @@ function genVideoElem(src: string, width = 'auto', height = 'auto'): VideoElemen
 function parseHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor): VideoElement {
   const $elem = $(elem)
   let src = ''
+  let poster = ''
   let width = 'auto'
   let height = 'auto'
 
@@ -30,7 +37,7 @@ function parseHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor)
     width = $iframe.attr('width') || 'auto'
     height = $iframe.attr('height') || 'auto'
     src = $iframe[0].outerHTML
-    return genVideoElem(src, width, height)
+    return genVideoElem(src, poster, width, height)
   }
 
   // <video> 形式
@@ -44,7 +51,8 @@ function parseHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor)
   }
   width = $video.attr('width') || 'auto'
   height = $video.attr('height') || 'auto'
-  return genVideoElem(src, width, height)
+  poster = $video.attr('poster') || ''
+  return genVideoElem(src, poster, width, height)
 }
 
 export const parseHtmlConf = {

@@ -6,7 +6,7 @@
 import { IUploadConfig } from '@wangeditor/core'
 import { VideoElement } from '../custom-types'
 
-type InsertFn = (src: string) => void
+type InsertFn = (src: string, poster: string) => void
 
 // 在通用 uploadConfig 上，扩展 video 相关配置
 export type IUploadConfigForVideo = IUploadConfig & {
