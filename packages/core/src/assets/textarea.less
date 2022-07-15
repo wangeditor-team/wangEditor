@@ -61,3 +61,22 @@
   pointer-events: none; // 忽略鼠标行为，重要
   user-select: none;
 }
+
+.w-e-copyright-tip {
+  display: none;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--w-e-textarea-color); // 翻转颜色
+  color: var(--w-e-textarea-slight-bg-color);
+  padding: 5px 10px;
+  font-size: 12px;
+  transition: opacity .5s;
+  .shadowBordered();
+
+  a {
+    color: var(--w-e-textarea-slight-bg-color);
+    text-decoration: none;
+  }
+}

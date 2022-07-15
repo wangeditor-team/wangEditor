@@ -10,6 +10,9 @@ import '@wangeditor/core/dist/css/style.css'
 import './utils/browser-polyfill'
 import './utils/node-polyfill'
 
+// 尝试注册 vip
+import './utils/register-vip-site'
+
 // 配置多语言
 import './locale/index'
 

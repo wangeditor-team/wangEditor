@@ -80,3 +80,6 @@ export const EDITOR_TO_EMITTER: WeakMap<Editor, Emitter> = new WeakMap()
 
 // editor 是否可执行粘贴
 export const EDITOR_TO_CAN_PASTE: WeakMap<Editor, boolean> = new WeakMap()
+
+// editor 是否已展示了 copyright tip
+export const EDITOR_TO_SHOWED_COPYRIGHT_TIP: WeakMap<Editor, boolean> = new WeakMap()

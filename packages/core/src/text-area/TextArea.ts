@@ -7,7 +7,7 @@ import { Range } from 'slate'
 import throttle from 'lodash.throttle'
 import forEach from 'lodash.foreach'
 import $, { Dom7Array, DOMElement } from '../utils/dom'
-import { TEXTAREA_TO_EDITOR } from '../utils/weak-maps'
+import { TEXTAREA_TO_EDITOR, EDITOR_TO_SHOWED_COPYRIGHT_TIP } from '../utils/weak-maps'
 import { IDomEditor } from '../editor/interface'
 import { DomEditor } from '../editor/dom-editor'
 import updateView from './update-view'
@@ -15,6 +15,7 @@ import { handlePlaceholder } from './place-holder'
 import { editorSelectionToDOM, DOMSelectionToEditor } from './syncSelection'
 import { promiseResolveThen } from '../utils/util'
 import eventHandlerConf from './event-handlers/index'
+import { t } from '../i18n'
 
 let ID = 1
 
@@ -26,6 +27,9 @@ class TextArea {
   $textArea: Dom7Array | null = null
   private readonly $progressBar = $('<div class="w-e-progress-bar"></div>')
   private readonly $maxLengthInfo = $('<div class="w-e-max-length-info"></div>')
+  private readonly $copyrightTip = $(
+    `<div class="w-e-copyright-tip">${t('editor.copyright')}</div>`
+  )
   isComposing: boolean = false
   isUpdatingSelection: boolean = false
   isDraggingInternally: boolean = false
@@ -44,6 +48,7 @@ class TextArea {
     const $container = $(`<div class="w-e-text-container"></div>`)
     $container.append(this.$progressBar) // 进度条
     $container.append(this.$maxLengthInfo) // max length 提示信息
+    $container.append(this.$copyrightTip) // copyright 提示
     $box.append($container)
     const $scroll = $(`<div class="w-e-scroll"></div>`)
     $container.append($scroll)
@@ -82,6 +87,9 @@ class TextArea {
 
       // 绑定 DOM 事件
       this.bindEvent()
+
+      // 显示 copyright tip
+      $scroll.on('click keyup', this.showCopyrightTip.bind(this))
     })
   }
 
@@ -173,6 +181,41 @@ class TextArea {
         $progressBar.show()
       }, 1000)
     }
+  }
+
+  /**
+   * 显示 copyright 提示
+   */
+  private showCopyrightTip() {
+    // @ts-ignore 标记该网站是否是 vip
+    const flag = window.__wangEditorVipSiteFlag
+    // 是 vip ，或者网络错误无法判断，则不展示
+    if (flag === 102 || flag === 104) return
+
+    // 已经展示过，则不再展示
+    const editor = this.editorInstance
+    if (EDITOR_TO_SHOWED_COPYRIGHT_TIP.get(editor)) return
+
+    // 无选区，不用展示
+    const { selection } = editor
+    if (selection == null) return
+
+    // 展示 tip
+    const { $copyrightTip } = this
+    $copyrightTip.css('opacity', '1')
+    $copyrightTip.show()
+    setTimeout(() => {
+      $copyrightTip.css('opacity', '0') // 降低透明度（ css transition 效果）
+      setTimeout(() => $copyrightTip.hide(), 1000) // 真实隐藏 DOM
+    }, 2000)
+
+    // 提示：成为 vip 免除 tip
+    console.log(
+      'wangEditor: 升级为 VIP 用户，可隐藏版权提示，新用户可免费试用~\nhttps://www.wangeditor.com/v5/VIP.html'
+    )
+
+    // 记录，展示一次即可
+    EDITOR_TO_SHOWED_COPYRIGHT_TIP.set(editor, true)
   }
 
   /**
