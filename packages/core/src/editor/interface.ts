@@ -35,7 +35,7 @@ export interface IDomEditor extends Editor {
   getParentNode: (node: Node) => Ancestor | null
   isEmpty: () => boolean
   clear: () => void
-  dangerouslyInsertHtml: (html: string) => void
+  dangerouslyInsertHtml: (html: string, isRecursive?: boolean) => void
   setHtml: (html: string) => void
 
   // dom 相关

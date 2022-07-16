@@ -242,8 +242,9 @@ export const withContent = <T extends Editor>(editor: T) => {
   /**
    * 插入 html （不保证语义完全正确），用于粘贴
    * @param html html string
+   * @param isRecursive 是否递归调用（内部使用，使用者不要传参）
    */
-  e.dangerouslyInsertHtml = (html: string = '') => {
+  e.dangerouslyInsertHtml = (html: string = '', isRecursive = false) => {
     if (!html) return
 
     // ------------- 把 html 转换为 DOM nodes -------------
@@ -268,13 +269,23 @@ export const withContent = <T extends Editor>(editor: T) => {
     if (domNodes.length === 0) return
 
     // ------------- 把 DOM nodes 转换为 slate nodes ，并插入到编辑器 -------------
+
+    const { selection } = e
+    if (selection == null) return
+    let curEmptyParagraphPath: Path | null = null
+
+    // 是否当前选中了一个空 p （如果是，后面会删掉）
+    // 递归调用时不判断
+    if (DomEditor.isSelectedEmptyParagraph(e) && !isRecursive) {
+      const { focus } = selection
+      curEmptyParagraphPath = [focus.path[0]] // 只记录顶级 path 即可
+    }
+
     div.setAttribute('hidden', 'true')
     document.body.appendChild(div)
 
+    let insertedElemNum = 0 // 记录插入 elem 的数量 ( textNode 不算 )
     domNodes.forEach(n => {
-      const { selection } = e
-      if (selection == null) return
-
       const { nodeType, nodeName, textContent = '' } = n
 
       // ------ Text node ------
@@ -322,6 +333,7 @@ export const withContent = <T extends Editor>(editor: T) => {
           // block elem ，另起一行插入 —— 重要
           Transforms.insertNodes(e, newElem, { mode: 'highest' })
         }
+        insertedElemNum++ // 记录数量
 
         // 如果当前选中 void node ，则选区移动一下
         if (DomEditor.isSelectedVoidNode(e)) e.move(1)
@@ -335,8 +347,13 @@ export const withContent = <T extends Editor>(editor: T) => {
         // 当前不是空行，且 非 inline - 则换行
         if (display.indexOf('inline') < 0) e.insertBreak()
       }
-      e.dangerouslyInsertHtml(el.innerHTML) // 继续插入子内容
+      e.dangerouslyInsertHtml(el.innerHTML, true) // 继续插入子内容
     })
+
+    // 删除第一个空行
+    if (insertedElemNum && curEmptyParagraphPath) {
+      Transforms.removeNodes(e, { at: curEmptyParagraphPath })
+    }
 
     div.remove() // 粘贴完了，移除 div
   }
