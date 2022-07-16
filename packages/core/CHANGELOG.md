@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.7](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.6...@wangeditor/core@1.1.7) (2022-07-16)
+
+
+### Bug Fixes
+
+* setHtml() 多一个空行 ([994954f](https://github.com/wangeditor-team/wangEditor/commit/994954fcbae72808e3488e0936a5f82253b603f4))
+* 图片受 indent 影响 ([3d737f1](https://github.com/wangeditor-team/wangEditor/commit/3d737f11e457c46e1aeee40ebd834a2470198dfd))
+
+
+
+
+
 ## [1.1.6](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.5...@wangeditor/core@1.1.6) (2022-07-14)
 
 
