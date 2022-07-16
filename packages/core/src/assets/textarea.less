@@ -36,6 +36,10 @@
     display: inline !important;
   }
 
+  span {
+    text-indent: 0; // issues#4536
+  }
+
   // 选中的节点
   [data-selected="true"] {
     box-shadow: 0 0 0 2px @textarea-selected-border-color;
