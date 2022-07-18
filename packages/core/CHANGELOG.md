@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.8](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.7...@wangeditor/core@1.1.8) (2022-07-18)
+
+
+### Bug Fixes
+
+* 粘贴文字报错 ([a11ea56](https://github.com/wangeditor-team/wangEditor/commit/a11ea56af4f7976f5664232e80a164cd37d84d8c))
+
+
+
+
+
 ## [1.1.7](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.6...@wangeditor/core@1.1.7) (2022-07-16)
 
 
