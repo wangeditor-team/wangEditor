@@ -4,7 +4,7 @@
 
 发布的流程分两步：
 
-第一步：将所有要发版的代码合并到 `master`  分支后，先在本地执行 `yarn release:version` 生成各个本次变动的 `package` 的版本后，生成 `changelog` ，**目前先暂时禁用了生成 `changelog` 流程**。然后 lerna 会走到 `prompts` 选择版本的命令行交互流程，选完各个包的版本后，lerna 会生成 `git tag` 并 `push` 到远程。
+第一步：将所有要发版的代码合并到 `master`  分支后，先在本地执行 `yarn release:version` 生成各个本次变动的 `package` 的版本后，自动生成 `changelog`，接着 lerna 会生成 `git tag` 并 `push` 到远程。
 
 第二步：上面步骤完成后， `lerna` push `git tag` 到远程的时候会触发我们配置的 `git action`，走完正常的发版 `action`，具体看 [`action` 配置]('./../.github/workflows/release.yml') 。
 
