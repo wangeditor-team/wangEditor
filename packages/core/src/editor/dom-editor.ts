@@ -791,4 +791,24 @@ export const DomEditor = {
     const { text } = children[0] as Text
     if (text === '') return true
   },
+
+  /**
+   * 当前 path 指向的 node ，是否是空的（无内容）
+   * @param editor editor
+   * @param path path
+   */
+  isEmptyPath(editor: IDomEditor, path: Path): boolean {
+    const entry = Editor.node(editor, path)
+    if (entry == null) return false
+
+    const [node] = entry
+
+    const { children } = node as Element
+    if (children.length === 1) {
+      const { text } = children[0] as Text
+      if (text === '') return true // 内容为空
+    }
+
+    return false
+  },
 }

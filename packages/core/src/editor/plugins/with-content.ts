@@ -352,7 +352,9 @@ export const withContent = <T extends Editor>(editor: T) => {
 
     // 删除第一个空行
     if (insertedElemNum && curEmptyParagraphPath) {
-      Transforms.removeNodes(e, { at: curEmptyParagraphPath })
+      if (DomEditor.isEmptyPath(e, curEmptyParagraphPath)) {
+        Transforms.removeNodes(e, { at: curEmptyParagraphPath })
+      }
     }
 
     div.remove() // 粘贴完了，移除 div
