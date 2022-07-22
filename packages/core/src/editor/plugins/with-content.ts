@@ -300,7 +300,7 @@ export const withContent = <T extends Editor>(editor: T) => {
 
       // ------ Element Node ------
       if (nodeName === 'BR') {
-        editor.insertText('\n') // 换行
+        e.insertText('\n') // 换行
         return
       }
 
@@ -329,6 +329,9 @@ export const withContent = <T extends Editor>(editor: T) => {
         if (e.isInline(newElem)) {
           // inline elem 直接插入
           e.insertNode(newElem)
+
+          // link 特殊处理，否则后面插入的文字全都在 a 里面 issue#4573
+          if (newElem.type === 'link') e.insertFragment([{ text: '' }])
         } else {
           // block elem ，另起一行插入 —— 重要
           Transforms.insertNodes(e, newElem, { mode: 'highest' })
