@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>wangEditor extend menu</title>
+  <title>wangEditor extend select menu</title>
   <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
   <!-- <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet"> -->
   <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <demo-nav title="wangEditor extend menu"></demo-nav>
+  <demo-nav title="wangEditor extend select menu"></demo-nav>
   <div class="page-container">
     <div class="page-left">
       <demo-menu></demo-menu>
@@ -45,15 +45,25 @@
 
 
 
-    // Extend menu
-    class MyMenu {
+    class MyMenuClass {
       constructor() {
-        this.title = 'My menu'
-        // this.iconSvg = '<svg >...</svg>'
-        this.tag = 'button'
+        this.title = 'My Select Menu',
+          // this.iconSvg = '<svg>...</svg>'
+          this.tag = 'select'
+        this.width = 60
       }
+
+      getOptions(editor) {
+        const options = [
+          { value: 'beijing', text: '北京', styleForRenderMenuList: { 'font-size': '32px', 'font-weight': 'bold' } },
+          { value: 'shanghai', text: '上海', selected: true },
+          { value: 'shenzhen', text: '深圳' }
+        ]
+        return options
+      }
+
       getValue(editor) {
-        return ' hello '
+        return 'shanghai' // 匹配 options 其中一个 value
       }
       isActive(editor) {
         return false // or true
@@ -63,12 +73,14 @@
       }
       exec(editor, value) {
         editor.insertText(value) // value 即 this.getValue(editor) 的返回值
+        editor.insertText(' ')
       }
     }
+
     const myMenuConf = {
       key: 'myMenu',
       factory() {
-        return new MyMenu()
+        return new MyMenuClass()
       }
     }
     E.Boot.registerMenu(myMenuConf)

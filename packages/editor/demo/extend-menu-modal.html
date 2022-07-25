@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>wangEditor extend menu</title>
+  <title>wangEditor extend modal menu</title>
   <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
   <!-- <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet"> -->
   <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <demo-nav title="wangEditor extend menu"></demo-nav>
+  <demo-nav title="wangEditor extend modal menu"></demo-nav>
   <div class="page-container">
     <div class="page-left">
       <demo-menu></demo-menu>
@@ -35,6 +35,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script> -->
   <script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
   <script>
@@ -51,9 +52,11 @@
         this.title = 'My menu'
         // this.iconSvg = '<svg >...</svg>'
         this.tag = 'button'
+        this.showModal = true
+        this.modalWidth = 300
       }
       getValue(editor) {
-        return ' hello '
+        return ''
       }
       isActive(editor) {
         return false // or true
@@ -62,7 +65,45 @@
         return false // or true
       }
       exec(editor, value) {
-        editor.insertText(value) // value 即 this.getValue(editor) 的返回值
+        // do nothing 什么都不用做
+      }
+      getModalPositionNode(editor) {
+        return null // modal 依据选区定位
+      }
+      getModalContentElem(editor) {
+        const $container = $('<div></div>')
+
+        const inputId = `input-${Math.random().toString(16).slice(-8)}`
+        const buttonId = `button-${Math.random().toString(16).slice(-8)}`
+
+        const $inputContainer = $(`<label class="babel-container">
+            <span>Text</span>
+            <input type="text" id="${inputId}" value="hello world">
+          </label>`)
+        const $buttonContainer = $(`<div class="button-container">
+            <button id="${buttonId}">insert text</button>
+          </div>`)
+
+        $container.append($inputContainer).append($buttonContainer)
+
+        $container.on('click', `#${buttonId}`, e => {
+          e.preventDefault()
+
+          const text = $(`#${inputId}`).val()
+          if (!text) return
+
+          editor.restoreSelection() // 恢复选区
+          editor.insertText(text)
+          editor.insertText(' ')
+        })
+
+        setTimeout(() => {
+          $(`#${inputId}`).focus()
+        })
+
+        return $container[0]
+
+        // PS：也可以把 $container 缓存下来，这样不用每次重复创建、重复绑定事件，优化性能
       }
     }
     const myMenuConf = {

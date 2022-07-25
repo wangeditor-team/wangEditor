@@ -209,8 +209,20 @@ const MENU_CONF = [
     },
   },
   {
-    'zh-CN': { text: '扩展菜单', link: './extend-menu.html' },
-    en: { text: 'Extend menu', link: './extend-menu.html?lang=en' },
+    'zh-CN': { text: '扩展菜单 Button', link: './extend-menu.html' },
+    en: { text: 'Extend Button menu', link: './extend-menu.html?lang=en' },
+  },
+  {
+    'zh-CN': { text: '扩展菜单 select', link: './extend-menu-select.html' },
+    en: { text: 'Extend select menu', link: './extend-menu-select.html?lang=en' },
+  },
+  {
+    'zh-CN': { text: '扩展菜单 dropPanel', link: './extend-menu-drop-panel.html' },
+    en: { text: 'Extend dropPanel menu', link: './extend-menu-drop-panel.html?lang=en' },
+  },
+  {
+    'zh-CN': { text: '扩展菜单 modal', link: './extend-menu-modal.html' },
+    en: { text: 'Extend modal menu', link: './extend-menu-modal.html?lang=en' },
   },
   {
     'zh-CN': { text: 'Vue2 demo', link: 'https://www.wangeditor.com/v5/for-frame.html#vue2' },
