@@ -368,7 +368,7 @@ export const withContent = <T extends Editor>(editor: T) => {
    * @param html html string
    */
   e.setHtml = (html: string = '') => {
-    if (!html) return
+    if (!html) html = '<p><br></p>'
 
     // 记录编辑器当前状态
     const isEditorDisabled = e.isDisabled()

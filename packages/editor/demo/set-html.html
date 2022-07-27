@@ -74,14 +74,7 @@
 
     // Set HTML
     document.getElementById('btn-set-html').addEventListener('click', () => {
-      if (editor.isDisabled()) editor.enable()
-      if (!editor.isFocused()) editor.focus()
-
-      editor.select([])
-      editor.deleteFragment()
-
-      E.SlateTransforms.setNodes(editor, { type: 'paragraph' }, { mode: 'highest' })
-      editor.dangerouslyInsertHtml(textarea.value)
+      editor.setHtml(textarea.value)
     })
   </script>
 </body>
