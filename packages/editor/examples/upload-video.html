@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>upload video demo</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+  <link href="./css/editor.css" rel="stylesheet">
+  <link href="../dist/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <p>
+    Upload video
+  </p>
+  <p>
+    本地下载、启动 <a href="https://github.com/wangeditor-team/server" target="_blank">server</a> 服务端
+    <code style="background-color: #f1f1f1;">http://127.0.0.1:3000/api/upload-video</code>
+  </p>
+
+  <div>
+    <div id="editor-toolbar" class="editor-toolbar"></div>
+    <div id="editor-text-area" class="editor-text-area"></div>
+  </div>
+
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="../dist/index.js"></script>
+  <script>
+    const E = window.wangEditor
+
+    // Change language
+    const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+    E.i18nChangeLanguage(LANG)
+
+    const editorConfig = { MENU_CONF: {} }
+    editorConfig.MENU_CONF['insertVideo'] = {
+      onInsertedVideo(videoNode) {
+        console.log('inserted video', videoNode)
+      },
+    }
+    editorConfig.MENU_CONF['uploadVideo'] = {
+      server: 'http://127.0.0.1:3000/api/upload-video',
+      // server: 'http://127.0.0.1:3000/api/upload-img-failed', // test failed
+      // server: 'http://127.0.0.1:3000/api/xxx', // test 404
+
+      timeout: 5 * 1000, // 5s
+
+      fieldName: 'custom-fileName',
+      meta: { token: 'xxx', a: 100 },
+      metaWithUrl: true, // join params to url
+      headers: { Accept: 'text/x-json' },
+
+      maxFileSize: 10 * 1024 * 1024, // 10M
+
+      onBeforeUpload(file) {
+        console.log('onBeforeUpload', file)
+
+        return file // will upload this file
+        // return false // prevent upload
+      },
+      onProgress(progress) {
+        console.log('onProgress', progress)
+      },
+      onSuccess(file, res) {
+        console.log('onSuccess', file, res)
+      },
+      onFailed(file, res) {
+        alert(res.message)
+        console.log('onFailed', file, res)
+      },
+      onError(file, err, res) {
+        alert(err.message)
+        console.error('onError', file, err, res)
+      },
+
+      // customInsert(res, insertFn) {
+      //   console.log('customInsert', res)
+      //   const videoInfo = res.data || {}
+      //   const { url, poster } = videoInfo
+      //   if (!url) throw new Error(`Video url is empty`)
+
+      //   console.log('Your video url ', url)
+      //   insertFn(url, poster)
+      // },
+
+      // customUpload(file, insertFn) {
+      //   console.log('customUpload', file)
+
+      //   return new Promise((resolve) => {
+      //     // Simulate async insert video
+      //     setTimeout(() => {
+      //       const src = `https://www.w3school.com.cn/i/movie.ogg`
+      //       const poster = 'https://www.baidu.com/img/flexible/logo/pc/result@2.png'
+      //       insertFn(src, poster)
+      //       resolve('ok')
+      //     }, 500)
+      //   })
+      // },
+
+      // customBrowseAndUpload(insertFn) {
+      //   alert('Custom browse and upload')
+
+      //   // Simulate async insert video
+      //   setTimeout(() => {
+      //     const src = '<iframe src="//player.bilibili.com/player.html?aid=250348909&bvid=BV1Pv411w7Xr&cid=401518678&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>'
+      //     insertFn(src, '')
+      //   }, 500)
+      // },
+    }
+
+    const editor = E.createEditor({
+      selector: '#editor-text-area',
+      html: '<p>Upload video...</p><p><br></p>',
+      config: editorConfig
+    })
+
+    const toolbar = E.createToolbar({
+      editor,
+      selector: '#editor-toolbar',
+      // config: {}
+    })
+  </script>
+</body>
+
+</html>

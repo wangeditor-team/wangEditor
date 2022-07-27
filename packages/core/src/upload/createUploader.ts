@@ -67,7 +67,12 @@ function createUploader(config: IUploadConfig): Uppy {
   // 各个 callback
   uppy.on('upload-success', (file, response) => {
     const { body = {} } = response
-    onSuccess(file, body)
+    try {
+      // 有用户传入的第三方代码，得用 try catch 包裹
+      onSuccess(file, body)
+    } catch (err) {
+      console.error('wangEditor upload file - onSuccess error', err)
+    }
     uppy.removeFile(file.id) // 清空文件
   })
 
@@ -82,12 +87,22 @@ function createUploader(config: IUploadConfig): Uppy {
   })
 
   uppy.on('upload-error', (file, error, response) => {
-    onError(file, error, response)
+    try {
+      // 有用户传入的第三方代码，得用 try catch 包裹
+      onError(file, error, response)
+    } catch (err) {
+      console.error('wangEditor upload file - onError error', err)
+    }
     uppy.removeFile(file.id) // 清空文件
   })
 
   uppy.on('restriction-failed', (file, error) => {
-    onError(file, error)
+    try {
+      // 有用户传入的第三方代码，得用 try catch 包裹
+      onError(file, error)
+    } catch (err) {
+      console.error('wangEditor upload file - onError error', err)
+    }
     uppy.removeFile(file.id) // 清空文件
   })
 
