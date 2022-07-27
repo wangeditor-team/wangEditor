@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.10](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.9...@wangeditor/core@1.1.10) (2022-07-27)
+
+
+### Bug Fixes
+
+* setHtml 支持空字符串 ([d438157](https://github.com/wangeditor-team/wangEditor/commit/d43815766320d9cb0548bae0415c54ce7b147efb))
+* upload file callback error ([bf20e07](https://github.com/wangeditor-team/wangEditor/commit/bf20e07f12ed242b0ab4bb2290d876153a822972))
+
+
+
+
+
 ## [1.1.9](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.8...@wangeditor/core@1.1.9) (2022-07-22)
 
 
