@@ -15,6 +15,7 @@ import { findCurrentLineRange } from '../../utils/line'
 import { ElementWithId } from '../interface'
 import { PARSE_ELEM_HTML_CONF, TEXT_TAGS } from '../../parse-html/index'
 import parseElemHtml from '../../parse-html/parse-elem-html'
+import { htmlToContent } from '../../create/helper'
 
 const IGNORE_TAGS = new Set([
   'doctype',
@@ -368,22 +369,23 @@ export const withContent = <T extends Editor>(editor: T) => {
    * @param html html string
    */
   e.setHtml = (html: string = '') => {
-    if (!html) html = '<p><br></p>'
-
     // 记录编辑器当前状态
     const isEditorDisabled = e.isDisabled()
     const isEditorFocused = e.isFocused()
     const editorSelectionStr = JSON.stringify(e.selection)
 
-    // 删除并重新设置 HTML
+    // 删除当前内容
     e.enable()
     e.focus()
     e.select([])
     e.deleteFragment()
-    Transforms.setNodes(editor, { type: 'paragraph' }, { mode: 'highest' })
-    e.dangerouslyInsertHtml(html)
+    Transforms.setNodes(e, { type: 'paragraph' }, { mode: 'highest' })
 
-    // 恢复编辑器状态
+    // 设置新内容
+    const newContent = htmlToContent(e, html)
+    Transforms.insertFragment(e, newContent)
+
+    // 恢复编辑器状态和选区
     if (!isEditorFocused) {
       e.deselect()
       e.blur()
