@@ -2,6 +2,7 @@
   "name": "@wangeditor-team/wangeditor",
   "private": true,
   "scripts": {
+    "scripts": "better-scripts",
     "test": "cross-env NODE_OPTIONS=--unhandled-rejections=warn jest --detectOpenHandles --passWithNoTests",
     "test-c": "cross-env NODE_OPTIONS=--unhandled-rejections=warn jest --coverage",
     "dev": "sh build/build-all.sh dev",
@@ -65,6 +66,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^27.0.6",
     "babel-plugin-istanbul": "^6.0.0",
+    "better-scripts": "^0.1.1",
     "commitlint": "^11.0.0",
     "commitlint-config-cz": "^0.13.2",
     "concurrently": "^6.2.0",
