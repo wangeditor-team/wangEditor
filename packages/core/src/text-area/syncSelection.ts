@@ -18,14 +18,16 @@ import { DOMElement } from '../utils/dom'
  * editor onchange 时，将 editor selection 同步给 DOM
  * @param textarea textarea
  * @param editor editor
+ * @param focus 是否强制更新选区
  */
-export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): void {
+export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor, focus = false): void {
   const { selection } = editor
+  const config = editor.getConfig()
   const root = DomEditor.findDocumentOrShadowRoot(editor)
   const domSelection = root.getSelection()
 
   if (!domSelection) return
-  if (textarea.isComposing) return
+  if (textarea.isComposing && !focus) return
   if (!editor.isFocused()) return
 
   const hasDomSelection = domSelection.type !== 'None'
@@ -121,9 +123,10 @@ export function editorSelectionToDOM(textarea: TextArea, editor: IDomEditor): vo
     // 这个 if 防止选中图片时发生滚动
     if (!spacer) {
       leafEl.getBoundingClientRect = newDomRange.getBoundingClientRect.bind(newDomRange)
+      const body = document.body
       scrollIntoView(leafEl, {
         scrollMode: 'if-needed',
-        boundary: editorElement.parentElement,
+        boundary: config.scroll ? editorElement.parentElement : body, // issue 4215
         block: 'end',
         behavior: 'smooth',
       })

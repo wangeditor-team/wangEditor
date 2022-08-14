@@ -8,6 +8,7 @@ export default {
   common: {
     ok: '确定',
     delete: '删除',
+    enter: '回车',
   },
 
   blockQuote: {

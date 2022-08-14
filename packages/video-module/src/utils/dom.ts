@@ -27,6 +27,24 @@ export function getTagName($elem: Dom7Array): string {
   return ''
 }
 
+/**
+ * 生成带 size 样式的 iframe html
+ * @param iframeHtml iframe html string
+ * @param width width
+ * @param height height
+ * @returns iframe html string with size style
+ */
+export function genSizeStyledIframeHtml(
+  iframeHtml: string,
+  width: string = 'auto',
+  height: string = 'auto'
+): string {
+  const $iframe = $(iframeHtml)
+  $iframe.attr('width', width)
+  $iframe.attr('height', height)
+  return $iframe[0].outerHTML
+}
+
 // COMPAT: This is required to prevent TypeScript aliases from doing some very
 // weird things for Slate's types with the same name as globals. (2019/11/27)
 // https://github.com/microsoft/TypeScript/issues/35002

@@ -8,7 +8,7 @@ import { Editor, Element, Transforms, Range, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor, t } from '@wangeditor/core'
 import { ADD_COL_SVG } from '../../constants/svg'
 import { TableCellElement, TableElement } from '../custom-types'
-import { isTableWithHeader } from './helpers'
+import { isTableWithHeader } from '../helpers'
 
 class InsertCol implements IButtonMenu {
   readonly title = t('tableModule.insertCol')

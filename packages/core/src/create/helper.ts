@@ -3,7 +3,9 @@
  * @author wangfupeng
  */
 
+import { Descendant } from 'slate'
 import { IDomEditor } from '../editor/interface'
+import parseElemHtml from '../parse-html/parse-elem-html'
 import $, { DOMElement } from '../utils/dom'
 
 function isRepeatedCreate(
@@ -58,4 +60,28 @@ export function genDefaultContent() {
       children: [{ text: '' }],
     },
   ]
+}
+
+/**
+ * html 字符串 -> content
+ * @param editor editor
+ * @param html html 字符串
+ */
+export function htmlToContent(editor: IDomEditor, html: string = ''): Descendant[] {
+  // 空白内容
+  if (html === '') html = '<p><br></p>'
+
+  // 非 HTML 格式，文本格式，用 <p> 包裹
+  if (html.indexOf('<') !== 0) {
+    html = html
+      .split(/\n/)
+      .map(line => `<p>${line}</p>`)
+      .join('')
+  }
+
+  const $content = $(`<div>${html}</div>`)
+  return Array.from($content.children()).map(child => {
+    const $child = $(child)
+    return parseElemHtml($child, editor)
+  })
 }

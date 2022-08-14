@@ -7,7 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>wangEditor catalog</title>
   <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet"> -->
+  <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
   <link href="./css/layout.css" rel="stylesheet">
 
   <script src="./js/custom-elem.js"></script>
@@ -64,9 +65,9 @@
     </div>
     <div class="page-right" style="display: flex;">
       <!-- 编辑器 DOM -->
-      <div style="border: 1px solid #ccc; flex: 1">
+      <div style="border: 1px solid #ccc; flex: 1; width: calc(100vw - 370px);">
         <div id="editor-toolbar" style="border-bottom: 1px solid #ccc;"></div>
-        <div id="editor-text-area" style="height: 350px"></div>
+        <div id="editor-text-area" style="height: 600px"></div>
       </div>
 
       <!-- 标题目录 -->
@@ -76,7 +77,8 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script> -->
+  <script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
   <script>
     const E = window.wangEditor
 

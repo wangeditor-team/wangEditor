@@ -12,7 +12,7 @@ describe('video module - render elem', () => {
   it('render video elem', () => {
     expect(renderVideoConf.type).toBe('video')
 
-    const elem = { type: 'video', src: 'test.mp4', children: [] }
+    const elem = { type: 'video', src: 'test.mp4', poster: 'xxx.png', children: [] }
     const vnode = renderVideoConf.renderElem(elem, null, editor)
     expect(vnode.sel).toBe('div')
   })

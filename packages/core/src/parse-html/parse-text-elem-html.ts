@@ -37,7 +37,7 @@ function parseTextElemHtml($text: Dom7Array, editor: IDomEditor): Text {
 
   // 处理 style
   PARSE_STYLE_HTML_FN_LIST.forEach(fn => {
-    textNode = fn($text[0], textNode) as Text
+    textNode = fn($text[0], textNode, editor) as Text
   })
 
   return textNode

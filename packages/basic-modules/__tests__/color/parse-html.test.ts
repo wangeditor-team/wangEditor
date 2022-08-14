@@ -4,6 +4,7 @@
  */
 
 import { $ } from 'dom7'
+import createEditor from '../../../../tests/utils/create-editor'
 import { parseStyleHtml } from '../../src/modules/color/parse-style-html'
 import { preParseHtmlConf } from '../../src/modules/color/pre-parse-html'
 
@@ -21,6 +22,8 @@ describe('color - pre parse html', () => {
 })
 
 describe('color - parse style html', () => {
+  const editor = createEditor()
+
   it('parse style html', () => {
     const $span = $(
       '<span style="color: rgb(235, 144, 58); background-color: rgb(231, 246, 213);"></span>'
@@ -28,7 +31,7 @@ describe('color - parse style html', () => {
     const textNode = { text: 'hello' }
 
     // parse style
-    const res = parseStyleHtml($span[0], textNode)
+    const res = parseStyleHtml($span[0], textNode, editor)
     expect(res).toEqual({
       text: 'hello',
       color: 'rgb(235, 144, 58)',

@@ -4,6 +4,7 @@
  */
 
 import { Descendant, Text } from 'slate'
+import { IDomEditor } from '@wangeditor/core'
 import { StyledText } from './custom-types'
 import $, { Dom7Array, DOMElement } from '../../utils/dom'
 
@@ -22,7 +23,11 @@ function isMatch($text: Dom7Array, selector: string): boolean {
   return false
 }
 
-export function parseStyleHtml(textElem: DOMElement, node: Descendant): Descendant {
+export function parseStyleHtml(
+  textElem: DOMElement,
+  node: Descendant,
+  editor: IDomEditor
+): Descendant {
   const $text = $(textElem)
 
   if (!Text.isText(node)) return node

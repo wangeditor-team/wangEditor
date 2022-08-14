@@ -30,4 +30,11 @@ if (typeof global === 'object') {
       },
     }
   }
+
+  if (global.document != null) {
+    // SSR 环境下可能会报错 （issue 4409）
+    if (global.document.getElementsByTagName == null) {
+      global.document.getElementsByTagName = () => []
+    }
+  }
 }

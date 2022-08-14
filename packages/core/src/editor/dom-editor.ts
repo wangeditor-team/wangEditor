@@ -738,4 +738,77 @@ export const DomEditor = {
       }
     }
   },
+
+  /**
+   * 是否是编辑器里最后一个元素
+   * @param editor editor
+   * @param node node
+   */
+  isLastNode(editor: IDomEditor, node: Node) {
+    const editorChildren = editor.children || []
+    const editorChildrenLength = editorChildren.length
+    return editorChildren[editorChildrenLength - 1] === node
+  },
+
+  /**
+   * 生成空白 paragraph
+   */
+  genEmptyParagraph(): Element {
+    return { type: 'paragraph', children: [{ text: '' }] }
+  },
+
+  /**
+   * 是否选中了 void node
+   * @param editor editor
+   */
+  isSelectedVoidNode(editor: IDomEditor): boolean {
+    const voidNodes = Editor.nodes(editor, {
+      match: n => editor.isVoid(n as Element),
+    })
+    let len = 0
+    for (const n of voidNodes) {
+      len++
+    }
+    return len > 0
+  },
+
+  /**
+   * 选区是否在一个空行
+   * @param editor editor
+   */
+  isSelectedEmptyParagraph(editor: IDomEditor) {
+    const { selection } = editor
+    if (selection == null) return false
+
+    if (Range.isExpanded(selection)) return false
+
+    const selectedNode = DomEditor.getSelectedNodeByType(editor, 'paragraph')
+    if (selectedNode === null) return false
+
+    const { children } = selectedNode as Element
+    if (children.length !== 1) return false
+
+    const { text } = children[0] as Text
+    if (text === '') return true
+  },
+
+  /**
+   * 当前 path 指向的 node ，是否是空的（无内容）
+   * @param editor editor
+   * @param path path
+   */
+  isEmptyPath(editor: IDomEditor, path: Path): boolean {
+    const entry = Editor.node(editor, path)
+    if (entry == null) return false
+
+    const [node] = entry
+
+    const { children } = node as Element
+    if (children.length === 1) {
+      const { text } = children[0] as Text
+      if (text === '') return true // 内容为空
+    }
+
+    return false
+  },
 }

@@ -21,6 +21,7 @@
 
   <div style="margin: 10px 0;">
     <button id="btn-create">创建编辑器</button>
+    <button id="btn-set-html">setHtml</button>
     （如有 JS 报错，再次创建时要刷新页面）
   </div>
   <div>
@@ -49,6 +50,14 @@
       })
     })
 
+      // setHtml
+      document.getElementById('btn-set-html').addEventListener('click', () => {
+        if (!editor) alert('editor 尚未创建')
+
+        const html = textarea.value
+        editor.setHtml(html)
+      })
+
     // 填入 v4 html
     document.getElementById('btn-v4-html').addEventListener('click', () => {
       textarea.value = `<p>你好&nbsp;<font size="6">世界</font> <font face="黑体">黑体文字</font>！</p>
@@ -56,7 +65,7 @@
 <h1 id="94fco">标题</h1>
 <blockquote><p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p></blockquote>
 <p>欢迎<i>使用</i> <b>wangEditor</b><u>富文本</u><strike>编辑器</strike>~</p>
-<p style="padding-left:2em;">缩进&nbsp;<a href="http://106.12.198.214:8881/dev/examples/" target="_blank">链接</a></p>
+<p style="padding-left:2em;">缩进&nbsp;<a href="https://github.com/wangeditor-team" target="_blank">链接</a></p>
 <p data-we-empty-p="" style="line-height:3;">行高&nbsp;</p><p>
   <img src="https://www.wangeditor.com/imgs/logo.png"/></p>
 <p style="text-align:center;">欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
@@ -66,7 +75,7 @@
 </ol>
 <ul><li>123</li><li>123</li></ul>
 <p>
-  <img src="https://www.wangeditor.com/imgs/logo.png" alt="111" data-href="http%3A%2F%2F106.12.198.214%3A8881%2Fdev%2Fexamples%2F" style="max-width:100%;" contenteditable="false"/>
+  <img src="https://www.wangeditor.com/imgs/logo.png" alt="111" data-href="https%3A%2F%2Fgithub.com%2Fwangeditor-team" style="max-width:100%;" contenteditable="false"/>
 </p>
 <table border="0" width="100%" cellpadding="0" cellspacing="0">
   <tbody>

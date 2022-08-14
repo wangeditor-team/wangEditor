@@ -9,7 +9,12 @@ export default {
     uploadVideo: '上传视频',
     insertVideo: '插入视频',
     videoSrc: '视频地址',
-    insertPlaceHolder: '视频文件 url 或第三方 <iframe>',
+    videoSrcPlaceHolder: '视频文件 url 或第三方 <iframe>',
+    videoPoster: '视频封面',
+    videoPosterPlaceHolder: '封面图片 url',
     ok: '确定',
+    editSize: '修改尺寸',
+    width: '宽度',
+    height: '高度',
   },
 }

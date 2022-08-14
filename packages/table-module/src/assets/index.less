@@ -1,13 +1,22 @@
 @import "../../../vars.less";
 
 .w-e-text-container [data-slate-editor] {
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px dashed var(--w-e-textarea-border-color);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+
   table {
     border-collapse: collapse;
 
     td,th {
       border: 1px solid @textarea-border-color;
       padding: 3px 5px;
-      min-width: 50px;
+      min-width: 30px;
       text-align: left;
       line-height: 1.5;
     }
@@ -15,15 +24,6 @@
       background-color: @textarea-slight-bg-color;
       text-align: center;
       font-weight: bold;
-    }
-  }
-
-  // 宽度 100%
-  table.full-width {
-    width: 100%;
-
-    td.th {
-      min-width: 0;
     }
   }
 }

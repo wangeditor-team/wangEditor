@@ -161,21 +161,21 @@ const MENU_CONF = [
   {
     'zh-CN': {
       text: '上传图片',
-      link: 'http://106.12.198.214:8882/master/examples/upload-image.html',
+      link: 'https://github.com/wangeditor-team/server',
     },
     en: {
       text: 'Upload Image',
-      link: 'http://106.12.198.214:8882/master/examples/upload-image.html?lang=en',
+      link: 'https://github.com/wangeditor-team/server',
     },
   },
   {
     'zh-CN': {
       text: '上传视频',
-      link: 'http://106.12.198.214:8882/master/examples/upload-video.html',
+      link: 'https://github.com/wangeditor-team/server',
     },
     en: {
       text: 'Upload Video',
-      link: 'http://106.12.198.214:8882/master/examples/upload-video.html?lang=en',
+      link: 'https://github.com/wangeditor-team/server',
     },
   },
   {
@@ -201,16 +201,28 @@ const MENU_CONF = [
   {
     'zh-CN': {
       text: 'Shadow DOM',
-      link: 'http://106.12.198.214:8882/master/examples/shadow-dom.html',
+      link: 'https://github.com/wangeditor-team/wangEditor/blob/master/packages/editor/examples/shadow-dom.html',
     },
     en: {
       text: 'Shadow DOM',
-      link: 'http://106.12.198.214:8882/master/examples/shadow-dom.html?lang=en',
+      link: 'https://github.com/wangeditor-team/wangEditor/blob/master/packages/editor/examples/shadow-dom.html',
     },
   },
   {
-    'zh-CN': { text: '扩展菜单', link: './extend-menu.html' },
-    en: { text: 'Extend menu', link: './extend-menu.html?lang=en' },
+    'zh-CN': { text: '扩展菜单 Button', link: './extend-menu.html' },
+    en: { text: 'Extend Button menu', link: './extend-menu.html?lang=en' },
+  },
+  {
+    'zh-CN': { text: '扩展菜单 select', link: './extend-menu-select.html' },
+    en: { text: 'Extend select menu', link: './extend-menu-select.html?lang=en' },
+  },
+  {
+    'zh-CN': { text: '扩展菜单 dropPanel', link: './extend-menu-drop-panel.html' },
+    en: { text: 'Extend dropPanel menu', link: './extend-menu-drop-panel.html?lang=en' },
+  },
+  {
+    'zh-CN': { text: '扩展菜单 modal', link: './extend-menu-modal.html' },
+    en: { text: 'Extend modal menu', link: './extend-menu-modal.html?lang=en' },
   },
   {
     'zh-CN': { text: 'Vue2 demo', link: 'https://www.wangeditor.com/v5/for-frame.html#vue2' },

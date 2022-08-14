@@ -17,18 +17,12 @@
 
 ### 运行 demo
 
-- 进入 `packages/editor` 目录，运行 `yarn example`
+- 进入 `packages/editor` 目录，运行 `yarn example` ，浏览器打开 `http://localhost:8881/examples/`
 
 ## 注意事项
 
 - 修改代码、重新打包后，要**强制刷新**浏览器
 - 如果本地包依赖有问题，试试 `lerna link` 关联内部包
-
-## 发布到测试机
-
-新建 `feature-xxx` 或 `fix-xxx` 分支，push 到远程，即可触发 github actions 部署。
-
-测试机地址 `http://106.12.198.214:8882/<分支名称>/examples/default-mode.html`
 
 ## 记录
 

@@ -19,7 +19,7 @@ import { IDomEditor } from '../editor/interface'
 import { DomEditor } from '../editor/dom-editor'
 import { IEditorConfig } from '../config/interface'
 import { promiseResolveThen } from '../utils/util'
-import { isRepeatedCreateTextarea, genDefaultContent } from './helper'
+import { isRepeatedCreateTextarea, genDefaultContent, htmlToContent } from './helper'
 import type { DOMElement } from '../utils/dom'
 import {
   EDITOR_TO_TEXTAREA,
@@ -30,7 +30,6 @@ import {
 } from '../utils/weak-maps'
 import bindNodeRelation from './bind-node-relation'
 import $ from '../utils/dom'
-import parseElemHtml from '../parse-html/parse-elem-html'
 
 type PluginFnType = <T extends IDomEditor>(editor: T) => T
 
@@ -72,13 +71,9 @@ export default function (option: Partial<ICreateOption>) {
   })
 
   // 初始化内容（要在 config 和 plugins 后面）
-  if (html) {
+  if (html != null) {
     // 传入 html ，转换为 JSON content
-    const $content = $(`<div>${html}</div>`)
-    editor.children = Array.from($content.children()).map(child => {
-      const $child = $(child)
-      return parseElemHtml($child, editor)
-    })
+    editor.children = htmlToContent(editor, html)
   }
   if (content && content.length) {
     editor.children = content // 传入 JSON content

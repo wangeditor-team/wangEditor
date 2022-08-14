@@ -14,7 +14,7 @@ describe('Video module helper', () => {
 
   describe('insert-video helper', () => {
     test('it should return if give empty src', async () => {
-      expect(await insertVideo(editor, '')).toBeUndefined()
+      expect(await insertVideo(editor, '', '')).toBeUndefined()
     })
 
     test('it should alert result if checkVideo return result that data type is string', async () => {
@@ -30,7 +30,7 @@ describe('Video module helper', () => {
       const fn = jest.fn()
       editor.alert = fn
 
-      await insertVideo(editor, 'test.mp4')
+      await insertVideo(editor, 'test.mp4', 'xxx.png')
 
       expect(fn).toBeCalledWith('check result', 'error')
     })
@@ -46,14 +46,14 @@ describe('Video module helper', () => {
         },
       })
 
-      expect(await insertVideo(editor, 'test.mp4')).toBeUndefined()
+      expect(await insertVideo(editor, 'test.mp4', 'xxx.png')).toBeUndefined()
     })
 
     test('it should invoke slate insertNodes method if give right src', done => {
       const fn = jest.fn()
       jest.spyOn(slate.Transforms, 'insertNodes').mockImplementation(fn)
 
-      insertVideo(editor, 'test.mp4').then(() => {
+      insertVideo(editor, 'test.mp4', 'xxx.png').then(() => {
         setTimeout(() => {
           expect(fn).toBeCalled()
           done()
@@ -74,7 +74,7 @@ describe('Video module helper', () => {
         },
       })
 
-      insertVideo(editor, 'test.mp4').then(() => {
+      insertVideo(editor, 'test.mp4', 'xxx.png').then(() => {
         expect(fn).toBeCalled()
         done()
       })

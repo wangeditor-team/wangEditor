@@ -6,7 +6,7 @@
 import { Descendant, Text } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { TableCellElement, TableRowElement, TableElement } from './custom-types'
-import $, { Dom7Array, getTagName, getStyleValue, DOMElement } from '../utils/dom'
+import $, { getTagName, getStyleValue, DOMElement } from '../utils/dom'
 
 function parseCellHtml(
   elem: DOMElement,
@@ -28,12 +28,14 @@ function parseCellHtml(
 
   const colSpan = parseInt($elem.attr('colSpan') || '1')
   const rowSpan = parseInt($elem.attr('rowSpan') || '1')
+  const width = $elem.attr('width') || 'auto'
 
   return {
     type: 'table-cell',
     isHeader: getTagName($elem) === 'th',
     colSpan,
     rowSpan,
+    width,
     // @ts-ignore
     children,
   }
@@ -68,19 +70,14 @@ function parseTableHtml(
 ): TableElement {
   const $elem = $(elem)
 
-  // 判断 fullWidth
-  let fullWidth = false
-
-  if (!fullWidth) {
-    fullWidth = getStyleValue($elem, 'width') === '100%'
-  }
-  if (!fullWidth) {
-    fullWidth = $elem.attr('width') === '100%' // 兼容 V4
-  }
+  // 计算宽度
+  let width = 'auto'
+  if (getStyleValue($elem, 'width') === '100%') width = '100%'
+  if ($elem.attr('width') === '100%') width = '100%' // 兼容 v4 格式
 
   return {
     type: 'table',
-    fullWidth,
+    width,
     // @ts-ignore
     children: children.filter(child => DomEditor.getNodeType(child) === 'table-row'),
   }

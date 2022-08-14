@@ -32,6 +32,7 @@ class InsertVideoMenu implements IModalMenu {
   readonly modalWidth = 320
   private $content: Dom7Array | null = null
   private readonly srcInputId = genDomID()
+  private readonly posterInputId = genDomID()
   private readonly buttonId = genDomID()
 
   getValue(editor: IDomEditor): string | boolean {
@@ -71,15 +72,21 @@ class InsertVideoMenu implements IModalMenu {
   }
 
   getModalContentElem(editor: IDomEditor): DOMElement {
-    const { srcInputId, buttonId } = this
+    const { srcInputId, posterInputId, buttonId } = this
 
     // 获取 input button elem
     const [srcContainerElem, inputSrcElem] = genModalInputElems(
       t('videoModule.videoSrc'),
       srcInputId,
-      t('videoModule.insertPlaceHolder')
+      t('videoModule.videoSrcPlaceHolder')
+    )
+    const [posterContainerElem, inputPosterElem] = genModalInputElems(
+      t('videoModule.videoPoster'),
+      posterInputId,
+      t('videoModule.videoPosterPlaceHolder')
     )
     const $inputSrc = $(inputSrcElem)
+    const $inputPoster = $(inputPosterElem)
     const [buttonContainerElem] = genModalButtonElems(buttonId, t('videoModule.ok'))
 
     if (this.$content == null) {
@@ -90,7 +97,8 @@ class InsertVideoMenu implements IModalMenu {
       $content.on('click', `#${buttonId}`, async e => {
         e.preventDefault()
         const src = $content.find(`#${srcInputId}`).val().trim()
-        await insertVideo(editor, src)
+        const poster = $content.find(`#${posterInputId}`).val().trim()
+        await insertVideo(editor, src, poster)
         editor.hidePanelOrModal() // 隐藏 modal
       })
 
@@ -103,10 +111,12 @@ class InsertVideoMenu implements IModalMenu {
 
     // append inputs and button
     $content.append(srcContainerElem)
+    $content.append(posterContainerElem)
     $content.append(buttonContainerElem)
 
     // 设置 input val
     $inputSrc.val('')
+    $inputPoster.val('')
 
     // focus 一个 input（异步，此时 DOM 尚未渲染）
     setTimeout(() => {

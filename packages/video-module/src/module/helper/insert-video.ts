@@ -10,8 +10,11 @@ import { VideoElement } from '../custom-types'
 
 /**
  * 插入视频
+ * @param editor editor
+ * @param src video src
+ * @param poster video poster
  */
-export default async function (editor: IDomEditor, src: string) {
+export default async function (editor: IDomEditor, src: string, poster = '') {
   if (!src) return
 
   // 还原选区
@@ -33,7 +36,7 @@ export default async function (editor: IDomEditor, src: string) {
   // 转换 src
   let parsedSrc = await parseVideoSrc(src)
 
-  if (parsedSrc.trim().indexOf('<iframe') !== 0) {
+  if (parsedSrc.trim().indexOf('<iframe ') !== 0) {
     parsedSrc = replaceSymbols(parsedSrc)
   }
 
@@ -41,6 +44,7 @@ export default async function (editor: IDomEditor, src: string) {
   const video: VideoElement = {
     type: 'video',
     src: parsedSrc,
+    poster,
     children: [{ text: '' }], // 【注意】void node 需要一个空 text 作为 children
   }
 

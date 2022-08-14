@@ -6,6 +6,7 @@
 import {
   Editor,
   Transforms,
+  Location,
   Point,
   Element as SlateElement,
   Descendant,
@@ -15,11 +16,6 @@ import {
   Path,
 } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-// import $ from '../utils/dom'
-
-function genEmptyParagraph(): SlateElement {
-  return { type: 'paragraph', children: [{ text: '' }] }
-}
 
 // table cell 内部的删除处理
 function deleteHandler(newEditor: IDomEditor): boolean {
@@ -39,6 +35,26 @@ function deleteHandler(newEditor: IDomEditor): boolean {
   }
 
   return false
+}
+
+/**
+ * 判断该 location 有没有命中 table
+ * @param editor editor
+ * @param location location
+ */
+function isTableLocation(editor: IDomEditor, location: Location): boolean {
+  const tables = Editor.nodes(editor, {
+    at: location,
+    match: n => {
+      const type = DomEditor.getNodeType(n)
+      return type === 'table'
+    },
+  })
+  let hasTable = false
+  for (const table of tables) {
+    hasTable = true // 找到了 table
+  }
+  return hasTable
 }
 
 function withTable<T extends IDomEditor>(editor: T): T {
@@ -71,6 +87,19 @@ function withTable<T extends IDomEditor>(editor: T): T {
     const res = deleteHandler(newEditor)
     if (res) return // 命中 table cell ，自己处理删除
 
+    // 防止从 table 后面的 p 删除时，删除最后一个 cell - issues/4221
+    const { selection } = newEditor
+    if (selection) {
+      const before = Editor.before(newEditor, selection) // 前一个 location
+      if (before) {
+        const isTableOnBeforeLocation = isTableLocation(newEditor, before) // before 是否是 table
+        const isTableOnCurSelection = isTableLocation(newEditor, selection) // 当前是否是 table
+        if (isTableOnBeforeLocation && !isTableOnCurSelection) {
+          return // 如果当前不是 table ，前面是 table ，则不执行删除。否则会删除 table 最后一个 cell
+        }
+      }
+    }
+
     // 执行默认的删除
     deleteBackward(unit)
   }
@@ -98,7 +127,7 @@ function withTable<T extends IDomEditor>(editor: T): T {
         const topLevelNodesLength = topLevelNodes.length
         // 在最后一个单元格按tab时table末尾如果没有p则插入p后光标切到p上
         if (DomEditor.checkNodeType(topLevelNodes[topLevelNodesLength - 1], 'table')) {
-          const p = genEmptyParagraph()
+          const p = DomEditor.genEmptyParagraph()
           Transforms.insertNodes(newEditor, p, { at: [topLevelNodesLength] })
           // 在表格末尾插入p后再次执行使光标切到p上
           newEditor.handleTab()
@@ -125,55 +154,12 @@ function withTable<T extends IDomEditor>(editor: T): T {
       // 未命中 table ，执行默认的 normalizeNode
       return normalizeNode([node, path])
     }
-    const { children: rows = [] } = node as SlateElement
-    const topLevelNodes = newEditor.children || []
-    const topLevelNodesLength = topLevelNodes.length
 
-    const isFirstNode = topLevelNodes[0] === node
-    const isLastNode = topLevelNodes[topLevelNodesLength - 1] === node
-
-    if (isFirstNode && !isLastNode) {
-      // -------------- table 仅是 editor 第一个节点，需要前面插入 p --------------
-      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: path })
-    }
-    if (isLastNode && !isFirstNode) {
-      // -------------- table 仅是 editor 最后一个节点，需要后面插入 p --------------
-      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: [path[0] + 1] })
-    }
-    if (isFirstNode && isLastNode) {
-      // -------------- table 是 editor 唯一一个节点，需要前后都插入 p --------------
-      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: path })
-      Transforms.insertNodes(newEditor, genEmptyParagraph(), { at: [path[0] + 2] })
-    }
-
-    // --------------------- table 后面必须跟一个 p header blockquote（否则后面无法继续输入文字） ---------------------
-    const nextNode = topLevelNodes[path[0] + 1] || {}
-    if (SlateElement.isElement(nextNode)) {
-      const { type: nextNodeType = '' } = nextNode
-      if (
-        nextNodeType !== 'paragraph' &&
-        nextNodeType !== 'blockquote' &&
-        !nextNodeType.startsWith('header')
-      ) {
-        // table node 后面不是 p 或 header ，则插入一个空 p
-        const p = genEmptyParagraph()
-        const insertPath = [path[0] + 1]
-        Transforms.insertNodes(newEditor, p, {
-          at: insertPath, // 在表格后面插入
-        })
-      }
-    }
-
-    // --------------------- table 前面不能是 table 或者 void（否则前面插入 p） ---------------------
-    const prevNode = topLevelNodes[path[0] - 1] || {}
-    if (SlateElement.isElement(prevNode)) {
-      const prevNodeType = DomEditor.getNodeType(prevNode)
-      if (prevNodeType === 'table' || newEditor.isVoid(prevNode)) {
-        const p = genEmptyParagraph()
-        Transforms.insertNodes(newEditor, p, {
-          at: path, // 在表格前面插入
-        })
-      }
+    // -------------- table 是 editor 最后一个节点，需要后面插入 p --------------
+    const isLast = DomEditor.isLastNode(newEditor, node)
+    if (isLast) {
+      const p = DomEditor.genEmptyParagraph()
+      Transforms.insertNodes(newEditor, p, { at: [path[0] + 1] })
     }
   }
 

@@ -7,7 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>wangEditor extend menu</title>
   <link href="https://cdn.bootcdn.net/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet"> -->
+  <link href="https://unpkg.com/@wangeditor/editor@latest/dist/css/style.css" rel="stylesheet">
   <link href="./css/layout.css" rel="stylesheet">
 
   <script src="./js/custom-elem.js"></script>
@@ -34,12 +35,15 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@wangeditor/editor@latest/dist/index.min.js"></script> -->
+  <script src="https://unpkg.com/@wangeditor/editor@latest/dist/index.js"></script>
   <script>
     const E = window.wangEditor
 
     const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
     E.i18nChangeLanguage(LANG) // 切换语言
+
+
 
     // Extend menu
     class MyMenu {
@@ -52,13 +56,13 @@
         return ' hello '
       }
       isActive(editor) {
-        return false // or false
+        return false // or true
       }
       isDisabled(editor) {
         return false // or true
       }
       exec(editor, value) {
-        editor.insertText(value)
+        editor.insertText(value) // value 即 this.getValue(editor) 的返回值
       }
     }
     const myMenuConf = {
@@ -68,6 +72,8 @@
       }
     }
     E.Boot.registerMenu(myMenuConf)
+
+
 
     window.editor = E.createEditor({
       selector: '#editor-text-area',
