@@ -30,9 +30,9 @@
   <script>
     const E = window.wangEditor
 
-      // 切换语言
-      const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
-      E.i18nChangeLanguage(LANG)
+    // 切换语言
+    const LANG = location.href.indexOf('lang=en') > 0 ? 'en' : 'zh-CN'
+    E.i18nChangeLanguage(LANG)
 
     const editorConfig = { MENU_CONF: {} }
     editorConfig.MENU_CONF['uploadImage'] = {
@@ -86,8 +86,9 @@
       // },
 
       // // 用户自定义上传图片
-      // customUpload(file, insertFn) {
+      // customUpload(file, insertFn, editor) {
       //   console.log('customUpload', file)
+      //   console.log('editor', editor)
 
       //   return new Promise((resolve) => {
       //     // 插入一张图片，模拟异步

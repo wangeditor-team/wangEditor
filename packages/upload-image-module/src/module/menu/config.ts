@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { IUploadConfig } from '@wangeditor/core'
+import { IDomEditor, IUploadConfig } from '@wangeditor/core'
 
 type InsertFn = (src: string, alt: string, href: string) => void
 
@@ -13,7 +13,7 @@ export type IUploadConfigForImage = IUploadConfig & {
   // 用户自定义插入图片
   customInsert?: (res: any, insertFn: InsertFn) => void
   // 用户自定义上传图片
-  customUpload?: (files: File, insertFn: InsertFn) => void
+  customUpload?: (files: File, insertFn: InsertFn, editor?: IDomEditor) => void
   // base64 限制（单位 kb） - 小于 xxx 就插入 base64 格式
   base64LimitSize: number
   // 自定义选择图片，如图床
