@@ -95,7 +95,6 @@ function renderTableCell(
     <Tag
       colSpan={colSpan}
       rowSpan={rowSpan}
-      style={{ borderRightWidth: '3px' }}
       on={{
         mousemove: throttle(function (this: VNode, event: MouseEvent) {
           const elem = this.elm as HTMLElement
