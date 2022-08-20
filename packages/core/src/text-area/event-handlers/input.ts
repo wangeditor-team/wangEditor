@@ -11,7 +11,7 @@ import { hasEditableTarget } from '../helpers'
 
 // 【注意】虽然 keypress 事件已经过时（建议用 keydown 取代），但这里是为了兼容 beforeinput ，所以不会在高级浏览器生效，不用升级 keydown
 
-function handleKeypress(event: Event, textarea: TextArea, editor: IDomEditor) {
+function handleInput(event: Event, textarea: TextArea, editor: IDomEditor) {
   // 这里是兼容不完全支持 beforeInput 的浏览器。对于支持 beforeInput 的浏览器，会用 beforeinput 事件处理
   if (HAS_BEFORE_INPUT_SUPPORT) return
 
@@ -27,4 +27,4 @@ function handleKeypress(event: Event, textarea: TextArea, editor: IDomEditor) {
   Editor.insertText(editor, text)
 }
 
-export default handleKeypress
+export default handleInput
