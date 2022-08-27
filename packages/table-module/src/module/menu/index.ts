@@ -6,8 +6,10 @@
 import InsertTable from './InsertTable'
 import DeleteTable from './DeleteTable'
 import InsertRow from './InsertRow'
+import InsertTopRow from './InsertTopRow'
 import DeleteRow from './DeleteRow'
 import InsertCol from './InsertCol'
+import InsertRightCol from './InsertRightCol'
 import DeleteCol from './DeleteCol'
 import TableHander from './TableHeader'
 import FullWidth from './FullWidth'
@@ -23,6 +25,13 @@ export const deleteTableMenuConf = {
   key: 'deleteTable',
   factory() {
     return new DeleteTable()
+  },
+}
+
+export const insertTableTopRowConf = {
+  key: 'insertTableTopRow',
+  factory() {
+    return new InsertTopRow()
   },
 }
 
@@ -44,6 +53,13 @@ export const insertTableColConf = {
   key: 'insertTableCol',
   factory() {
     return new InsertCol()
+  },
+}
+
+export const insertTableRightColConf = {
+  key: 'insertTableRightCol',
+  factory() {
+    return new InsertRightCol()
   },
 }
 
