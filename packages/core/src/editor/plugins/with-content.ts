@@ -377,10 +377,10 @@ export const withContent = <T extends Editor>(editor: T) => {
     // 删除当前内容
     e.enable()
     e.focus()
-    e.select([])
-    e.deleteFragment()
-    Transforms.setNodes(e, { type: 'paragraph' }, { mode: 'highest' })
-
+    // 需要标准的{anchor:xxx, focus: xxxx} 否则无法通过slate history的检查
+    // 使用 e.select([]) e.selectAll() 生成的location不是标准的{anchor: xxxx, focus: xxx}形式
+    // https://github.com/wangeditor-team/wangEditor/issues/4754
+    e.clear()
     // 设置新内容
     const newContent = htmlToContent(e, html)
     Transforms.insertFragment(e, newContent)
