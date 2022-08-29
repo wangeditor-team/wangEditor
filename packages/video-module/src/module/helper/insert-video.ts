@@ -22,7 +22,7 @@ export default async function (editor: IDomEditor, src: string, poster = '') {
 
   // 校验
   const { onInsertedVideo, checkVideo, parseVideoSrc } = editor.getMenuConfig('insertVideo')
-  const checkRes = await checkVideo(src)
+  const checkRes = await checkVideo(src, poster)
   if (typeof checkRes === 'string') {
     // 校验失败，给出提示
     editor.alert(checkRes, 'error')
