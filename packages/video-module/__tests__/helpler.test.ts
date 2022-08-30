@@ -22,7 +22,7 @@ describe('Video module helper', () => {
         config: {
           MENU_CONF: {
             insertVideo: {
-              checkVideo: (_src: string) => 'check result',
+              checkVideo: (_src: string, _poster: string) => 'check result',
             },
           },
         },
@@ -40,7 +40,7 @@ describe('Video module helper', () => {
         config: {
           MENU_CONF: {
             insertVideo: {
-              checkVideo: (_src: string) => null,
+              checkVideo: (_src: string, _poster: string) => null,
             },
           },
         },

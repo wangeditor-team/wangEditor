@@ -174,7 +174,9 @@
         console.log('inserted video', videoNode)
       },
 
-      checkVideo(src) {
+      checkVideo(src, poster) {
+        console.log('video src', src)
+        console.log('video poster', poster)
         if (src.indexOf('http') !== 0) {
           return '视频地址必须以 http/https 开头'
         }
