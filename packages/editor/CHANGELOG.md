@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.15](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.1.14...@wangeditor/editor@5.1.15) (2022-08-30)
+
+
+### Bug Fixes
+
+* checkVideo 增加 poster 参数 ([c0402e1](https://github.com/wangeditor-team/wangEditor/commit/c0402e155470233d256e037d863dab74c026b7f6))
+
+
+
+
+
 ## [5.1.14](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.1.13...@wangeditor/editor@5.1.14) (2022-07-27)
 
 **Note:** Version bump only for package @wangeditor/editor

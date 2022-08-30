@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/video-module@1.1.1...@wangeditor/video-module@1.1.2) (2022-08-30)
+
+
+### Bug Fixes
+
+* checkVideo 增加 poster 参数 ([c0402e1](https://github.com/wangeditor-team/wangEditor/commit/c0402e155470233d256e037d863dab74c026b7f6))
+
+
+
+
+
 ## [1.1.1](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/video-module@1.1.0...@wangeditor/video-module@1.1.1) (2022-07-14)
 
 
