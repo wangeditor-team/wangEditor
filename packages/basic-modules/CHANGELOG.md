@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.3...@wangeditor/basic-modules@1.1.4) (2022-09-14)
+
+
+### Bug Fixes
+
+* font-size - 支持配置 name value ([206ebd9](https://github.com/wangeditor-team/wangEditor/commit/206ebd994d2635704d93ef9ebe0022d7d72ddea8))
+
+
+
+
+
 ## [1.1.3](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.2...@wangeditor/basic-modules@1.1.3) (2022-07-13)
 
 

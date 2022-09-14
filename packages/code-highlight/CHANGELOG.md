@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/code-highlight@1.0.2...@wangeditor/code-highlight@1.0.3) (2022-09-14)
+
+
+### Bug Fixes
+
+* 代码块 - 增加 lua groovy  语言 ([ef4f62a](https://github.com/wangeditor-team/wangEditor/commit/ef4f62a876e95995f7c8f6f41d8d44b2505dd5f6))
+
+
+
+
+
 ## [1.0.2](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/code-highlight@1.0.1...@wangeditor/code-highlight@1.0.2) (2022-06-02)
 
 
