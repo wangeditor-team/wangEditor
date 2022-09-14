@@ -26,6 +26,8 @@ export function genCodeLangs() {
     { text: 'Ruby', value: 'ruby' },
     { text: 'Swift', value: 'swift' },
     { text: 'Bash', value: 'bash' },
+    { text: 'Lua', value: 'lua' },
+    { text: 'Groovy', value: 'groovy' },
     { text: 'Markdown', value: 'markdown' },
   ]
 }
