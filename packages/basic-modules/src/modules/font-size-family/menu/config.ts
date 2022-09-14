@@ -4,20 +4,23 @@
  */
 
 export function genFontSizeConfig() {
-  return [
+  const fontSizeList: Array<string | { name: string; value: string }> = [
+    // 元素支持两种形式：1. 字符串；2. { name: 'xxx', value: 'xxx' }
     '12px',
-    '13px',
+    { name: '13px', value: '13px' },
     '14px',
     '15px',
     '16px',
     '19px',
-    '22px',
+    { name: '22px', value: '22px' },
     '24px',
     '29px',
     '32px',
     '40px',
     '48px',
   ]
+
+  return fontSizeList
 }
 
 export function getFontFamilyConfig() {

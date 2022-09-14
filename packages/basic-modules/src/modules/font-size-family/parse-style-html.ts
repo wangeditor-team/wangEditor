@@ -14,12 +14,19 @@ export function parseStyleHtml(text: DOMElement, node: Descendant, editor: IDomE
 
   const textNode = node as FontSizeAndFamilyText
 
+  // -------- 处理 font-size --------
   const { fontSizeList = [] } = editor.getMenuConfig('fontSize')
   const fontSize = getStyleValue($text, 'font-size')
-  if (fontSize && fontSizeList.includes(fontSize)) {
+
+  const includesSize =
+    fontSizeList.find(item => item.value && item.value === fontSize) ||
+    fontSizeList.includes(fontSize)
+
+  if (fontSize && includesSize) {
     textNode.fontSize = fontSize
   }
 
+  // -------- 处理 font-family --------
   const { fontFamilyList = [] } = editor.getMenuConfig('fontFamily')
   const fontFamily = getStyleValue($text, 'font-family')
 

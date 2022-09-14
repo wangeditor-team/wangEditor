@@ -23,11 +23,19 @@ class FontSizeMenu extends BaseMenu {
       text: t('fontSize.default'),
       value: '', // this.getValue(editor) 未找到结果时，会返回 '' ，正好对应到这里
     })
-    fontSizeList.forEach((size: string) => {
-      options.push({
-        text: size,
-        value: size,
-      })
+    fontSizeList.forEach((size: string | { name: string; value: string }) => {
+      if (typeof size === 'string') {
+        options.push({
+          text: size,
+          value: size,
+        })
+      } else if (typeof size === 'object') {
+        const { name, value } = size
+        options.push({
+          text: name,
+          value: value,
+        })
+      }
     })
 
     // 设置 selected
