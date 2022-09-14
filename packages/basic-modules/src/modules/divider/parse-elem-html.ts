@@ -16,6 +16,6 @@ function parseHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor)
 }
 
 export const parseHtmlConf = {
-  selector: 'hr',
+  selector: 'hr:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: parseHtml,
 }

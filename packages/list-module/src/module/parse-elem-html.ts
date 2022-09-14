@@ -34,7 +34,7 @@ function parseItemHtml(
 }
 
 export const parseItemHtmlConf = {
-  selector: 'li',
+  selector: 'li:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: parseItemHtml,
 }
 
@@ -51,7 +51,7 @@ function parseBulletedListHtml(
 }
 
 export const parseBulletedListHtmlConf = {
-  selector: 'ul',
+  selector: 'ul:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: parseBulletedListHtml,
 }
 
@@ -68,6 +68,6 @@ function parseNumberedListHtml(
 }
 
 export const parseNumberedListHtmlConf = {
-  selector: 'ol',
+  selector: 'ol:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: parseNumberedListHtml,
 }

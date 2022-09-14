@@ -39,26 +39,26 @@ function genParser<T>(level: number) {
 }
 
 export const parseHeader1HtmlConf = {
-  selector: 'h1',
+  selector: 'h1:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: genParser<Header1Element>(1),
 }
 
 export const parseHeader2HtmlConf = {
-  selector: 'h2',
+  selector: 'h2:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: genParser<Header2Element>(2),
 }
 
 export const parseHeader3HtmlConf = {
-  selector: 'h3',
+  selector: 'h3:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: genParser<Header3Element>(3),
 }
 
 export const parseHeader4HtmlConf = {
-  selector: 'h4',
+  selector: 'h4:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: genParser<Header4Element>(4),
 }
 
 export const parseHeader5HtmlConf = {
-  selector: 'h5',
+  selector: 'h5:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: genParser<Header5Element>(5),
 }

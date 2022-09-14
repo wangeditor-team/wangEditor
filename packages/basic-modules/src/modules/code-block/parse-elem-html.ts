@@ -19,7 +19,7 @@ function parseCodeHtml(elem: DOMElement, children: Descendant[], editor: IDomEdi
 }
 
 export const parseCodeHtmlConf = {
-  selector: 'pre>code', // 匹配 <pre> 下的 <code>
+  selector: 'pre:not([data-w-e-type])>code', // 匹配 <pre> 下的 <code>
   parseElemHtml: parseCodeHtml,
 }
 
@@ -39,6 +39,6 @@ function parsePreHtml(elem: DOMElement, children: Descendant[], editor: IDomEdit
 }
 
 export const parsePreHtmlConf = {
-  selector: 'pre',
+  selector: 'pre:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: parsePreHtml,
 }

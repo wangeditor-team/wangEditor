@@ -42,7 +42,7 @@ function parseCellHtml(
 }
 
 export const parseCellHtmlConf = {
-  selector: 'td,th',
+  selector: 'td:not([data-w-e-type]),th:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: parseCellHtml,
 }
 
@@ -59,7 +59,7 @@ function parseRowHtml(
 }
 
 export const parseRowHtmlConf = {
-  selector: 'tr',
+  selector: 'tr:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: parseRowHtml,
 }
 
@@ -84,6 +84,6 @@ function parseTableHtml(
 }
 
 export const parseTableHtmlConf = {
-  selector: 'table',
+  selector: 'table:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: parseTableHtml,
 }

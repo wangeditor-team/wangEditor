@@ -34,6 +34,6 @@ function parseHtml(
 }
 
 export const parseHtmlConf = {
-  selector: 'blockquote',
+  selector: 'blockquote:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: parseHtml,
 }
