@@ -133,11 +133,11 @@ class TextArea {
 
     editor.on('change', () => {
       if (this.latestEditorSelection == null && editor.selection != null) {
-        // 需要触发 focus
-        onFocus && onFocus(editor)
+        // 异步触发 focus
+        setTimeout(() => onFocus && onFocus(editor))
       } else if (this.latestEditorSelection != null && editor.selection == null) {
-        // 需要触发 blur
-        onBlur && onBlur(editor)
+        // 异步触发 blur
+        setTimeout(() => onBlur && onBlur(editor))
       }
 
       this.latestEditorSelection = editor.selection // 重新记录 selection

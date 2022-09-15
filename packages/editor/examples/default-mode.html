@@ -74,10 +74,10 @@
       console.log('on destroyed', editor)
     }
     editorConfig.onFocus = (editor) => {
-      console.log('onFocus', editor)
+      console.log('onFocus', editor.isFocused())
     }
     editorConfig.onBlur = (editor) => {
-      console.log('onBlur', editor)
+      console.log('onBlur', editor.isFocused())
     }
 
     // editorConfig.customPaste = (editor, event) => {
