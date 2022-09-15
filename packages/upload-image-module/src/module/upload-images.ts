@@ -32,6 +32,8 @@ function getUppy(editor: IDomEditor): Uppy {
     if (customInsert) {
       // 用户自定义插入图片，此时 res 格式可能不符合预期
       customInsert(res, (src, alt, href) => insertImageNode(editor, src, alt, href))
+      // success 回调
+      onSuccess(file, res)
       return
     }
 

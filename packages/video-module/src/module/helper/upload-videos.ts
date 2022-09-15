@@ -37,6 +37,8 @@ function getUppy(editor: IDomEditor): Uppy {
     if (customInsert) {
       // 用户自定义插入视频，此时 res 格式可能不符合预期
       customInsert(res, (src, poster) => insertVideo(editor, src, poster))
+      // success 回调
+      onSuccess(file, res)
       return
     }
 
