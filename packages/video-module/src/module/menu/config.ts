@@ -48,10 +48,12 @@ export function genUploadVideoMenuConfig(): IUploadConfigForVideo {
     },
     onFailed: (file: any, res: any) => {
       /* on failed */
+      console.error(`'${file.name}' upload failed`, res)
     },
     onError: (file: any, err: any, res: any) => {
       /* on error */
       /* on timeout */
+      console.error(`'${file.name} upload error`, err, res)
     },
 
     // 自定义插入视频，用户配置

@@ -49,11 +49,12 @@ export function genUploadImageConfig(): IUploadConfigForImage {
       /* on success */
     },
     onFailed: (file: any, res: any) => {
-      /* on failed */
+      console.error(`'${file.name}' upload failed`, res)
     },
     onError: (file: any, err: any, res: any) => {
       /* on error */
       /* on timeout */
+      console.error(`'${file.name}' upload error`, res)
     },
 
     // 自定义插入图片，用户配置

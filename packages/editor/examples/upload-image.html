@@ -66,23 +66,21 @@
         console.log('onSuccess', file, res)
       },
       onFailed(file, res) {
-        alert(res.message)
         console.log('onFailed', file, res)
       },
       onError(file, err, res) {
-        alert(err.message)
-        console.error('onError', file, err, res)
+        console.error('onError---', file, err, res)
       },
 
-      customInsert(res, insertFn) {
-        console.log('customInsert', res)
-        const imgInfo = res.data[0] || {}
-        const { url, alt, href } = imgInfo
-        if (!url) throw new Error(`Image url is empty`)
+      // customInsert(res, insertFn) {
+      //   console.log('customInsert', res)
+      //   const imgInfo = res.data[0] || {}
+      //   const { url, alt, href } = imgInfo
+      //   if (!url) throw new Error(`Image url is empty`)
 
-        console.log('Your image url ', url)
-        insertFn(url, alt, href)
-      },
+      //   console.log('Your image url ', url)
+      //   insertFn(url, alt, href)
+      // },
 
       // customUpload(file, insertFn) {
       //   console.log('customUpload', file)

@@ -37,8 +37,6 @@ function getUppy(editor: IDomEditor): Uppy {
 
     let { errno = 1, data = {} } = res
     if (errno !== 0) {
-      console.error(`'${file.name}' upload failed`, res)
-
       // failed 回调
       onFailed(file, res)
       return
@@ -71,11 +69,8 @@ function getUppy(editor: IDomEditor): Uppy {
 
   // onError 提示错误
   const errorHandler = (file: any, err: any, res: any) => {
-    const fileName = file.name
-    console.error(`'${fileName} upload error`, err, res)
-
     // 回调函数
-    onError && onError(file, err, res)
+    onError(file, err, res)
   }
 
   // 创建 uppy

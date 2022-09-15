@@ -68,12 +68,10 @@
         console.log('onSuccess', file, res)
       },
       onFailed(file, res) {
-        alert(res.message)
-        console.log('onFailed', file, res)
+        console.log('onFailed---', file, res)
       },
       onError(file, err, res) {
-        alert(err.message)
-        console.error('onError', file, err, res)
+        console.error('onError---', file, err, res)
       },
 
       // customInsert(res, insertFn) {

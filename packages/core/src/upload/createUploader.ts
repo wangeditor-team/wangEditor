@@ -82,9 +82,9 @@ function createUploader(config: IUploadConfig): Uppy {
     onProgress(progress)
   })
 
-  uppy.on('error', error => {
-    console.error('wangEditor file upload error', error.stack)
-  })
+  // uppy.on('error', error => {
+  //   console.error('wangEditor file upload error', error.stack)
+  // })
 
   uppy.on('upload-error', (file, error, response) => {
     try {
