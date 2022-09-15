@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.17](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.1.16...@wangeditor/editor@5.1.17) (2022-09-15)
+
+
+### Bug Fixes
+
+* customInsert 不触发 onSuccess ([d6f4a1b](https://github.com/wangeditor-team/wangEditor/commit/d6f4a1b1494864b116a1310cce2d9e8632c92c6f))
+* focus table 时 isFocused 异常 ([5c52bf3](https://github.com/wangeditor-team/wangEditor/commit/5c52bf33e91b1a4677e7bbc04c5d80698abfeeab))
+* 上传视频 - customBrowseAndUpload 缺少 poster ([c24627a](https://github.com/wangeditor-team/wangEditor/commit/c24627aaa4c173c5d435e3077dfe8f6b4a9a87b1))
+
+
+
+
+
 ## [5.1.16](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/editor@5.1.15...@wangeditor/editor@5.1.16) (2022-09-14)
 
 **Note:** Version bump only for package @wangeditor/editor

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.13](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.12...@wangeditor/core@1.1.13) (2022-09-15)
+
+
+### Bug Fixes
+
+* focus table 时 isFocused 异常 ([5c52bf3](https://github.com/wangeditor-team/wangEditor/commit/5c52bf33e91b1a4677e7bbc04c5d80698abfeeab))
+* snabbdom 增加 attributesModule ([2c597b6](https://github.com/wangeditor-team/wangEditor/commit/2c597b6a52ffa96c820128d63fd84b903a6faebf))
+
+
+
+
+
 ## [1.1.12](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.11...@wangeditor/core@1.1.12) (2022-08-30)
 
 

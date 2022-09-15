@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.4...@wangeditor/basic-modules@1.1.5) (2022-09-15)
+
+
+### Bug Fixes
+
+* 图片 100% 有横向滚动条 ([d21322a](https://github.com/wangeditor-team/wangEditor/commit/d21322a1a9f2e3172a1bd5e175f5ebbb5f2ed074))
+* 插入表格会删掉去掉 issue 4711 ([d4fac4e](https://github.com/wangeditor-team/wangEditor/commit/d4fac4efd06480457a95c2b06e7472cf6204de58))
+
+
+
+
+
 ## [1.1.4](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.3...@wangeditor/basic-modules@1.1.4) (2022-09-14)
 
 

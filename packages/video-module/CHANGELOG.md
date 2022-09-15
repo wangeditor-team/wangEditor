@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/video-module@1.1.2...@wangeditor/video-module@1.1.3) (2022-09-15)
+
+
+### Bug Fixes
+
+* customInsert 不触发 onSuccess ([d6f4a1b](https://github.com/wangeditor-team/wangEditor/commit/d6f4a1b1494864b116a1310cce2d9e8632c92c6f))
+* 上传视频 - customBrowseAndUpload 缺少 poster ([c24627a](https://github.com/wangeditor-team/wangEditor/commit/c24627aaa4c173c5d435e3077dfe8f6b4a9a87b1))
+
+
+
+
+
 ## [1.1.2](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/video-module@1.1.1...@wangeditor/video-module@1.1.2) (2022-08-30)
 
 
