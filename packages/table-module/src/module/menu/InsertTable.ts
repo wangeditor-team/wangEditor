@@ -163,8 +163,7 @@ class InsertTable implements IDropPanelMenu {
     if (rowNum <= 0 || colNum <= 0) return
 
     // 如果当前是空 p ，则删除该 p
-    const p = DomEditor.getSelectedNodeByType(editor, 'paragraph')
-    if (p && Node.string(p) === '') {
+    if (DomEditor.isSelectedEmptyParagraph(editor)) {
       Transforms.removeNodes(editor, { mode: 'highest' })
     }
 
