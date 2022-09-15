@@ -31,7 +31,7 @@ class UploadVideoMenu implements IButtonMenu {
 
     // 自定义选择图片，并上传，如图床
     if (customBrowseAndUpload) {
-      customBrowseAndUpload(src => insertVideo(editor, src))
+      customBrowseAndUpload((src, poster) => insertVideo(editor, src, poster))
       return
     }
 
