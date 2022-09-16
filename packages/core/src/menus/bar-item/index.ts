@@ -32,10 +32,11 @@ export function getEditorInstance(item: IBarItem): IDomEditor {
 
 /**
  * 创建 bar button/select
+ * @param key menu key
  * @param menu menu
  * @param inGroup 在 groupButton 中
  */
-export function createBarItem(menu: MenuType, inGroup: boolean = false): IBarItem {
+export function createBarItem(key: string, menu: MenuType, inGroup: boolean = false): IBarItem {
   // 尝试从缓存获取
   let barItem = MENU_TO_BAR_ITEM.get(menu)
   if (barItem) return barItem
@@ -46,15 +47,15 @@ export function createBarItem(menu: MenuType, inGroup: boolean = false): IBarIte
     // @ts-ignore
     const { showDropPanel, showModal } = menu
     if (showDropPanel) {
-      barItem = new DropPanelButton(menu as IDropPanelMenu, inGroup)
+      barItem = new DropPanelButton(key, menu as IDropPanelMenu, inGroup)
     } else if (showModal) {
-      barItem = new ModalButton(menu as IModalMenu, inGroup)
+      barItem = new ModalButton(key, menu as IModalMenu, inGroup)
     } else {
-      barItem = new SimpleButton(menu, inGroup)
+      barItem = new SimpleButton(key, menu, inGroup)
     }
   }
   if (tag === 'select') {
-    barItem = new Select(menu as ISelectMenu, inGroup)
+    barItem = new Select(key, menu as ISelectMenu, inGroup)
   }
 
   if (barItem == null) throw new Error(`Invalid tag in menu ${JSON.stringify(menu)}`)

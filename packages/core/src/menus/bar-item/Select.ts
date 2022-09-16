@@ -32,7 +32,7 @@ class BarItemSelect implements IBarItem {
   private disabled = false
   private selectList: SelectList | null = null
 
-  constructor(menu: ISelectMenu, inGroup = false) {
+  constructor(key: string, menu: ISelectMenu, inGroup = false) {
     // 验证 tag
     const { tag, title, width, iconSvg = '', hotkey = '' } = menu
     if (tag !== 'select') throw new Error(`Invalid tag '${tag}', expected 'select'`)
@@ -42,6 +42,7 @@ class BarItemSelect implements IBarItem {
     if (width) {
       $button.css('width', `${width}px`)
     }
+    $button.attr('data-menu-key', key) // menu key
     addTooltip($button, iconSvg, title, hotkey, inGroup) // 设置 tooltip
     this.$elem.append($button)
 

@@ -169,7 +169,7 @@ class Toolbar {
       console.warn(`Duplicated toolbar menu key '${key}'\n重复注册了菜单栏 menu '${key}'`)
     }
 
-    const toolbarItem = createBarItem(menu, inGroup)
+    const toolbarItem = createBarItem(key, menu, inGroup)
     this.toolbarItems.push(toolbarItem)
 
     // 保存 toolbarItem 和 editor 的关系

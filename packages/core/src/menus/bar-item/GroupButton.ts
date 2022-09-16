@@ -14,7 +14,7 @@ class GroupButton {
   readonly $button = $(`<button type="button"></button>`)
 
   constructor(menu: IMenuGroup) {
-    const { iconSvg, title /*, menuKeys = [] */ } = menu
+    const { key, iconSvg, title /*, menuKeys = [] */ } = menu
     const { $elem, $button } = this
 
     // button
@@ -26,6 +26,7 @@ class GroupButton {
       // 无 icon 则显示 title
       $button.text(title)
     }
+    $button.attr('data-menu-key', key) // menu key
 
     const $arrow = gen$downArrow()
     $button.append($arrow)

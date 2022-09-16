@@ -17,8 +17,8 @@ class ModalButton extends BaseButton {
   private modal: Modal | null = null
   menu: IModalMenu
 
-  constructor(menu: IModalMenu, inGroup = false) {
-    super(menu, inGroup)
+  constructor(key: string, menu: IModalMenu, inGroup = false) {
+    super(key, menu, inGroup)
     this.menu = menu
   }
 

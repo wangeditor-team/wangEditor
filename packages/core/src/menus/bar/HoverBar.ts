@@ -167,7 +167,7 @@ class HoverBar {
       menus[key] = menu
     }
 
-    const barItem = createBarItem(menu)
+    const barItem = createBarItem(key, menu)
     this.hoverbarItems.push(barItem)
 
     // 保存 barItem 和 editor 的关系

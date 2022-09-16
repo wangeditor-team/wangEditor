@@ -16,7 +16,7 @@ abstract class BaseButton implements IBarItem {
   menu: IButtonMenu | IDropPanelMenu | IModalMenu
   private disabled = false
 
-  constructor(menu: IButtonMenu | IDropPanelMenu | IModalMenu, inGroup = false) {
+  constructor(key: string, menu: IButtonMenu | IDropPanelMenu | IModalMenu, inGroup = false) {
     this.menu = menu
 
     // 验证 tag
@@ -43,6 +43,7 @@ abstract class BaseButton implements IBarItem {
     if (width) {
       $button.css('width', `${width}px`)
     }
+    $button.attr('data-menu-key', key) // menu key
     this.$elem.append($button)
 
     // ----------------- 异步绑定事件 -----------------
