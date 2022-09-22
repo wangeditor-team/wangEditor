@@ -731,6 +731,9 @@ export const DomEditor = {
           if ($parent.attr('data-slate-zero-width')) {
             return // 正常的 text
           }
+          if ($parent.attr('data-w-e-reserve')) {
+            return // 故意保留的节点
+          }
 
           // 暴露的 text node ，删除
           parent.removeChild(textNode)

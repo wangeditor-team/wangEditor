@@ -1,19 +1,12 @@
 {
-  "name": "@wangeditor/editor",
-  "version": "5.1.18",
-  "description": "Web rich text editor, Web 富文本编辑器",
-  "keywords": [
-    "wangeditor",
-    "rich text",
-    "editor",
-    "富文本",
-    "编辑器"
-  ],
+  "name": "@wangeditor/list2-module",
+  "version": "1.0.0",
+  "description": "wangEditor list2 module",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "contributors": [],
-  "homepage": "https://www.wangeditor.com/",
+  "homepage": "https://github.com/wangeditor-team/wangEditor#readme",
   "license": "MIT",
-  "types": "dist/editor/src/index.d.ts",
+  "types": "dist/list2-module/src/index.d.ts",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "browser": {
@@ -38,7 +31,6 @@
   "scripts": {
     "test": "jest",
     "test-c": "jest --coverage",
-    "example": "concurrently \"yarn dev-watch\" \"http-server -p 8881 -c-1\" ",
     "dev": "cross-env NODE_ENV=development rollup -c rollup.config.js",
     "dev-watch": "cross-env NODE_ENV=development rollup -c rollup.config.js -w",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
@@ -48,27 +40,9 @@
   "bugs": {
     "url": "https://github.com/wangeditor-team/wangEditor/issues"
   },
-  "dependencies": {
-    "@uppy/core": "^2.1.1",
-    "@uppy/xhr-upload": "^2.0.3",
-    "@wangeditor/basic-modules": "^1.1.5",
-    "@wangeditor/code-highlight": "^1.0.3",
-    "@wangeditor/core": "^1.1.14",
-    "@wangeditor/list-module": "^1.0.3",
-    "@wangeditor/list2-module": "^1.0.0",
-    "@wangeditor/table-module": "^1.1.3",
-    "@wangeditor/upload-image-module": "^1.0.2",
-    "@wangeditor/video-module": "^1.1.3",
+  "peerDependencies": {
+    "@wangeditor/core": "1.x",
     "dom7": "^3.0.0",
-    "is-hotkey": "^0.2.0",
-    "lodash.camelcase": "^4.3.0",
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.debounce": "^4.0.8",
-    "lodash.foreach": "^4.5.0",
-    "lodash.isequal": "^4.5.0",
-    "lodash.throttle": "^4.1.1",
-    "lodash.toarray": "^4.4.0",
-    "nanoid": "^3.2.0",
     "slate": "^0.72.0",
     "snabbdom": "^3.1.0"
   }

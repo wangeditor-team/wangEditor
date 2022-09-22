@@ -33,6 +33,7 @@ import {
   NumberedListElement,
   BulletedListElement,
 } from './list-module/src/module/custom-types'
+import { List2ItemElement } from './list2-module/src/module/custom-types'
 
 type PureText = {
   text: string
@@ -68,6 +69,7 @@ type CustomElement =
   | TableRowElement
   | TableElement
   | ListItemElement
+  | List2ItemElement
   | NumberedListElement
   | BulletedListElement
 

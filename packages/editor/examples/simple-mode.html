@@ -44,8 +44,25 @@
     const editor = E.createEditor({
       selector: '#editor-text-area',
       config: editorConfig,
-      // content: window.content1,
       // html: '<p>hello</p>',
+      content: [
+        { type: 'paragraph', children: [{ text: 'hello~' }] },
+        { type: 'list2-item', ordered: true, level: 0, children: [{ text: 'aaa' }] },
+        { type: 'list2-item', ordered: false, level: 0, children: [{ text: 'bbb' }] },
+        { type: 'list2-item', ordered: true, level: 1, children: [{ text: 'aaa' }] },
+        { type: 'list2-item', ordered: true, level: 2, children: [{ text: 'aaa' }] },
+        { type: 'list2-item', ordered: false, level: 2, children: [{ text: 'bbb' }] },
+        { type: 'list2-item', ordered: true, level: 2, children: [{ text: 'ccc' }] },
+        { type: 'list2-item', ordered: true, level: 2, children: [{ text: 'ddd' }] },
+        { type: 'list2-item', ordered: true, level: 3, children: [{ text: 'aaa' }] },
+        { type: 'list2-item', ordered: false, level: 3, children: [{ text: 'bbb' }] },
+        { type: 'list2-item', ordered: true, level: 3, children: [{ text: 'ccc' }] },
+        { type: 'list2-item', ordered: true, level: 2, children: [{ text: 'ccc' }] },
+        { type: 'list2-item', ordered: true, level: 1, children: [{ text: 'bbb' }] },
+        { type: 'list2-item', ordered: true, level: 1, children: [{ text: 'ccc' }] },
+        { type: 'list2-item', ordered: true, level: 0, children: [{ text: 'ccc' }] },
+        { type: 'paragraph', children: [{ text: 'hello~' }] },
+      ],
       mode: 'simple'
     })
 
