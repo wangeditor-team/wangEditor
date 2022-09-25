@@ -127,21 +127,4 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
   } else {
     Editor.insertText(editor, data)
   }
-
-  // 检查拼音输入是否夸 DOM 节点了，解决 wangEditor-v5/issues/47
-  if (!IS_SAFARI) {
-    setTimeout(() => {
-      const { selection } = editor
-      if (selection == null) return
-      const oldStartContainer = EDITOR_TO_START_CONTAINER.get(editor) // 拼音输入开始时的 text node
-      if (oldStartContainer == null) return
-      const curStartContainer = DomEditor.toDOMRange(editor, selection).startContainer // 拼音输入结束时的 text node
-      if (curStartContainer === oldStartContainer) {
-        // 拼音输入的开始和结束，都在同一个 text node ，则不做处理
-        return
-      }
-      // 否则，拼音输入的开始和结束，不是同一个 text node ，则将第一个 text node 重新设置 text
-      oldStartContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
-    })
-  }
 }
