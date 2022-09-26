@@ -59,6 +59,7 @@ abstract class BaseMenu implements IButtonMenu {
       Transforms.setNodes(editor, {
         type: 'list2-item',
         ordered: this.ordered, // 有序/无序
+        indent: undefined,
       })
     }
   }

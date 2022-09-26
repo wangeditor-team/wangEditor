@@ -64,7 +64,7 @@ export type ParseElemHtmlFnType = (
   $elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
-) => SlateElement
+) => SlateElement | SlateElement[]
 
 export const PARSE_ELEM_HTML_CONF: {
   [key: string]: ParseElemHtmlFnType // key 是 css 选择器，如 `p` `div[data-type="xxx"]`

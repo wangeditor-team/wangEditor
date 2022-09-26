@@ -30,6 +30,24 @@ const IGNORE_TAGS = new Set([
   'svg', // TODO 暂时忽略
 ])
 
+/**
+ * 把 elem 插入到编辑器
+ * @param editor editor
+ * @param elem slate elem
+ */
+function insertElemToEditor(editor: IDomEditor, elem: Element) {
+  if (editor.isInline(elem)) {
+    // inline elem 直接插入
+    editor.insertNode(elem)
+
+    // link 特殊处理，否则后面插入的文字全都在 a 里面 issue#4573
+    if (elem.type === 'link') editor.insertFragment([{ text: '' }])
+  } else {
+    // block elem ，另起一行插入 —— 重要
+    Transforms.insertNodes(editor, elem, { mode: 'highest' })
+  }
+}
+
 export const withContent = <T extends Editor>(editor: T) => {
   const e = editor as T & IDomEditor
   const { onChange, insertText, apply, deleteBackward } = e
@@ -325,19 +343,15 @@ export const withContent = <T extends Editor>(editor: T) => {
       if (isParseMatch) {
         // 生成并插入
         const $el = $(el)
-        const newElem = parseElemHtml($el, e) as Element
+        const parsedRes = parseElemHtml($el, e) as Element
 
-        if (e.isInline(newElem)) {
-          // inline elem 直接插入
-          e.insertNode(newElem)
-
-          // link 特殊处理，否则后面插入的文字全都在 a 里面 issue#4573
-          if (newElem.type === 'link') e.insertFragment([{ text: '' }])
+        if (Array.isArray(parsedRes)) {
+          parsedRes.forEach(el => insertElemToEditor(e, el))
+          insertedElemNum++ // 记录数量
         } else {
-          // block elem ，另起一行插入 —— 重要
-          Transforms.insertNodes(e, newElem, { mode: 'highest' })
+          insertElemToEditor(e, parsedRes)
+          insertedElemNum++ // 记录数量
         }
-        insertedElemNum++ // 记录数量
 
         // 如果当前选中 void node ，则选区移动一下
         if (DomEditor.isSelectedVoidNode(e)) e.move(1)

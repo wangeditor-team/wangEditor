@@ -17,7 +17,7 @@ import { PRE_PARSE_HTML_CONF_LIST, TEXT_TAGS } from '../index'
  * @param editor editor
  * @returns slate Descendant
  */
-function parseElemHtml($elem: Dom7Array, editor: IDomEditor): Descendant {
+function parseElemHtml($elem: Dom7Array, editor: IDomEditor): Descendant | Descendant[] {
   // pre-parse
   PRE_PARSE_HTML_CONF_LIST.forEach(conf => {
     const { selector, preParseHtml } = conf

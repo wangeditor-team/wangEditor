@@ -11,7 +11,7 @@ if (append) $.fn.append = append
 if (attr) $.fn.attr = attr
 // if (val) $.fn.val = val
 // if (html) $.fn.html = html
-// if (parent) $.fn.parent = parent
+if (parent) $.fn.parent = parent
 // if (hasClass) $.fn.hasClass = hasClass
 // if (empty) $.fn.empty = empty
 

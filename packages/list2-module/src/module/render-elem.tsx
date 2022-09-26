@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Element as SlateElement, Path, Editor } from 'slate'
+import { Element as SlateElement, Path, Editor, Text } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { List2ItemElement } from './custom-types'
@@ -76,6 +76,27 @@ function getOrderedItemNumber(editor: IDomEditor, elem: SlateElement): number {
   return num
 }
 
+/**
+ * 获取第一个 text-node 的颜色
+ * @param elem elem
+ */
+function getListItemColor(elem: SlateElement): string {
+  const children = elem.children || []
+  const length = children.length
+  if (length === 0) return ''
+
+  let firstTextNode
+
+  for (let i = 0; i < length; i++) {
+    if (firstTextNode) break // 已找到第一个 text-node ，则退出
+    const child = children[i]
+    if (Text.isText(child)) firstTextNode = child
+  }
+
+  if (firstTextNode == null) return ''
+  return firstTextNode['color'] || ''
+}
+
 function renderList2Elem(
   elemNode: SlateElement,
   children: VNode[] | null,
@@ -99,9 +120,16 @@ function renderList2Elem(
     prefix = genPreSymbol(level)
   }
 
+  // 获取前缀颜色
+  const prefixColor = getListItemColor(elemNode)
+
   const vnode = (
     <div style={listStyle}>
-      <span contentEditable={false} style={{ marginRight: '0.5em' }} data-w-e-reserve>
+      <span
+        contentEditable={false}
+        style={{ marginRight: '0.5em', color: prefixColor }}
+        data-w-e-reserve
+      >
         {prefix}
       </span>
       <span>{children}</span>

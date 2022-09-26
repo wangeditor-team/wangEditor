@@ -73,7 +73,12 @@ function genChildren($elem: Dom7Array, editor: IDomEditor): Descendant[] {
 
       // 其他 elem
       const $child = $(child)
-      children.push(parseElemHtml($child, editor))
+      const parsedRes = parseElemHtml($child, editor)
+      if (Array.isArray(parsedRes)) {
+        parsedRes.forEach(el => children.push(el))
+      } else {
+        children.push(parsedRes)
+      }
       return
     }
     if (child.nodeType === NodeType.TEXT_NODE) {
@@ -132,27 +137,31 @@ function getParser($elem: Dom7Array): ParseElemHtmlFnType {
  * @param editor editor
  * @returns slate element
  */
-function parseCommonElemHtml($elem: Dom7Array, editor: IDomEditor): Element {
+function parseCommonElemHtml($elem: Dom7Array, editor: IDomEditor): Element[] {
   const children = genChildren($elem, editor)
 
   // parse
   const parser = getParser($elem)
-  let elem = parser($elem[0], children, editor)
+  let parsedRes = parser($elem[0], children, editor)
 
-  const isVoid = Editor.isVoid(editor, elem)
-  if (!isVoid) {
-    // 非 void ，如果没有 children ，则取纯文本
-    if (children.length === 0) {
-      elem.children = [{ text: $elem.text().replace(/\s+/gm, ' ') }]
+  if (!Array.isArray(parsedRes)) parsedRes = [parsedRes] // 临时处理为数组
+
+  parsedRes.forEach(elem => {
+    const isVoid = Editor.isVoid(editor, elem)
+    if (!isVoid) {
+      // 非 void ，如果没有 children ，则取纯文本
+      if (children.length === 0) {
+        elem.children = [{ text: $elem.text().replace(/\s+/gm, ' ') }]
+      }
+
+      // 处理 style
+      PARSE_STYLE_HTML_FN_LIST.forEach(fn => {
+        elem = fn($elem[0], elem, editor) as Element
+      })
     }
+  })
 
-    // 处理 style
-    PARSE_STYLE_HTML_FN_LIST.forEach(fn => {
-      elem = fn($elem[0], elem, editor) as Element
-    })
-  }
-
-  return elem
+  return parsedRes
 }
 
 export default parseCommonElemHtml

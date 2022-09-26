@@ -3,10 +3,41 @@
  * @author wangfupeng
  */
 
-import { Descendant, Text } from 'slate'
-import $, { DOMElement } from '../utils/dom'
+import { Dom7, Dom7Array } from 'dom7'
+import { Descendant, Element, Text } from 'slate'
+import $, { DOMElement, getTagName } from '../utils/dom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { List2ItemElement } from './custom-types'
+
+/**
+ * 获取 ordered
+ * @param $elem list $elem
+ */
+function getOrdered($elem: Dom7Array): boolean {
+  const $list = $elem.parent()
+  const listTagName = getTagName($list)
+  if (listTagName === 'ol') return true
+  return false
+}
+
+/**
+ * 获取 level
+ * @param $elem list $elem
+ */
+function getLevel($elem: Dom7Array): number {
+  let level = 0
+
+  let $cur: Dom7Array = $elem.parent()
+  let tagName: string = getTagName($cur)
+
+  while (tagName === 'ul' || tagName === 'ol') {
+    $cur = $cur.parent()
+    tagName = getTagName($cur)
+    level++
+  }
+
+  return level - 1
+}
 
 function parseItemHtml(
   elem: DOMElement,
@@ -14,12 +45,6 @@ function parseItemHtml(
   editor: IDomEditor
 ): List2ItemElement {
   const $elem = $(elem)
-
-  // 获取 ordered
-  let ordered = false
-  if ($elem.attr('data-list-item-ordered') != null) ordered = true
-
-  // TODO 获取 level
 
   children = children.filter(child => {
     if (Text.isText(child)) return true
@@ -32,15 +57,33 @@ function parseItemHtml(
     children = [{ text: $elem.text().replace(/\s+/gm, ' ') }]
   }
 
+  const ordered = getOrdered($elem)
+  const level = getLevel($elem)
+
   return {
     type: 'list2-item',
     ordered,
+    level,
     // @ts-ignore
     children,
   }
 }
 
-export default {
+export const parseItemHtmlConf = {
   selector: 'li:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
   parseElemHtml: parseItemHtml,
+}
+
+export function parseListHtml(
+  elem: DOMElement,
+  children: Descendant[],
+  editor: IDomEditor
+): List2ItemElement[] {
+  // @ts-ignore flatten 因为可能有 ul/ol 嵌套，重要！！！
+  return children.flat(Infinity)
+}
+
+export const parseListHtmlConf = {
+  selector: 'ul:not([data-w-e-type]),ol:not([data-w-e-type])', // data-w-e-type 属性，留给自定义元素，保证扩展性
+  parseElemHtml: parseListHtml,
 }

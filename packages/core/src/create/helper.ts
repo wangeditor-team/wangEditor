@@ -68,6 +68,8 @@ export function genDefaultContent() {
  * @param html html 字符串
  */
 export function htmlToContent(editor: IDomEditor, html: string = ''): Descendant[] {
+  const res: Descendant[] = []
+
   // 空白内容
   if (html === '') html = '<p><br></p>'
 
@@ -80,8 +82,17 @@ export function htmlToContent(editor: IDomEditor, html: string = ''): Descendant
   }
 
   const $content = $(`<div>${html}</div>`)
-  return Array.from($content.children()).map(child => {
+  const list = Array.from($content.children())
+  list.forEach(child => {
     const $child = $(child)
-    return parseElemHtml($child, editor)
+    const parsedRes = parseElemHtml($child, editor)
+
+    if (Array.isArray(parsedRes)) {
+      parsedRes.forEach(el => res.push(el))
+    } else {
+      res.push(parsedRes)
+    }
   })
+
+  return res
 }
