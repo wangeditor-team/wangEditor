@@ -26,7 +26,7 @@ abstract class BaseMenu implements IButtonMenu {
   isActive(editor: IDomEditor): boolean {
     const node = this.getListNode(editor)
     if (node == null) return false
-    const { ordered } = node as List2ItemElement
+    const { ordered = false } = node as List2ItemElement
     return ordered === this.ordered
   }
 

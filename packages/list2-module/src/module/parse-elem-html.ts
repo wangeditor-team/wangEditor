@@ -3,10 +3,10 @@
  * @author wangfupeng
  */
 
-import { Dom7, Dom7Array } from 'dom7'
-import { Descendant, Element, Text } from 'slate'
+import { Dom7Array } from 'dom7'
+import { Descendant, Text } from 'slate'
 import $, { DOMElement, getTagName } from '../utils/dom'
-import { IDomEditor, DomEditor } from '@wangeditor/core'
+import { IDomEditor } from '@wangeditor/core'
 import { List2ItemElement } from './custom-types'
 
 /**
@@ -74,7 +74,7 @@ export const parseItemHtmlConf = {
   parseElemHtml: parseItemHtml,
 }
 
-export function parseListHtml(
+function parseListHtml(
   elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
