@@ -5,7 +5,7 @@
 
 import { Editor, Transforms, Range } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import { List2ItemElement } from './custom-types'
+import { ListItemElement } from './custom-types'
 
 /**
  * 获取选中的 top elems
@@ -35,16 +35,16 @@ function withList<T extends IDomEditor>(editor: T): T {
       return
     }
 
-    const listItemElem = DomEditor.getSelectedNodeByType(newEditor, 'list2-item')
+    const listItemElem = DomEditor.getSelectedNodeByType(newEditor, 'list-item')
     if (listItemElem == null) {
-      // 未匹配到 list2-item
+      // 未匹配到 list-item
       deleteBackward(unit)
       return
     }
 
     if (selection.focus.offset === 0) {
       // 选中了当前 list-item 文本的开头，此时按删除键，应该降低 level 或转换为 p 元素
-      const { level = 0 } = listItemElem as List2ItemElement
+      const { level = 0 } = listItemElem as ListItemElement
       if (level > 0) {
         // 降低 level
         Transforms.setNodes(newEditor, { level: level - 1 })
@@ -73,16 +73,16 @@ function withList<T extends IDomEditor>(editor: T): T {
 
     // 选区是合并的，判断单个 list-item 即可
     if (Range.isCollapsed(selection)) {
-      const listItemElem = DomEditor.getSelectedNodeByType(newEditor, 'list2-item')
+      const listItemElem = DomEditor.getSelectedNodeByType(newEditor, 'list-item')
       if (listItemElem == null) {
-        // 未匹配到 list2-item
+        // 未匹配到 list-item
         handleTab()
         return
       }
 
       if (selection.focus.offset === 0) {
         // 选中了当前 list-item 文本的开头，此时按 tab 应该增加 level
-        const { level = 0 } = listItemElem as List2ItemElement
+        const { level = 0 } = listItemElem as ListItemElement
         Transforms.setNodes(newEditor, { level: level + 1 })
         return
       }
@@ -90,17 +90,17 @@ function withList<T extends IDomEditor>(editor: T): T {
 
     // 选区是展开的，要判断多个 list-item
     if (Range.isExpanded(selection)) {
-      let list2ItemNum = 0 // 选中的 list2-item 有几个
+      let listItemNum = 0 // 选中的 list-item 有几个
       let hasOtherElem = false // 是否有其他元素
 
       for (const entry of getTopSelectedElemsBySelection(newEditor)) {
         const [elem] = entry
         const type = DomEditor.getNodeType(elem)
-        if (type === 'list2-item') list2ItemNum++
+        if (type === 'list-item') listItemNum++
         else hasOtherElem = true
       }
 
-      if (hasOtherElem || list2ItemNum <= 1) {
+      if (hasOtherElem || listItemNum <= 1) {
         // 选中了其他元素，或者只选中一个 list-item ，则执行默认行为
         handleTab()
         return
@@ -109,7 +109,7 @@ function withList<T extends IDomEditor>(editor: T): T {
       // 未选中其他元素，且选中多个 list-item ，则增加 level
       for (const entry of getTopSelectedElemsBySelection(newEditor)) {
         const [elem, path] = entry
-        const { level = 0 } = elem as List2ItemElement
+        const { level = 0 } = elem as ListItemElement
         Transforms.setNodes(newEditor, { level: level + 1 }, { at: path })
       }
       return

@@ -63,6 +63,7 @@ class UploadVideoMenu implements IButtonMenu {
     const hasVoidOrPre = selectedElems.some(elem => {
       const type = DomEditor.getNodeType(elem)
       if (type === 'pre') return true
+      if (type === 'list-item') return true
       if (editor.isVoid(elem)) return true
       return false
     })

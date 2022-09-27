@@ -7,8 +7,8 @@
 import '@wangeditor/basic-modules/dist/css/style.css'
 import basicModules from '@wangeditor/basic-modules'
 
-import '@wangeditor/list2-module/dist/css/style.css'
-import wangEditorList2Module from '@wangeditor/list2-module'
+import '@wangeditor/list-module/dist/css/style.css'
+import wangEditorListModule from '@wangeditor/list-module'
 
 // table-module
 import '@wangeditor/table-module/dist/css/style.css'
@@ -29,7 +29,7 @@ import { wangEditorCodeHighlightModule } from '@wangeditor/code-highlight'
 import registerModule from './register'
 
 basicModules.forEach(module => registerModule(module))
-registerModule(wangEditorList2Module)
+registerModule(wangEditorListModule)
 registerModule(wangEditorTableModule)
 registerModule(wangEditorVideoModule)
 registerModule(wangEditorUploadImageModule)

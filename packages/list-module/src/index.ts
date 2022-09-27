@@ -1,5 +1,5 @@
 /**
- * @description list2 module
+ * @description list module
  * @author wangfupeng
  */
 
@@ -9,5 +9,5 @@ import './assets/index.less'
 import './locale/index'
 
 // 导出 module
-import wangEditorList2Module from './module/index'
-export default wangEditorList2Module
+import wangEditorListModule from './module/index'
+export default wangEditorListModule

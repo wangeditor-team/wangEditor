@@ -50,7 +50,7 @@ export function genDefaultHoverbarKeys() {
       menuKeys: [
         'headerSelect',
         'insertLink',
-        'bulletedList2',
+        'bulletedList',
         '|',
         'bold',
         'through',

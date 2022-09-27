@@ -5,7 +5,7 @@
 
 import { Element, Path, Editor } from 'slate'
 import { DomEditor } from '@wangeditor/core'
-import { List2ItemElement } from './custom-types'
+import { ListItemElement } from './custom-types'
 import { ELEM_TO_EDITOR } from '../utils/maps'
 
 /**
@@ -16,7 +16,7 @@ function getStartContainerTagNumber(elem: Element): number {
   const editor = ELEM_TO_EDITOR.get(elem)
   if (editor == null) return 0
 
-  const { type, ordered = false, level = 0 } = elem as List2ItemElement
+  const { type, ordered = false, level = 0 } = elem as ListItemElement
 
   const path = DomEditor.findPath(editor, elem)
   if (path[0] === 0) {
@@ -37,7 +37,7 @@ function getStartContainerTagNumber(elem: Element): number {
   }
 
   // 上一个 elem 是 list-item
-  const { ordered: prevOrdered = false, level: prevLevel = 0 } = prevElem as List2ItemElement
+  const { ordered: prevOrdered = false, level: prevLevel = 0 } = prevElem as ListItemElement
   if (prevLevel < level) {
     // 上一个 level 小于当前 level ，需要拼接 <ol> 或 <ul>
     return level - prevLevel
@@ -69,7 +69,7 @@ function getEndContainerTagNumber(elem: Element): number {
   const editor = ELEM_TO_EDITOR.get(elem)
   if (editor == null) return 0
 
-  const { type, ordered = false, level = 0 } = elem as List2ItemElement
+  const { type, ordered = false, level = 0 } = elem as ListItemElement
 
   const path = DomEditor.findPath(editor, elem)
   if (path[0] === editor.children.length - 1) {
@@ -90,7 +90,7 @@ function getEndContainerTagNumber(elem: Element): number {
   }
 
   // 下一个 elem 是 list-item
-  const { ordered: nextOrdered = false, level: nextLevel = 0 } = nextElem as List2ItemElement
+  const { ordered: nextOrdered = false, level: nextLevel = 0 } = nextElem as ListItemElement
   if (nextLevel < level) {
     // 下一个 level 小于当前 level ，需要拼接 </ol> 或 </ul>
     return level - nextLevel
@@ -120,7 +120,7 @@ const CONTAINER_TAG_STACK: Array<string> = []
 function elemToHtml(elem: Element, childrenHtml: string): string {
   let html = `<li>${childrenHtml}</li>`
 
-  const { ordered = false } = elem as List2ItemElement
+  const { ordered = false } = elem as ListItemElement
   const containerTag = ordered ? 'ol' : 'ul'
 
   // 前面需要拼接几个 <ol> 或 <ul>
@@ -145,7 +145,7 @@ function elemToHtml(elem: Element, childrenHtml: string): string {
 }
 
 const listItemToHtmlConf = {
-  type: 'list2-item',
+  type: 'list-item',
   elemToHtml: elemToHtml,
 }
 

@@ -8,7 +8,7 @@ import createEditor from '../../../tests/utils/create-editor'
 
 describe('list plugin test', () => {
   it('insert tab - increase level', () => {
-    const listItem = { type: 'list2-item', children: [{ text: 'hello' }] }
+    const listItem = { type: 'list-item', children: [{ text: 'hello' }] }
     let editor = createEditor({
       content: [listItem],
     })
@@ -27,7 +27,7 @@ describe('list plugin test', () => {
   })
 
   it('insert delete - decrease level', () => {
-    const listItem = { type: 'list2-item', children: [{ text: 'hello' }], level: 2 }
+    const listItem = { type: 'list-item', children: [{ text: 'hello' }], level: 2 }
     let editor = createEditor({
       content: [listItem],
     })

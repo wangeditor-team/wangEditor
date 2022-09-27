@@ -24,7 +24,7 @@ cd ../code-highlight
 rm -rf dist # 清空 dist 目录
 yarn "$buildType"
 
-cd ../list2-module
+cd ../list-module
 rm -rf dist # 清空 dist 目录
 yarn "$buildType"
 

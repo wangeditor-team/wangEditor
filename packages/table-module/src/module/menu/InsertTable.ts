@@ -80,6 +80,7 @@ class InsertTable implements IDropPanelMenu {
       const type = DomEditor.getNodeType(elem)
       if (type === 'pre') return true
       if (type === 'table') return true
+      if (type === 'list-item') return true
       if (editor.isVoid(elem)) return true
       return false
     })

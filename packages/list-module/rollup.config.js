@@ -1,7 +1,7 @@
 import { createRollupConfig, IS_PRD } from '../../build/create-rollup-config'
 import pkg from './package.json'
 
-const name = 'WangEditorList2Module'
+const name = 'WangEditorListModule'
 
 const configList = []
 

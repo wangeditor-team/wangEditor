@@ -1,12 +1,12 @@
 {
-  "name": "@wangeditor/list2-module",
+  "name": "@wangeditor/list-module",
   "version": "1.0.0",
-  "description": "wangEditor list2 module",
+  "description": "wangEditor list module",
   "author": "wangfupeng1988 <wangfupeng1988@163.com>",
   "contributors": [],
   "homepage": "https://github.com/wangeditor-team/wangEditor#readme",
   "license": "MIT",
-  "types": "dist/list2-module/src/index.d.ts",
+  "types": "dist/list-module/src/index.d.ts",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "browser": {

@@ -55,7 +55,7 @@ describe('line-height menu', () => {
     expect(menu.isDisabled(editor)).toBeFalsy()
     Transforms.setNodes(editor, { type: 'blockquote' })
     expect(menu.isDisabled(editor)).toBeFalsy()
-    Transforms.setNodes(editor, { type: 'bulleted-list' })
+    Transforms.setNodes(editor, { type: 'list-item' })
     expect(menu.isDisabled(editor)).toBeFalsy()
 
     editor.insertNode({ type: 'pre', children: [{ type: 'code', children: [{ text: 'var' }] }] })

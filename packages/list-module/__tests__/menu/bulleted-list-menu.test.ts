@@ -1,13 +1,13 @@
 /**
- * @description list NumberedListMenu test
+ * @description bulletedList menu test
  * @author wangfupeng
  */
 
-import NumberedListMenu from '../../src/module/menu/NumberedListMenu'
+import BulletedListMenu from '../../src/module/menu/BulletedListMenu'
 import createEditor from '../../../../tests/utils/create-editor'
 
-describe('list NumberedListMenu', () => {
-  const menu = new NumberedListMenu()
+describe('list BulletedListMenu', () => {
+  const menu = new BulletedListMenu()
 
   it('getValue', () => {
     const editor = createEditor()
@@ -18,7 +18,7 @@ describe('list NumberedListMenu', () => {
     const editor = createEditor({
       content: [
         { type: 'paragraph', children: [{ text: 'hello' }] },
-        { type: 'list2-item', ordered: true, children: [{ text: 'a' }] },
+        { type: 'list-item', children: [{ text: 'a' }] },
       ],
     })
 
@@ -36,7 +36,7 @@ describe('list NumberedListMenu', () => {
     const editor = createEditor({
       content: [
         { type: 'paragraph', children: [{ text: 'hello' }] },
-        { type: 'list2-item', ordered: true, children: [{ text: 'a' }] },
+        { type: 'list-item', children: [{ text: 'a' }] },
         {
           type: 'table',
           width: 'auto',
@@ -80,8 +80,8 @@ describe('list NumberedListMenu', () => {
     menu.exec(editor, '') // p 转 li
     expect(editor.children).toEqual([
       {
-        type: 'list2-item',
-        ordered: true,
+        type: 'list-item',
+        ordered: false,
         children: [{ text: 'hello' }],
       },
     ])

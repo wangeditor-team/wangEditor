@@ -5,10 +5,10 @@
 
 import { Editor, Node, Transforms, Element } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
-import { List2ItemElement } from '../custom-types'
+import { ListItemElement } from '../custom-types'
 
 abstract class BaseMenu implements IButtonMenu {
-  readonly type = 'list2-item'
+  readonly type = 'list-item'
   abstract readonly ordered: boolean
   abstract readonly title: string
   abstract readonly iconSvg: string
@@ -26,7 +26,7 @@ abstract class BaseMenu implements IButtonMenu {
   isActive(editor: IDomEditor): boolean {
     const node = this.getListNode(editor)
     if (node == null) return false
-    const { ordered = false } = node as List2ItemElement
+    const { ordered = false } = node as ListItemElement
     return ordered === this.ordered
   }
 
@@ -57,7 +57,7 @@ abstract class BaseMenu implements IButtonMenu {
     } else {
       // 否则，转换为 list-item
       Transforms.setNodes(editor, {
-        type: 'list2-item',
+        type: 'list-item',
         ordered: this.ordered, // 有序/无序
         indent: undefined,
       })

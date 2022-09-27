@@ -18,7 +18,7 @@ describe('list - parse html', () => {
 
     const elem = parseItemHtmlConf.parseElemHtml($li[0], children, editor)
     expect(elem).toEqual({
-      type: 'list2-item',
+      type: 'list-item',
       ordered: false,
       level: 0,
       children,
@@ -33,7 +33,7 @@ describe('list - parse html', () => {
 
     const elem = parseItemHtmlConf.parseElemHtml($li[0], children, editor)
     expect(elem).toEqual({
-      type: 'list2-item',
+      type: 'list-item',
       ordered: true,
       level: 0,
       children,
@@ -50,7 +50,7 @@ describe('list - parse html', () => {
 
     const elem = parseItemHtmlConf.parseElemHtml($li[0], children, editor)
     expect(elem).toEqual({
-      type: 'list2-item',
+      type: 'list-item',
       ordered: true,
       level: 1,
       children,
@@ -61,24 +61,24 @@ describe('list - parse html', () => {
     const $ol = $('<ol></ol>')
     const children = [
       {
-        type: 'list2-item',
+        type: 'list-item',
         ordered: true,
         children: [{ text: 'a' }],
       },
       {
-        type: 'list2-item',
+        type: 'list-item',
         ordered: true,
         children: [{ text: 'b' }],
       },
       // 嵌套列表
       [
         {
-          type: 'list2-item',
+          type: 'list-item',
           level: 1,
           children: [{ text: 'x' }],
         },
         {
-          type: 'list2-item',
+          type: 'list-item',
           level: 1,
           children: [{ text: 'y' }],
         },

@@ -36,8 +36,8 @@ export function genDefaultToolbarKeys() {
     'fontFamily',
     'lineHeight',
     '|',
-    'bulletedList2',
-    'numberedList2',
+    'bulletedList',
+    'numberedList',
     'todo',
     {
       key: 'group-justify', // 以 group 开头
@@ -101,8 +101,8 @@ export function genSimpleToolbarKeys() {
     'bgColor',
     'clearStyle',
     '|',
-    'bulletedList2',
-    'numberedList2',
+    'bulletedList',
+    'numberedList',
     'todo',
     'justifyLeft',
     'justifyRight',

@@ -1,12 +1,12 @@
 /**
- * @description render list2 elem
+ * @description render list elem
  * @author wangfupeng
  */
 
 import { Element as SlateElement, Path, Editor, Text } from 'slate'
 import { jsx, VNode } from 'snabbdom'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import { List2ItemElement } from './custom-types'
+import { ListItemElement } from './custom-types'
 import { ELEM_TO_EDITOR } from '../utils/maps'
 
 /**
@@ -37,7 +37,7 @@ function genPreSymbol(level = 0): string {
  * @param elem listItem elem
  */
 function getOrderedItemNumber(editor: IDomEditor, elem: SlateElement): number {
-  const { type, level = 0, ordered = false } = elem as List2ItemElement
+  const { type, level = 0, ordered = false } = elem as ListItemElement
   if (!ordered) {
     return -1 // 不是有序列表
   }
@@ -53,7 +53,7 @@ function getOrderedItemNumber(editor: IDomEditor, elem: SlateElement): number {
     const prevPath = Path.previous(curPath)
     const prevEntry = Editor.node(editor, prevPath)
     if (prevEntry == null) break
-    const prevElem = prevEntry[0] as List2ItemElement // 上一个节点
+    const prevElem = prevEntry[0] as ListItemElement // 上一个节点
     const { level: prevLevel = 0, type: prevType, ordered: prevOrdered } = prevElem
 
     // type 不一致，退出循环，不再累加 num
@@ -97,14 +97,14 @@ function getListItemColor(elem: SlateElement): string {
   return firstTextNode['color'] || ''
 }
 
-function renderList2Elem(
+function renderListElem(
   elemNode: SlateElement,
   children: VNode[] | null,
   editor: IDomEditor
 ): VNode {
   ELEM_TO_EDITOR.set(elemNode, editor) // 记录 elem 和 editor 关系，elem-to-html 时要用
 
-  const { level = 0, ordered = false } = elemNode as List2ItemElement
+  const { level = 0, ordered = false } = elemNode as ListItemElement
 
   // 根据 level 增加 margin-left
   const listStyle = { margin: `5px 0 5px ${level * 20}px` }
@@ -138,9 +138,9 @@ function renderList2Elem(
   return vnode
 }
 
-const renderList2ItemConf = {
-  type: 'list2-item',
-  renderElem: renderList2Elem,
+const renderListItemConf = {
+  type: 'list-item',
+  renderElem: renderListElem,
 }
 
-export default renderList2ItemConf
+export default renderListItemConf

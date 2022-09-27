@@ -1,21 +1,21 @@
 /**
- * @description list2 module entry
+ * @description list module entry
  * @author wangfupeng
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import renderList2ItemConf from './render-elem'
+import renderListItemConf from './render-elem'
 import withList from './plugin'
 import { bulletedListMenuConf, numberedListMenuConf } from './menu/index'
 import listItemToHtmlConf from './elem-to-html'
 import { parseItemHtmlConf, parseListHtmlConf } from './parse-elem-html'
 
-const list2: Partial<IModuleConf> = {
-  renderElems: [renderList2ItemConf],
+const list: Partial<IModuleConf> = {
+  renderElems: [renderListItemConf],
   editorPlugin: withList,
   menus: [bulletedListMenuConf, numberedListMenuConf],
   elemsToHtml: [listItemToHtmlConf],
   parseElemsHtml: [parseListHtmlConf, parseItemHtmlConf],
 }
 
-export default list2
+export default list

@@ -56,7 +56,7 @@ class LineHeightMenu implements ISelectMenu {
 
         // line-height 匹配如下类型的 node
         if (type.startsWith('header')) return true
-        if (['paragraph', 'blockquote', 'bulleted-list', 'numbered-list'].includes(type)) {
+        if (['paragraph', 'blockquote', 'list-item'].includes(type)) {
           return true
         }
 

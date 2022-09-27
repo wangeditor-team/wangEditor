@@ -7,7 +7,7 @@ import { Dom7Array } from 'dom7'
 import { Descendant, Text } from 'slate'
 import $, { DOMElement, getTagName } from '../utils/dom'
 import { IDomEditor } from '@wangeditor/core'
-import { List2ItemElement } from './custom-types'
+import { ListItemElement } from './custom-types'
 
 /**
  * 获取 ordered
@@ -43,7 +43,7 @@ function parseItemHtml(
   elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
-): List2ItemElement {
+): ListItemElement {
   const $elem = $(elem)
 
   children = children.filter(child => {
@@ -61,7 +61,7 @@ function parseItemHtml(
   const level = getLevel($elem)
 
   return {
-    type: 'list2-item',
+    type: 'list-item',
     ordered,
     level,
     // @ts-ignore
@@ -78,7 +78,7 @@ function parseListHtml(
   elem: DOMElement,
   children: Descendant[],
   editor: IDomEditor
-): List2ItemElement[] {
+): ListItemElement[] {
   // @ts-ignore flatten 因为可能有 ul/ol 嵌套，重要！！！
   return children.flat(Infinity)
 }
