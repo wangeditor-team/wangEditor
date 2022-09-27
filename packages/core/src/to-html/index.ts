@@ -22,11 +22,17 @@ export function registerStyleToHtmlHandler(fn: styleToHtmlFnType) {
 
 // ------------------------------------ elem node to html ------------------------------------
 
+interface IElemToHtmlRes {
+  html: string
+  prefix?: string
+  suffix?: string
+}
+
 export type ElemToHtmlFnType = (
   elemNode: SlateElement,
   childrenHtml: string,
   editor?: IDomEditor
-) => string
+) => string | IElemToHtmlRes
 
 // 注册 element->html 配置
 export const ELEM_TO_HTML_CONF: {

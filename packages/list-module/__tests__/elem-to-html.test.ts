@@ -36,11 +36,19 @@ describe('module elem-to-html', () => {
 
     // first item
     const firstHtml = elemToHtml(orderedElem1, childrenHtml)
-    expect(firstHtml).toBe('<ol>' + '<li><span>hello</span></li>') // 第一个 item ，前面会有 <ol>
+    expect(firstHtml).toEqual({
+      html: '<li><span>hello</span></li>',
+      prefix: '<ol>', // 第一个 item ，前面会有 <ol>
+      suffix: '',
+    })
 
     // last item
     const lastHtml = elemToHtml(orderedElem2, childrenHtml)
-    expect(lastHtml).toBe('<li><span>hello</span></li>' + '</ol>') // 最后一个 item ，后面会有 </ol>
+    expect(lastHtml).toEqual({
+      html: '<li><span>hello</span></li>',
+      prefix: '',
+      suffix: '</ol>', // 最后一个 item ，后面会有 </ol>
+    })
   })
 
   test(`unOrdered item toHtml`, () => {
@@ -48,14 +56,26 @@ describe('module elem-to-html', () => {
 
     // first item
     const firstHtml = elemToHtml(unOrderedItem1, childrenHtml)
-    expect(firstHtml).toBe('<ul>' + '<li><span>hello</span></li>') // 第一个 item ，前面会有 <ul>
+    expect(firstHtml).toEqual({
+      html: '<li><span>hello</span></li>',
+      prefix: '<ul>', // 第一个 item ，前面会有 <ul>
+      suffix: '',
+    })
 
     // second item
     const secondHtml = elemToHtml(unOrderedItem2, childrenHtml)
-    expect(secondHtml).toBe('<li><span>hello</span></li>') // 第二个 item ，不应该有 <ul>
+    expect(secondHtml).toEqual({
+      html: '<li><span>hello</span></li>', // 第二个 item ，不应该有 <ul>
+      prefix: '',
+      suffix: '',
+    })
 
     // last item - leveled
     const lastHtml = elemToHtml(unOrderedItem21, childrenHtml)
-    expect(lastHtml).toBe('<ul>' + '<li><span>hello</span></li>' + '</ul></ul>') // 最后一个 item ( leveled ) ，包裹 <ul>
+    expect(lastHtml).toEqual({
+      html: '<li><span>hello</span></li>', // 最后一个 item ( leveled ) ，包裹 <ul>
+      prefix: '<ul>',
+      suffix: '</ul></ul>',
+    })
   })
 })

@@ -117,8 +117,16 @@ function getEndContainerTagNumber(elem: Element): number {
 // ol ul 栈
 const CONTAINER_TAG_STACK: Array<string> = []
 
-function elemToHtml(elem: Element, childrenHtml: string): string {
-  let html = `<li>${childrenHtml}</li>`
+function elemToHtml(
+  elem: Element,
+  childrenHtml: string
+): {
+  html: string
+  prefix?: string
+  suffix?: string
+} {
+  let startContainerStr = ''
+  let endContainerStr = ''
 
   const { ordered = false } = elem as ListItemElement
   const containerTag = ordered ? 'ol' : 'ul'
@@ -127,7 +135,7 @@ function elemToHtml(elem: Element, childrenHtml: string): string {
   const startContainerTagNumber = getStartContainerTagNumber(elem)
   if (startContainerTagNumber > 0) {
     for (let i = 0; i < startContainerTagNumber; i++) {
-      html = `<${containerTag}>${html}` // 拼接 html
+      startContainerStr += `<${containerTag}>` // 记录 start container tag ，如 `<ul>`
       CONTAINER_TAG_STACK.push(containerTag) // tag 压栈
     }
   }
@@ -137,11 +145,15 @@ function elemToHtml(elem: Element, childrenHtml: string): string {
   if (endContainerTagNumber > 0) {
     for (let i = 0; i < endContainerTagNumber; i++) {
       const tag = CONTAINER_TAG_STACK.pop() // tag 从栈中获取
-      html = `${html}</${tag}>` // 拼接 html
+      endContainerStr += `</${tag}>` // 记录 end container tag ，如 `</ul>`
     }
   }
 
-  return html
+  return {
+    html: `<li>${childrenHtml}</li>`,
+    prefix: startContainerStr,
+    suffix: endContainerStr,
+  }
 }
 
 const listItemToHtmlConf = {
