@@ -50,4 +50,20 @@ describe('list plugin test', () => {
       },
     ])
   })
+
+  it('兼容之前的 JSON 格式', () => {
+    const listItem = { type: 'list-item', children: [{ text: 'hello' }] }
+    let editor = createEditor({
+      // 之前的 JSON 格式
+      content: [
+        {
+          type: 'bulleted-list',
+          children: [listItem],
+        },
+      ],
+    })
+    editor = withList(editor) // 使用插件
+
+    expect(editor.children).toEqual([listItem])
+  })
 })

@@ -19,7 +19,7 @@ function getTopSelectedElemsBySelection(editor: IDomEditor) {
 }
 
 function withList<T extends IDomEditor>(editor: T): T {
-  const { deleteBackward, handleTab } = editor
+  const { deleteBackward, handleTab, normalizeNode } = editor
   const newEditor = editor
 
   // 重写 deleteBackward - 降低 level 或者转换为 p 元素
@@ -117,6 +117,18 @@ function withList<T extends IDomEditor>(editor: T): T {
 
     // 其他情况
     handleTab()
+  }
+
+  // 兼容之前的 JSON 格式 `numbered-list` 和 `bulleted-list` （之前的 list 没有嵌套功能）
+  newEditor.normalizeNode = ([node, path]) => {
+    const type = DomEditor.getNodeType(node)
+
+    if (type === 'bulleted-list' || type === 'numbered-list') {
+      Transforms.unwrapNodes(newEditor, { at: path })
+    }
+
+    // 执行默认行为
+    return normalizeNode([node, path])
   }
 
   return newEditor
