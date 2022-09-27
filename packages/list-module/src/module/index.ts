@@ -4,22 +4,18 @@
  */
 
 import { IModuleConf } from '@wangeditor/core'
-import { renderBulletedListConf, renderNumberedListConf, renderListItemConf } from './render-elem'
-import { bulletedToHtmlConf, numberedToHtmlConf, listItemToHtmlConf } from './elem-to-html'
-import {
-  parseItemHtmlConf,
-  parseNumberedListHtmlConf,
-  parseBulletedListHtmlConf,
-} from './parse-elem-html'
-import { bulletedListMenuConf, numberedListMenuConf } from './menu/index'
+import renderListItemConf from './render-elem'
 import withList from './plugin'
+import { bulletedListMenuConf, numberedListMenuConf } from './menu/index'
+import listItemToHtmlConf from './elem-to-html'
+import { parseItemHtmlConf, parseListHtmlConf } from './parse-elem-html'
 
-const bold: Partial<IModuleConf> = {
-  renderElems: [renderBulletedListConf, renderNumberedListConf, renderListItemConf],
-  elemsToHtml: [bulletedToHtmlConf, numberedToHtmlConf, listItemToHtmlConf],
-  parseElemsHtml: [parseItemHtmlConf, parseNumberedListHtmlConf, parseBulletedListHtmlConf],
-  menus: [bulletedListMenuConf, numberedListMenuConf],
+const list: Partial<IModuleConf> = {
+  renderElems: [renderListItemConf],
   editorPlugin: withList,
+  menus: [bulletedListMenuConf, numberedListMenuConf],
+  elemsToHtml: [listItemToHtmlConf],
+  parseElemsHtml: [parseListHtmlConf, parseItemHtmlConf],
 }
 
-export default bold
+export default list

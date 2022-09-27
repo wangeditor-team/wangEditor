@@ -9,15 +9,7 @@ import { Text } from 'slate'
 
 export type ListItemElement = {
   type: 'list-item'
+  ordered: boolean // 有序/无序
+  level: number // 层级：0 1 2 ...
   children: Text[]
-}
-
-export type NumberedListElement = {
-  type: 'numbered-list'
-  children: ListItemElement[]
-}
-
-export type BulletedListElement = {
-  type: 'bulleted-list'
-  children: ListItemElement[]
 }

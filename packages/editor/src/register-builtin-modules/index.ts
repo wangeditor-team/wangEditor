@@ -7,7 +7,6 @@
 import '@wangeditor/basic-modules/dist/css/style.css'
 import basicModules from '@wangeditor/basic-modules'
 
-// list-module
 import '@wangeditor/list-module/dist/css/style.css'
 import wangEditorListModule from '@wangeditor/list-module'
 

@@ -3,89 +3,134 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Node as SlateNode, Element as SlateElement } from 'slate'
+import { Editor, Transforms, Range } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
-import { checkList } from './helper'
+import { ListItemElement } from './custom-types'
 
-function deleteHandler(newEditor: IDomEditor): boolean {
-  const [nodeEntry] = Editor.nodes(newEditor, {
-    match: n => newEditor.children[0] === n, // editor 第一个节点
-    mode: 'highest', // 最高层级
+/**
+ * 获取选中的 top elems
+ * @param editor editor
+ */
+function getTopSelectedElemsBySelection(editor: IDomEditor) {
+  return Editor.nodes(editor, {
+    at: editor.selection || undefined,
+    match: n => DomEditor.findPath(editor, n).length === 1, // 只匹配顶级元素
   })
-  if (nodeEntry == null) return false
-  const n = nodeEntry[0]
-  if (!SlateElement.isElement(n)) return false
-
-  if (!SlateNode.string(n) && checkList(n)) {
-    // 当 list 作为 editor 第一个节点且内容为空时
-    // 移除 ul ol 的父节点
-    Transforms.unwrapNodes(newEditor, {
-      match: n => checkList(n),
-      split: true,
-    })
-    // 转换为 paragraph
-    Transforms.setNodes(newEditor, {
-      type: 'paragraph',
-    })
-    return true
-  }
-  return false
 }
 
 function withList<T extends IDomEditor>(editor: T): T {
-  const { insertBreak, deleteBackward, insertNode } = editor
+  const { deleteBackward, handleTab, normalizeNode } = editor
   const newEditor = editor
 
-  // 重写 insertBreak
-  newEditor.insertBreak = () => {
-    const selection = newEditor.selection
-    if (selection == null) {
-      insertBreak()
-      return
-    }
-
-    const selectedNode = DomEditor.getSelectedNodeByType(newEditor, 'list-item')
-    if (selectedNode == null) {
-      // 未匹配到 list-item
-      insertBreak()
-      return
-    }
-
-    const listNode = DomEditor.getParentNode(newEditor, selectedNode) // 获取 list-item 的父节点，即 list 节点
-    const children = listNode?.children || []
-    const childrenLength = children.length
-    if (selectedNode === children[childrenLength - 1]) {
-      // 当前 list-item 是 list 的最后一个 child
-      const str = SlateNode.string(selectedNode)
-      if (str === '') {
-        // 当前 list-item 无内容。则删除这个空白 list-item，并跳出 list ，插入一个空行
-        Transforms.removeNodes(newEditor, {
-          match: n => DomEditor.checkNodeType(n, 'list-item'),
-        })
-        const emptyParagraphPath = [selection.anchor.path[0] + 1] // 在 ul/ol 的下一行
-        Transforms.insertNodes(newEditor, DomEditor.genEmptyParagraph(), {
-          at: emptyParagraphPath,
-        })
-        newEditor.select({ path: emptyParagraphPath.concat(0), offset: 0 }) // 选中空行的文字
-
-        return // 阻止默认的 insertBreak ，重要！！！
-      }
-    }
-
-    // 其他情况，执行默认的 insertBreak()
-    insertBreak()
-  }
-
-  // 重写 deleteBackward
+  // 重写 deleteBackward - 降低 level 或者转换为 p 元素
   newEditor.deleteBackward = unit => {
-    const res = deleteHandler(newEditor)
-    if (res) return // 命中结果，则 return
+    const { selection } = newEditor
+    if (selection == null) {
+      deleteBackward(unit)
+      return
+    }
 
-    // 执行默认的删除
+    if (Range.isExpanded(selection)) {
+      deleteBackward(unit)
+      return
+    }
+
+    const listItemElem = DomEditor.getSelectedNodeByType(newEditor, 'list-item')
+    if (listItemElem == null) {
+      // 未匹配到 list-item
+      deleteBackward(unit)
+      return
+    }
+
+    if (selection.focus.offset === 0) {
+      // 选中了当前 list-item 文本的开头，此时按删除键，应该降低 level 或转换为 p 元素
+      const { level = 0 } = listItemElem as ListItemElement
+      if (level > 0) {
+        // 降低 level
+        Transforms.setNodes(newEditor, { level: level - 1 })
+      } else {
+        // 转换为 p 元素
+        Transforms.setNodes(newEditor, {
+          type: 'paragraph',
+          ordered: undefined,
+          level: undefined,
+        })
+      }
+      return
+    }
+
+    // 其他情况
     deleteBackward(unit)
   }
 
-  // 返回 editor ，重要！
+  // 重写 tab - 当选中 list-item 文本开头时，增加 level
+  newEditor.handleTab = () => {
+    const { selection } = newEditor
+    if (selection == null) {
+      handleTab()
+      return
+    }
+
+    // 选区是合并的，判断单个 list-item 即可
+    if (Range.isCollapsed(selection)) {
+      const listItemElem = DomEditor.getSelectedNodeByType(newEditor, 'list-item')
+      if (listItemElem == null) {
+        // 未匹配到 list-item
+        handleTab()
+        return
+      }
+
+      if (selection.focus.offset === 0) {
+        // 选中了当前 list-item 文本的开头，此时按 tab 应该增加 level
+        const { level = 0 } = listItemElem as ListItemElement
+        Transforms.setNodes(newEditor, { level: level + 1 })
+        return
+      }
+    }
+
+    // 选区是展开的，要判断多个 list-item
+    if (Range.isExpanded(selection)) {
+      let listItemNum = 0 // 选中的 list-item 有几个
+      let hasOtherElem = false // 是否有其他元素
+
+      for (const entry of getTopSelectedElemsBySelection(newEditor)) {
+        const [elem] = entry
+        const type = DomEditor.getNodeType(elem)
+        if (type === 'list-item') listItemNum++
+        else hasOtherElem = true
+      }
+
+      if (hasOtherElem || listItemNum <= 1) {
+        // 选中了其他元素，或者只选中一个 list-item ，则执行默认行为
+        handleTab()
+        return
+      }
+
+      // 未选中其他元素，且选中多个 list-item ，则增加 level
+      for (const entry of getTopSelectedElemsBySelection(newEditor)) {
+        const [elem, path] = entry
+        const { level = 0 } = elem as ListItemElement
+        Transforms.setNodes(newEditor, { level: level + 1 }, { at: path })
+      }
+      return
+    }
+
+    // 其他情况
+    handleTab()
+  }
+
+  // 兼容之前的 JSON 格式 `numbered-list` 和 `bulleted-list` （之前的 list 没有嵌套功能）
+  newEditor.normalizeNode = ([node, path]) => {
+    const type = DomEditor.getNodeType(node)
+
+    if (type === 'bulleted-list' || type === 'numbered-list') {
+      Transforms.unwrapNodes(newEditor, { at: path })
+    }
+
+    // 执行默认行为
+    return normalizeNode([node, path])
+  }
+
   return newEditor
 }
 

@@ -28,11 +28,7 @@ import {
   TableRowElement,
   TableElement,
 } from './table-module/src/module/custom-types'
-import {
-  ListItemElement,
-  NumberedListElement,
-  BulletedListElement,
-} from './list-module/src/module/custom-types'
+import { ListItemElement } from './list-module/src/module/custom-types'
 
 type PureText = {
   text: string
@@ -68,8 +64,6 @@ type CustomElement =
   | TableRowElement
   | TableElement
   | ListItemElement
-  | NumberedListElement
-  | BulletedListElement
 
 declare module 'slate' {
   interface CustomTypes {

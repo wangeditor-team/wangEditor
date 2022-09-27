@@ -1,128 +1,92 @@
 /**
- * @description numberedList menu test
- * @author luochao
+ * @description list NumberedListMenu test
+ * @author wangfupeng
  */
 
 import NumberedListMenu from '../../src/module/menu/NumberedListMenu'
 import createEditor from '../../../../tests/utils/create-editor'
-import * as core from '@wangeditor/core'
-import * as slate from 'slate'
 
-describe('Module Menu', () => {
-  const numberedListMenu = new NumberedListMenu()
-  const editor = createEditor()
+describe('list NumberedListMenu', () => {
+  const menu = new NumberedListMenu()
 
-  test('NumberedListMenu should implement type, title, svgIcon property', () => {
-    expect(numberedListMenu.type).toBe('numbered-list')
-    expect(numberedListMenu.title).toBe('有序列表')
-    expect(numberedListMenu.iconSvg).toBe(
-      '<svg viewBox="0 0 1024 1024"><path d="M384 832h640v128H384z m0-384h640v128H384z m0-384h640v128H384zM192 0v256H128V64H64V0zM128 526.016v50.016h128v64H64v-146.016l128-60V384H64v-64h192v146.016zM256 704v320H64v-64h128v-64H64v-64h128v-64H64v-64z"></path></svg>'
-    )
-  })
-
-  test('NumberedListMenu invoke getValue should return ""', () => {
-    expect(numberedListMenu.getValue(editor)).toBe('')
-  })
-
-  test('NumberedListMenu invoke isActive should return true if selected node is list node', () => {
-    jest
-      .spyOn(core.DomEditor, 'getSelectedNodeByType')
-      .mockReturnValue({ type: 'numbered-list', children: [] } as slate.Element)
-    expect(numberedListMenu.isActive(editor)).toBe(true)
-  })
-
-  test('NumberedListMenu invoke isActive should return true if selected node is not list node', () => {
-    jest.spyOn(core.DomEditor, 'getSelectedNodeByType').mockReturnValue(null)
-    expect(numberedListMenu.isActive(editor)).toBe(false)
-  })
-
-  test('NumberedListMenu invoke isDisabled should return true if editor selection is null', () => {
-    editor.selection = null
-    expect(numberedListMenu.isDisabled(editor)).toBe(true)
-  })
-
-  test('NumberedListMenu invoke isDisabled should return true if selected node is table, pre or void element', () => {
+  it('getValue', () => {
     const editor = createEditor()
-    editor.selection = {
-      anchor: { path: [0, 0], offset: 0 },
-      focus: { path: [0, 0], offset: 0 },
-    }
-    const fn = function* () {
-      yield [
+    expect(menu.getValue(editor)).toBe('')
+  })
+
+  it('isActive', () => {
+    const editor = createEditor({
+      content: [
+        { type: 'paragraph', children: [{ text: 'hello' }] },
+        { type: 'list-item', ordered: true, children: [{ text: 'a' }] },
+      ],
+    })
+
+    editor.deselect()
+    expect(menu.isActive(editor)).toBeFalsy()
+
+    editor.select({ path: [0, 0], offset: 0 }) // 选中 p
+    expect(menu.isActive(editor)).toBeFalsy()
+
+    editor.select({ path: [1, 0], offset: 0 }) // 选中 li
+    expect(menu.isActive(editor)).toBeTruthy()
+  })
+
+  it('isDisabled', () => {
+    const editor = createEditor({
+      content: [
+        { type: 'paragraph', children: [{ text: 'hello' }] },
+        { type: 'list-item', ordered: true, children: [{ text: 'a' }] },
         {
           type: 'table',
-          children: [],
-        } as slate.Element,
-        [0, 1],
-      ] as slate.NodeEntry<slate.Element>
-    }
-    jest.spyOn(slate.Editor, 'nodes').mockReturnValue(fn())
-    expect(numberedListMenu.isDisabled(editor)).toBe(true)
-  })
-  test('NumberedListMenu invoke isDisabled should return false if selected node is not table, pre or void element', () => {
-    const editor = createEditor()
-    editor.selection = {
-      anchor: { path: [0, 0], offset: 0 },
-      focus: { path: [0, 0], offset: 0 },
-    }
-
-    const fn = function () {
-      return false
-    }
-    jest.spyOn(slate.Editor, 'isVoid').mockReturnValue(fn())
-    jest.spyOn(slate.Editor, 'isBlock').mockReturnValue(fn())
-
-    expect(numberedListMenu.isDisabled(editor)).toBe(false)
-  })
-
-  test('NumberedListMenu invoke exec should set current select node to list-item if list menu is not active', () => {
-    jest.spyOn(core.DomEditor, 'getSelectedNodeByType').mockReturnValue(null)
-
-    const mockFn = jest.fn()
-    jest.spyOn(slate.Transforms, 'setNodes').mockImplementation(mockFn)
-
-    numberedListMenu.exec(editor, '')
-    expect(mockFn).toBeCalledWith(editor, { type: 'list-item' })
-  })
-
-  test('NumberedListMenu invoke exec should set current select node to paragraph if list menu is not active', () => {
-    jest.spyOn(core.DomEditor, 'getSelectedNodeByType').mockReturnValue(null)
-
-    const mockFn = jest.fn()
-    jest.spyOn(slate.Transforms, 'wrapNodes').mockImplementation(mockFn)
-
-    numberedListMenu.exec(editor, '')
-    expect(mockFn).toBeCalledWith(editor, { type: 'numbered-list', children: [] })
-  })
-
-  test('NumberedListMenu invoke exec should set current select node to paragraph if list menu is active', () => {
-    jest
-      .spyOn(core.DomEditor, 'getSelectedNodeByType')
-      .mockReturnValue({ type: 'numbered-list', children: [] } as slate.Element)
-
-    const mockFn = jest.fn()
-    jest.spyOn(slate.Transforms, 'setNodes').mockImplementation(mockFn)
-
-    numberedListMenu.exec(editor, '')
-    expect(mockFn).toBeCalledWith(editor, { type: 'paragraph' })
-  })
-
-  test('NumberedListMenu invoke exec should set current select node that is list type to other list type', () => {
-    const fn = function* () {
-      yield [
+          width: 'auto',
+          children: [
+            {
+              type: 'table-row',
+              children: [{ type: 'table-cell', children: [{ text: '' }], isHeader: true }],
+            },
+          ],
+        },
         {
-          type: 'bulleted-list',
-          children: [],
-        } as slate.Element,
-        [0, 1],
-      ] as slate.NodeEntry<slate.Element>
-    }
-    jest.spyOn(slate.Editor, 'nodes').mockReturnValue(fn())
+          type: 'pre',
+          children: [{ type: 'code', language: '', children: [{ text: 'a' }] }],
+        },
+      ],
+    })
 
-    const mockFn = jest.fn()
-    jest.spyOn(slate.Transforms, 'wrapNodes').mockImplementation(mockFn)
+    editor.deselect()
+    expect(menu.isDisabled(editor)).toBeTruthy()
 
-    numberedListMenu.exec(editor, '')
-    expect(mockFn).toBeCalledWith(editor, { type: 'numbered-list', children: [] })
+    editor.select({ path: [0, 0], offset: 0 }) // 选中 p
+    expect(menu.isDisabled(editor)).toBeFalsy()
+
+    editor.select({ path: [1, 0], offset: 0 }) // 选中 li
+    expect(menu.isDisabled(editor)).toBeFalsy()
+
+    editor.select({ path: [2, 0, 0, 0], offset: 0 }) // 选中 table 单元格
+    expect(menu.isDisabled(editor)).toBeTruthy()
+
+    editor.select({ path: [3, 0, 0], offset: 0 }) // 选中 code
+    expect(menu.isDisabled(editor)).toBeTruthy()
+  })
+
+  it('exec', () => {
+    const pElem = { type: 'paragraph', children: [{ text: 'hello' }] }
+    const editor = createEditor({
+      content: [pElem],
+    })
+    editor.select({ path: [0, 0], offset: 0 }) // 选中 p
+
+    menu.exec(editor, '') // p 转 li
+    expect(editor.children).toEqual([
+      {
+        type: 'list-item',
+        ordered: true,
+        children: [{ text: 'hello' }],
+      },
+    ])
+
+    menu.exec(editor, '') // li 转 p
+    expect(editor.children).toEqual([pElem])
   })
 })

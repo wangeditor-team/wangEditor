@@ -29,7 +29,7 @@ class TodoMenu implements IButtonMenu {
       if (Editor.isVoid(editor, elem) && Editor.isBlock(editor, elem)) return true
 
       const { type } = elem as Element
-      if (['pre', 'table', 'bulleted-list', 'numbered-list'].includes(type)) return true
+      if (['pre', 'table', 'list-item'].includes(type)) return true
     })
     if (notMatch) return true
 
