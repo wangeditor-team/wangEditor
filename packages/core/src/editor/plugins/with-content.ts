@@ -16,19 +16,7 @@ import { ElementWithId } from '../interface'
 import { PARSE_ELEM_HTML_CONF, TEXT_TAGS } from '../../parse-html/index'
 import parseElemHtml from '../../parse-html/parse-elem-html'
 import { htmlToContent } from '../../create/helper'
-
-const IGNORE_TAGS = new Set([
-  'doctype',
-  '!doctype',
-  'meta',
-  'script',
-  'style',
-  'link',
-  'frame',
-  'iframe',
-  'title',
-  'svg', // TODO 暂时忽略
-])
+import { IGNORE_TAGS } from '../../constants'
 
 /**
  * 把 elem 插入到编辑器
