@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.17](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.16...@wangeditor/core@1.1.17) (2022-10-04)
+
+
+### Bug Fixes
+
+* 修复 compositionend 时错误修改dom的问题 ([1187154](https://github.com/wangeditor-team/wangEditor/commit/1187154aa077594f55211307c00e3493d1ab5676))
+* 修复设置 maxlength 后粘贴异常的问题 ([14003d0](https://github.com/wangeditor-team/wangEditor/commit/14003d0ba01eeb9a264d15fac514dd4b4bd89ff7))
+
+
+
+
+
 ## [1.1.16](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.15...@wangeditor/core@1.1.16) (2022-09-27)
 
 

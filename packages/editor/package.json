@@ -1,6 +1,6 @@
 {
   "name": "@wangeditor/editor",
-  "version": "5.1.20",
+  "version": "5.1.21",
   "description": "Web rich text editor, Web 富文本编辑器",
   "keywords": [
     "wangeditor",
@@ -53,7 +53,7 @@
     "@uppy/xhr-upload": "^2.0.3",
     "@wangeditor/basic-modules": "^1.1.6",
     "@wangeditor/code-highlight": "^1.0.3",
-    "@wangeditor/core": "^1.1.16",
+    "@wangeditor/core": "^1.1.17",
     "@wangeditor/list-module": "^1.0.5",
     "@wangeditor/table-module": "^1.1.4",
     "@wangeditor/upload-image-module": "^1.0.2",
