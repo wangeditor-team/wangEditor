@@ -229,12 +229,12 @@ export const withContent = <T extends Editor>(editor: T) => {
         children: [{ text: '' }],
       },
     ]
-    Transforms.removeNodes(e, {
+
+    Transforms.delete(e, {
       at: {
         anchor: Editor.start(e, []),
         focus: Editor.end(e, []),
       },
-      mode: 'highest',
     })
 
     if (e.children.length === 0) {
