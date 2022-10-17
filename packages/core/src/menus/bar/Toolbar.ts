@@ -35,7 +35,8 @@ class Toolbar {
     }
     this.$box = $box
     const $toolbar = this.$toolbar
-    $toolbar.on('mousedown', e => e.preventDefault()) // 防止点击失焦
+    // @ts-ignore
+    $toolbar.on('mousedown', e => e.preventDefault(), { passive: false }) // 防止点击失焦
     $box.append($toolbar)
 
     // 异步，否则拿不到 editor 实例
