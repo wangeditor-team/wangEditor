@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.18](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.17...@wangeditor/core@1.1.18) (2022-10-18)
+
+
+### Bug Fixes
+
+* mousedown事件添加passive的默认值 ([60229cc](https://github.com/wangeditor-team/wangEditor/commit/60229cc2f9647a5f17dc0fd85c4bb1dc396a5e9c))
+* **video menu:** fix invoke clear api can not clear video node when insert video ([68c1f8e](https://github.com/wangeditor-team/wangEditor/commit/68c1f8ee68ab2cb7b202b6d9b4d4db192a927725))
+
+
+
+
+
 ## [1.1.17](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.16...@wangeditor/core@1.1.17) (2022-10-04)
 
 
