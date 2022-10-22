@@ -53,6 +53,11 @@ export default {
     desc: '图片描述',
     link: '图片链接',
   },
+  float: {
+    none: '默认',
+    left: '左浮动',
+    right: '右浮动',
+  },
   indent: {
     decrease: '减少缩进',
     increase: '增加缩进',

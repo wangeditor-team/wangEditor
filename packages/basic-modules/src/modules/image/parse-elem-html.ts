@@ -21,6 +21,7 @@ function parseHtml(elem: DOMElement, children: Descendant[], editor: IDomEditor)
     style: {
       width: getStyleValue($elem, 'width'),
       height: getStyleValue($elem, 'height'),
+      float: getStyleValue($elem, 'float'),
     },
     children: [{ text: '' }], // void node 有一个空白 text
   }

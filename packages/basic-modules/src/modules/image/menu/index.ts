@@ -10,6 +10,9 @@ import ViewImageLink from './ViewImageLink'
 import ImageWidth30 from './Width30'
 import ImageWidth50 from './Width50'
 import ImageWidth100 from './Width100'
+import ImageFloatNone from './FloatNone'
+import ImageFloatLeft from './FloatLeft'
+import ImageFloatRight from './FloatRight'
 import { genImageMenuConfig } from './config'
 
 const config = genImageMenuConfig() // menu config
@@ -65,5 +68,26 @@ export const imageWidth100MenuConf = {
   key: 'imageWidth100',
   factory() {
     return new ImageWidth100()
+  },
+}
+
+export const imageFloatNoneMenuConf = {
+  key: 'imageFloatNone',
+  factory() {
+    return new ImageFloatNone()
+  },
+}
+
+export const imageFloatLeftMenuConf = {
+  key: 'imageFloatLeft',
+  factory() {
+    return new ImageFloatLeft()
+  },
+}
+
+export const imageFloatRightMenuConf = {
+  key: 'imageFloatRight',
+  factory() {
+    return new ImageFloatRight()
   },
 }

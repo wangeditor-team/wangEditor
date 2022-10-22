@@ -12,6 +12,7 @@ type EmptyText = {
 export type ImageStyle = {
   width?: string
   height?: string
+  float?: string
 }
 
 export type ImageElement = {

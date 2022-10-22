@@ -3,8 +3,8 @@
  * @author wangfupeng
  */
 
-import { Transforms, Range, Editor } from 'slate'
-import { IDomEditor, DomEditor } from '@wangeditor/core'
+import { Editor, Range, Transforms } from 'slate'
+import { DomEditor, IDomEditor } from '@wangeditor/core'
 import { ImageElement, ImageStyle } from './custom-types'
 import { replaceSymbols } from '../../utils/util'
 
@@ -35,8 +35,7 @@ async function check(
 async function parseSrc(menuKey: string, editor: IDomEditor, src: string): Promise<string> {
   const { parseImageSrc } = editor.getMenuConfig(menuKey)
   if (parseImageSrc) {
-    const newSrc = await parseImageSrc(src)
-    return newSrc
+    return await parseImageSrc(src)
   }
   return src
 }
@@ -142,6 +141,5 @@ export function isInsertImageMenuDisabled(editor: IDomEditor): boolean {
     universal: true,
   })
 
-  if (match) return true
-  return false
+  return !!match
 }

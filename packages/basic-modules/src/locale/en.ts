@@ -53,6 +53,11 @@ export default {
     desc: 'Description',
     link: 'Image link',
   },
+  float: {
+    none: 'Default',
+    left: 'Float Left',
+    right: 'Float Right',
+  },
   indent: {
     decrease: 'Decrease',
     increase: 'Increase',

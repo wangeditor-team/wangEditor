@@ -64,8 +64,7 @@ class EditImage implements IModalMenu {
     const imageNode = DomEditor.getSelectedNodeByType(editor, 'image')
 
     // 未匹配到 image node 则禁用
-    if (imageNode == null) return true
-    return false
+    return imageNode == null
   }
 
   getModalPositionNode(editor: IDomEditor): Node | null {

@@ -26,11 +26,8 @@ class DeleteImage implements IButtonMenu {
     if (editor.selection == null) return true
 
     const imageNode = DomEditor.getSelectedNodeByType(editor, 'image')
-    if (imageNode == null) {
-      // 选区未处于 image node ，则禁用
-      return true
-    }
-    return false
+    // 选区未处于 image node ，则禁用
+    return imageNode == null
   }
 
   exec(editor: IDomEditor, value: string | boolean) {

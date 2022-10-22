@@ -1,16 +1,17 @@
 /**
- * @description image width base class
- * @author wangfupeng
+ * @description image float base class
+ * @author yanghc
  */
 
 import { Transforms, Node } from 'slate'
 import { IButtonMenu, IDomEditor, DomEditor } from '@wangeditor/core'
 import { ImageElement } from '../custom-types'
 
-abstract class ImageWidthBaseClass implements IButtonMenu {
+abstract class ImageFloatBaseClass implements IButtonMenu {
   abstract readonly title: string // 菜单标题
+  abstract readonly iconSvg: string // 图标
+  abstract readonly value: string // css float 的值
   readonly tag = 'button'
-  abstract readonly value: string // css width 的值
 
   getValue(editor: IDomEditor): string | boolean {
     // 无需获取 val
@@ -47,8 +48,7 @@ abstract class ImageWidthBaseClass implements IButtonMenu {
     const props: Partial<ImageElement> = {
       style: {
         ...style,
-        width: this.value, // 修改 width
-        height: '', // 清空 height
+        float: this.value, // 修改 float
       },
     }
 
@@ -58,4 +58,4 @@ abstract class ImageWidthBaseClass implements IButtonMenu {
   }
 }
 
-export default ImageWidthBaseClass
+export default ImageFloatBaseClass
