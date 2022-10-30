@@ -86,4 +86,5 @@ export function deReplaceHtmlSpecialSymbols(str: string) {
     .replace(/&reg;/g, '®')
     .replace(/&copy;/g, '©')
     .replace(/&trade;/g, '™')
+    .replace(/&quot;/g, '"')
 }

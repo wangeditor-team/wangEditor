@@ -38,4 +38,10 @@ describe('utils', () => {
     const res = deReplaceHtmlSpecialSymbols(html)
     expect(res).toBe('<p>hello  world</p>')
   })
+
+  it('decode html quote symbol', () => {
+    const html = '<p style="font-family:&quot;Times New Roman&quot;;">hello world</p>'
+    const res = deReplaceHtmlSpecialSymbols(html)
+    expect(res).toBe('<p style="font-family:"Times New Roman";">hello world</p>')
+  })
 })
