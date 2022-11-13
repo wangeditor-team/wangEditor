@@ -7,7 +7,7 @@ import { Text } from 'slate'
 import { IDomEditor } from '../editor/interface'
 import { DomEditor } from '../editor/dom-editor'
 import { STYLE_TO_HTML_FN_LIST } from './index'
-import { deReplaceHtmlSpecialSymbols, replaceHtmlSpecialSymbols } from '../utils/util'
+import { replaceHtmlSpecialSymbols } from '../utils/util'
 
 function textToHtml(textNode: Text, editor: IDomEditor): string {
   const { text } = textNode
@@ -44,9 +44,6 @@ function textToHtml(textNode: Text, editor: IDomEditor): string {
 
   // 增加文本样式，如 color bgColor
   STYLE_TO_HTML_FN_LIST.forEach(fn => (textHtml = fn(textNode, textHtml)))
-
-  // 反转义 html 特殊字符
-  textHtml = deReplaceHtmlSpecialSymbols(textHtml)
 
   return textHtml
 }
