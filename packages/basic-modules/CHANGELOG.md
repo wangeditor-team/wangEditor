@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.7](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.6...@wangeditor/basic-modules@1.1.7) (2022-11-14)
+
+
+### Bug Fixes
+
+* **font family menu:** 处理 setHtml 的时候字体样式回显失败的问题 ([b941bab](https://github.com/wangeditor-team/wangEditor/commit/b941babbdc6bd5bf7da0cce826803a8fde011e07))
+
+
+
+
+
 ## [1.1.6](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/basic-modules@1.1.5...@wangeditor/basic-modules@1.1.6) (2022-09-27)
 
 **Note:** Version bump only for package @wangeditor/basic-modules

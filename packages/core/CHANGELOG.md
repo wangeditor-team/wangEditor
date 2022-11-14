@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.19](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.18...@wangeditor/core@1.1.19) (2022-11-14)
+
+
+### Bug Fixes
+
+* **font family menu:** 处理 setHtml 的时候字体样式回显失败的问题 ([b941bab](https://github.com/wangeditor-team/wangEditor/commit/b941babbdc6bd5bf7da0cce826803a8fde011e07))
+* **fontFamily menu:** fix font-family value quote symbol ([2c25231](https://github.com/wangeditor-team/wangEditor/commit/2c25231a088de14edbf7516fc448a6483125e3ed))
+
+
+
+
+
 ## [1.1.18](https://github.com/wangeditor-team/wangEditor/compare/@wangeditor/core@1.1.17...@wangeditor/core@1.1.18) (2022-10-18)
 
 
