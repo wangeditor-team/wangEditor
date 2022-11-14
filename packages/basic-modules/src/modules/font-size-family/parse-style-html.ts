@@ -28,7 +28,8 @@ export function parseStyleHtml(text: DOMElement, node: Descendant, editor: IDomE
 
   // -------- 处理 font-family --------
   const { fontFamilyList = [] } = editor.getMenuConfig('fontFamily')
-  const fontFamily = getStyleValue($text, 'font-family')
+  // 这里需要替换掉 "， css 设置 font-family，会将有空格的字体使用 " 包裹
+  const fontFamily = getStyleValue($text, 'font-family').replace(/"/g, '')
 
   // getFontFamilyConfig 配置支持对象形式
   const includesFamily =
