@@ -69,9 +69,14 @@ class TextArea {
       editor.on('change', this.changeViewState.bind(this))
 
       // editor onchange 时触发用户配置的 onChange （需要在 changeViewState 后执行）
-      const { onChange } = editor.getConfig()
+      const { onChange, scroll } = editor.getConfig()
       if (onChange) {
         editor.on('change', () => onChange(editor))
+      }
+      // scroll: false时，容器height: 100%不生效，样式设置，避免悬浮框位置出现错位问题
+      if (!scroll) {
+        $box.css('position', 'relative')
+        $container.addClass('no-scroll')
       }
 
       // 监听 onfocus onblur
