@@ -93,9 +93,10 @@ function withTable<T extends IDomEditor>(editor: T): T {
       const before = Editor.before(newEditor, selection) // 前一个 location
       if (before) {
         const isTableOnBeforeLocation = isTableLocation(newEditor, before) // before 是否是 table
-        const isTableOnCurSelection = isTableLocation(newEditor, selection) // 当前是否是 table
-        if (isTableOnBeforeLocation && !isTableOnCurSelection) {
-          return // 如果当前不是 table ，前面是 table ，则不执行删除。否则会删除 table 最后一个 cell
+
+        // 如果前面是 table, 当前是空 p，则不执行删除。否则会删除 table 最后一个 cell
+        if (isTableOnBeforeLocation && core.DomEditor.isSelectedEmptyParagraph(newEditor)) {
+          return
         }
       }
     }
