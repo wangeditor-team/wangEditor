@@ -27,7 +27,7 @@ describe('increase indent menu', () => {
     editor.select(startLocation)
     expect(menu.isDisabled(editor)).toBeFalsy()
 
-    Transforms.setNodes(editor, { type: 'header1' })
+    Transforms.setNodes(editor, { type: 'header1', children: [] })
     expect(menu.isDisabled(editor)).toBeFalsy()
 
     editor.insertNode({ type: 'pre', children: [{ type: 'code', children: [{ text: 'var' }] }] })
@@ -43,5 +43,16 @@ describe('increase indent menu', () => {
 
     menu.exec(editor, '')
     expect(menu.getValue(editor)).toBe('2em')
+  })
+
+  it('indent value', () => {
+    editor.insertNode({
+      type: 'paragraph',
+      children: [{ fontSize: '18px', text: 'text1' } as any],
+    })
+
+    menu.exec(editor, '')
+
+    expect(menu.getValue(editor)).toBe('36px')
   })
 })

@@ -27,7 +27,7 @@ describe('decrease indent menu', () => {
     editor.select(startLocation)
     expect(menu.isDisabled(editor)).toBeTruthy() // 没有 indent 则 disabled
 
-    Transforms.setNodes(editor, { type: 'header1' })
+    Transforms.setNodes(editor, { type: 'header1', children: [] })
     expect(menu.isDisabled(editor)).toBeTruthy() // 没有 indent 则 disabled
 
     editor.insertNode({ type: 'pre', children: [{ type: 'code', children: [{ text: 'var' }] }] })
@@ -41,7 +41,7 @@ describe('decrease indent menu', () => {
 
   it('exec', () => {
     editor.select(startLocation)
-    Transforms.setNodes(editor, { indent: '2em' })
+    Transforms.setNodes(editor, { type: 'paragraph', indent: '2em', children: [] })
 
     expect(menu.isDisabled(editor)).toBeFalsy() // 有 indent 则取消 disabled
 
