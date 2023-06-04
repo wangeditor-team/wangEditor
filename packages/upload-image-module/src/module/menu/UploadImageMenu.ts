@@ -51,7 +51,7 @@ class UploadImage implements IButtonMenu {
 
     // 添加 file input（每次重新创建 input）
     const $body = $('body')
-    const $inputFile = $(`<input type="file" ${acceptAttr} multiple/>`)
+    const $inputFile = $(`<input type="file" ${acceptAttr} />`)
     $inputFile.hide()
     $body.append($inputFile)
     $inputFile.click()
