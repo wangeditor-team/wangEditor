@@ -68,6 +68,25 @@ if (empty) $.fn.empty = empty
 
 export default $
 
+import { toString } from './util'
+
+export const isDocument = (value: any): value is Document => {
+  return toString(value) === '[object HTMLDocument]'
+}
+
+export const isShadowRoot = (value: any): value is ShadowRoot => {
+  return toString(value) === '[object ShadowRoot]'
+}
+
+export const isDataTransfer = (value: any): value is DataTransfer => {
+  return toString(value) === '[object DataTransfer]'
+}
+
+const HTML_ELEMENT_STR_REG_EXP = /\[object HTML([A-Z][a-z]*)*Element\]/
+export const isHTMLElememt = (value: any): value is HTMLElement => {
+  return HTML_ELEMENT_STR_REG_EXP.test(toString(value))
+}
+
 // ------------------------------- 分割线，以下内容参考 slate-react dom.ts -------------------------------
 
 // COMPAT: This is required to prevent TypeScript aliases from doing some very
@@ -109,20 +128,14 @@ export const isDOMElement = (value: any): value is DOMElement => {
  * Check if a value is a DOM node.
  */
 export const isDOMNode = (value: any): value is DOMNode => {
-  const window = getDefaultView(value)
-  return (
-    !!window &&
-    // @ts-ignore
-    value instanceof window.Node
-  )
+  return value != null && typeof value.nodeType === 'number'
 }
 
 /**
  * Check if a value is a DOM selection.
  */
 export const isDOMSelection = (value: any): value is DOMSelection => {
-  const window = value && value.anchorNode && getDefaultView(value.anchorNode)
-  return !!window && value instanceof window.Selection
+  return toString(value) === '[object Selection]'
 }
 
 /**
@@ -343,7 +356,7 @@ export function walkTextNodes(
   handler: (textNode: DOMNode, parent: DOMElement) => void
 ) {
   // void elem 内部的 text 不处理
-  if (elem instanceof HTMLElement && elem.dataset.slateVoid === 'true') return
+  if (isHTMLElememt(elem) && elem.dataset.slateVoid === 'true') return
 
   for (let nodes = elem.childNodes, i = nodes.length; i--; ) {
     const node = nodes[i]

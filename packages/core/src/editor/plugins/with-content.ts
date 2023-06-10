@@ -370,7 +370,7 @@ export const withContent = <T extends Editor>(editor: T) => {
    * 重置 HTML 内容
    * @param html html string
    */
-  e.setHtml = (html: string = '') => {
+  e.setHtml = (html: string | null = '') => {
     // 记录编辑器当前状态
     const isEditorDisabled = e.isDisabled()
     const isEditorFocused = e.isFocused()
@@ -384,7 +384,7 @@ export const withContent = <T extends Editor>(editor: T) => {
     // https://github.com/wangeditor-team/wangEditor/issues/4754
     e.clear()
     // 设置新内容
-    const newContent = htmlToContent(e, html)
+    const newContent = htmlToContent(e, html == null ? '' : html)
     Transforms.insertFragment(e, newContent)
 
     // 恢复编辑器状态和选区
