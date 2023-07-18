@@ -125,7 +125,7 @@ export const withDOM = <T extends Editor>(editor: T) => {
       return
     }
 
-    const $elem = $(`#${id}`)
+    const $elem = $(`[data-slate-editor] #${id}`)[0]
     if ($elem.length === 0) return
 
     // $elem 不在 editor DOM 范围之内
