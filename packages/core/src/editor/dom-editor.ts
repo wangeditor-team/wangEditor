@@ -29,6 +29,8 @@ import $, {
   DOMRange,
   DOMSelection,
   DOMStaticRange,
+  isDocument,
+  isShadowRoot,
   isDOMElement,
   normalizeDOMPoint,
   isDOMSelection,
@@ -122,7 +124,7 @@ export const DomEditor = {
     const el = DomEditor.toDOMNode(editor, editor)
     const root = el.getRootNode()
 
-    if ((root instanceof Document || root instanceof ShadowRoot) && root.getSelection != null) {
+    if ((isDocument(root) || isShadowRoot(root)) && Reflect.get(root, 'getSelection') != null) {
       return root
     }
     return el.ownerDocument

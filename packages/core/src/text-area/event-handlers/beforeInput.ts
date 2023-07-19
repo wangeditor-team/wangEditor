@@ -8,7 +8,7 @@ import { DomEditor } from '../../editor/dom-editor'
 import { IDomEditor } from '../../editor/interface'
 import TextArea from '../TextArea'
 import { hasEditableTarget } from '../helpers'
-import { DOMStaticRange } from '../../utils/dom'
+import { DOMStaticRange, isDataTransfer } from '../../utils/dom'
 import { HAS_BEFORE_INPUT_SUPPORT } from '../../utils/ua'
 import { EDITOR_TO_CAN_PASTE } from '../../utils/weak-maps'
 
@@ -138,7 +138,7 @@ function handleBeforeInput(e: Event, textarea: TextArea, editor: IDomEditor) {
         if (!EDITOR_TO_CAN_PASTE.get(editor)) break // 不可默认粘贴
       }
 
-      if (data instanceof DataTransfer) {
+      if (isDataTransfer(data)) {
         // 这里处理非纯文本（如 html 图片文件等）的粘贴。对于纯文本的粘贴，使用 paste 事件
         editor.insertData(data)
       } else if (typeof data === 'string') {

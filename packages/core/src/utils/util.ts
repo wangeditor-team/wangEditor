@@ -88,3 +88,5 @@ export function deReplaceHtmlSpecialSymbols(str: string) {
     .replace(/&trade;/g, '™')
     .replace(/&quot;/g, '"')
 }
+
+export const toString = (val: unknown): string => Object.prototype.toString.call(val)
