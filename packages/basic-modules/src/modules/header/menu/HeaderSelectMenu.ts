@@ -19,27 +19,27 @@ class HeaderSelectMenu implements ISelectMenu {
       // value 和 elemNode.type 对应
       {
         value: 'header1',
-        text: 'H1',
+        text: t('header.header1'),
         styleForRenderMenuList: { 'font-size': '32px', 'font-weight': 'bold' },
       },
       {
         value: 'header2',
-        text: 'H2',
+        text: t('header.header2'),
         styleForRenderMenuList: { 'font-size': '24px', 'font-weight': 'bold' },
       },
       {
         value: 'header3',
-        text: 'H3',
+        text: t('header.header3'),
         styleForRenderMenuList: { 'font-size': '18px', 'font-weight': 'bold' },
       },
       {
         value: 'header4',
-        text: 'H4',
+        text: t('header.header4'),
         styleForRenderMenuList: { 'font-size': '16px', 'font-weight': 'bold' },
       },
       {
         value: 'header5',
-        text: 'H5',
+        text: t('header.header5'),
         styleForRenderMenuList: { 'font-size': '13px', 'font-weight': 'bold' },
       },
       { value: 'paragraph', text: t('header.text') },

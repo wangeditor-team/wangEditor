@@ -43,6 +43,11 @@ export default {
   header: {
     title: '标题',
     text: '正文',
+    header1: 'H1',
+    header2: 'H2',
+    header3: 'H3',
+    header4: 'H4',
+    header5: 'H5',
   },
   image: {
     netImage: '网络图片',
