@@ -53,6 +53,17 @@ abstract class PanelAndModal {
     $menuElem.append($elem)
   }
 
+  // 尝试滚动到选中选项位置
+  scrollToSelectedItem() {
+    try {
+      const { $elem } = this
+      const target = $elem.find('li.selected')[0] as HTMLElement
+      $elem[0].scrollTo(0, target.offsetTop)
+    } catch {
+      console.info('skip scrollToSelectedItem')
+    }
+  }
+
   show() {
     if (this.isShow) return
     this.showTime = Date.now()
@@ -60,6 +71,7 @@ abstract class PanelAndModal {
     const { $elem } = this
     $elem.show()
     this.isShow = true
+    this.scrollToSelectedItem()
 
     // 触发事件
     const editor = PANEL_OR_MODAL_TO_EDITOR.get(this)
