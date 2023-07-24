@@ -1,0 +1,68 @@
+{
+  "$schema": "https://raw.githubusercontent.com/iamyoki/better-scripts/main/lib/schema.json",
+  "bootstrap": {
+    "alias": "🔌 Bootstrap",
+    "command": "lerna bootstrap --use-workspaces"
+  },
+  "tests": {
+    "alias": "🧪 Tests",
+    "desc": "Select a test script to run",
+    "scripts": {
+      "test": ["cross-env NODE_OPTIONS=--unhandled-rejections=warn jest --detectOpenHandles --passWithNoTests", "Run jest"],
+      "test-c": ["cross-env NODE_OPTIONS=--unhandled-rejections=warn jest --coverage", "Run jest coverage"],
+      "cypress:open": "cypress open",
+      "cypress:run": "cypress run",
+      "e2e:dev": "concurrently \"yarn scripts run example\" \"yarn scripts run tests.cypress:open\"",
+      "e2e": "concurrently \"yarn scripts run example\" \"yarn scripts run tests.cypress:run\""
+    }
+  },
+  "builds": {
+    "alias": "📦 Builds",
+    "desc": "Select a build script to run",
+    "scripts": {
+      "dev": ["sh build/build-all.sh dev", "Build dev"],
+      "build": "sh build/build-all.sh"
+    }
+  },
+  "releases": {
+    "alias": "🚀 Releases",
+    "desc": "Run prerelease before release",
+    "command": "yarn scripts run builds.build",
+    "scripts": {
+      "release:version": {
+        "alias": "Version",
+        "command": "git pull origin master && lerna version --conventional-commits && node ./scripts/release-tag.js"
+      },
+      "release:publish:experimental": {
+        "alias": "Publish Experimental",
+        "command": "lerna publish --dist-tag experimental"
+      },
+      "release:publish:canary": {
+        "alias": "Publish Canary",
+        "command": "lerna publish --canary"
+      },
+      "release:next": {
+        "alias": "Next",
+        "command": "yarn prerelease && lerna publish --dist-tag next"
+      },
+      "release:publish": {
+        "alias": "Publish",
+        "command": "lerna publish from-git --yes"
+      },
+      "release:package": {
+        "alias": "Package",
+        "command": "lerna publish from-package --yes"
+      }
+    }
+  },
+  "lints": {
+    "alias": "🔎 Lints",
+    "desc": "Select a lint script to run",
+    "scripts": {
+      "format": "yarn prettier --write",
+      "lint": "eslint \"packages/*/+(src|__tests__)/**/*.+(ts|tsx)\"",
+      "prettier": "prettier --ignore-path .gitignore \"packages/*/+(src|__tests__)/**/*.+(ts|tsx)\""
+    }
+  },
+  "example": "lerna exec --scope @wangeditor/editor -- yarn run example"
+}
