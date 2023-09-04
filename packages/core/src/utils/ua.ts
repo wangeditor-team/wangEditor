@@ -19,7 +19,7 @@ export const IS_FIREFOX_LEGACY =
   /^(?!.*Seamonkey)(?=.*Firefox\/(?:[0-7][0-9]|[0-8][0-6])(?:\.)).*/i.test(navigator.userAgent)
 
 export const IS_SAFARI =
-  typeof navigator !== 'undefined' && /Version\/[\d\.]+.*Safari/.test(navigator.userAgent) // eslint-disable-line
+  typeof navigator !== 'undefined' && /^((?!chrome|android).)*safari/i.test(navigator.userAgent) // eslint-disable-line
 
 // "modern" Edge was released at 79.x
 export const IS_EDGE_LEGACY =
