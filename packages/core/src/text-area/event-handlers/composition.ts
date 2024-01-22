@@ -40,7 +40,9 @@ export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDo
     })
   }
 
-  if (selection && Range.isCollapsed(selection)) {
+
+
+  if (selection) {
     // 记录下 dom text ，以便触发 maxLength 时使用
     const domRange = DomEditor.toDOMRange(editor, selection)
     const startContainer = domRange.startContainer
@@ -141,7 +143,10 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
         return
       }
       // 否则，拼音输入的开始和结束，不是同一个 text node ，则将第一个 text node 重新设置 text
-      oldStartContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
+      if (DomEditor.hasDOMNode(editor, oldStartContainer)) {
+        oldStartContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
+      }
+
     })
   }
 }
