@@ -11,8 +11,6 @@ import { hasEditableTarget } from '../helpers'
 import { IS_SAFARI, IS_CHROME, IS_FIREFOX } from '../../utils/ua'
 import { DOMNode } from '../../utils/dom'
 import { hidePlaceholder } from '../place-holder'
-import { editorSelectionToDOM } from '../syncSelection'
-import { KEY_TO_ELEMENT, NODE_TO_KEY } from '../../utils/weak-maps'
 
 const EDITOR_TO_TEXT: WeakMap<IDomEditor, string> = new WeakMap()
 const EDITOR_TO_START_CONTAINER: WeakMap<IDomEditor, DOMNode | undefined> = new WeakMap()
