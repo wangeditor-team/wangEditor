@@ -3,7 +3,7 @@
  * @author wangfupeng
  */
 
-import { Editor, Range, Element } from 'slate'
+import { Editor, Range, Element, Transforms, Path } from 'slate'
 import { IDomEditor } from '../../editor/interface'
 import { DomEditor } from '../../editor/dom-editor'
 import TextArea from '../TextArea'
@@ -11,10 +11,9 @@ import { hasEditableTarget } from '../helpers'
 import { IS_SAFARI, IS_CHROME, IS_FIREFOX } from '../../utils/ua'
 import { DOMNode } from '../../utils/dom'
 import { hidePlaceholder } from '../place-holder'
-import { editorSelectionToDOM } from '../syncSelection'
 
 const EDITOR_TO_TEXT: WeakMap<IDomEditor, string> = new WeakMap()
-const EDITOR_TO_START_CONTAINER: WeakMap<IDomEditor, DOMNode> = new WeakMap()
+const EDITOR_TO_START_CONTAINER: WeakMap<IDomEditor, DOMNode | undefined> = new WeakMap()
 
 /**
  * composition start 事件
@@ -27,22 +26,17 @@ export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDo
 
   if (!hasEditableTarget(editor, event.target)) return
 
-  const { selection } = editor
-  if (selection && Range.isExpanded(selection)) {
-    Editor.deleteFragment(editor)
+  const { selection } = editor;
 
-    Promise.resolve().then(() => {
-      // deleteFragment 会在一个 Promise 后更新 dom，导致浏览器选区不正确
-      // 因此这里延迟一下再设置选区，使选区在正确位置
-      // 这里 model 选区没有发生变化，不能使用 editor.restoreSelection
-      // restoreSelection 会对比前后 model 选区是否相同，相同就不更新了
-      editorSelectionToDOM(textarea, editor, true)
-    })
+  if (selection && Range.isExpanded(selection)) {
+    Editor.deleteFragment(editor);
   }
 
-  if (selection && Range.isCollapsed(selection)) {
+  EDITOR_TO_START_CONTAINER.set(editor, undefined);
+  // 跨dom的editor selection是无法计算出domNode的，为了防止报错加上边界
+  if (editor.selection && selection && Path.equals(selection.anchor.path, selection.focus.path)) {
     // 记录下 dom text ，以便触发 maxLength 时使用
-    const domRange = DomEditor.toDOMRange(editor, selection)
+    const domRange = DomEditor.toDOMRange(editor, editor.selection)
     const startContainer = domRange.startContainer
     const curText = startContainer.textContent || ''
     EDITOR_TO_TEXT.set(editor, curText)
@@ -50,7 +44,12 @@ export function handleCompositionStart(e: Event, textarea: TextArea, editor: IDo
     // 记录下 dom range startContainer
     EDITOR_TO_START_CONTAINER.set(editor, startContainer)
   }
-  textarea.isComposing = true
+
+  // 折叠光标形式下，每次刷新是不用重新计算浏览器的selection的
+  if (selection && Range.isCollapsed(selection)) {
+    textarea.isComposing = true
+  }
+
 
   // 隐藏 placeholder
   hidePlaceholder(textarea, editor)
@@ -141,7 +140,10 @@ export function handleCompositionEnd(e: Event, textarea: TextArea, editor: IDomE
         return
       }
       // 否则，拼音输入的开始和结束，不是同一个 text node ，则将第一个 text node 重新设置 text
-      oldStartContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
+      if (DomEditor.hasDOMNode(editor, oldStartContainer)) {
+        oldStartContainer.textContent = EDITOR_TO_TEXT.get(editor) || ''
+      }
+
     })
   }
 }
