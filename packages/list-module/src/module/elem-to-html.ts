@@ -43,7 +43,21 @@ function getStartContainerTagNumber(elem: Element): number {
     return level - prevLevel
   }
   if (prevLevel > level) {
-    // 上一个 level 大于当前 level ，不需要拼接 <ol> 或 <ul>
+    // 上一个 level 大于当前 level ，需要一直往上找，直到找到 level 不大于当前 level 的
+    let pprevPath = prevPath
+    let pprevEntry = prevEntry
+    while (pprevPath.length > 0 && pprevPath[pprevPath.length - 1] > 0) {
+      pprevPath = Path.previous(pprevPath)
+      pprevEntry = Editor.node(editor, pprevPath)
+      const [pprevElem] = pprevEntry
+      const { level: pprevLevel = 0 } = pprevElem as ListItemElement
+      if (pprevLevel === level) {
+        return 0
+      }
+      if (pprevLevel < level) {
+        return 1
+      }
+    }
     return 0
   }
   if (prevLevel === level) {
@@ -93,6 +107,25 @@ function getEndContainerTagNumber(elem: Element): number {
   const { ordered: nextOrdered = false, level: nextLevel = 0 } = nextElem as ListItemElement
   if (nextLevel < level) {
     // 下一个 level 小于当前 level ，需要拼接 </ol> 或 </ul>
+    if (path[0] === 0) {
+      // list-item 是第一个元素，再往前没有了。需要拼接 <ol> 或 <ul>
+      return level - nextLevel + 1
+    }
+    let prevPath = Path.previous(path)
+    let prevEntry = Editor.node(editor, prevPath)
+    // 需要一直往上找，直到找到 level 不大于当前 level 的
+    while (prevPath.length > 0 && prevPath[prevPath.length - 1] > 0) {
+      const [pprevElem] = prevEntry
+      const { level: pprevLevel = 0 } = pprevElem as ListItemElement
+      if (pprevLevel === nextLevel) {
+        return level - nextLevel
+      }
+      if (pprevLevel < nextLevel) {
+        return level - nextLevel + 1
+      }
+      prevPath = Path.previous(prevPath)
+      prevEntry = Editor.node(editor, prevPath)
+    }
     return level - nextLevel
   }
   if (nextLevel > level) {
