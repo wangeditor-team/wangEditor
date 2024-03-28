@@ -33,6 +33,14 @@ function parseElemHtml($elem: Dom7Array, editor: IDomEditor): Descendant | Desce
     if ($elem.attr('data-w-e-type')) {
       return parseCommonElemHtml($elem, editor)
     } else {
+      if ($elem[0].childNodes.length > 1) {
+        const childNodes = $elem[0].childNodes
+        return Array.from(childNodes).map(child => {
+          $($elem[0]).empty()
+          $($elem[0]).append($(child))
+          return parseTextElemHtml($($elem[0]), editor)
+        })
+      }
       return parseTextElemHtml($elem, editor)
     }
   }
