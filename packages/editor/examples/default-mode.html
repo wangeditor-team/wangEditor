@@ -94,14 +94,23 @@
     const toolbarConfig = {
       // excludeKeys: ['uploadVideo'],
     }
-
+            const jsonContent = [
+              {
+                type: "paragraph",
+                children: [{ text: "试试是不是黑体" }],
+                fontsize: "48px",
+                fontfamily: "黑体",
+                lineheight: 3,
+              },
+            ]
     // create
-    let editor, toolbar
+      let editor, toolbar
     document.getElementById('btn-create').addEventListener('click', () => {
       editor = E.createEditor({
         selector: '#editor-text-area',
         // selector: document.getElementById('editor-text-area'),
-        content: window.content1,
+        // content: window.content1,
+        content: jsonContent,
         config: editorConfig
       })
 
