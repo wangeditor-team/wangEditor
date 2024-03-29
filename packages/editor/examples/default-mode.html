@@ -18,20 +18,20 @@
       <button id="btn-toggle-enable">disable/enable</button>
       <button id="btn-destroy">destroy editor</button>
     </p>
-  
+
     <!-- 编辑器 -->
     <div>
       <div id="editor-toolbar" class="editor-toolbar"></div>
       <div id="editor-text-area" class="editor-text-area"></div>
     </div>
-  
+
     <!-- 内容状态 -->
     <p style="background-color: #f1f1f1;">
       当前文字数量：<span id="total-length"></span>；
       选中文字数量：<span id="selected-length"></span>；
       选中文字："<span id="selected-text"></span>"
     </p>
-  
+
     <!-- 显示内容 -->
     <div id="editor-content-view" class="editor-content-view"></div>
   </div>
@@ -41,8 +41,24 @@
   <script>
     const E = window.wangEditor
 
-    const editorConfig = { MENU_CONF: {} }
-    // editorConfig.autoFocus = false
+                const editorConfig = {
+                  MENU_CONF: {
+                    ['fontSize']: {
+                      fontSizeList: [
+                        // 元素支持两种形式
+                        //   1. 字符串；
+                        //   2. { name: 'xxx', value: 'xxx' }
+
+                        '12px',
+                        '16px',
+                        { name: '24px', value: '24px' },
+                        '40px',
+                      ]
+                    }
+                  }
+                }
+
+                // editorConfig.autoFocus = false
     // editorConfig.readOnly = true
     // editorConfig.scroll = false
     editorConfig.placeholder = '请输入内容'
@@ -98,7 +114,7 @@
               {
                 type: "paragraph",
                 children: [{ text: "试试是不是黑体" }],
-                fontsize: "48px",
+                fontSize: "48px",
                 fontfamily: "黑体",
                 lineheight: 3,
               },
