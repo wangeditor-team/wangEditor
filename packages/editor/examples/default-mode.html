@@ -9,6 +9,11 @@
 <link href="./css/editor.css" rel="stylesheet">
 
 <link href="../dist/css/style.css" rel="stylesheet">
+<style>
+  .w-e-icon-text-heigh:before {
+    content: "\f1dc";
+  }
+</style>
 </head>
 
 <body>
@@ -30,6 +35,8 @@
       当前文字数量：<span id="total-length"></span>；
       选中文字数量：<span id="selected-length"></span>；
       选中文字："<span id="selected-text"></span>"
+      当前HTML: <span id="editor-content-view"></span>
+      当前HTML结构: <span id="editor-content-html-text"></span>
     </p>
 
     <!-- 显示内容 -->
@@ -75,6 +82,7 @@
 
       const html = editor.getHtml()
       document.getElementById('editor-content-view').innerHTML = html
+      document.getElementById('editor-content-html-text').innerText = html
 
       // 选中文字
       const selectionText = editor.getSelectionText()
@@ -114,13 +122,14 @@
               {
                 type: "paragraph",
                 children: [{ text: "试试是不是黑体" }],
-                fontSize: "48px",
-                fontfamily: "黑体",
+                // fontSize: "48px",
+                fontFamily: "黑体",
                 lineheight: 3,
               },
             ]
     // create
       let editor, toolbar
+                            // debugger
     document.getElementById('btn-create').addEventListener('click', () => {
       editor = E.createEditor({
         selector: '#editor-text-area',
