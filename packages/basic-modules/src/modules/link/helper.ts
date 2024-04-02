@@ -88,6 +88,10 @@ function genLinkNode(url: string, text?: string): LinkElement {
  * @param url url
  */
 export async function insertLink(editor: IDomEditor, text: string, url: string) {
+  // 校验
+  const checkRes = await check('insertLink', editor, text, url)
+  if (!checkRes) return // 校验未通过
+
   if (!url) return
   if (!text) text = url // 无 text 则用 url 代替
 
@@ -95,10 +99,6 @@ export async function insertLink(editor: IDomEditor, text: string, url: string) 
   editor.restoreSelection()
 
   if (isMenuDisabled(editor)) return
-
-  // 校验
-  const checkRes = await check('insertLink', editor, text, url)
-  if (!checkRes) return // 校验未通过
 
   // 转换 url
   const parsedUrl = await parse('insertLink', editor, url)
@@ -142,11 +142,11 @@ export async function insertLink(editor: IDomEditor, text: string, url: string) 
  * @param url link url
  */
 export async function updateLink(editor: IDomEditor, text: string, url: string) {
-  if (!url) return
-
   // 校验
   const checkRes = await check('editLink', editor, text, url)
   if (!checkRes) return // 校验未通过
+
+  if (!url) return
 
   // 转换 url
   const parsedUrl = await parse('editLink', editor, url)
