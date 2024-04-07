@@ -7,6 +7,7 @@ import { Element, Path, Editor } from 'slate'
 import { DomEditor } from '@wangeditor/core'
 import { ListItemElement } from './custom-types'
 import { ELEM_TO_EDITOR } from '../utils/maps'
+import { hasSameOrderWithBrother } from './helpers'
 
 /**
  * 当前 list-item 前面需要拼接几个 <ol> 或 <ul>
@@ -43,8 +44,8 @@ function getStartContainerTagNumber(elem: Element): number {
     return level - prevLevel
   }
   if (prevLevel > level) {
-    // 上一个 level 大于当前 level ，不需要拼接 <ol> 或 <ul>
-    return 0
+    // 此处需要看上一个同级兄弟节点 ordered 是否一致，如果一致则不需要拼接，否则需要拼接
+    return hasSameOrderWithBrother(editor, elem as ListItemElement) ? 0 : 1
   }
   if (prevLevel === level) {
     // 上一个 level 等于当前 level
@@ -92,8 +93,14 @@ function getEndContainerTagNumber(elem: Element): number {
   // 下一个 elem 是 list-item
   const { ordered: nextOrdered = false, level: nextLevel = 0 } = nextElem as ListItemElement
   if (nextLevel < level) {
-    // 下一个 level 小于当前 level ，需要拼接 </ol> 或 </ul>
-    return level - nextLevel
+    // 下一个 level 小于当前 level，此处需要看上一个同级兄弟节点 ordered 是否一致，如果一致则不需要拼接，否则需要拼接
+    if (hasSameOrderWithBrother(editor, nextElem as ListItemElement)) {
+      // ordered 一致，则不需要额外拼接 </ol> 或 </ul>
+      return level - nextLevel
+    } else {
+      // ordered 不一致，则需要额外拼接 </ol> 或 </ul>
+      return level - nextLevel + 1
+    }
   }
   if (nextLevel > level) {
     // 下一个 level 大于当前 level ，不需要拼接 </ol> 或 </ul>

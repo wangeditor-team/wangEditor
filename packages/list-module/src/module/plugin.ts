@@ -3,9 +3,10 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Range } from 'slate'
+import { Editor, Transforms, Range, Path } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { ListItemElement } from './custom-types'
+import { hasSameOrderWithBrother } from './helpers'
 
 /**
  * 获取选中的 top elems
@@ -44,10 +45,12 @@ function withList<T extends IDomEditor>(editor: T): T {
 
     if (selection.focus.offset === 0) {
       // 选中了当前 list-item 文本的开头，此时按删除键，应该降低 level 或转换为 p 元素
-      const { level = 0 } = listItemElem as ListItemElement
+      const { level = 0, ordered = false } = listItemElem as ListItemElement
       if (level > 0) {
-        // 降低 level
-        Transforms.setNodes(newEditor, { level: level - 1 })
+        // 如果有兄弟节点，且兄弟节点的 level 相同，则拍断 ordered 是否一致,不一致需要切换 ordered
+        if (hasSameOrderWithBrother(editor, listItemElem as ListItemElement, level - 1)) {
+          Transforms.setNodes(newEditor, { level: level - 1 })
+        } else Transforms.setNodes(newEditor, { level: level - 1, ordered: !ordered })
       } else {
         // 转换为 p 元素
         Transforms.setNodes(newEditor, {
