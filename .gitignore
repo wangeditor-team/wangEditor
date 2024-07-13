@@ -124,3 +124,6 @@ bak/
 
 # rollup 分析包体积结果
 stats.html
+
+# Custom
+.nvmrc
