@@ -127,3 +127,4 @@ stats.html
 
 # Custom
 .nvmrc
+yarn.lock
