@@ -3,9 +3,10 @@
  * @author wangfupeng
  */
 
-import { Editor, Transforms, Range } from 'slate'
+import { Editor, Transforms, Range, BaseText, BaseRange, Node as SlateNode } from 'slate'
 import { IDomEditor, DomEditor } from '@wangeditor/core'
 import { ListItemElement } from './custom-types'
+import { BaseElement } from '../../../custom-types'
 
 /**
  * 获取选中的 top elems
@@ -28,6 +29,70 @@ function withList<T extends IDomEditor>(editor: T): T {
     if (selection == null) {
       deleteBackward(unit)
       return
+    }
+
+    const {
+      anchor: {
+        path: [pathIdx],
+        offset,
+      },
+    } = newEditor.selection as BaseRange
+
+    // bugfix: 如果上一行是 块（图片、table） 节点，并且 本级 是 空行，执行 合并
+    if (offset === 0 && pathIdx - 1 >= 0) {
+      const { hoverbarKeys: _hoverbarKeys } = newEditor.getConfig()
+
+      // 本级 node
+      const node = SlateNode.get(newEditor, [pathIdx]) as BaseElement
+
+      // 上一层 node
+      const preNode = SlateNode.get(newEditor, [pathIdx - 1]) as BaseElement
+
+      let nextNode: BaseElement | null = null
+
+      const BLACK_TYPE_LIST = ['table']
+
+      if (BLACK_TYPE_LIST.includes(preNode.type)) {
+        return Transforms.removeNodes(editor, { mode: 'highest' })
+      }
+
+      try {
+        // 下一层
+        nextNode = SlateNode.get(newEditor, [pathIdx + 1]) as BaseElement
+      } catch (error) {
+        console.warn('没有下一个元素')
+      }
+
+      let path = [pathIdx + 1, 0]
+
+      if (nextNode) {
+        // 下一行是 table 则本层和上一层合并，否则会删除到 table 里面
+        if (BLACK_TYPE_LIST.includes(nextNode.type)) {
+          path = [pathIdx, 0]
+        }
+      } else {
+        path = [pathIdx, 0]
+      }
+
+      if (
+        !_hoverbarKeys![node.type] &&
+        _hoverbarKeys![preNode.type] &&
+        // 本级文本必须为空
+        (node.children[0] as BaseText).text === ''
+      ) {
+        const options = {
+          at: {
+            path,
+            offset: 0,
+          },
+          hanging: true,
+          voids: false,
+        }
+
+        // 合并
+        Transforms.mergeNodes(newEditor, options)
+        return
+      }
     }
 
     if (Range.isExpanded(selection)) {

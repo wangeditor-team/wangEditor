@@ -88,17 +88,17 @@ function withTable<T extends IDomEditor>(editor: T): T {
     if (res) return // 命中 table cell ，自己处理删除
 
     // 防止从 table 后面的 p 删除时，删除最后一个 cell - issues/4221
-    const { selection } = newEditor
-    if (selection) {
-      const before = Editor.before(newEditor, selection) // 前一个 location
-      if (before) {
-        const isTableOnBeforeLocation = isTableLocation(newEditor, before) // before 是否是 table
-        const isTableOnCurSelection = isTableLocation(newEditor, selection) // 当前是否是 table
-        if (isTableOnBeforeLocation && !isTableOnCurSelection) {
-          return // 如果当前不是 table ，前面是 table ，则不执行删除。否则会删除 table 最后一个 cell
-        }
-      }
-    }
+    // const { selection } = newEditor
+    // if (selection) {
+    //   const before = Editor.before(newEditor, selection) // 前一个 location
+    //   if (before) {
+    //     const isTableOnBeforeLocation = isTableLocation(newEditor, before) // before 是否是 table
+    //     const isTableOnCurSelection = isTableLocation(newEditor, selection) // 当前是否是 table
+    //     if (isTableOnBeforeLocation && !isTableOnCurSelection) {
+    //       return // 如果当前不是 table ，前面是 table ，则不执行删除。否则会删除 table 最后一个 cell
+    //     }
+    //   }
+    // }
 
     // 执行默认的删除
     deleteBackward(unit)
