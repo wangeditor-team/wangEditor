@@ -14,6 +14,7 @@ import {
 } from './composition'
 import handleOnKeydown from './keydown'
 import handleKeypress from './keypress'
+import handleInput from './input'
 import handleOnCopy from './copy'
 import handleOnCut from './cut'
 import handleOnPaste from './paste'
@@ -30,6 +31,7 @@ const eventConf = {
   compositionupdate: handleCompositionUpdate,
   keydown: handleOnKeydown,
   keypress: handleKeypress,
+  input: handleInput,
   copy: handleOnCopy,
   cut: handleOnCut,
   paste: handleOnPaste,
