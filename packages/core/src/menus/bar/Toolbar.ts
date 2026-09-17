@@ -7,6 +7,7 @@ import debounce from 'lodash.debounce'
 import clonedeep from 'lodash.clonedeep'
 import $, { Dom7Array, DOMElement } from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'
+import i18next from '../../i18n'
 import { promiseResolveThen } from '../../utils/util'
 import { TOOLBAR_TO_EDITOR, BAR_ITEM_TO_EDITOR } from '../../utils/weak-maps'
 import { IDomEditor } from '../../editor/interface'
@@ -50,6 +51,9 @@ class Toolbar {
       // 监听 editor onchange
       const editor = this.getEditorInstance()
       editor.on('change', this.changeToolbarState)
+
+      // 监听切换语言
+      i18next.on('languageChanged', this.rebuildItems)
     })
   }
 
@@ -204,9 +208,28 @@ class Toolbar {
   }, 200)
 
   /**
+   * 切换语言时触发。
+   * menu.title 在 menu 实例化时由 t() 算出，barItem 的 tooltip / title 又在构造时取自 menu.title，
+   * 二者都是当时语言的快照，所以要重新执行 factory 生成新的 menu 和 barItem
+   */
+  private rebuildItems = () => {
+    const editor = this.getEditorInstance()
+    editor.hidePanelOrModal()
+
+    this.$toolbar.empty()
+    this.menus = {}
+    this.toolbarItems = []
+
+    this.registerItems()
+    this.changeToolbarState()
+  }
+
+  /**
    * 销毁 toolbar
    */
   destroy() {
+    i18next.off('languageChanged', this.rebuildItems)
+
     // 销毁 DOM
     this.$toolbar.remove()
 
