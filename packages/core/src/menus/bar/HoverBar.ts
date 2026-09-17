@@ -7,6 +7,7 @@ import debounce from 'lodash.debounce'
 import { Editor, Node, Element, Text, Path, Range } from 'slate'
 import $ from '../../utils/dom'
 import { MENU_ITEM_FACTORIES } from '../register'
+import i18next from '../../i18n'
 import { promiseResolveThen } from '../../utils/util'
 import { IDomEditor } from '../../editor/interface'
 import { DomEditor } from '../../editor/dom-editor'
@@ -71,6 +72,9 @@ class HoverBar {
       // fullScreen 时隐藏
       editor.on('fullScreen', hideAndClean)
       editor.on('unFullScreen', hideAndClean)
+
+      // 监听切换语言
+      i18next.on('languageChanged', this.onLanguageChanged)
     })
   }
 
@@ -288,6 +292,19 @@ class HoverBar {
     this.prevSelectedNode = node
   }, 200)
 
+  /**
+   * 切换语言时触发。
+   * menu 实例是创建时语言的快照（title 由 t() 算出），清空缓存，下次显示时重新执行 factory
+   */
+  private onLanguageChanged = () => {
+    this.menus = {}
+
+    // 当前正在显示，则立即重建
+    if (!this.isShow) return
+    this.hideAndClean()
+    this.changeHoverbarState()
+  }
+
   private getEditorInstance(): IDomEditor {
     const editor = HOVER_BAR_TO_EDITOR.get(this)
     if (editor == null) throw new Error('Can not get editor instance')
@@ -325,6 +342,7 @@ class HoverBar {
    * 销毁 hoverbar
    */
   destroy() {
+    i18next.off('languageChanged', this.onLanguageChanged)
     // fix https://github.com/wangeditor-team/wangEditor-v5/issues/410
     this.changeHoverbarState.cancel()
     // 销毁 DOM
