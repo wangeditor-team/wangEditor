@@ -663,9 +663,10 @@ export const DomEditor = {
 
   // 格式化 editor content
   normalizeContent(editor: IDomEditor) {
-    editor.children.forEach((node, index) => {
-      editor.normalizeNode([node, [index]])
-    })
+    // normalizeNode 只能在 withoutNormalizing 内执行（Slate 的约定），
+    // 否则每次 merge/insert 后都会嵌套触发一轮 normalize，外层再按旧的 children 快照操作就会找不到路径
+    // fix https://github.com/wangeditor-team/wangEditor/issues/6108
+    Editor.normalize(editor, { force: true })
   },
 
   /**
