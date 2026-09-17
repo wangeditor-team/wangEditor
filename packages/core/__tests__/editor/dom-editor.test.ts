@@ -250,4 +250,29 @@ describe('Core DomEditor', () => {
     editor.select(genStartLocation()) // 选中开始
     expect(DomEditor.isSelectionAtLineEnd(editor, [0])).toBeFalsy() // 在第一行的开头
   })
+
+  // https://github.com/wangeditor-team/wangEditor/issues/6108
+  test('normalizeContent should merge 3+ adjacent text nodes with same marks', () => {
+    const content = [
+      {
+        type: 'paragraph',
+        children: [
+          { text: 'X', color: 'rgb(31, 31, 31)' },
+          { text: '先生/女士您好', color: 'rgb(31, 31, 31)' },
+          { text: '。近期对服务做了升级', color: 'rgb(31, 31, 31)' },
+          { text: '，随时联系我。', color: 'rgb(31, 31, 31)' },
+        ],
+      },
+    ]
+    const newEditor = createCoreEditor({ content }) // 创建时会执行 DomEditor.normalizeContent
+    expect(newEditor.children).toEqual([
+      {
+        type: 'paragraph',
+        children: [
+          { text: 'X先生/女士您好。近期对服务做了升级，随时联系我。', color: 'rgb(31, 31, 31)' },
+        ],
+      },
+    ])
+    newEditor.destroy()
+  })
 })

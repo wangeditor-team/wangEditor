@@ -136,4 +136,25 @@ describe('create editor and toolbar', () => {
       { type: 'paragraph', children: [{ text: '' }] },
     ])
   })
+
+  // https://github.com/wangeditor-team/wangEditor/issues/6108
+  test('create editor with html that has 3+ adjacent spans with same style', () => {
+    const html =
+      '<p><span style="color: rgb(31, 31, 31);">X</span>' +
+      '<span style="color: rgb(31, 31, 31);">先生/女士您好，我是[姓名]</span>' +
+      '<span style="color: rgb(31, 31, 31);">。近期对服务做了升级，为了更好的体验，随时联系我。</span></p>'
+
+    const editor = customCreateEditor({ html })
+    expect(editor.children).toEqual([
+      {
+        type: 'paragraph',
+        children: [
+          {
+            text: 'X先生/女士您好，我是[姓名]。近期对服务做了升级，为了更好的体验，随时联系我。',
+            color: 'rgb(31, 31, 31)',
+          },
+        ],
+      },
+    ])
+  })
 })
